@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue"
-import { ElMessage } from 'element-plus'
-import { Plus, ArrowDown, ArrowRight, Edit, Check, Close } from "@element-plus/icons-vue"
-import type { UploadProps, UploadUserFile } from "element-plus"
+import { HMessage, HDialog, HButton, HSelect, HOption, HFormItem } from '@/components/ui'
 import { createAgentAPI, updateAgentAPI } from "../../../apis/agent"
 import { uploadFileAPI } from "../../../apis/file"
 import { Agent, AgentFormData } from "../../../type"
 
-const fileList = ref<UploadUserFile[]>([])
+const fileList = ref<{url?: string; name: string}[]>([])
 const emits = defineEmits<(event: "update") => void>()
 const visible = ref<boolean>(false)
 const formRef = ref()
@@ -112,9 +110,11 @@ const close = () => {
   visible.value = false
 }
 
-const handleFileChange: UploadProps['onChange'] = async (uploadFile) => {
-  if (uploadFile.raw) {
-    await uploadAvatarFile(uploadFile.raw)
+const handleFileChange = async (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (file) {
+    await uploadAvatarFile(file)
   }
 }
 
@@ -122,12 +122,12 @@ const uploadAvatarFile = async (file: File) => {
   // 文件大小和类型检查
   const isLt2M = file.size / 1024 / 1024 < 2
   if (!isLt2M) {
-    ElMessage.error('上传头像图片大小不能超过 2MB!')
+    HMessage.error('上传头像图片大小不能超过 2MB!')
     return
   }
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   if (!isJpgOrPng) {
-    ElMessage.error('上传头像图片只能是 JPG/PNG 格式!')
+    HMessage.error('上传头像图片只能是 JPG/PNG 格式!')
     return
   }
   
@@ -141,13 +141,13 @@ const uploadAvatarFile = async (file: File) => {
     
     if (response.data.status_code === 200) {
       form.value.logo_url = response.data.data
-      ElMessage.success('头像上传成功')
+      HMessage.success('头像上传成功')
     } else {
-      ElMessage.error(response.data.status_message || '头像上传失败')
+      HMessage.error(response.data.status_message || '头像上传失败')
     }
   } catch (error) {
     console.error('头像上传失败:', error)
-    ElMessage.error('头像上传失败')
+    HMessage.error('头像上传失败')
   } finally {
     uploadLoading.value = false
   }
@@ -158,19 +158,19 @@ const handleConfirm = async () => {
     await formRef.value.validate()
     if (eventType.value === "create") {
       await createAgentAPI(form.value)
-      ElMessage.success('智能体创建成功')
+      HMessage.success('智能体创建成功')
     } else {
       await updateAgentAPI({
         agent_id: id.value,
         ...form.value
       })
-      ElMessage.success('智能体更新成功')
+      HMessage.success('智能体更新成功')
     }
     emits("update")
     close()
   } catch (error) {
     console.error('操作失败:', error)
-    ElMessage.error(eventType.value === "create" ? '创建失败' : '更新失败')
+    HMessage.error(eventType.value === "create" ? '创建失败' : '更新失败')
   }
 }
 
@@ -182,254 +182,273 @@ defineExpose({ open, close })
 </script>
 
 <template>
-  <el-dialog 
-    v-model="visible" 
+  <HDialog
+    v-model="visible"
     width="90%"
-    class="agent-config-dialog"
-    :show-close="false"
-    destroy-on-close
+    title=""
+    :close-on-click-modal="false"
   >
-    <template #header>
-      <div class="dialog-header">
-        <div class="header-left">
-          <el-icon class="header-icon"><Edit /></el-icon>
-          <span class="header-title">{{ eventType === "create" ? "助手系统提示词与配置" : "编辑助手" }}</span>
+    <template #default>
+      <div class="agent-config-dialog-inner">
+        <div class="dialog-header">
+          <div class="header-left">
+            <span class="header-icon">&#9998;</span>
+            <span class="header-title">{{ eventType === "create" ? "助手系统提示词与配置" : "编辑助手" }}</span>
+          </div>
+          <div class="header-actions">
+            <HButton @click="handleConfirm" type="primary">
+              {{ eventType === "create" ? "创建" : "保存" }}
+            </HButton>
+            <HButton @click="close" type="secondary">&#10005;</HButton>
+          </div>
         </div>
-        <div class="header-actions">
-          <el-button @click="handleConfirm" type="primary" :icon="Check">
-            {{ eventType === "create" ? "创建" : "保存" }}
-          </el-button>
-          <el-button @click="close" :icon="Close" circle></el-button>
+        <div class="dialog-content">
+          <!-- 左侧：系统提示词编辑区 -->
+          <div class="left-panel">
+            <h4>系统提示词</h4>
+            <textarea
+              v-model="form.system_prompt"
+              :rows="24"
+              placeholder="请输入系统提示词"
+              class="prompt-textarea"
+            ></textarea>
+          </div>
+          <!-- 中间：四项配置 -->
+          <div class="middle-panel">
+            <div class="config-sections">
+              <!-- AI模型配置 -->
+              <div class="config-section">
+                <div class="section-header" @click="toggleCollapse('aiModel')">
+                  <span class="collapse-arrow">{{ collapseItems.aiModel ? '&#9660;' : '&#9654;' }}</span>
+                  <span>AI模型</span>
+                </div>
+                <div v-show="collapseItems.aiModel" class="section-content">
+                  <HFormItem label="选择模型">
+                    <HSelect v-model="form.llm_id" placeholder="请选择大模型" style="width: 100%">
+                      <HOption
+                        v-for="llm in llmOptions"
+                        :key="llm.id"
+                        :label="llm.name"
+                        :value="llm.id"
+                      />
+                    </HSelect>
+                  </HFormItem>
+                </div>
+              </div>
+              <!-- MCP Agent -->
+              <div class="config-section">
+                <div class="section-header" @click="toggleCollapse('mcpAgent')">
+                  <span class="collapse-arrow">{{ collapseItems.mcpAgent ? '&#9660;' : '&#9654;' }}</span>
+                  <span>MCP Agent</span>
+                </div>
+                <div v-show="collapseItems.mcpAgent" class="section-content">
+                  <HFormItem label="MCP服务器">
+                    <HSelect
+                      v-model="form.mcp_ids"
+                      placeholder="请选择MCP服务器"
+                      style="width: 100%"
+                    >
+                      <HOption
+                        v-for="mcp in mcpOptions"
+                        :key="mcp.id"
+                        :label="mcp.name"
+                        :value="mcp.id"
+                      />
+                    </HSelect>
+                  </HFormItem>
+                </div>
+              </div>
+              <!-- 知识库 -->
+              <div class="config-section">
+                <div class="section-header" @click="toggleCollapse('knowledge')">
+                  <span class="collapse-arrow">{{ collapseItems.knowledge ? '&#9660;' : '&#9654;' }}</span>
+                  <span>知识库</span>
+                </div>
+                <div v-show="collapseItems.knowledge" class="section-content">
+                  <HFormItem label="选择知识库">
+                    <HSelect
+                      v-model="form.knowledge_ids"
+                      placeholder="请选择知识库"
+                      style="width: 100%"
+                    >
+                      <HOption
+                        v-for="knowledge in knowledgeOptions"
+                        :key="knowledge.id"
+                        :label="knowledge.name"
+                        :value="knowledge.id"
+                      />
+                    </HSelect>
+                  </HFormItem>
+                </div>
+              </div>
+              <!-- 工具 -->
+              <div class="config-section">
+                <div class="section-header" @click="toggleCollapse('tools')">
+                  <span class="collapse-arrow">{{ collapseItems.tools ? '&#9660;' : '&#9654;' }}</span>
+                  <span>工具</span>
+                </div>
+                <div v-show="collapseItems.tools" class="section-content">
+                  <HFormItem label="选择工具">
+                    <HSelect
+                      v-model="form.tool_ids"
+                      placeholder="请选择工具"
+                      style="width: 100%"
+                    >
+                      <HOption
+                        v-for="tool in toolOptions"
+                        :key="tool.id"
+                        :label="tool.name"
+                        :value="tool.id"
+                      />
+                    </HSelect>
+                  </HFormItem>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 右侧：调试预览 -->
+          <div class="right-panel">
+            <div class="panel-header">
+              <HButton type="secondary" class="debug-btn">
+                &#9998; 调试预览
+              </HButton>
+            </div>
+            <div class="debug-content">
+              <div class="config-status">
+                <span class="status-text">配置已更新</span>
+              </div>
+              <div class="chat-preview">
+                <div class="chat-message ai-message">
+                  <div class="message-avatar">
+                    <img v-if="form.logo_url" :src="form.logo_url" alt="助手头像" />
+                    <span v-else>+</span>
+                  </div>
+                  <div class="message-content">
+                    <p>{{ form.description || '你好，我是智能助手 tmg-GPT，擅长理解和生成文本内容，随时准备帮助你解决问题并提供信息支持。' }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="recommended-questions">
+                <h4>推荐问题</h4>
+                <div class="question-list">
+                  <div
+                    v-for="(question, index) in recommendedQuestions"
+                    :key="index"
+                    class="question-item"
+                  >
+                    {{ question }}
+                  </div>
+                </div>
+              </div>
+              <div class="chat-input">
+                <div class="input-wrapper">
+                  <span class="input-icon">&#9998;</span>
+                  <input type="text" placeholder="请输入问题" class="chat-input-field" />
+                  <HButton type="primary" class="send-btn">
+                    &#10148;
+                  </HButton>
+                </div>
+                <div class="input-footer">
+                  <span>内容由AI生成，仅供参考！</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </template>
-    <div class="dialog-content">
-      <!-- 左侧：系统提示词编辑区 -->
-      <div class="left-panel">
-        <h4>系统提示词</h4>
-        <el-input
-          v-model="form.system_prompt"
-          type="textarea"
-          :rows="24"
-          placeholder="请输入系统提示词"
-          class="prompt-textarea"
-        />
-      </div>
-      <!-- 中间：四项配置 -->
-      <div class="middle-panel">
-        <div class="config-sections">
-          <!-- AI模型配置 -->
-          <div class="config-section">
-            <div class="section-header" @click="toggleCollapse('aiModel')">
-              <el-icon>
-                <ArrowDown v-if="collapseItems.aiModel" />
-                <ArrowRight v-else />
-              </el-icon>
-              <span>AI模型</span>
-            </div>
-            <div v-show="collapseItems.aiModel" class="section-content">
-              <el-form-item label="选择模型" prop="llm_id">
-                <el-select v-model="form.llm_id" placeholder="请选择大模型" style="width: 100%">
-                  <el-option
-                    v-for="llm in llmOptions"
-                    :key="llm.id"
-                    :label="llm.name"
-                    :value="llm.id"
-                  />
-                </el-select>
-              </el-form-item>
-            </div>
-          </div>
-          <!-- MCP Agent -->
-          <div class="config-section">
-            <div class="section-header" @click="toggleCollapse('mcpAgent')">
-              <el-icon>
-                <ArrowDown v-if="collapseItems.mcpAgent" />
-                <ArrowRight v-else />
-              </el-icon>
-              <span>MCP Agent</span>
-            </div>
-            <div v-show="collapseItems.mcpAgent" class="section-content">
-              <el-form-item label="MCP服务器">
-                <el-select
-                  v-model="form.mcp_ids"
-                  multiple
-                  placeholder="请选择MCP服务器"
-                  style="width: 100%"
-                >
-                  <el-option
-                    v-for="mcp in mcpOptions"
-                    :key="mcp.id"
-                    :label="mcp.name"
-                    :value="mcp.id"
-                  />
-                </el-select>
-              </el-form-item>
-            </div>
-          </div>
-          <!-- 知识库 -->
-          <div class="config-section">
-            <div class="section-header" @click="toggleCollapse('knowledge')">
-              <el-icon>
-                <ArrowDown v-if="collapseItems.knowledge" />
-                <ArrowRight v-else />
-              </el-icon>
-              <span>知识库</span>
-            </div>
-            <div v-show="collapseItems.knowledge" class="section-content">
-              <el-form-item label="选择知识库">
-                <el-select
-                  v-model="form.knowledge_ids"
-                  multiple
-                  placeholder="请选择知识库"
-                  style="width: 100%"
-                >
-                  <el-option
-                    v-for="knowledge in knowledgeOptions"
-                    :key="knowledge.id"
-                    :label="knowledge.name"
-                    :value="knowledge.id"
-                  />
-                </el-select>
-              </el-form-item>
-
-            </div>
-          </div>
-          <!-- 工具 -->
-          <div class="config-section">
-            <div class="section-header" @click="toggleCollapse('tools')">
-              <el-icon>
-                <ArrowDown v-if="collapseItems.tools" />
-                <ArrowRight v-else />
-              </el-icon>
-              <span>工具</span>
-            </div>
-            <div v-show="collapseItems.tools" class="section-content">
-              <el-form-item label="选择工具">
-                <el-select
-                  v-model="form.tool_ids"
-                  multiple
-                  placeholder="请选择工具"
-                  style="width: 100%"
-                >
-                  <el-option
-                    v-for="tool in toolOptions"
-                    :key="tool.id"
-                    :label="tool.name"
-                    :value="tool.id"
-                  />
-                </el-select>
-              </el-form-item>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 右侧：调试预览 -->
-      <div class="right-panel">
-        <div class="panel-header">
-          <el-button type="warning" class="debug-btn">
-            <el-icon><Edit /></el-icon>
-            调试预览
-          </el-button>
-        </div>
-        <div class="debug-content">
-          <div class="config-status">
-            <span class="status-text">配置已更新</span>
-          </div>
-          <div class="chat-preview">
-            <div class="chat-message ai-message">
-              <div class="message-avatar">
-                <img v-if="form.logo_url" :src="form.logo_url" alt="助手头像" />
-                <el-icon v-else><Plus /></el-icon>
-              </div>
-              <div class="message-content">
-                <p>{{ form.description || '你好，我是智能助手 tmg-GPT，擅长理解和生成文本内容，随时准备帮助你解决问题并提供信息支持。' }}</p>
-              </div>
-            </div>
-          </div>
-          <div class="recommended-questions">
-            <h4>推荐问题</h4>
-            <div class="question-list">
-              <div
-                v-for="(question, index) in recommendedQuestions"
-                :key="index"
-                class="question-item"
-              >
-                {{ question }}
-              </div>
-            </div>
-          </div>
-          <div class="chat-input">
-            <div class="input-wrapper">
-              <el-icon class="input-icon"><Edit /></el-icon>
-              <input type="text" placeholder="请输入问题" class="chat-input-field" />
-              <el-button type="primary" class="send-btn">
-                <el-icon><ArrowRight /></el-icon>
-              </el-button>
-            </div>
-            <div class="input-footer">
-              <span>内容由AI生成，仅供参考！</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </el-dialog>
+  </HDialog>
 </template>
 
 <style lang="scss" scoped>
-.agent-config-dialog {
-  :deep(.el-dialog) {
-    border-radius: 12px;
-    padding: 0;
-    max-width: 1800px;
-    min-width: 1200px;
+.agent-config-dialog-inner {
+  .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--color-border, #e4e7ed);
+    background: var(--color-bg-secondary, #fff);
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .header-icon {
+        font-size: 20px;
+      }
+
+      .header-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--color-text-primary, #303133);
+      }
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
   }
-  :deep(.el-dialog__body) {
-    padding: 0;
-    height: 85vh;
-    overflow: hidden;
-  }
+
   .dialog-content {
     display: flex;
     height: 85vh;
     width: 100%;
+
     .left-panel {
       width: 25%;
       min-width: 300px;
-      background-color: #fafbfc;
-      border-right: 1px solid #e4e7ed;
+      background-color: var(--color-bg-tertiary, #fafbfc);
+      border-right: 1px solid var(--color-border, #e4e7ed);
       overflow-y: auto;
       flex-shrink: 0;
       padding: 32px 24px;
+
       h4 {
         font-size: 16px;
         font-weight: 600;
         margin-bottom: 16px;
+        color: var(--color-text-primary, #303133);
       }
+
       .prompt-textarea {
-        :deep(.el-textarea__inner) {
-          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-          font-size: 14px;
-          line-height: 1.5;
-          border-radius: 6px;
+        width: 100%;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        border-radius: 6px;
+        padding: 12px;
+        border: 1px solid var(--color-border, #dcdfe6);
+        background: var(--color-bg-secondary, #fff);
+        color: var(--color-text-primary, #303133);
+        resize: vertical;
+        box-sizing: border-box;
+
+        &:focus {
+          outline: none;
+          border-color: var(--color-primary, #409eff);
         }
       }
     }
+
     .middle-panel {
       width: 35%;
       min-width: 400px;
-      background-color: #fff;
-      border-right: 1px solid #e4e7ed;
+      background-color: var(--color-bg-secondary, #fff);
+      border-right: 1px solid var(--color-border, #e4e7ed);
       overflow-y: auto;
       flex-shrink: 0;
       padding: 32px 24px;
+
       .config-sections {
         .config-section {
           margin-bottom: 16px;
-          border: 1px solid #e4e7ed;
+          border: 1px solid var(--color-border, #e4e7ed);
           border-radius: 8px;
-          background-color: #fafbfc;
+          background-color: var(--color-bg-tertiary, #fafbfc);
+
           .section-header {
             display: flex;
             align-items: center;
@@ -439,54 +458,66 @@ defineExpose({ open, close })
             user-select: none;
             font-size: 15px;
             font-weight: 500;
+            color: var(--color-text-primary, #303133);
+
             &:hover {
-              background-color: #f0f2f5;
+              background-color: var(--color-bg-hover, #f0f2f5);
             }
+
+            .collapse-arrow {
+              font-size: 12px;
+            }
+
             span {
               flex: 1;
               font-weight: 500;
             }
           }
+
           .section-content {
             padding: 16px;
-            background-color: #fff;
-            border-top: 1px solid #e4e7ed;
-            .el-form-item {
-              margin-bottom: 16px;
-            }
+            background-color: var(--color-bg-secondary, #fff);
+            border-top: 1px solid var(--color-border, #e4e7ed);
           }
         }
       }
     }
+
     .right-panel {
       width: 40%;
       min-width: 400px;
-      background-color: #fafbfc;
+      background-color: var(--color-bg-tertiary, #fafbfc);
       overflow-y: auto;
       flex-shrink: 0;
       padding: 32px 24px;
+
       .panel-header {
         margin-bottom: 16px;
       }
+
       .debug-content {
         .config-status {
           text-align: center;
           margin-bottom: 20px;
+
           .status-text {
-            color: #67c23a;
+            color: var(--color-success, #67c23a);
             font-size: 12px;
-            border: 1px dashed #67c23a;
+            border: 1px dashed var(--color-success, #67c23a);
             padding: 4px 12px;
             border-radius: 4px;
-            background-color: #f0f9ff;
+            background-color: var(--color-success-bg, #f0f9ff);
           }
         }
+
         .chat-preview {
           margin-bottom: 20px;
+
           .chat-message {
             display: flex;
             gap: 12px;
             margin-bottom: 16px;
+
             .message-avatar {
               width: 32px;
               height: 32px;
@@ -495,85 +526,98 @@ defineExpose({ open, close })
               display: flex;
               align-items: center;
               justify-content: center;
-              background-color: #f0f2f5;
+              background-color: var(--color-bg-tertiary, #f0f2f5);
+
               img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
               }
             }
+
             .message-content {
               flex: 1;
-              background-color: #fff;
+              background-color: var(--color-bg-secondary, #fff);
               padding: 12px;
               border-radius: 8px;
               box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
               p {
                 margin: 0;
-                color: #303133;
+                color: var(--color-text-primary, #303133);
                 font-size: 14px;
                 line-height: 1.5;
               }
             }
           }
         }
+
         .recommended-questions {
           margin-bottom: 20px;
+
           h4 {
             margin: 0 0 12px 0;
             font-size: 14px;
-            color: #303133;
+            color: var(--color-text-primary, #303133);
           }
+
           .question-list {
             .question-item {
               padding: 8px 12px;
-              background-color: #f0f2f5;
+              background-color: var(--color-bg-tertiary, #f0f2f5);
               border-radius: 6px;
               margin-bottom: 8px;
               font-size: 13px;
-              color: #606266;
+              color: var(--color-text-secondary, #606266);
               cursor: pointer;
               transition: all 0.3s;
+
               &:hover {
-                background-color: #e6f7ff;
-                color: #409eff;
+                background-color: var(--color-primary-bg, #e6f7ff);
+                color: var(--color-primary, #409eff);
               }
             }
           }
         }
+
         .chat-input {
           .input-wrapper {
             display: flex;
             align-items: center;
-            background-color: #fff;
+            background-color: var(--color-bg-secondary, #fff);
             border-radius: 8px;
             padding: 12px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
             .input-icon {
-              color: #909399;
+              color: var(--color-text-tertiary, #909399);
               margin-right: 8px;
             }
+
             .chat-input-field {
               flex: 1;
               border: none;
               outline: none;
               font-size: 14px;
-              color: #303133;
+              color: var(--color-text-primary, #303133);
+              background: transparent;
+
               &::placeholder {
-                color: #c0c4cc;
+                color: var(--color-text-tertiary, #c0c4cc);
               }
             }
+
             .send-btn {
               margin-left: 8px;
-              padding: 6px 12px;
-              border-radius: 6px;
             }
           }
+
           .input-footer {
             text-align: center;
             margin-top: 8px;
+
             span {
-              color: #909399;
+              color: var(--color-text-tertiary, #909399);
               font-size: 12px;
             }
           }

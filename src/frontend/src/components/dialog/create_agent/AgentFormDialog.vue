@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, onUnmounted } from 'vue'
-import { ElMessage } from 'element-plus'
-import { Plus, ArrowDown, ArrowRight, Edit, Check, Close } from '@element-plus/icons-vue'
-import type { UploadProps, UploadUserFile } from 'element-plus'
+import { HMessage } from '@/components/ui'
 import { createAgentAPI, updateAgentAPI } from '../../../apis/agent'
 import { uploadFileAPI } from '../../../apis/file'
 import { Agent, AgentFormData } from '../../../type'
@@ -16,7 +14,7 @@ const loading = ref(false)
 const formRef = ref()
 const isEditing = ref(false)
 const editingAgentId = ref('')
-const fileList = ref<UploadUserFile[]>([])
+const fileList = ref<{url?: string; name: string}[]>([])
 const uploadLoading = ref(false)
 
 const formData = reactive<AgentFormData>({
@@ -195,9 +193,11 @@ const handleFileUpload = async (event: Event) => {
   }
 }
 
-const handleFileChange: UploadProps['onChange'] = async (uploadFile) => {
-  if (uploadFile.raw) {
-    await uploadAvatarFile(uploadFile.raw)
+const handleFileChange = async (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (file) {
+    await uploadAvatarFile(file)
   }
 }
 
@@ -205,12 +205,12 @@ const uploadAvatarFile = async (file: File) => {
   // 文件大小和类型检查
   const isLt2M = file.size / 1024 / 1024 < 2
   if (!isLt2M) {
-    ElMessage.error('上传头像图片大小不能超过 2MB!')
+    HMessage.error('上传头像图片大小不能超过 2MB!')
     return
   }
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
   if (!isJpgOrPng) {
-    ElMessage.error('上传头像图片只能是 JPG/PNG 格式!')
+    HMessage.error('上传头像图片只能是 JPG/PNG 格式!')
     return
   }
   
@@ -224,19 +224,19 @@ const uploadAvatarFile = async (file: File) => {
     
     if (response.data.status_code === 200) {
       formData.logo_url = response.data.data
-      ElMessage.success('头像上传成功')
+      HMessage.success('头像上传成功')
     } else {
-      ElMessage.error(response.data.status_message || '头像上传失败')
+      HMessage.error(response.data.status_message || '头像上传失败')
     }
   } catch (error) {
     console.error('头像上传失败:', error)
-    ElMessage.error('头像上传失败')
+    HMessage.error('头像上传失败')
   } finally {
     uploadLoading.value = false
   }
 }
 
-const handleFileRemove: UploadProps['onRemove'] = () => {
+const handleFileRemove = () => {
   formData.logo_url = ''
 }
 
@@ -249,7 +249,7 @@ const handleSubmit = async () => {
     if (isEditing.value) {
       // 编辑智能体
       if (!editingAgentId.value) {
-        ElMessage.error('缺少智能体ID，无法更新')
+        HMessage.error('缺少智能体ID，无法更新')
         loading.value = false
         return
       }
@@ -261,12 +261,12 @@ const handleSubmit = async () => {
       
       console.log('更新智能体数据:', updateData)
       await updateAgentAPI(updateData)
-      ElMessage.success('智能体更新成功')
+      HMessage.success('智能体更新成功')
     } else {
       // 创建智能体
       console.log('创建智能体数据:', formData)
       await createAgentAPI(formData)
-      ElMessage.success('智能体创建成功')
+      HMessage.success('智能体创建成功')
     }
     
     emits('update')
@@ -277,7 +277,7 @@ const handleSubmit = async () => {
     close()
   } catch (error) {
     console.error('操作失败:', error)
-    ElMessage.error(isEditing.value ? '更新失败' : '创建失败')
+    HMessage.error(isEditing.value ? '更新失败' : '创建失败')
   } finally {
     loading.value = false
   }
@@ -564,24 +564,6 @@ defineExpose({ open, close })
 </template>
 
 <style lang="scss">
-// 全局样式，不使用scoped，确保能覆盖Element UI的默认样式
-.agent-form-dialog {
-  .el-dialog {
-    border-radius: 12px;
-    padding: 0;
-    z-index: 1000000 !important;
-  }
-  
-  .el-overlay {
-    display: none !important; // 隐藏Element UI自带的遮罩，使用我们的自定义遮罩
-  }
-}
-
-// 确保弹窗覆盖所有元素
-.el-dialog__wrapper {
-  z-index: 1000000 !important;
-}
-
 // 自定义遮罩层样式
 #custom-dialog-overlay {
   z-index: 999999 !important;
@@ -590,9 +572,6 @@ defineExpose({ open, close })
 
 <style lang="scss" scoped>
 .agent-form-dialog {
-  :deep(.el-dialog__body) {
-    padding: 0;
-  }
 
   .dialog-header {
     display: flex;
@@ -733,10 +712,6 @@ defineExpose({ open, close })
 
           .section-content {
             padding: 16px;
-
-            .el-form-item {
-              margin-bottom: 16px;
-            }
           }
         }
       }
@@ -811,38 +786,6 @@ defineExpose({ open, close })
       @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
-      }
-
-      .avatar-uploader {
-        :deep(.el-upload) {
-          border: 1px dashed #d9d9d9;
-          border-radius: 6px;
-          cursor: pointer;
-          position: relative;
-          overflow: hidden;
-          transition: border-color 0.3s;
-          width: 80px;
-          height: 80px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          &:hover {
-            border-color: #409eff;
-          }
-        }
-
-        .avatar {
-          width: 80px;
-          height: 80px;
-          object-fit: cover;
-          border-radius: 6px;
-        }
-
-        .avatar-uploader-icon {
-          font-size: 28px;
-          color: #8c939d;
-        }
       }
 
       .recommended-questions {

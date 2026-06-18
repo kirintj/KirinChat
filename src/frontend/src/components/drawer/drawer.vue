@@ -3,8 +3,7 @@ import { reactive, ref, onMounted, computed } from "vue"
 import CommonCard from "../../components/commonCard"
 import { getAgentsAPI } from "../../apis/agent"
 import { Agent } from '../../type'
-import { ElMessage } from "element-plus"
-import { Search, Plus } from '@element-plus/icons-vue'
+import { HMessage, HDrawer, HInput, HButton, HSkeleton } from "@/components/ui"
 
 const emits = defineEmits<{
   (event: "goChat", item: Agent): void
@@ -43,7 +42,7 @@ const loadAgents = async () => {
     }
   } catch (error) {
     console.error('获取智能体列表失败:', error)
-    ElMessage.error('获取智能体列表失败')
+    HMessage.error('获取智能体列表失败')
   } finally {
     loading.value = false
   }
@@ -72,7 +71,7 @@ const primary = () => {
   if (curentItem.value) {
     emits("goChat", curentItem.value)
   } else {
-    ElMessage.warning('请选择一个智能体')
+    HMessage.warning('请选择一个智能体')
   }
   close()
 }
@@ -85,20 +84,18 @@ defineExpose({
 
 <template>
   <div class="drawer">
-    <el-drawer 
-      v-model="drawer" 
-      title="选择智能体创建会话" 
-      :with-header="true"
+    <HDrawer
+      v-model="drawer"
+      title="选择智能体创建会话"
       size="500px"
-      direction="rtl"
+      direction="right"
     >
       <div class="drawer-content">
         <!-- 搜索框 -->
         <div class="search-section">
-          <el-input
+          <HInput
             v-model="searchKeyword"
             placeholder="搜索智能体..."
-            :prefix-icon="Search"
             clearable
             size="large"
           />
@@ -112,7 +109,7 @@ defineExpose({
           </div>
 
           <div v-if="loading" class="loading-state">
-            <el-skeleton :rows="3" animated />
+            <HSkeleton :rows="3" animated />
           </div>
 
           <div v-else-if="filteredAgents.length === 0" class="empty-state">
@@ -143,22 +140,21 @@ defineExpose({
 
         <!-- 操作按钮 -->
         <div class="actions-section">
-          <el-button @click="cancel" size="large" class="cancel-btn">
+          <HButton @click="cancel" size="large" class="cancel-btn" type="secondary">
             取消
-          </el-button>
-          <el-button 
-            type="primary" 
-            @click="primary" 
+          </HButton>
+          <HButton
+            type="primary"
+            @click="primary"
             size="large"
             class="confirm-btn"
             :disabled="!curentItem"
           >
-            <el-icon><Plus /></el-icon>
-            创建会话
-          </el-button>
+            + 创建会话
+          </HButton>
         </div>
       </div>
-    </el-drawer>
+    </HDrawer>
   </div>
 </template>
 
@@ -173,21 +169,6 @@ defineExpose({
     .search-section {
       padding: 20px 24px 16px;
       border-bottom: 1px solid #f0f0f0;
-
-      :deep(.el-input) {
-        .el-input__wrapper {
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-          
-          &:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          }
-          
-          &.is-focus {
-            box-shadow: 0 0 0 1px #409eff;
-          }
-        }
-      }
     }
 
     .agents-section {
@@ -296,10 +277,6 @@ defineExpose({
 // 响应式设计
 @media (max-width: 768px) {
   .drawer {
-    :deep(.el-drawer) {
-      width: 100% !important;
-    }
-
     .drawer-content {
       .search-section,
       .agents-section,

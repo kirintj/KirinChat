@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onMounted } from "vue"
-import { ElMessage } from 'element-plus'
+import { HMessage } from '@/components/ui'
 import { Agent } from "../../type"
 import { deleteAgentAPI } from '../../apis/agent'
 import { showDeleteConfirm } from '../../utils/dialog'
@@ -36,10 +36,10 @@ const deleteAgent = async() => {
     
     const response = await deleteAgentAPI({ agent_id: props.item.agent_id })
     if (response.data?.status_code === 200) {
-      ElMessage.success('删除成功')
+      HMessage.success('删除成功')
       emits('delete')
     } else {
-      ElMessage.error('删除失败')
+      HMessage.error('删除失败')
     }
   } catch (error) {
     // 用户取消删除，不需要处理
