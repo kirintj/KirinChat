@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus, Edit, Delete, View, Search, Refresh } from '@element-plus/icons-vue'
+import { ref, onMounted, computed, watch } from 'vue'
+import { HButton, HTabs, HTabPane, HTooltip, HMessage } from '@/components/ui'
 import pluginIcon from '../../assets/plugin.svg'
 import { 
   getAllToolsAPI, 
@@ -215,7 +214,7 @@ const parseOpenAPISchema = () => {
     availableTools.value = tools
     createForm.value.openapi_schema = schema
   } catch (error) {
-    ElMessage.error('OpenAPI Schema 格式错误')
+    HMessage.error('OpenAPI Schema 格式错误')
     availableTools.value = []
   }
 }
@@ -243,13 +242,13 @@ const handleLogoUpload = async (event: Event) => {
   // 验证文件类型
   const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
   if (!validTypes.includes(file.type)) {
-    ElMessage.error('请上传图片文件（支持 JPG、PNG、GIF、WebP）')
+    HMessage.error('请上传图片文件（支持 JPG、PNG、GIF、WebP）')
     return
   }
   
   // 验证文件大小（最大 5MB）
   if (file.size > 5 * 1024 * 1024) {
-    ElMessage.error('图片大小不能超过 5MB')
+    HMessage.error('图片大小不能超过 5MB')
     return
   }
   
@@ -262,13 +261,13 @@ const handleLogoUpload = async (event: Event) => {
       const uploadedUrl = response.data.data as any as string
       logoPreview.value = uploadedUrl
       createForm.value.logo_url = uploadedUrl
-      ElMessage.success('头像上传成功')
+      HMessage.success('头像上传成功')
     } else {
-      ElMessage.error(response.data.status_message || '头像上传失败')
+      HMessage.error(response.data.status_message || '头像上传失败')
     }
   } catch (error) {
     console.error('头像上传失败:', error)
-    ElMessage.error('头像上传失败')
+    HMessage.error('头像上传失败')
   } finally {
     logoUploading.value = false
     // 清空 input，以便可以再次上传同一文件
@@ -292,13 +291,13 @@ const handleEditLogoUpload = async (event: Event) => {
   // 验证文件类型
   const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
   if (!validTypes.includes(file.type)) {
-    ElMessage.error('请上传图片文件（支持 JPG、PNG、GIF、WebP）')
+    HMessage.error('请上传图片文件（支持 JPG、PNG、GIF、WebP）')
     return
   }
   
   // 验证文件大小（最大 5MB）
   if (file.size > 5 * 1024 * 1024) {
-    ElMessage.error('图片大小不能超过 5MB')
+    HMessage.error('图片大小不能超过 5MB')
     return
   }
   
@@ -310,13 +309,13 @@ const handleEditLogoUpload = async (event: Event) => {
       const uploadedUrl = response.data.data as any as string
       editLogoPreview.value = uploadedUrl
       editForm.value.logo_url = uploadedUrl
-      ElMessage.success('头像上传成功')
+      HMessage.success('头像上传成功')
     } else {
-      ElMessage.error(response.data.status_message || '头像上传失败')
+      HMessage.error(response.data.status_message || '头像上传失败')
     }
   } catch (error) {
     console.error('头像上传失败:', error)
-    ElMessage.error('头像上传失败')
+    HMessage.error('头像上传失败')
   } finally {
     editLogoUploading.value = false
     target.value = ''
@@ -353,7 +352,7 @@ const parseEditOpenAPISchema = () => {
     editAvailableTools.value = tools
     editForm.value.openapi_schema = schema
   } catch (error) {
-    ElMessage.error('OpenAPI Schema 格式错误')
+    HMessage.error('OpenAPI Schema 格式错误')
     editAvailableTools.value = []
   }
 }
@@ -396,11 +395,11 @@ const fetchTools = async () => {
       tools.value = response.data.data || []
       console.log('获取到的工具数据:', tools.value)
     } else {
-      ElMessage.error(response.data.status_message || '获取工具列表失败')
+      HMessage.error(response.data.status_message || '获取工具列表失败')
     }
   } catch (error) {
     console.error('获取工具列表失败:', error)
-    ElMessage.error('获取工具列表失败')
+    HMessage.error('获取工具列表失败')
   } finally {
     loading.value = false
   }
@@ -428,16 +427,16 @@ const handleCreateTool = async () => {
     
     const response = await createToolAPI(requestData)
     if (response.data.status_code === 200) {
-      ElMessage.success('工具创建成功')
+      HMessage.success('工具创建成功')
       showCreateDrawer.value = false
       resetCreateForm()
       fetchTools()
     } else {
-      ElMessage.error(response.data.status_message || '创建工具失败')
+      HMessage.error(response.data.status_message || '创建工具失败')
     }
   } catch (error) {
     console.error('创建工具失败:', error)
-    ElMessage.error('创建工具失败')
+    HMessage.error('创建工具失败')
   }
 }
 
@@ -464,16 +463,16 @@ const handleEditTool = async () => {
     
     const response = await updateToolAPI(requestData)
     if (response.data.status_code === 200) {
-      ElMessage.success('工具更新成功')
+      HMessage.success('工具更新成功')
       showEditDrawer.value = false
       resetEditForm()
       fetchTools()
     } else {
-      ElMessage.error(response.data.status_message || '更新工具失败')
+      HMessage.error(response.data.status_message || '更新工具失败')
     }
   } catch (error) {
     console.error('更新工具失败:', error)
-    ElMessage.error('更新工具失败')
+    HMessage.error('更新工具失败')
   }
 }
 
@@ -481,13 +480,13 @@ const handleEditTool = async () => {
 const handleDeleteTool = (tool: Tool) => {
   // 系统工具不能删除
   if (tool.user_id === '0') {
-    ElMessage.warning('系统工具不能删除')
+    HMessage.warning('系统工具不能删除')
     return
   }
   
   // 只有工具的创建者可以删除
   if (!isOwnTool(tool)) {
-    ElMessage.warning('只能删除自己创建的工具')
+    HMessage.warning('只能删除自己创建的工具')
     return
   }
   
@@ -502,16 +501,16 @@ const confirmDeleteTool = async () => {
   try {
     const response = await deleteToolAPI({ tool_id: toolToDelete.value.tool_id })
     if (response.data.status_code === 200) {
-      ElMessage.success('工具删除成功')
+      HMessage.success('工具删除成功')
       showDeleteDialog.value = false
       toolToDelete.value = null
       fetchTools()
     } else {
-      ElMessage.error(response.data.status_message || '删除工具失败')
+      HMessage.error(response.data.status_message || '删除工具失败')
     }
   } catch (error) {
     console.error('删除工具失败:', error)
-    ElMessage.error('删除工具失败')
+    HMessage.error('删除工具失败')
   }
 }
 
@@ -535,7 +534,7 @@ const isToolEditable = (tool: Tool) => {
 const openEditDrawer = (tool: Tool) => {
   // 检查是否可编辑
   if (!isToolEditable(tool)) {
-    ElMessage.warning('系统工具不可编辑')
+    HMessage.warning('系统工具不可编辑')
     return
   }
   
@@ -617,6 +616,11 @@ const handleTabChange = () => {
   fetchTools()
 }
 
+// 监听标签页变化
+watch(activeTab, () => {
+  handleTabChange()
+})
+
 // 刷新数据
 const handleRefresh = () => {
   fetchTools()
@@ -661,47 +665,29 @@ onMounted(() => {
         <h2>工具管理</h2>
       </div>
       <div class="header-actions">
-        <el-button :icon="Refresh" @click="handleRefresh" :loading="loading">
-          刷新
-        </el-button>
-        <el-button type="primary" :icon="Plus" @click="showCreateDrawer = true">
-          创建工具
-        </el-button>
+        <HButton type="secondary" @click="handleRefresh" :loading="loading">
+          🔄 刷新
+        </HButton>
+        <HButton type="primary" @click="showCreateDrawer = true">
+          ➕ 创建工具
+        </HButton>
       </div>
     </div>
 
     <!-- 标签页 -->
     <div class="tool-controls">
-      <el-tabs v-model="activeTab" @tab-change="handleTabChange" class="tool-tabs">
-        <el-tab-pane label="全部工具" name="all">
-          <template #label>
-            <span class="tab-label">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-              </svg>
-              全部工具
-            </span>
-          </template>
-        </el-tab-pane>
-        <el-tab-pane label="我的工具" name="own">
-          <template #label>
-            <span class="tab-label">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
-              我的工具
-            </span>
-          </template>
-        </el-tab-pane>
-      </el-tabs>
+      <HTabs v-model="activeTab" class="tool-tabs">
+        <HTabPane label="全部工具" name="all">
+          <!-- content rendered below -->
+        </HTabPane>
+        <HTabPane label="我的工具" name="own">
+          <!-- content rendered below -->
+        </HTabPane>
+      </HTabs>
     </div>
 
     <!-- 工具列表 -->
-    <div class="tool-container" v-loading="loading">
+    <div class="tool-container" v-h-loading="loading">
       <!-- 列表头部 -->
       <div class="list-header" v-if="tools.length > 0">
         <div class="col-icon"></div>
@@ -755,26 +741,26 @@ onMounted(() => {
             <span class="time-text">{{ formatRelativeTime(tool.create_time) }}</span>
           </div>
           <div class="col-actions" @click.stop>
-            <el-tooltip content="编辑" placement="top" v-if="isToolEditable(tool)">
+            <HTooltip content="编辑" placement="top" v-if="isToolEditable(tool)">
               <button class="action-btn edit-btn" @click="openEditDrawer(tool)">
-                <el-icon><Edit /></el-icon>
+                ✏️
               </button>
-            </el-tooltip>
-            <el-tooltip content="系统工具不可编辑" placement="top" v-else>
+            </HTooltip>
+            <HTooltip content="系统工具不可编辑" placement="top" v-else>
               <button class="action-btn view-btn" disabled>
-                <el-icon><Edit /></el-icon>
+                ✏️
               </button>
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top" v-if="isOwnTool(tool)">
+            </HTooltip>
+            <HTooltip content="删除" placement="top" v-if="isOwnTool(tool)">
               <button class="action-btn delete-btn" @click="handleDeleteTool(tool)">
-                <el-icon><Delete /></el-icon>
+                🗑️
               </button>
-            </el-tooltip>
-            <el-tooltip content="系统工具不可删除" placement="top" v-else>
+            </HTooltip>
+            <HTooltip content="系统工具不可删除" placement="top" v-else>
               <button class="action-btn view-btn" disabled>
-                <el-icon><Delete /></el-icon>
+                🗑️
               </button>
-            </el-tooltip>
+            </HTooltip>
           </div>
         </div>
       </div>
@@ -789,14 +775,13 @@ onMounted(() => {
         <div class="empty-content">
           <h3>{{ activeTab === 'own' ? '还没有创建任何工具' : '暂无工具' }}</h3>
           <p>添加工具可以让您的智能体拥有更多能力，开始创建你的第一个工具吧！</p>
-          <el-button 
+          <HButton
             type="primary"
-            :icon="Plus"
             @click="showCreateDrawer = true"
             class="empty-btn"
           >
-            创建第一个工具
-          </el-button>
+            ➕ 创建第一个工具
+          </HButton>
         </div>
       </div>
     </div>
@@ -1337,14 +1322,14 @@ onMounted(() => {
     .header-actions {
       display: flex;
       gap: 12px;
-      
-      :deep(.el-button) {
+
+      .h-button {
         border-radius: 12px;
         font-weight: 600;
         padding: 12px 24px;
         font-size: 14px;
         transition: all 0.3s ease;
-        
+
         &:hover {
           transform: translateY(-2px);
           box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
@@ -1364,24 +1349,14 @@ onMounted(() => {
     overflow: hidden;
     
     .tool-tabs {
-      :deep(.el-tabs__header) {
+      .h-tabs__header {
         margin: 0;
         border-bottom: 1px solid #f3f4f6;
         background: #fafbfc;
+        padding: 0 24px;
       }
-      
-      :deep(.el-tabs__nav-wrap) {
-        padding: 0;
-        margin: 0 24px;
-      }
-      
-      :deep(.el-tabs__active-bar) {
-        height: 3px;
-        background: linear-gradient(90deg, #3b82f6, #2563eb);
-        bottom: 0;
-      }
-      
-      :deep(.el-tabs__item) {
+
+      .h-tabs__item {
         font-weight: 500;
         font-size: 14px;
         padding: 0 20px;
@@ -1390,27 +1365,29 @@ onMounted(() => {
         color: #6b7280;
         transition: all 0.3s;
         border: none;
-        
-        &.is-active {
+
+        &.h-tabs__item--active {
           color: #3b82f6;
           font-weight: 600;
+          border-bottom: 3px solid;
+          border-image: linear-gradient(90deg, #3b82f6, #2563eb) 1;
         }
-        
+
         &:hover {
           color: #3b82f6;
           background: rgba(59, 130, 246, 0.05);
         }
       }
-      
+
       .tab-label {
         display: flex;
         align-items: center;
         gap: 8px;
-        
+
         svg {
           transition: transform 0.3s;
         }
-        
+
         &:hover svg {
           transform: scale(1.1);
         }
@@ -1722,16 +1699,16 @@ onMounted(() => {
       
       .header-actions {
         justify-content: stretch;
-        
-        :deep(.el-button) {
+
+        .h-button {
           flex: 1;
         }
       }
     }
-    
+
     .tool-controls {
       .tool-tabs {
-        :deep(.el-tabs__item) {
+        .h-tabs__item {
           padding: 0 16px;
           font-size: 14px;
         }
