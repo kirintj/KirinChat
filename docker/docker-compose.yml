@@ -1,19 +1,19 @@
 
 # 🌐 网络配置
 networks:
-  agentchat-network:
+  kirinchat-network:
     driver: bridge
 
 services:
   # MySQL数据库服务
   mysql:
-    container_name: agentchat-mysql
+    container_name: kirinchat-mysql
     image: mysql:8.0
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: agentchat
-      MYSQL_USER: agentchat_user
+      MYSQL_DATABASE: kirinchat
+      MYSQL_USER: kirinchat_user
       MYSQL_PASSWORD: 123456
       TZ: Asia/Shanghai
 #    ports:
@@ -22,7 +22,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./mysql/init:/docker-entrypoint-initdb.d
     networks:
-      - agentchat-network
+      - kirinchat-network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
@@ -31,7 +31,7 @@ services:
   # Redis缓存服务
   redis:
     image: redis:7.0-alpine
-    container_name: agentchat-redis
+    container_name: kirinchat-redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -40,7 +40,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - agentchat-network
+      - kirinchat-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 30s
@@ -52,7 +52,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    container_name: agentchat-backend
+    container_name: kirinchat-backend
     restart: unless-stopped
     ports:
       - "7860:7860"
@@ -68,7 +68,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - agentchat-network
+      - kirinchat-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7860/health"]
       interval: 30s
@@ -80,13 +80,13 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.frontend
-    container_name: agentchat-frontend
+    container_name: kirinchat-frontend
     restart: unless-stopped
     ports:
       - "8090:8090"
     environment:
       NODE_ENV: development
-      VITE_API_BASE_URL: http://agentchat-backend:7860
+      VITE_API_BASE_URL: http://kirinchat-backend:7860
       TZ: Asia/Shanghai
 #    volumes:
 #      - ../src/frontend:/app:cached
@@ -94,7 +94,7 @@ services:
     depends_on:
       - backend
     networks:
-      - agentchat-network
+      - kirinchat-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8090"]
       interval: 30s
@@ -102,7 +102,7 @@ services:
       retries: 3
 
   minio:
-    container_name: agentchat-minio
+    container_name: kirinchat-minio
     image: minio/minio:RELEASE.2023-03-20T20-16-18Z
     environment:
       MINIO_ROOT_USER: minioadmin
@@ -118,7 +118,7 @@ services:
     command: minio server /minio_data --console-address ":9001"
     restart: on-failure
     networks:
-      - agentchat-network
+      - kirinchat-network
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
       interval: 30s

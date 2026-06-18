@@ -1,6 +1,6 @@
-# 🐳 AgentChat Docker 部署指南
+# 🐳 KirinChat Docker 部署指南
 
-> 🚀 **一键部署 AgentChat** - 完整的容器化解决方案
+> 🚀 **一键部署 KirinChat** - 完整的容器化解决方案
 
 ## 📋 目录
 
@@ -55,7 +55,7 @@ chmod +x start_linux.sh
 
 ### ⚠️ 重要提示
 
-**AgentChat 使用 `config.yaml` 文件进行配置，而不是环境变量！**
+**KirinChat 使用 `config.yaml` 文件进行配置，而不是环境变量！**
 
 在启动 Docker 容器之前，您必须先修改配置文件：
 
@@ -72,8 +72,8 @@ vim docker_config.yaml
 
 ```yaml
 mysql:
-  endpoint: "mysql+pymysql://root:your-password@mysql:3306/agentchat"
-  async_endpoint: "mysql+aiomysql://root:your-password@mysql:3306/agentchat"
+  endpoint: "mysql+pymysql://root:your-password@mysql:3306/kirinchat"
+  async_endpoint: "mysql+aiomysql://root:your-password@mysql:3306/kirinchat"
 
 redis:
   endpoint: "redis://redis:6379"
@@ -210,7 +210,7 @@ docker-compose up -d mysql redis
 docker stats
 
 # 查看特定容器统计
-docker stats agentchat-backend agentchat-frontend
+docker stats kirinchat-backend kirinchat-frontend
 ```
 
 ---
@@ -381,7 +381,7 @@ docker run -it --rm \
 
 <div align="center">
 
-**🐳 愉快地使用 Docker 部署 AgentChat！**
+**🐳 愉快地使用 Docker 部署 KirinChat！**
 
 *如有问题，请查看日志或联系维护者*
 
