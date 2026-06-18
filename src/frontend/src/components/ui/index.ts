@@ -2,10 +2,12 @@ import type { App } from 'vue'
 
 // 组件导出
 export { HButton } from './HButton'
+export { HDialog } from './HDialog'
 export { HIcon } from './HIcon'
 export { HInput } from './HInput'
 export { HMessage } from './HMessage'
 export { HMessageBox } from './HMessageBox'
+export { HSelect, HOption } from './HSelect'
 
 // Vue 插件：全局注册
 export default {
