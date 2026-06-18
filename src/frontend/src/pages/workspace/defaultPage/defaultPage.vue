@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { HMessage } from '@/components/ui'
 import { MdPreview } from "md-editor-v3"
 import "md-editor-v3/lib/style.css"
 import { getWorkspacePluginsAPI, workspaceSimpleChatStreamAPI, type WorkSpaceSimpleTask } from '../../../apis/workspace'
@@ -151,7 +151,7 @@ const onFileChange = (e: Event) => {
   const input = e.target as HTMLInputElement
   const files = input.files
   if (files && files.length > 0) {
-    ElMessage.success(`已选择 ${files.length} 个文件`)
+    HMessage.success(`已选择 ${files.length} 个文件`)
   }
   if (input) input.value = ''
 }
@@ -186,13 +186,13 @@ const scrollToBottom = () => {
 // 发送消息
 const handleSend = async () => {
   if (!inputMessage.value.trim()) {
-    ElMessage.warning('请输入消息内容')
+    HMessage.warning('请输入消息内容')
     return
   }
 
   // 如果正在生成回复，不允许发送新消息
   if (isGenerating.value) {
-    ElMessage.warning('请等待当前回复完成')
+    HMessage.warning('请等待当前回复完成')
     return
   }
   
@@ -226,7 +226,7 @@ const handleSend = async () => {
     console.log('session_id:', currentSessionId.value)
     
     if (!selectedModelId.value) {
-      ElMessage.warning('请先选择模型')
+      HMessage.warning('请先选择模型')
       return
     }
 
@@ -274,7 +274,7 @@ const handleSend = async () => {
         },
         (err) => {
           console.error('日常模式流式出错', err)
-          ElMessage.error('对话失败，请稍后重试')
+          HMessage.error('对话失败，请稍后重试')
           isGenerating.value = false  // 出错时解除生成状态
         },
         () => {
@@ -284,7 +284,7 @@ const handleSend = async () => {
       )
     } catch (e) {
       console.error('日常模式对话异常', e)
-      ElMessage.error('对话异常')
+      HMessage.error('对话异常')
       isGenerating.value = false  // 异常时解除生成状态
     }
   }
@@ -327,7 +327,7 @@ const loadSessionHistory = async (sessionId: string) => {
     }
   } catch (error) {
     console.error('加载会话历史失败:', error)
-    ElMessage.error('加载会话历史失败')
+    HMessage.error('加载会话历史失败')
   }
 }
 

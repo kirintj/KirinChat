@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { User, SwitchButton, Setting } from '@element-plus/icons-vue'
+import { HButton, HInput, HMessage } from '@/components/ui'
 import workspaceIcon from '../../assets/workspace.svg'
 import applicationCenterIcon from '../../assets/application-center.svg'
 import dialogIcon from '../../assets/dialog.svg'
@@ -63,11 +62,11 @@ const fetchSessions = async () => {
       }))
       console.log('工作区会话列表:', sessions.value)
     } else {
-      ElMessage.error('获取会话列表失败')
+      HMessage.error('获取会话列表失败')
     }
   } catch (error) {
     console.error('获取会话列表出错:', error)
-    ElMessage.error('获取会话列表失败')
+    HMessage.error('获取会话列表失败')
   } finally {
     loading.value = false
   }
@@ -80,7 +79,7 @@ const deleteSession = async (sessionId: string, event: Event) => {
   try {
     const response = await deleteWorkspaceSessionAPI(sessionId)
     if (response.data.status_code === 200) {
-      ElMessage.success('会话删除成功')
+      HMessage.success('会话删除成功')
       await fetchSessions()
       
       if (selectedSession.value === sessionId) {
@@ -88,11 +87,11 @@ const deleteSession = async (sessionId: string, event: Event) => {
         router.push('/workspace')
       }
     } else {
-      ElMessage.error('删除会话失败')
+      HMessage.error('删除会话失败')
     }
   } catch (error) {
     console.error('删除会话出错:', error)
-    ElMessage.error('删除会话失败')
+    HMessage.error('删除会话失败')
   }
 }
 
@@ -130,8 +129,21 @@ const selectSession = (sessionId: string) => {
   }
 }
 
+// 用户下拉菜单
+const showUserMenu = ref(false)
+const userMenuRef = ref<HTMLElement | null>(null)
+
+const toggleUserMenu = () => {
+  showUserMenu.value = !showUserMenu.value
+}
+
+const closeUserMenu = () => {
+  showUserMenu.value = false
+}
+
 // 用户下拉菜单命令处理
 const handleUserCommand = async (command: string) => {
+  showUserMenu.value = false
   switch (command) {
     case 'profile':
       router.push('/profile')
@@ -153,7 +165,7 @@ const handleLogout = async () => {
     console.error('调用登出接口失败:', error)
   }
   userStore.logout()
-  ElMessage.success('已退出登录')
+  HMessage.success('已退出登录')
   router.push('/login')
 }
 
@@ -215,7 +227,7 @@ const isAppCenterActive = computed(() => route.path.startsWith('/homepage'))
 
 onMounted(async () => {
   userStore.initUserState()
-  
+
   // 如果已登录但没有头像，则尝试获取用户信息
   if (userStore.isLoggedIn && userStore.userInfo && !userStore.userInfo.avatar) {
     try {
@@ -231,9 +243,21 @@ onMounted(async () => {
       console.error('初始化时获取用户信息失败:', error)
     }
   }
-  
+
   await fetchSessions()
+  document.addEventListener('click', handleOutsideClick)
 })
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleOutsideClick)
+})
+
+// 点击空白处关闭用户菜单
+const handleOutsideClick = (e: MouseEvent) => {
+  if (userMenuRef.value && !userMenuRef.value.contains(e.target as Node)) {
+    showUserMenu.value = false
+  }
+}
 </script>
 
 <template>
@@ -250,32 +274,29 @@ onMounted(async () => {
       </div>
       <div class="nav-right">
         <!-- 用户信息区域 -->
-        <div class="user-info">
-          <el-dropdown @command="handleUserCommand" trigger="click">
-            <div class="user-avatar-wrapper">
-              <div class="user-avatar">
-                <img
-                  :src="userStore.userInfo?.avatar || '/src/assets/user.svg'"
-                  alt="用户头像"
-                  @error="handleAvatarError"
-                  referrerpolicy="no-referrer"
-                />
-              </div>
+        <div class="user-info" ref="userMenuRef">
+          <div class="user-avatar-wrapper" @click="toggleUserMenu">
+            <div class="user-avatar">
+              <img
+                :src="userStore.userInfo?.avatar || '/src/assets/user.svg'"
+                alt="用户头像"
+                @error="handleAvatarError"
+                referrerpolicy="no-referrer"
+              />
             </div>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item command="profile" :icon="User">
-                  个人资料
-                </el-dropdown-item>
-<!--                <el-dropdown-item command="settings" :icon="Setting">-->
-<!--                  系统设置-->
-<!--                </el-dropdown-item>-->
-                <el-dropdown-item divided command="logout" :icon="SwitchButton">
-                  退出登录
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          </div>
+          <!-- 用户下拉菜单 -->
+          <div v-if="showUserMenu" class="user-dropdown">
+            <div class="user-dropdown-item" @click="handleUserCommand('profile')">
+              <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>个人资料</span>
+            </div>
+            <div class="user-dropdown-divider"></div>
+            <div class="user-dropdown-item" @click="handleUserCommand('logout')">
+              <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <span>退出登录</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -851,25 +872,51 @@ onMounted(async () => {
   }
 }
 
-// 下拉菜单样式
-:deep(.el-dropdown-menu) {
-  border: none;
+// 用户下拉菜单样式
+.user-info {
+  position: relative;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
+  min-width: 160px;
+  z-index: 3001;
   overflow: hidden;
-  
-  .el-dropdown-menu__item {
-    padding: 12px 16px;
+  padding: 4px;
+
+  .user-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
     font-size: 14px;
-    
+    color: #1f2937;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+
     &:hover {
       background-color: #f5f7fa;
-      color: #409eff;
+      color: #3b82f6;
     }
-    
-    .el-icon {
-      margin-right: 8px;
+
+    .dropdown-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
     }
+  }
+
+  .user-dropdown-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 4px 8px;
   }
 }
 

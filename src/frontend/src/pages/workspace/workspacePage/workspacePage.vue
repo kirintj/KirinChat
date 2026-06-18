@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { HMessage } from '@/components/ui'
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 import { 
@@ -253,11 +253,11 @@ const loadSessionInfo = async (sessionId: string) => {
         console.log('历史记录数量:', historyContexts.value.length)
       }
     } else {
-      ElMessage.error('获取会话信息失败')
+      HMessage.error('获取会话信息失败')
     }
   } catch (error) {
     console.error('加载会话信息出错:', error)
-    ElMessage.error('加载会话信息失败')
+    HMessage.error('加载会话信息失败')
   }
 }
 
@@ -288,7 +288,7 @@ const startGenerateGuidePrompt = async () => {
       },
       (error) => {
         console.error('❌ 生成过程出错:', error)
-        ElMessage.error('生成指导手册失败')
+        HMessage.error('生成指导手册失败')
         isStreaming.value = false
         isEditable.value = true
       },
@@ -297,12 +297,12 @@ const startGenerateGuidePrompt = async () => {
         console.log('✅ 流式传输结束')
         isStreaming.value = false
         isEditable.value = true
-        ElMessage.success('指导手册生成完成，您可以进行修改')
+        HMessage.success('指导手册生成完成，您可以进行修改')
       }
     )
   } catch (error) {
     console.error('生成指导手册出错:', error)
-    ElMessage.error('请求失败，请检查网络连接')
+    HMessage.error('请求失败，请检查网络连接')
     isStreaming.value = false
     isEditable.value = true
   }
@@ -311,7 +311,7 @@ const startGenerateGuidePrompt = async () => {
 // 打开重新生成对话框
 const handleRegenerate = () => {
   if (!guidePrompt.value.trim()) {
-    ElMessage.warning('请先生成或编辑指导手册')
+    HMessage.warning('请先生成或编辑指导手册')
     return
   }
   
@@ -328,7 +328,7 @@ const handleCancelRegenerate = () => {
 // 确认重新生成
 const handleConfirmRegenerate = async () => {
   if (!feedbackText.value.trim()) {
-    ElMessage.warning('请输入您的想法或修改意见')
+    HMessage.warning('请输入您的想法或修改意见')
     return
   }
 
@@ -362,7 +362,7 @@ const handleConfirmRegenerate = async () => {
       },
       (error) => {
         console.error('❌ 重新生成过程出错:', error)
-        ElMessage.error('重新生成失败')
+        HMessage.error('重新生成失败')
         isStreaming.value = false
         isEditable.value = true
       },
@@ -370,12 +370,12 @@ const handleConfirmRegenerate = async () => {
         console.log('✅ 重新生成完成')
         isStreaming.value = false
         isEditable.value = true
-        ElMessage.success('重新生成完成')
+        HMessage.success('重新生成完成')
       }
     )
   } catch (error) {
     console.error('重新生成出错:', error)
-    ElMessage.error('请求失败，请检查网络连接')
+    HMessage.error('请求失败，请检查网络连接')
     isStreaming.value = false
     isEditable.value = true
   }
@@ -384,7 +384,7 @@ const handleConfirmRegenerate = async () => {
 // 开始执行任务 - 跳转到任务流程图页面
 const handleStartTask = () => {
   if (!guidePrompt.value.trim()) {
-    ElMessage.warning('请先生成指导手册')
+    HMessage.warning('请先生成指导手册')
     return
   }
 

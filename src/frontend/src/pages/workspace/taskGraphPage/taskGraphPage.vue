@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, nextTick, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { HMessage } from '@/components/ui'
 import { MdPreview, MdEditor } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 import { 
@@ -69,7 +69,7 @@ const startReceivingResults = () => {
   if (!showTaskResult.value) {
     showTaskResult.value = true
   }
-  // ElMessage.success('开始接收任务结果')
+  // HMessage.success('开始接收任务结果')
   console.log('✅ [startReceivingResults] 状态已更新，准备启动排空')
   // 启动排空
   startDrain()
@@ -102,7 +102,7 @@ const startDrain = () => {
       }
       isDraining.value = false
       isReceivingResult.value = false
-      //ElMessage.success('任务执行完成')
+      //HMessage.success('任务执行完成')
       return
     }
     const chunk = resultBuffer.value.slice(0, drainChunkSize)
@@ -314,18 +314,18 @@ const generateGuidePrompt = async () => {
       },
       (error) => {
         console.error('❌ 生成指导手册出错:', error)
-        ElMessage.error('生成指导手册失败')
+        HMessage.error('生成指导手册失败')
         isGeneratingGuide.value = false
       },
       () => {
         console.log('✅ 指导手册生成完成')
         isGeneratingGuide.value = false
-        ElMessage.success('指导手册生成完成')
+        HMessage.success('指导手册生成完成')
       }
     )
   } catch (error) {
     console.error('生成指导手册异常:', error)
-    ElMessage.error('生成指导手册失败')
+    HMessage.error('生成指导手册失败')
     isGeneratingGuide.value = false
   }
 }
@@ -345,7 +345,7 @@ const handleCancelRegenerate = () => {
 // 确认重新生成
 const handleConfirmRegenerate = async () => {
   if (!feedbackText.value.trim()) {
-    ElMessage.warning('请输入您的优化建议')
+    HMessage.warning('请输入您的优化建议')
     return
   }
 
@@ -377,19 +377,19 @@ const handleConfirmRegenerate = async () => {
       },
       (error) => {
         console.error('❌ 重新生成指导手册出错:', error)
-        ElMessage.error('重新生成失败')
+        HMessage.error('重新生成失败')
         isGeneratingGuide.value = false
       },
       () => {
         console.log('✅ 指导手册重新生成完成')
         isGeneratingGuide.value = false
         feedbackText.value = ''
-        ElMessage.success('指导手册重新生成完成')
+        HMessage.success('指导手册重新生成完成')
       }
     )
   } catch (error) {
     console.error('重新生成指导手册异常:', error)
-    ElMessage.error('重新生成失败')
+    HMessage.error('重新生成失败')
     isGeneratingGuide.value = false
   }
 }
@@ -397,7 +397,7 @@ const handleConfirmRegenerate = async () => {
 // 开始执行任务
 const handleStartTask = () => {
   if (!guidePrompt.value.trim()) {
-    ElMessage.warning('请先生成指导手册')
+    HMessage.warning('请先生成指导手册')
     return
   }
 
@@ -534,14 +534,14 @@ const loadSessionInfo = async (sessionId: string) => {
         }
       } else {
         console.warn('⚠️ contexts 为空或不是数组')
-        ElMessage.warning('该会话暂无历史数据')
+        HMessage.warning('该会话暂无历史数据')
       }
     } else {
-      ElMessage.error('获取会话信息失败')
+      HMessage.error('获取会话信息失败')
     }
   } catch (error) {
     console.error('❌ 加载会话信息出错:', error)
-    ElMessage.error('加载会话信息出错')
+    HMessage.error('加载会话信息出错')
   }
 }
 
@@ -558,9 +558,9 @@ const handleNodeClick = (nodeId: string) => {
   if (nodeStatus && nodeStatus.status === 'completed' && nodeStatus.message) {
     showNodeDetail.value = true
   } else if (nodeStatus && nodeStatus.status === 'executing') {
-    ElMessage.info('该节点正在执行中...')
+    HMessage.info('该节点正在执行中...')
   } else {
-    ElMessage.info('该节点尚未执行')
+    HMessage.info('该节点尚未执行')
   }
 }
 
@@ -666,13 +666,13 @@ const startTask = async () => {
         })
         
         showGraph.value = true
-        ElMessage.success('任务图生成成功，开始执行任务')
+        HMessage.success('任务图生成成功，开始执行任务')
       },
       (stepData) => {
         // 处理步骤执行结果
         console.log('✅ 收到步骤结果:', stepData)
         updateNodeStatus(stepData.title, 'completed', stepData.message)
-        ElMessage.success(`节点「${stepData.title}」执行完成`)
+        HMessage.success(`节点「${stepData.title}」执行完成`)
       },
       (messageChunk) => {
         // 统一写入缓冲。若尚未开始接收（通常为首个 task_result 到达），立即启动接收与排空
@@ -690,7 +690,7 @@ const startTask = async () => {
       },
       (error) => {
         console.error('❌ 任务执行出错:', error)
-        ElMessage.error('任务执行失败')
+        HMessage.error('任务执行失败')
         isStreaming.value = false
       },
       () => {
@@ -702,7 +702,7 @@ const startTask = async () => {
     )
   } catch (error) {
     console.error('任务执行异常:', error)
-    ElMessage.error('请求失败，请检查网络连接')
+    HMessage.error('请求失败，请检查网络连接')
     isStreaming.value = false
   }
 }
