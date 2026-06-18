@@ -6,11 +6,11 @@ import glob
 import platform
 
 # --- 路径设置 ---
-# SCRIPT_DIR: .../AgentChat/scripts
+# SCRIPT_DIR: .../KirinChat/scripts
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-# PROJECT_ROOT: .../AgentChat (项目根目录)
+# PROJECT_ROOT: .../KirinChat (项目根目录)
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
-# BASE_DIR: .../AgentChat/src
+# BASE_DIR: .../KirinChat/src
 BASE_DIR = os.path.join(PROJECT_ROOT, "src")
 
 BACKEND_DIR = os.path.join(BASE_DIR, "backend")
