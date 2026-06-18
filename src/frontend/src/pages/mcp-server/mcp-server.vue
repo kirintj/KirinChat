@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick, reactive } from 'vue'
-import { ElMessage, ElMessageBox, UploadProps } from 'element-plus'
-import { Plus, Connection, VideoPlay, Edit, Delete, View, Tools } from '@element-plus/icons-vue'
+import { HButton, HTag, HMessage } from '@/components/ui'
 import * as monaco from 'monaco-editor'
 import mcpIcon from '../../assets/mcp.svg'
 import { 
@@ -65,38 +64,43 @@ const configString = ref('')
 // Logo 上传相关
 const uploadingLogo = ref(false)
 
-const handleLogoUploadSuccess: UploadProps['onSuccess'] = (response: any) => {
-  // 后端通常返回 { data: 'http://xxx/xxx.png', ... } 或直接是字符串
-  const imageUrl = typeof response === 'string' ? response : response?.data
-  if (imageUrl) {
-    formData.value.logo_url = imageUrl
-    ElMessage.success('Logo 上传成功')
-  } else {
-    ElMessage.error('上传失败，未获取到图片链接')
-  }
-  uploadingLogo.value = false
-}
+const handleLogoUpload = async (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+  if (!file) return
 
-const handleLogoUploadError: UploadProps['onError'] = (err: any) => {
-  console.error('Logo 上传失败:', err)
-  ElMessage.error('Logo 上传失败，请重试')
-  uploadingLogo.value = false
-}
-
-const beforeLogoUpload: UploadProps['beforeUpload'] = (file: File) => {
   const isImage = file.type.startsWith('image/')
   const isLt2M = file.size / 1024 / 1024 < 2
 
   if (!isImage) {
-    ElMessage.error('只能上传图片文件作为 Logo')
-    return false
+    HMessage.error('只能上传图片文件作为 Logo')
+    return
   }
   if (!isLt2M) {
-    ElMessage.error('图片大小不能超过 2MB')
-    return false
+    HMessage.error('图片大小不能超过 2MB')
+    return
   }
+
   uploadingLogo.value = true
-  return true
+  try {
+    const uploadFormData = new FormData()
+    uploadFormData.append('file', file)
+    const response = await fetch('/api/v1/upload', { method: 'POST', body: uploadFormData })
+    const result = await response.json()
+    const imageUrl = typeof result === 'string' ? result : result?.data
+    if (imageUrl) {
+      formData.value.logo_url = imageUrl
+      HMessage.success('Logo 上传成功')
+    } else {
+      HMessage.error('上传失败，未获取到图片链接')
+    }
+  } catch (err) {
+    console.error('Logo 上传失败:', err)
+    HMessage.error('Logo 上传失败，请重试')
+  } finally {
+    uploadingLogo.value = false
+    target.value = ''
+  }
 }
 
 // 用户配置相关数据
@@ -154,12 +158,12 @@ const fetchServers = async () => {
         return new Date(b.create_time).getTime() - new Date(a.create_time).getTime()
       })
     } else {
-      ElMessage.error(response?.data?.status_message || '获取MCP服务器列表失败')
+      HMessage.error(response?.data?.status_message || '获取MCP服务器列表失败')
       servers.value = []
     }
   } catch (error) {
     console.error('获取MCP服务器列表失败:', error)
-    ElMessage.error('网络错误：无法获取MCP服务器列表')
+    HMessage.error('网络错误：无法获取MCP服务器列表')
     servers.value = []
   } finally {
     loading.value = false
@@ -194,7 +198,7 @@ const handleCreate = async () => {
 const handleEdit = (server: MCPServer) => {
   // 检查是否为官方服务器
   if (String(server.user_id) === '0') {
-    ElMessage.warning(`${server.server_name} MCP Server 为官方所有，不能编辑`)
+    HMessage.warning(`${server.server_name} MCP Server 为官方所有，不能编辑`)
     return
   }
   
@@ -270,11 +274,11 @@ const handleSubmit = async () => {
       
       const response = await updateMCPServerAPI(updateData)
       if (response.data.status_code === 200) {
-        ElMessage.success('更新MCP服务器成功')
+        HMessage.success('更新MCP服务器成功')
         closeDialog()
         await fetchServers()
       } else {
-        ElMessage.error(response.data.status_message || '更新失败')
+        HMessage.error(response.data.status_message || '更新失败')
       }
     } else {
       // 创建模式：创建服务器
@@ -302,16 +306,16 @@ const handleSubmit = async () => {
       
       const response = await createMCPServerAPI(submitData)
       if (response.data.status_code === 200) {
-        ElMessage.success('创建MCP服务器成功')
+        HMessage.success('创建MCP服务器成功')
         closeDialog()
         await fetchServers()
       } else {
-        ElMessage.error(response.data.status_message || '创建失败')
+        HMessage.error(response.data.status_message || '创建失败')
       }
     }
   } catch (error) {
     console.error('操作失败:', error)
-    ElMessage.error('操作失败')
+    HMessage.error('操作失败')
   } finally {
     formLoading.value = false
   }
@@ -330,14 +334,14 @@ const updateUserConfig = async () => {
     try {
       parsedUserConfig = JSON.parse(jsonContent.trim() || '[]')
     } catch (error) {
-      ElMessage.error('用户配置JSON格式错误')
+      HMessage.error('用户配置JSON格式错误')
       return
     }
 
     // 直接调用更新接口（后端会自动判断是创建还是更新）
     const serverId = editingServer.value?.mcp_server_id || configuringServer.value?.mcp_server_id
     if (!serverId) {
-      ElMessage.error('服务器ID不存在')
+      HMessage.error('服务器ID不存在')
       return
     }
     
@@ -347,9 +351,9 @@ const updateUserConfig = async () => {
     })
     
     if (response.data.status_code === 200) {
-      ElMessage.success('用户配置保存成功')
+      HMessage.success('用户配置保存成功')
     } else {
-      ElMessage.error(response.data.status_message || '保存失败')
+      HMessage.error(response.data.status_message || '保存失败')
       return
     }
     
@@ -364,7 +368,7 @@ const updateUserConfig = async () => {
 const handleDelete = async (server: MCPServer) => {
   // 检查是否为官方服务器
   if (String(server.user_id) === '0') {
-    ElMessage.warning(`${server.server_name} MCP Server 为官方所有，不能删除`)
+    HMessage.warning(`${server.server_name} MCP Server 为官方所有，不能删除`)
     return
   }
   
@@ -389,15 +393,15 @@ const confirmDelete = async () => {
   try {
     const response = await deleteMCPServerAPI(deletingServer.value.mcp_server_id)
     if (response.data.status_code === 200) {
-      ElMessage.success('删除成功')
+      HMessage.success('删除成功')
       closeDeleteDialog()
       await fetchServers() // 刷新列表
     } else {
-      ElMessage.error(response.data.status_message || '删除失败')
+      HMessage.error(response.data.status_message || '删除失败')
     }
   } catch (error) {
     console.error('删除MCP服务器失败:', error)
-    ElMessage.error('删除失败')
+    HMessage.error('删除失败')
   } finally {
     formLoading.value = false
   }
@@ -556,13 +560,13 @@ const closeConfigDialog = () => {
 // 更新个人配置
 const handleConfigSubmit = async () => {
   if (!configuringServer.value) {
-    ElMessage.error('服务器信息缺失，请重试')
+    HMessage.error('服务器信息缺失，请重试')
     return
   }
   
   // 检查JSON是否有效
   if (!configStatus.valid) {
-    ElMessage.error(configStatus.message || 'JSON格式无效')
+    HMessage.error(configStatus.message || 'JSON格式无效')
     return
   }
   
@@ -576,7 +580,7 @@ const handleConfigSubmit = async () => {
     try {
       parsedUserConfig = JSON.parse(jsonContent.trim() || '[]')
     } catch (error) {
-      ElMessage.error('用户配置JSON格式错误: ' + (error as Error).message)
+      HMessage.error('用户配置JSON格式错误: ' + (error as Error).message)
       formLoading.value = false
       return
     }
@@ -594,15 +598,15 @@ const handleConfigSubmit = async () => {
     console.log('配置更新响应:', response)
     
     if (response.data.status_code === 200) {
-      ElMessage.success('个人配置更新成功')
+      HMessage.success('个人配置更新成功')
       closeConfigDialog()
       await fetchServers()
     } else {
-      ElMessage.error(response.data.status_message || '保存失败')
+      HMessage.error(response.data.status_message || '保存失败')
     }
   } catch (error) {
     console.error('配置更新失败:', error)
-    ElMessage.error('配置更新失败: ' + (error as Error).message)
+    HMessage.error('配置更新失败: ' + (error as Error).message)
   } finally {
     formLoading.value = false
   }
@@ -646,7 +650,7 @@ onMounted(async () => {
     await fetchServers()
   } catch (error) {
     console.error('MCP Server 页面初始化失败:', error)
-    ElMessage.error('页面初始化失败，请刷新重试')
+    HMessage.error('页面初始化失败，请刷新重试')
   }
 })
 
@@ -671,7 +675,7 @@ const saveUserConfig = async () => {
     
     // 验证JSON格式
     if (!configStatus.valid) {
-      ElMessage.error('配置格式错误，无法保存')
+      HMessage.error('配置格式错误，无法保存')
       return
     }
     
@@ -687,15 +691,15 @@ const saveUserConfig = async () => {
     // console.log('配置更新响应:', response)
     
     if (response.data.status_code === 200) {
-      ElMessage.success('配置保存成功')
+      HMessage.success('配置保存成功')
       configDialogVisible.value = false
       await fetchServers() // 刷新列表
     } else {
-      ElMessage.error(response.data.status_message || '保存配置失败')
+      HMessage.error(response.data.status_message || '保存配置失败')
     }
   } catch (error) {
     console.error('保存MCP用户配置失败:', error)
-    ElMessage.error('保存失败')
+    HMessage.error('保存失败')
   }
 }
 </script>
@@ -708,157 +712,142 @@ const saveUserConfig = async () => {
         <h2>MCP Server管理</h2>
       </div>
       <div class="header-actions">
-        <el-button type="primary" :icon="Plus" @click="handleCreate">
-          添加服务器
-        </el-button>
+        <HButton type="primary" @click="handleCreate">
+          ➕ 添加服务器
+        </HButton>
       </div>
     </div>
 
     <div class="server-list">
-      <el-table v-if="servers.length > 0" :data="servers || []" style="width: 100%">
-        <!-- 头像列 -->
-        <el-table-column label="头像" width="80" align="center">
-          <template #default="{ row }">
-            <div class="server-avatar">
-              <img 
-                :src="row.logo_url || '/src/assets/robot.svg'" 
-                :alt="row.server_name"
-                @error="handleImageError"
-              />
-            </div>
-          </template>
-        </el-table-column>
-        
-        <el-table-column prop="server_name" label="服务器名称" min-width="150" align="center">
-          <template #default="{ row }">
-            <div class="server-name" :class="{ 'official-server': String(row.user_id) === '0' }">
-              <span class="name">{{ row.server_name }}</span>
-              <el-tag v-if="String(row.user_id) === '0'" type="warning" size="small" class="official-tag">
-                官方
-              </el-tag>
-            </div>
-          </template>
-        </el-table-column>
-        
-        <!-- 创建用户列 -->
-        <el-table-column label="创建用户" width="110" align="center">
-          <template #default="{ row }">
-            <div class="user-info">
-              <el-tag size="small" type="info">{{ row.user_name }}</el-tag>
-            </div>
-          </template>
-        </el-table-column>
-        
-        <el-table-column prop="type" label="连接类型" width="110" align="center">
-          <template #default="{ row }">
-            <el-tag :type="row.type === 'sse' ? 'primary' : 'success'">
-              {{ row.type.toUpperCase() }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        
-        <!-- 可用工具数量列 -->
-        <el-table-column label="可用工具" width="140" align="center">
-          <template #default="{ row }">
-            <div class="tools-count">
-              <el-button 
-                type="primary" 
-                :icon="Tools"
-                size="small"
-                @click="viewTools(row)"
-                :disabled="!row.params || row.params.length === 0"
-                round
-              >
-                {{ row.params?.length || 0 }} 个工具
-              </el-button>
-            </div>
-          </template>
-        </el-table-column>
-        
-        <!-- 配置状态列 -->
-        <el-table-column label="配置状态" width="110" align="center">
-          <template #default="{ row }">
-            <div class="config-status">
-              <el-tag 
-                :type="row.config_enabled ? 'warning' : 'success'" 
-                size="small"
-                :class="{ 'clickable-tag': row.config_enabled }"
-                @click="row.config_enabled ? handleConfig(row) : null"
-                :title="row.config_enabled ? '点击配置个人参数' : '配置已完成'"
-              >
-                {{ row.config_enabled ? '需配置' : '已就绪' }}
-              </el-tag>
-            </div>
-          </template>
-        </el-table-column>
-        
-        <el-table-column label="创建时间" min-width="180" align="center">
-          <template #default="{ row }">
-            <div class="create-time">
-              <span>{{ new Date(row.create_time).toLocaleString() }}</span>
-            </div>
-          </template>
-        </el-table-column>
-        
-        <!-- 操作列 -->
-        <el-table-column label="操作" width="180" align="center">
-          <template #default="{ row }">
-            <div class="action-buttons">
-              <el-button 
-                v-if="String(row.user_id) !== '0'"
-                size="small" 
-                type="primary"
-                :icon="Edit"
-                @click="handleEdit(row)"
-                title="编辑"
-              >
-                编辑
-              </el-button>
-              <el-button 
-                v-else
-                size="small" 
-                type="info"
-                :icon="Edit"
-                disabled
-                :title="`${row.server_name} MCP Server 为官方所有，不能编辑`"
-              >
-                编辑
-              </el-button>
-              
-              <el-button 
-                v-if="String(row.user_id) !== '0'"
-                size="small" 
-                type="danger" 
-                :icon="Delete"
-                @click="handleDelete(row)"
-                title="删除"
-              >
-                删除
-              </el-button>
-              <el-button 
-                v-else
-                size="small" 
-                type="info" 
-                :icon="Delete"
-                disabled
-                :title="`${row.server_name} MCP Server 为官方所有，不能删除`"
-              >
-                删除
-              </el-button>
-            </div>
-          </template>
-        </el-table-column>
-      </el-table>
-      
+      <div v-if="servers.length > 0" class="server-table-wrapper">
+        <table class="server-table">
+          <thead>
+            <tr>
+              <th style="width:80px;text-align:center;">头像</th>
+              <th style="min-width:150px;text-align:center;">服务器名称</th>
+              <th style="width:110px;text-align:center;">创建用户</th>
+              <th style="width:110px;text-align:center;">连接类型</th>
+              <th style="width:140px;text-align:center;">可用工具</th>
+              <th style="width:110px;text-align:center;">配置状态</th>
+              <th style="min-width:180px;text-align:center;">创建时间</th>
+              <th style="width:180px;text-align:center;">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="row in servers" :key="row.mcp_server_id">
+              <td style="text-align:center;">
+                <div class="server-avatar">
+                  <img
+                    :src="row.logo_url || '/src/assets/robot.svg'"
+                    :alt="row.server_name"
+                    @error="handleImageError"
+                  />
+                </div>
+              </td>
+              <td style="text-align:center;">
+                <div class="server-name" :class="{ 'official-server': String(row.user_id) === '0' }">
+                  <span class="name">{{ row.server_name }}</span>
+                  <HTag v-if="String(row.user_id) === '0'" type="warning" class="official-tag">
+                    官方
+                  </HTag>
+                </div>
+              </td>
+              <td style="text-align:center;">
+                <div class="user-info">
+                  <HTag type="default">{{ row.user_name }}</HTag>
+                </div>
+              </td>
+              <td style="text-align:center;">
+                <HTag :type="row.type === 'sse' ? 'primary' : 'success'">
+                  {{ row.type.toUpperCase() }}
+                </HTag>
+              </td>
+              <td style="text-align:center;">
+                <div class="tools-count">
+                  <HButton
+                    type="primary"
+                    size="small"
+                    @click="viewTools(row)"
+                    :disabled="!row.params || row.params.length === 0"
+                    style="border-radius:20px;"
+                  >
+                    🔧 {{ row.params?.length || 0 }} 个工具
+                  </HButton>
+                </div>
+              </td>
+              <td style="text-align:center;">
+                <div class="config-status">
+                  <HTag
+                    :type="row.config_enabled ? 'warning' : 'success'"
+                    :class="{ 'clickable-tag': row.config_enabled }"
+                    @click="row.config_enabled ? handleConfig(row) : null"
+                    :title="row.config_enabled ? '点击配置个人参数' : '配置已完成'"
+                    style="cursor:pointer;"
+                  >
+                    {{ row.config_enabled ? '需配置' : '已就绪' }}
+                  </HTag>
+                </div>
+              </td>
+              <td style="text-align:center;">
+                <div class="create-time">
+                  <span>{{ new Date(row.create_time).toLocaleString() }}</span>
+                </div>
+              </td>
+              <td style="text-align:center;">
+                <div class="action-buttons">
+                  <HButton
+                    v-if="String(row.user_id) !== '0'"
+                    size="small"
+                    type="primary"
+                    @click="handleEdit(row)"
+                    title="编辑"
+                  >
+                    ✏️ 编辑
+                  </HButton>
+                  <HButton
+                    v-else
+                    size="small"
+                    type="secondary"
+                    disabled
+                    :title="`${row.server_name} MCP Server 为官方所有，不能编辑`"
+                  >
+                    ✏️ 编辑
+                  </HButton>
+
+                  <HButton
+                    v-if="String(row.user_id) !== '0'"
+                    size="small"
+                    type="danger"
+                    @click="handleDelete(row)"
+                    title="删除"
+                  >
+                    🗑️ 删除
+                  </HButton>
+                  <HButton
+                    v-else
+                    size="small"
+                    type="secondary"
+                    disabled
+                    :title="`${row.server_name} MCP Server 为官方所有，不能删除`"
+                  >
+                    🗑️ 删除
+                  </HButton>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <div v-if="servers.length === 0 && !loading" class="empty-state">
         <div class="empty-icon">
           <i class="empty-icon-symbol">📡</i>
         </div>
         <h3>暂无MCP服务</h3>
         <p>添加MCP服务器以增强智能体的能力</p>
-        <el-button type="primary" @click="handleCreate()" class="create-btn">
-          添加服务器
-        </el-button>
+        <HButton type="primary" @click="handleCreate()" class="create-btn">
+          ➕ 添加服务器
+        </HButton>
       </div>
     </div>
 
@@ -922,15 +911,8 @@ const saveUserConfig = async () => {
                         </svg>
                         Logo
                       </label>
-                      <el-upload
-                        class="logo-upload-square"
-                        action="/api/v1/upload"
-                        :show-file-list="false"
-                        :on-success="handleLogoUploadSuccess"
-                        :on-error="handleLogoUploadError"
-                        :before-upload="beforeLogoUpload"
-                        accept="image/*"
-                      >
+                      <div class="logo-upload-square" @click="$refs.logoFileInput?.click()" style="cursor:pointer;">
+                        <input ref="logoFileInput" type="file" accept="image/*" style="display:none;" @change="handleLogoUpload" />
                         <div v-if="formData.logo_url" class="logo-preview-square">
                           <img :src="formData.logo_url" alt="logo 预览" />
                           <div class="logo-overlay">
@@ -945,7 +927,7 @@ const saveUserConfig = async () => {
                           </svg>
                           <span v-else class="uploading-text">上传中...</span>
                         </div>
-                      </el-upload>
+                      </div>
                       <span v-if="formErrors.logo_url" class="error-text">{{ formErrors.logo_url }}</span>
                     </div>
 
@@ -1838,32 +1820,29 @@ const saveUserConfig = async () => {
     // 方形加号上传按钮样式
     .logo-upload-square {
       margin-left: 20px;
-      
-      :deep(.el-upload) {
-        width: 100px;
-        height: 100px;
-        border: 2px solid #409eff;
-        border-radius: 8px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        background: #ecf5ff;
-        display: block;
-        box-sizing: border-box;
-        
-        &:hover {
-          background: #409eff;
-          border-color: #409eff;
-          
-          .logo-upload-placeholder {
-            svg path {
-              stroke: white !important;
-            }
+      width: 100px;
+      height: 100px;
+      border: 2px solid #409eff;
+      border-radius: 8px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      background: #ecf5ff;
+      display: block;
+      box-sizing: border-box;
+
+      &:hover {
+        background: #409eff;
+        border-color: #409eff;
+
+        .logo-upload-placeholder {
+          svg path {
+            stroke: white !important;
           }
         }
       }
-      
+
       .logo-upload-placeholder {
         width: 100%;
         height: 100%;
@@ -1873,18 +1852,18 @@ const saveUserConfig = async () => {
         color: #409eff;
         transition: all 0.3s ease;
         background: transparent;
-        
+
         svg {
           width: 32px;
           height: 32px;
           display: block;
-          
+
           path {
             stroke: #409eff !important;
             stroke-width: 2.5;
           }
         }
-        
+
         &.uploading {
           .uploading-text {
             font-size: 12px;
@@ -1893,14 +1872,12 @@ const saveUserConfig = async () => {
           }
         }
       }
-      
-      :deep(.el-upload:hover) {
-        .logo-upload-placeholder {
-          color: white;
-          
-          svg path {
-            stroke: white !important;
-          }
+
+      &:hover .logo-upload-placeholder {
+        color: white;
+
+        svg path {
+          stroke: white !important;
         }
       }
       
@@ -2378,7 +2355,7 @@ const saveUserConfig = async () => {
     }
     
     .header-actions {
-      .el-button {
+      .h-button {
         font-weight: 600;
         letter-spacing: 0.025em;
         border-radius: 12px;
@@ -2401,11 +2378,17 @@ const saveUserConfig = async () => {
     border: 1px solid rgba(255, 255, 255, 0.2);
     overflow: auto;
     
-    :deep(.el-table) {
+    :deep(.server-table-wrapper) {
       border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .server-table {
+      width: 100%;
+      border-collapse: collapse;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      
-      .el-table__header {
+
+      thead {
         th {
           background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
           color: #374151;
@@ -2415,36 +2398,27 @@ const saveUserConfig = async () => {
           border-bottom: 2px solid #e2e8f0;
           letter-spacing: 0.025em;
           text-transform: uppercase;
-          
-          .cell {
-            color: #4b5563;
-            font-weight: 700;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          }
         }
       }
-      
-      .el-table__body {
+
+      tbody {
         tr {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          
+
           &:hover {
             background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
           }
-          
+
           td {
             padding: 20px 12px;
             border-bottom: 1px solid #f1f5f9;
             font-size: 14px;
             font-weight: 500;
             color: #374151;
-            
-            .cell {
-              font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-              line-height: 1.5;
-            }
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
           }
         }
       }
@@ -2506,7 +2480,7 @@ const saveUserConfig = async () => {
       justify-content: center;
       align-items: center;
       
-      .el-tag {
+      .h-tag {
         font-weight: 600;
         letter-spacing: 0.025em;
         border-radius: 8px;
@@ -2543,7 +2517,7 @@ const saveUserConfig = async () => {
       display: flex;
       justify-content: center;
       
-      .el-tag {
+      .h-tag {
         font-size: 12px;
         padding: 6px 12px;
         font-weight: 600;
@@ -2553,14 +2527,14 @@ const saveUserConfig = async () => {
     }
     
     .tools-count {
-      .el-button {
+      .h-button {
         font-size: 12px;
         padding: 8px 14px;
         font-weight: 600;
         letter-spacing: 0.025em;
         border-radius: 8px;
         transition: all 0.3s ease;
-        
+
         &:hover {
           transform: translateY(-1px);
           box-shadow: 0 4px 12px rgba(64, 158, 255, 0.25);
@@ -2581,74 +2555,19 @@ const saveUserConfig = async () => {
       justify-content: center;
       align-items: center;
       
-      .el-button {
+      .h-button {
         padding: 8px 16px;
         font-size: 13px;
         font-weight: 600;
         border-radius: 8px;
         transition: all 0.3s ease;
-        
+
         &:hover {
           transform: translateY(-1px);
         }
       }
     }
-    
-    :deep(.el-table__fixed-right) {
-      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.06);
-    }
-    
-    :deep(.el-table__body) {
-      .el-button {
-        &.el-button--small {
-          padding: 10px 18px;
-          font-size: 13px;
-          font-weight: 600;
-          letter-spacing: 0.025em;
-          min-width: 70px;
-          border-radius: 10px;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          
-          &:hover {
-            transform: translateY(-2px);
-          }
-          
-          &.el-button--primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            border: none;
-            
-            &:hover {
-              background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-              box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
-            }
-          }
-          
-          &.el-button--danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            border: none;
-            
-            &:hover {
-              background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-              box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
-            }
-          }
-          
-          &.el-button--info {
-            background: #e5e7eb;
-            color: #9ca3af;
-            border: none;
-            cursor: not-allowed;
-            
-            &:hover {
-              transform: none;
-              background: #e5e7eb;
-            }
-          }
-        }
-      }
-    }
-    
+
         .empty-state {
       text-align: center;
       padding: 80px 20px;
@@ -2660,29 +2579,6 @@ const saveUserConfig = async () => {
         font-weight: 500;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         letter-spacing: -0.01em;
-      }
-    }
-
-    // Element UI 按钮样式覆盖
-    :deep(.el-button) {
-      font-size: 12px;
-      padding: 8px 15px;
-      border-radius: 6px;
-      height: auto;
-      line-height: 1.2;
-      
-      &.el-button--small {
-        min-width: 60px;
-        
-        &.el-button--primary {
-          background-color: #409eff;
-          border-color: #409eff;
-        }
-        
-        &.el-button--danger {
-          background-color: #f56c6c;
-          border-color: #f56c6c;
-        }
       }
     }
   }
@@ -3077,7 +2973,7 @@ const saveUserConfig = async () => {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--el-bg-color);
+  background: var(--color-bg-secondary);
 }
 
 .page-header {
@@ -3086,7 +2982,7 @@ const saveUserConfig = async () => {
   align-items: center;
   padding: 20px 24px;
   background: white;
-  border-bottom: 1px solid var(--el-border-color);
+  border-bottom: 1px solid var(--color-border);
   
   .header-title {
     display: flex;
@@ -3102,7 +2998,7 @@ const saveUserConfig = async () => {
       margin: 0;
       font-size: 20px;
       font-weight: 600;
-      color: var(--el-text-color-primary);
+      color: var(--color-text-primary);
     }
   }
   
@@ -3123,7 +3019,7 @@ const saveUserConfig = async () => {
     align-items: center;
     justify-content: center;
     height: 100%;
-    color: var(--el-text-color-secondary);
+    color: var(--color-text-secondary);
     
     .empty-icon {
       font-size: 64px;
@@ -3157,7 +3053,7 @@ const saveUserConfig = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--el-fill-color-light);
+  background: var(--color-bg-tertiary);
   
   img {
     width: 100%;
@@ -3177,7 +3073,7 @@ const saveUserConfig = async () => {
   
   &.official-server {
     .name {
-      color: var(--el-color-warning);
+      color: var(--color-warning);
     }
   }
 }
@@ -3196,7 +3092,7 @@ const saveUserConfig = async () => {
 
 .create-time {
   font-size: 13px;
-  color: var(--el-text-color-secondary);
+  color: var(--color-text-secondary);
 }
 
 .action-buttons {
