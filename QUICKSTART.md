@@ -63,7 +63,7 @@ chmod +x stop-dev.sh
 
 ## ⚙️ 配置文件
 
-**位置**：`src/backend/agentchat/config.yaml`
+**位置**：`src/backend/kirinchat/config.yaml`
 
 **必需配置**：
 ```yaml
@@ -206,7 +206,7 @@ KirinChat/
 │   └── docker-compose-dev.yml  # Docker 配置
 └── src/
     ├── backend/
-    │   └── agentchat/
+    │   └── kirinchat/
     │       ├── config-dev.yaml  # 配置模板
     │       └── config.yaml      # 实际配置（需创建）
     └── frontend/

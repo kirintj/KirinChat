@@ -26,7 +26,7 @@
 
 ```bash
 # 0️⃣ 配置应用（必须先完成！）
-vim src/backend/agentchat/config.yaml
+vim src/backend/kirinchat/config.yaml
 # 修改数据库连接、API密钥等配置
 
 # 1️⃣ 进入docker目录
@@ -273,10 +273,10 @@ docker-compose up -d mysql
 
 ```bash
 # 检查配置文件
-cat ../src/backend/agentchat/config.yaml
+cat ../src/backend/kirinchat/config.yaml
 
 # 修改配置文件
-vim ../src/backend/agentchat/config.yaml
+vim ../src/backend/kirinchat/config.yaml
 
 # 重启后端服务使配置生效
 docker-compose restart backend

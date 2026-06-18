@@ -72,7 +72,7 @@ chmod +x stop-dev.sh
 
 ### 1. 配置 API 密钥
 
-编辑 `src/backend/agentchat/config.yaml`（首次运行会自动从 `config-dev.yaml` 复制）：
+编辑 `src/backend/kirinchat/config.yaml`（首次运行会自动从 `config-dev.yaml` 复制）：
 
 ```yaml
 # 必须配置
@@ -146,7 +146,7 @@ KirinChat/
 │   └── mysql/init/            # MySQL 初始化脚本
 ├── src/
 │   ├── backend/
-│   │   └── agentchat/
+│   │   └── kirinchat/
 │   │       ├── config-dev.yaml  # 开发配置模板
 │   │       └── config.yaml      # 实际配置（需创建）
 │   └── frontend/

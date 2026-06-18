@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 chcp 65001 >nul 2>&1
 
 REM KirinChat 统一启动脚本
-REM 用法: agentchat.bat <command> [options]
+REM 用法: kirinchat.bat <command> [options]
 
 if "%~1"=="" goto :help
 if "%~1"=="help" goto :help
@@ -17,7 +17,7 @@ if "%~1"=="clean" goto :clean
 if "%~1"=="build" goto :build
 
 echo [ERROR] 未知命令: %~1
-echo 运行 agentchat.bat help 查看可用命令
+echo 运行 kirinchat.bat help 查看可用命令
 exit /b 2
 
 REM ─── help ──────────────────────────────────────────────
@@ -26,7 +26,7 @@ echo.
 echo   KirinChat 统一启动脚本
 echo   ─────────────────────────────────────
 echo.
-echo   用法: agentchat.bat ^<command^> [options]
+echo   用法: kirinchat.bat ^<command^> [options]
 echo.
 echo   命令:
 echo     up [options]      启动服务
@@ -41,10 +41,10 @@ echo     build             重新构建 Docker 镜像
 echo     help              显示本帮助信息
 echo.
 echo   示例:
-echo     agentchat.bat up                 启动全部服务
-echo     agentchat.bat up --backend-only  只启动后端
-echo     agentchat.bat down               停止所有服务
-echo     agentchat.bat logs backend       查看后端日志
+echo     kirinchat.bat up                 启动全部服务
+echo     kirinchat.bat up --backend-only  只启动后端
+echo     kirinchat.bat down               停止所有服务
+echo     kirinchat.bat logs backend       查看后端日志
 echo.
 goto :eof
 
@@ -117,7 +117,7 @@ echo   API文档:     http://localhost:7860/docs
 echo   MinIO控制台: http://localhost:9001
 echo.
 echo   关闭后端和前端窗口停止服务
-echo   或运行 agentchat.bat down
+echo   或运行 kirinchat.bat down
 echo.
 pause
 goto :eof
@@ -161,7 +161,7 @@ echo.
 echo ✅ 所有服务已停止
 echo.
 echo   数据已保留在 Docker 卷中
-echo   完全清理数据: agentchat.bat clean
+echo   完全清理数据: kirinchat.bat clean
 echo.
 pause
 goto :eof

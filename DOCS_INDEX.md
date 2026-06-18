@@ -33,8 +33,8 @@
 ## 💻 源代码
 
 ### 后端
-- **[src/backend/agentchat/main.py](src/backend/agentchat/main.py)** - 后端入口
-- **[src/backend/agentchat/config-dev.yaml](src/backend/agentchat/config-dev.yaml)** - 配置模板
+- **[src/backend/kirinchat/main.py](src/backend/kirinchat/main.py)** - 后端入口
+- **[src/backend/kirinchat/config-dev.yaml](src/backend/kirinchat/config-dev.yaml)** - 配置模板
 - **[src/backend/requirements.txt](src/backend/requirements.txt)** - Python 依赖
 
 ### 前端
@@ -42,7 +42,7 @@
 
 ## 📝 配置文件
 
-- **[src/backend/agentchat/config.yaml](src/backend/agentchat/config.yaml)** - 实际配置（需创建）
+- **[src/backend/kirinchat/config.yaml](src/backend/kirinchat/config.yaml)** - 实际配置（需创建）
   - 数据库连接
   - AI 模型 API 密钥
   - 工具配置

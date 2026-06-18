@@ -24,7 +24,7 @@ KirinChat 后端采用 FastAPI 异步框架构建，基于 Python 3.12+，支持
 ## 项目结构
 
 ```
-agentchat/
+kirinchat/
 ├── main.py              # FastAPI 应用入口
 ├── settings.py          # 配置加载（YAML → Pydantic）
 ├── config.yaml          # 统一配置文件
@@ -276,7 +276,7 @@ python scripts/fix_fastapi_jwt_auth.py
 
 ```bash
 cd src/backend
-uvicorn agentchat.main:app --port 7860 --host 0.0.0.0
+uvicorn kirinchat.main:app --port 7860 --host 0.0.0.0
 ```
 
 ### 6. 访问 API 文档
