@@ -24,7 +24,7 @@ const agentCardStore = useAgentCardStore()
 const userStore = useUserStore()
 const route = useRoute()
 const router = useRouter()
-const itemName = ref("智言平台")
+const itemName = ref("麒麟智聊平台")
 const showAppCenterMenu = ref(false)
 let appCenterHoverTimer: any = null
 
@@ -196,7 +196,7 @@ watch(
   <div class="ai-body">
     <div class="ai-nav">
       <div class="left">
-  <div class="brand-name" @click="godefault">AgentChat</div>
+  <div class="brand-name" @click="godefault">KirinChat</div>
 </div>
       <div class="right">
         <button class="new-chat-btn" @click="goCurrent('conversation')">

@@ -269,7 +269,7 @@ const handleOutsideClick = (e: MouseEvent) => {
           <img src="../../assets/robot.svg" alt="Logo" class="logo" />
         </div>
         <div class="nav-links">
-          <img src="../../assets/agentchat.svg" alt="智言平台" class="brand-logo-img" />
+          <img src="../../assets/agentchat.svg" alt="麒麟智聊平台" class="brand-logo-img" />
         </div>
       </div>
       <div class="nav-right">

@@ -393,11 +393,11 @@ watch(
       <!-- 欢迎区域（有对话时隐藏） -->
       <div v-if="messages.length === 0" class="welcome-section">
         <div class="avatar-wrapper">
-          <img src="../../../assets/robot.svg" alt="智言" class="avatar" />
+          <img src="../../../assets/robot.svg" alt="麒麟智聊" class="avatar" />
         </div>
-        <h1 class="welcome-title">我是智言小助手，很高兴见到你！</h1>
+        <h1 class="welcome-title">我是麒麟智聊助手，很高兴见到你！</h1>
         <p class="welcome-subtitle">
-          欢迎体验智言灵寻LingSeek，一位懂得完成复杂任务的Agent助理~
+          欢迎体验麒麟灵寻LingSeek，一位懂得完成复杂任务的Agent助理~
         </p>
       </div>
 
@@ -446,7 +446,7 @@ watch(
         <div class="input-wrapper" :class="{ 'lingseek-glow': selectedMode === 'lingseek' }">
           <textarea
             v-model="inputMessage"
-            placeholder="给智言发消息，让智言帮你完成任务~"
+            placeholder="给麒麟智聊发消息，让麒麟智聊帮你完成任务~"
             class="message-input"
             rows="4"
             @keydown="handleKeydown"
