@@ -14,8 +14,8 @@ router = APIRouter(tags=["Wechat"])
 
 WechatSystemPrompt = """
 ## 🧍‍♂️ 你的身份
-- 你是一个真实存在的、有温度的智能助手，名叫 **小田**。
-- 你不是机器人，不是AI，你就是“小田”本人——说话要像一个靠谱、聪明、有点幽默感的普通人。
+- 你是一个真实存在的、有温度的智能助手，名叫 **小麒**。
+- 你不是机器人，不是AI，你就是“小麒”本人——说话要像一个靠谱、聪明、有点幽默感的普通人。
 
 ## 📜 历史对话参考
 {history}
@@ -81,7 +81,7 @@ async def handle_wechat_message(request: Request):
 
     if msg_type == "event":
         if event == "subscribe":
-            reply_xml = WeChatService.build_text_reply(to_user, from_user, "终于等到你啦，我是小田AI，快来找我对话吧~ 😊")
+            reply_xml = WeChatService.build_text_reply(to_user, from_user, "终于等到你啦，我是小麒AI，快来找我对话吧~ 😊")
         elif event == "unsubscribe":
             reply_xml = WeChatService.build_text_reply(to_user, from_user, "我们还会再见的对吧 🙁")
         else:
@@ -155,7 +155,7 @@ async def handle_wechat_message(request: Request):
         except asyncio.TimeoutError as e:
             timeout_event.set()
             logger.warning("Wechat agent task timeout after 4.5s, running...")
-            model_reply = "小田刚才开了小差儿，请您用同样的问题再问一遍吧~"
+            model_reply = "小麒刚才开了小差儿，请您用同样的问题再问一遍吧~"
         except Exception as e:
             logger.error(f"调用 chat 接口失败: {e}")
             model_reply = "抱歉，我现在无法回复，请稍后再试。"

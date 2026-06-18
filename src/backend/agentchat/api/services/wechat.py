@@ -88,7 +88,7 @@ class WeChatService:
                 media_id = cls.push_user_image()
                 return cls.build_image_reply(to_user, from_user, media_id)
             case key if "微信账号" in key:
-                return cls.build_text_reply(to_user, from_user, f"您的微信账号为：{from_user}, 可在www.agentchat.cloud网站中使用微信账号注册查看您的聊天记录")
+                return cls.build_text_reply(to_user, from_user, f"您的微信账号为：{from_user}, 可在网站中使用微信账号注册查看您的聊天记录")
             case _:
                 return None
 
