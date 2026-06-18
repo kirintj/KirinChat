@@ -1,4 +1,4 @@
-# AgentChat 本地开发环境指南
+# KirinChat 本地开发环境指南
 
 ## 🎯 开发架构
 
@@ -140,7 +140,7 @@ redis-cli -h localhost -p 6379
 ## 📂 文件结构
 
 ```
-AgentChat/
+KirinChat/
 ├── docker/
 │   ├── docker-compose-dev.yml  # 本地开发用
 │   └── mysql/init/            # MySQL 初始化脚本

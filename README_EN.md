@@ -16,11 +16,11 @@
 </p>
 
 <p align="center">
-  <a href="https://shy2593666979.github.io/agentchat-docs/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8.html">Quick Start</a> •
-  <a href="https://shy2593666979.github.io/agentchat-docs/%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html">Deployment Guide</a> •
-  <a href="https://shy2593666979.github.io/agentchat-docs/">Documentation</a> •
-  <a href="https://agentchat.cloud">Live Demo</a> •
-  <a href="https://github.com/Shy2593666979/agentchat-docs/blob/main/images/README.md">Join WeChat Group</a>
+  <a href="https://kirintj.github.io/kirinchat-docs/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8.html">Quick Start</a> •
+  <a href="https://kirintj.github.io/kirinchat-docs/%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html">Deployment Guide</a> •
+  <a href="https://kirintj.github.io/kirinchat-docs/">Documentation</a> •
+  <a href="https://YOUR_DEMO_URL">Live Demo</a> •
+  <a href="https://github.com/kirintj/kirinchat-docs/blob/main/images/README.md">Join WeChat Group</a>
 </p>
 
 </div>
@@ -58,7 +58,7 @@ Now supports both OSS and MinIO as object storage options. Reference: [Install M
 - @shenmi888
 
 ### 2. Optimized Docker Deployment
-(1) Fixed the network connectivity issue where agentchat-frontend could not reach agentchat-backend in previous Docker deployments.
+(1) Fixed the network connectivity issue where kirinchat-frontend could not reach kirinchat-backend in previous Docker deployments.
 (2) Added a one-click deployment script for Windows (start_win.bat).
 
 ### 3. Custom Tool Support
@@ -90,7 +90,7 @@ The system settings page was blank in previous versions. This has been fixed.
 
 ## 1. Project Overview
 
-AgentChat is a modern intelligent conversation system built on large language models, offering rich AI conversation capabilities. The system adopts a frontend-backend separated architecture and supports multiple AI models, knowledge base retrieval, tool calling, MCP server integration, and other advanced features.
+KirinChat is a modern intelligent conversation system built on large language models, offering rich AI conversation capabilities. The system adopts a frontend-backend separated architecture and supports multiple AI models, knowledge base retrieval, tool calling, MCP server integration, and other advanced features.
 
 <div align="center">
 <img width="800" height="400" src="https://github.com/user-attachments/assets/f35e8a9a-0905-46a2-a167-a3c8e876760a" />
@@ -166,7 +166,7 @@ The platform supports multi-turn tool calling for agents (Tool C depends on the 
 
 ## 3. Important Version Notes
 
-Starting from AgentChat v2.2.0, LangChain has been upgraded to version 1.0.
+Starting from KirinChat v2.2.0, LangChain has been upgraded to version 1.0.
 
 <div align="center">
 
@@ -221,8 +221,8 @@ Starting from AgentChat v2.2.0, LangChain has been upgraded to version 1.0.
 
 ```bash
 # 1. Clone the project
-git clone https://github.com/Shy2593666979/AgentChat.git
-cd AgentChat
+git clone https://github.com/kirintj/KirinChat.git
+cd KirinChat
 
 # 2. Edit the configuration file
 vim docker/docker_config.yaml
@@ -236,9 +236,9 @@ docker-compose up --build -d
 
 Clone the project
 ```bash
-git clone https://github.com/Shy2593666979/AgentChat.git
+git clone https://github.com/kirintj/KirinChat.git
 
-cd AgentChat
+cd KirinChat
 ```
 
 Start the backend service
@@ -272,7 +272,7 @@ The system supports configuration of multiple vector databases (Milvus/ChromaDB)
 
 ## 8. Documentation
 
-- API Documentation: [AgentChat Document](docs/reference/agentchat.md)
+- API Documentation: [KirinChat Document](docs/reference/agentchat.md)
 - Development Guide: Start the backend and visit /docs to view the Swagger documentation.
 
 ---
@@ -285,34 +285,34 @@ This project is licensed under the **[MIT License](LICENSE)**
 
 ---
 
-## 10. Thank You for Supporting AgentChat
+## 10. Thank You for Supporting KirinChat
 
 <div align="center">
 
-## Thank You for Supporting AgentChat!
+## Thank You for Supporting KirinChat!
 
 ### If this project has been helpful to you, please give us a Star
 
 *Help more people discover this project and build the future of AI together!*
 
-*Made with love by the AgentChat Author MingGuang Tian*
+*Made with love by the KirinChat Author kirin*
 
 <picture>
   <source
     media="(prefers-color-scheme: dark)"
     srcset="
-      https://api.star-history.com/svg?repos=Shy2593666979/AgentChat&type=Date&theme=dark
+      https://api.star-history.com/svg?repos=kirintj/KirinChat&type=Date&theme=dark
     "
   />
   <source
     media="(prefers-color-scheme: light)"
     srcset="
-      https://api.star-history.com/svg?repos=Shy2593666979/AgentChat&type=Date
+      https://api.star-history.com/svg?repos=kirintj/KirinChat&type=Date
     "
   />
   <img
     alt="Star History Chart"
-    src="https://api.star-history.com/svg?repos=Shy2593666979/AgentChat&type=Date"
+    src="https://api.star-history.com/svg?repos=kirintj/KirinChat&type=Date"
   />
 </picture>
 

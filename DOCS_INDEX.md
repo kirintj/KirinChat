@@ -1,4 +1,4 @@
-# 📚 AgentChat 文档索引
+# 📚 KirinChat 文档索引
 
 ## 🚀 快速开始
 

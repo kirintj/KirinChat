@@ -1,8 +1,8 @@
-# AgentChat 后端技术文档
+# KirinChat 后端技术文档
 
 ## 技术架构
 
-AgentChat 后端采用 FastAPI 异步框架构建，基于 Python 3.12+，支持多 Agent 协作、知识库检索（RAG）、工具调用和 MCP 协议集成。
+KirinChat 后端采用 FastAPI 异步框架构建，基于 Python 3.12+，支持多 Agent 协作、知识库检索（RAG）、工具调用和 MCP 协议集成。
 
 ### 核心技术栈
 
@@ -171,15 +171,15 @@ server:
   env: "dev"           # prod / test / dev
   host: "127.0.0.1"
   port: 7860
-  name: "AgentChat"
+  name: "KirinChat"
   version: "2.5.0"
 ```
 
 ### 数据库配置
 ```yaml
 mysql:
-  endpoint: "mysql+pymysql://root:password@localhost:3306/agentchat"
-  async_endpoint: "mysql+aiomysql://root:password@localhost:3306/agentchat"
+  endpoint: "mysql+pymysql://root:password@localhost:3306/kirinchat"
+  async_endpoint: "mysql+aiomysql://root:password@localhost:3306/kirinchat"
 
 redis:
   endpoint: "redis://localhost:6379"
@@ -222,12 +222,12 @@ storage:
     endpoint: "localhost:9000"
     access_key_id: "minioadmin"
     access_key_secret: "minioadmin"
-    bucket_name: "agentchat"
+    bucket_name: "kirinchat"
   oss:
     endpoint: "oss-cn-hangzhou.aliyuncs.com"
     access_key_id: "your-access-key"
     access_key_secret: "your-secret-key"
-    bucket_name: "agentchat"
+    bucket_name: "kirinchat"
 ```
 
 ### 工具配置

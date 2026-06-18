@@ -1,4 +1,4 @@
-# 🚀 AgentChat 本地开发 - 快速参考
+# 🚀 KirinChat 本地开发 - 快速参考
 
 ## ⚡ 一键启动
 
@@ -196,7 +196,7 @@ npm install
 ## 📂 重要文件
 
 ```
-AgentChat/
+KirinChat/
 ├── start-all.bat/sh          # 一键启动（推荐）
 ├── start-dev.bat/sh          # 启动 Docker + 后端
 ├── start-frontend.bat/sh     # 启动前端

@@ -17,11 +17,11 @@
 </p>
 
 <p align="center">
-  <a href="https://shy2593666979.github.io/agentchat-docs/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8.html">快速开始</a> •
-  <a href="https://shy2593666979.github.io/agentchat-docs/%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html">部署指南</a> •
-  <a href="https://shy2593666979.github.io/agentchat-docs/">在线文档</a> •
-  <a href="https://agentchat.cloud">在线体验</a> •
-  <a href="https://github.com/Shy2593666979/agentchat-docs/blob/main/images/README.md">加入微信交流群🌟</a>
+  <a href="https://kirintj.github.io/kirinchat-docs/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8.html">快速开始</a> •
+  <a href="https://kirintj.github.io/kirinchat-docs/%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html">部署指南</a> •
+  <a href="https://kirintj.github.io/kirinchat-docs/">在线文档</a> •
+  <a href="https://YOUR_DEMO_URL">在线体验</a> •
+  <a href="https://github.com/kirintj/kirinchat-docs/blob/main/images/README.md">加入微信交流群🌟</a>
 </p>
 
 </div>
@@ -59,7 +59,7 @@
 - @shenmi888
 
 ### 2. 优化Docker直接部署项目
-(1) 前版本docker部署经常会出现 agentchat-frontend 连不上 agentchat-backend 的网络失败情况，已经修复该bug
+(1) 前版本docker部署经常会出现 kirinchat-frontend 连不上 kirinchat-backend 的网络失败情况，已经修复该bug
 (2) 缺少Win系统下的一键部署脚本，目前已经加上 (start_win.bat)
 
 ### 3. 支持自定义工具
@@ -91,7 +91,7 @@
 
 ## 一、项目简介
 
-AgentChat 是一个现代化的智能对话系统，基于大语言模型构建，提供了丰富的AI对话功能。系统采用前后端分离架构，支持多种AI模型、知识库检索、工具调用、MCP服务器集成等高级功能。
+KirinChat 是一个现代化的智能对话系统，基于大语言模型构建，提供了丰富的AI对话功能。系统采用前后端分离架构，支持多种AI模型、知识库检索、工具调用、MCP服务器集成等高级功能。
 
 <div align="center">
 <img width="800" height="400" src="https://github.com/user-attachments/assets/f35e8a9a-0905-46a2-a167-a3c8e876760a" />
@@ -166,7 +166,7 @@ AI驱动的图像生成服务
 
 ## 三、重要版本说明
 
-从 AgentChat v2.2.0 版本开始，LangChain 已升级至 1.0 版本。
+从 KirinChat v2.2.0 版本开始，LangChain 已升级至 1.0 版本。
 
 <div align="center">
 
@@ -221,8 +221,8 @@ AI驱动的图像生成服务
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/Shy2593666979/AgentChat.git
-cd AgentChat
+git clone https://github.com/kirintj/KirinChat.git
+cd KirinChat
 
 # 2. 编辑配置文件
 vim docker/docker_config.yaml
@@ -236,9 +236,9 @@ docker-compose up --build -d
 
 克隆项目
 ```bash
-git clone https://github.com/Shy2593666979/AgentChat.git
+git clone https://github.com/kirintj/KirinChat.git
 
-cd AgentChat
+cd KirinChat
 ```
 
 
@@ -273,7 +273,7 @@ npm run dev
 
 ## 八、文档
 
-  - API文档: [AgentChat Document](https://www.google.com/search?q=docs/reference/agentchat.md)
+  - API文档: [KirinChat Document](https://www.google.com/search?q=docs/reference/agentchat.md)
   - 开发指南: 启动后端后访问 /docs 查看 Swagger 文档。
 
 -----
@@ -288,35 +288,35 @@ npm run dev
 -----
 
 
-## 十、感谢支持 AgentChat
+## 十、感谢支持 KirinChat
 
 <div align="center">
 
-## 🌟 **感谢支持 AgentChat！**
+## 🌟 **感谢支持 KirinChat！**
 
 ### 如果这个项目对你有帮助，请给我们一个 ⭐️
 
 *让更多的人发现这个项目，一起构建AI的未来！*
 
-*Made with ❤ by the AgentChat Author MingGuang Tian*
+*Made with ❤ by the KirinChat Author kirin*
 
 
 <picture>
   <source
     media="(prefers-color-scheme: dark)"
     srcset="
-      https://api.star-history.com/svg?repos=Shy2593666979/AgentChat&type=Date&theme=dark
+      https://api.star-history.com/svg?repos=kirintj/KirinChat&type=Date&theme=dark
     "
   />
   <source
     media="(prefers-color-scheme: light)"
     srcset="
-      https://api.star-history.com/svg?repos=Shy2593666979/AgentChat&type=Date
+      https://api.star-history.com/svg?repos=kirintj/KirinChat&type=Date
     "
   />
   <img
     alt="Star History Chart"
-    src="https://api.star-history.com/svg?repos=Shy2593666979/AgentChat&type=Date"
+    src="https://api.star-history.com/svg?repos=kirintj/KirinChat&type=Date"
   />
 </picture>
 
