@@ -79,7 +79,7 @@ class StorageConfig(BaseModel):
         return self.oss if self.mode == "oss" else self.minio
 
 class ServerConfig(BaseModel):
-    name: str = "AgentChat"
+    name: str = "KirinChat"
     version: str = "2.5.0"
     host: str = "127.0.0.1"
     port: int = 7860

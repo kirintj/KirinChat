@@ -5,13 +5,13 @@ server:
   env: "dev"
   host: "127.0.0.1"
   port: 7860
-  name: "AgentChat"
+  name: "KirinChat"
   version: "2.5.0"
 
 # 数据库配置（指向 Docker 容器）
 mysql:
-  endpoint: "mysql+pymysql://root:123456@localhost:3306/agentchat"
-  async_endpoint: "mysql+aiomysql://root:123456@localhost:3306/agentchat"
+  endpoint: "mysql+pymysql://root:123456@localhost:3306/kirinchat"
+  async_endpoint: "mysql+aiomysql://root:123456@localhost:3306/kirinchat"
 
 redis:
   endpoint: "redis://localhost:6379"
@@ -113,7 +113,7 @@ wechat_config:
 
 # Langfuse 配置（可选）
 langfuse:
-  trace_name: "agentchat"
+  trace_name: "kirinchat"
   host: "https://cloud.langfuse.com"
   public_key: "你的Langfuse公钥"
   secret_key: "你的Langfuse私钥"
