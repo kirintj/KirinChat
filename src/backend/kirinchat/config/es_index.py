@@ -1,4 +1,4 @@
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 
 
 class ESIndex:

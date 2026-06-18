@@ -12,9 +12,9 @@ from langchain_core.outputs import ChatResult, ChatGeneration, ChatGenerationChu
 from langchain_core.callbacks import CallbackManagerForLLMRun, AsyncCallbackManagerForLLMRun
 from typing import Any, List, Optional, Iterator, AsyncIterator, Dict, Union, Sequence, Callable, Literal
 
-from agentchat.utils.contexts import get_user_id_context, get_agent_name_context
-from agentchat.utils.convert import convert_langchain_tool_calls
-from agentchat.api.services.usage_stats import UsageStatsService
+from kirinchat.utils.contexts import get_user_id_context, get_agent_name_context
+from kirinchat.utils.convert import convert_langchain_tool_calls
+from kirinchat.api.services.usage_stats import UsageStatsService
 
 
 class ChatModelWithTokenUsage(BaseChatModel):

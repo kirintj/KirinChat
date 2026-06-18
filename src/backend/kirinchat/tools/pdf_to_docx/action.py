@@ -3,9 +3,9 @@ import tempfile
 from pdf2docx import Converter
 from langchain.tools import tool
 
-from agentchat.services.storage import storage_client
-from agentchat.utils.file_utils import get_object_name_from_aliyun_url, get_save_tempfile
-from agentchat.utils.helpers import get_now_beijing_time
+from kirinchat.services.storage import storage_client
+from kirinchat.utils.file_utils import get_object_name_from_aliyun_url, get_save_tempfile
+from kirinchat.utils.helpers import get_now_beijing_time
 
 
 @tool("pdf_to_docx", parse_docstring=True)

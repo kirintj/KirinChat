@@ -2,7 +2,7 @@ import pickle
 import redis
 from loguru import logger
 from typing import Optional
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 from redis import ConnectionPool, RedisCluster
 from redis.backoff import ExponentialBackoff
 from redis.cluster import ClusterNode

@@ -1,11 +1,11 @@
 from loguru import logger
 from typing import Optional
-from agentchat.services.rag.retrieval import MixRetrival
-from agentchat.services.rewrite.query_write import query_rewriter
-from agentchat.services.rag.es_client import client as es_client
-from agentchat.services.rag.vector_stores import milvus_client
-from agentchat.services.rag.rerank import Reranker
-from agentchat.settings import app_settings
+from kirinchat.services.rag.retrieval import MixRetrival
+from kirinchat.services.rewrite.query_write import query_rewriter
+from kirinchat.services.rag.es_client import client as es_client
+from kirinchat.services.rag.vector_stores import milvus_client
+from kirinchat.services.rag.rerank import Reranker
+from kirinchat.settings import app_settings
 
 class RagHandler:
 

@@ -1,17 +1,17 @@
 import os
 import asyncio
 
-from agentchat.services.rag.doc_parser.excel import excel_to_txt
-from agentchat.services.rag.doc_parser.image import image_to_txt
-from agentchat.services.rag.doc_parser.other_file import other_file_to_txt
-from agentchat.services.rag.doc_parser.pptx import pptx_parser
-from agentchat.core.models.manager import ModelManager
-from agentchat.services.rag.doc_parser.docx import docx_parser
-from agentchat.services.rag.doc_parser.pdf import pdf_parser
-from agentchat.services.rag.doc_parser.text import text_parser
-from agentchat.services.rag.doc_parser.markdown import markdown_parser
-from agentchat.schemas.chunk import ChunkModel
-from agentchat.settings import app_settings
+from kirinchat.services.rag.doc_parser.excel import excel_to_txt
+from kirinchat.services.rag.doc_parser.image import image_to_txt
+from kirinchat.services.rag.doc_parser.other_file import other_file_to_txt
+from kirinchat.services.rag.doc_parser.pptx import pptx_parser
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.services.rag.doc_parser.docx import docx_parser
+from kirinchat.services.rag.doc_parser.pdf import pdf_parser
+from kirinchat.services.rag.doc_parser.text import text_parser
+from kirinchat.services.rag.doc_parser.markdown import markdown_parser
+from kirinchat.schemas.chunk import ChunkModel
+from kirinchat.settings import app_settings
 
 IMAGE_SUFFIXES = {"jpg", "jpeg", "png", "bmp", "webp", "tiff"}
 TEXT_LIKE_SUFFIXES = {"txt", "json", "html", "htm", "csv"}

@@ -10,15 +10,15 @@ from datetime import datetime
 from typing import Any, Dict, Optional
 
 
-from agentchat.core.models.manager import ModelManager
-from agentchat.services.memory.config import MemoryItem
-from agentchat.services.memory.prompts import (
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.services.memory.config import MemoryItem
+from kirinchat.services.memory.prompts import (
     PROCEDURAL_MEMORY_SYSTEM_PROMPT,
     get_update_memory_messages,
 )
-from agentchat.services.memory.base import MemoryBase
-from agentchat.database.dao.memory_history import MemoryHistoryDao
-from agentchat.services.memory.utils import (
+from kirinchat.services.memory.base import MemoryBase
+from kirinchat.database.dao.memory_history import MemoryHistoryDao
+from kirinchat.services.memory.utils import (
     get_fact_retrieval_messages,
     parse_messages,
     parse_vision_messages,
@@ -26,7 +26,7 @@ from agentchat.services.memory.utils import (
 )
 
 from langchain_core.messages import HumanMessage, SystemMessage
-from agentchat.services.memory.vector_stores import VectorStoreManager
+from kirinchat.services.memory.vector_stores import VectorStoreManager
 
 
 class MemoryType(Enum):

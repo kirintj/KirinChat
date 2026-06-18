@@ -5,7 +5,7 @@ from uuid import uuid4
 import pytz
 from typing import Literal, Optional
 
-from agentchat.database.models.base import SQLModelSerializable
+from kirinchat.database.models.base import SQLModelSerializable
 
 
 # 每个对话

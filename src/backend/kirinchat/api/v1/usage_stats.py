@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from agentchat.api.services.usage_stats import UsageStatsService
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.api.responses.builder import resp_200
-from agentchat.schemas.usage_stats import UsageStatsRequest
+from kirinchat.api.services.usage_stats import UsageStatsService
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.api.responses.builder import resp_200
+from kirinchat.schemas.usage_stats import UsageStatsRequest
 
 router = APIRouter(tags=["Usage-Stats"])
 
 @router.post("/usage", summary="根据不同的参数获取用量统计")
-async def get_agentchat_usage(usage_stats: UsageStatsRequest,
+async def get_kirinchat_usage(usage_stats: UsageStatsRequest,
                               login_user: UserPayload = Depends(get_login_user)):
     try:
         result = await UsageStatsService.get_usage_by_agent_model(
@@ -23,7 +23,7 @@ async def get_agentchat_usage(usage_stats: UsageStatsRequest,
         return HTTPException(status_code=500, detail=str(err))
 
 @router.post("/usage_count", summary="统计每个Agent、Model统计次数")
-async def get_agentchat_usage_count(usage_stats: UsageStatsRequest,
+async def get_kirinchat_usage_count(usage_stats: UsageStatsRequest,
                                     login_user: UserPayload = Depends(get_login_user)):
     try:
         result = await UsageStatsService.get_usage_count_by_agent_model(

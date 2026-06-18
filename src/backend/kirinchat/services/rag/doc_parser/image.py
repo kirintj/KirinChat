@@ -1,7 +1,7 @@
 import os
 import base64
 import tempfile
-from agentchat.core.models.manager import ModelManager
+from kirinchat.core.models.manager import ModelManager
 
 
 def image_to_txt(image_path: str):

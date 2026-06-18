@@ -1,7 +1,7 @@
 import os
 from typing import Dict, List
 
-from agentchat.services.deepsearch.tools_and_schemas import SearchQueryList, Reflection
+from kirinchat.services.deepsearch.tools_and_schemas import SearchQueryList, Reflection
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage
 from langgraph.types import Send
@@ -12,21 +12,21 @@ from tavily import TavilyClient
 from loguru import logger
 import json
 
-from agentchat.services.deepsearch.state import (
+from kirinchat.services.deepsearch.state import (
     OverallState,
     QueryGenerationState,
     ReflectionState,
     WebSearchState,
 )
-from agentchat.services.deepsearch.configuration import Configuration
-from agentchat.services.deepsearch.prompts import (
+from kirinchat.services.deepsearch.configuration import Configuration
+from kirinchat.services.deepsearch.prompts import (
     get_current_date,
     query_writer_instructions,
     web_searcher_instructions,
     reflection_instructions,
     answer_instructions,
 )
-from agentchat.core.models.manager import ModelManager
+from kirinchat.core.models.manager import ModelManager
 
 load_dotenv()
 

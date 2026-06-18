@@ -1,7 +1,7 @@
 import chromadb
 from loguru import logger
-from agentchat.services.rag.embedding import get_embedding
-from agentchat.schemas.search import SearchModel
+from kirinchat.services.rag.embedding import get_embedding
+from kirinchat.schemas.search import SearchModel
 from typing import Dict, Optional, List
 
 """

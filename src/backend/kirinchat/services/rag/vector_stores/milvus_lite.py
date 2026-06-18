@@ -1,7 +1,7 @@
 from loguru import logger
-from agentchat.settings import app_settings
-from agentchat.services.rag.embedding import get_embedding
-from agentchat.schemas.search import SearchModel
+from kirinchat.settings import app_settings
+from kirinchat.services.rag.embedding import get_embedding
+from kirinchat.schemas.search import SearchModel
 from pymilvus import connections, Collection, utility, FieldSchema, DataType, CollectionSchema
 from typing import Dict, Optional, List
 

@@ -12,22 +12,22 @@ from loguru import logger
 import json
 from dataclasses import dataclass
 
-from agentchat.core.models.manager import ModelManager
-from agentchat.services.deepsearch.state import (
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.services.deepsearch.state import (
     OverallState,
     QueryGenerationState,
     ReflectionState,
     WebSearchState,
 )
-from agentchat.services.deepsearch.configuration import Configuration
-from agentchat.services.deepsearch.prompts import (
+from kirinchat.services.deepsearch.configuration import Configuration
+from kirinchat.services.deepsearch.prompts import (
     get_current_date,
     query_writer_instructions,
     web_searcher_instructions,
     reflection_instructions,
     answer_instructions,
 )
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 
 # 初始化Tavily客户端
 tavily_client = TavilyClient(api_key=app_settings.tools.tavily["api_key"])

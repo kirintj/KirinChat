@@ -2,12 +2,12 @@ from typing import List
 from uuid import uuid4
 from langchain_core.messages import BaseMessage, AIMessage, HumanMessage
 
-from agentchat.database.dao.dialog import DialogDao
-from agentchat.database.dao.history import HistoryDao
-from agentchat.services.rag.es_client import client as es_client
-from agentchat.services.rag.vector_stores import milvus_client
-from agentchat.schemas.chunk import ChunkModel
-from agentchat.utils.helpers import get_now_beijing_time
+from kirinchat.database.dao.dialog import DialogDao
+from kirinchat.database.dao.history import HistoryDao
+from kirinchat.services.rag.es_client import client as es_client
+from kirinchat.services.rag.vector_stores import milvus_client
+from kirinchat.schemas.chunk import ChunkModel
+from kirinchat.utils.helpers import get_now_beijing_time
 
 Assistant_Role = "assistant"
 User_Role = "user"

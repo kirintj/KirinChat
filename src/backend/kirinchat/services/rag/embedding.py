@@ -1,7 +1,7 @@
 import asyncio
 from typing import Union, List
-from agentchat.core.models.manager import ModelManager
-from agentchat.settings import app_settings
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.settings import app_settings
 
 async def get_embedding(query: Union[str, List[str]]):
     embedding_client = ModelManager.get_embedding_openai_model()

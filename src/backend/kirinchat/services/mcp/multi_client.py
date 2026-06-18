@@ -15,9 +15,9 @@ from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.tools import BaseTool
 from mcp import ClientSession
 
-from agentchat.services.mcp.load_mcp.prompts import load_mcp_prompt
-from agentchat.services.mcp.load_mcp.resources import load_mcp_resources
-from agentchat.services.mcp.sessions import (
+from kirinchat.services.mcp.load_mcp.prompts import load_mcp_prompt
+from kirinchat.services.mcp.load_mcp.resources import load_mcp_resources
+from kirinchat.services.mcp.sessions import (
     Connection,
     McpHttpClientFactory,
     SSEConnection,
@@ -26,7 +26,7 @@ from agentchat.services.mcp.sessions import (
     WebsocketConnection,
     create_session,
 )
-from agentchat.services.mcp.load_mcp.tools import load_mcp_tools
+from kirinchat.services.mcp.load_mcp.tools import load_mcp_tools
 
 ASYNC_CONTEXT_MANAGER_ERROR = (
     "context manager (e.g., async with MultiServerMCPClient(...)). "

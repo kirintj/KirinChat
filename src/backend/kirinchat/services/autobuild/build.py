@@ -3,11 +3,11 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, WebSocket, WebSocketException
 from fastapi import status as http_status
-from agentchat.auth import AuthJWT
+from kirinchat.auth import AuthJWT
 from loguru import logger
 
-from agentchat.services.autobuild.manager import AutoBuildManager
-from agentchat.api.services.user import UserPayload
+from kirinchat.services.autobuild.manager import AutoBuildManager
+from kirinchat.api.services.user import UserPayload
 
 router = APIRouter()
 

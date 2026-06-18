@@ -1,4 +1,4 @@
-from agentchat.database.dao.message import MessageDownDao, MessageLikeDao
+from kirinchat.database.dao.message import MessageDownDao, MessageLikeDao
 from loguru import logger
 
 

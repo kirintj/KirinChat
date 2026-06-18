@@ -1,8 +1,8 @@
-from agentchat.database import AgentTable
-from agentchat.database.dao.agent import AgentDao
-from agentchat.database.dao.dialog import DialogDao
-from agentchat.database.models.user import AdminUser, SystemUser
-from agentchat.schemas.agent import AgentCreateReq
+from kirinchat.database import AgentTable
+from kirinchat.database.dao.agent import AgentDao
+from kirinchat.database.dao.dialog import DialogDao
+from kirinchat.database.models.user import AdminUser, SystemUser
+from kirinchat.schemas.agent import AgentCreateReq
 
 
 class AgentService:

@@ -2,7 +2,7 @@ from pathlib import Path
 from pydantic import BaseModel, Field, model_validator
 from typing import List, Any, Dict, Optional, Literal, Union
 
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 
 
 class MCPBaseConfig(BaseModel):

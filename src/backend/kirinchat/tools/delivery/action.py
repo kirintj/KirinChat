@@ -5,8 +5,8 @@ import json
 from typing import Type
 from langchain.tools import tool
 from pydantic import Field, BaseModel
-from agentchat.settings import app_settings
-from agentchat.prompts.tool import DELIVERY_PROMPT
+from kirinchat.settings import app_settings
+from kirinchat.prompts.tool import DELIVERY_PROMPT
 from loguru import logger
 
 @tool(parse_docstring=True)

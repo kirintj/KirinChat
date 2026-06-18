@@ -1,11 +1,11 @@
 from loguru import logger
 from fastapi import APIRouter, Depends
 
-from agentchat.api.services.agent import AgentService
-from agentchat.schemas.agent import AgentCreateReq, AgentUpdateReq, AgentSearchReq, AgentDeleteReq
-from agentchat.api.responses.builder import resp_200, resp_500, UnifiedResponseModel
-from agentchat.settings import app_settings
-from agentchat.api.services.user import UserPayload, get_login_user
+from kirinchat.api.services.agent import AgentService
+from kirinchat.schemas.agent import AgentCreateReq, AgentUpdateReq, AgentSearchReq, AgentDeleteReq
+from kirinchat.api.responses.builder import resp_200, resp_500, UnifiedResponseModel
+from kirinchat.settings import app_settings
+from kirinchat.api.services.user import UserPayload, get_login_user
 
 router = APIRouter(tags=["Agent"])
 

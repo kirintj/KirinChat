@@ -1,6 +1,6 @@
 from fastapi.exceptions import HTTPException
 
-from agentchat.api.responses.builder import UnifiedResponseModel
+from kirinchat.api.responses.builder import UnifiedResponseModel
 
 
 class BaseErrorCode:

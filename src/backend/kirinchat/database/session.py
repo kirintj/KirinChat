@@ -5,7 +5,7 @@ from typing import Iterator, AsyncIterator
 
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import Session
-from agentchat.database import engine, async_engine
+from kirinchat.database import engine, async_engine
 
 logger = logging.getLogger(__name__)
 

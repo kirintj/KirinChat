@@ -8,8 +8,8 @@ from urllib.parse import urlparse
 import aiofiles
 from uuid import uuid4
 
-from agentchat.settings import app_settings
-from agentchat.utils.date_utils import get_beijing_date_str
+from kirinchat.settings import app_settings
+from kirinchat.utils.date_utils import get_beijing_date_str
 
 def format_file_size(size_bytes):
     units = ['B', 'KB', 'MB', 'GB', 'TB']

@@ -4,10 +4,10 @@ from typing import Union
 from anthropic import Anthropic, AsyncAnthropic
 from mcp.types import CallToolResult
 from openai import OpenAI, AsyncOpenAI
-from agentchat.core.models.anthropic import DeepAsyncAnthropic, DeepAnthropic
-from agentchat.test.mcp_openai.mcp_client import MCPClient
-from agentchat.test.mcp_openai.mcp_util import MCPUtil
-from agentchat.test.mcp_openai.schema import FunctionTool
+from kirinchat.core.models.anthropic import DeepAsyncAnthropic, DeepAnthropic
+from kirinchat.test.mcp_openai.mcp_client import MCPClient
+from kirinchat.test.mcp_openai.mcp_util import MCPUtil
+from kirinchat.test.mcp_openai.schema import FunctionTool
 
 
 class MCPManager:

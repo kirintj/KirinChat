@@ -8,8 +8,8 @@ from langgraph.config import get_stream_writer
 from langchain_core.tools import BaseTool
 from langchain_core.messages import BaseMessage, SystemMessage, ToolMessage, AIMessageChunk, AIMessage, HumanMessage
 
-from agentchat.core.callbacks import usage_metadata_callback
-from agentchat.prompts.completion import DEFAULT_CALL_PROMPT
+from kirinchat.core.callbacks import usage_metadata_callback
+from kirinchat.prompts.completion import DEFAULT_CALL_PROMPT
 
 
 # 定义流式事件的负载结构，增强类型安全性

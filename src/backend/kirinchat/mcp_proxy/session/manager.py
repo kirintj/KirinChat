@@ -11,7 +11,7 @@ from typing import Optional
 import redis.asyncio as aioredis
 from cachetools import TTLCache
 
-from agentchat.mcp_proxy.session.models import McpProxySession, ClientInfo, ClientCapabilities, SessionState
+from kirinchat.mcp_proxy.session.models import McpProxySession, ClientInfo, ClientCapabilities, SessionState
 
 
 SESSION_TTL_SECONDS = 1800

@@ -1,6 +1,6 @@
-from agentchat.database.models.message import MessageDownTable, MessageLikeTable
+from kirinchat.database.models.message import MessageDownTable, MessageLikeTable
 from sqlmodel import Session, select
-from agentchat.database.session import session_getter
+from kirinchat.database.session import session_getter
 
 class MessageLikeDao:
 

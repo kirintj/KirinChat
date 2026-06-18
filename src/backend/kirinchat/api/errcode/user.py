@@ -1,4 +1,4 @@
-from agentchat.api.errcode.base import BaseErrorCode
+from kirinchat.api.errcode.base import BaseErrorCode
 
 
 # 用户模块相关的返回错误码，功能模块代码：106

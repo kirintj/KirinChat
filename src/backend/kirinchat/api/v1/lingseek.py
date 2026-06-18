@@ -2,11 +2,11 @@ import json
 from fastapi import APIRouter, Depends
 from starlette.responses import StreamingResponse
 
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.schemas.lingseek import LingSeekGuidePrompt, LingSeekGuidePromptFeedBack, LingSeekTask
-from agentchat.schemas.usage_stats import UsageStatsAgentType
-from agentchat.services.lingseek.agent import LingSeekAgent
-from agentchat.utils.contexts import set_user_id_context, set_agent_name_context
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.schemas.lingseek import LingSeekGuidePrompt, LingSeekGuidePromptFeedBack, LingSeekTask
+from kirinchat.schemas.usage_stats import UsageStatsAgentType
+from kirinchat.services.lingseek.agent import LingSeekAgent
+from kirinchat.utils.contexts import set_user_id_context, set_agent_name_context
 
 router = APIRouter(prefix="/workspace/lingseek", tags=["LingSeek"])
 

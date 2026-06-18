@@ -2,7 +2,7 @@ import io
 from minio import Minio
 from minio.error import S3Error
 from loguru import logger
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 
 class MinioClient:
     def __init__(self):

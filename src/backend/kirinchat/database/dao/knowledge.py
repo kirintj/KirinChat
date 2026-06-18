@@ -1,6 +1,6 @@
-from agentchat.database.session import session_getter
+from kirinchat.database.session import session_getter
 from datetime import datetime, timedelta
-from agentchat.database.models.knowledge import KnowledgeTable
+from kirinchat.database.models.knowledge import KnowledgeTable
 from sqlmodel import Session, select, delete, update, and_
 
 

@@ -5,7 +5,7 @@ import requests
 from loguru import logger
 
 from requests_html import HTMLSession, AsyncHTMLSession
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By

@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from agentchat.database.models.tool import ToolTable
+from kirinchat.database.models.tool import ToolTable
 from sqlmodel import Session, select, and_, update, desc, delete, or_
 from typing import List
-from agentchat.database.session import session_getter, async_session_getter
+from kirinchat.database.session import session_getter, async_session_getter
 
 
 class ToolDao:

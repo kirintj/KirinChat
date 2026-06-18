@@ -5,7 +5,7 @@ from typing import List
 from langchain_core.messages import ToolCall
 from openai.types.chat import ChatCompletionMessageToolCall
 from pydantic import create_model
-from agentchat.schemas.mcp import MCPSSEConfig, MCPWebsocketConfig, MCPStreamableHttpConfig
+from kirinchat.schemas.mcp import MCPSSEConfig, MCPWebsocketConfig, MCPStreamableHttpConfig
 
 
 def convert_langchain_tool_calls(tool_calls: List[ChatCompletionMessageToolCall]):

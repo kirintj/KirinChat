@@ -5,25 +5,25 @@ import aiofiles
 from loguru import logger
 from sqlmodel import SQLModel
 
-from agentchat.database import engine, SystemUser, ensure_mysql_database, AgentTable, ToolTable
-from agentchat.api.services.agent import AgentService
-from agentchat.api.services.llm import LLMService
-from agentchat.api.services.tool import ToolService
-from agentchat.api.services.mcp_server import MCPService
-from agentchat.database.dao.agent import AgentDao
-from agentchat.database.models.user import AdminUser
-from agentchat.prompts.mcp import McpAsToolPrompt
-from agentchat.schemas.mcp import MCPResponseFormat
-from agentchat.services.mcp.manager import MCPManager
-from agentchat.services.storage import storage_client
-from agentchat.settings import app_settings
-from agentchat.utils.convert import convert_mcp_config
-from agentchat.core.agents.structured_response_agent import StructuredResponseAgent
-from agentchat.utils.helpers import get_provider_from_model
+from kirinchat.database import engine, SystemUser, ensure_mysql_database, AgentTable, ToolTable
+from kirinchat.api.services.agent import AgentService
+from kirinchat.api.services.llm import LLMService
+from kirinchat.api.services.tool import ToolService
+from kirinchat.api.services.mcp_server import MCPService
+from kirinchat.database.dao.agent import AgentDao
+from kirinchat.database.models.user import AdminUser
+from kirinchat.prompts.mcp import McpAsToolPrompt
+from kirinchat.schemas.mcp import MCPResponseFormat
+from kirinchat.services.mcp.manager import MCPManager
+from kirinchat.services.storage import storage_client
+from kirinchat.settings import app_settings
+from kirinchat.utils.convert import convert_mcp_config
+from kirinchat.core.agents.structured_response_agent import StructuredResponseAgent
+from kirinchat.utils.helpers import get_provider_from_model
 
-async def init_agentchat_system():
+async def init_kirinchat_system():
     """
-    agentchat 启动入口（推荐用于每次服务启动）
+    kirinchat 启动入口（推荐用于每次服务启动）
 
     功能：
     - 初始化数据库（幂等）
@@ -39,7 +39,7 @@ async def init_agentchat_system():
 
         # 首次启动
         if not agents:
-            logger.info("First-time setup: initializing agentchat system...")
+            logger.info("First-time setup: initializing kirinchat system...")
             await asyncio.gather(
                 _init_default_tools(),
                 _init_default_llms(),
@@ -47,7 +47,7 @@ async def init_agentchat_system():
                 upload_user_avatars_storage(),
             )
             await _init_default_agents()
-            logger.success("Initialized agentchat successfully")
+            logger.success("Initialized kirinchat successfully")
             return
 
         logger.info(f"Existing system detected ({len(agents)} agents), updating config...")
@@ -56,9 +56,9 @@ async def init_agentchat_system():
             _update_exist_llm(),
             _update_mcp_server_into_mysql(True),
         )
-        logger.success("agentchat runtime ready")
+        logger.success("kirinchat runtime ready")
     except Exception as err:
-        logger.error(f" agentchat init failed: {err}")
+        logger.error(f" kirinchat init failed: {err}")
 
 async def init_database():
     """
@@ -88,7 +88,7 @@ async def load_json(path: str):
 
 async def _init_default_tools():
     """初始化默认工具"""
-    tools = await load_json("./agentchat/config/tool.json")
+    tools = await load_json("./kirinchat/config/tool.json")
 
     await asyncio.gather(*[
         ToolService.create_default_tool(
@@ -229,7 +229,7 @@ async def _update_mcp_server_into_mysql(has_mcp_server: bool):
         servers = await MCPService.get_all_servers(AdminUser)
         logger.info("Updating MCP servers...")
     else:
-        servers = await load_json("./agentchat/config/mcp_server.json")
+        servers = await load_json("./kirinchat/config/mcp_server.json")
 
     servers_info = [
         {
@@ -302,7 +302,7 @@ async def upload_user_avatars_storage():
     if storage_client.list_files_in_folder("icons/user"):
         return
 
-    avatars = await load_json("./agentchat/config/avatars.json")
+    avatars = await load_json("./kirinchat/config/avatars.json")
 
     async with httpx.AsyncClient(timeout=10) as client:
         tasks = [

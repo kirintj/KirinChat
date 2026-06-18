@@ -3,16 +3,16 @@ import json
 from datetime import datetime, timedelta
 from typing import Dict, Any
 
-from agentchat.api.services.mcp_user_config import MCPUserConfigService
-from agentchat.core.agents.structured_response_agent import StructuredResponseAgent
-from agentchat.database.dao.mcp_server import MCPServerDao
-from agentchat.database.models.user import AdminUser, SystemUser
-from agentchat.prompts.mcp import McpAsToolPrompt
-from agentchat.schemas.mcp import MCPResponseFormat
-from agentchat.services.mcp.manager import MCPManager
-from agentchat.utils.convert import convert_mcp_config
-from agentchat.api.services.user import UserService
-from agentchat.settings import app_settings
+from kirinchat.api.services.mcp_user_config import MCPUserConfigService
+from kirinchat.core.agents.structured_response_agent import StructuredResponseAgent
+from kirinchat.database.dao.mcp_server import MCPServerDao
+from kirinchat.database.models.user import AdminUser, SystemUser
+from kirinchat.prompts.mcp import McpAsToolPrompt
+from kirinchat.schemas.mcp import MCPResponseFormat
+from kirinchat.services.mcp.manager import MCPManager
+from kirinchat.utils.convert import convert_mcp_config
+from kirinchat.api.services.user import UserService
+from kirinchat.settings import app_settings
 
 
 class MCPService:

@@ -1,8 +1,8 @@
 from typing import Optional, List
 from sqlmodel import select, and_
 from datetime import datetime, timedelta
-from agentchat.database.session import async_session_getter, session_getter
-from agentchat.database.models.usage_stats import UsageStats
+from kirinchat.database.session import async_session_getter, session_getter
+from kirinchat.database.models.usage_stats import UsageStats
 
 
 class UsageStatsDao:

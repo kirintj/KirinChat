@@ -1,4 +1,4 @@
-from agentchat.services.redis import redis_client
+from kirinchat.services.redis import redis_client
 
 
 async def verify_captcha(captcha: str, captcha_key: str):

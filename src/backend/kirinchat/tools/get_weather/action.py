@@ -2,8 +2,8 @@ import requests
 from loguru import logger
 from langchain.tools import tool
 
-from agentchat.settings import app_settings
-from agentchat.prompts.tool import WEATHER_PROMPT, MESSAGE_PROMPT
+from kirinchat.settings import app_settings
+from kirinchat.prompts.tool import WEATHER_PROMPT, MESSAGE_PROMPT
 
 
 @tool(parse_docstring=True)

@@ -1,10 +1,10 @@
 from datetime import datetime
 
 from typing import List
-from agentchat.database.models.mcp_agent import MCPAgentTable
+from kirinchat.database.models.mcp_agent import MCPAgentTable
 from sqlmodel import Session, select, and_, update, desc, delete
-from agentchat.utils.helpers import delete_img
-from agentchat.database.session import session_getter
+from kirinchat.utils.helpers import delete_img
+from kirinchat.database.session import session_getter
 
 
 class MCPAgentDao:

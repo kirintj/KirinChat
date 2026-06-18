@@ -2,7 +2,7 @@ from datetime import datetime
 from collections import defaultdict
 from typing import Dict, List, Optional, DefaultDict
 
-from agentchat.database.dao.usage_stats import UsageStatsDao, UsageStats
+from kirinchat.database.dao.usage_stats import UsageStatsDao, UsageStats
 
 class UsageStatsService:
 

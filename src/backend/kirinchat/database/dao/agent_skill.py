@@ -1,8 +1,8 @@
 from typing import Sequence, List
 
 from sqlmodel import delete, select
-from agentchat.database.session import async_session_getter
-from agentchat.database.models.agent_skill import AgentSkill
+from kirinchat.database.session import async_session_getter
+from kirinchat.database.models.agent_skill import AgentSkill
 
 
 class AgentSkillDao:

@@ -2,27 +2,27 @@ from loguru import logger
 from sqlmodel import SQLModel, create_engine, text
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from agentchat.database.models.agent import AgentTable
-from agentchat.database.models.history import HistoryTable
-from agentchat.database.models.memory_history import MemoryHistoryTable
-from agentchat.database.models.user import SystemUser
-from agentchat.database.models.knowledge import KnowledgeTable
-from agentchat.database.models.knowledge_file import KnowledgeFileTable
-from agentchat.database.models.tool import ToolTable
-from agentchat.database.models.dialog import DialogTable
-from agentchat.database.models.mcp_server import MCPServerTable, MCPServerStdioTable
-from agentchat.database.models.mcp_user_config import MCPUserConfigTable
-from agentchat.database.models.user_role import UserRole
-from agentchat.database.models.llm import LLMTable
-from agentchat.database.models.message import MessageDownTable, MessageLikeTable
-from agentchat.database.models.role import Role
-from agentchat.database.models.workspace_session import WorkSpaceSession
-from agentchat.database.models.usage_stats import UsageStats
-from agentchat.database.models.agent_skill import AgentSkill
-from agentchat.database.models.register_mcp import RegisterMcpServer
-from agentchat.database.models.register_task import RegisterMcpTask
-from agentchat.database.models.register_mcp_tool import RegisterMcpTool
-from agentchat.settings import app_settings
+from kirinchat.database.models.agent import AgentTable
+from kirinchat.database.models.history import HistoryTable
+from kirinchat.database.models.memory_history import MemoryHistoryTable
+from kirinchat.database.models.user import SystemUser
+from kirinchat.database.models.knowledge import KnowledgeTable
+from kirinchat.database.models.knowledge_file import KnowledgeFileTable
+from kirinchat.database.models.tool import ToolTable
+from kirinchat.database.models.dialog import DialogTable
+from kirinchat.database.models.mcp_server import MCPServerTable, MCPServerStdioTable
+from kirinchat.database.models.mcp_user_config import MCPUserConfigTable
+from kirinchat.database.models.user_role import UserRole
+from kirinchat.database.models.llm import LLMTable
+from kirinchat.database.models.message import MessageDownTable, MessageLikeTable
+from kirinchat.database.models.role import Role
+from kirinchat.database.models.workspace_session import WorkSpaceSession
+from kirinchat.database.models.usage_stats import UsageStats
+from kirinchat.database.models.agent_skill import AgentSkill
+from kirinchat.database.models.register_mcp import RegisterMcpServer
+from kirinchat.database.models.register_task import RegisterMcpTask
+from kirinchat.database.models.register_mcp_tool import RegisterMcpTool
+from kirinchat.settings import app_settings
 
 
 engine = create_engine(

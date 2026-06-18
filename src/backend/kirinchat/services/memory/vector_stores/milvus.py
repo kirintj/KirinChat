@@ -4,7 +4,7 @@ from typing import Dict, Optional
 
 from pydantic import BaseModel
 
-from agentchat.services.memory.vector_stores.base import VectorStoreBase
+from kirinchat.services.memory.vector_stores.base import VectorStoreBase
 
 try:
     import pymilvus  # noqa: F401

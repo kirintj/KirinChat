@@ -4,7 +4,7 @@ from loguru import logger
 from types import SimpleNamespace
 from pydantic.v1 import BaseSettings, Field
 
-from agentchat.schemas.common import MultiModels, ModelConfig, Tools, Rag, StorageConfig, ServerConfig
+from kirinchat.schemas.common import MultiModels, ModelConfig, Tools, Rag, StorageConfig, ServerConfig
 
 
 class Settings(BaseSettings):
@@ -27,7 +27,7 @@ app_settings = Settings()
 async def init_app_settings(file_path: str = None):
     global app_settings
 
-    file_path = file_path or "agentchat/config.yaml"
+    file_path = file_path or "kirinchat/config.yaml"
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             data = yaml.safe_load(f)

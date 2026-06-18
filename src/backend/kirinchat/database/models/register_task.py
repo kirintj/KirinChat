@@ -4,7 +4,7 @@ from sqlalchemy.ext.mutable import MutableList
 from sqlmodel import SQLModel, Field, Column, Text, Relationship, DateTime, JSON
 from datetime import datetime
 
-from agentchat.utils.common import generate_uuid, get_now_time
+from kirinchat.utils.common import generate_uuid, get_now_time
 
 REGISTER_MCP_TASK_NAME = "注册MCP任务"
 

@@ -5,19 +5,19 @@ import hashlib
 from base64 import b64decode
 from fastapi import Request, Depends, HTTPException
 
-from agentchat.auth import AuthJWT
-from agentchat.services.storage import storage_client
-from agentchat.services.redis import redis_client
-from agentchat.database.dao.user_role import UserRoleDao
-from agentchat.database.models.role import AdminRole
-from agentchat.api.errcode.user import UserNameAlreadyExistError
-from agentchat.settings import app_settings
-from agentchat.utils.hash import md5_hash
-from agentchat.database.models.user import UserTable
-from agentchat.database.dao.user import UserDao
-from agentchat.utils.constants import RSA_KEY
-from agentchat.schemas.user import CreateUserReq
-from agentchat.utils.JWT import ACCESS_TOKEN_EXPIRE_TIME
+from kirinchat.auth import AuthJWT
+from kirinchat.services.storage import storage_client
+from kirinchat.services.redis import redis_client
+from kirinchat.database.dao.user_role import UserRoleDao
+from kirinchat.database.models.role import AdminRole
+from kirinchat.api.errcode.user import UserNameAlreadyExistError
+from kirinchat.settings import app_settings
+from kirinchat.utils.hash import md5_hash
+from kirinchat.database.models.user import UserTable
+from kirinchat.database.dao.user import UserDao
+from kirinchat.utils.constants import RSA_KEY
+from kirinchat.schemas.user import CreateUserReq
+from kirinchat.utils.JWT import ACCESS_TOKEN_EXPIRE_TIME
 
 class UserPayload:
 

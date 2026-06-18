@@ -3,17 +3,17 @@ from fastapi import APIRouter, Depends, HTTPException
 from langchain_core.messages import HumanMessage, SystemMessage
 from starlette.responses import StreamingResponse
 
-from agentchat.api.services.llm import LLMService
-from agentchat.api.services.mcp_server import MCPService
-from agentchat.api.services.tool import ToolService
-from agentchat.api.services.workspace_session import WorkSpaceSessionService
-from agentchat.prompts.completion import SYSTEM_PROMPT
-from agentchat.api.responses.builder import resp_200
-from agentchat.schemas.usage_stats import UsageStatsAgentType
-from agentchat.schemas.workspace import WorkSpaceSimpleTask
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.services.workspace.simple_agent import WorkSpaceSimpleAgent, MCPConfig
-from agentchat.utils.contexts import set_user_id_context, set_agent_name_context
+from kirinchat.api.services.llm import LLMService
+from kirinchat.api.services.mcp_server import MCPService
+from kirinchat.api.services.tool import ToolService
+from kirinchat.api.services.workspace_session import WorkSpaceSessionService
+from kirinchat.prompts.completion import SYSTEM_PROMPT
+from kirinchat.api.responses.builder import resp_200
+from kirinchat.schemas.usage_stats import UsageStatsAgentType
+from kirinchat.schemas.workspace import WorkSpaceSimpleTask
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.services.workspace.simple_agent import WorkSpaceSimpleAgent, MCPConfig
+from kirinchat.utils.contexts import set_user_id_context, set_agent_name_context
 
 router = APIRouter(prefix="/workspace", tags=["WorkSpace"])
 

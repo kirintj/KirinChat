@@ -1,5 +1,5 @@
-from agentchat.services.rag.es_client import client as es_client
-from agentchat.services.rag.vector_stores import milvus_client
+from kirinchat.services.rag.es_client import client as es_client
+from kirinchat.services.rag.vector_stores import milvus_client
 
 
 class MixRetrival:

@@ -8,11 +8,11 @@ from langgraph.prebuilt.tool_node import ToolCallRequest
 from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage
 from langchain.agents.middleware import AgentState, wrap_tool_call, before_agent
 
-from agentchat.api.services.mcp_user_config import MCPUserConfigService
-from agentchat.core.models.manager import ModelManager
-from agentchat.prompts.completion import CALL_END_PROMPT
-from agentchat.services.mcp.manager import MCPManager
-from agentchat.utils.convert import convert_mcp_config
+from kirinchat.api.services.mcp_user_config import MCPUserConfigService
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.prompts.completion import CALL_END_PROMPT
+from kirinchat.services.mcp.manager import MCPManager
+from kirinchat.utils.convert import convert_mcp_config
 
 
 class MCPConfig(BaseModel):

@@ -4,9 +4,9 @@ import uuid
 from typing import Any, Dict, List, Optional
 from datetime import datetime
 
-from agentchat.database.models.memory_history import MemoryHistoryTable
+from kirinchat.database.models.memory_history import MemoryHistoryTable
 from sqlmodel import Session, select, delete
-from agentchat.database.session import session_getter
+from kirinchat.database.session import session_getter
 
 logger = logging.getLogger(__name__)
 

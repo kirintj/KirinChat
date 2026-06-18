@@ -1,8 +1,8 @@
 
-from agentchat.database.models.user import UserTable
+from kirinchat.database.models.user import UserTable
 from typing import List
 from sqlmodel import Session, select, func, update
-from agentchat.database.session import session_getter
+from kirinchat.database.session import session_getter
 
 class UserDao:
 

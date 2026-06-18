@@ -8,16 +8,16 @@ from langchain.tools import tool
 from langgraph.config import get_stream_writer
 
 from functools import wraps
-from agentchat.api.services.llm import LLMService
-from agentchat.api.services.tool import ToolService
-from agentchat.api.services.knowledge import KnowledgeService
-from agentchat.api.services.mcp_server import MCPService
-from agentchat.api.services.agent import AgentService
-from agentchat.core.models.manager import ModelManager
-from agentchat.database import AgentTable
-from agentchat.database.dao.agent import AgentDao
-from agentchat.prompts.mars import Mars_Autobuild_Answer_Prompt
-from agentchat.settings import app_settings
+from kirinchat.api.services.llm import LLMService
+from kirinchat.api.services.tool import ToolService
+from kirinchat.api.services.knowledge import KnowledgeService
+from kirinchat.api.services.mcp_server import MCPService
+from kirinchat.api.services.agent import AgentService
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.database import AgentTable
+from kirinchat.database.dao.agent import AgentDao
+from kirinchat.prompts.mars import Mars_Autobuild_Answer_Prompt
+from kirinchat.settings import app_settings
 
 def return_chunk_format(type: str, data: Union[str, dict]):
     return {

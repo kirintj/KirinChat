@@ -1,7 +1,7 @@
 from typing import List, Set, Optional
 from fastapi import FastAPI, Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 
 
 class WhitelistChecker:

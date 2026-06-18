@@ -11,11 +11,11 @@ from fastapi.responses import JSONResponse
 from sse_starlette import EventSourceResponse
 from fastapi import APIRouter, Depends, Query, Request, Response
 
-from agentchat.mcp_proxy.json_rpc import process_jsonrpc, rpc_error, check_auth
-from agentchat.schemas.json_rpc import HealthResponse
-from agentchat.mcp_proxy.session.manager import SessionManager
-from agentchat.mcp_proxy.session.models import ClientInfo, ClientCapabilities
-from agentchat.settings import app_settings
+from kirinchat.mcp_proxy.json_rpc import process_jsonrpc, rpc_error, check_auth
+from kirinchat.schemas.json_rpc import HealthResponse
+from kirinchat.mcp_proxy.session.manager import SessionManager
+from kirinchat.mcp_proxy.session.models import ClientInfo, ClientCapabilities
+from kirinchat.settings import app_settings
 
 router = APIRouter(prefix="/mcp", tags=["MCP-SSE"])
 

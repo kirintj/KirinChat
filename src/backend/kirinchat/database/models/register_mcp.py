@@ -2,10 +2,10 @@ from datetime import datetime
 from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Column, Text, Relationship, DateTime, select, delete
 
-from agentchat.utils.common import generate_uuid, get_now_time
+from kirinchat.utils.common import generate_uuid, get_now_time
 
 if TYPE_CHECKING:
-    from agentchat.database.models.register_mcp_tool import RegisterMcpTool
+    from kirinchat.database.models.register_mcp_tool import RegisterMcpTool
 
 class RegisterMcpServer(SQLModel, table=True):
     __tablename__ = "register_mcp_server"

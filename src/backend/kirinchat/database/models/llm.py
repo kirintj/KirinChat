@@ -5,7 +5,7 @@ from sqlmodel import SQLModel, Field
 from datetime import datetime
 from uuid import uuid4
 
-from agentchat.database.models.base import SQLModelSerializable
+from kirinchat.database.models.base import SQLModelSerializable
 
 
 class LLMTable(SQLModelSerializable, table=True):

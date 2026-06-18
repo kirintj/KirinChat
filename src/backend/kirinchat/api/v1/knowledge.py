@@ -2,11 +2,11 @@ from typing import Union, List
 from loguru import logger
 from fastapi import Body, APIRouter, Depends
 
-from agentchat.api.services.knowledge import KnowledgeService
-from agentchat.api.services.user import get_login_user, UserPayload
-from agentchat.schemas.knowledge import KnowledgeCreateRequest, KnowledgeUpdateRequest
-from agentchat.api.responses.builder import UnifiedResponseModel, resp_500, resp_200
-from agentchat.services.rag.handler import RagHandler
+from kirinchat.api.services.knowledge import KnowledgeService
+from kirinchat.api.services.user import get_login_user, UserPayload
+from kirinchat.schemas.knowledge import KnowledgeCreateRequest, KnowledgeUpdateRequest
+from kirinchat.api.responses.builder import UnifiedResponseModel, resp_500, resp_200
+from kirinchat.services.rag.handler import RagHandler
 
 router = APIRouter(tags=["Knowledge"])
 

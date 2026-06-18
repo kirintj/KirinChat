@@ -7,10 +7,10 @@ from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
 from langgraph.config import get_stream_writer
 from langgraph.prebuilt.tool_node import ToolCallRequest
 
-from agentchat.core.callbacks import usage_metadata_callback
-from agentchat.core.models.manager import ModelManager
-from agentchat.database import AgentSkill
-from agentchat.schemas.agent_skill import AgentSkillFolder, AgentSkillFile
+from kirinchat.core.callbacks import usage_metadata_callback
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.database import AgentSkill
+from kirinchat.schemas.agent_skill import AgentSkillFolder, AgentSkillFile
 
 
 class SkillAgent:

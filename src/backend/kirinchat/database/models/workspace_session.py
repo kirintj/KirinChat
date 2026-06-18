@@ -6,7 +6,7 @@ from uuid import uuid4
 from pydantic import BaseModel
 from sqlalchemy import Column, Text, JSON, DateTime, text, ForeignKey, CHAR, func
 
-from agentchat.database.models.base import SQLModelSerializable
+from kirinchat.database.models.base import SQLModelSerializable
 
 class WorkSpaceSessionBase(SQLModelSerializable):
     title: str = Field(..., description="工作台会话的标题")

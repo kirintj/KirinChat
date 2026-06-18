@@ -1,11 +1,11 @@
 import asyncio
 
-from agentchat.api.services.history import HistoryService
-from agentchat.test.mcp_stdio_server import MCPServerService
-from agentchat.test.mcp_openai.mcp_manager import MCPManager
-from agentchat.core.models.anthropic import DeepAsyncAnthropic
-from agentchat.api.services.llm import LLMService
-from agentchat.services.rag.handler import RagHandler
+from kirinchat.api.services.history import HistoryService
+from kirinchat.test.mcp_stdio_server import MCPServerService
+from kirinchat.test.mcp_openai.mcp_manager import MCPManager
+from kirinchat.core.models.anthropic import DeepAsyncAnthropic
+from kirinchat.api.services.llm import LLMService
+from kirinchat.services.rag.handler import RagHandler
 
 
 class MCPChatAgent:

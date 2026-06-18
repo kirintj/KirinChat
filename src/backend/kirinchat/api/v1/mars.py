@@ -4,13 +4,13 @@ from fastapi import FastAPI, APIRouter, Body, Depends
 from langchain_core.messages import SystemMessage, HumanMessage, BaseMessage
 from starlette.responses import StreamingResponse
 
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.prompts.mars import Mars_System_Prompt
-from agentchat.schemas.usage_stats import UsageStatsAgentType
-from agentchat.services.mars.mars_agent import MarsAgent, MarsConfig
-from agentchat.services.mars.mars_tools.autobuild import construct_auto_build_prompt
-from agentchat.services.memory.client import memory_client
-from agentchat.utils.contexts import set_user_id_context, set_agent_name_context
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.prompts.mars import Mars_System_Prompt
+from kirinchat.schemas.usage_stats import UsageStatsAgentType
+from kirinchat.services.mars.mars_agent import MarsAgent, MarsConfig
+from kirinchat.services.mars.mars_tools.autobuild import construct_auto_build_prompt
+from kirinchat.services.memory.client import memory_client
+from kirinchat.utils.contexts import set_user_id_context, set_agent_name_context
 
 router = APIRouter(tags=["Mars"])
 

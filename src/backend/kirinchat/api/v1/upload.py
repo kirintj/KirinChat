@@ -2,11 +2,11 @@ from loguru import logger
 from urllib.parse import urljoin
 from fastapi import APIRouter, UploadFile, File, Depends
 
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.api.responses.builder import UnifiedResponseModel, resp_200, resp_500
-from agentchat.services.storage import storage_client
-from agentchat.settings import app_settings
-from agentchat.utils.file_utils import get_object_storage_base_path
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.api.responses.builder import UnifiedResponseModel, resp_200, resp_500
+from kirinchat.services.storage import storage_client
+from kirinchat.settings import app_settings
+from kirinchat.utils.file_utils import get_object_storage_base_path
 
 router = APIRouter(tags=["Upload"])
 

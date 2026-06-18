@@ -1,7 +1,7 @@
 from typing import Optional, Dict, Any
 from pydantic import BaseModel
 
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 
 
 class MCPCreateReq(BaseModel):

@@ -2,7 +2,7 @@ import os.path
 import re
 from datetime import datetime, timedelta
 from uuid import uuid4
-from agentchat.schemas.chunk import ChunkModel
+from kirinchat.schemas.chunk import ChunkModel
 
 
 class MarkdownParser:

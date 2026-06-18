@@ -3,17 +3,17 @@ from typing import List, Callable
 from fastapi import APIRouter, Depends
 from langchain_core.messages import HumanMessage, SystemMessage, BaseMessage
 
-from agentchat.core.agents.general_agent import GeneralAgent, AgentConfig
-from agentchat.api.services.history import HistoryService
-from agentchat.api.services.dialog import DialogService
-from agentchat.api.responses.streaming import WatchedStreamingResponse
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.prompts.completion import SYSTEM_PROMPT
-from agentchat.schemas.completion import CompletionReq
-from agentchat.services.memory.client import memory_client
-from agentchat.utils.common import count_tokens_usage
-from agentchat.utils.contexts import set_user_id_context, set_agent_name_context
-from agentchat.utils.helpers import build_completion_system_prompt, build_completion_user_input
+from kirinchat.core.agents.general_agent import GeneralAgent, AgentConfig
+from kirinchat.api.services.history import HistoryService
+from kirinchat.api.services.dialog import DialogService
+from kirinchat.api.responses.streaming import WatchedStreamingResponse
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.prompts.completion import SYSTEM_PROMPT
+from kirinchat.schemas.completion import CompletionReq
+from kirinchat.services.memory.client import memory_client
+from kirinchat.utils.common import count_tokens_usage
+from kirinchat.utils.contexts import set_user_id_context, set_agent_name_context
+from kirinchat.utils.helpers import build_completion_system_prompt, build_completion_user_input
 
 router = APIRouter(tags=["Completion"])
 

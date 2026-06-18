@@ -6,9 +6,9 @@ from loguru import logger
 from urllib.parse import urlparse
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
-from agentchat.prompts.completion import Text2SQLGeneratePrompt, Text2SQLSummaryPrompt
-from agentchat.core.models.manager import ModelManager
-from agentchat.settings import app_settings
+from kirinchat.prompts.completion import Text2SQLGeneratePrompt, Text2SQLSummaryPrompt
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.settings import app_settings
 
 class Text2SQLAgent:
     def __init__(self, db_config: Dict=None):
@@ -139,7 +139,7 @@ if __name__ == "__main__":
         "host": "localhost",
         "user": "root",
         "password": "password",
-        "database": "agentchat",  # 换成你的库名
+        "database": "kirinchat",  # 换成你的库名
         "charset": "utf8mb4"
     }
 

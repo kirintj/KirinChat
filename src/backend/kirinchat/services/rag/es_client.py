@@ -2,10 +2,10 @@ import json
 from typing import List
 from elasticsearch import Elasticsearch
 
-from agentchat.config.es_index import ESIndex
-from agentchat.schemas.chunk import ChunkModel
-from agentchat.schemas.search import SearchModel
-from agentchat.settings import app_settings
+from kirinchat.config.es_index import ESIndex
+from kirinchat.schemas.chunk import ChunkModel
+from kirinchat.schemas.search import SearchModel
+from kirinchat.settings import app_settings
 from loguru import logger
 
 
@@ -110,9 +110,9 @@ client = ESClient()
 # import json
 # from typing import List
 # from elasticsearch import AsyncElasticsearch
-# from agentchat.schemas.chunk import ChunkModel
-# from agentchat.schemas.search import SearchModel
-# from agentchat.settings import app_settings
+# from kirinchat.schemas.chunk import ChunkModel
+# from kirinchat.schemas.search import SearchModel
+# from kirinchat.settings import app_settings
 # from loguru import logger
 #
 # class AsyncESClient:

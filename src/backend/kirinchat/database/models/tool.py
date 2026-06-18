@@ -5,7 +5,7 @@ from typing import Optional
 from sqlmodel import SQLModel, Field
 from sqlalchemy import Column, Text, DateTime, text, JSON
 
-from agentchat.database.models.base import SQLModelSerializable
+from kirinchat.database.models.base import SQLModelSerializable
 
 
 class ToolAuthType(str, Enum):

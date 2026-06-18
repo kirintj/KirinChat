@@ -1,10 +1,10 @@
 import uuid
 from fastapi import APIRouter, Depends
 
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.database.dao.register_task import RegisterMcpTaskDao
-from agentchat.schemas.register_mcp import DeleteMcpTaskRequest
-from agentchat.api.responses.builder import resp_200
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.database.dao.register_task import RegisterMcpTaskDao
+from kirinchat.schemas.register_mcp import DeleteMcpTaskRequest
+from kirinchat.api.responses.builder import resp_200
 
 router = APIRouter(prefix="/mcp/register", tags=["Register-Task"])
 

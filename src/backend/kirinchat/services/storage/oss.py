@@ -1,6 +1,6 @@
 import oss2
 from loguru import logger
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 
 class OSSClient:
     def __init__(self):

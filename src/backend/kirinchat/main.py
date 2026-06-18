@@ -3,23 +3,23 @@ import warnings
 import redis.asyncio as aioredis
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from agentchat.auth import AuthJWT
-from agentchat.auth.exceptions import AuthJWTException
+from kirinchat.auth import AuthJWT
+from kirinchat.auth.exceptions import AuthJWTException
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from agentchat.api.JWT import Settings as AuthJwtSettings
-from agentchat.mcp_proxy.session.manager import SessionManager
-from agentchat.middleware.trace_id_middleware import TraceIDMiddleware
-from agentchat.middleware.white_list_middleware import WhitelistMiddleware
-from agentchat.settings import init_app_settings
-from agentchat.settings import app_settings
+from kirinchat.api.JWT import Settings as AuthJwtSettings
+from kirinchat.mcp_proxy.session.manager import SessionManager
+from kirinchat.middleware.trace_id_middleware import TraceIDMiddleware
+from kirinchat.middleware.white_list_middleware import WhitelistMiddleware
+from kirinchat.settings import init_app_settings
+from kirinchat.settings import app_settings
 
 warnings.filterwarnings("ignore")
 logging.getLogger("chromadb").setLevel(logging.WARNING)
 
 async def register_router(app: FastAPI):
-    from agentchat.api.router import router
+    from kirinchat.api.router import router
 
     app.include_router(router)
 
@@ -53,8 +53,8 @@ def register_middleware(app: FastAPI):
 async def init_config():
     await init_app_settings()
 
-    from agentchat.database.init_data import init_agentchat_system
-    await init_agentchat_system()
+    from kirinchat.database.init_data import init_kirinchat_system
+    await init_kirinchat_system()
 
 def print_logo():
     from pyfiglet import Figlet
@@ -108,4 +108,4 @@ app = create_app()
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("agentchat.main:app", host="0.0.0.0", port=7860)
+    uvicorn.run("kirinchat.main:app", host="0.0.0.0", port=7860)

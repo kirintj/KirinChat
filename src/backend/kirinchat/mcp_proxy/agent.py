@@ -8,17 +8,17 @@ from langchain.agents.middleware import HumanInTheLoopMiddleware
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import Command
 
-from agentchat.core.models.manager import ModelManager
-from agentchat.prompts.register_mcp import (
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.prompts.register_mcp import (
     GENERATE_MCP_JSON_PROMPT,
     RESTORE_MCP_JSON_PROMPT,
     REVISE_MCP_JSON_SYSTEM_PROMPT,
     REVISE_MCP_JSON_HUMAN_PROMPT,
     MCP_AGENT_SYSTEM_PROMPT
 )
-from agentchat.schemas.register_mcp import RegisterMcpServerModel
-from agentchat.mcp_proxy.register_mcp import RegisterMcpService
-from agentchat.utils.contexts import get_user_id_context
+from kirinchat.schemas.register_mcp import RegisterMcpServerModel
+from kirinchat.mcp_proxy.register_mcp import RegisterMcpService
+from kirinchat.utils.contexts import get_user_id_context
 
 _checkpointer = InMemorySaver()
 

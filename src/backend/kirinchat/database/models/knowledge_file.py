@@ -6,7 +6,7 @@ from sqlalchemy import DateTime, text, Column
 from sqlmodel import Session, SQLModel, Field
 from uuid import uuid4
 
-from agentchat.database.models.base import SQLModelSerializable
+from kirinchat.database.models.base import SQLModelSerializable
 
 class Status:
     fail = "fail"

@@ -3,8 +3,8 @@ import logging
 from typing import List, Dict, Any
 
 from langchain_core.tools import BaseTool
-from agentchat.services.mcp.multi_client import MultiServerMCPClient
-from agentchat.schemas.mcp import MCPBaseConfig
+from kirinchat.services.mcp.multi_client import MultiServerMCPClient
+from kirinchat.schemas.mcp import MCPBaseConfig
 
 logger = logging.getLogger(__name__)
 

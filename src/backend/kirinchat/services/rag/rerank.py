@@ -2,8 +2,8 @@ import asyncio
 import json
 
 import aiohttp
-from agentchat.settings import app_settings
-from agentchat.schemas.rerank import RerankResultModel
+from kirinchat.settings import app_settings
+from kirinchat.schemas.rerank import RerankResultModel
 
 
 class Reranker:

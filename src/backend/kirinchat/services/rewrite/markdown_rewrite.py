@@ -5,8 +5,8 @@ import asyncio
 from loguru import logger
 from urllib.parse import urljoin
 
-from agentchat.core.models.manager import ModelManager
-from agentchat.settings import app_settings
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.settings import app_settings
 
 
 class MarkdownRewrite:

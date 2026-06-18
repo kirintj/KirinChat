@@ -1,10 +1,10 @@
 from loguru import logger
 from fastapi import APIRouter, Depends, Body
-from agentchat.api.services.agent import AgentService
-from agentchat.api.services.dialog import DialogService
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.schemas.dialog import DialogCreateRequest
-from agentchat.api.responses.builder import resp_200, resp_500, UnifiedResponseModel
+from kirinchat.api.services.agent import AgentService
+from kirinchat.api.services.dialog import DialogService
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.schemas.dialog import DialogCreateRequest
+from kirinchat.api.responses.builder import resp_200, resp_500, UnifiedResponseModel
 
 router = APIRouter(tags=["Dialog"])
 

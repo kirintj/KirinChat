@@ -7,7 +7,7 @@ from pydantic import validator, BaseModel
 from sqlalchemy import Column, DateTime, text
 from sqlmodel import Field, SQLModel
 
-from agentchat.database.models.base import SQLModelSerializable
+from kirinchat.database.models.base import SQLModelSerializable
 
 # 系统用户
 SystemUser = '0'

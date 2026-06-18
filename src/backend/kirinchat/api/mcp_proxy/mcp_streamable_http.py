@@ -18,11 +18,11 @@ from typing import AsyncGenerator
 from fastapi import APIRouter, Depends, Request, Response
 from fastapi.responses import JSONResponse, StreamingResponse
 
-from agentchat.mcp_proxy.json_rpc import rpc_error, rpc_ok, check_auth, sse_event, sse_ping, process_jsonrpc
-from agentchat.schemas.json_rpc import HealthResponse
-from agentchat.mcp_proxy.session.manager import SessionManager
-from agentchat.mcp_proxy.session.models import ClientCapabilities, ClientInfo
-from agentchat.settings import app_settings
+from kirinchat.mcp_proxy.json_rpc import rpc_error, rpc_ok, check_auth, sse_event, sse_ping, process_jsonrpc
+from kirinchat.schemas.json_rpc import HealthResponse
+from kirinchat.mcp_proxy.session.manager import SessionManager
+from kirinchat.mcp_proxy.session.models import ClientCapabilities, ClientInfo
+from kirinchat.settings import app_settings
 
 router = APIRouter(prefix="/mcp", tags=["MCP-Streamable-Http"])
 

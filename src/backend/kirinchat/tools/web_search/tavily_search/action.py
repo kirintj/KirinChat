@@ -2,7 +2,7 @@ from typing import Type, Optional, Literal
 from langchain.tools import tool
 from tavily import TavilyClient
 
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 
 
 tavily_client = TavilyClient(app_settings.tools.tavily.get("api_key"))

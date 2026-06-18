@@ -5,9 +5,9 @@ from typing import Dict
 
 from loguru import logger
 
-from agentchat.services.autobuild.client import AutoBuildClient
-from agentchat.api.services.user import UserPayload
-from agentchat.utils.helpers import get_cache_key
+from kirinchat.services.autobuild.client import AutoBuildClient
+from kirinchat.api.services.user import UserPayload
+from kirinchat.utils.helpers import get_cache_key
 
 
 class AutoBuildManager:

@@ -4,25 +4,25 @@ from typing import List, Union, Optional
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage, ToolMessage, BaseMessage, AIMessageChunk
 from langchain_core.utils.function_calling import convert_to_openai_tool
 
-from agentchat.api.services.mcp_server import MCPService
-from agentchat.api.services.mcp_user_config import MCPUserConfigService
-from agentchat.api.services.usage_stats import UsageStatsService
-from agentchat.api.services.workspace_session import WorkSpaceSessionService
-from agentchat.core.callbacks import usage_metadata_callback
-from agentchat.database.models.workspace_session import WorkSpaceSessionCreate, WorkSpaceSessionContext
-from agentchat.prompts.template import GuidePromptTemplate
-from agentchat.schemas.workspace import WorkSpaceAgents
-from agentchat.schemas.usage_stats import UsageStatsAgentType
-from agentchat.core.agents.mcp_agent import MCPConfig
-from agentchat.tools import LingSeekPlugins, tavily_search as web_search
-from agentchat.api.services.tool import ToolService
-from agentchat.core.models.manager import ModelManager
-from agentchat.utils.convert import mcp_tool_to_args_schema, convert_mcp_config
-from agentchat.utils.date_utils import get_beijing_time
-from agentchat.services.mcp.manager import MCPManager
-from agentchat.prompts.lingseek import GenerateGuidePrompt, FeedBackGuidePrompt, GenerateTitlePrompt, \
+from kirinchat.api.services.mcp_server import MCPService
+from kirinchat.api.services.mcp_user_config import MCPUserConfigService
+from kirinchat.api.services.usage_stats import UsageStatsService
+from kirinchat.api.services.workspace_session import WorkSpaceSessionService
+from kirinchat.core.callbacks import usage_metadata_callback
+from kirinchat.database.models.workspace_session import WorkSpaceSessionCreate, WorkSpaceSessionContext
+from kirinchat.prompts.template import GuidePromptTemplate
+from kirinchat.schemas.workspace import WorkSpaceAgents
+from kirinchat.schemas.usage_stats import UsageStatsAgentType
+from kirinchat.core.agents.mcp_agent import MCPConfig
+from kirinchat.tools import LingSeekPlugins, tavily_search as web_search
+from kirinchat.api.services.tool import ToolService
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.utils.convert import mcp_tool_to_args_schema, convert_mcp_config
+from kirinchat.utils.date_utils import get_beijing_time
+from kirinchat.services.mcp.manager import MCPManager
+from kirinchat.prompts.lingseek import GenerateGuidePrompt, FeedBackGuidePrompt, GenerateTitlePrompt, \
     GenerateTaskPrompt, FixJsonPrompt, ToolCallPrompt, SystemMessagePrompt
-from agentchat.schemas.lingseek import LingSeekGuidePrompt, LingSeekGuidePromptFeedBack, LingSeekTask, \
+from kirinchat.schemas.lingseek import LingSeekGuidePrompt, LingSeekGuidePromptFeedBack, LingSeekTask, \
     LingSeekTaskStep
 
 

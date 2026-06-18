@@ -7,8 +7,8 @@ from pathlib import PurePosixPath
 from dashscope import ImageSynthesis
 from langchain.tools import tool
 
-from agentchat.settings import app_settings
-from agentchat.services.storage import storage_client
+from kirinchat.settings import app_settings
+from kirinchat.services.storage import storage_client
 
 @tool(parse_docstring=True)
 def text_to_image(user_prompt: str):

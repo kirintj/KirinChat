@@ -1,5 +1,5 @@
-from agentchat.database.dao.mcp_stdio_server import MCPServerStdioDao
-from agentchat.database.models.user import AdminUser
+from kirinchat.database.dao.mcp_stdio_server import MCPServerStdioDao
+from kirinchat.database.models.user import AdminUser
 from loguru import logger
 
 class MCPServerService:

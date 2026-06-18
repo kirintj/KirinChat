@@ -2,8 +2,8 @@ from pydantic import BaseModel
 from langchain.agents import create_agent
 from langchain.agents.structured_output import ToolStrategy
 
-from agentchat.core.callbacks import usage_metadata_callback
-from agentchat.core.models.manager import ModelManager
+from kirinchat.core.callbacks import usage_metadata_callback
+from kirinchat.core.models.manager import ModelManager
 
 
 class StructuredResponseAgent:

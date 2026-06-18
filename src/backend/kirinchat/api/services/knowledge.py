@@ -1,9 +1,9 @@
 from typing import List
 
-from agentchat.database.dao.knowledge import KnowledgeDao
-from agentchat.database.dao.knowledge_file import KnowledgeFileDao
-from agentchat.database.models.user import AdminUser
-from agentchat.utils.file_utils import format_file_size
+from kirinchat.database.dao.knowledge import KnowledgeDao
+from kirinchat.database.dao.knowledge_file import KnowledgeFileDao
+from kirinchat.database.models.user import AdminUser
+from kirinchat.utils.file_utils import format_file_size
 
 
 class KnowledgeService:

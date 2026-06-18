@@ -2,8 +2,8 @@ from typing import List
 
 from sqlalchemy.orm.attributes import flag_modified
 from sqlmodel import delete, select
-from agentchat.database.session import async_session_getter
-from agentchat.database.models.register_task import RegisterMcpTask
+from kirinchat.database.session import async_session_getter
+from kirinchat.database.models.register_task import RegisterMcpTask
 
 
 class RegisterMcpTaskDao:

@@ -1,8 +1,8 @@
 from sqlmodel import select, and_, update, delete, or_
 
-from agentchat.database import SystemUser
-from agentchat.database.session import session_getter, async_session_getter
-from agentchat.database.models.llm import LLMTable
+from kirinchat.database import SystemUser
+from kirinchat.database.session import session_getter, async_session_getter
+from kirinchat.database.models.llm import LLMTable
 
 
 class LLMDao:

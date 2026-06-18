@@ -1,9 +1,9 @@
 import asyncio
 from typing import List, Union
 
-from agentchat.database import SystemUser, ToolTable
-from agentchat.database.models.user import AdminUser
-from agentchat.database.dao.tool import ToolDao
+from kirinchat.database import SystemUser, ToolTable
+from kirinchat.database.models.user import AdminUser
+from kirinchat.database.dao.tool import ToolDao
 
 
 class ToolService:

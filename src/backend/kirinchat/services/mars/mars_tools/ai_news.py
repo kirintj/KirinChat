@@ -8,12 +8,12 @@ from loguru import logger
 from html2image import Html2Image
 from langchain.tools import tool
 from langgraph.config import get_stream_writer
-from agentchat.core.models.manager import ModelManager
-from agentchat.services.storage import storage_client
-from agentchat.services.mars.ai_news.detial_news import yield_crawl_detail_ai_news
-from agentchat.services.mars.ai_news.prompt import GENERATE_JSON_NEWS, FIX_JSON_PROMPT
-from agentchat.utils.file_utils import get_object_storage_base_path, get_save_tempfile
-from agentchat.settings import app_settings
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.services.storage import storage_client
+from kirinchat.services.mars.ai_news.detial_news import yield_crawl_detail_ai_news
+from kirinchat.services.mars.ai_news.prompt import GENERATE_JSON_NEWS, FIX_JSON_PROMPT
+from kirinchat.utils.file_utils import get_object_storage_base_path, get_save_tempfile
+from kirinchat.settings import app_settings
 
 
 @tool(parse_docstring=True)

@@ -4,8 +4,8 @@ from datetime import datetime
 from uuid import uuid4
 from sqlalchemy import JSON, Column, text, DateTime
 
-from agentchat.settings import app_settings
-from agentchat.database.models.base import SQLModelSerializable
+from kirinchat.settings import app_settings
+from kirinchat.database.models.base import SQLModelSerializable
 
 
 class AgentTable(SQLModelSerializable, table=True):

@@ -4,7 +4,7 @@ import httpx
 from typing import Any
 from urllib.parse import urlencode
 
-from agentchat.database.models.register_mcp_tool import RegisterMcpTool
+from kirinchat.database.models.register_mcp_tool import RegisterMcpTool
 from loguru import logger
 
 class RegisterMcpToolExecute:

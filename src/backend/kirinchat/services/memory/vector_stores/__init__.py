@@ -1,5 +1,5 @@
-from agentchat.settings import app_settings
-from agentchat.services.memory.vector_stores.chroma import ChromaDB
+from kirinchat.settings import app_settings
+from kirinchat.services.memory.vector_stores.chroma import ChromaDB
 
 class VectorStoreManager:
 

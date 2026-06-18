@@ -6,11 +6,11 @@ from langchain.tools import tool
 from langchain_core.messages import SystemMessage, HumanMessage
 from langgraph.config import get_stream_writer
 
-from agentchat.api.services.knowledge import KnowledgeService
-from agentchat.api.services.knowledge_file import KnowledgeFileService
-from agentchat.core.models.manager import ModelManager
-from agentchat.prompts.mars import Mars_Generate_Query_Prompt
-from agentchat.services.rag.handler import RagHandler
+from kirinchat.api.services.knowledge import KnowledgeService
+from kirinchat.api.services.knowledge_file import KnowledgeFileService
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.prompts.mars import Mars_Generate_Query_Prompt
+from kirinchat.services.rag.handler import RagHandler
 
 @tool(parse_docstring=True)
 async def query_knowledge(query: str, user_id: Optional[str] = None):

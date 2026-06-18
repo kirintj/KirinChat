@@ -1,19 +1,19 @@
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Depends, Body
-from agentchat.auth import AuthJWT
+from kirinchat.auth import AuthJWT
 
-from agentchat.services.redis import redis_client
-from agentchat.database.dao.user import UserDao
-from agentchat.api.errcode.user import UserValidateError
-from agentchat.api.responses.builder import resp_200
-from agentchat.utils.JWT import ACCESS_TOKEN_EXPIRE_TIME
-from agentchat.api.services.user import UserService
-from agentchat.database.models.user import AdminUser
-from agentchat.api.responses.builder import UnifiedResponseModel
+from kirinchat.services.redis import redis_client
+from kirinchat.database.dao.user import UserDao
+from kirinchat.api.errcode.user import UserValidateError
+from kirinchat.api.responses.builder import resp_200
+from kirinchat.utils.JWT import ACCESS_TOKEN_EXPIRE_TIME
+from kirinchat.api.services.user import UserService
+from kirinchat.database.models.user import AdminUser
+from kirinchat.api.responses.builder import UnifiedResponseModel
 from loguru import logger
-from agentchat.api.services.user import get_user_jwt
-from agentchat.utils.constants import USER_CURRENT_SESSION
+from kirinchat.api.services.user import get_user_jwt
+from kirinchat.utils.constants import USER_CURRENT_SESSION
 
 router = APIRouter(tags=["User"])
 

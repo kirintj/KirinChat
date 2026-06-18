@@ -1,6 +1,6 @@
 from loguru import logger
-from agentchat.database.dao.llm import LLMDao
-from agentchat.database.models.user import AdminUser, SystemUser
+from kirinchat.database.dao.llm import LLMDao
+from kirinchat.database.models.user import AdminUser, SystemUser
 
 LLM_Types = ['LLM', 'Embedding', 'Reranker']
 

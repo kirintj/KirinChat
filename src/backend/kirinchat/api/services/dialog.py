@@ -1,12 +1,12 @@
 from loguru import logger
 
-from agentchat.api.services.agent import AgentService
-from agentchat.core.callbacks import usage_metadata_callback
-from agentchat.core.models.manager import ModelManager
-from agentchat.database.dao.dialog import DialogDao
-from agentchat.database.dao.history import HistoryDao
-from agentchat.database.models.user import AdminUser
-from agentchat.prompts.completion import GENERATE_CHAT_SUMMARY
+from kirinchat.api.services.agent import AgentService
+from kirinchat.core.callbacks import usage_metadata_callback
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.database.dao.dialog import DialogDao
+from kirinchat.database.dao.history import HistoryDao
+from kirinchat.database.models.user import AdminUser
+from kirinchat.prompts.completion import GENERATE_CHAT_SUMMARY
 
 
 class DialogService:

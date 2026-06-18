@@ -1,5 +1,5 @@
-from agentchat.database.session import session_getter
-from agentchat.database.models.knowledge_file import KnowledgeFileTable
+from kirinchat.database.session import session_getter
+from kirinchat.database.models.knowledge_file import KnowledgeFileTable
 from sqlmodel import Session, select, delete, update
 
 

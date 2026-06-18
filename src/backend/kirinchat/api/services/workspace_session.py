@@ -1,7 +1,7 @@
 from typing import List
 
-from agentchat.database.dao.workspace_session import WorkSpaceSession, WorkSpaceSessionDao
-from agentchat.database.models.workspace_session import WorkSpaceSessionCreate
+from kirinchat.database.dao.workspace_session import WorkSpaceSession, WorkSpaceSessionDao
+from kirinchat.database.models.workspace_session import WorkSpaceSessionCreate
 
 
 class WorkSpaceSessionService:

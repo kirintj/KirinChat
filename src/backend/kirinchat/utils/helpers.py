@@ -5,7 +5,7 @@ import requests
 from loguru import  logger
 from pydantic import BaseModel, Field
 
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 from datetime import datetime, timedelta, timezone
 
 class ImportedConfigInfo(BaseModel):

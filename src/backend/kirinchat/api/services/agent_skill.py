@@ -1,8 +1,8 @@
-from agentchat.core.agents.structured_response_agent import StructuredResponseAgent
-from agentchat.database.dao.agent_skill import AgentSkillDao
-from agentchat.database.models.agent_skill import AgentSkill
-from agentchat.prompts.skill import AgentSkillAsToolPrompt
-from agentchat.schemas.agent_skill import AgentSkillCreateReq, AgentSkillFile, AgentSkillFolder, AgentSkillResponseFormat
+from kirinchat.core.agents.structured_response_agent import StructuredResponseAgent
+from kirinchat.database.dao.agent_skill import AgentSkillDao
+from kirinchat.database.models.agent_skill import AgentSkill
+from kirinchat.prompts.skill import AgentSkillAsToolPrompt
+from kirinchat.schemas.agent_skill import AgentSkillCreateReq, AgentSkillFile, AgentSkillFolder, AgentSkillResponseFormat
 
 
 def default_agent_skill_folder(name, description):

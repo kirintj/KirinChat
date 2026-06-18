@@ -4,10 +4,10 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 
-from agentchat.core.models.manager import ModelManager
-from agentchat.services.mars.ai_news.crawl_news import crawl_today_ai_news, crawl_single_ai_news, \
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.services.mars.ai_news.crawl_news import crawl_today_ai_news, crawl_single_ai_news, \
     sync_crawl_with_selenium
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 
 NEWS_PROMPT = """
 【系统角色】

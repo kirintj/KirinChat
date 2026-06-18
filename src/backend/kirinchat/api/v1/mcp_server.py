@@ -2,16 +2,16 @@ import json
 from loguru import logger
 from fastapi import APIRouter, Body, Depends
 
-from agentchat.api.services.mcp_server import MCPService
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.prompts.mcp import McpAsToolPrompt
-from agentchat.schemas.mcp import MCPResponseFormat, MCPServerImportedReq, MCPServerUpdateReq
-from agentchat.api.responses.builder import resp_500, resp_200
-from agentchat.core.agents.structured_response_agent import StructuredResponseAgent
-from agentchat.services.mcp.manager import MCPManager
-from agentchat.settings import app_settings
-from agentchat.utils.convert import convert_mcp_config
-from agentchat.utils.helpers import parse_imported_config
+from kirinchat.api.services.mcp_server import MCPService
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.prompts.mcp import McpAsToolPrompt
+from kirinchat.schemas.mcp import MCPResponseFormat, MCPServerImportedReq, MCPServerUpdateReq
+from kirinchat.api.responses.builder import resp_500, resp_200
+from kirinchat.core.agents.structured_response_agent import StructuredResponseAgent
+from kirinchat.services.mcp.manager import MCPManager
+from kirinchat.settings import app_settings
+from kirinchat.utils.convert import convert_mcp_config
+from kirinchat.utils.helpers import parse_imported_config
 
 router = APIRouter(tags=["MCP-Server"])
 

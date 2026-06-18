@@ -20,7 +20,7 @@ from mcp.types import CallToolResult, EmbeddedResource, ImageContent, TextConten
 from mcp.types import Tool as MCPTool
 from pydantic import BaseModel, create_model
 
-from agentchat.services.mcp.sessions import Connection, create_session
+from kirinchat.services.mcp.sessions import Connection, create_session
 
 NonTextContent = ImageContent | EmbeddedResource
 MAX_ITERATIONS = 1000

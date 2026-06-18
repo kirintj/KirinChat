@@ -2,9 +2,9 @@ from typing import Optional
 from sqlalchemy.orm import selectinload
 from sqlmodel import select, delete
 
-from agentchat.database.models.register_mcp_tool import RegisterMcpTool
-from agentchat.database.models.register_mcp import RegisterMcpServer
-from agentchat.database.session import async_session_getter
+from kirinchat.database.models.register_mcp_tool import RegisterMcpTool
+from kirinchat.database.models.register_mcp import RegisterMcpServer
+from kirinchat.database.session import async_session_getter
 
 class RegisterMcpDao:
 

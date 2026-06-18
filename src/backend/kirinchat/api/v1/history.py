@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Query
-from agentchat.api.services.history import HistoryService
-from agentchat.api.services.user import get_login_user, UserPayload
-from agentchat.api.responses.builder import resp_200, resp_500, UnifiedResponseModel
+from kirinchat.api.services.history import HistoryService
+from kirinchat.api.services.user import get_login_user, UserPayload
+from kirinchat.api.responses.builder import resp_200, resp_500, UnifiedResponseModel
 from loguru import logger
 
 router = APIRouter(tags=["History"])

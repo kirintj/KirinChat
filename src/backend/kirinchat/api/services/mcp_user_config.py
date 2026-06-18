@@ -1,6 +1,6 @@
 from typing import Optional, List
-from agentchat.database.dao.mcp_user_config import MCPUserConfigDao
-from agentchat.database.models.user import AdminUser, SystemUser
+from kirinchat.database.dao.mcp_user_config import MCPUserConfigDao
+from kirinchat.database.models.user import AdminUser, SystemUser
 
 
 class MCPUserConfigService:

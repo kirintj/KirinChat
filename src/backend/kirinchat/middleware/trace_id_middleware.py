@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from loguru import logger
 
-from agentchat.utils.contexts import set_trace_id_context
+from kirinchat.utils.contexts import set_trace_id_context
 
 
 class TraceIDMiddleware(BaseHTTPMiddleware):

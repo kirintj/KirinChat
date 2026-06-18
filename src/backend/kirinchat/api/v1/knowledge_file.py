@@ -2,12 +2,12 @@ import os
 from urllib.parse import urlparse
 from fastapi import APIRouter, Body, Depends, Query
 
-from agentchat.services.storage import storage_client
-from agentchat.api.services.knowledge_file import KnowledgeFileService
-from agentchat.api.services.knowledge import KnowledgeService
-from agentchat.api.services.user import get_login_user, UserPayload
-from agentchat.api.responses.builder import UnifiedResponseModel, resp_200, resp_500
-from agentchat.utils.file_utils import get_save_tempfile
+from kirinchat.services.storage import storage_client
+from kirinchat.api.services.knowledge_file import KnowledgeFileService
+from kirinchat.api.services.knowledge import KnowledgeService
+from kirinchat.api.services.user import get_login_user, UserPayload
+from kirinchat.api.responses.builder import UnifiedResponseModel, resp_200, resp_500
+from kirinchat.utils.file_utils import get_save_tempfile
 
 router = APIRouter(tags=["Knowledge-File"])
 

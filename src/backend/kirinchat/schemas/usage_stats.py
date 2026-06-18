@@ -1,7 +1,7 @@
 from typing import Optional
 from enum import Enum
 from pydantic import BaseModel
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 
 class UsageStatsRequest(BaseModel):
     agent: Optional[str] = None

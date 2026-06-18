@@ -1,8 +1,8 @@
-from agentchat.database import SystemUser
-from agentchat.database.models.agent import AgentTable
+from kirinchat.database import SystemUser
+from kirinchat.database.models.agent import AgentTable
 from sqlmodel import select, and_, update, desc, delete, or_
 
-from agentchat.database.session import session_getter
+from kirinchat.database.session import session_getter
 
 
 class AgentDao:

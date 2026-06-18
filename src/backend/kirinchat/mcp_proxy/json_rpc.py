@@ -9,9 +9,9 @@ from typing import Any
 from fastapi import Request
 from loguru import logger
 
-from agentchat.schemas.json_rpc import JsonRpcError, JsonRpcResponse
-from agentchat.mcp_proxy.register_mcp import RegisterMcpService
-from agentchat.settings import app_settings
+from kirinchat.schemas.json_rpc import JsonRpcError, JsonRpcResponse
+from kirinchat.mcp_proxy.register_mcp import RegisterMcpService
+from kirinchat.settings import app_settings
 
 
 def check_auth(request: Request) -> bool:
@@ -25,7 +25,7 @@ def check_auth(request: Request) -> bool:
     Returns:
         认证成功或已禁用返回 True，否则返回 False
     """
-    # 移动到agentchat平台后全部不走鉴权
+    # 移动到kirinchat平台后全部不走鉴权
     return True
 
 

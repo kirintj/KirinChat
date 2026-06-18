@@ -3,9 +3,9 @@ import json
 from loguru import logger
 from langchain_core.messages import HumanMessage, SystemMessage
 
-from agentchat.core.models.manager import ModelManager
-from agentchat.prompts.rewrite import system_query_rewrite
-from agentchat.prompts.rewrite import user_query_write
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.prompts.rewrite import system_query_rewrite
+from kirinchat.prompts.rewrite import user_query_write
 
 class QueryRewrite:
     def __init__(self):

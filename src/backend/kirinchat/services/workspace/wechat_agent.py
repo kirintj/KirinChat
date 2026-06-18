@@ -10,21 +10,21 @@ from langchain.agents import create_agent
 from langchain.agents.middleware import wrap_tool_call, ToolCallLimitMiddleware
 from langchain_core.messages import BaseMessage, AIMessage, ToolMessage, AIMessageChunk
 
-from agentchat.api.services.knowledge import KnowledgeService
-from agentchat.core.callbacks import usage_metadata_callback
-from agentchat.services.rag.handler import RagHandler
-from agentchat.tools import WeChatTools
-from agentchat.schemas.usage_stats import UsageStatsAgentType
-from agentchat.schemas.workspace import WorkSpaceAgents
-from agentchat.api.services.user import UserService
-from agentchat.services.mcp.manager import MCPManager
-from agentchat.prompts.completion import GenerateTitlePrompt
-from agentchat.utils.convert import convert_mcp_config
-from agentchat.core.models.manager import ModelManager
-from agentchat.api.services.mcp_user_config import MCPUserConfigService
-from agentchat.api.services.usage_stats import UsageStatsService
-from agentchat.api.services.workspace_session import WorkSpaceSessionService
-from agentchat.database.models.workspace_session import WorkSpaceSessionCreate, WorkSpaceSessionContext
+from kirinchat.api.services.knowledge import KnowledgeService
+from kirinchat.core.callbacks import usage_metadata_callback
+from kirinchat.services.rag.handler import RagHandler
+from kirinchat.tools import WeChatTools
+from kirinchat.schemas.usage_stats import UsageStatsAgentType
+from kirinchat.schemas.workspace import WorkSpaceAgents
+from kirinchat.api.services.user import UserService
+from kirinchat.services.mcp.manager import MCPManager
+from kirinchat.prompts.completion import GenerateTitlePrompt
+from kirinchat.utils.convert import convert_mcp_config
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.api.services.mcp_user_config import MCPUserConfigService
+from kirinchat.api.services.usage_stats import UsageStatsService
+from kirinchat.api.services.workspace_session import WorkSpaceSessionService
+from kirinchat.database.models.workspace_session import WorkSpaceSessionCreate, WorkSpaceSessionContext
 
 
 class MCPConfig(BaseModel):

@@ -1,8 +1,8 @@
 from datetime import datetime
 
 from sqlmodel import Session, select, update, desc, delete, or_, func, and_
-from agentchat.database.session import session_getter
-from agentchat.database.models.mcp_server import MCPServerTable
+from kirinchat.database.session import session_getter
+from kirinchat.database.models.mcp_server import MCPServerTable
 
 
 class MCPServerDao:

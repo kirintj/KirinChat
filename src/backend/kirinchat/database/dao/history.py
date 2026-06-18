@@ -1,8 +1,8 @@
 from typing import List
 
-from agentchat.database.models.history import HistoryTable
+from kirinchat.database.models.history import HistoryTable
 from sqlmodel import Session, select, delete
-from agentchat.database.session import async_session_getter
+from kirinchat.database.session import async_session_getter
 
 class HistoryDao:
 

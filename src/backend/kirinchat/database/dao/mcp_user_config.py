@@ -2,9 +2,9 @@ from datetime import datetime
 from typing import Optional, List
 
 from sqlmodel import Session, select, and_, update, desc, delete, or_
-from agentchat.database.session import session_getter
+from kirinchat.database.session import session_getter
 
-from agentchat.database.models.mcp_user_config import MCPUserConfigTable
+from kirinchat.database.models.mcp_user_config import MCPUserConfigTable
 
 
 class MCPUserConfigDao:

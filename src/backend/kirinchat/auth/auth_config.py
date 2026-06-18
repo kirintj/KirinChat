@@ -2,7 +2,7 @@ from pydantic import ValidationError
 from typing import Callable, List
 from datetime import timedelta
 
-from agentchat.auth.config import LoadConfig
+from kirinchat.auth.config import LoadConfig
 
 class AuthConfig:
     _token = None

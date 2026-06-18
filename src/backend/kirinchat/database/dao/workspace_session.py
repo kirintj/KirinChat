@@ -1,8 +1,8 @@
 from typing import List
 
 from sqlmodel import select, update, and_, delete
-from agentchat.database.session import session_getter, async_session_getter
-from agentchat.database.models.workspace_session import WorkSpaceSession
+from kirinchat.database.session import session_getter, async_session_getter
+from kirinchat.database.models.workspace_session import WorkSpaceSession
 
 
 class WorkSpaceSessionDao:

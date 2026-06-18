@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 
-from agentchat.api.services.agent_skill import AgentSkillService
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.api.responses.builder import resp_200
-from agentchat.schemas.agent_skill import AgentSkillCreateReq, AgentSkillDeleteReq, AgentSkillFileUpdateReq, \
+from kirinchat.api.services.agent_skill import AgentSkillService
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.api.responses.builder import resp_200
+from kirinchat.schemas.agent_skill import AgentSkillCreateReq, AgentSkillDeleteReq, AgentSkillFileUpdateReq, \
     AgentSkillFileAddReq, AgentSkillFileDeleteReq
 
 router = APIRouter(prefix="/agent_skill", tags=["Agent-Skill"])

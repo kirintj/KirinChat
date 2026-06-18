@@ -2,9 +2,9 @@ from datetime import datetime
 from typing import List, Optional
 
 from sqlmodel import Field, select, Session, delete
-from agentchat.database.session import session_getter
-from agentchat.database.models.role import AdminRole
-from agentchat.database.models.user_role import UserRoleBase, UserRole
+from kirinchat.database.session import session_getter
+from kirinchat.database.models.role import AdminRole
+from kirinchat.database.models.user_role import UserRoleBase, UserRole
 
 
 class UserRoleDao(UserRoleBase):

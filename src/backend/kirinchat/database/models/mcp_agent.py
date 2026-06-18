@@ -4,7 +4,7 @@ from datetime import datetime
 from uuid import uuid4, UUID
 from sqlalchemy import JSON, Column, DateTime, text
 
-from agentchat.database.models.base import SQLModelSerializable
+from kirinchat.database.models.base import SQLModelSerializable
 
 
 # 每个MCPAgent

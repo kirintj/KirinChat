@@ -3,8 +3,8 @@ import json
 from loguru import logger
 from typing import Optional, Dict, List
 from tavily import TavilyClient
-from agentchat.settings import app_settings
-from agentchat.core.models.manager import ModelManager
+from kirinchat.settings import app_settings
+from kirinchat.core.models.manager import ModelManager
 
 # 一个简单的测试，没有入选Mars Tools列表内
 class SimpleLLMJudge:

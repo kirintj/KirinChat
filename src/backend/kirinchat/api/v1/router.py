@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from agentchat.api.v1 import (
+from kirinchat.api.v1 import (
     completion, dialog, message, agent, history, mars,
     user, llm, tool, knowledge, knowledge_file, mcp_server, mcp_user_config,
     workspace, lingseek, usage_stats, upload, wechat, agent_skill,

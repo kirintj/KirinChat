@@ -1,7 +1,7 @@
 import base64
 from langchain.tools import tool
 
-from agentchat.core.models.manager import ModelManager
+from kirinchat.core.models.manager import ModelManager
 
 @tool(parse_docstring=True)
 def image_to_text(image_path: str):

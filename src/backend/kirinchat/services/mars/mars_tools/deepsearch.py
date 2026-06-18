@@ -3,7 +3,7 @@ from typing import Optional
 from langchain.tools import tool
 from langgraph.config import get_stream_writer
 from langchain_core.messages import HumanMessage
-from agentchat.services.deepsearch.stream_graph import StreamingGraph
+from kirinchat.services.deepsearch.stream_graph import StreamingGraph
 
 @tool(parse_docstring=True)
 async def deep_search(user_input: str, user_id: Optional[str] = None):

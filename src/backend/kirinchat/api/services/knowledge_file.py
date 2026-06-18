@@ -1,12 +1,12 @@
 from uuid import uuid4
 
 from loguru import logger
-from agentchat.database.dao.knowledge_file import KnowledgeFileDao
-from agentchat.database.models.knowledge_file import Status
-from agentchat.database.models.user import AdminUser
-from agentchat.services.rag.parser import doc_parser
-from agentchat.services.rag.handler import RagHandler
-from agentchat.settings import app_settings
+from kirinchat.database.dao.knowledge_file import KnowledgeFileDao
+from kirinchat.database.models.knowledge_file import Status
+from kirinchat.database.models.user import AdminUser
+from kirinchat.services.rag.parser import doc_parser
+from kirinchat.services.rag.handler import RagHandler
+from kirinchat.settings import app_settings
 
 class KnowledgeFileService:
     @classmethod

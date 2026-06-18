@@ -3,8 +3,8 @@ from jwt.algorithms import requires_cryptography, has_crypto
 from datetime import datetime, timezone, timedelta
 from typing import Optional, Dict, Union, Sequence
 from fastapi import Request, Response, WebSocket
-from agentchat.auth.auth_config import AuthConfig
-from agentchat.auth.exceptions import (
+from kirinchat.auth.auth_config import AuthConfig
+from kirinchat.auth.exceptions import (
     InvalidHeaderError,
     CSRFError,
     JWTDecodeError,

@@ -1,9 +1,9 @@
 from openai import AsyncOpenAI
 from langchain_openai import ChatOpenAI
 from langchain_core.language_models import BaseChatModel
-from agentchat.core.models.embedding import EmbeddingModel
-from agentchat.core.models.reason_model import ReasoningModel
-from agentchat.settings import app_settings
+from kirinchat.core.models.embedding import EmbeddingModel
+from kirinchat.core.models.reason_model import ReasoningModel
+from kirinchat.settings import app_settings
 
 
 class ModelManager:

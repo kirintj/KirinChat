@@ -1,13 +1,13 @@
 from loguru import logger
 from fastapi import APIRouter, Depends, HTTPException
 
-from agentchat.database import ToolTable
-from agentchat.api.responses.builder import UnifiedResponseModel, resp_200, resp_500
-from agentchat.api.services.user import get_login_user, UserPayload
-from agentchat.api.services.tool import ToolService
-from agentchat.schemas.tool import ToolCreateReq, ToolUpdateReq, ToolDeleteReq
-from agentchat.settings import app_settings
-from agentchat.tools.openapi_tool.adapter import OpenAPIToolAdapter
+from kirinchat.database import ToolTable
+from kirinchat.api.responses.builder import UnifiedResponseModel, resp_200, resp_500
+from kirinchat.api.services.user import get_login_user, UserPayload
+from kirinchat.api.services.tool import ToolService
+from kirinchat.schemas.tool import ToolCreateReq, ToolUpdateReq, ToolDeleteReq
+from kirinchat.settings import app_settings
+from kirinchat.tools.openapi_tool.adapter import OpenAPIToolAdapter
 
 router = APIRouter(tags=["Tool"], prefix="/tool")
 

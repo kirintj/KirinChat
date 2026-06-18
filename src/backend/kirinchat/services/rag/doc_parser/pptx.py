@@ -1,5 +1,5 @@
-from agentchat.services.rag.doc_parser.pdf import pdf_parser
-from agentchat.services.convert_files.convert_pdf import convert_to_pdf
+from kirinchat.services.rag.doc_parser.pdf import pdf_parser
+from kirinchat.services.convert_files.convert_pdf import convert_to_pdf
 
 
 class PPTXParser:

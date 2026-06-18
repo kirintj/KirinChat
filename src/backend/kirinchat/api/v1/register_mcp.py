@@ -2,12 +2,12 @@ from loguru import logger
 from fastapi import APIRouter, Depends
 from pydantic import ValidationError
 
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.database.dao.register_mcp import RegisterMcpDao
-from agentchat.schemas.register_mcp import RegisterMcpRequest
-from agentchat.schemas.openapi import OpenApiSchema
-from agentchat.api.responses.builder import resp_200
-from agentchat.mcp_proxy.register_mcp import RegisterMcpService
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.database.dao.register_mcp import RegisterMcpDao
+from kirinchat.schemas.register_mcp import RegisterMcpRequest
+from kirinchat.schemas.openapi import OpenApiSchema
+from kirinchat.api.responses.builder import resp_200
+from kirinchat.mcp_proxy.register_mcp import RegisterMcpService
 
 router = APIRouter(prefix="/mcp", tags=["Register-MCP"])
 

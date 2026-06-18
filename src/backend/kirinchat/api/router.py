@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from agentchat.api.mcp_proxy.router import mcp_proxy_router
-from agentchat.api.v1.router import api_v1_router
+from kirinchat.api.mcp_proxy.router import mcp_proxy_router
+from kirinchat.api.v1.router import api_v1_router
 
 router = APIRouter()
 

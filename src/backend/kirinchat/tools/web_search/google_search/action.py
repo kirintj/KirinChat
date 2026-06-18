@@ -1,6 +1,6 @@
 from langchain.tools import tool
 from langchain_community.utilities import SerpAPIWrapper
-from agentchat.settings import app_settings
+from kirinchat.settings import app_settings
 
 search = SerpAPIWrapper(serpapi_api_key=app_settings.tools.google.get('api_key'))
 

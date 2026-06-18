@@ -7,9 +7,9 @@ from langchain_core.messages import AIMessage
 from langchain_core.messages.ai import UsageMetadata, add_usage
 from langchain_core.outputs import ChatGeneration, LLMResult
 
-from agentchat.database import SystemUser
-from agentchat.api.services.usage_stats import UsageStatsService
-from agentchat.utils.contexts import get_user_id_context, get_agent_name_context
+from kirinchat.database import SystemUser
+from kirinchat.api.services.usage_stats import UsageStatsService
+from kirinchat.utils.contexts import get_user_id_context, get_agent_name_context
 
 
 class UsageMetadataCallbackHandler(BaseCallbackHandler):

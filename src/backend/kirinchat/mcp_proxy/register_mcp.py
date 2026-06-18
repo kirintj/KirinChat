@@ -9,14 +9,14 @@ from loguru import logger
 from typing import Any
 from cachetools import TTLCache
 
-from agentchat.api.services.mcp_server import MCPService
-from agentchat.schemas.register_mcp import RegisterMcpRequest, RegisterMcpResponse, RegisterMcpServerModel
-from agentchat.mcp_proxy.schema_converter import tool_to_mcp_schema, _parse_openapi_schema
-from agentchat.mcp_proxy.execute_tool import RegisterMcpToolExecute
-from agentchat.database.dao.register_mcp import RegisterMcpDao
-from agentchat.database.models.register_mcp import RegisterMcpServer
-from agentchat.database.models.register_mcp_tool import RegisterMcpTool
-from agentchat.settings import app_settings
+from kirinchat.api.services.mcp_server import MCPService
+from kirinchat.schemas.register_mcp import RegisterMcpRequest, RegisterMcpResponse, RegisterMcpServerModel
+from kirinchat.mcp_proxy.schema_converter import tool_to_mcp_schema, _parse_openapi_schema
+from kirinchat.mcp_proxy.execute_tool import RegisterMcpToolExecute
+from kirinchat.database.dao.register_mcp import RegisterMcpDao
+from kirinchat.database.models.register_mcp import RegisterMcpServer
+from kirinchat.database.models.register_mcp_tool import RegisterMcpTool
+from kirinchat.settings import app_settings
 
 _tool_cache: TTLCache = TTLCache(maxsize=200, ttl=300)
 

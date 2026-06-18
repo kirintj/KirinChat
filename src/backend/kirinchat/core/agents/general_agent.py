@@ -13,18 +13,18 @@ from langgraph.config import get_stream_writer
 from langchain_core.messages import BaseMessage, ToolMessage, HumanMessage, AIMessageChunk
 from langchain.agents.middleware import LLMToolSelectorMiddleware, ModelRequest, ModelResponse, AgentMiddleware
 
-from agentchat.api.services.agent_skill import AgentSkillService
-from agentchat.core.agents.skill_agent import SkillAgent
-from agentchat.core.callbacks import usage_metadata_callback
-from agentchat.database import AgentSkill
-from agentchat.tools import AgentToolsWithName
-from agentchat.api.services.llm import LLMService
-from agentchat.core.models.manager import ModelManager
-from agentchat.api.services.tool import ToolService
-from agentchat.services.rag.handler import RagHandler
-from agentchat.core.agents.mcp_agent import MCPAgent, MCPConfig
-from agentchat.api.services.mcp_server import MCPService
-from agentchat.tools.openapi_tool.adapter import OpenAPIToolAdapter
+from kirinchat.api.services.agent_skill import AgentSkillService
+from kirinchat.core.agents.skill_agent import SkillAgent
+from kirinchat.core.callbacks import usage_metadata_callback
+from kirinchat.database import AgentSkill
+from kirinchat.tools import AgentToolsWithName
+from kirinchat.api.services.llm import LLMService
+from kirinchat.core.models.manager import ModelManager
+from kirinchat.api.services.tool import ToolService
+from kirinchat.services.rag.handler import RagHandler
+from kirinchat.core.agents.mcp_agent import MCPAgent, MCPConfig
+from kirinchat.api.services.mcp_server import MCPService
+from kirinchat.tools.openapi_tool.adapter import OpenAPIToolAdapter
 
 
 class StreamAgentState(AgentState):

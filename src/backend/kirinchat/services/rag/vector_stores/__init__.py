@@ -1,7 +1,7 @@
-from agentchat.services.rag.vector_stores.milvus import MilvusClient
-from agentchat.services.rag.vector_stores.chroma import ChromaClient
-from agentchat.services.rag.vector_stores.milvus_lite import MilvusLiteClient
-from agentchat.settings import app_settings
+from kirinchat.services.rag.vector_stores.milvus import MilvusClient
+from kirinchat.services.rag.vector_stores.chroma import ChromaClient
+from kirinchat.services.rag.vector_stores.milvus_lite import MilvusLiteClient
+from kirinchat.settings import app_settings
 
 milvus_client = None
 if app_settings.rag.vector_db.get("mode") == "chroma":

@@ -11,11 +11,11 @@ from fastapi import APIRouter, Depends
 from langchain_core.messages import HumanMessage
 from langgraph.types import Command
 
-from agentchat.api.responses.streaming import WatchedStreamingResponse
-from agentchat.api.services.user import UserPayload, get_login_user
-from agentchat.mcp_proxy.agent import abstract_mcp_agent
-from agentchat.database.dao.register_task import RegisterMcpTaskDao
-from agentchat.utils.contexts import set_user_id_context
+from kirinchat.api.responses.streaming import WatchedStreamingResponse
+from kirinchat.api.services.user import UserPayload, get_login_user
+from kirinchat.mcp_proxy.agent import abstract_mcp_agent
+from kirinchat.database.dao.register_task import RegisterMcpTaskDao
+from kirinchat.utils.contexts import set_user_id_context
 
 router = APIRouter(prefix="/mcp/register", tags=["Completion"])
 

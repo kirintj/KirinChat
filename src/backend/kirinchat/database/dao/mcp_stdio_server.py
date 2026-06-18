@@ -1,9 +1,9 @@
 from datetime import datetime
 
 from sqlmodel import Session, select, and_, update, desc, delete, or_
-from agentchat.database.session import session_getter
+from kirinchat.database.session import session_getter
 
-from agentchat.database.models.mcp_server import MCPServerStdioTable, MCPServerTable
+from kirinchat.database.models.mcp_server import MCPServerStdioTable, MCPServerTable
 
 
 class MCPServerStdioDao:

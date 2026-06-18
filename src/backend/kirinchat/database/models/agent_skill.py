@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from typing import List, Dict, Optional
 from sqlmodel import Field, Column, JSON, DateTime, text
-from agentchat.database.models.base import SQLModelSerializable
+from kirinchat.database.models.base import SQLModelSerializable
 
 
 class AgentSkill(SQLModelSerializable, table=True):

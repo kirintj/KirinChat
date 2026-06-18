@@ -1,6 +1,6 @@
-from agentchat.services.storage.oss import OSSClient
-from agentchat.services.storage.minio import MinioClient
-from agentchat.settings import app_settings
+from kirinchat.services.storage.oss import OSSClient
+from kirinchat.services.storage.minio import MinioClient
+from kirinchat.settings import app_settings
 
 if app_settings.storage.mode == "minio":
     storage_client = MinioClient()

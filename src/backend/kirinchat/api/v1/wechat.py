@@ -4,11 +4,11 @@ from fastapi import APIRouter, Request, Response
 from fastapi.responses import PlainTextResponse
 
 from langchain_core.messages import HumanMessage, SystemMessage
-from agentchat.api.services.wechat import WeChatService
-from agentchat.api.services.workspace_session import WorkSpaceSessionService
-from agentchat.services.redis import redis_client
-from agentchat.services.workspace.wechat_agent import WeChatAgent
-from agentchat.settings import app_settings
+from kirinchat.api.services.wechat import WeChatService
+from kirinchat.api.services.workspace_session import WorkSpaceSessionService
+from kirinchat.services.redis import redis_client
+from kirinchat.services.workspace.wechat_agent import WeChatAgent
+from kirinchat.settings import app_settings
 
 router = APIRouter(tags=["Wechat"])
 

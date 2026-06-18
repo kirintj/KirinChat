@@ -6,8 +6,8 @@ import requests
 from loguru import logger
 import xml.etree.ElementTree as ET
 
-from agentchat.api.services.workspace_session import WorkSpaceSessionService
-from agentchat.settings import app_settings
+from kirinchat.api.services.workspace_session import WorkSpaceSessionService
+from kirinchat.settings import app_settings
 
 class WeChatService:
 
@@ -47,7 +47,7 @@ class WeChatService:
         access_token = cls._get_access_token()
         url = f"https://api.weixin.qq.com/cgi-bin/media/upload?access_token={access_token}&type=image"
         files = {
-            "media": open(image_path or "agentchat/config/default.jpg", "rb") # 示例，可放到config.yaml文件
+            "media": open(image_path or "kirinchat/config/default.jpg", "rb") # 示例，可放到config.yaml文件
         }
         response = requests.post(url, files=files)
         result = response.json()

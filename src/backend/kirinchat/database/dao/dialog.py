@@ -1,6 +1,6 @@
-from agentchat.database.models.dialog import DialogTable
+from kirinchat.database.models.dialog import DialogTable
 from sqlmodel import Session, select, update, desc, delete
-from agentchat.database.session import async_session_getter
+from kirinchat.database.session import async_session_getter
 from datetime import datetime
 
 class DialogDao:

@@ -1,4 +1,4 @@
-from agentchat.services.sandbox.pyodide import (
+from kirinchat.services.sandbox.pyodide import (
     PyodideSandbox,
     PyodideSandboxTool,
     SyncPyodideSandbox,
