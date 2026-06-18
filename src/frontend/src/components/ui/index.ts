@@ -9,6 +9,9 @@ export { HInput } from './HInput'
 export { HMessage } from './HMessage'
 export { HMessageBox } from './HMessageBox'
 export { HSelect, HOption } from './HSelect'
+export { HTooltip } from './HTooltip'
+export { HDropdown, HDropdownItem } from './HDropdown'
+export { HTag } from './HTag'
 
 // Vue 插件：全局注册
 export default {
