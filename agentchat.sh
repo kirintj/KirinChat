@@ -1,5 +1,5 @@
 #!/bin/bash
-# AgentChat 统一启动脚本
+# KirinChat 统一启动脚本
 # 用法: ./agentchat.sh <command> [options]
 
 set -e
@@ -115,7 +115,7 @@ cleanup() {
 # ─── 子命令: help ────────────────────────────────────────
 cmd_help() {
     echo ""
-    echo "  AgentChat 统一启动脚本"
+    echo "  KirinChat 统一启动脚本"
     echo "  ─────────────────────────────────────"
     echo ""
     echo "  用法: ./agentchat.sh <command> [options]"
@@ -208,7 +208,7 @@ cmd_up() {
 
     echo ""
     echo "  ─────────────────────────────────────"
-    echo "  ✅ AgentChat 已启动"
+    echo "  ✅ KirinChat 已启动"
     echo "  ─────────────────────────────────────"
     echo ""
     echo "  前端界面:    http://localhost:8090"

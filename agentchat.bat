@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 chcp 65001 >nul 2>&1
 
-REM AgentChat 统一启动脚本
+REM KirinChat 统一启动脚本
 REM 用法: agentchat.bat <command> [options]
 
 if "%~1"=="" goto :help
@@ -23,7 +23,7 @@ exit /b 2
 REM ─── help ──────────────────────────────────────────────
 :help
 echo.
-echo   AgentChat 统一启动脚本
+echo   KirinChat 统一启动脚本
 echo   ─────────────────────────────────────
 echo.
 echo   用法: agentchat.bat ^<command^> [options]
@@ -100,15 +100,15 @@ call :ensure_frontend_deps
 echo [步骤] 启动后端服务（端口 7860）...
 cd /d "%~dp0src\backend"
 call .venv\Scripts\activate.bat
-start "AgentChat Backend" cmd /k "title AgentChat Backend && uvicorn agentchat.main:app --reload --host 0.0.0.0 --port 7860"
+start "KirinChat Backend" cmd /k "title KirinChat Backend && uvicorn agentchat.main:app --reload --host 0.0.0.0 --port 7860"
 
 echo [步骤] 启动前端服务（端口 8090）...
 cd /d "%~dp0src\frontend"
-start "AgentChat Frontend" cmd /k "title AgentChat Frontend && npm run dev"
+start "KirinChat Frontend" cmd /k "title KirinChat Frontend && npm run dev"
 
 echo.
 echo   ─────────────────────────────────────
-echo   ✅ AgentChat 已启动
+echo   ✅ KirinChat 已启动
 echo   ─────────────────────────────────────
 echo.
 echo   前端界面:    http://localhost:8090
@@ -128,7 +128,7 @@ call :ensure_backend_deps
 echo [步骤] 启动后端服务（端口 7860）...
 cd /d "%~dp0src\backend"
 call .venv\Scripts\activate.bat
-start "AgentChat Backend" cmd /k "title AgentChat Backend && uvicorn agentchat.main:app --reload --host 0.0.0.0 --port 7860"
+start "KirinChat Backend" cmd /k "title KirinChat Backend && uvicorn agentchat.main:app --reload --host 0.0.0.0 --port 7860"
 
 echo.
 echo ✅ 后端已启动: http://localhost:7860
@@ -141,7 +141,7 @@ call :ensure_frontend_deps
 
 echo [步骤] 启动前端服务（端口 8090）...
 cd /d "%~dp0src\frontend"
-start "AgentChat Frontend" cmd /k "title AgentChat Frontend && npm run dev"
+start "KirinChat Frontend" cmd /k "title KirinChat Frontend && npm run dev"
 goto :eof
 
 REM ─── down ──────────────────────────────────────────────
