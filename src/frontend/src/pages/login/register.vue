@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { HMessage, HButton, HInput } from '@/components/ui'
 import { registerAPI } from '../../apis/auth'
 import type { RegisterForm } from '../../apis/auth'
 
@@ -18,32 +18,32 @@ const loading = ref(false)
 
 const validateForm = () => {
   if (!registerForm.user_name) {
-    ElMessage.warning('请输入用户名')
+    HMessage.warning('请输入用户名')
     return false
   }
   
   if (registerForm.user_name.length > 20) {
-    ElMessage.warning('用户名长度不应该超过20个字符')
+    HMessage.warning('用户名长度不应该超过20个字符')
     return false
   }
   
   if (!registerForm.user_password) {
-    ElMessage.warning('请输入密码')
+    HMessage.warning('请输入密码')
     return false
   }
   
   if (registerForm.user_password.length < 6) {
-    ElMessage.warning('密码长度至少6个字符')
+    HMessage.warning('密码长度至少6个字符')
     return false
   }
   
   if (registerForm.user_password !== confirmPassword.value) {
-    ElMessage.warning('两次输入的密码不一致')
+    HMessage.warning('两次输入的密码不一致')
     return false
   }
   
   if (registerForm.user_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(registerForm.user_email)) {
-    ElMessage.warning('请输入有效的邮箱地址')
+    HMessage.warning('请输入有效的邮箱地址')
     return false
   }
   
@@ -60,18 +60,18 @@ const handleRegister = async () => {
     const response = await registerAPI(registerForm)
     
     if (response.data.status_code === 200) {
-      ElMessage.success('注册成功，请登录')
+      HMessage.success('注册成功，请登录')
       // 跳转到登录页面
       router.push('/login')
     } else {
-      ElMessage.error(response.data.status_message || '注册失败')
+      HMessage.error(response.data.status_message || '注册失败')
     }
   } catch (error: any) {
     console.error('注册错误:', error)
     if (error.response?.data?.detail) {
-      ElMessage.error(error.response.data.detail)
+      HMessage.error(error.response.data.detail)
     } else {
-      ElMessage.error('注册失败，请检查网络连接')
+      HMessage.error('注册失败，请检查网络连接')
     }
   } finally {
     loading.value = false
@@ -116,7 +116,7 @@ const goToLogin = () => {
         <div class="register-form">
           <div class="form-group">
             <label class="form-label">用户名</label>
-            <el-input
+            <HInput
               v-model="registerForm.user_name"
               placeholder="请输入用户名（最多20个字符）"
               size="large"
@@ -127,7 +127,7 @@ const goToLogin = () => {
 
           <div class="form-group">
             <label class="form-label">邮箱（可选）</label>
-            <el-input
+            <HInput
               v-model="registerForm.user_email"
               placeholder="请输入邮箱地址"
               size="large"
@@ -138,26 +138,26 @@ const goToLogin = () => {
 
           <div class="form-group">
             <label class="form-label">密码</label>
-            <el-input
+            <HInput
               v-model="registerForm.user_password"
               type="password"
               placeholder="请输入密码（至少6个字符）"
               size="large"
               class="register-input"
-              show-password
+              :show-password="true"
               @keyup.enter="handleRegister"
             />
           </div>
 
           <div class="form-group">
             <label class="form-label">确认密码</label>
-            <el-input
+            <HInput
               v-model="confirmPassword"
               type="password"
               placeholder="请再次输入密码"
               size="large"
               class="register-input"
-              show-password
+              :show-password="true"
               @keyup.enter="handleRegister"
             />
           </div>
@@ -169,7 +169,7 @@ const goToLogin = () => {
             </div>
           </div>
 
-          <el-button
+          <HButton
             type="primary"
             size="large"
             class="register-button"
@@ -177,7 +177,7 @@ const goToLogin = () => {
             @click="handleRegister"
           >
             注册
-          </el-button>
+          </HButton>
         </div>
 
         <!-- 底部版本信息 -->
@@ -201,7 +201,7 @@ const goToLogin = () => {
 .register-container {
   display: flex;
   height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-border) 100%);
 }
 
 .left-section {
@@ -230,7 +230,7 @@ const goToLogin = () => {
         position: absolute;
         width: 120px;
         height: 120px;
-        background: linear-gradient(45deg, #4f81ff, #3b66db);
+        background: linear-gradient(45deg, var(--color-primary), var(--color-primary-active));
         border: 1px solid rgba(255, 255, 255, 0.2);
         
         &.front { transform: rotateY(0deg) translateZ(60px); }
@@ -271,7 +271,7 @@ const goToLogin = () => {
 .right-section {
   overflow: hidden;  // 加上这一行
   width: 450px;
-  background: white;
+  background: var(--color-bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -290,7 +290,7 @@ const goToLogin = () => {
 
         .logo-text {
           display: inline-block;
-          background: linear-gradient(45deg, #4f81ff, #3b66db);
+          background: linear-gradient(45deg, var(--color-primary), var(--color-primary-active));
           color: white;
           padding: 12px 24px;
           border-radius: 8px;
@@ -303,7 +303,7 @@ const goToLogin = () => {
       }
 
       .subtitle {
-        color: #555;
+        color: var(--color-text-secondary);
         font-size: 16px;
         margin: 0;
         line-height: 1.6;
@@ -320,7 +320,7 @@ const goToLogin = () => {
           display: block;
           font-size: 16px;
           font-weight: 600;
-          color: #2c3e50;
+          color: var(--color-text-primary);
           margin-bottom: 10px;
           font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
           letter-spacing: 0.5px;
@@ -328,30 +328,30 @@ const goToLogin = () => {
 
         .register-input {
           :deep(.el-input__wrapper) {
-            background: #f8f9fc;
-            border: 1px solid #e1e5e9;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
             border-radius: 8px;
             padding: 12px 16px;
             box-shadow: none;
 
             &:hover {
-              border-color: #4f81ff;
+              border-color: var(--color-primary);
             }
 
             &.is-focus {
-              border-color: #4f81ff;
+              border-color: var(--color-primary);
               box-shadow: 0 0 0 3px rgba(79, 129, 255, 0.1);
             }
           }
 
           :deep(.el-input__inner) {
-            color: #2c3e50;
+            color: var(--color-text-primary);
             font-size: 16px;
             font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
             font-weight: 400;
 
             &::placeholder {
-              color: #a0a0a0;
+              color: var(--color-text-tertiary);
               font-size: 15px;
             }
           }
@@ -365,11 +365,11 @@ const goToLogin = () => {
 
         .login-link {
           font-size: 15px;
-          color: #666;
+          color: var(--color-text-secondary);
           font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
 
           a {
-            color: #4f81ff;
+            color: var(--color-primary);
             text-decoration: none;
             margin-left: 6px;
             font-weight: 500;
@@ -377,7 +377,7 @@ const goToLogin = () => {
 
             &:hover {
               text-decoration: underline;
-              color: #3b66db;
+              color: var(--color-primary-active);
             }
           }
         }
@@ -386,7 +386,7 @@ const goToLogin = () => {
       .register-button {
         width: 100%;
         height: 52px;
-        background: linear-gradient(45deg, #4f81ff, #3b66db);
+        background: linear-gradient(45deg, var(--color-primary), var(--color-primary-active));
         border: none;
         border-radius: 10px;
         font-size: 18px;

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { HMessage, HButton, HInput } from '@/components/ui'
 import { loginAPI, getUserInfoAPI } from '../../apis/auth'
 import { useUserStore } from '../../store/user'
 
@@ -17,7 +17,7 @@ const loading = ref(false)
 
 const handleLogin = async () => {
   if (!loginForm.username || !loginForm.password) {
-    ElMessage.warning('请输入用户名和密码')
+    HMessage.warning('请输入用户名和密码')
     return
   }
 
@@ -28,7 +28,7 @@ const handleLogin = async () => {
     // response.data结构可能是{status_code: number, data: {...}}
     const responseData = response.data
     if (responseData.status_code === 200) {
-      ElMessage.success('登录成功')
+      HMessage.success('登录成功')
       
       // 使用store管理用户状态
       const userData = responseData.data || {}
@@ -59,16 +59,16 @@ const handleLogin = async () => {
       // 跳转到主页
       router.push('/')
     } else {
-      ElMessage.error(responseData.status_message || '登录失败')
+      HMessage.error(responseData.status_message || '登录失败')
     }
   } catch (error: any) {
     console.error('登录错误:', error)
     if (error.response?.data?.message) {
-      ElMessage.error(error.response.data.status_message)
+      HMessage.error(error.response.data.status_message)
     } else if (error.response?.data?.detail) {
-      ElMessage.error(error.response.data.detail)
+      HMessage.error(error.response.data.detail)
     } else {
-      ElMessage.error('登录失败，请检查网络连接')
+      HMessage.error('登录失败，请检查网络连接')
     }
   } finally {
     loading.value = false
@@ -113,7 +113,7 @@ const goToRegister = () => {
         <div class="login-form">
           <div class="form-group">
             <label class="form-label">账号</label>
-            <el-input
+            <HInput
               v-model="loginForm.username"
               placeholder="请输入账号"
               size="large"
@@ -124,13 +124,13 @@ const goToRegister = () => {
 
           <div class="form-group">
             <label class="form-label">密码</label>
-            <el-input
+            <HInput
               v-model="loginForm.password"
               type="password"
               placeholder="请输入密码"
               size="large"
               class="login-input"
-              show-password
+              :show-password="true"
               @keyup.enter="handleLogin"
             />
           </div>
@@ -142,7 +142,7 @@ const goToRegister = () => {
             </div>
           </div>
 
-          <el-button
+          <HButton
             type="primary"
             size="large"
             class="login-button"
@@ -150,7 +150,7 @@ const goToRegister = () => {
             @click="handleLogin"
           >
             登录
-          </el-button>
+          </HButton>
         </div>
 
         <!-- 底部版本信息 -->
@@ -174,7 +174,7 @@ const goToRegister = () => {
 .login-container {
   display: flex;
   height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-border) 100%);
 }
 
 .left-section {
@@ -203,7 +203,7 @@ const goToRegister = () => {
         position: absolute;
         width: 120px;
         height: 120px;
-        background: linear-gradient(45deg, #4f81ff, #3b66db);
+        background: linear-gradient(45deg, var(--color-primary), var(--color-primary-active));
         border: 1px solid rgba(255, 255, 255, 0.2);
         
         &.front { transform: rotateY(0deg) translateZ(60px); }
@@ -243,7 +243,7 @@ const goToRegister = () => {
 
 .right-section {
   width: 450px;
-  background: white;
+  background: var(--color-bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -262,7 +262,7 @@ const goToRegister = () => {
 
         .logo-text {
           display: inline-block;
-          background: linear-gradient(45deg, #4f81ff, #3b66db);
+          background: linear-gradient(45deg, var(--color-primary), var(--color-primary-active));
           color: white;
           padding: 12px 24px;
           border-radius: 8px;
@@ -275,7 +275,7 @@ const goToRegister = () => {
       }
 
       .subtitle {
-        color: #555;
+        color: var(--color-text-secondary);
         font-size: 16px;
         margin: 0;
         line-height: 1.6;
@@ -292,7 +292,7 @@ const goToRegister = () => {
           display: block;
           font-size: 16px;
           font-weight: 600;
-          color: #2c3e50;
+          color: var(--color-text-primary);
           margin-bottom: 10px;
           font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
           letter-spacing: 0.5px;
@@ -300,30 +300,30 @@ const goToRegister = () => {
 
         .login-input {
           :deep(.el-input__wrapper) {
-            background: #f8f9fc;
-            border: 1px solid #e1e5e9;
+            background: var(--color-bg-tertiary);
+            border: 1px solid var(--color-border);
             border-radius: 8px;
             padding: 12px 16px;
             box-shadow: none;
 
             &:hover {
-              border-color: #4f81ff;
+              border-color: var(--color-primary);
             }
 
             &.is-focus {
-              border-color: #4f81ff;
+              border-color: var(--color-primary);
               box-shadow: 0 0 0 3px rgba(79, 129, 255, 0.1);
             }
           }
 
           :deep(.el-input__inner) {
-            color: #2c3e50;
+            color: var(--color-text-primary);
             font-size: 16px;
             font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
             font-weight: 400;
 
             &::placeholder {
-              color: #a0a0a0;
+              color: var(--color-text-tertiary);
               font-size: 15px;
             }
           }
@@ -337,11 +337,11 @@ const goToRegister = () => {
 
         .register-link {
           font-size: 15px;
-          color: #666;
+          color: var(--color-text-secondary);
           font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
 
           a {
-            color: #4f81ff;
+            color: var(--color-primary);
             text-decoration: none;
             margin-left: 6px;
             font-weight: 500;
@@ -349,7 +349,7 @@ const goToRegister = () => {
 
             &:hover {
               text-decoration: underline;
-              color: #3b66db;
+              color: var(--color-primary-active);
             }
           }
         }
@@ -358,7 +358,7 @@ const goToRegister = () => {
       .login-button {
         width: 100%;
         height: 52px;
-        background: linear-gradient(45deg, #4f81ff, #3b66db);
+        background: linear-gradient(45deg, var(--color-primary), var(--color-primary-active));
         border: none;
         border-radius: 10px;
         font-size: 18px;
