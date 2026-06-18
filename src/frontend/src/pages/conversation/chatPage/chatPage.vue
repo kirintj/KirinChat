@@ -6,8 +6,7 @@ import "md-editor-v3/lib/style.css"
 import { sendMessage, type Chat } from "../../../apis/chat"
 import { useHistoryChatStore } from "../../../store/history_chat_msg"
 import { useUserStore } from "../../../store/user"
-import { ElScrollbar, ElInput, ElButton, ElMessage, ElUpload, ElIcon } from "element-plus"
-import { UploadFilled, Promotion, Loading, VideoPause, Check, Close } from '@element-plus/icons-vue'
+import { HMessage, HButton } from '@/components/ui'
 
 // Import static assets
 import defaultUserAvatar from '../../../assets/user.svg';
@@ -36,7 +35,7 @@ const searchInput = ref("")
 const sendQuestion = ref(true)
 const historyChatStore = useHistoryChatStore()
 const userStore = useUserStore()
-const scrollbar = ref<InstanceType<typeof ElScrollbar>>()
+const scrollbarRef = ref<HTMLElement | null>(null)
 const route = useRoute()
 const abortCtrl = ref<AbortController | null>(null)
 const isCancelled = ref(false)
@@ -69,7 +68,7 @@ const checkActiveEvents = (chatItem: any) => {
 }
 
 const handleUploadSuccess = (response: any, file: any, fileList: any) => {
-  ElMessage.success(`文件 ${file.name} 上传成功!`)
+  HMessage.success(`文件 ${file.name} 上传成功!`)
   console.log(response)
   // 保存上传成功返回的文件URL和文件名
   if (response && response.data) {
@@ -79,7 +78,7 @@ const handleUploadSuccess = (response: any, file: any, fileList: any) => {
 }
 
 const handleUploadError = (error: any, file: any, fileList: any) => {
-  ElMessage.error(`文件 ${file.name} 上传失败.`)
+  HMessage.error(`文件 ${file.name} 上传失败.`)
   console.error(error)
 }
 
@@ -87,7 +86,7 @@ const handleUploadError = (error: any, file: any, fileList: any) => {
 const cancelUploadedFile = () => {
   fileUrl.value = ""
   fileName.value = ""
-  ElMessage.info('已取消选择的文件')
+  HMessage.info('已取消选择的文件')
 }
 
 // 判断是否为图片文件以便展示缩略图
@@ -95,11 +94,52 @@ const isImageFile = (name: string) => {
   return /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(name)
 }
 
+// 原生文件上传
+const fileInputRef = ref<HTMLInputElement | null>(null)
+
+const handleNativeFileUpload = async (event: Event) => {
+  const input = event.target as HTMLInputElement
+  if (!input.files || input.files.length === 0) return
+
+  const file = input.files[0]
+  const isLt2M = file.size / 1024 / 1024 < 2
+
+  if (!isLt2M) {
+    HMessage.error('文件大小不能超过 2MB!')
+    input.value = ''
+    return
+  }
+
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const response = await fetch('/api/v1/upload', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${localStorage.getItem('token') || ''}` },
+      body: formData
+    })
+
+    if (!response.ok) throw new Error('Upload failed')
+    const result = await response.json()
+    handleUploadSuccess(result, { name: file.name }, [])
+  } catch (error) {
+    handleUploadError(error, { name: file.name }, [])
+  }
+  input.value = ''
+}
+
+const triggerFileUpload = () => {
+  fileInputRef.value?.click()
+}
+
 
 // Function to scroll to the bottom of the chat
 function scrollBottom() {
   nextTick(() => {
-    scrollbar.value?.wrapRef?.scrollTo(0, scrollbar.value?.wrapRef.scrollHeight)
+    if (scrollbarRef.value) {
+      scrollbarRef.value.scrollTop = scrollbarRef.value.scrollHeight
+    }
   })
 }
 
@@ -173,7 +213,7 @@ const handleEventStatus = (parsedData: any) => {
 // Function to handle sending a message
 const personQuestion = async () => {
   if (!historyChatStore.dialogId) {
-    ElMessage.error('未获取到会话 ID，请先选择或创建会话')
+    HMessage.error('未获取到会话 ID，请先选择或创建会话')
     return
   }
   if (searchInput.value.trim() && sendQuestion.value) {
@@ -278,7 +318,7 @@ const personQuestion = async () => {
         }
       )
     } catch (error) {
-      ElMessage.error('发送消息失败，请重试')
+      HMessage.error('发送消息失败，请重试')
       sendQuestion.value = true
       abortCtrl.value = null
       hasActiveEvents.value = false
@@ -300,7 +340,7 @@ const stopGeneration = () => {
       sendQuestion.value = true
       abortCtrl.value = null
       hasActiveEvents.value = false
-      ElMessage.info('已取消本次AI生成！')
+      HMessage.info('已取消本次AI生成！')
     }
   }
 }
@@ -373,7 +413,7 @@ watch(
 <template>
   <div class="chat-container">
     <div class="chat-conversation">
-      <el-scrollbar ref="scrollbar">
+      <div ref="scrollbarRef" class="chat-scroll-area">
         <!-- 聊天消息区 -->
         <div v-for="(item, index) in historyChatStore.chatArr" :key="index" class="message-group">
           <!-- User Message -->
@@ -383,7 +423,7 @@ watch(
             </div>
             <img :src="userAvatar" alt="User Avatar" class="avatar" />
           </div>
-          
+
           <!-- AI Message -->
           <div v-if="item.aiMessage.content || (!sendQuestion && index === historyChatStore.chatArr.length - 1)" class="ai-message" :class="item.aiMessage.type ? 'ai-message-' + item.aiMessage.type : ''">
             <img :src="aiAvatar" alt="AI Avatar" class="avatar" />
@@ -392,9 +432,9 @@ watch(
               <div v-if="item.eventInfo && item.eventInfo.length" class="event-info-list">
                 <div v-for="(event, evIdx) in item.eventInfo" :key="evIdx" class="event-info-row" :class="event.status">
                   <div class="event-info-header" @click="toggleEventInfo(event)">
-                    <el-icon v-if="event.status === 'START'" class="rotating"><Loading /></el-icon>
-                    <el-icon v-else-if="event.status === 'END'" class="success-icon"><Check /></el-icon>
-                    <el-icon v-else-if="event.status === 'ERROR'" class="error-icon"><Close /></el-icon>
+                    <span v-if="event.status === 'START'" class="rotating">⏳</span>
+                    <span v-else-if="event.status === 'END'" class="success-icon">✅</span>
+                    <span v-else-if="event.status === 'ERROR'" class="error-icon">❌</span>
                     <span class="event-info-title">{{ event.event_type }}</span>
                     <span class="event-info-status">
                       {{ event.status === 'START' ? '进行中' : event.status === 'END' ? '已完成' : '失败' }}
@@ -406,10 +446,10 @@ watch(
                   </div>
                 </div>
               </div>
-              
+
               <!-- Loading Indicator - 只在没有活跃事件时显示 -->
               <div v-if="!item.aiMessage.content && !sendQuestion && index === historyChatStore.chatArr.length - 1 && !hasActiveEvents" class="loading-spinner">
-                  <el-icon class="is-loading" :size="20"><Loading /></el-icon>
+                  <span class="is-loading">⏳</span>
               </div>
               <template v-else>
                 <div v-if="item.aiMessage.type === 'knowledge'" style="color: #409eff;">
@@ -429,21 +469,19 @@ watch(
             </div>
           </div>
         </div>
-      </el-scrollbar>
+      </div>
     </div>
 
     <div class="input-area">
-      <el-upload
-        action="/api/v1/upload"
-        :on-success="handleUploadSuccess"
-        :on-error="handleUploadError"
-        :show-file-list="false"
-        :disabled="!!fileUrl"
-      >
-        <el-button circle class="action-btn" :class="{ 'file-uploaded': fileUrl }">
-          <el-icon><UploadFilled /></el-icon>
-        </el-button>
-      </el-upload>
+      <input
+        ref="fileInputRef"
+        type="file"
+        style="display: none"
+        @change="handleNativeFileUpload"
+      />
+      <HButton type="secondary" class="action-btn" :class="{ 'file-uploaded': fileUrl }" @click="triggerFileUpload" :disabled="!!fileUrl">
+        📎
+      </HButton>
       <div class="input-wrapper">
         <!-- 已上传文件显示 -->
         <div v-if="fileUrl" class="uploaded-file-tag">
@@ -454,30 +492,28 @@ watch(
             </svg>
           </span>
           <a class="file-name" :href="fileUrl" target="_blank" rel="noopener" :title="fileName">{{ fileName }}</a>
-          <el-button size="small" type="danger" text @click="cancelUploadedFile" class="cancel-btn" title="移除">
-            <el-icon><Close /></el-icon>
-          </el-button>
+          <HButton size="small" type="danger" @click="cancelUploadedFile" class="cancel-btn" title="移除">
+            ✕
+          </HButton>
         </div>
-        <el-input
+        <textarea
           v-model="searchInput"
-          type="textarea"
-          :autosize="{ minRows: 1, maxRows: 4 }"
           placeholder="请输入您的问题..."
           @keydown.enter.exact.prevent="personQuestion"
-          class="message-input"
-        />
+          class="message-textarea"
+          rows="1"
+        ></textarea>
       </div>
-      <el-button
+      <HButton
         @click="sendQuestion ? personQuestion() : stopGeneration()"
         type="primary"
-        circle
         class="send-btn"
         :class="{ 'pause-mode': !sendQuestion }"
         :disabled="sendQuestion ? !searchInput.trim() : false"
       >
-        <el-icon v-if="sendQuestion"><Promotion /></el-icon>
-        <el-icon v-else><VideoPause /></el-icon>
-      </el-button>
+        <span v-if="sendQuestion">➤</span>
+        <span v-else>⏸</span>
+      </HButton>
     </div>
   </div>
 </template>
@@ -494,7 +530,13 @@ watch(
   flex: 1;
   padding: 20px;
   overflow-y: hidden;
-  
+
+  .chat-scroll-area {
+    height: 100%;
+    overflow-y: auto;
+    padding: 10px;
+  }
+
   .message-group {
     margin-bottom: 20px;
   }
@@ -754,27 +796,30 @@ watch(
       min-height: 20px;
       font-size: 12px;
       margin-left: 4px;
-      
+
       &:hover {
         background-color: rgba(245, 108, 108, 0.1);
-      }
-      :deep(.el-icon) {
-        font-size: 16px;
       }
     }
   }
 
-  .message-input {
+  .message-textarea {
     width: 100%;
-    :deep(.el-textarea__inner) {
-      border-radius: 20px;
-      background-color: #f0f2f5;
-      box-shadow: none;
-      border: 1px solid transparent;
-      padding: 12px 18px;
-      &:focus {
-        border-color: #6e8efb;
-      }
+    border-radius: 20px;
+    background-color: #f0f2f5;
+    box-shadow: none;
+    border: 1px solid transparent;
+    padding: 12px 18px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: none;
+    overflow-y: auto;
+    max-height: 120px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+    &:focus {
+      border-color: #6e8efb;
     }
   }
 
@@ -801,9 +846,5 @@ watch(
 // Override MdPreview background
 :deep(.md-editor-preview-wrapper) {
     background-color: transparent !important;
-}
-
-:deep(.el-scrollbar__view) {
-  padding: 10px;
 }
 </style>
