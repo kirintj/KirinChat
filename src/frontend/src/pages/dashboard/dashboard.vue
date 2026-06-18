@@ -10,76 +10,69 @@
     <div class="filters-container">
       <div class="filter-group">
         <label>模型</label>
-        <el-select
+        <HSelect
           v-model="filters.model"
           placeholder="全部模型"
           clearable
           filterable
-          size="default"
-          popper-class="dashboard-select-popper"
           class="filter-select"
           @change="handleFilterChange"
           style="width: 250px"
         >
-          <el-option label="全部" value="" />
-          <el-option
+          <HOption label="全部" value="" />
+          <HOption
             v-for="model in modelsList"
             :key="model"
             :label="model"
             :value="model"
           />
-        </el-select>
+        </HSelect>
       </div>
 
       <div class="filter-group">
         <label>智能体</label>
-        <el-select
+        <HSelect
           v-model="filters.agent"
           placeholder="全部智能体"
           clearable
           filterable
-          size="default"
-          popper-class="dashboard-select-popper"
           class="filter-select"
           @change="handleFilterChange"
           style="width: 250px"
         >
-          <el-option label="全部" value="" />
-          <el-option
+          <HOption label="全部" value="" />
+          <HOption
             v-for="agent in agentsList"
             :key="agent"
             :label="agent"
             :value="agent"
           />
-        </el-select>
+        </HSelect>
       </div>
 
       <div class="filter-group">
         <label>时间范围</label>
-        <el-select
+        <HSelect
           v-model="filters.delta_days"
-          size="default"
-          popper-class="dashboard-select-popper"
           class="filter-select"
           @change="handleFilterChange"
           style="width: 220px"
         >
-          <el-option label="周内" :value="7" />
-          <el-option label="月内" :value="30" />
-          <el-option label="年内" :value="365" />
-          <el-option label="全部" :value="10000" />
-        </el-select>
+          <HOption label="周内" :value="7" />
+          <HOption label="月内" :value="30" />
+          <HOption label="年内" :value="365" />
+          <HOption label="全部" :value="10000" />
+        </HSelect>
       </div>
 
-      <el-button
+      <HButton
         type="primary"
         class="filter-action"
-        :icon="RefreshRight"
         @click="handleRefresh"
         :loading="loading"
       >
         刷新数据
-      </el-button>
+      </HButton>
     </div>
 
     <div class="kpi-container">
@@ -103,14 +96,20 @@
 
     <div class="charts-container">
       <!-- 调用次数折线图 -->
-      <div class="chart-wrapper" v-loading="loading">
+      <div class="chart-wrapper" style="position: relative;">
+        <div v-if="loading" class="loading-overlay">
+          <div class="loading-spinner"></div>
+        </div>
         <div class="chart-title">调用次数统计</div>
         <div class="chart-content" ref="callCountChartRef"></div>
         <div class="empty" v-if="!hasCallCountData">暂无数据</div>
       </div>
 
       <!-- Token使用量柱状图 -->
-      <div class="chart-wrapper" v-loading="loading">
+      <div class="chart-wrapper" style="position: relative;">
+        <div v-if="loading" class="loading-overlay">
+          <div class="loading-spinner"></div>
+        </div>
         <div class="chart-title">Token使用量统计</div>
         <div class="chart-content" ref="tokenUsageChartRef"></div>
         <div class="empty" v-if="!hasTokenUsageData">暂无数据</div>
@@ -121,8 +120,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick, computed } from 'vue'
-import { ElMessage } from 'element-plus'
-import { RefreshRight } from '@element-plus/icons-vue'
+import { HMessage, HSelect, HOption, HButton } from '@/components/ui'
 // 按需引入 ECharts，避免打包体积和解析问题
 import * as echarts from 'echarts/core'
 import type { ECharts as EChartsInstance } from 'echarts/core'
@@ -477,10 +475,10 @@ const fetchUsageData = async () => {
       totalTokens.value = tokens
     }
     
-    ElMessage.success('数据刷新成功')
+    HMessage.success('数据刷新成功')
   } catch (error) {
     console.error('获取使用统计数据失败:', error)
-    ElMessage.error('获取数据失败')
+    HMessage.error('获取数据失败')
   } finally {
     loading.value = false
   }
@@ -612,51 +610,8 @@ onBeforeUnmount(() => {
 }
 
 /* Select 美化 */
-.filter-select :deep(.el-input__wrapper) {
-  border-radius: 12px;
-  box-shadow: 0 0 0 1px #dbe1ed inset;
-  transition: all .2s ease;
-  background: #fff;
-  padding: 2px 14px;
-}
-.filter-select :deep(.el-input__inner::placeholder) {
-  color: #a0a6b5;
-}
-.filter-select :deep(.el-input__wrapper:hover) {
-  box-shadow: 0 0 0 1px #9eb6ff inset;
-}
-.filter-select :deep(.is-focus .el-input__wrapper),
-.filter-select :deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 2px #9aa8ff inset, 0 8px 18px rgba(99,102,241,.16);
-}
-.filter-select :deep(.el-select__caret) {
-  color: #6975ff;
-}
-.filter-select :deep(.el-input__suffix-inner) {
-  transition: transform .2s ease;
-}
-.filter-select :deep(.is-focus .el-input__suffix-inner) {
-  transform: rotate(-180deg);
-}
-
-/* 下拉项美化 */
-.dashboard-select-popper {
-  border-radius: 12px !important;
-  box-shadow: 0 12px 32px rgba(0,0,0,.08) !important;
-  border: 1px solid #eef0f4 !important;
-}
-.dashboard-select-popper :deep(.el-select-dropdown__item) {
-  padding: 8px 12px;
-  border-radius: 8px;
-  margin: 4px 8px;
-}
-.dashboard-select-popper :deep(.el-select-dropdown__item.hover) {
-  background: #f5f7ff;
-}
-.dashboard-select-popper :deep(.el-select-dropdown__item.selected) {
-  background: linear-gradient(180deg, #eef2ff, #f5f7ff);
-  color: #4f46e5;
-  font-weight: 600;
+.filter-select {
+  min-width: 220px;
 }
 
 .filter-action {
@@ -668,16 +623,38 @@ onBeforeUnmount(() => {
   letter-spacing: .3px;
   box-shadow: 0 8px 20px rgba(99,102,241,0.2);
 }
-.filter-action :deep(.el-icon) {
-  font-size: 16px;
-}
-.filter-action:hover:not(.is-disabled) {
+.filter-action:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 12px 24px rgba(99,102,241,0.25);
 }
-.filter-action:active:not(.is-disabled) {
+.filter-action:active:not(:disabled) {
   transform: translateY(0);
   box-shadow: 0 6px 18px rgba(99,102,241,0.22);
+}
+
+/* 加载中遮罩 */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 22, 40, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: inherit;
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--color-primary, #409eff);
+  border-radius: 50%;
+  animation: h-spin 0.6s linear infinite;
+}
+
+@keyframes h-spin {
+  to { transform: rotate(360deg); }
 }
 
 .kpi-container {
