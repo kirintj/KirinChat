@@ -12,6 +12,10 @@ export { HSelect, HOption } from './HSelect'
 export { HTooltip } from './HTooltip'
 export { HDropdown, HDropdownItem } from './HDropdown'
 export { HTag } from './HTag'
+export { HTable } from './HTable'
+export { HUpload } from './HUpload'
+export { HDrawer } from './HDrawer'
+export { HTabs, HTabPane } from './HTabs'
 
 // Vue 插件：全局注册
 export default {
