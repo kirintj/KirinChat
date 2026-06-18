@@ -1,6 +1,6 @@
 #!/bin/bash
 # KirinChat 统一启动脚本
-# 用法: ./agentchat.sh <command> [options]
+# 用法: ./kirinchat.sh <command> [options]
 
 set -e
 set -o pipefail
@@ -63,10 +63,10 @@ ensure_backend_deps() {
         info "后端依赖安装完成"
     fi
 
-    if [ ! -f "$BACKEND_DIR/agentchat/config.yaml" ]; then
+    if [ ! -f "$BACKEND_DIR/kirinchat/config.yaml" ]; then
         step "创建配置文件..."
-        cp "$BACKEND_DIR/agentchat/config-dev.yaml" "$BACKEND_DIR/agentchat/config.yaml"
-        warn "已创建默认配置文件，请编辑 src/backend/agentchat/config.yaml 填入 API 密钥"
+        cp "$BACKEND_DIR/kirinchat/config-dev.yaml" "$BACKEND_DIR/kirinchat/config.yaml"
+        warn "已创建默认配置文件，请编辑 src/backend/kirinchat/config.yaml 填入 API 密钥"
     fi
 }
 
@@ -118,7 +118,7 @@ cmd_help() {
     echo "  KirinChat 统一启动脚本"
     echo "  ─────────────────────────────────────"
     echo ""
-    echo "  用法: ./agentchat.sh <command> [options]"
+    echo "  用法: ./kirinchat.sh <command> [options]"
     echo ""
     echo "  命令:"
     echo "    up [options]      启动服务"
@@ -133,10 +133,10 @@ cmd_help() {
     echo "    help              显示本帮助信息"
     echo ""
     echo "  示例:"
-    echo "    ./agentchat.sh up                 # 启动全部服务"
-    echo "    ./agentchat.sh up --backend-only  # 只启动后端"
-    echo "    ./agentchat.sh down               # 停止所有服务"
-    echo "    ./agentchat.sh logs backend       # 查看后端日志"
+    echo "    ./kirinchat.sh up                 # 启动全部服务"
+    echo "    ./kirinchat.sh up --backend-only  # 只启动后端"
+    echo "    ./kirinchat.sh down               # 停止所有服务"
+    echo "    ./kirinchat.sh logs backend       # 查看后端日志"
     echo ""
 }
 
@@ -185,7 +185,7 @@ cmd_up() {
         step "启动后端服务（端口 7860）..."
         cd "$BACKEND_DIR"
         source .venv/bin/activate
-        uvicorn agentchat.main:app --reload --host 0.0.0.0 --port 7860
+        uvicorn kirinchat.main:app --reload --host 0.0.0.0 --port 7860
         return
     fi
 
@@ -198,7 +198,7 @@ cmd_up() {
     step "启动后端服务（端口 7860）..."
     cd "$BACKEND_DIR"
     source .venv/bin/activate
-    uvicorn agentchat.main:app --reload --host 0.0.0.0 --port 7860 &
+    uvicorn kirinchat.main:app --reload --host 0.0.0.0 --port 7860 &
     BACKEND_PID=$!
 
     step "启动前端服务（端口 8090）..."
@@ -233,7 +233,7 @@ cmd_down() {
     info "所有服务已停止"
     echo ""
     echo "  数据已保留在 Docker 卷中"
-    echo "  完全清理数据: ./agentchat.sh clean"
+    echo "  完全清理数据: ./kirinchat.sh clean"
     echo ""
 }
 
@@ -304,7 +304,7 @@ case "$COMMAND" in
     -h|--help) cmd_help ;;
     *)
         error "未知命令: $COMMAND"
-        echo "运行 ./agentchat.sh help 查看可用命令"
+        echo "运行 ./kirinchat.sh help 查看可用命令"
         exit 2
         ;;
 esac

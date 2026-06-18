@@ -100,7 +100,7 @@ call :ensure_frontend_deps
 echo [步骤] 启动后端服务（端口 7860）...
 cd /d "%~dp0src\backend"
 call .venv\Scripts\activate.bat
-start "KirinChat Backend" cmd /k "title KirinChat Backend && uvicorn agentchat.main:app --reload --host 0.0.0.0 --port 7860"
+start "KirinChat Backend" cmd /k "title KirinChat Backend && uvicorn kirinchat.main:app --reload --host 0.0.0.0 --port 7860"
 
 echo [步骤] 启动前端服务（端口 8090）...
 cd /d "%~dp0src\frontend"
@@ -128,7 +128,7 @@ call :ensure_backend_deps
 echo [步骤] 启动后端服务（端口 7860）...
 cd /d "%~dp0src\backend"
 call .venv\Scripts\activate.bat
-start "KirinChat Backend" cmd /k "title KirinChat Backend && uvicorn agentchat.main:app --reload --host 0.0.0.0 --port 7860"
+start "KirinChat Backend" cmd /k "title KirinChat Backend && uvicorn kirinchat.main:app --reload --host 0.0.0.0 --port 7860"
 
 echo.
 echo ✅ 后端已启动: http://localhost:7860
@@ -220,10 +220,10 @@ if not exist "%~dp0src\backend\.venv" (
     call uv sync
     echo ✅ 后端依赖安装完成
 )
-if not exist "%~dp0src\backend\agentchat\config.yaml" (
+if not exist "%~dp0src\backend\kirinchat\config.yaml" (
     echo [步骤] 创建配置文件...
-    copy "%~dp0src\backend\agentchat\config-dev.yaml" "%~dp0src\backend\agentchat\config.yaml"
-    echo [警告] 已创建默认配置文件，请编辑 src\backend\agentchat\config.yaml
+    copy "%~dp0src\backend\agentchat\config-dev.yaml" "%~dp0src\backend\kirinchat\config.yaml"
+    echo [警告] 已创建默认配置文件，请编辑 src\backend\kirinchat\config.yaml
 )
 cd /d "%~dp0"
 goto :eof

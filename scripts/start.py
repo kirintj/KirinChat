@@ -63,7 +63,7 @@ def start_services():
             return
 
         backend_process = subprocess.Popen(
-            ["uvicorn", "agentchat.main:app", "--port", "7860"],
+            ["uvicorn", "kirinchat.main:app", "--port", "7860"],
             cwd=BACKEND_DIR,  # 保持在 /src/backend 运行
             shell=False
         )

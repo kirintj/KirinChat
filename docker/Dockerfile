@@ -68,7 +68,7 @@ RUN uv sync --frozen
 COPY src/backend/ ./
 
 # 覆盖配置文件
-COPY docker/docker_config.yaml /app/agentchat/config.yaml
+COPY docker/docker_config.yaml /app/kirinchat/config.yaml
 
 # 环境变量
 ENV PYTHONPATH=/app
@@ -78,4 +78,4 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 7860
 
 # 启动服务
-CMD ["uvicorn", "agentchat.main:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["uvicorn", "kirinchat.main:app", "--host", "0.0.0.0", "--port", "7860"]
