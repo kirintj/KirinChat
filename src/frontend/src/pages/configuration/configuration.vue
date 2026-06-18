@@ -2,8 +2,8 @@
   <div class="editor">
     <div ref="editorContainer" class="editor-container"></div>
     <div class="button">
-      <el-button @click="cancel">取消</el-button>
-      <el-button type="primary" @click="primary">确定</el-button>
+      <HButton type="secondary" @click="cancel">取消</HButton>
+      <HButton type="primary" @click="primary">确定</HButton>
     </div>
   </div>
 </template>
@@ -11,6 +11,7 @@
 <script setup lang="ts">
 import * as monaco from "monaco-editor"
 import { ref, onMounted } from "vue"
+import { HButton } from '@/components/ui'
 import { getConfigAPI, updateConfigAPI } from "../../apis/configuration"
 
 const editorContainer = ref<HTMLElement | null>(null)
@@ -58,7 +59,7 @@ const cancel = ()=>{
     display: flex;
     margin-top: 30px;
     justify-content: center;
-    :deep(.el-button) {
+    .h-button {
       padding: 20px 40px;
     }
   }

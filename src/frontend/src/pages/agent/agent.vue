@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { Plus, Edit, Delete, View, Search, Refresh, Tools } from '@element-plus/icons-vue'
+import { HButton, HInput, HMessage } from '@/components/ui'
 import robotIcon from '../../assets/robot.svg'
 import pluginIcon from '../../assets/plugin.svg'
 import knowledgeIcon from '../../assets/knowledge.svg'
@@ -72,7 +71,7 @@ const fetchAgents = async () => {
       }
     } else {
       console.error('API返回错误:', responseMessage)
-      ElMessage.error(responseMessage || '获取智能体列表失败')
+      HMessage.error(responseMessage || '获取智能体列表失败')
     }
   } catch (error: any) {
     console.error('获取智能体列表失败 - 详细错误:', error)
@@ -83,12 +82,12 @@ const fetchAgents = async () => {
     if (error.response) {
       console.error('响应状态码:', error.response.status)
       console.error('响应数据:', error.response.data)
-      ElMessage.error(`请求失败: ${error.response.status} - ${error.response.data?.message || '未知错误'}`)
+      HMessage.error(`请求失败: ${error.response.status} - ${error.response.data?.message || '未知错误'}`)
     } else if (error.request) {
       console.error('请求对象:', error.request)
-      ElMessage.error('网络错误：无法连接到服务器')
+      HMessage.error('网络错误：无法连接到服务器')
     } else {
-      ElMessage.error('获取智能体列表失败：' + error.message)
+      HMessage.error('获取智能体列表失败：' + error.message)
     }
   } finally {
     loading.value = false
@@ -121,11 +120,11 @@ const searchAgents = async () => {
         is_custom: false // 搜索结果默认为系统智能体
       }))
     } else {
-      ElMessage.error(response.data.status_message || '搜索失败')
+      HMessage.error(response.data.status_message || '搜索失败')
     }
   } catch (error: any) {
     console.error('搜索智能体失败:', error)
-    ElMessage.error('搜索智能体失败')
+    HMessage.error('搜索智能体失败')
   } finally {
     searchLoading.value = false
   }
@@ -146,7 +145,7 @@ const createAgent = () => {
 const editAgent = (agent: Agent) => {
   // 确保只能编辑自定义智能体
   if (agent.is_custom === false) {
-    ElMessage.warning(`"${agent.name}" 是官方智能体，无法编辑。`)
+    HMessage.warning(`"${agent.name}" 是官方智能体，无法编辑。`)
     return
   }
   
@@ -158,7 +157,7 @@ const editAgent = (agent: Agent) => {
 
 // 显示系统智能体提示
 const showSystemAgentMessage = (agent: Agent) => {
-  ElMessage.warning(`"${agent.name}" 是官方智能体，无法编辑。`)
+  HMessage.warning(`"${agent.name}" 是官方智能体，无法编辑。`)
 }
 
 
@@ -171,7 +170,7 @@ const handleAgentUpdate = () => {
 const deleteAgent = (agent: Agent) => {
   // 确保只能删除自定义智能体
   if (agent.is_custom === false) {
-    ElMessage.error('官方智能体不能删除')
+    HMessage.error('官方智能体不能删除')
     return
   }
   
@@ -185,18 +184,18 @@ const confirmDelete = async () => {
   if (!agentToDelete.value) return
   
   try {
-    //ElMessage.info('正在删除智能体...')
+    //HMessage.info('正在删除智能体...')
     
     const response = await deleteAgentAPI({ agent_id: agentToDelete.value.agent_id })
     if (response.data.status_code === 200) {
-      ElMessage.success('删除成功')
+      HMessage.success('删除成功')
       await fetchAgents() // 刷新列表
     } else {
-      ElMessage.error(response.data.status_message || '删除失败')
+      HMessage.error(response.data.status_message || '删除失败')
     }
   } catch (error: any) {
     console.error('删除智能体失败:', error)
-    ElMessage.error('删除失败，请稍后重试')
+    HMessage.error('删除失败，请稍后重试')
   } finally {
     // 关闭确认对话框
     showConfirmDialog.value = false
@@ -213,7 +212,7 @@ const cancelDelete = () => {
 // 查看智能体详情
 const viewAgent = (agent: Agent) => {
   // TODO: 实现智能体详情查看功能
-  ElMessage.info('智能体详情功能开发中...')
+  HMessage.info('智能体详情功能开发中...')
   console.log('查看智能体:', agent)
 }
 
@@ -245,7 +244,7 @@ onMounted(() => {
       <div class="header-actions">
         <div class="search-box">
           <div class="search-input-wrapper">
-            <el-input
+            <HInput
               v-model="searchKeyword"
               placeholder="🔍 搜索智能体名称..."
               @keyup.enter="searchAgents"
@@ -254,42 +253,39 @@ onMounted(() => {
               size="large"
               style="width: 320px"
             />
-            <el-button 
-              type="primary" 
-              :icon="Search" 
+            <HButton
+              type="primary"
               @click="searchAgents"
               :loading="searchLoading"
               size="large"
               style="margin-left: 12px; border-radius: 12px;"
             >
               搜索
-            </el-button>
+            </HButton>
           </div>
         </div>
         <div class="action-buttons">
-          <el-button 
-            :icon="Refresh" 
+          <HButton
             @click="refreshAgents"
             :loading="loading"
             title="刷新列表"
             size="large"
-            circle
-            style="border-radius: 12px;"
-          />
-          <el-button 
-            type="primary" 
-            :icon="Plus" 
+            style="border-radius: 12px; width: 44px; height: 44px; padding: 0;"
+          >&#x21bb;</HButton>
+          <HButton
+            type="primary"
             @click="createAgent"
             size="large"
-            style="border-radius: 12px; background: var(--color-primary); border: none;"
+            style="border-radius: 12px;"
           >
-            创建智能体
-          </el-button>
+            + 创建智能体
+          </HButton>
         </div>
       </div>
     </div>
 
-    <div class="agent-list" v-loading="loading">
+    <div class="agent-list">
+      <div v-if="loading" class="loading-overlay">加载中...</div>
       <div class="agent-grid" v-if="agents.length > 0">
         <div 
           v-for="agent in agents" 
@@ -358,20 +354,20 @@ onMounted(() => {
           创建您的第一个智能体，开始智能对话体验
         </p>
         <div class="empty-actions">
-          <el-button 
-            v-if="searchKeyword" 
-            type="primary" 
+          <HButton
+            v-if="searchKeyword"
+            type="primary"
             @click="clearSearch"
           >
             查看所有智能体
-          </el-button>
-          <el-button 
+          </HButton>
+          <HButton
             v-else
             type="primary"
             @click="createAgent"
           >
             创建智能体
-          </el-button>
+          </HButton>
         </div>
       </div>
     </div>
@@ -442,26 +438,6 @@ onMounted(() => {
           border-radius: var(--radius-lg);
           border: 1px solid var(--color-border);
           box-shadow: var(--shadow-card);
-          
-          :deep(.el-input) {
-            .el-input__wrapper {
-              background: transparent;
-              border: none;
-              box-shadow: none;
-              border-radius: 12px;
-              
-              .el-input__inner {
-                font-size: 15px;
-                font-weight: 500;
-                color: var(--color-text-primary);
-
-                &::placeholder {
-                  color: var(--color-text-tertiary);
-                  font-weight: 400;
-                }
-              }
-            }
-          }
         }
       }
       
@@ -469,7 +445,7 @@ onMounted(() => {
         display: flex;
         gap: 16px;
         
-        :deep(.el-button) {
+        .h-button {
           font-weight: 600;
           font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -486,6 +462,16 @@ onMounted(() => {
   .agent-list {
     height: calc(100vh - 140px);
     overflow-y: auto;
+    position: relative;
+
+    .loading-overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      color: var(--color-text-secondary);
+      font-size: 16px;
+    }
     
     .agent-grid {
       display: grid;
@@ -667,7 +653,7 @@ onMounted(() => {
           margin-top: 8px;
           justify-content: space-between;
           
-          .el-button, .custom-delete-btn {
+          .h-button, .custom-delete-btn {
             flex: 1;
             text-align: center;
             padding: 6px 0;
@@ -829,7 +815,7 @@ onMounted(() => {
             gap: 12px;
             padding: 12px;
             
-            .el-input {
+            .h-input {
               width: 100% !important;
             }
           }

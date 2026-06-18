@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { sendMessage, uploadFile } from '../../apis/chat'
-import { ElMessage } from 'element-plus'
+import { HButton, HInput, HMessage } from '@/components/ui'
 
 const testInput = ref('')
 const uploadedFile = ref('')
@@ -9,7 +9,7 @@ const chatLog = ref<Array<{role: string, content: string}>>([])
 
 const sendTestMessage = () => {
   if (!testInput.value.trim()) {
-    ElMessage.warning('请输入消息内容')
+    HMessage.warning('请输入消息内容')
     return
   }
   
@@ -49,14 +49,14 @@ const sendTestMessage = () => {
         }
       },
       () => {
-        ElMessage.success('对话完成')
+        HMessage.success('对话完成')
         uploadedFile.value = '' // 清空文件
       }
     )
     
     testInput.value = ''
   } catch (error) {
-    ElMessage.error('发送消息失败')
+    HMessage.error('发送消息失败')
     console.error('发送消息错误:', error)
   }
 }
@@ -68,16 +68,16 @@ const testFileUpload = async (event: Event) => {
   if (!file) return
   
   try {
-    ElMessage.info('正在上传文件...')
+    HMessage.info('正在上传文件...')
     const response = await uploadFile(file)
     if (response.code === 200) {
       uploadedFile.value = response.data
-      ElMessage.success('文件上传成功')
+      HMessage.success('文件上传成功')
     } else {
-      ElMessage.error(response.message || '文件上传失败')
+      HMessage.error(response.message || '文件上传失败')
     }
   } catch (error) {
-    ElMessage.error('文件上传失败')
+    HMessage.error('文件上传失败')
     console.error('文件上传错误:', error)
   }
   
@@ -94,12 +94,12 @@ const testFileUpload = async (event: Event) => {
     
     <div class="test-section">
       <h3>基本对话测试</h3>
-      <el-input 
-        v-model="testInput" 
+      <HInput
+        v-model="testInput"
         placeholder="输入测试消息"
-        @keydown.enter="sendTestMessage"
+        @keyup.enter="sendTestMessage"
       />
-      <el-button @click="sendTestMessage" type="primary">发送测试消息</el-button>
+      <HButton @click="sendTestMessage" type="primary">发送测试消息</HButton>
     </div>
     
     <div class="test-section">
@@ -133,31 +133,31 @@ const testFileUpload = async (event: Event) => {
 .test-section {
   margin-bottom: 30px;
   padding: 20px;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
 }
 
 .test-section h3 {
   margin-bottom: 15px;
-  color: #333;
+  color: var(--color-text-primary);
 }
 
 .chat-log {
   max-height: 300px;
   overflow-y: auto;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--color-border);
   padding: 10px;
-  background-color: #f8f9fa;
+  background-color: var(--color-bg-secondary);
 }
 
 .message {
   margin-bottom: 10px;
   padding: 8px;
-  background-color: white;
+  background-color: var(--color-bg);
   border-radius: 4px;
 }
 
 .message strong {
-  color: #007AFF;
+  color: var(--color-primary);
 }
 </style> 
