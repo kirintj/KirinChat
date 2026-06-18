@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue"
 import { useRouter } from "vue-router"
-import { ElMessage, ElMessageBox } from "element-plus"
+import { HMessage } from "@/components/ui"
 import { getAgentsAPI } from "../../apis/agent"
 import { createDialogAPI, getDialogListAPI, deleteDialogAPI } from "../../apis/history"
 import type { AgentResponse, ApiResponse } from "../../apis/agent"
@@ -95,11 +95,11 @@ const fetchAgents = async () => {
         id_type: typeof (a as any).id
       })))
     } else {
-      ElMessage.error(`获取智能体列表失败: ${response.data.status_message}`)
+      HMessage.error(`获取智能体列表失败: ${response.data.status_message}`)
     }
   } catch (error) {
     console.error('获取智能体列表出错:', error)
-    ElMessage.error('获取智能体列表失败，请检查网络连接')
+    HMessage.error('获取智能体列表失败，请检查网络连接')
   } finally {
     agentsLoading.value = false
   }
@@ -148,11 +148,11 @@ const fetchDialogs = async () => {
         })
       }
     } else {
-      ElMessage.error(`获取对话列表失败: ${response.data.status_message}`)
+      HMessage.error(`获取对话列表失败: ${response.data.status_message}`)
     }
   } catch (error) {
     console.error('获取对话列表出错:', error)
-    ElMessage.error('获取对话列表失败，请检查网络连接')
+    HMessage.error('获取对话列表失败，请检查网络连接')
   } finally {
     loading.value = false
   }
@@ -171,13 +171,13 @@ onMounted(async () => {
     // 如果是其他子页面，正常加载
     await Promise.all([fetchAgents(), fetchDialogs()])
   }
-  // ElMessage.success('页面加载成功')
+  // HMessage.success('页面加载成功')
 })
 
 // 创建新会话
 const createDialog = async () => {
   if (!selectedAgent.value) {
-    ElMessage.warning('请选择一个智能体')
+    HMessage.warning('请选择一个智能体')
     return
   }
   
@@ -204,7 +204,7 @@ const createDialog = async () => {
       })
       const response = await createDialogAPI(dialogData)
       if (response.data.status_code === 200) {
-        ElMessage.success('会话创建成功')
+        HMessage.success('会话创建成功')
         
         // 获取新创建的会话ID
         const dialogId = response.data.data.dialog_id
@@ -239,14 +239,14 @@ const createDialog = async () => {
           console.error('dialogId 为空，无法跳转')
         }
       } else {
-        ElMessage.error(`创建会话失败: ${response.data.status_message}`)
+        HMessage.error(`创建会话失败: ${response.data.status_message}`)
       }
     } catch (error) {
       console.error('创建会话出错:', error)
-      ElMessage.error('创建会话失败，请检查网络连接')
+      HMessage.error('创建会话失败，请检查网络连接')
     }
   } else {
-    ElMessage.error('未找到选中的智能体')
+    HMessage.error('未找到选中的智能体')
   }
 }
 
@@ -256,23 +256,18 @@ const deleteDialog = async (dialogId: string) => {
   try {
     const response = await deleteDialogAPI(dialogId)
     if (response.data.status_code === 200) {
-      ElMessage({
-        message: '会话删除成功',
-        type: 'success',
-        duration: 3000,
-        showClose: false
-      })
+      HMessage.success('会话删除成功')
       // 重新获取对话列表
       await fetchDialogs()
       if (selectedDialog.value === dialogId) {
         selectedDialog.value = ''
       }
     } else {
-      ElMessage.error(`删除会话失败: ${response.data.status_message}`)
+      HMessage.error(`删除会话失败: ${response.data.status_message}`)
     }
   } catch (error) {
     console.error('删除会话出错:', error)
-    ElMessage.error('删除会话失败，请检查网络连接')
+    HMessage.error('删除会话失败，请检查网络连接')
   }
 }
 
@@ -312,7 +307,7 @@ const openCreateDialog = async () => {
     await fetchAgents()
   }
   
-  // ElMessage.info('正在打开创建会话对话框...')
+  // HMessage.info('正在打开创建会话对话框...')
 }
 
 // 选择智能体
@@ -1031,28 +1026,6 @@ const closeCreateDialog = () => {
       margin: 0;
     }
   }
-}
-
-// 调试样式 - 确保对话框显示
-:deep(.el-dialog) {
-  z-index: 9999 !important;
-  position: fixed !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  background: white !important;
-  border-radius: 8px !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
-}
-
-:deep(.el-overlay) {
-  z-index: 9998 !important;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  background: rgba(0, 0, 0, 0.5) !important;
 }
 
 // 原生对话框样式

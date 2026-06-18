@@ -107,7 +107,7 @@
 import { ref, nextTick, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
 import { fetchEventSource } from '@microsoft/fetch-event-source'
-import { ElMessage } from 'element-plus'
+import { HMessage } from '@/components/ui'
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 
@@ -361,7 +361,7 @@ const sendMessage = async (userMessage: string) => {
         abortController.value = null
         if (typingTimer.value) clearTimeout(typingTimer.value)
         showTypingIndicator.value = false
-        ElMessage.error('连接错误，请重试')
+        HMessage.error('连接错误，请重试')
         throw err
       }
     })
@@ -371,7 +371,7 @@ const sendMessage = async (userMessage: string) => {
     abortController.value = null
     hasError.value = true
     errorMessage.value = '发送消息失败，请重试'
-    ElMessage.error('发送消息失败，请重试')
+    HMessage.error('发送消息失败，请重试')
   }
 }
 
@@ -559,7 +559,7 @@ const sendExampleRequest = async (exampleId: number) => {
         abortController.value = null
         if (typingTimer.value) clearTimeout(typingTimer.value)
         showTypingIndicator.value = false
-        ElMessage.error('连接错误，请重试')
+        HMessage.error('连接错误，请重试')
         throw err
       }
     })
@@ -569,7 +569,7 @@ const sendExampleRequest = async (exampleId: number) => {
     abortController.value = null
     hasError.value = true
     errorMessage.value = '示例请求失败，请重试'
-    ElMessage.error('示例请求失败，请重试')
+    HMessage.error('示例请求失败，请重试')
   }
 }
 
