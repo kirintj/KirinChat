@@ -3,6 +3,7 @@ import type { App } from 'vue'
 // 组件导出
 export { HButton } from './HButton'
 export { HDialog } from './HDialog'
+export { HForm, HFormItem } from './HForm'
 export { HIcon } from './HIcon'
 export { HInput } from './HInput'
 export { HMessage } from './HMessage'
