@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue'
 import { ChatMessage } from '../../type';
 import { getHistoryMsgAPI } from '../../apis/history';
-import { ElMessage } from 'element-plus';
+import { HMessage } from '@/components/ui';
 
 // 定义事件数据接口
 interface EventData {
@@ -148,12 +148,12 @@ export const useHistoryChatStore = defineStore('history_chat_msg', () => {
       } else {
         console.error('【HistoryChat】API返回错误:', response.data)
         error.value = '获取历史消息失败'
-        ElMessage.error('获取历史消息失败')
+        HMessage.error('获取历史消息失败')
       }
     } catch (err) {
       console.error('【HistoryChat】获取历史消息出错:', err)
       error.value = '获取历史消息出错'
-      ElMessage.error('获取历史消息出错，请重试')
+      HMessage.error('获取历史消息出错，请重试')
     } finally {
       loading.value = false
     }
