@@ -1,18 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox, ElUpload, ElButton, ElTable, ElTableColumn, ElIcon } from 'element-plus'
-import { 
-  Upload, 
-  Delete, 
-  Document, 
-  FolderOpened,
-  Loading,
-  Check,
-  Close
-} from '@element-plus/icons-vue'
-import { 
-  getKnowledgeFileListAPI, 
+import { HMessage, HButton } from '@/components/ui'
+import {
+  getKnowledgeFileListAPI,
   deleteKnowledgeFileAPI,
   createKnowledgeFileAPI,
   formatFileSize,
@@ -22,7 +13,6 @@ import {
   type KnowledgeFileDeleteRequest,
   type KnowledgeFileCreateRequest
 } from '../../apis/knowledge-file'
-import type { UploadProps, UploadUserFile } from 'element-plus'
 
 const route = useRoute()
 const router = useRouter()
@@ -35,9 +25,6 @@ const knowledgeName = computed(() => route.query.name as string || '未知知识
 const files = ref<KnowledgeFileResponse[]>([])
 const loading = ref(false)
 const uploading = ref(false)
-
-// 文件上传
-const fileList = ref<UploadUserFile[]>([])
 
 // 轮询相关
 let pollingTimer: NodeJS.Timeout | null = null
@@ -127,7 +114,7 @@ const stopPolling = () => {
 // 获取文件列表
 const fetchFiles = async (showLoading = true) => {
   if (!knowledgeId.value) {
-    ElMessage.error('知识库ID不能为空')
+    HMessage.error('知识库ID不能为空')
     return
   }
   
@@ -159,11 +146,11 @@ const fetchFiles = async (showLoading = true) => {
         stopPolling()
       }
     } else {
-      ElMessage.error('获取文件列表失败: ' + response.data.status_message)
+      HMessage.error('获取文件列表失败: ' + response.data.status_message)
     }
   } catch (error) {
     console.error('获取文件列表失败:', error)
-    ElMessage.error('获取文件列表失败')
+    HMessage.error('获取文件列表失败')
   } finally {
     if (showLoading) {
       loading.value = false
@@ -194,14 +181,14 @@ const confirmDelete = async () => {
     const response = await deleteKnowledgeFileAPI(deleteData)
     
     if (response.data.status_code === 200) {
-      ElMessage.success('删除成功')
+      HMessage.success('删除成功')
       await fetchFiles() // 刷新列表
     } else {
-      ElMessage.error('删除失败: ' + response.data.status_message)
+      HMessage.error('删除失败: ' + response.data.status_message)
     }
   } catch (error: any) {
     console.error('删除文件失败:', error)
-    ElMessage.error('删除失败: ' + (error?.message || error))
+    HMessage.error('删除失败: ' + (error?.message || error))
   } finally {
     // 关闭确认对话框
     showConfirmDialog.value = false
@@ -216,11 +203,11 @@ const cancelDelete = () => {
 }
 
 // 文件上传前处理
-const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
+const beforeUpload = (rawFile: File) => {
   // 文件大小限制：100MB
   const maxSize = 100 * 1024 * 1024
   if (rawFile.size > maxSize) {
-    ElMessage.error('文件大小不能超过100MB')
+    HMessage.error('文件大小不能超过100MB')
     return false
   }
   
@@ -241,7 +228,7 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   ]
   
   if (!supportedTypes.includes(rawFile.type)) {
-    ElMessage.error('不支持的文件类型，请上传PDF、Word、Excel、文本或图片文件')
+    HMessage.error('不支持的文件类型，请上传PDF、Word、Excel、文本或图片文件')
     return false
   }
   
@@ -283,7 +270,7 @@ const handleUploadSuccess = async (response: any, file: any, fileList: any) => {
       }
       
       // 提示用户文件正在解析
-      // ElMessage.info('文件上传成功，正在解析中，请稍候...')
+      // HMessage.info('文件上传成功，正在解析中，请稍候...')
       
       const createData: KnowledgeFileCreateRequest = {
         knowledge_id: knowledgeId.value,
@@ -295,7 +282,7 @@ const handleUploadSuccess = async (response: any, file: any, fileList: any) => {
       
       // 根据解析接口返回的状态码决定最终状态
       if (apiResponse.data.status_code === 200) {
-        ElMessage.success('文件解析成功')
+        HMessage.success('文件解析成功')
         
         // 移除临时文件
         if (tempFileIndex !== -1) {
@@ -305,14 +292,14 @@ const handleUploadSuccess = async (response: any, file: any, fileList: any) => {
         // 刷新列表获取真实数据
         await fetchFiles(false)
       } else if (apiResponse.data.status_code === 500) {
-        ElMessage.error('文件解析失败: ' + apiResponse.data.status_message)
+        HMessage.error('文件解析失败: ' + apiResponse.data.status_message)
         
         // 解析失败，将临时文件状态改为失败
         if (tempFileIndex !== -1) {
           files.value[tempFileIndex].status = KnowledgeFileStatus.FAIL
         }
       } else {
-        ElMessage.error('文件处理失败: ' + apiResponse.data.status_message)
+        HMessage.error('文件处理失败: ' + apiResponse.data.status_message)
         
         // 其他错误，将临时文件状态改为失败
         if (tempFileIndex !== -1) {
@@ -322,7 +309,7 @@ const handleUploadSuccess = async (response: any, file: any, fileList: any) => {
       
       fileList.value = [] // 清空上传列表
     } else {
-      ElMessage.error('文件上传失败: ' + (response?.status_message || '未知错误'))
+      HMessage.error('文件上传失败: ' + (response?.status_message || '未知错误'))
       
       // 上传失败，将临时文件状态改为失败
       const tempFileIndex = files.value.findIndex(f => f.file_name === file.name && f.id.startsWith('temp_'))
@@ -335,10 +322,10 @@ const handleUploadSuccess = async (response: any, file: any, fileList: any) => {
     
     // 处理超时情况
     if (error?.code === 'ECONNABORTED' && error?.message?.includes('timeout')) {
-      ElMessage.warning('文件解析时间较长，请稍后刷新查看结果')
+      HMessage.warning('文件解析时间较长，请稍后刷新查看结果')
       // 不要将状态设为失败，因为后端可能还在处理中
     } else {
-      ElMessage.error('文件解析失败: ' + (error?.message || error))
+      HMessage.error('文件解析失败: ' + (error?.message || error))
       
       // 其他错误才设置为失败
       const tempFileIndex = files.value.findIndex(f => f.file_name === file.name && f.id.startsWith('temp_'))
@@ -354,7 +341,7 @@ const handleUploadSuccess = async (response: any, file: any, fileList: any) => {
 // 文件上传失败处理
 const handleUploadError = (error: any, file: any) => {
   console.error('文件上传失败:', error)
-  ElMessage.error('文件上传失败')
+  HMessage.error('文件上传失败')
   
   // 上传失败，将临时文件状态改为失败
   const tempFileIndex = files.value.findIndex(f => f.file_name === file.name && f.id.startsWith('temp_'))
@@ -416,6 +403,42 @@ const formatTime = (timeStr: string) => {
 // 获取认证token
 const getToken = () => {
   return localStorage.getItem('token') || ''
+}
+
+// 原生文件上传处理
+const fileInputRef = ref<HTMLInputElement | null>(null)
+
+const handleNativeFileChange = async (event: Event) => {
+  const input = event.target as HTMLInputElement
+  if (!input.files || input.files.length === 0) return
+
+  const selectedFiles = Array.from(input.files)
+  for (const file of selectedFiles) {
+    if (!beforeUpload(file)) continue
+
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/v1/upload', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${getToken()}` },
+        body: formData
+      })
+
+      if (!response.ok) throw new Error('Upload failed')
+      const result = await response.json()
+      await handleUploadSuccess(result, { name: file.name }, [])
+    } catch (error) {
+      handleUploadError(error, { name: file.name })
+    }
+  }
+  input.value = ''
+}
+
+// 触发文件选择
+const triggerFileUpload = () => {
+  fileInputRef.value?.click()
 }
 
 // 返回上一页
@@ -486,7 +509,7 @@ onMounted(() => {
   if (knowledgeId.value) {
     fetchFiles()
   } else {
-    ElMessage.error('知识库ID参数缺失')
+    HMessage.error('知识库ID参数缺失')
     router.push('/knowledge')
   }
 })
@@ -569,35 +592,33 @@ onUnmounted(() => {
           </div>
           
           <!-- 上传按钮 -->
-          <el-upload
-            v-model:file-list="fileList"
-            :action="`/api/v1/upload`"
-            :before-upload="beforeUpload"
-            :on-success="handleUploadSuccess"
-            :on-error="handleUploadError"
-            :multiple="true"
-            :show-file-list="false"
-            :disabled="uploading"
-            :headers="{ Authorization: `Bearer ${getToken()}` }"
-          >
-            <div class="upload-button-wrapper">
-              <button class="upload-btn-custom" :class="{ 'uploading': uploading }">
-                <div class="btn-icon-wrapper">
-                  <span v-if="!uploading" class="btn-icon">📤</span>
-                  <div v-else class="loading-spinner"></div>
-                </div>
-                <div class="btn-text-wrapper">
-                  <span class="btn-main-text">{{ uploading ? '上传中...' : '上传文件' }}</span>
-                </div>
-              </button>
-            </div>
-          </el-upload>
+          <input
+            ref="fileInputRef"
+            type="file"
+            multiple
+            style="display: none"
+            @change="handleNativeFileChange"
+          />
+          <div class="upload-button-wrapper">
+            <button class="upload-btn-custom" :class="{ 'uploading': uploading }" @click="triggerFileUpload" :disabled="uploading">
+              <div class="btn-icon-wrapper">
+                <span v-if="!uploading" class="btn-icon">📤</span>
+                <div v-else class="loading-spinner"></div>
+              </div>
+              <div class="btn-text-wrapper">
+                <span class="btn-main-text">{{ uploading ? '上传中...' : '上传文件' }}</span>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- 文件列表 -->
-    <div class="file-list" v-loading="loading">
+    <div class="file-list" style="position: relative;">
+      <div v-if="loading" class="loading-overlay">
+        <div class="loading-spinner"></div>
+      </div>
       <div v-if="files.length > 0" class="file-table">
         <table class="custom-table">
           <thead>
@@ -728,22 +749,10 @@ onUnmounted(() => {
             <span class="feature-text">支持图片格式</span>
           </div>
         </div>
-        <el-upload
-          v-model:file-list="fileList"
-          :action="`/api/v1/upload`"
-          :before-upload="beforeUpload"
-          :on-success="handleUploadSuccess"
-          :on-error="handleUploadError"
-          :multiple="true"
-          :show-file-list="false"
-          :disabled="uploading"
-          :headers="{ Authorization: `Bearer ${getToken()}` }"
-        >
-          <el-button type="primary" size="large" class="empty-upload-btn">
-            <span class="btn-icon">🚀</span>
-            立即上传文件
-          </el-button>
-        </el-upload>
+        <HButton type="primary" size="large" class="empty-upload-btn" @click="triggerFileUpload">
+          <span class="btn-icon">🚀</span>
+          立即上传文件
+        </HButton>
       </div>
     </div>
 
@@ -1465,8 +1474,28 @@ onUnmounted(() => {
   }
 }
 
-:deep(.el-upload) {
-  display: inline-block;
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 22, 40, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: inherit;
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--color-primary, #409eff);
+  border-radius: 50%;
+  animation: h-spin 0.6s linear infinite;
+}
+
+@keyframes h-spin {
+  to { transform: rotate(360deg); }
 }
 
 .custom-confirm-dialog {

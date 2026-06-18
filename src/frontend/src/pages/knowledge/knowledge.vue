@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox, ElDialog, ElForm, ElFormItem, ElInput, ElButton } from 'element-plus'
-import 'element-plus/es/components/dialog/style/css'
-import 'element-plus/es/components/form/style/css'
-import 'element-plus/es/components/form-item/style/css'
-import 'element-plus/es/components/input/style/css'
-import 'element-plus/es/components/button/style/css'
-import { Plus, Document, Folder, Edit, Delete } from '@element-plus/icons-vue'
+import { HMessage, HButton, HTooltip } from '@/components/ui'
 import knowledgeIcon from '../../assets/knowledge.svg'
-import { 
-  getKnowledgeListAPI, 
+import {
+  getKnowledgeListAPI,
   createKnowledgeAPI,
   updateKnowledgeAPI,
   deleteKnowledgeAPI,
@@ -60,11 +54,11 @@ const fetchKnowledges = async () => {
          file_size: item.file_size
        }))
      } else {
-      ElMessage.error('获取知识库列表失败: ' + response.data.status_message)
+      HMessage.error('获取知识库列表失败: ' + response.data.status_message)
     }
   } catch (error) {
     console.error('获取知识库列表失败:', error)
-    ElMessage.error('获取知识库列表失败')
+    HMessage.error('获取知识库列表失败')
   } finally {
     loading.value = false
   }
@@ -94,15 +88,15 @@ const confirmDelete = async () => {
     
     const response = await deleteKnowledgeAPI(deleteData)
     if (response.data.status_code === 200) {
-      ElMessage.success('删除成功')
+      HMessage.success('删除成功')
       deleteDialogVisible.value = false
       await fetchKnowledges() // 刷新列表
     } else {
-      ElMessage.error('删除失败: ' + response.data.status_message)
+      HMessage.error('删除失败: ' + response.data.status_message)
     }
   } catch (error: any) {
     console.error('删除知识库失败:', error)
-    ElMessage.error('删除失败')
+    HMessage.error('删除失败')
   } finally {
     deleteLoading.value = false
   }
@@ -149,17 +143,17 @@ const handleCreate = async () => {
   const desc = createForm.value.knowledge_desc.trim()
   
   if (!name) {
-    ElMessage.error('请输入知识库名称')
+    HMessage.error('请输入知识库名称')
     return
   }
   
   if (name.length < 2 || name.length > 10) {
-    ElMessage.error('知识库名称长度必须在2-10个字符之间')
+    HMessage.error('知识库名称长度必须在2-10个字符之间')
     return
   }
   
   if (desc && (desc.length < 10 || desc.length > 200)) {
-    ElMessage.error('知识库描述长度必须在10-200个字符之间')
+    HMessage.error('知识库描述长度必须在10-200个字符之间')
     return
   }
   
@@ -167,15 +161,15 @@ const handleCreate = async () => {
   try {
     const response = await createKnowledgeAPI(createForm.value)
     if (response.data.status_code === 200) {
-      ElMessage.success('创建成功')
+      HMessage.success('创建成功')
       createDialogVisible.value = false
       await fetchKnowledges() // 刷新列表
     } else {
-      ElMessage.error('创建失败: ' + response.data.status_message)
+      HMessage.error('创建失败: ' + response.data.status_message)
     }
   } catch (error) {
     console.error('创建知识库失败:', error)
-    ElMessage.error('创建失败')
+    HMessage.error('创建失败')
   } finally {
     createLoading.value = false
   }
@@ -208,17 +202,17 @@ const handleEdit = async () => {
   const desc = editForm.value.knowledge_desc.trim()
   
   if (!name) {
-    ElMessage.error('请输入知识库名称')
+    HMessage.error('请输入知识库名称')
     return
   }
   
   if (name.length < 2 || name.length > 10) {
-    ElMessage.error('知识库名称长度必须在2-10个字符之间')
+    HMessage.error('知识库名称长度必须在2-10个字符之间')
     return
   }
   
   if (desc && (desc.length < 10 || desc.length > 200)) {
-    ElMessage.error('知识库描述长度必须在10-200个字符之间')
+    HMessage.error('知识库描述长度必须在10-200个字符之间')
     return
   }
   
@@ -232,15 +226,15 @@ const handleEdit = async () => {
     
     const response = await updateKnowledgeAPI(updateData)
     if (response.data.status_code === 200) {
-      ElMessage.success('更新成功')
+      HMessage.success('更新成功')
       editDialogVisible.value = false
       await fetchKnowledges() // 刷新列表
     } else {
-      ElMessage.error('更新失败: ' + response.data.status_message)
+      HMessage.error('更新失败: ' + response.data.status_message)
     }
   } catch (error) {
     console.error('更新知识库失败:', error)
-    ElMessage.error('更新失败')
+    HMessage.error('更新失败')
   } finally {
     editLoading.value = false
   }
@@ -261,25 +255,28 @@ onMounted(() => {
         <h2>知识库管理</h2>
       </div>
       <div class="header-actions">
-        <el-button type="primary" :icon="Plus" @click="openCreateDialog">
+        <HButton type="primary" @click="openCreateDialog">
           创建知识库
-        </el-button>
+        </HButton>
       </div>
     </div>
 
-    <div class="knowledge-container" v-loading="loading">
+    <div class="knowledge-container" style="position: relative;">
+      <div v-if="loading" class="loading-overlay">
+        <div class="loading-spinner"></div>
+      </div>
       <!-- 列表头部 -->
       <div class="list-header" v-if="knowledges.length > 0">
         <div class="col-name">
-          <el-icon><Folder /></el-icon>
+          <span>📁</span>
           <span>名称</span>
         </div>
         <div class="col-desc">
-          <el-icon><Document /></el-icon>
+          <span>📄</span>
           <span>描述</span>
         </div>
         <div class="col-files">
-          <el-icon><Document /></el-icon>
+          <span>📄</span>
           <span>文件数</span>
         </div>
         <div class="col-size">
@@ -323,7 +320,7 @@ onMounted(() => {
           </div>
           <div class="col-files">
             <span class="file-badge">
-              <el-icon><Document /></el-icon>
+              <span>📄</span>
               {{ knowledge.count }}
             </span>
           </div>
@@ -334,21 +331,21 @@ onMounted(() => {
             <span class="time-text">{{ formatTime(knowledge.create_time) }}</span>
           </div>
           <div class="col-actions" @click.stop>
-            <el-tooltip content="管理文件" placement="top">
+            <HTooltip content="管理文件" placement="top">
               <button class="action-btn view-btn" @click.stop="goToFileManagement(knowledge)">
-                <el-icon><Folder /></el-icon>
+                <span>📂</span>
               </button>
-            </el-tooltip>
-            <el-tooltip content="编辑" placement="top">
+            </HTooltip>
+            <HTooltip content="编辑" placement="top">
               <button class="action-btn edit-btn" @click.stop="openEditDialog(knowledge)">
-                <el-icon><Edit /></el-icon>
+                <span>✏️</span>
               </button>
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top">
+            </HTooltip>
+            <HTooltip content="删除" placement="top">
               <button class="action-btn delete-btn" @click.stop="handleDelete(knowledge)">
-                <el-icon><Delete /></el-icon>
+                <span>🗑️</span>
               </button>
-            </el-tooltip>
+            </HTooltip>
           </div>
         </div>
       </div>
@@ -359,9 +356,9 @@ onMounted(() => {
         </div>
         <h3>暂无知识库</h3>
         <p>您可以创建知识库来存储和管理您的文档资料</p>
-        <el-button type="primary" @click="createDialogVisible = true" class="create-btn">
+        <HButton type="primary" @click="createDialogVisible = true" class="create-btn">
           创建知识库
-        </el-button>
+        </HButton>
       </div>
     </div>
 
@@ -546,13 +543,13 @@ onMounted(() => {
     }
 
     .header-actions {
-      .el-button {
+      .h-button {
         font-weight: 600;
         letter-spacing: 0.025em;
         border-radius: 12px;
         padding: 12px 24px;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        
+
         &:hover {
           transform: translateY(-2px);
           box-shadow: 0 8px 25px rgba(64, 158, 255, 0.3);
@@ -585,8 +582,8 @@ onMounted(() => {
         display: flex;
         align-items: center;
         gap: 6px;
-        
-        .el-icon, svg {
+
+        svg {
           font-size: 14px;
           color: #909399;
         }
@@ -668,10 +665,6 @@ onMounted(() => {
             font-size: 13px;
             font-weight: 600;
             color: #1976d2;
-            
-            .el-icon {
-              font-size: 14px;
-            }
           }
         }
         
@@ -707,8 +700,8 @@ onMounted(() => {
             align-items: center;
             justify-content: center;
             color: #606266;
-            
-            .el-icon {
+
+            span {
               font-size: 18px;
             }
             
@@ -739,6 +732,31 @@ onMounted(() => {
       }
     }
   }
+}
+
+/* 加载中遮罩 */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 22, 40, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: inherit;
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--color-primary, #409eff);
+  border-radius: 50%;
+  animation: h-spin 0.6s linear infinite;
+}
+
+@keyframes h-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* 原生对话框样式 */
