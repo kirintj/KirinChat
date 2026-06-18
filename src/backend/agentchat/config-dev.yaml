@@ -107,7 +107,7 @@ default_config:
 
 # 微信配置（可选）
 wechat_config:
-  token: "LiangTian"
+  token: "YOUR_WECHAT_TOKEN"
   app_id: "你的微信AppID"
   secret: "你的微信Secret"
 
@@ -117,6 +117,6 @@ langfuse:
   host: "https://cloud.langfuse.com"
   public_key: "你的Langfuse公钥"
   secret_key: "你的Langfuse私钥"
-  user_id: "LiangTian"
+  user_id: "kirin"
 
 whitelist_paths: ["/mcp/*"]
