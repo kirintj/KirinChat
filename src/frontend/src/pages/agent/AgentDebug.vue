@@ -1,31 +1,32 @@
 <template>
   <div class="debug-page">
     <h2>智能体API调试页面</h2>
-    
+
     <div class="debug-section">
       <h3>基本信息</h3>
       <p>当前URL: {{ currentUrl }}</p>
       <p>Token: {{ token ? '已设置' : '未设置' }}</p>
       <p>后端地址: {{ backendUrl }}</p>
     </div>
-    
+
     <div class="debug-section">
       <h3>API测试</h3>
-      <el-button @click="testAPI" :loading="testing">测试智能体API</el-button>
-      <el-button @click="testNetwork">测试网络连接</el-button>
+      <HButton @click="testAPI" :loading="testing">测试智能体API</HButton>
+      <HButton type="secondary" @click="testNetwork">测试网络连接</HButton>
     </div>
-    
+
     <div class="debug-section">
       <h3>调试输出</h3>
-      <el-scrollbar height="400px">
+      <div class="debug-scroll-area">
         <pre class="debug-log">{{ debugLog }}</pre>
-      </el-scrollbar>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { HButton } from '@/components/ui'
 import { getAgentsAPI } from '../../apis/agent'
 
 const testing = ref(false)
@@ -106,12 +107,17 @@ const testAPI = async () => {
     border: 1px solid #e1e8ed;
     border-radius: 8px;
     background: white;
-    
+
     h3 {
       margin-top: 0;
       color: #2c3e50;
     }
-    
+
+    .debug-scroll-area {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
     .debug-log {
       background: #1e1e1e;
       color: #00ff00;

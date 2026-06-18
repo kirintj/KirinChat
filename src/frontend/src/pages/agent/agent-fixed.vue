@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus, Edit, Delete, View, Search, Refresh } from '@element-plus/icons-vue'
-import { 
-  getAgentsAPI, 
-  deleteAgentAPI, 
+import { HMessage, HButton, HInput, HTag } from '@/components/ui'
+import { showDeleteConfirm } from '@/utils/dialog'
+import {
+  getAgentsAPI,
+  deleteAgentAPI,
   searchAgentsAPI
 } from '../../apis/agent'
 import { Agent } from '../../type'
@@ -45,17 +45,17 @@ const fetchAgents = async () => {
       console.log('API调用成功，智能体数据:', response.data.data)
       agents.value = response.data.data.map(convertBackendToAgent)
       console.log('转换后的智能体列表:', agents.value)
-      ElMessage.success(`成功获取 ${agents.value.length} 个智能体`)
+      HMessage.success(`成功获取 ${agents.value.length} 个智能体`)
     } else {
       console.error('API返回错误:', response.data.status_message)
-      ElMessage.error(response.data.status_message || '获取智能体列表失败')
+      HMessage.error(response.data.status_message || '获取智能体列表失败')
     }
   } catch (error: any) {
     console.error('获取智能体列表失败:', error)
     if (error.response) {
-      ElMessage.error(`请求失败: ${error.response.status}`)
+      HMessage.error(`请求失败: ${error.response.status}`)
     } else {
-      ElMessage.error('网络错误：无法连接到服务器')
+      HMessage.error('网络错误：无法连接到服务器')
     }
   } finally {
     loading.value = false
@@ -86,11 +86,11 @@ const searchAgents = async () => {
         enable_memory: false
       }))
     } else {
-      ElMessage.error(response.data.status_message || '搜索失败')
+      HMessage.error(response.data.status_message || '搜索失败')
     }
   } catch (error: any) {
     console.error('搜索智能体失败:', error)
-    ElMessage.error('搜索智能体失败')
+    HMessage.error('搜索智能体失败')
   } finally {
     searchLoading.value = false
   }
@@ -115,37 +115,29 @@ const editAgent = (agent: Agent) => {
 // 删除智能体
 const deleteAgent = async (agent: Agent) => {
   try {
-    await ElMessageBox.confirm(
+    await showDeleteConfirm(
       `确定要删除智能体 "${agent.name}" 吗？`,
-      '删除确认',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        center: true,
-        lockScroll: true,
-        customClass: 'delete-confirm-dialog'
-      }
+      '删除确认'
     )
-    
+
     const response = await deleteAgentAPI({ agent_id: agent.agent_id })
     if (response.data.status_code === 200) {
-      ElMessage.success('删除成功')
+      HMessage.success('删除成功')
       await fetchAgents()
     } else {
-      ElMessage.error(response.data.status_message || '删除失败')
+      HMessage.error(response.data.status_message || '删除失败')
     }
   } catch (error) {
     if (error !== 'cancel') {
       console.error('删除智能体失败:', error)
-      ElMessage.error('删除智能体失败')
+      HMessage.error('删除智能体失败')
     }
   }
 }
 
 // 查看智能体详情
 const viewAgent = (agent: Agent) => {
-  ElMessage.info('智能体详情功能开发中...')
+  HMessage.info('智能体详情功能开发中...')
   console.log('查看智能体:', agent)
 }
 
@@ -182,40 +174,43 @@ onMounted(() => {
       <h2>智能体管理</h2>
       <div class="header-actions">
         <div class="search-box">
-          <el-input
+          <HInput
             v-model="searchKeyword"
             placeholder="搜索智能体..."
-            :prefix-icon="Search"
             @keyup.enter="searchAgents"
             @clear="clearSearch"
             clearable
             style="width: 300px"
           />
-          <el-button 
-            type="primary" 
-            :icon="Search" 
+          <HButton
+            type="primary"
             @click="searchAgents"
             :loading="searchLoading"
             style="margin-left: 10px"
           >
             搜索
-          </el-button>
+          </HButton>
         </div>
         <div class="action-buttons">
-          <el-button 
-            :icon="Refresh" 
+          <HButton
+            type="secondary"
             @click="refreshAgents"
             :loading="loading"
             title="刷新"
-          />
-          <el-button type="primary" :icon="Plus" @click="createAgent">
+          >
+            ↻
+          </HButton>
+          <HButton type="primary" @click="createAgent">
             创建智能体
-          </el-button>
+          </HButton>
         </div>
       </div>
     </div>
 
-    <div class="agent-list" v-loading="loading">
+    <div class="agent-list" style="position: relative;">
+      <div v-if="loading" class="loading-overlay">
+        <div class="loading-spinner"></div>
+      </div>
       <div class="agent-grid" v-if="agents.length > 0">
         <div 
           v-for="agent in agents" 
@@ -252,39 +247,39 @@ onMounted(() => {
             </div>
             
             <div class="agent-status">
-              <el-tag 
-                :type="agent.enable_memory ? 'success' : 'info'"
-                size="small"
+              <HTag
+                :type="agent.enable_memory ? 'success' : 'default'"
               >
                 {{ agent.enable_memory ? '已启用向量化' : '未启用向量化' }}
-              </el-tag>
+              </HTag>
             </div>
           </div>
           
           <div class="agent-actions">
-            <el-button 
-              size="small" 
-              :icon="View" 
+            <HButton
+              size="small"
+              type="secondary"
               @click="viewAgent(agent)"
               title="查看详情"
-              plain
-            />
-            <el-button 
-              size="small" 
+            >
+              👁
+            </HButton>
+            <HButton
+              size="small"
               type="primary"
-              :icon="Edit" 
               @click="editAgent(agent)"
               title="编辑"
-              plain
-            />
-            <el-button 
-              size="small" 
-              type="danger" 
-              :icon="Delete" 
+            >
+              ✏️
+            </HButton>
+            <HButton
+              size="small"
+              type="danger"
               @click="deleteAgent(agent)"
               title="删除"
-              plain
-            />
+            >
+              🗑️
+            </HButton>
           </div>
         </div>
       </div>
@@ -297,14 +292,14 @@ onMounted(() => {
         <p v-else>
           暂无智能体，点击上方按钮创建第一个智能体吧！
         </p>
-        <el-button 
-          v-if="searchKeyword" 
-          type="primary" 
+        <HButton
+          v-if="searchKeyword"
+          type="primary"
           @click="clearSearch"
           style="margin-top: 20px"
         >
           查看所有智能体
-        </el-button>
+        </HButton>
       </div>
     </div>
 
@@ -314,6 +309,31 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+/* 加载中遮罩 */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 22, 40, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: inherit;
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--color-primary, #409eff);
+  border-radius: 50%;
+  animation: h-spin 0.6s linear infinite;
+}
+
+@keyframes h-spin {
+  to { transform: rotate(360deg); }
+}
+
 .agent-page {
   padding: 24px;
   height: 100vh;
@@ -456,8 +476,8 @@ onMounted(() => {
           opacity: 0;
           transform: translateY(-10px);
           transition: all 0.3s ease;
-          
-          .el-button {
+
+          .h-button {
             padding: 8px;
             border-radius: 8px;
           }
@@ -499,8 +519,8 @@ onMounted(() => {
         .search-box {
           flex-direction: column;
           gap: 8px;
-          
-          .el-input {
+
+          .h-input {
             width: 100% !important;
           }
         }
