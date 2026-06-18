@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus, Edit, Delete, Connection, Cpu, Search, Refresh, Calendar, ChatDotRound, RefreshRight, Star, Link, Timer, View, Hide } from '@element-plus/icons-vue'
+import { HMessage, HButton, HInput, HTooltip } from '@/components/ui'
 import modelIcon from '../../assets/model.svg'
 import { 
   getVisibleLLMsAPI, 
@@ -64,10 +63,10 @@ const fetchModels = async () => {
       
       models.value = allModels
     } else {
-      ElMessage.error(response.data.status_message || '获取模型列表失败')
+      HMessage.error(response.data.status_message || '获取模型列表失败')
     }
   } catch (error) {
-    ElMessage.error('获取模型列表失败')
+    HMessage.error('获取模型列表失败')
   } finally {
     loading.value = false
   }
@@ -97,10 +96,10 @@ const searchModels = async () => {
       
       models.value = allModels
     } else {
-      ElMessage.error(response.data.status_message || '搜索模型失败')
+      HMessage.error(response.data.status_message || '搜索模型失败')
     }
   } catch (error) {
-    ElMessage.error('搜索模型失败')
+    HMessage.error('搜索模型失败')
   } finally {
     loading.value = false
   }
@@ -148,7 +147,7 @@ const openEditDialog = (model: LLMResponse) => {
 const handleCreate = async () => {
   // 检查必填字段
   if (!createForm.value.model || !createForm.value.api_key || !createForm.value.base_url || !createForm.value.provider) {
-    ElMessage.error('请填写所有必填字段')
+    HMessage.error('请填写所有必填字段')
     return
   }
   
@@ -166,26 +165,26 @@ const handleCreate = async () => {
       })
       
       if (response.data.status_code === 200) {
-        ElMessage.success('更新成功')
+        HMessage.success('更新成功')
         createDialogVisible.value = false
         fetchModels()
       } else {
-        ElMessage.error('更新失败: ' + (response.data.status_message || '未知错误'))
+        HMessage.error('更新失败: ' + (response.data.status_message || '未知错误'))
       }
     } else {
       // 创建模式
       const response = await createLLMAPI(createForm.value)
       
       if (response.data.status_code === 200) {
-        ElMessage.success('创建成功')
+        HMessage.success('创建成功')
         createDialogVisible.value = false
         fetchModels()
       } else {
-        ElMessage.error('创建失败: ' + (response.data.status_message || '未知错误'))
+        HMessage.error('创建失败: ' + (response.data.status_message || '未知错误'))
       }
     }
   } catch (error) {
-    ElMessage.error((isEditMode.value ? '更新' : '创建') + '失败，请检查输入并稍后重试')
+    HMessage.error((isEditMode.value ? '更新' : '创建') + '失败，请检查输入并稍后重试')
   } finally {
     createLoading.value = false
   }
@@ -203,7 +202,7 @@ const goToModelEditor = (model: LLMResponse) => {
 const deleteModel = async (model: LLMResponse) => {
   // 检查是否为官方模型
   if (isOfficialModel(model)) {
-    ElMessage.warning('官方模型不可删除')
+    HMessage.warning('官方模型不可删除')
     return
   }
   
@@ -221,14 +220,14 @@ const confirmDelete = async () => {
     const response = await deleteLLMAPI({ llm_id: modelToDelete.value.llm_id })
     
     if (response.data.status_code === 200) {
-      ElMessage.success('删除成功')
+      HMessage.success('删除成功')
       deleteDialogVisible.value = false
       fetchModels()
     } else {
-      ElMessage.error('删除失败: ' + (response.data.status_message || '未知错误'))
+      HMessage.error('删除失败: ' + (response.data.status_message || '未知错误'))
     }
   } catch (err) {
-    ElMessage.error('删除失败，请稍后重试')
+    HMessage.error('删除失败，请稍后重试')
   } finally {
     deleteLoading.value = false
   }
@@ -247,10 +246,10 @@ const isOfficialModel = (model: LLMResponse): boolean => {
 
 // 测试模型连接
 const testModel = async (model: LLMResponse) => {
-  ElMessage.info(`正在测试 ${model.model} 连接...`)
+  HMessage.info(`正在测试 ${model.model} 连接...`)
   // 这里可以添加实际的测试逻辑
   setTimeout(() => {
-    ElMessage.success(`${model.model} 连接测试完成`)
+    HMessage.success(`${model.model} 连接测试完成`)
   }, 2000)
 }
 
@@ -349,10 +348,9 @@ onMounted(() => {
       </div>
       <div class="header-actions">
         <div class="search-box">
-          <el-input
+          <HInput
             v-model="searchKeyword"
             placeholder=" 搜索模型名称..."
-            :prefix-icon="Search"
             clearable
             @clear="clearSearch"
             style="width: 300px"
@@ -360,28 +358,30 @@ onMounted(() => {
         </div>
         
         <div class="action-buttons">
-          <el-button 
-            :icon="Refresh" 
+          <HButton
+            type="secondary"
             @click="fetchModels"
             :loading="loading"
             class="refresh-btn"
           >
              刷新
-          </el-button>
-          <el-button 
-            type="primary" 
-            :icon="Plus"
+          </HButton>
+          <HButton
+            type="primary"
             @click="openCreateDialog"
             class="add-btn"
           >
              添加模型
-          </el-button>
+          </HButton>
         </div>
       </div>
     </div>
 
     <!-- 模型列表 -->
-    <div class="model-container" v-loading="loading">
+    <div class="model-container" style="position: relative;">
+      <div v-if="loading" class="loading-overlay">
+        <div class="loading-spinner"></div>
+      </div>
       <!-- 列表头部 -->
       <div class="list-header" v-if="models.length > 0">
         <div class="col-name">模型名称</div>
@@ -416,37 +416,34 @@ onMounted(() => {
             </span>
           </div>
           <div class="col-url">
-            <el-tooltip 
-              :content="model.base_url" 
-              placement="top" 
-              :show-after="500"
-              effect="light"
-              popper-class="url-tooltip"
+            <HTooltip
+              :content="model.base_url"
+              placement="top"
             >
               <span class="url-text">{{ truncateUrl(model.base_url, 40) }}</span>
-            </el-tooltip>
+            </HTooltip>
           </div>
           <div class="col-actions" @click.stop>
-            <el-tooltip content="编辑" placement="top">
-              <button 
-                class="action-btn edit-btn" 
+            <HTooltip content="编辑" placement="top">
+              <button
+                class="action-btn edit-btn"
                 @click="openEditDialog(model)"
                 :disabled="isOfficialModel(model)"
                 :class="{ 'disabled': isOfficialModel(model) }"
               >
-                <el-icon><Edit /></el-icon>
+                <span>✏️</span>
               </button>
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top">
-              <button 
-                class="action-btn delete-btn" 
+            </HTooltip>
+            <HTooltip content="删除" placement="top">
+              <button
+                class="action-btn delete-btn"
                 @click="deleteModel(model)"
                 :disabled="isOfficialModel(model)"
                 :class="{ 'disabled': isOfficialModel(model) }"
               >
-                <el-icon><Delete /></el-icon>
+                <span>🗑️</span>
               </button>
-            </el-tooltip>
+            </HTooltip>
           </div>
         </div>
       </div>
@@ -458,14 +455,13 @@ onMounted(() => {
         </div>
         <h3>暂无模型</h3>
         <p>点击上方按钮添加您的第一个AI模型</p>
-        <el-button 
-          type="primary" 
-          :icon="Plus"
+        <HButton
+          type="primary"
           @click="openCreateDialog"
           size="large"
         >
           添加模型
-        </el-button>
+        </HButton>
       </div>
     </div>
 
@@ -537,8 +533,8 @@ onMounted(() => {
                   class="form-input api-key-input"
                 />
                 <span class="toggle-password" @click="showApiKey = !showApiKey">
-                  <el-icon v-if="showApiKey"><View /></el-icon>
-                  <el-icon v-else><Hide /></el-icon>
+                  <span v-if="showApiKey">👁</span>
+                  <span v-else>🙈</span>
                 </span>
               </div>
             </div>
@@ -645,24 +641,13 @@ onMounted(() => {
       
       .search-box {
         margin-right: 12px;
-        
-        :deep(.el-input__wrapper) {
-          border-radius: 8px;
-          transition: all 0.3s;
-          border: 1px solid #dcdfe6;
-          
-          &:hover {
-            border-color: #409eff;
-            box-shadow: 0 0 0 1px rgba(64, 158, 255, 0.2);
-          }
-        }
       }
-      
+
       .action-buttons {
         display: flex;
         gap: 12px;
-        
-        .el-button {
+
+        .h-button {
           border-radius: 8px;
           padding: 12px 20px;
           font-size: 14px;
@@ -833,10 +818,6 @@ onMounted(() => {
             font-size: 13px;
             font-weight: 500;
 
-            .el-icon {
-              font-size: 14px;
-            }
-
             &.llm {
               background: rgba(64, 158, 255, 0.1);
               color: #409eff;
@@ -888,7 +869,7 @@ onMounted(() => {
             opacity: 0.6;
             background: transparent;
 
-            .el-icon {
+            span {
               font-size: 16px;
             }
 
@@ -948,7 +929,7 @@ onMounted(() => {
         margin-bottom: 24px;
       }
 
-      .el-button {
+      .h-button {
         border-radius: 8px;
         background: linear-gradient(135deg, #409eff 0%, #3a7be2 100%);
         border: none;
@@ -965,13 +946,29 @@ onMounted(() => {
   }
 }
 
-/* 添加URL工具提示样式 */
-:deep(.url-tooltip) {
-  max-width: 400px;
-  word-break: break-all;
-  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
-  font-size: 12px;
-  padding: 10px 14px;
+/* 加载中遮罩 */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 22, 40, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: inherit;
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--color-primary, #409eff);
+  border-radius: 50%;
+  animation: h-spin 0.6s linear infinite;
+}
+
+@keyframes h-spin {
+  to { transform: rotate(360deg); }
 }
 
 // 响应式调整
@@ -1146,7 +1143,7 @@ onMounted(() => {
   justify-content: center;
   transition: color 0.2s ease;
 
-  .el-icon {
+  span {
     font-size: 18px;
   }
 

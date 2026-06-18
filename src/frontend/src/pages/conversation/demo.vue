@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from "vue"
 import { useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from "element-plus"
-import { Plus, Search, Delete, Star, Close } from '@element-plus/icons-vue'
+import { HMessage, HButton, HInput, HDialog, HTooltip } from '@/components/ui'
+import { showConfirm } from '@/utils/dialog'
 
 const router = useRouter()
 
@@ -89,7 +89,7 @@ const formatTime = (timeStr: string) => {
 // 创建新会话
 const createDialog = () => {
   if (!selectedAgent.value) {
-    ElMessage.warning('请选择一个智能体')
+    HMessage.warning('请选择一个智能体')
     return
   }
   
@@ -106,7 +106,7 @@ const createDialog = () => {
     selectedDialog.value = newDialog.dialogId
     showCreateDialog.value = false
     selectedAgent.value = ''
-    ElMessage.success('会话创建成功')
+    HMessage.success('会话创建成功')
     
     // 跳转到新创建的会话页面
     router.push({
@@ -121,27 +121,22 @@ const createDialog = () => {
 // 删除会话
 const deleteDialog = async (dialogId: string) => {
   try {
-    await ElMessageBox.confirm(
+    await showConfirm(
       '确定要删除这个会话吗？删除后无法恢复。',
-      '确认删除',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
+      '确认删除'
     )
-    
+
     const index = mockDialogs.value.findIndex(d => d.dialogId === dialogId)
     if (index > -1) {
       mockDialogs.value.splice(index, 1)
       if (selectedDialog.value === dialogId) {
         selectedDialog.value = ''
       }
-      ElMessage.success('会话删除成功')
+      HMessage.success('会话删除成功')
     }
   } catch (error) {
     if (error !== 'cancel') {
-      ElMessage.error('删除失败')
+      HMessage.error('删除失败')
     }
   }
 }
@@ -149,7 +144,7 @@ const deleteDialog = async (dialogId: string) => {
 // 选择会话
 const selectDialog = (dialogId: string) => {
   selectedDialog.value = dialogId
-  // ElMessage.info('进入会话')
+  // HMessage.info('进入会话')
 }
 
 // 清除搜索
@@ -170,27 +165,23 @@ const clearSearch = () => {
       <div class="sidebar">
         <!-- 新建会话按钮 -->
         <div class="create-section">
-          <el-button 
-            type="primary" 
+          <HButton
+            type="primary"
             @click="showCreateDialog = true"
             class="create-btn"
-            :icon="Plus"
           >
             <div class="btn-content">
-              <el-icon><Plus /></el-icon>
+              <span>➕</span>
               <span>新建会话</span>
             </div>
-          </el-button>
+          </HButton>
         </div>
 
         <!-- 搜索框 -->
         <div class="search-section">
-          <el-input
+          <HInput
             v-model="searchKeyword"
             placeholder="搜索会话..."
-            :prefix-icon="Search"
-            :suffix-icon="searchKeyword ? Close : ''"
-            @click-suffix="clearSearch"
             clearable
             size="small"
           />
@@ -238,16 +229,16 @@ const clearSearch = () => {
               <div class="card-right">
                 <div class="time">{{ formatTime(dialog.createTime) }}</div>
                 <div class="actions">
-                  <el-tooltip content="删除会话" placement="top">
-                    <el-button
+                  <HTooltip content="删除会话" placement="top">
+                    <HButton
                       type="danger"
-                      :icon="Delete"
                       size="small"
-                      circle
                       @click.stop="deleteDialog(dialog.dialogId)"
                       class="delete-btn"
-                    />
-                  </el-tooltip>
+                    >
+                      🗑️
+                    </HButton>
+                  </HTooltip>
                 </div>
               </div>
             </div>
@@ -259,9 +250,7 @@ const clearSearch = () => {
       <div class="content">
         <div v-if="!selectedDialog" class="welcome-content">
           <div class="welcome-icon">
-            <el-icon size="48" color="#3b82f6">
-              <Star />
-            </el-icon>
+            <span style="font-size: 48px; color: #3b82f6;">⭐</span>
           </div>
           <h2>欢迎使用会话管理系统</h2>
           <p>从左侧选择一个会话开始对话，或创建新的会话</p>
@@ -280,17 +269,16 @@ const clearSearch = () => {
     </div>
 
     <!-- 创建会话对话框 -->
-    <el-dialog 
-      v-model="showCreateDialog" 
-      title="选择智能体创建会话" 
+    <HDialog
+      v-model="showCreateDialog"
+      title="选择智能体创建会话"
       width="500px"
     >
       <div class="dialog-content">
         <div class="search-section">
-          <el-input
+          <HInput
             v-model="searchKeyword"
             placeholder="搜索智能体..."
-            :prefix-icon="Search"
             clearable
             size="large"
           />
@@ -328,17 +316,17 @@ const clearSearch = () => {
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="showCreateDialog = false">取消</el-button>
-          <el-button 
-            type="primary" 
+          <HButton type="secondary" @click="showCreateDialog = false">取消</HButton>
+          <HButton
+            type="primary"
             @click="createDialog"
             :disabled="!selectedAgent"
           >
             创建会话
-          </el-button>
+          </HButton>
         </div>
       </template>
-    </el-dialog>
+    </HDialog>
   </div>
 </template>
 
