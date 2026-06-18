@@ -5,6 +5,7 @@ export { HButton } from './HButton'
 export { HIcon } from './HIcon'
 export { HInput } from './HInput'
 export { HMessage } from './HMessage'
+export { HMessageBox } from './HMessageBox'
 
 // Vue 插件：全局注册
 export default {
