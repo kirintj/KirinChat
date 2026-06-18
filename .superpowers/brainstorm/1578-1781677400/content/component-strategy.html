@@ -1,0 +1,31 @@
+<h2>组件替换策略</h2>
+<p class="subtitle">移除 Element Plus 后，如何组织原生组件？</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>自建完整组件库</h3>
+      <p>在 <code>src/components/ui/</code> 下建立一套完整的鸿蒙风格组件库（HButton、HInput、HSelect、HDialog、HMessage 等），统一 API 设计，所有页面切换到新组件。</p>
+      <p style="color: #999; font-size: 13px; margin-top: 6px;">✅ 架构最干净，可维护性最强 &nbsp; ⚠️ 前期工作量最大</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>逐页替换 + 公共函数</h3>
+      <p>不建独立组件库，直接在每个页面内用原生 HTML + Vue 3 实现所需的 UI 元素，仅抽取 ElMessage/MessageBox 等公共函数为独立工具。</p>
+      <p style="color: #999; font-size: 13px; margin-top: 6px;">✅ 改动最直接、速度最快 &nbsp; ⚠️ 可能产生重复代码</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>混合：核心组件库 + 页面内联</h3>
+      <p>建 5-6 个高频核心组件（Button、Input、Select、Dialog、Message、Tooltip），其余低频组件（Table、Upload、Tabs 等）在页面内联实现。</p>
+      <p style="color: #999; font-size: 13px; margin-top: 6px;">✅ 平衡架构与效率 &nbsp; ⚠️ 需要判断哪些算"核心"</p>
+    </div>
+  </div>
+</div>
