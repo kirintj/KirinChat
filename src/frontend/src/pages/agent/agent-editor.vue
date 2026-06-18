@@ -1,21 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, nextTick, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { 
-  Edit, 
-  Plus, 
-  Delete, 
-  VideoPlay, 
-  Check, 
-  ArrowDown, 
-  ArrowRight,
-  ArrowLeft,
-  ChatDotRound,
-  Setting,
-  DocumentCopy
-} from '@element-plus/icons-vue'
-import type { UploadProps, UploadUserFile } from 'element-plus'
+import { HButton, HInput, HSelect, HOption, HForm, HFormItem, HTag, HMessage } from '@/components/ui'
 import { createAgentAPI, updateAgentAPI, getAgentByIdAPI } from '../../apis/agent'
 import { getVisibleLLMsAPI, getAgentModelsAPI, type LLMResponse } from '../../apis/llm'
 import { getVisibleToolsAPI, type ToolResponse } from '../../apis/tool'
@@ -37,7 +23,7 @@ const loading = ref(false)
 const formRef = ref()
 const isEditing = ref(false)
 const editingAgentId = ref('')
-const fileList = ref<UploadUserFile[]>([])
+const fileList = ref<Array<{ name: string; url?: string }>>([])
 
 
 // 智能体表单数据
@@ -59,6 +45,14 @@ const collapseItems = ref({
   basic: false,
   aiModel: true,
   memory: false,
+  knowledge: false,
+  tools: false,
+  mcp: false,
+  skills: false
+})
+
+// 多选下拉状态
+const multiSelectOpen = reactive({
   knowledge: false,
   tools: false,
   mcp: false,
@@ -186,50 +180,73 @@ const toggleCollapse = (key: keyof typeof collapseItems.value) => {
   collapseItems.value[key] = !collapseItems.value[key]
 }
 
+// 切换多选下拉
+const toggleMultiSelect = (key: keyof typeof multiSelectOpen) => {
+  multiSelectOpen[key] = !multiSelectOpen[key]
+}
+
+// 切换多选项
+const toggleMultiItem = (arr: string[], value: string) => {
+  const idx = arr.indexOf(value)
+  if (idx >= 0) {
+    arr.splice(idx, 1)
+  } else {
+    arr.push(value)
+  }
+}
+
+// 移除多选项
+const removeMultiItem = (arr: string[], value: string) => {
+  const idx = arr.indexOf(value)
+  if (idx >= 0) arr.splice(idx, 1)
+}
+
 
 
 // 上传相关
 const uploadLoading = ref(false)
 
-const handleFileChange: UploadProps['onChange'] = async (uploadFile) => {
-  if (uploadFile.raw) {
-    const file = uploadFile.raw
-    // 文件大小和类型检查
-    const isLt2M = file.size / 1024 / 1024 < 2
-    if (!isLt2M) {
-      ElMessage.error('上传头像图片大小不能超过 2MB!')
-      return
+const handleFileChange = async (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+  if (!file) return
+
+  // 文件大小和类型检查
+  const isLt2M = file.size / 1024 / 1024 < 2
+  if (!isLt2M) {
+    HMessage.error('上传头像图片大小不能超过 2MB!')
+    return
+  }
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+  if (!isJpgOrPng) {
+    HMessage.error('上传头像图片只能是 JPG/PNG 格式!')
+    return
+  }
+
+  // 开始上传
+  uploadLoading.value = true
+  try {
+    const uploadFormData = new FormData()
+    uploadFormData.append('file', file)
+
+    const response = await uploadFileAPI(uploadFormData)
+
+    if (response.data.status_code === 200) {
+      formData.logo_url = response.data.data
+      HMessage.success('头像上传成功')
+    } else {
+      HMessage.error(response.data.status_message || '头像上传失败')
     }
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isJpgOrPng) {
-      ElMessage.error('上传头像图片只能是 JPG/PNG 格式!')
-      return
-    }
-    
-    // 开始上传
-    uploadLoading.value = true
-    try {
-      const uploadFormData = new FormData()
-      uploadFormData.append('file', file)
-      
-      const response = await uploadFileAPI(uploadFormData)
-      
-      if (response.data.status_code === 200) {
-        formData.logo_url = response.data.data
-        ElMessage.success('头像上传成功')
-      } else {
-        ElMessage.error(response.data.status_message || '头像上传失败')
-      }
-    } catch (error) {
-      console.error('头像上传失败:', error)
-      ElMessage.error('头像上传失败')
-    } finally {
-      uploadLoading.value = false
-    }
+  } catch (error) {
+    console.error('头像上传失败:', error)
+    HMessage.error('头像上传失败')
+  } finally {
+    uploadLoading.value = false
+    target.value = ''
   }
 }
 
-const handleFileRemove: UploadProps['onRemove'] = () => {
+const handleFileRemove = () => {
   formData.logo_url = ''
 }
 
@@ -239,7 +256,7 @@ const saveAgent = async () => {
     // 表单验证
     const valid = await formRef.value?.validate()
     if (!valid) {
-      ElMessage.warning('请完善必填信息后再提交')
+      HMessage.warning('请完善必填信息后再提交')
       return
     }
     
@@ -262,7 +279,7 @@ const saveAgent = async () => {
     if (isEditing.value) {
       // 确保agent_id字段存在
       if (!editingAgentId.value) {
-        ElMessage.error('缺少智能体ID，无法更新')
+        HMessage.error('缺少智能体ID，无法更新')
         loading.value = false
         return
       }
@@ -277,32 +294,32 @@ const saveAgent = async () => {
       const response = await updateAgentAPI(updateData)
       
       if (response.data.status_code === 200) {
-        ElMessage.success('智能体更新成功')
+        HMessage.success('智能体更新成功')
         // 保存成功后跳转到智能体列表页
         router.push('/agent')
       } else {
-        ElMessage.error(response.data.status_message || '更新失败')
+        HMessage.error(response.data.status_message || '更新失败')
       }
     } else {
       console.log('创建智能体数据:', requestData)
       const response = await createAgentAPI(requestData)
       
       if (response.data.status_code === 200) {
-        ElMessage.success('智能体创建成功')
+        HMessage.success('智能体创建成功')
         // 保存成功后跳转到智能体列表页
         router.push('/agent')
       } else {
-        ElMessage.error(response.data.status_message || '创建失败')
+        HMessage.error(response.data.status_message || '创建失败')
       }
     }
   } catch (error: any) {
     console.error('操作失败:', error)
     if (error.response?.data?.status_message) {
-      ElMessage.error(error.response.data.status_message)
+      HMessage.error(error.response.data.status_message)
     } else if (error.response?.data?.message) {
-      ElMessage.error(error.response.data.message)
+      HMessage.error(error.response.data.message)
     } else {
-      ElMessage.error(isEditing.value ? '智能体更新失败' : '智能体创建失败')
+      HMessage.error(isEditing.value ? '智能体更新失败' : '智能体创建失败')
     }
   } finally {
     loading.value = false
@@ -365,11 +382,11 @@ const loadLLMOptions = async () => {
       }
     } else {
       console.error('❌ 大模型API返回错误:', response.data.status_message)
-      ElMessage.error(`加载大模型失败: ${response.data.status_message}`)
+      HMessage.error(`加载大模型失败: ${response.data.status_message}`)
     }
   } catch (error) {
     console.error('❌ 加载大模型失败:', error)
-    ElMessage.error('加载大模型列表失败')
+    HMessage.error('加载大模型列表失败')
   } finally {
     dataLoading.value.llm = false
   }
@@ -400,7 +417,7 @@ const loadToolOptions = async () => {
     }
   } catch (error) {
     console.error('❌ 加载工具失败:', error)
-    ElMessage.error('加载工具列表失败')
+    HMessage.error('加载工具列表失败')
   } finally {
     dataLoading.value.tool = false
   }
@@ -428,7 +445,7 @@ const loadMCPOptions = async () => {
     console.log(`✅ 成功加载 ${mcpOptions.value.length} 个MCP服务器`)
   } catch (error) {
     console.error('加载MCP服务器失败:', error)
-    ElMessage.error('加载MCP服务器列表失败')
+    HMessage.error('加载MCP服务器列表失败')
   } finally {
     dataLoading.value.mcp = false
   }
@@ -451,7 +468,7 @@ const loadAgentSkillOptions = async () => {
     }
   } catch (error) {
     console.error('加载Agent Skill失败:', error)
-    ElMessage.error('加载Agent Skill列表失败')
+    HMessage.error('加载Agent Skill列表失败')
   } finally {
     dataLoading.value.agentSkill = false
   }
@@ -475,7 +492,7 @@ const loadKnowledgeOptions = async () => {
     }
   } catch (error) {
     console.error('加载知识库失败:', error)
-    ElMessage.error('加载知识库列表失败')
+    HMessage.error('加载知识库列表失败')
   } finally {
     dataLoading.value.knowledge = false
   }
@@ -543,7 +560,7 @@ const validateIdMatching = () => {
 const loadAgentFromAPI = async (agentId: string) => {
   try {
     loading.value = true
-    // ElMessage.info('正在加载智能体数据...')
+    // HMessage.info('正在加载智能体数据...')
     
     const response = await getAgentByIdAPI(agentId)
     if (response.data.status_code === 200 && response.data.data) {
@@ -568,14 +585,14 @@ const loadAgentFromAPI = async (agentId: string) => {
       
       // console.log('🔄 转换后的智能体数据:', agent)
       loadAgent(agent)
-      ElMessage.success('智能体数据加载成功')
+      HMessage.success('智能体数据加载成功')
     } else {
-      ElMessage.error(response.data.status_message || '智能体不存在')
+      HMessage.error(response.data.status_message || '智能体不存在')
       goBack()
     }
   } catch (error) {
     console.error('加载智能体失败:', error)
-    ElMessage.error('加载智能体数据失败')
+    HMessage.error('加载智能体数据失败')
     goBack()
   } finally {
     loading.value = false
@@ -701,7 +718,7 @@ defineExpose({ loadAgent })
       <div class="left-panel">
         <div class="panel-header">
           <div class="header-content">
-            <el-icon class="panel-icon"><DocumentCopy /></el-icon>
+            <span class="panel-icon" style="font-size:20px;">📄</span>
             <span class="panel-title">智能体画像</span>
           </div>
         </div>
@@ -711,39 +728,32 @@ defineExpose({ loadAgent })
           <div class="basic-info-section">
             <div class="basic-info-layout">
               <!-- 头像 -->
-              <el-upload
-                v-model:file-list="fileList"
-                class="avatar-uploader"
-                action="#"
-                :show-file-list="false"
-                :auto-upload="false"
-                :on-change="handleFileChange"
-                :on-remove="handleFileRemove"
-              >
+              <div class="avatar-uploader" @click="$refs.avatarFileInput?.click()" style="cursor:pointer;">
+                <input ref="avatarFileInput" type="file" accept="image/jpeg,image/png" style="display:none;" @change="handleFileChange" />
                 <div class="avatar-wrapper">
                   <img v-if="formData.logo_url" :src="formData.logo_url" class="avatar" />
                   <div v-else class="avatar-placeholder">
-                    <el-icon class="avatar-icon"><Plus /></el-icon>
+                    <span class="avatar-icon" style="font-size:20px;color:#6366f1;">+</span>
                     <span class="avatar-text">上传</span>
                   </div>
                 </div>
-              </el-upload>
+              </div>
 
               <!-- 名称 + 描述 -->
               <div class="basic-info-fields">
                 <div class="field-with-label">
                   <span class="field-label"><span class="required-mark">*</span>名称：</span>
-                  <el-input v-model="formData.name" placeholder="" class="form-input name-input" />
+                  <HInput v-model="formData.name" placeholder="" class="form-input name-input" />
                 </div>
                 <div class="field-with-label field-with-label--textarea">
                   <span class="field-label">描述：</span>
-                  <el-input
+                  <textarea
                     v-model="formData.description"
-                    type="textarea"
                     :rows="2"
                     placeholder=""
                     class="form-textarea"
-                  />
+                    style="width:100%;padding:10px;border:1px solid rgba(226,232,240,0.5);border-radius:12px;font-family:inherit;font-size:14px;resize:vertical;background:rgba(248,250,252,0.8);color:var(--color-text-primary);line-height:1.6;"
+                  ></textarea>
                 </div>
               </div>
             </div>
@@ -752,13 +762,13 @@ defineExpose({ loadAgent })
           <!-- 系统提示词 -->
           <div class="prompt-editor-wrapper">
             <div class="prompt-label">系统提示词：</div>
-            <el-input
+            <textarea
               v-model="formData.system_prompt"
-              type="textarea"
               :rows="13"
               placeholder="请输入系统提示词，定义智能体的角色、能力和行为规范..."
               class="prompt-editor"
-            />
+              style="width:100%;font-family:'Monaco','Menlo','Ubuntu Mono','SF Mono',monospace;line-height:1.7;font-size:14px;resize:none;border:1px solid rgba(226,232,240,0.5);border-radius:16px;padding:20px;background:rgba(248,250,252,0.8);color:var(--color-text-primary);"
+            ></textarea>
           </div>
         </div>
       </div>
@@ -767,63 +777,47 @@ defineExpose({ loadAgent })
       <div class="center-panel">
         <div class="panel-header">
           <div class="header-content">
-            <el-icon class="panel-icon"><Setting /></el-icon>
+            <span class="panel-icon" style="font-size:20px;">⚙️</span>
             <span class="panel-title">基础配置</span>
           </div>
           <div class="panel-actions">
-            <el-button @click="goBack" :disabled="loading" class="cancel-btn">取消</el-button>
-            <el-button @click="saveAgent" type="primary" :loading="loading" :icon="Check" class="save-btn">
+            <HButton type="secondary" @click="goBack" :disabled="loading" class="cancel-btn" size="small">取消</HButton>
+            <HButton type="primary" @click="saveAgent" :loading="loading" class="save-btn" size="small">
               {{ isEditing ? '保存更改' : '创建智能体' }}
-            </el-button>
+            </HButton>
           </div>
         </div>
         
         <div class="panel-content">
-          <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px" class="config-form">
+          <HForm ref="formRef" :model="formData" :rules="rules" label-width="100px" class="config-form">
             <!-- AI模型 -->
             <div class="config-section">
               <div class="section-header" @click="toggleCollapse('aiModel')">
                 <div class="section-title">
-                  <el-icon class="section-icon">
-                    <ArrowDown v-if="collapseItems.aiModel" />
-                    <ArrowRight v-else />
-                  </el-icon>
+                  <span class="section-icon" style="font-size:18px;color:#6366f1;">{{ collapseItems.aiModel ? '▼' : '▶' }}</span>
                   <span>AI模型</span>
                 </div>
                 <div class="section-badge">
-                  <el-tag size="small" type="warning" effect="plain">核心</el-tag>
+                  <HTag type="warning">核心</HTag>
                 </div>
               </div>
               <div v-show="collapseItems.aiModel" class="section-content">
-                <el-form-item label="模型" prop="llm_id">
-                  <el-select 
-                    v-model="formData.llm_id" 
+                <HFormItem label="模型" prop="llm_id">
+                  <HSelect
+                    v-model="formData.llm_id"
                     placeholder="🔍 搜索或选择大语言模型"
-                    :loading="dataLoading.llm"
                     class="form-select"
                     filterable
                     clearable
-                    reserve-keyword
                   >
-                    <template #prefix>
-                      <span v-if="dataLoading.llm" style="color: #1d4ed8; font-size: 12px; font-weight: 500;">加载中...</span>
-                      <span v-else style="color: #1d4ed8; font-size: 12px; font-weight: 600;"><img src="/src/assets/model.svg" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;" />{{ llmOptions.length }}个模型</span>
-                    </template>
-                    <el-option
+                    <HOption
                       v-for="llm in llmOptions"
                       :key="llm.llm_id"
                       :label="llm.name"
                       :value="llm.llm_id"
-                    >
-                      <div class="custom-option">
-                        <img src="/src/assets/model.svg" class="option-logo" alt="AI Model" />
-                        <span class="option-name">{{ llm.name }}</span>
-                        <span class="option-badge ai-badge">AI</span>
-                      </div>
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-
+                    />
+                  </HSelect>
+                </HFormItem>
               </div>
             </div>
 
@@ -831,20 +825,17 @@ defineExpose({ loadAgent })
             <div class="config-section">
               <div class="section-header" @click="toggleCollapse('memory')">
                 <div class="section-title">
-                  <el-icon class="section-icon">
-                    <ArrowDown v-if="collapseItems.memory" />
-                    <ArrowRight v-else />
-                  </el-icon>
+                  <span class="section-icon" style="font-size:18px;color:#6366f1;">{{ collapseItems.memory ? '▼' : '▶' }}</span>
                   <span>记忆功能</span>
                 </div>
                 <div class="section-badge">
-                  <el-tag size="small" :type="formData.enable_memory ? 'success' : 'info'" effect="plain">
+                  <HTag :type="formData.enable_memory ? 'success' : 'default'">
                     {{ formData.enable_memory ? '已开启' : '已关闭' }}
-                  </el-tag>
+                  </HTag>
                 </div>
               </div>
               <div v-show="collapseItems.memory" class="section-content">
-                <el-form-item label="启用记忆">
+                <HFormItem label="启用记忆">
                   <div class="memory-toggle-wrapper">
                     <button 
                       type="button"
@@ -861,7 +852,7 @@ defineExpose({ loadAgent })
                       {{ formData.enable_memory ? '智能体将长期记忆你的对话和喜好，提供更连贯的对话体验' : '智能体仅保留最近几轮对话记忆，适合轻量交互的场景' }}
                     </div>
                   </div>
-                </el-form-item>
+                </HFormItem>
               </div>
             </div>
 
@@ -869,18 +860,15 @@ defineExpose({ loadAgent })
             <div class="config-section">
               <div class="section-header" @click="toggleCollapse('knowledge')">
                 <div class="section-title">
-                  <el-icon class="section-icon">
-                    <ArrowDown v-if="collapseItems.knowledge" />
-                    <ArrowRight v-else />
-                  </el-icon>
+                  <span class="section-icon" style="font-size:18px;color:#6366f1;">{{ collapseItems.knowledge ? '▼' : '▶' }}</span>
                   <span>知识库</span>
                 </div>
                 <div class="section-badge">
                 </div>
               </div>
               <div v-show="collapseItems.knowledge" class="section-content">
-                <el-form-item label="知识库">
-                  <el-select
+                <HFormItem label="知识库">
+                  <HSelect
                     v-model="formData.knowledge_ids"
                     multiple
                     placeholder="🔍 搜索或选择知识库"
@@ -888,15 +876,12 @@ defineExpose({ loadAgent })
                     :loading="dataLoading.knowledge"
                     filterable
                     clearable
-                    collapse-tags
-                    collapse-tags-tooltip
-                    :max-collapse-tags="2"
                   >
                     <template #prefix>
                       <span v-if="dataLoading.knowledge" style="color: #15803d; font-size: 12px; font-weight: 500;">加载中...</span>
                       <span v-else style="color: #15803d; font-size: 12px; font-weight: 600;"><img src="/src/assets/knowledge.svg" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;" />{{ knowledgeOptions.length }}个知识库</span>
                     </template>
-                    <el-option
+                    <HOption
                       v-for="knowledge in knowledgeOptions"
                       :key="knowledge.knowledge_id"
                       :label="knowledge.name"
@@ -907,9 +892,9 @@ defineExpose({ loadAgent })
                         <span class="option-name">{{ knowledge.name }}</span>
                         <span class="option-badge kb-badge">KB</span>
                       </div>
-                    </el-option>
-                  </el-select>
-                </el-form-item>
+                    </HOption>
+                  </HSelect>
+                </HFormItem>
               </div>
             </div>
 
@@ -917,18 +902,15 @@ defineExpose({ loadAgent })
             <div class="config-section">
               <div class="section-header" @click="toggleCollapse('tools')">
                 <div class="section-title">
-                  <el-icon class="section-icon">
-                    <ArrowDown v-if="collapseItems.tools" />
-                    <ArrowRight v-else />
-                  </el-icon>
+                  <span class="section-icon" style="font-size:18px;color:#6366f1;">{{ collapseItems.tools ? '▼' : '▶' }}</span>
                   <span>工具</span>
                 </div>
                 <div class="section-badge">
                 </div>
               </div>
               <div v-show="collapseItems.tools" class="section-content">
-                <el-form-item label="选择工具">
-                  <el-select
+                <HFormItem label="选择工具">
+                  <HSelect
                     v-model="formData.tool_ids"
                     multiple
                     placeholder="🔍 搜索或选择工具"
@@ -936,15 +918,12 @@ defineExpose({ loadAgent })
                     :loading="dataLoading.tool"
                     filterable
                     clearable
-                    collapse-tags
-                    collapse-tags-tooltip
-                    :max-collapse-tags="3"
                   >
                     <template #prefix>
                       <span v-if="dataLoading.tool" style="color: #c2410c; font-size: 12px; font-weight: 500;">加载中...</span>
                       <span v-else style="color: #c2410c; font-size: 12px; font-weight: 600;"><img src="/src/assets/plugin.svg" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;" />{{ toolOptions.length }}个工具</span>
                     </template>
-                    <el-option
+                    <HOption
                       v-for="tool in toolOptions"
                       :key="tool.tool_id"
                       :label="tool.name"
@@ -955,9 +934,9 @@ defineExpose({ loadAgent })
                         <span class="option-name">{{ tool.name }}</span>
                         <span class="option-badge tool-badge">TOOL</span>
                       </div>
-                    </el-option>
-                  </el-select>
-                </el-form-item>
+                    </HOption>
+                  </HSelect>
+                </HFormItem>
               </div>
             </div>
 
@@ -965,18 +944,15 @@ defineExpose({ loadAgent })
             <div class="config-section">
               <div class="section-header" @click="toggleCollapse('mcp')">
                 <div class="section-title">
-                  <el-icon class="section-icon">
-                    <ArrowDown v-if="collapseItems.mcp" />
-                    <ArrowRight v-else />
-                  </el-icon>
+                  <span class="section-icon" style="font-size:18px;color:#6366f1;">{{ collapseItems.mcp ? '▼' : '▶' }}</span>
                   <span>MCP</span>
                 </div>
                 <div class="section-badge">
                 </div>
               </div>
               <div v-show="collapseItems.mcp" class="section-content">
-                <el-form-item label="MCP服务">
-                  <el-select
+                <HFormItem label="MCP服务">
+                  <HSelect
                     v-model="formData.mcp_ids"
                     multiple
                     placeholder="🔍 搜索或选择MCP服务器"
@@ -984,15 +960,12 @@ defineExpose({ loadAgent })
                     :loading="dataLoading.mcp"
                     filterable
                     clearable
-                    collapse-tags
-                    collapse-tags-tooltip
-                    :max-collapse-tags="2"
                   >
                     <template #prefix>
                       <span v-if="dataLoading.mcp" style="color: #7c2d12; font-size: 12px; font-weight: 500;">加载中...</span>
                       <span v-else style="color: #7c2d12; font-size: 12px; font-weight: 600;"><img src="/src/assets/mcp.svg" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;" />{{ mcpOptions.length }}个服务</span>
                     </template>
-                    <el-option
+                    <HOption
                       v-for="mcp in mcpOptions"
                       :key="mcp.mcp_server_id"
                       :label="mcp.name"
@@ -1003,9 +976,9 @@ defineExpose({ loadAgent })
                         <span class="option-name">{{ mcp.name }}</span>
                         <span class="option-badge mcp-badge">MCP</span>
                       </div>
-                    </el-option>
-                  </el-select>
-                </el-form-item>
+                    </HOption>
+                  </HSelect>
+                </HFormItem>
               </div>
             </div>
 
@@ -1013,18 +986,15 @@ defineExpose({ loadAgent })
             <div class="config-section">
               <div class="section-header" @click="toggleCollapse('skills')">
                 <div class="section-title">
-                  <el-icon class="section-icon">
-                    <ArrowDown v-if="collapseItems.skills" />
-                    <ArrowRight v-else />
-                  </el-icon>
+                  <span class="section-icon" style="font-size:18px;color:#6366f1;">{{ collapseItems.skills ? '▼' : '▶' }}</span>
                   <span>技能（Skill）</span>
                 </div>
                 <div class="section-badge">
                 </div>
               </div>
               <div v-show="collapseItems.skills" class="section-content">
-                <el-form-item label="选择技能">
-                  <el-select
+                <HFormItem label="选择技能">
+                  <HSelect
                     v-model="formData.agent_skill_ids"
                     multiple
                     placeholder="🔍 搜索或选择Agent Skill"
@@ -1032,15 +1002,12 @@ defineExpose({ loadAgent })
                     :loading="dataLoading.agentSkill"
                     filterable
                     clearable
-                    collapse-tags
-                    collapse-tags-tooltip
-                    :max-collapse-tags="2"
                   >
                     <template #prefix>
                       <span v-if="dataLoading.agentSkill" style="color: #7c2d12; font-size: 12px; font-weight: 500;">加载中...</span>
                       <span v-else style="color: #7c2d12; font-size: 12px; font-weight: 600;"><img src="/src/assets/skill.svg" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;" />{{ agentSkillOptions.length }}个技能</span>
                     </template>
-                    <el-option
+                    <HOption
                       v-for="skill in agentSkillOptions"
                       :key="skill.id"
                       :label="skill.name"
@@ -1051,12 +1018,12 @@ defineExpose({ loadAgent })
                         <span class="option-name">{{ skill.name }}</span>
                         <span class="option-badge skill-badge">Skill</span>
                       </div>
-                    </el-option>
-                  </el-select>
-                </el-form-item>
+                    </HOption>
+                  </HSelect>
+                </HFormItem>
               </div>
             </div>
-          </el-form>
+          </HForm>
         </div>
       </div>
 
@@ -1224,26 +1191,6 @@ defineExpose({ loadAgent })
           .avatar-uploader {
             flex-shrink: 0;
 
-            :deep(.el-upload) {
-              border: 2px dashed rgba(99, 102, 241, 0.25);
-              border-radius: 12px;
-              cursor: pointer;
-              overflow: hidden;
-              transition: all 0.3s ease;
-              width: 72px;
-              height: 72px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              background: linear-gradient(135deg, rgba(248, 250, 252, 0.9) 0%, rgba(241, 245, 249, 0.9) 100%);
-
-              &:hover {
-                border-color: #6366f1;
-                background: rgba(239, 246, 255, 0.9);
-                transform: scale(1.03);
-              }
-            }
-
             .avatar-wrapper {
               width: 72px;
               height: 72px;
@@ -1322,11 +1269,9 @@ defineExpose({ loadAgent })
             }
 
             .name-input {
-              :deep(.el-input__inner) {
-                font-size: 15px;
-                font-weight: 600;
-                color: #1e293b;
-              }
+              font-size: 15px;
+              font-weight: 600;
+              color: #1e293b;
             }
           }
         }
@@ -1341,35 +1286,33 @@ defineExpose({ loadAgent })
         }
 
         .prompt-editor {
-          :deep(.el-textarea__inner) {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'SF Mono', monospace;
-            line-height: 1.7;
-            font-size: 14px;
-            resize: none;
-            border: 1px solid rgba(226, 232, 240, 0.5);
-            border-radius: 16px;
-            padding: 20px;
-            background: rgba(248, 250, 252, 0.8);
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-              0 2px 8px rgba(0, 0, 0, 0.02),
-              inset 0 1px 0 rgba(255, 255, 255, 0.5);
-            
-            &:focus {
-              border-color: #6366f1;
-              background: rgba(255, 255, 255, 0.95);
-              box-shadow: 
-                0 0 0 4px rgba(99, 102, 241, 0.1),
-                0 8px 24px rgba(99, 102, 241, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
-              transform: translateY(-1px);
-            }
-            
-            &:hover {
-              border-color: rgba(99, 102, 241, 0.3);
-              background: rgba(255, 255, 255, 0.8);
-            }
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'SF Mono', monospace;
+          line-height: 1.7;
+          font-size: 14px;
+          resize: none;
+          border: 1px solid rgba(226, 232, 240, 0.5);
+          border-radius: 16px;
+          padding: 20px;
+          background: rgba(248, 250, 252, 0.8);
+          backdrop-filter: blur(10px);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow:
+            0 2px 8px rgba(0, 0, 0, 0.02),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
+          &:focus {
+            border-color: #6366f1;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow:
+              0 0 0 4px rgba(99, 102, 241, 0.1),
+              0 8px 24px rgba(99, 102, 241, 0.08),
+              inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            transform: translateY(-1px);
+          }
+
+          &:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            background: rgba(255, 255, 255, 0.8);
           }
         }
 
@@ -1493,7 +1436,7 @@ defineExpose({ loadAgent })
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(5px);
 
-            .el-form-item {
+            > * {
               margin-bottom: 20px;
 
               &:last-child {
@@ -1590,95 +1533,33 @@ defineExpose({ loadAgent })
       .form-input,
       .form-textarea,
       .form-select {
-        :deep(.el-input__wrapper) {
-          border: 1px solid rgba(226, 232, 240, 0.5);
-          border-radius: 12px;
-          background: rgba(248, 250, 252, 0.8);
-          backdrop-filter: blur(10px);
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 
-            0 1px 3px rgba(0, 0, 0, 0.02),
-            inset 0 1px 0 rgba(255, 255, 255, 0.5);
-          min-height: 48px;
+        border: 1px solid rgba(226, 232, 240, 0.5);
+        border-radius: 12px;
+        background: rgba(248, 250, 252, 0.8);
+        backdrop-filter: blur(10px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow:
+          0 1px 3px rgba(0, 0, 0, 0.02),
+          inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        min-height: 48px;
 
-          &:hover {
-            border-color: rgba(99, 102, 241, 0.4);
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-1px);
-            box-shadow: 
-              0 4px 12px rgba(99, 102, 241, 0.05),
-              inset 0 1px 0 rgba(255, 255, 255, 0.7);
-          }
-
-          &.is-focus {
-            border-color: #6366f1;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 
-              0 0 0 4px rgba(99, 102, 241, 0.1),
-              0 8px 24px rgba(99, 102, 241, 0.08),
-              inset 0 1px 0 rgba(255, 255, 255, 0.8);
-            transform: translateY(-2px);
-          }
+        &:hover {
+          border-color: rgba(99, 102, 241, 0.4);
+          background: rgba(255, 255, 255, 0.9);
+          transform: translateY(-1px);
+          box-shadow:
+            0 4px 12px rgba(99, 102, 241, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.7);
         }
 
-        :deep(.el-textarea__inner) {
-          border: none;
-          background: transparent;
-          font-size: 14px;
-          line-height: 1.7;
-          padding: 16px;
-        }
-        
-        :deep(.el-input__inner) {
-          font-size: 14px;
-          font-weight: 500;
-          color: #1e293b;
-          padding: 0 16px;
-        }
-        
-        // 优化选择器特有的样式
-        :deep(.el-input__suffix) {
-          right: 12px;
-          
-          .el-select__caret {
-            color: #6366f1;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            
-            &.is-reverse {
-              transform: rotate(180deg);
-            }
-          }
-        }
-        
-        // 多选标签优化
-        :deep(.el-select__tags) {
-          flex-wrap: wrap;
-          gap: 4px;
-          padding: 6px 12px;
-          
-          .el-tag {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 6px;
-            color: #1d4ed8;
-            font-size: 12px;
-            font-weight: 500;
-            padding: 2px 6px;
-            margin: 0;
-            height: auto;
-            line-height: 1.4;
-            
-            .el-tag__close {
-              color: #1d4ed8;
-              font-size: 12px;
-              margin-left: 4px;
-              
-              &:hover {
-                color: #dc2626;
-              }
-            }
-          }
+        &:focus-within {
+          border-color: #6366f1;
+          background: rgba(255, 255, 255, 0.95);
+          box-shadow:
+            0 0 0 4px rgba(99, 102, 241, 0.1),
+            0 8px 24px rgba(99, 102, 241, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+          transform: translateY(-2px);
         }
       }
 
@@ -1709,112 +1590,66 @@ defineExpose({ loadAgent })
   }
 }
 
-// 简化清晰的下拉菜单样式
-:global(.el-select-dropdown) {
-  background: white !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
-  padding: 6px !important;
-  margin-top: 4px !important;
-  
-  .el-select-dropdown__item {
-    border-radius: 8px !important;
-    padding: 8px 12px !important;
-    margin: 2px 0 !important;
-    font-size: 14px !important;
-    color: #374151 !important;
-    transition: all 0.2s ease !important;
-    background: transparent !important;
-    
-    &:hover {
-      background: #f3f4f6 !important;
-      color: #111827 !important;
-    }
-    
-    &.selected {
-      background: #eff6ff !important;
-      color: #2563eb !important;
-      font-weight: 600 !important;
-    }
-  }
-  
-  .el-select-dropdown__empty {
-    color: #6b7280 !important;
-    font-size: 14px !important;
-    padding: 20px !important;
-    text-align: center !important;
-  }
-}
-
-// 简化的选项样式
+// 选项样式
 .custom-option {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  width: 100% !important;
-  padding: 4px 0 !important;
-  
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 4px 0;
+
   .option-logo {
-    width: 20px !important;
-    height: 20px !important;
-    flex-shrink: 0 !important;
-    border-radius: 4px !important;
-    object-fit: cover !important;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    object-fit: cover;
   }
-  
+
   .option-name {
-    flex: 1 !important;
-    font-weight: 500 !important;
-    color: #111827 !important;
-    font-size: 14px !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    flex: 1;
+    font-weight: 500;
+    color: #111827;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  
+
   .option-badge {
-    flex-shrink: 0 !important;
-    padding: 2px 6px !important;
-    border-radius: 4px !important;
-    font-size: 10px !important;
-    font-weight: 600 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    
+    flex-shrink: 0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
     &.ai-badge {
-      background: #dbeafe !important;
-      color: #1d4ed8 !important;
+      background: #dbeafe;
+      color: #1d4ed8;
     }
-    
+
     &.kb-badge {
-      background: #dcfce7 !important;
-      color: #15803d !important;
+      background: #dcfce7;
+      color: #15803d;
     }
-    
+
     &.tool-badge {
-      background: #fed7aa !important;
-      color: #c2410c !important;
+      background: #fed7aa;
+      color: #c2410c;
     }
-    
+
     &.mcp-badge {
-      background: #e9d5ff !important;
-      color: #7c2d12 !important;
+      background: #e9d5ff;
+      color: #7c2d12;
     }
-    
+
     &.skill-badge {
-      background: #fef3c7 !important;
-      color: #92400e !important;
+      background: #fef3c7;
+      color: #92400e;
     }
   }
 }
 
-// 多选标签样式优化
-:global(.el-tag.el-tag--info) {
-  background: #eff6ff !important;
-  border: 1px solid #bfdbfe !important;
-  color: #1d4ed8 !important;
-  font-weight: 500 !important;
-  border-radius: 6px !important;
-}
-</style> 
+</style>
