@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, nextTick, reactive } from 'vue'
-import { ElMessage } from 'element-plus'
-import { Plus, Delete, Refresh, FolderOpened, Document, Edit, View, CloseBold, Files, Clock } from '@element-plus/icons-vue'
+import { HMessage, HButton, HTooltip, HForm, HFormItem, HInput, HSelect, HOption } from '@/components/ui'
 import skillIcon from '../../assets/skill.svg'
 import * as monaco from 'monaco-editor'
 import { 
@@ -31,7 +30,7 @@ const editMode = ref(false)
 const showAddFileDialog = ref(false)
 const savingFile = ref(false)
 
-// 手写确认弹窗（替代 ElMessageBox / window.confirm）
+// 手写确认弹窗（替代 HMessageBox / window.confirm）
 type ConfirmDialogOptions = {
   title?: string
   message: string
@@ -114,11 +113,11 @@ const fetchSkills = async () => {
     if (response.data.status_code === 200) {
       skills.value = response.data.data || []
     } else {
-      ElMessage.error(response.data.status_message || '获取 Skill 列表失败')
+      HMessage.error(response.data.status_message || '获取 Skill 列表失败')
     }
   } catch (error) {
     console.error('获取 Skill 列表失败:', error)
-    ElMessage.error('获取 Skill 列表失败')
+    HMessage.error('获取 Skill 列表失败')
   } finally {
     loading.value = false
   }
@@ -127,23 +126,23 @@ const fetchSkills = async () => {
 // 创建 Skill
 const handleCreateSkill = async () => {
   if (!createForm.value.name || !createForm.value.description) {
-    ElMessage.warning('请填写完整信息')
+    HMessage.warning('请填写完整信息')
     return
   }
   
   try {
     const response = await createAgentSkillAPI(createForm.value)
     if (response.data.status_code === 200) {
-      ElMessage.success('Skill 创建成功')
+      HMessage.success('Skill 创建成功')
       showCreateDialog.value = false
       resetCreateForm()
       fetchSkills()
     } else {
-      ElMessage.error(response.data.status_message || '创建 Skill 失败')
+      HMessage.error(response.data.status_message || '创建 Skill 失败')
     }
   } catch (error) {
     console.error('创建 Skill 失败:', error)
-    ElMessage.error('创建 Skill 失败')
+    HMessage.error('创建 Skill 失败')
   }
 }
 
@@ -162,14 +161,14 @@ const handleDeleteSkill = async (skill: AgentSkill, event?: Event) => {
   try {
     const response = await deleteAgentSkillAPI({ agent_skill_id: skill.id })
     if (response.data.status_code === 200) {
-      ElMessage.success('Skill 删除成功')
+      HMessage.success('Skill 删除成功')
       fetchSkills()
     } else {
-      ElMessage.error(response.data.status_message || '删除 Skill 失败')
+      HMessage.error(response.data.status_message || '删除 Skill 失败')
     }
   } catch (error) {
     console.error('删除 Skill 失败:', error)
-    ElMessage.error('删除 Skill 失败')
+    HMessage.error('删除 Skill 失败')
   }
 }
 
@@ -320,7 +319,7 @@ const saveFileContent = async () => {
     })
     
     if (response.data.status_code === 200) {
-      ElMessage.success('文件保存成功')
+      HMessage.success('文件保存成功')
       editMode.value = false
       fileContent.value = content
       if (selectedFile.value) {
@@ -334,11 +333,11 @@ const saveFileContent = async () => {
         monacoEditor = null
       }
     } else {
-      ElMessage.error(response.data.status_message || '保存失败')
+      HMessage.error(response.data.status_message || '保存失败')
     }
   } catch (error) {
     console.error('保存文件失败:', error)
-    ElMessage.error('保存文件失败')
+    HMessage.error('保存文件失败')
   } finally {
     savingFile.value = false
   }
@@ -354,17 +353,17 @@ const closeAddFileDialog = () => {
 const addingFile = ref(false)
 const handleAddFile = async () => {
   if (!currentSkill.value) {
-    ElMessage.warning('请先选择一个 Skill')
+    HMessage.warning('请先选择一个 Skill')
     return
   }
   
   if (!addFileForm.value.path) {
-    ElMessage.warning('请选择目标目录')
+    HMessage.warning('请选择目标目录')
     return
   }
   
   if (!addFileForm.value.name) {
-    ElMessage.warning('请输入文件名称')
+    HMessage.warning('请输入文件名称')
     return
   }
   
@@ -377,16 +376,16 @@ const handleAddFile = async () => {
     })
 
     if (response.data.status_code === 200) {
-      ElMessage.success('文件添加成功')
+      HMessage.success('文件添加成功')
       closeAddFileDialog()
       currentSkill.value = response.data.data
       fetchSkills()
     } else {
-      ElMessage.error(response.data.status_message || '添加文件失败')
+      HMessage.error(response.data.status_message || '添加文件失败')
     }
   } catch (error: any) {
     console.error('添加文件失败:', error)
-    ElMessage.error(error?.response?.data?.status_message || error?.message || '添加文件失败')
+    HMessage.error(error?.response?.data?.status_message || error?.message || '添加文件失败')
   } finally {
     addingFile.value = false
   }
@@ -412,7 +411,7 @@ const handleDeleteFile = async (file: AgentSkillFile, parentPath: string) => {
     })
     
     if (response.data.status_code === 200) {
-      ElMessage.success('文件删除成功')
+      HMessage.success('文件删除成功')
       currentSkill.value = response.data.data
       if (selectedFile.value?.path === file.path) {
         selectedFile.value = null
@@ -420,11 +419,11 @@ const handleDeleteFile = async (file: AgentSkillFile, parentPath: string) => {
       }
       fetchSkills()
     } else {
-      ElMessage.error(response.data.status_message || '删除文件失败')
+      HMessage.error(response.data.status_message || '删除文件失败')
     }
   } catch (error) {
     console.error('删除文件失败:', error)
-    ElMessage.error('删除文件失败')
+    HMessage.error('删除文件失败')
   }
 }
 
@@ -476,27 +475,26 @@ onMounted(() => {
         <h2>Agent Skill</h2>
       </div>
       <div class="header-actions">
-        <el-button 
-          :icon="Refresh" 
-          @click="handleRefresh" 
+        <HButton
+          @click="handleRefresh"
           :loading="loading"
           class="refresh-btn"
+          type="secondary"
         >
-          刷新
-        </el-button>
-        <el-button 
-          type="primary" 
-          :icon="Plus" 
+          &#x21BB; 刷新
+        </HButton>
+        <HButton
+          type="primary"
           @click="showCreateDialog = true"
           class="create-btn"
         >
-          创建 Skill
-        </el-button>
+          + 创建 Skill
+        </HButton>
       </div>
     </div>
 
     <!-- Skill 列表 -->
-    <div class="skill-container" v-loading="loading">
+    <div class="skill-container" v-h-loading="loading">
       <!-- 列表头部 -->
       <div class="list-header" v-if="skills.length > 0">
         <div class="col-name">名称</div>
@@ -527,24 +525,23 @@ onMounted(() => {
           </div>
           <div class="col-files">
             <span class="file-badge">
-              <el-icon><Document /></el-icon>
-              {{ getFileCount(skill) }}
+              &#128196; {{ getFileCount(skill) }}
             </span>
           </div>
           <div class="col-time">
             <span class="time-text">{{ formatRelativeTime(skill.create_time) }}</span>
           </div>
           <div class="col-actions" @click.stop>
-            <el-tooltip content="查看详情" placement="top">
+            <HTooltip content="查看详情" placement="top">
               <button class="action-btn view-btn" @click="openDetailDialog(skill)">
-                <el-icon><View /></el-icon>
+                &#128065;
               </button>
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top">
+            </HTooltip>
+            <HTooltip content="删除" placement="top">
               <button class="action-btn delete-btn" @click="handleDeleteSkill(skill, $event)">
-                <el-icon><Delete /></el-icon>
+                &#128465;
               </button>
-            </el-tooltip>
+            </HTooltip>
           </div>
         </div>
       </div>
@@ -559,14 +556,13 @@ onMounted(() => {
         <div class="empty-content">
           <h3>还没有创建任何 Skill</h3>
           <p>Agent Skill 可以让智能体拥有更专业的能力，开始创建你的第一个 Skill 吧！</p>
-          <el-button 
+          <HButton
             type="primary"
-            :icon="Plus"
             @click="showCreateDialog = true"
             class="empty-btn"
           >
-            创建第一个 Skill
-          </el-button>
+            + 创建第一个 Skill
+          </HButton>
         </div>
       </div>
     </div>
@@ -584,10 +580,10 @@ onMounted(() => {
               <p>为智能体添加一项新的专业技能</p>
             </div>
             <button class="close-btn" @click="showCreateDialog = false">
-              <el-icon><CloseBold /></el-icon>
+              &#10005;
             </button>
           </div>
-          
+
           <div class="dialog-body">
             <div class="form-tip">
               <div class="tip-icon">
@@ -598,42 +594,31 @@ onMounted(() => {
               </div>
               <p>Skill 包含一组预定义的文件和脚本，用于赋予智能体特定的专业能力</p>
             </div>
-            
-            <el-form
-              :model="createForm"
-              :rules="createFormRules"
-              label-position="top"
-              class="create-form"
-            >
-              <el-form-item label="Skill 名称" prop="name">
-                <el-input 
-                  v-model="createForm.name" 
+
+            <HForm class="create-form">
+              <HFormItem label="Skill 名称">
+                <HInput
+                  v-model="createForm.name"
                   placeholder="例如：数据分析专家、代码审查助手"
-                  maxlength="50"
-                  show-word-limit
-                  size="large"
                 />
-              </el-form-item>
-              
-              <el-form-item label="Skill 描述" prop="description">
-                <el-input 
-                  v-model="createForm.description" 
-                  type="textarea"
+              </HFormItem>
+
+              <HFormItem label="Skill 描述">
+                <textarea
+                  v-model="createForm.description"
                   :rows="4"
                   placeholder="详细描述这个 Skill 的功能、适用场景和特点..."
-                  maxlength="500"
-                  show-word-limit
-                />
-              </el-form-item>
-            </el-form>
+                  class="skill-textarea"
+                ></textarea>
+              </HFormItem>
+            </HForm>
           </div>
-          
+
           <div class="dialog-footer">
-            <el-button @click="showCreateDialog = false" size="large">取消</el-button>
-            <el-button type="primary" @click="handleCreateSkill" size="large">
-              <el-icon><Plus /></el-icon>
-              创建 Skill
-            </el-button>
+            <HButton @click="showCreateDialog = false" size="large" type="secondary">取消</HButton>
+            <HButton type="primary" @click="handleCreateSkill" size="large">
+              + 创建 Skill
+            </HButton>
           </div>
         </div>
       </div>
@@ -653,7 +638,7 @@ onMounted(() => {
             </div>
             <div class="ide-actions">
               <button class="ide-btn" @click="closeDetailDialog">
-                <el-icon><CloseBold /></el-icon>
+                &#10005;
               </button>
             </div>
           </div>
@@ -664,21 +649,21 @@ onMounted(() => {
             <div class="ide-sidebar">
               <div class="sidebar-header">
                 <span class="sidebar-title">资源管理器</span>
-                <el-tooltip content="只能在 scripts 或 reference 目录下添加文件" placement="bottom">
+                <HTooltip content="只能在 scripts 或 reference 目录下添加文件" placement="bottom">
                   <span class="sidebar-hint">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
                       <path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                   </span>
-                </el-tooltip>
+                </HTooltip>
               </div>
               
               <div class="file-explorer">
                 <template v-if="currentSkill?.folder">
                   <!-- 项目根目录 -->
                   <div class="explorer-item project-root">
-                    <el-icon class="item-icon folder-icon"><FolderOpened /></el-icon>
+                    <span class="item-icon folder-icon">&#128193;</span>
                     <span class="item-name">{{ currentSkill.folder.name }}</span>
                   </div>
                   
@@ -686,13 +671,13 @@ onMounted(() => {
                   <div class="explorer-tree">
                     <template v-for="item in currentSkill.folder.folder" :key="item.path">
                       <!-- 根目录文件（如 SKILL.md）- 只能查看编辑，不能删除 -->
-                      <div 
+                      <div
                         v-if="item.type === 'file'"
                         class="explorer-item file-item"
                         :class="{ active: selectedFile?.path === item.path }"
                         @click="selectFile(item as AgentSkillFile)"
                       >
-                        <el-icon class="item-icon file-icon"><Document /></el-icon>
+                        <span class="item-icon file-icon">&#128196;</span>
                         <span class="item-name">{{ item.name }}</span>
                         <span class="item-badge readonly">只读</span>
                       </div>
@@ -700,35 +685,35 @@ onMounted(() => {
                       <!-- 文件夹（scripts / reference） -->
                       <template v-else>
                         <div class="explorer-item folder-item" :class="{ 'can-add': canAddToFolder(item.name) }">
-                          <el-icon class="item-icon folder-icon"><FolderOpened /></el-icon>
+                          <span class="item-icon folder-icon">&#128193;</span>
                           <span class="item-name">{{ item.name }}</span>
                           <!-- 只有 scripts 和 reference 可以添加文件 -->
-                          <el-tooltip v-if="canAddToFolder(item.name)" content="添加文件" placement="right">
-                            <button 
+                          <HTooltip v-if="canAddToFolder(item.name)" content="添加文件" placement="right">
+                            <button
                               class="item-add"
                               @click.stop="addFileForm.path = item.path; showAddFileDialog = true"
                             >
-                              <el-icon><Plus /></el-icon>
+                              +
                             </button>
-                          </el-tooltip>
+                          </HTooltip>
                         </div>
                         
                         <!-- 子文件 - 可以增删改 -->
-                        <div 
-                          v-for="subItem in (item as AgentSkillFolder).folder" 
+                        <div
+                          v-for="subItem in (item as AgentSkillFolder).folder"
                           :key="subItem.path"
                           class="explorer-item file-item nested"
                           :class="{ active: selectedFile?.path === subItem.path }"
                           @click="selectFile(subItem as AgentSkillFile)"
                         >
-                          <el-icon class="item-icon file-icon"><Document /></el-icon>
+                          <span class="item-icon file-icon">&#128196;</span>
                           <span class="item-name">{{ subItem.name }}</span>
-                          <button 
+                          <button
                             v-if="canDeleteFile(subItem as AgentSkillFile, item.path)"
                             class="item-delete"
                             @click.stop="handleDeleteFile(subItem as AgentSkillFile, item.path)"
                           >
-                            <el-icon><Delete /></el-icon>
+                            &#128465;
                           </button>
                         </div>
                         
@@ -751,8 +736,7 @@ onMounted(() => {
                 <p class="info-desc">{{ currentSkill?.description }}</p>
                 <div class="info-meta">
                   <span>
-                    <el-icon><Clock /></el-icon>
-                    创建于 {{ formatTime(currentSkill?.create_time) }}
+                    &#128336; 创建于 {{ formatTime(currentSkill?.create_time) }}
                   </span>
                 </div>
               </div>
@@ -764,36 +748,38 @@ onMounted(() => {
                 <!-- 编辑器标签栏 -->
                 <div class="editor-tabs">
                   <div class="editor-tab active">
-                    <el-icon><Document /></el-icon>
+                    &#128196;
                     <span>{{ selectedFile.name }}</span>
                   </div>
                   <div class="editor-actions">
                     <template v-if="!editMode">
-                      <el-button 
+                      <HButton
                         class="editor-btn editor-btn--ghost"
-                        size="small" 
-                        :icon="Edit"
+                        size="small"
                         @click="enterEditMode"
+                        type="secondary"
                       >
-                        编辑文件
-                      </el-button>
+                        &#9998; 编辑文件
+                      </HButton>
                     </template>
                     <template v-else>
-                      <el-button 
-                        class="editor-btn editor-btn--cancel" 
-                        size="small" 
+                      <HButton
+                        class="editor-btn editor-btn--cancel"
+                        size="small"
                         @click="cancelEdit"
+                        type="secondary"
                       >
                         取消
-                      </el-button>
-                      <el-button 
-                        class="editor-btn editor-btn--primary" 
-                        size="small" 
+                      </HButton>
+                      <HButton
+                        class="editor-btn editor-btn--primary"
+                        size="small"
                         @click="saveFileContent"
                         :loading="savingFile"
+                        type="primary"
                       >
                         保存更改
-                      </el-button>
+                      </HButton>
                     </template>
                   </div>
                 </div>
@@ -808,7 +794,7 @@ onMounted(() => {
               <!-- 无文件选中状态 -->
               <div v-else class="no-file-state">
                 <div class="no-file-visual">
-                  <el-icon :size="64" class="no-file-icon"><Document /></el-icon>
+                  <span class="no-file-icon">&#128196;</span>
                 </div>
                 <h3>选择一个文件开始编辑</h3>
                 <p>从左侧文件资源管理器中选择文件，或创建新文件</p>
@@ -825,72 +811,62 @@ onMounted(() => {
         <div class="modal-dialog add-file-dialog">
           <div class="dialog-header">
             <div class="dialog-icon add-icon">
-              <el-icon><Document /></el-icon>
+              &#128196;
             </div>
             <div class="dialog-title-wrapper">
               <h3>新建文件</h3>
               <p>在 {{ addFileForm.path || '选择的目录' }} 中创建新文件</p>
             </div>
             <button class="close-btn" @click="closeAddFileDialog">
-              <el-icon><CloseBold /></el-icon>
+              &#10005;
             </button>
           </div>
-          
+
           <div class="dialog-body">
             <div class="add-file-tip">
-              <el-icon><Document /></el-icon>
+              &#128196;
               <span>文件只能添加到 <strong>scripts</strong> 或 <strong>reference</strong> 目录下</span>
             </div>
-            
+
             <div class="form-group">
               <label>目标目录</label>
-              <el-select v-model="addFileForm.path" placeholder="选择文件存放目录" style="width: 100%" size="large">
+              <HSelect v-model="addFileForm.path" placeholder="选择文件存放目录" style="width: 100%">
                 <template v-if="currentSkill?.folder?.folder">
-                  <el-option 
+                  <HOption
                     v-for="item in getAddableFolders"
                     :key="item.path"
                     :value="item.path"
-                  >
-                    <div class="folder-option">
-                      <el-icon class="folder-option-icon"><FolderOpened /></el-icon>
-                      <span>{{ item.name }}</span>
-                      <span class="folder-option-path">{{ item.path }}</span>
-                    </div>
-                  </el-option>
+                    :label="item.name"
+                  />
                 </template>
-              </el-select>
+              </HSelect>
             </div>
-            
+
             <div class="form-group">
               <label>文件名称</label>
-              <el-input 
-                v-model="addFileForm.name" 
+              <HInput
+                v-model="addFileForm.name"
                 placeholder="例如：my_script.py, data.json, README.md"
                 size="large"
                 @keyup.enter="handleAddFile"
-              >
-                <template #prefix>
-                  <el-icon><Document /></el-icon>
-                </template>
-              </el-input>
+              />
               <div class="file-name-hint">
                 支持的文件类型：.py, .js, .ts, .json, .md, .yaml, .sh 等
               </div>
             </div>
           </div>
-          
+
           <div class="dialog-footer">
-            <el-button @click="closeAddFileDialog" size="large">取消</el-button>
-            <el-button 
-              type="primary" 
-              @click="handleAddFile" 
+            <HButton @click="closeAddFileDialog" size="large" type="secondary">取消</HButton>
+            <HButton
+              type="primary"
+              @click="handleAddFile"
               :disabled="!addFileForm.path || !addFileForm.name"
               :loading="addingFile"
               size="large"
             >
-              <el-icon v-if="!addingFile"><Plus /></el-icon>
               {{ addingFile ? '创建中...' : '创建文件' }}
-            </el-button>
+            </HButton>
           </div>
         </div>
       </div>
@@ -1169,29 +1145,32 @@ onMounted(() => {
       }
       
       .create-form {
-        .el-form-item__label {
-          font-weight: 600;
-          color: #333;
-          padding-bottom: 8px;
-        }
-        
-        .el-input__wrapper,
-        .el-textarea__inner {
+        .skill-textarea {
+          width: 100%;
+          font-family: inherit;
+          font-size: 14px;
+          line-height: 1.5;
           border-radius: 10px;
+          padding: 12px;
+          border: 1px solid var(--color-border, #dcdfe6);
+          background: var(--color-bg-secondary, #fff);
+          color: var(--color-text-primary, #333);
+          resize: vertical;
+          box-sizing: border-box;
+
+          &:focus {
+            outline: none;
+            border-color: var(--color-primary, #409eff);
+          }
         }
       }
     }
-    
+
     .dialog-footer {
       padding: 16px 24px 24px;
       display: flex;
       justify-content: flex-end;
       gap: 12px;
-      
-      .el-button {
-        border-radius: 10px;
-        padding: 12px 24px;
-      }
     }
   }
 }
@@ -1296,11 +1275,7 @@ onMounted(() => {
         margin-bottom: 20px;
         color: #1B7CE4;
         font-size: 14px;
-        
-        .el-icon {
-          font-size: 18px;
-        }
-        
+
         strong {
           color: #0958d9;
           font-weight: 600;
@@ -1353,10 +1328,6 @@ onMounted(() => {
       gap: 12px;
       border-top: 1px solid #ebeef5;
       background: #fafafa;
-      
-      .el-button {
-        border-radius: 8px;
-      }
     }
   }
 }
@@ -1673,10 +1644,6 @@ onMounted(() => {
             gap: 8px;
             color: #334155;
             font-size: 13px;
-            
-            .el-icon {
-              color: #1B7CE4;
-            }
           }
           
           .editor-actions {
@@ -1696,10 +1663,6 @@ onMounted(() => {
               background: transparent;
               color: #475569;
               transition: all 0.18s ease;
-
-              .el-icon {
-                font-size: 14px;
-              }
 
               &--ghost {
                 border-color: #dbeafe;
@@ -1846,19 +1809,7 @@ onMounted(() => {
     .header-actions {
       display: flex;
       gap: 12px;
-      
-      :deep(.el-button) {
-        border-radius: 12px;
-        font-weight: 600;
-        padding: 12px 24px;
-        font-size: 14px;
-        transition: all 0.3s ease;
-        
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(75, 142, 230, 0.3);
-        }
-      }
+    }
     }
   }
   
@@ -1984,10 +1935,6 @@ onMounted(() => {
             border-radius: 20px;
             font-size: 13px;
             font-weight: 500;
-            
-            .el-icon {
-              font-size: 14px;
-            }
           }
         }
         
