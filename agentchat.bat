@@ -106,8 +106,6 @@ echo [步骤] 启动前端服务（端口 8090）...
 cd /d "%~dp0src\frontend"
 start "AgentChat Frontend" cmd /k "title AgentChat Frontend && npm run dev"
 
-timeout /t 5 >nul
-
 echo.
 echo   ─────────────────────────────────────
 echo   ✅ AgentChat 已启动
@@ -143,7 +141,7 @@ call :ensure_frontend_deps
 
 echo [步骤] 启动前端服务（端口 8090）...
 cd /d "%~dp0src\frontend"
-npm run dev
+start "AgentChat Frontend" cmd /k "title AgentChat Frontend && npm run dev"
 goto :eof
 
 REM ─── down ──────────────────────────────────────────────
@@ -227,6 +225,7 @@ if not exist "%~dp0src\backend\agentchat\config.yaml" (
     copy "%~dp0src\backend\agentchat\config-dev.yaml" "%~dp0src\backend\agentchat\config.yaml"
     echo [警告] 已创建默认配置文件，请编辑 src\backend\agentchat\config.yaml
 )
+cd /d "%~dp0"
 goto :eof
 
 :ensure_frontend_deps
@@ -236,4 +235,5 @@ if not exist "%~dp0src\frontend\node_modules" (
     call npm install
     echo ✅ 前端依赖安装完成
 )
+cd /d "%~dp0"
 goto :eof
