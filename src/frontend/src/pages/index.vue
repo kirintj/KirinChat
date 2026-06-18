@@ -2,7 +2,7 @@
 import { onMounted, ref, watch, computed } from "vue"
 import { useRouter } from "vue-router"
 import { useRoute } from "vue-router"
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { HMessage } from '@/components/ui'
 import workspaceIcon from '../assets/workspace.svg'
 import applicationCenterIcon from '../assets/application-center.svg'
 import exploreIcon from '../assets/explore.svg'
@@ -14,7 +14,6 @@ import modelIcon from '../assets/model.svg'
 import mcpIcon from '../assets/mcp.svg'
 import skillIcon from '../assets/skill.svg'
 import dashboardIcon from '../assets/dashboard.svg'
-import { User, SwitchButton, Setting } from '@element-plus/icons-vue'
 import { useAgentCardStore } from "../store/agent_card"
 import { useUserStore } from "../store/user"
 import { getAgentsAPI } from "../apis/agent"
@@ -34,6 +33,9 @@ const sidebarCollapsed = ref(false)
 const toggleSidebar = () => {
   sidebarCollapsed.value = !sidebarCollapsed.value
 }
+
+const showUserMenu = ref(false)
+const toggleUserMenu = () => { showUserMenu.value = !showUserMenu.value }
 
 const menuItems = [
   { index: 'workspace', label: '工作台', icon: workspaceIcon },
@@ -167,7 +169,7 @@ const handleLogout = async () => {
     console.error('调用登出接口失败:', error)
   }
   userStore.logout()
-  ElMessage.success('已退出登录')
+  HMessage.success('已退出登录')
   router.push('/login')
 }
 
@@ -201,7 +203,7 @@ watch(
           新建会话
         </button>
         <div class="user-info">
-          <el-dropdown @command="handleUserCommand" trigger="click">
+          <div class="user-dropdown" @click="toggleUserMenu">
             <div class="user-avatar-wrapper">
               <div class="user-avatar">
                 <img
@@ -212,17 +214,15 @@ watch(
                 />
               </div>
             </div>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item command="profile" :icon="User">
-                  个人资料
-                </el-dropdown-item>
-                <el-dropdown-item divided command="logout" :icon="SwitchButton">
-                  退出登录
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+            <div v-if="showUserMenu" class="user-dropdown-menu">
+              <div class="user-dropdown-item" @click="handleUserCommand('profile')">
+                <span>个人资料</span>
+              </div>
+              <div class="user-dropdown-item user-dropdown-item--danger" @click="handleUserCommand('logout')">
+                <span>退出登录</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -411,24 +411,44 @@ watch(
   }
 }
 
-// 下拉菜单样式
-:deep(.el-dropdown-menu) {
-  border: none;
-  box-shadow: var(--shadow-card-hover);
-  border-radius: var(--radius-md);
-  overflow: hidden;
+.user-dropdown {
+  position: relative;
+  cursor: pointer;
 
-  .el-dropdown-menu__item {
-    padding: 12px 16px;
-    font-size: 14px;
+  .user-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    min-width: 140px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    z-index: var(--z-dropdown);
+    overflow: hidden;
+    animation: fadeSlideIn var(--duration-fast) var(--easing);
+  }
+
+  .user-dropdown-item {
+    padding: 10px 16px;
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--easing);
 
     &:hover {
-      background-color: var(--color-bg-secondary);
+      background: var(--color-bg-tertiary);
     }
 
-    .el-icon {
-      margin-right: 8px;
+    &--danger {
+      color: var(--color-danger);
     }
   }
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
