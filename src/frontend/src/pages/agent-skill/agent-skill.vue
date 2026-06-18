@@ -1810,9 +1810,8 @@ onMounted(() => {
       display: flex;
       gap: 12px;
     }
-    }
   }
-  
+
   // 列表容器
   .skill-container {
     background: #ffffff;
