@@ -3,6 +3,7 @@
 # 用法: ./agentchat.sh <command> [options]
 
 set -e
+set -o pipefail
 
 # ─── 颜色定义 ────────────────────────────────────────────
 RED='\033[0;31m'
@@ -31,14 +32,14 @@ check_docker() {
         error "Docker 未安装，请先安装 Docker"
         exit 3
     fi
-    if ! docker info &>/dev/null 2>&1; then
+    if ! docker info &>/dev/null; then
         error "Docker 未运行，请启动 Docker Desktop"
         exit 3
     fi
 }
 
 check_compose() {
-    if docker compose version &>/dev/null 2>&1; then
+    if docker compose version &>/dev/null; then
         COMPOSE_CMD="docker compose"
     elif command -v docker-compose &>/dev/null; then
         COMPOSE_CMD="docker-compose"
@@ -52,9 +53,13 @@ check_compose() {
 ensure_backend_deps() {
     if [ ! -d "$BACKEND_DIR/.venv" ]; then
         step "首次运行，安装后端依赖..."
-        cd "$BACKEND_DIR"
-        pip install uv
-        uv sync
+        (
+            cd "$BACKEND_DIR"
+            if ! command -v uv &>/dev/null; then
+                pip install --user uv
+            fi
+            uv sync
+        )
         info "后端依赖安装完成"
     fi
 
@@ -68,8 +73,10 @@ ensure_backend_deps() {
 ensure_frontend_deps() {
     if [ ! -d "$FRONTEND_DIR/node_modules" ]; then
         step "首次运行，安装前端依赖..."
-        cd "$FRONTEND_DIR"
-        npm install
+        (
+            cd "$FRONTEND_DIR"
+            npm install
+        )
         info "前端依赖安装完成"
     fi
 }
@@ -100,8 +107,8 @@ FRONTEND_PID=""
 cleanup() {
     echo ""
     step "正在停止服务..."
-    [ -n "$FRONTEND_PID" ] && kill "$FRONTEND_PID" 2>/dev/null && echo "  前端已停止"
-    [ -n "$BACKEND_PID" ] && kill "$BACKEND_PID" 2>/dev/null && echo "  后端已停止"
+    if [ -n "$FRONTEND_PID" ]; then kill "$FRONTEND_PID" 2>/dev/null || true; echo "  前端已停止"; fi
+    if [ -n "$BACKEND_PID" ]; then kill "$BACKEND_PID" 2>/dev/null || true; echo "  后端已停止"; fi
     info "服务已停止"
 }
 
@@ -212,7 +219,7 @@ cmd_up() {
     echo "  按 Ctrl+C 停止所有服务"
     echo ""
 
-    wait
+    wait || true
 }
 
 # ─── 子命令: down ────────────────────────────────────────
