@@ -1,8 +1,6 @@
-<div align='center'>
-    <img src="https://github.com/user-attachments/assets/eb9b3b09-e2bf-4c9d-95a0-5c2d9712723d" alt="alt text" width="70%">
-</div>
-
 <div align="center">
+
+# 🦄 KirinChat
 
 <p align="center">
   <img src="https://img.shields.io/badge/python-3.12+-blue.svg?style=for-the-badge&logo=python&logoColor=white" alt="Python Version" />
@@ -16,18 +14,26 @@
 </p>
 
 <p align="center">
-  <a href="https://kirintj.github.io/kirinchat-docs/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8.html">Quick Start</a> •
-  <a href="https://kirintj.github.io/kirinchat-docs/%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA.html">Deployment Guide</a> •
-  <a href="https://kirintj.github.io/kirinchat-docs/">Documentation</a> •
-  <a href="https://YOUR_DEMO_URL">Live Demo</a> •
-  <a href="https://github.com/kirintj/kirinchat-docs/blob/main/images/README.md">Join WeChat Group</a>
+  <a href="docs/reference/kirinchat.md">Documentation</a> •
+  <a href="DEV_GUIDE.md">Dev Guide</a> •
+  <a href="QUICKSTART.md">Quick Start</a>
 </p>
 
 </div>
 
 ---
 
-## Latest Changelog (2026-4-12)
+## Latest Changelog (2026-6-18)
+
+### KirinChat Rebranding
+
+Forked from [AgentChat](https://github.com/Shy2593666979/AgentChat) with full rebranding:
+- Project name AgentChat → **KirinChat**
+- Python package `agentchat` → `kirinchat`, Docker container names unified
+- Removed original author's API keys and personal info
+- Frontend and backend brand display fully updated
+
+### Original Features (2026-4-12)
 
 ### 1. HITL-based Conversational MCP Server Generation from OpenAPI
 
@@ -102,7 +108,7 @@ KirinChat is a modern intelligent conversation system built on large language mo
 - Knowledge Base Retrieval: RAG technology for accurate knowledge retrieval and Q&A
 - Tool Ecosystem: Built-in practical tools with support for custom extensions
 - MCP Integration: Supports Model Context Protocol servers
-- Modern UI: Beautiful interface based on Vue 3 and Element Plus
+- Modern UI: Beautiful interface based on Vue 3
 - Three-Layer Memory: Short-term context retention, automatic history summarization, long-term user preference recording
 - HITL Generation: Conversational MCP Server generation based on HITL, with human intervention at key nodes
 
@@ -203,8 +209,8 @@ Starting from KirinChat v2.2.0, LangChain has been upgraded to version 1.0.
 ## 5. Tech Stack
 
 - Backend: FastAPI, Python 3.12+, LangChain, MySQL, Redis, ChromaDB.
-- Frontend: Vue 3.4+, Element Plus, Pinia, Vite 5, TypeScript.
-- Deployment: Docker, Docker Compose, Poetry, npm.
+- Frontend: Vue 3.4+, Pinia, Vite 5, TypeScript.
+- Deployment: Docker, Docker Compose, uv, npm.
 
 ---
 
@@ -272,8 +278,10 @@ The system supports configuration of multiple vector databases (Milvus/ChromaDB)
 
 ## 8. Documentation
 
-- API Documentation: [KirinChat Document](docs/reference/agentchat.md)
-- Development Guide: Start the backend and visit /docs to view the Swagger documentation.
+- API Documentation: [KirinChat Technical Docs](docs/reference/kirinchat.md)
+- Development Guide: [DEV_GUIDE.md](DEV_GUIDE.md)
+- Quick Reference: [QUICKSTART.md](QUICKSTART.md)
+- Swagger: Visit /docs after starting the backend.
 
 ---
 
