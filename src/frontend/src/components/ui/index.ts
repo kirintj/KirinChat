@@ -1,4 +1,5 @@
 import type { App } from 'vue'
+import { vHLoading } from './HLoading'
 
 // 组件导出
 export { HButton } from './HButton'
@@ -16,11 +17,16 @@ export { HTable } from './HTable'
 export { HUpload } from './HUpload'
 export { HDrawer } from './HDrawer'
 export { HTabs, HTabPane } from './HTabs'
+export { HScrollbar } from './HScrollbar'
+export { HAvatar } from './HAvatar'
+export { HSkeleton } from './HSkeleton'
+
+// 指令导出
+export { vHLoading } from './HLoading'
 
 // Vue 插件：全局注册
 export default {
   install(app: App) {
-    // 目前 HMessage 是 API 式调用，无需全局注册组件
-    // 后续组件添加后在此注册
+    app.directive('h-loading', vHLoading)
   }
 }

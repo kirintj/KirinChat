@@ -145,3 +145,26 @@ html {
 .md-editor-preview-wrapper {
   padding: 0 !important;
 }
+
+/* HLoading directive styles */
+.h-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 22, 40, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-loading);
+  border-radius: inherit;
+}
+.h-loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255,255,255,0.2);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: h-spin 0.6s linear infinite;
+}
+@keyframes h-spin {
+  to { transform: rotate(360deg); }
+}
