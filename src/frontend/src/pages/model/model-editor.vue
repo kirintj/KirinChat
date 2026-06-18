@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { ArrowLeft, Check, Close, Setting, Cpu } from '@element-plus/icons-vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import { HButton, HInput, HSelect, HOption, HForm, HFormItem, HMessage } from '@/components/ui'
+import { showConfirm } from '@/utils/dialog'
 import { 
   getVisibleLLMsAPI, 
   updateLLMAPI, 
@@ -21,7 +20,7 @@ const loading = ref(false)
 const currentModel = ref<LLMResponse | null>(null)
 
 // 表单相关
-const editFormRef = ref<FormInstance>()
+const editFormRef = ref<any>()
 
 const editForm = reactive<UpdateLLMRequest>({
   llm_id: '',
@@ -40,7 +39,7 @@ const llmTypeOptions = [
 ]
 
 // 表单验证规则
-const formRules: FormRules = {
+const formRules: Record<string, any> = {
   model: [
     { required: true, message: '请输入模型名称', trigger: 'blur' }
   ],
@@ -62,7 +61,7 @@ const formRules: FormRules = {
 const fetchModelDetail = async () => {
   const modelId = route.query.id as string
   if (!modelId) {
-    ElMessage.error('缺少模型ID参数')
+    HMessage.error('缺少模型ID参数')
     router.push('/model')
     return
   }
@@ -85,7 +84,7 @@ const fetchModelDetail = async () => {
       if (targetModel) {
         // 检查是否为官方模型
         if (targetModel.user_id === '0') {
-          ElMessage.warning('官方模型不可编辑，请返回模型列表')
+          HMessage.warning('官方模型不可编辑，请返回模型列表')
           setTimeout(() => {
             router.push('/model')
           }, 1500)
@@ -103,15 +102,15 @@ const fetchModelDetail = async () => {
           llm_type: targetModel.llm_type
         })
       } else {
-        ElMessage.error('未找到指定的模型')
+        HMessage.error('未找到指定的模型')
         router.push('/model')
       }
     } else {
-      ElMessage.error(response.data.status_message || '获取模型详情失败')
+      HMessage.error(response.data.status_message || '获取模型详情失败')
       router.push('/model')
     }
   } catch (error) {
-    ElMessage.error('获取模型详情失败')
+    HMessage.error('获取模型详情失败')
     console.error('获取模型详情失败:', error)
     router.push('/model')
   } finally {
@@ -126,20 +125,39 @@ const goBack = () => {
 
 // 更新模型
 const handleUpdate = async () => {
-  if (!editFormRef.value) return
-  
+  // Manual validation
+  if (!editForm.model) {
+    HMessage.warning('请输入模型名称')
+    return
+  }
+  if (!editForm.api_key) {
+    HMessage.warning('请输入API密钥')
+    return
+  }
+  if (!editForm.base_url) {
+    HMessage.warning('请输入基础URL')
+    return
+  }
+  if (!editForm.provider) {
+    HMessage.warning('请输入提供商')
+    return
+  }
+  if (!editForm.llm_type) {
+    HMessage.warning('请选择模型类型')
+    return
+  }
+
   try {
-    await editFormRef.value.validate()
     const response = await updateLLMAPI(editForm)
-    
+
     if (response.data.status_code === 200) {
-      ElMessage.success('更新成功')
+      HMessage.success('更新成功')
       router.push('/model')
     } else {
-      ElMessage.error(response.data.status_message || '更新失败')
+      HMessage.error(response.data.status_message || '更新失败')
     }
   } catch (error) {
-    ElMessage.error('更新失败')
+    HMessage.error('更新失败')
     console.error('更新模型失败:', error)
   }
 }
@@ -150,33 +168,32 @@ const handleDelete = async () => {
   
   // 检查是否为官方模型
   if (currentModel.value.user_id === '0') {
-    ElMessage.warning('⚠️ 官方模型不可删除')
+    HMessage.warning('⚠️ 官方模型不可删除')
     return
   }
   
   try {
-    await ElMessageBox.confirm(
+    await showConfirm(
       `确定要删除模型"${currentModel.value.model}"吗？删除后无法恢复。`,
       '确认删除',
       {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning',
       }
     )
     
     const response = await deleteLLMAPI({ llm_id: currentModel.value.llm_id })
     
     if (response.data.status_code === 200) {
-      ElMessage.success('删除成功')
+      HMessage.success('删除成功')
       router.push('/model')
     } else {
-      ElMessage.error(response.data.status_message || '删除失败')
+      HMessage.error(response.data.status_message || '删除失败')
     }
   } catch (error: any) {
-    if (error !== 'cancel') {
+    if (error?.message !== 'cancel') {
       console.error('删除模型失败:', error)
-      ElMessage.error('删除失败')
+      HMessage.error('删除失败')
     }
   }
 }
@@ -185,10 +202,10 @@ const handleDelete = async () => {
 const testModel = async () => {
   if (!currentModel.value) return
   
-  ElMessage.info(`正在测试 ${currentModel.value.model} 连接...`)
+  HMessage.info(`正在测试 ${currentModel.value.model} 连接...`)
   // 这里可以添加实际的测试逻辑
   setTimeout(() => {
-    ElMessage.success(`${currentModel.value!.model} 连接测试完成`)
+    HMessage.success(`${currentModel.value!.model} 连接测试完成`)
   }, 2000)
 }
 
@@ -198,7 +215,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="model-editor-page" v-loading="loading">
+  <div class="model-editor-page" v-h-loading="loading">
     <!-- 页面头部 -->
     <div class="page-header">
       <div class="header-left">
@@ -210,8 +227,8 @@ onMounted(() => {
       </div>
       
       <div class="header-title">
-        <div class="title-icon">
-          <el-icon><Setting /></el-icon>
+        <div class="title-icon" style="display:flex;align-items:center;justify-content:center;">
+          ⚙️
         </div>
         <h2>编辑模型</h2>
       </div>
@@ -221,8 +238,8 @@ onMounted(() => {
     <div v-if="currentModel" class="edit-form-section">
       <div class="form-container">
         <div class="form-header">
-          <div class="form-icon">
-            <el-icon><Cpu /></el-icon>
+          <div class="form-icon" style="display:flex;align-items:center;justify-content:center;font-size:28px;">
+            🤖
           </div>
           <div class="form-title">
             <h3>模型配置</h3>
@@ -230,7 +247,7 @@ onMounted(() => {
           </div>
         </div>
         
-        <el-form
+        <HForm
           ref="editFormRef"
           :model="editForm"
           :rules="formRules"
@@ -241,114 +258,102 @@ onMounted(() => {
           <div class="form-section">
             <h4 class="section-title">基本信息</h4>
             <div class="form-row">
-              <el-form-item label="模型名称" prop="model">
-                <el-input 
-                  v-model="editForm.model" 
+              <HFormItem label="模型名称" prop="model">
+                <HInput
+                  v-model="editForm.model"
                   placeholder="请输入模型名称，如：gpt-4"
                   clearable
-                  maxlength="50"
-                  show-word-limit
                   class="form-input"
                 />
-              </el-form-item>
-              
-              <el-form-item label="提供商" prop="provider">
-                <el-input 
-                  v-model="editForm.provider" 
+              </HFormItem>
+
+              <HFormItem label="提供商" prop="provider">
+                <HInput
+                  v-model="editForm.provider"
                   placeholder="请输入提供商，如：OpenAI"
                   clearable
-                  maxlength="50"
-                  show-word-limit
                   class="form-input"
                 />
-              </el-form-item>
+              </HFormItem>
             </div>
-            
+
             <div class="form-row">
-              <el-form-item label="模型类型" prop="llm_type">
-                <el-select 
-                  v-model="editForm.llm_type" 
+              <HFormItem label="模型类型" prop="llm_type">
+                <HSelect
+                  v-model="editForm.llm_type"
                   placeholder="请选择模型类型"
                   class="form-select"
                   clearable
                 >
-                  <el-option
+                  <HOption
                     v-for="option in llmTypeOptions"
                     :key="option.value"
                     :label="option.label"
                     :value="option.value"
                   />
-                </el-select>
-              </el-form-item>
+                </HSelect>
+              </HFormItem>
             </div>
           </div>
-          
+
           <div class="form-section">
             <h4 class="section-title">连接配置</h4>
             <div class="form-row">
-              <el-form-item label="基础URL" prop="base_url">
-                <el-input 
-                  v-model="editForm.base_url" 
+              <HFormItem label="基础URL" prop="base_url">
+                <HInput
+                  v-model="editForm.base_url"
                   placeholder="请输入基础URL，如：https://api.openai.com/v1"
                   clearable
-                  maxlength="200"
-                  show-word-limit
                   class="form-input"
                 />
-              </el-form-item>
+              </HFormItem>
             </div>
-            
+
             <div class="form-row">
-              <el-form-item label="API密钥" prop="api_key">
-                <el-input 
-                  v-model="editForm.api_key" 
+              <HFormItem label="API密钥" prop="api_key">
+                <HInput
+                  v-model="editForm.api_key"
                   placeholder="请输入API密钥"
-                  type="password"
-                  show-password
+                  showPassword
                   clearable
-                  maxlength="200"
-                  show-word-limit
                   class="form-input"
                 />
-              </el-form-item>
+              </HFormItem>
             </div>
           </div>
-          
-          <el-form-item>
+
+          <HFormItem>
             <div class="form-actions">
-              <el-button @click="goBack" class="action-btn cancel-btn">
-                <el-icon><Close /></el-icon>
-                取消
-              </el-button>
-              <el-button 
-                type="primary" 
+              <HButton type="secondary" @click="goBack" class="action-btn cancel-btn">
+                ✕ 取消
+              </HButton>
+              <HButton
+                type="primary"
                 @click="handleUpdate"
                 class="action-btn primary-btn"
               >
-                <el-icon><Check /></el-icon>
-                保存更改
-              </el-button>
+                ✓ 保存更改
+              </HButton>
             </div>
-          </el-form-item>
-        </el-form>
+          </HFormItem>
+        </HForm>
       </div>
     </div>
 
     <!-- 空状态 -->
     <div v-else-if="!loading" class="empty-state">
-      <div class="empty-icon">
-        <el-icon><Close /></el-icon>
+      <div class="empty-icon" style="font-size:80px;color:#cbd5e1;margin-bottom:24px;">
+        ✕
       </div>
       <h3>未找到模型</h3>
       <p>请检查模型ID是否正确</p>
-      <el-button 
-        type="primary" 
-        :icon="ArrowLeft"
+      <HButton
+        type="primary"
         @click="goBack"
         size="large"
       >
-        返回模型管理
-      </el-button>
+        ← 返回模型管理
+      </HButton>
     </div>
   </div>
 </template>
@@ -433,11 +438,6 @@ onMounted(() => {
         align-items: center;
         justify-content: center;
         box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-        
-        .el-icon {
-          font-size: 24px;
-          color: white;
-        }
       }
       
       h2 {
@@ -477,11 +477,6 @@ onMounted(() => {
           align-items: center;
           justify-content: center;
           box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
-          
-          .el-icon {
-            font-size: 28px;
-            color: white;
-          }
         }
         
                   .form-title {
@@ -541,14 +536,14 @@ onMounted(() => {
               margin-bottom: 0;
             }
             
-            .el-form-item {
+            .h-form-item {
               margin-bottom: 0;
             }
           }
-          
+
           .form-input,
           .form-select {
-            .el-input__wrapper {
+            .h-input {
               background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
               border: 2px solid #e2e8f0;
               border-radius: 16px;
@@ -557,57 +552,35 @@ onMounted(() => {
               box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
               position: relative;
               overflow: hidden;
-              
-              &::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 2px;
-                background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-                transform: scaleX(0);
-                transition: transform 0.3s ease;
-              }
-              
+
               &:hover {
                 border-color: #cbd5e1;
                 background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
                 transform: translateY(-1px);
               }
-              
-              &.is-focus {
+
+              &.h-input--focused {
                 border-color: #3b82f6;
                 background: white;
                 box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 8px 24px rgba(0, 0, 0, 0.12);
                 transform: translateY(-2px);
-                
-                &::before {
-                  transform: scaleX(1);
-                }
               }
             }
-            
-            .el-input__inner {
+
+            .h-input__inner {
               font-size: 15px;
               color: #1e293b;
               font-weight: 500;
-              
+
               &::placeholder {
                 color: #94a3b8;
                 font-weight: 400;
               }
             }
-            
-            .el-input__count {
-              color: #64748b;
-              font-weight: 500;
-              font-size: 13px;
-            }
           }
-          
-          .el-form-item__label {
+
+          .h-form-item__label {
             font-weight: 700;
             color: #334155;
             font-size: 15px;
