@@ -399,7 +399,7 @@ def get_html_template():
                     </div>
             
                     <div class="report-footer">
-                        <div class="report-quote">由www.agentchat.cloud提供</div>
+                        <div class="report-quote">由YOUR_DOMAIN提供</div>
                     </div>
                 </div>
             </body>
