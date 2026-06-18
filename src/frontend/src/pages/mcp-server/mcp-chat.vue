@@ -6,7 +6,7 @@
         <div class="sidebar">
           <div class="sidebar-header">
             <div class="sidebar-title">对话历史</div>
-            <el-button :icon="Close" circle size="small" @click="sidebarOpen = false" />
+            <HButton type="secondary" size="small" @click="sidebarOpen = false" style="width:32px;height:32px;border-radius:50%;padding:0;">✕</HButton>
           </div>
           <div class="task-list" v-loading="loadingTasks">
             <div v-if="!loadingTasks && tasks.length === 0" class="empty-tasks">
@@ -26,14 +26,13 @@
                 {{ getLastMessage(task) }}
               </div>
               <div class="task-item-actions">
-                <el-button
+                <HButton
                   class="task-delete-btn"
                   size="small"
                   type="danger"
-                  :icon="Delete"
                   @click.stop="deleteTask(task.id)"
-                  circle
-                />
+                  style="width:28px;height:28px;border-radius:50%;padding:0;font-size:12px;"
+                >🗑</HButton>
               </div>
             </div>
           </div>
@@ -47,13 +46,12 @@
       <div class="chat-toolbar">
         <div class="toolbar-left"></div>
         <div class="toolbar-right">
-          <el-button @click="sidebarOpen = true" size="default" round style="font-weight: 600;">
+          <HButton type="secondary" @click="sidebarOpen = true" size="medium" style="border-radius:20px;font-weight:600;">
             <span style="margin-right: 4px;">📋</span>历史会话
-          </el-button>
-          <el-button type="primary" :icon="Plus" @click="createNewTask" size="default" round
-            style="background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); border: none; font-weight: 600;">
-            新建对话
-          </el-button>
+          </HButton>
+          <HButton type="primary" @click="createNewTask" size="medium" style="border-radius:20px;background:linear-gradient(135deg,#3b82f6 0%,#8b5cf6 100%);border:none;font-weight:600;">
+            ➕ 新建对话
+          </HButton>
         </div>
       </div>
 
@@ -72,20 +70,20 @@
                 <div class="message-content">{{ msg.query }}</div>
               </div>
               <div class="message-avatar">
-                <el-avatar :size="36" :src="userAvatar" />
+                <HAvatar :size="36" :src="userAvatar" />
               </div>
             </div>
             
             <!-- AI 回复 -->
             <div class="message-group assistant">
               <div class="message-avatar">
-                <el-avatar :size="36" src="/src/assets/robot.svg" />
+                <HAvatar :size="36" src="/src/assets/robot.svg" />
               </div>
               <div class="message-content-wrapper">
                 <div class="message-content markdown-body">
                   <!-- 如果是最后一条消息且正在流式输出，且没有内容，显示加载图标 -->
                   <div v-if="isStreaming && index === displayMessages.length - 1 && !msg.content.length" class="loading-spinner">
-                    <el-icon class="is-loading" :size="20"><Loading /></el-icon>
+                    <span class="h-loading-spinner" style="display:inline-block;width:20px;height:20px;border:2px solid #e0e0e0;border-top-color:#6e8efb;border-radius:50%;animation:h-spin 0.6s linear infinite;"></span>
                   </div>
                   <template v-for="(block, bi) in buildBlocks(msg.content)" :key="bi">
                     <!-- 文本块 -->
@@ -105,31 +103,31 @@
                       <!-- 未处理：显示操作按钮 -->
                       <template v-if="block.data.status === false">
                         <div class="interrupt-buttons">
-                          <el-button
+                          <HButton
                             v-if="block.data.allowed_decisions?.includes('approve')"
-                            type="success"
+                            type="primary"
                             @click="handleApprove"
                             :disabled="isStreaming"
-                          >确认创建</el-button>
-                          <el-button
+                          >确认创建</HButton>
+                          <HButton
                             v-if="block.data.allowed_decisions?.includes('reject')"
                             type="danger"
                             @click="showRejectInput = true"
                             :disabled="isStreaming"
-                          >取消并修改</el-button>
+                          >取消并修改</HButton>
                         </div>
                         <!-- 修改意见输入框 -->
                         <div v-if="showRejectInput" class="interrupt-feedback">
-                          <el-input
+                          <textarea
                             v-model="rejectFeedback"
-                            type="textarea"
                             :rows="3"
                             placeholder="请输入修改意见（留空则直接取消）"
                             class="interrupt-feedback-input"
-                          />
+                            style="width:100%;padding:10px;border:1px solid var(--color-border);border-radius:var(--radius-md);font-family:inherit;font-size:14px;resize:vertical;background:var(--color-bg-tertiary);color:var(--color-text-primary);"
+                          ></textarea>
                           <div class="interrupt-feedback-buttons">
-                            <el-button @click="showRejectInput = false; rejectFeedback = ''">取消</el-button>
-                            <el-button type="primary" @click="handleReject" :disabled="isStreaming">提交</el-button>
+                            <HButton type="secondary" @click="showRejectInput = false; rejectFeedback = ''">取消</HButton>
+                            <HButton type="primary" @click="handleReject" :disabled="isStreaming">提交</HButton>
                           </div>
                         </div>
                       </template>
@@ -147,23 +145,21 @@
       <div class="chat-input-wrapper">
         <div class="chat-input-container">
           <div class="input-with-btn">
-            <el-input
+            <textarea
               v-model="messageInput"
-              type="textarea"
-              :autosize="{ minRows: 3, maxRows: 8 }"
               placeholder="输入消息... (Enter 发送，Shift+Enter 换行)"
               @keydown="handleKeyDown"
               :disabled="isStreaming"
               class="chat-input"
-            />
-            <el-button
+              style="width:100%;min-height:80px;max-height:200px;padding:14px 56px 14px 16px;border-radius:12px;font-size:15px;line-height:1.6;resize:none;border:1px solid var(--color-border);background:var(--color-bg-secondary);box-shadow:0 2px 8px rgba(0,0,0,0.06);font-family:inherit;color:var(--color-text-primary);"
+            ></textarea>
+            <HButton
               type="primary"
-              :icon="Promotion"
               @click="sendMessage"
               :disabled="!messageInput.trim() || isStreaming"
               class="send-btn"
-              circle
-            />
+              style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;padding:0;font-size:16px;box-shadow:0 2px 6px rgba(64,158,255,0.3);"
+            >➤</HButton>
           </div>
         </div>
       </div>
@@ -174,8 +170,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick, computed } from 'vue'
-import { ElMessage } from 'element-plus'
-import { Plus, Delete, Promotion, Close, List, Loading } from '@element-plus/icons-vue'
+import { HButton, HAvatar, HMessage } from '@/components/ui'
 import { marked } from 'marked'
 import {
   getTaskListAPI,
@@ -257,11 +252,11 @@ const loadTaskList = async () => {
     if (response.data.status_code === 200) {
       tasks.value = response.data.data || []
     } else {
-      ElMessage.error(response.data.status_message || '加载任务列表失败')
+      HMessage.error(response.data.status_message || '加载任务列表失败')
     }
   } catch (error) {
     console.error('加载任务列表失败:', error)
-    ElMessage.error('加载任务列表失败')
+    HMessage.error('加载任务列表失败')
   } finally {
     loadingTasks.value = false
   }
@@ -276,13 +271,13 @@ const createNewTask = async () => {
       currentTaskId.value = response.data.data.id
       currentMessages.value = []
       await loadTaskList()
-      ElMessage.success('创建新对话成功')
+      HMessage.success('创建新对话成功')
     } else {
-      ElMessage.error(response.data.status_message || '创建对话失败')
+      HMessage.error(response.data.status_message || '创建对话失败')
     }
   } catch (error) {
     console.error('创建任务失败:', error)
-    ElMessage.error('创建对话失败')
+    HMessage.error('创建对话失败')
   }
 }
 
@@ -307,13 +302,13 @@ const deleteTask = async (taskId: string) => {
         currentMessages.value = []
       }
       await loadTaskList()
-      ElMessage.success('删除成功')
+      HMessage.success('删除成功')
     } else {
-      ElMessage.error(response.data.status_message || '删除失败')
+      HMessage.error(response.data.status_message || '删除失败')
     }
   } catch (error) {
     console.error('删除任务失败:', error)
-    ElMessage.error('删除失败')
+    HMessage.error('删除失败')
   }
 }
 
@@ -423,7 +418,7 @@ const handleApprove = async () => {
     if (updatedTask) currentMessages.value = updatedTask.messages || []
   } catch (error) {
     console.error('Approve 失败:', error)
-    ElMessage.error('操作失败')
+    HMessage.error('操作失败')
   } finally {
     isStreaming.value = false
     streamingQuery.value = ''
@@ -457,7 +452,7 @@ const handleReject = async () => {
     if (updatedTask) currentMessages.value = updatedTask.messages || []
   } catch (error) {
     console.error('Reject 失败:', error)
-    ElMessage.error('操作失败')
+    HMessage.error('操作失败')
   } finally {
     isStreaming.value = false
     streamingQuery.value = ''
@@ -481,12 +476,12 @@ const sendMessage = async () => {
         currentTaskId.value = response.data.data.id
         await loadTaskList()
       } else {
-        ElMessage.error('创建对话失败')
+        HMessage.error('创建对话失败')
         return
       }
     } catch (error) {
       console.error('创建任务失败:', error)
-      ElMessage.error('创建对话失败')
+      HMessage.error('创建对话失败')
       return
     }
   }
@@ -518,7 +513,7 @@ const sendMessage = async () => {
     
   } catch (error) {
     console.error('发送消息失败:', error)
-    ElMessage.error('发送消息失败')
+    HMessage.error('发送消息失败')
   } finally {
     // 清空流式状态
     isStreaming.value = false
@@ -577,7 +572,7 @@ onMounted(() => {
 
   .sidebar-header {
     padding: 16px;
-    border-bottom: 1px solid var(--el-border-color);
+    border-bottom: 1px solid var(--color-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -585,7 +580,7 @@ onMounted(() => {
     .sidebar-title {
       font-size: 15px;
       font-weight: 600;
-      color: var(--el-text-color-primary);
+      color: var(--color-text-primary);
     }
   }
 
@@ -597,7 +592,7 @@ onMounted(() => {
     .empty-tasks {
       text-align: center;
       padding: 20px;
-      color: var(--el-text-color-secondary);
+      color: var(--color-text-secondary);
       font-size: 14px;
     }
 
@@ -612,7 +607,7 @@ onMounted(() => {
       position: relative;
 
       &:hover {
-        background: var(--el-fill-color-light);
+        background: var(--color-bg-tertiary);
 
         .task-item-actions {
           opacity: 1;
@@ -620,8 +615,8 @@ onMounted(() => {
       }
 
       &.active {
-        background: var(--el-fill-color);
-        border-color: var(--el-color-primary);
+        background: var(--color-bg-secondary);
+        border-color: var(--color-primary);
       }
 
       .task-item-header {
@@ -633,18 +628,18 @@ onMounted(() => {
         .task-item-title {
           font-size: 14px;
           font-weight: 500;
-          color: var(--el-text-color-primary);
+          color: var(--color-text-primary);
         }
 
         .task-item-time {
           font-size: 11px;
-          color: var(--el-text-color-secondary);
+          color: var(--color-text-secondary);
         }
       }
 
       .task-item-preview {
         font-size: 12px;
-        color: var(--el-text-color-secondary);
+        color: var(--color-text-secondary);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -730,7 +725,7 @@ onMounted(() => {
       align-items: center;
       justify-content: center;
       height: 100%;
-      color: var(--el-text-color-secondary);
+      color: var(--color-text-secondary);
       
       .empty-state-icon {
         font-size: 64px;
@@ -793,14 +788,14 @@ onMounted(() => {
       }
       
       &.user .message-content {
-        background: var(--el-color-primary);
+        background: var(--color-primary);
         color: white;
         border-bottom-right-radius: 4px;
       }
       
       &.assistant .message-content {
-        background: var(--el-fill-color-light);
-        color: var(--el-text-color-primary);
+        background: var(--color-bg-tertiary);
+        color: var(--color-text-primary);
         border-bottom-left-radius: 4px;
       }
     }
@@ -831,36 +826,13 @@ onMounted(() => {
         position: relative;
 
         .chat-input {
-          :deep(.el-textarea__inner) {
-            padding: 14px 56px 14px 16px;
-            border-radius: 12px;
-            font-size: 15px;
-            line-height: 1.6;
-            resize: none;
-            border: 1px solid var(--el-border-color);
-            background: var(--el-fill-color-blank);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            transition: border-color 0.2s, box-shadow 0.2s;
-
-            &:focus {
-              border-color: var(--el-color-primary);
-              box-shadow: 0 2px 12px rgba(64, 158, 255, 0.15);
-            }
-
-            &::placeholder {
-              color: var(--el-text-color-placeholder);
-            }
+          &:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 2px 12px rgba(64, 158, 255, 0.15);
           }
         }
 
         .send-btn {
-          position: absolute;
-          right: 8px;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 36px;
-          height: 36px;
-          box-shadow: 0 2px 6px rgba(64, 158, 255, 0.3);
           transition: transform 0.15s, box-shadow 0.15s;
 
           &:not(:disabled):hover {
@@ -998,7 +970,7 @@ onMounted(() => {
 
 .processed-hint {
   font-size: 12px;
-  color: var(--el-text-color-secondary);
+  color: var(--color-text-secondary);
   margin-top: 8px;
 }
 
@@ -1071,10 +1043,10 @@ onMounted(() => {
   }
   
   blockquote {
-    border-left: 3px solid var(--el-border-color);
+    border-left: 3px solid var(--color-border);
     padding-left: 12px;
     margin: 8px 0;
-    color: var(--el-text-color-secondary);
+    color: var(--color-text-secondary);
   }
   
   table {
@@ -1083,7 +1055,7 @@ onMounted(() => {
     margin: 8px 0;
     
     th, td {
-      border: 1px solid var(--el-border-color);
+      border: 1px solid var(--color-border);
       padding: 6px 10px;
       text-align: center;
     }
@@ -1094,13 +1066,13 @@ onMounted(() => {
   }
   
   a {
-    color: var(--el-color-primary);
+    color: var(--color-primary);
     text-decoration: underline;
   }
   
   hr {
     border: none;
-    border-top: 1px solid var(--el-border-color);
+    border-top: 1px solid var(--color-border);
     margin: 10px 0;
   }
 }
