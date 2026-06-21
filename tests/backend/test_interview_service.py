@@ -1,3 +1,4 @@
+import importlib
 import sys
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -12,25 +13,50 @@ _mock_interview_session_dao = MagicMock()
 _mock_interview_question_dao = MagicMock()
 _mock_interview_models = MagicMock()
 
-# Inject fake modules into sys.modules before the service is imported.
-if "kirinchat.database" not in sys.modules:
-    sys.modules["kirinchat.database"] = MagicMock()
-if "kirinchat.database.session" not in sys.modules:
-    sys.modules["kirinchat.database.session"] = MagicMock()
-if "kirinchat.database.models" not in sys.modules:
-    sys.modules["kirinchat.database.models"] = MagicMock()
-if "kirinchat.database.models.interview" not in sys.modules:
-    sys.modules["kirinchat.database.models.interview"] = _mock_interview_models
-if "kirinchat.database.dao" not in sys.modules:
-    sys.modules["kirinchat.database.dao"] = MagicMock()
-if "kirinchat.database.dao.interview" not in sys.modules:
-    sys.modules["kirinchat.database.dao.interview"] = MagicMock(
-        InterviewSessionDao=_mock_interview_session_dao,
-        InterviewQuestionDao=_mock_interview_question_dao,
-    )
+# Configure AsyncMock return values at module level so the MagicMock objects
+# are awaitable when the service imports them.
+_mock_interview_session_dao.create_session = AsyncMock()
+_mock_interview_session_dao.select_session_by_id = AsyncMock()
+_mock_interview_session_dao.update_session_status = AsyncMock()
+_mock_interview_session_dao.select_sessions_by_user = AsyncMock()
+_mock_interview_question_dao.create_question = AsyncMock()
+_mock_interview_question_dao.select_questions_by_session = AsyncMock()
+_mock_interview_question_dao.update_question_answer = AsyncMock()
+_mock_interview_question_dao.update_question_score = AsyncMock()
 
-# Now it's safe to import the service -- it will grab our mocked DAOs.
+# Inject fake modules into sys.modules before the service is imported.
+# Forcefully replace to avoid contamination from other test files.
+sys.modules["kirinchat.database"] = MagicMock()
+sys.modules["kirinchat.database.session"] = MagicMock()
+sys.modules["kirinchat.database.models"] = MagicMock()
+sys.modules["kirinchat.database.models.interview"] = _mock_interview_models
+sys.modules["kirinchat.database.dao"] = MagicMock()
+sys.modules["kirinchat.database.dao.interview"] = MagicMock(
+    InterviewSessionDao=_mock_interview_session_dao,
+    InterviewQuestionDao=_mock_interview_question_dao,
+)
+
+# Force re-import of the service module so it picks up our fresh mocks.
+if "kirinchat.api.services.interview" in sys.modules:
+    del sys.modules["kirinchat.api.services.interview"]
+
 from kirinchat.api.services.interview import InterviewService  # noqa: E402
+
+
+@pytest.fixture(autouse=True)
+def _reset_mocks():
+    """Reset all DAO mocks before each test to prevent state leakage."""
+    _mock_interview_session_dao.reset_mock()
+    _mock_interview_question_dao.reset_mock()
+    # Re-configure AsyncMock after reset (reset_mock clears spec)
+    _mock_interview_session_dao.create_session = AsyncMock()
+    _mock_interview_session_dao.select_session_by_id = AsyncMock()
+    _mock_interview_session_dao.update_session_status = AsyncMock()
+    _mock_interview_session_dao.select_sessions_by_user = AsyncMock()
+    _mock_interview_question_dao.create_question = AsyncMock()
+    _mock_interview_question_dao.select_questions_by_session = AsyncMock()
+    _mock_interview_question_dao.update_question_answer = AsyncMock()
+    _mock_interview_question_dao.update_question_score = AsyncMock()
 
 
 @pytest.mark.asyncio

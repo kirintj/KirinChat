@@ -13,22 +13,19 @@ _mock_interview_question_dao = MagicMock()
 _mock_evaluation_report_dao = MagicMock()
 _mock_interview_models = MagicMock()
 
-if "kirinchat.database" not in sys.modules:
-    sys.modules["kirinchat.database"] = MagicMock()
-if "kirinchat.database.session" not in sys.modules:
-    sys.modules["kirinchat.database.session"] = MagicMock()
-if "kirinchat.database.models" not in sys.modules:
-    sys.modules["kirinchat.database.models"] = MagicMock()
-if "kirinchat.database.models.interview" not in sys.modules:
-    sys.modules["kirinchat.database.models.interview"] = _mock_interview_models
-if "kirinchat.database.dao" not in sys.modules:
-    sys.modules["kirinchat.database.dao"] = MagicMock()
-if "kirinchat.database.dao.interview" not in sys.modules:
-    sys.modules["kirinchat.database.dao.interview"] = MagicMock(
-        InterviewSessionDao=_mock_interview_session_dao,
-        InterviewQuestionDao=_mock_interview_question_dao,
-        EvaluationReportDao=_mock_evaluation_report_dao,
-    )
+# Inject fake modules into sys.modules before the service is imported.
+# NOTE: We forcefully replace (no "if not in" guard) to avoid contamination
+# from other test files that may have injected their own mocks first.
+sys.modules["kirinchat.database"] = MagicMock()
+sys.modules["kirinchat.database.session"] = MagicMock()
+sys.modules["kirinchat.database.models"] = MagicMock()
+sys.modules["kirinchat.database.models.interview"] = _mock_interview_models
+sys.modules["kirinchat.database.dao"] = MagicMock()
+sys.modules["kirinchat.database.dao.interview"] = MagicMock(
+    InterviewSessionDao=_mock_interview_session_dao,
+    InterviewQuestionDao=_mock_interview_question_dao,
+    EvaluationReportDao=_mock_evaluation_report_dao,
+)
 
 from kirinchat.api.services.evaluation import EvaluationService  # noqa: E402
 

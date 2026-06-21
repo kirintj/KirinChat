@@ -4,9 +4,9 @@ from loguru import logger
 from kirinchat.settings import app_settings
 
 
-# Default skills directory: project_root/skills
+# Default skills directory: kirinchat/skills (next to api/, core/, database/)
 SKILLS_DIR = os.path.normpath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "..", "skills")
+    os.path.join(os.path.dirname(__file__), "..", "..", "skills")
 )
 
 # Priority sort order (lower number = higher priority)
@@ -59,7 +59,7 @@ class SkillService:
         """
         skills_dir = cls._get_skills_dir()
         skill_path = os.path.join(skills_dir, skill_id)
-        return cls._load_skill_from_dir(skill_id, skill_path)
+        return cls._load_skill_from_dir(skill_id, skill_path, load_references=True)
 
     @classmethod
     def load_skill_references(cls, skill_id: str, category_ref: str):
