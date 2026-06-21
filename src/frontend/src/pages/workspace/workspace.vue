@@ -1,26 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { HButton, HInput, HMessage } from '@/components/ui'
-import workspaceIcon from '../../assets/workspace.svg'
-import applicationCenterIcon from '../../assets/application-center.svg'
-import dialogIcon from '../../assets/dialog.svg'
-import robotIcon from '../../assets/robot.svg'
-import pluginIcon from '../../assets/plugin.svg'
-import knowledgeIcon from '../../assets/knowledge.svg'
-import modelIcon from '../../assets/model.svg'
-import mcpIcon from '../../assets/mcp.svg'
-import { useUserStore } from '../../store/user'
-import { logoutAPI, getUserInfoAPI } from '../../apis/auth'
-import { 
-  getWorkspaceSessionsAPI, 
-  deleteWorkspaceSessionAPI 
+import {
+  getWorkspaceSessionsAPI,
+  deleteWorkspaceSessionAPI
 } from '../../apis/workspace'
 
 const router = useRouter()
-import { useRoute } from 'vue-router'
-const route = useRoute()
-const userStore = useUserStore()
 const selectedSession = ref('')
 const sessions = ref<any[]>([])
 const loading = ref(false)
@@ -29,15 +16,15 @@ const loading = ref(false)
 const formatTime = (timeStr: string) => {
   try {
     if (!timeStr) return '未知时间'
-    
+
     const date = new Date(timeStr)
     if (isNaN(date.getTime())) {
       return '未知时间'
     }
-    
+
     const now = new Date()
     const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60)
-    
+
     if (diffInHours < 1) return '刚刚'
     if (diffInHours < 24) return `${Math.floor(diffInHours)}小时前`
     if (diffInHours < 24 * 7) return `${Math.floor(diffInHours / 24)}天前`
@@ -75,13 +62,13 @@ const fetchSessions = async () => {
 // 删除会话
 const deleteSession = async (sessionId: string, event: Event) => {
   event.stopPropagation()
-  
+
   try {
     const response = await deleteWorkspaceSessionAPI(sessionId)
     if (response.data.status_code === 200) {
       HMessage.success('会话删除成功')
       await fetchSessions()
-      
+
       if (selectedSession.value === sessionId) {
         selectedSession.value = ''
         router.push('/workspace')
@@ -98,17 +85,17 @@ const deleteSession = async (sessionId: string, event: Event) => {
 // 选择会话 - 根据agent类型跳转到不同页面
 const selectSession = (sessionId: string) => {
   selectedSession.value = sessionId
-  
+
   // 找到对应的会话
   const session = sessions.value.find(s => s.sessionId === sessionId)
-  
+
   if (!session) {
     console.error('未找到会话:', sessionId)
     return
   }
-  
+
   console.log('选择会话:', sessionId, '类型:', session.agent)
-  
+
   // 根据agent类型判断跳转页面
   if (session.agent === 'simple') {
     // 日常模式，跳转到日常对话页面，并传递session_id
@@ -129,209 +116,32 @@ const selectSession = (sessionId: string) => {
   }
 }
 
-// 用户下拉菜单
-const showUserMenu = ref(false)
-const userMenuRef = ref<HTMLElement | null>(null)
-
-const toggleUserMenu = () => {
-  showUserMenu.value = !showUserMenu.value
-}
-
-const closeUserMenu = () => {
-  showUserMenu.value = false
-}
-
-// 用户下拉菜单命令处理
-const handleUserCommand = async (command: string) => {
-  showUserMenu.value = false
-  switch (command) {
-    case 'profile':
-      router.push('/profile')
-      break
-    case 'settings':
-      router.push('/configuration')
-      break
-    case 'logout':
-      await handleLogout()
-      break
-  }
-}
-
-// 退出登录
-const handleLogout = async () => {
-  try {
-    await logoutAPI()
-  } catch (error) {
-    console.error('调用登出接口失败:', error)
-  }
-  userStore.logout()
-  HMessage.success('已退出登录')
-  router.push('/login')
-}
-
-// 头像加载错误处理
-const handleAvatarError = (event: Event) => {
-  const target = event.target as HTMLImageElement
-  if (target) {
-    target.src = '/src/assets/user.svg'
-  }
-}
-
-// 跳转到应用中心
-const goToHomepage = () => {
-  router.push('/homepage')
-}
-
-// 跳转到工作台（当前页）
-const goToWorkspace = () => {
-  router.push('/workspace')
-}
-
-// 应用中心下拉（与首页保持一致）
-const showAppCenterMenu = ref(false)
-let appCenterHoverTimer: any = null
-
-const openAppCenterMenu = () => {
-  if (appCenterHoverTimer) clearTimeout(appCenterHoverTimer)
-  showAppCenterMenu.value = true
-}
-
-const closeAppCenterMenu = () => {
-  if (appCenterHoverTimer) clearTimeout(appCenterHoverTimer)
-  appCenterHoverTimer = setTimeout(() => {
-    showAppCenterMenu.value = false
-  }, 120)
-}
-
-const appCenterColumns = ref([
-  [
-    { label: '会话', icon: dialogIcon, route: '/conversation' },
-    { label: '工作台', icon: workspaceIcon, route: '/workspace' }
-  ],
-  [
-    { label: '智能体', icon: robotIcon, route: '/agent' },
-    { label: '工具', icon: pluginIcon, route: '/tool' }
-  ],
-  [
-    { label: '知识库', icon: knowledgeIcon, route: '/knowledge' },
-    { label: '模型', icon: modelIcon, route: '/model' }
-  ],
-  [
-    { label: 'MCP', icon: mcpIcon, route: '/mcp-server' }
-  ]
-])
-
-// 顶栏按钮激活态（工作台页自身）
-const isWorkspaceActive = computed(() => route.path.startsWith('/workspace'))
-const isAppCenterActive = computed(() => route.path.startsWith('/homepage'))
-
 onMounted(async () => {
-  userStore.initUserState()
-
-  // 如果已登录但没有头像，则尝试获取用户信息
-  if (userStore.isLoggedIn && userStore.userInfo && !userStore.userInfo.avatar) {
-    try {
-      const response = await getUserInfoAPI(userStore.userInfo.id)
-      if (response.data.status_code === 200 && response.data.data) {
-        const userData = response.data.data
-        userStore.updateUserInfo({
-          avatar: userData.user_avatar || userData.avatar || '/src/assets/user.svg',
-          description: userData.user_description || userData.description
-        })
-      }
-    } catch (error) {
-      console.error('初始化时获取用户信息失败:', error)
-    }
-  }
-
   await fetchSessions()
-  document.addEventListener('click', handleOutsideClick)
 })
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleOutsideClick)
-})
-
-// 点击空白处关闭用户菜单
-const handleOutsideClick = (e: MouseEvent) => {
-  if (userMenuRef.value && !userMenuRef.value.contains(e.target as Node)) {
-    showUserMenu.value = false
-  }
-}
 </script>
 
 <template>
   <div class="workspace-container">
-    <!-- 顶部导航栏 -->
-    <div class="workspace-nav">
-      <div class="nav-left">
-        <div class="logo-section">
-          <img src="../../assets/robot.svg" alt="Logo" class="logo" />
-        </div>
-        <div class="nav-links">
-          <img src="../../assets/kirinchat.svg" alt="麒麟智聊平台" class="brand-logo-img" />
-        </div>
-      </div>
-      <div class="nav-right">
-        <!-- 用户信息区域 -->
-        <div class="user-info" ref="userMenuRef">
-          <div class="user-avatar-wrapper" @click="toggleUserMenu">
-            <div class="user-avatar">
-              <img
-                :src="userStore.userInfo?.avatar || '/src/assets/user.svg'"
-                alt="用户头像"
-                @error="handleAvatarError"
-                referrerpolicy="no-referrer"
-              />
-            </div>
-          </div>
-          <!-- 用户下拉菜单 -->
-          <div v-if="showUserMenu" class="user-dropdown">
-            <div class="user-dropdown-item" @click="handleUserCommand('profile')">
-              <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              <span>个人资料</span>
-            </div>
-            <div class="user-dropdown-divider"></div>
-            <div class="user-dropdown-item" @click="handleUserCommand('logout')">
-              <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-              <span>退出登录</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 工作区主内容 -->
-    <div class="workspace-main">
-    <!-- 左侧边栏 -->
     <div class="sidebar">
-      <!-- 应用中心按钮 -->
       <div class="create-section">
-        <button @click="goToHomepage" class="create-btn-native">
-          <div class="btn-content">
-            <span class="icon">
-              <img src="../../assets/application-center.svg" width="30px" height="30px" />
-            </span>
-            <span>应用中心</span>
-          </div>
+        <button @click="router.push('/homepage')" class="create-btn">
+          <img src="../../assets/application-center.svg" width="18" height="18" />
+          <span>应用中心</span>
         </button>
       </div>
 
-      <!-- 会话列表 -->
       <div class="session-list">
-        <!-- 加载状态 -->
         <div v-if="loading" class="loading-state">
           <div class="loading-icon">⏳</div>
           <div class="loading-text">正在加载会话列表...</div>
         </div>
 
-        <!-- 空状态 -->
         <div v-else-if="sessions.length === 0" class="empty-state">
           <img src="../../assets/workspace-session.svg" alt="暂无会话" class="empty-icon-img" />
           <div class="empty-text">暂无会话记录</div>
         </div>
 
-        <!-- 会话卡片 -->
         <div
           v-for="session in sessions"
           :key="session.sessionId"
@@ -339,629 +149,227 @@ const handleOutsideClick = (e: MouseEvent) => {
           @click="selectSession(session.sessionId)"
         >
           <div class="session-icon">
-            <img src="../../assets/workspace-session.svg" width="30px" height="30px" />
+            <img src="../../assets/workspace-session.svg" width="18" height="18" />
           </div>
           <div class="session-info">
             <div class="session-title">{{ session.title }}</div>
             <div class="session-time">{{ formatTime(session.createTime) }}</div>
           </div>
-          <button
-            class="delete-btn"
-            @click="deleteSession(session.sessionId, $event)"
-            title="删除会话"
-          >
-            ×
-          </button>
+          <button class="delete-btn" @click="deleteSession(session.sessionId, $event)" title="删除会话">×</button>
         </div>
       </div>
     </div>
 
-    <!-- 右侧内容区域 -->
     <div class="content">
       <router-view />
-    </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .workspace-container {
-@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Zhi+Mang+Xing&family=Ma+Shan+Zheng&display=swap');
-}
-.workspace-container {
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  display: flex;
+  background: var(--color-bg);
+}
+
+.sidebar {
+  height: 100%;
+  width: 280px;
+  background: var(--color-bg);
+  border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
-  background-color: #f8f9fa;
-}
+  flex-shrink: 0;
 
-.workspace-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 64px;
-  background: linear-gradient(180deg, #e0f2fe 0%, #dbeafe 100%);
-  padding: 0 24px;
-  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.06);
-  position: relative;
-  z-index: 3000;
+  .create-section {
+    padding: 16px;
+    flex-shrink: 0;
 
-  .nav-left {
-    display: flex;
-    align-items: center;
-
-    .logo-section {
+    .create-btn {
+      width: 100%;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--color-bg);
+      color: var(--color-primary);
+      border: 1px solid var(--color-border);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: center;
+      gap: 8px;
+      transition: all var(--duration-fast) var(--easing);
 
-      .logo {
-        width: 32px;
-        height: 32px;
-          display: block;
-          object-fit: contain;
-        filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.2));
-      }
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      margin-left: 8px;
-      gap: 10px;
-
-        .brand-title {
-          font-family: 'Zhi Mang Xing', 'Ma Shan Zheng', 'ZCOOL KuaiLe', 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans CN', 'Noto Sans CJK SC', 'Helvetica Neue', Arial, sans-serif;
-          font-size: 28px;
-          font-weight: 700;
-          letter-spacing: 0.5px;
-          background: linear-gradient(135deg, #1f2937 0%, #3b82f6 50%, #8b5cf6 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          -webkit-text-stroke: 0.4px rgba(31, 41, 55, 0.06);
-          text-shadow: 0 3px 12px rgba(59, 130, 246, 0.3);
-          user-select: none;
-        }
-
-        .brand-logo-img {
-          height: 45px;
-          width: auto;
-          display: block;
-          filter: drop-shadow(0 2px 6px rgba(59, 130, 246, 0.25));
-          user-select: none;
-        }
-
-      .nav-link {
-        background: #f8fafc;
-        color: #0f172a;
-        border: 1px solid #e5e7eb;
-        height: 40px;
-        padding: 0 14px;
-        border-radius: 14px;
-        font-size: 13px;
-        font-weight: 800;
-        letter-spacing: 0.4px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        position: relative;
-
-        &:hover {
-          background: #eef2ff;
-          transform: translateY(-1px);
-          box-shadow: 0 8px 18px rgba(2, 6, 23, 0.08);
-        }
-
-        .icon {
-          width: 20px;
-          height: 20px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-
-          img {
-            width: 20px;
-            height: 20px;
-          }
-        }
-      }
-
-      .workspace-link {
-        background: linear-gradient(135deg, rgba(59,130,246,0.18), rgba(99,102,241,0.18));
-        border-color: rgba(99,102,241,0.24);
-
-        &:hover {
-          background: linear-gradient(135deg, rgba(59,130,246,0.26), rgba(99,102,241,0.26));
-        }
-
-        &.active {
-          background: #eef2ff;
-          border-color: #c7d2fe;
-          color: #0f172a;
-          box-shadow: inset 0 0 0 1px rgba(99,102,241,0.25);
-
-          &::after {
-            content: '';
-            position: absolute;
-            left: 12px;
-            right: 12px;
-            bottom: -5px;
-            height: 2px;
-            border-radius: 2px;
-            background: rgba(99,102,241,0.6);
-          }
-        }
-      }
-
-      .appcenter-link {
-        background: linear-gradient(135deg, rgba(16,185,129,0.16), rgba(59,130,246,0.16));
-        border-color: rgba(59,130,246,0.22);
-
-        &:hover {
-          background: linear-gradient(135deg, rgba(16,185,129,0.24), rgba(59,130,246,0.24));
-        }
-
-        &.active {
-          background: #ebf5ff;
-          border-color: #bfdbfe;
-          color: #0f172a;
-          box-shadow: inset 0 0 0 1px rgba(59,130,246,0.22);
-
-          &::after {
-            content: '';
-            position: absolute;
-            left: 12px;
-            right: 12px;
-            bottom: -5px;
-            height: 2px;
-            border-radius: 2px;
-            background: rgba(59,130,246,0.55);
-          }
-        }
-      }
-
-      .app-center { position: relative; }
-
-      .mega-menu {
-        position: absolute;
-        top: 48px;
-        left: 0;
-        background: #ffffff;
-        border: 1px solid rgba(2, 6, 23, 0.08);
-        border-radius: 14px;
-        box-shadow: 0 20px 40px rgba(2, 6, 23, 0.18);
-        padding: 18px;
-        min-width: 560px;
-        z-index: 4000;
-        color: #0f172a;
-
-        .menu-header {
-          font-size: 13px;
-        font-weight: 600;
-          color: #64748b;
-          margin-bottom: 8px;
-        }
-
-        .menu-columns {
-          display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-          gap: 14px;
-        }
-
-        .menu-column {
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-        }
-
-        .menu-item {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 10px 12px;
-          border-radius: 10px;
-          color: #1f2937;
-          text-decoration: none;
-          transition: all 0.2s ease;
-
-          &:hover {
-            background: linear-gradient(180deg, #f8fbff, #f3f6fb);
-            box-shadow: inset 0 0 0 1px #e5e7eb;
-          }
-
-          .icon {
-            width: 30px;
-            height: 30px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 9px;
-            background: #eef4ff;
-            border: 1px solid rgba(99, 102, 241, 0.12);
-
-            img {
-              width: 19px;
-              height: 19px;
-            }
-          }
-
-          .text {
-            font-size: 14px;
-            font-weight: 700;
-          }
-        }
+      &:hover {
+        border-color: var(--color-primary);
+        background: var(--color-primary-bg);
       }
     }
   }
 
-  .nav-right {
-    .user-info {
-      .user-avatar-wrapper {
-        display: flex;
-        align-items: center;
-        padding: 4px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
-        cursor: pointer;
-        transition: all 0.3s ease;
+  .session-list {
+    flex: 1;
+    padding: 0 8px 8px;
+    overflow-y: auto;
 
-        &:hover {
-          background: rgba(255, 255, 255, 0.25);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
 
-        .user-avatar {
-          img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            object-fit: cover;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+      .loading-icon {
+        font-size: 32px;
+        margin-bottom: 12px;
+        animation: spin 1s linear infinite;
+      }
 
-            &:hover {
-              border-color: rgba(255, 255, 255, 0.8);
-              transform: scale(1.05);
-            }
-          }
-        }
+      .loading-text {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-secondary);
       }
     }
-  }
-}
 
-.workspace-main {
-  display: flex;
-  flex: 1;
-  height: calc(100vh - 64px);
-  background-color: #ffffff;
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
 
-  .sidebar {
-    height: 100%;
-    width: 280px;
-    background-color: #ffffff;
-    border-right: 1px solid #e9ecef;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-
-    .create-section {
-      padding: 20px 16px;
-
-      .create-btn-native {
-        width: 100%;
+      .empty-icon-img {
+        width: 48px;
         height: 48px;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        background: white;
-        color: #3b82f6;
-        border: 2px solid #3b82f6;
-        cursor: pointer;
-        font-size: 15px;
-        font-family: 'PingFang SC', 'Microsoft YaHei UI', 'Source Han Sans CN', 'Noto Sans CJK SC', sans-serif;
-        letter-spacing: 1px;
+        margin-bottom: 12px;
+        opacity: 0.4;
+      }
 
-        &:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-          background: #eff6ff;
-        }
-
-        &:active {
-          transform: translateY(0);
-        }
-
-        .btn-content {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-
-          .icon {
-            font-size: 20px;
-          }
-        }
+      .empty-text {
+        font-size: var(--font-size-base);
+        color: var(--color-text-tertiary);
       }
     }
 
-    .session-list {
-      flex: 1;
-      padding: 8px;
-      overflow-y: auto;
+    .session-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      margin-bottom: 4px;
+      background: var(--color-bg);
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--easing);
+      position: relative;
 
-      .loading-state {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 200px;
-        color: #3b82f6;
-
-        .loading-icon {
-          font-size: 48px;
-          margin-bottom: 16px;
-          animation: spin 1s linear infinite;
-        }
-
-        .loading-text {
-          font-size: 14px;
-          color: #6b7280;
-        }
-      }
-
-      .empty-state {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 200px;
-        color: #9ca3af;
-
-        .empty-icon {
-          font-size: 48px;
-          margin-bottom: 16px;
-        }
-
-        .empty-icon-img {
-          width: 60px;
-          height: 60px;
-          margin-bottom: 16px;
-          object-fit: contain;
-          opacity: 0.9;
-        }
-
-        .empty-text {
-          font-size: 16px;
-          font-weight: 600;
-          color: #6b7280;
-          letter-spacing: 0.2px;
-          margin-bottom: 8px;
-        }
-
-        .empty-hint {
-          font-size: 12px;
-          color: #d1d5db;
-        }
-      }
-
-      .session-card {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 16px;
-        margin-bottom: 8px;
-        background: white;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-
-        &:hover {
-          border-color: #667eea;
-          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-          transform: translateY(-2px);
-
-          .delete-btn {
-            opacity: 1;
-          }
-        }
-
-        &.active {
-          border-color: #667eea;
-          background-color: #eff6ff;
-        }
-
-        .session-icon {
-          width: 28px;
-          height: 28px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: #eef4ff;
-          border: 1px solid #e5e7eb;
-          border-radius: 8px;
-          flex-shrink: 0;
-
-          img {
-            width: 18px;
-            height: 18px;
-          }
-        }
-
-        .session-info {
-          flex: 1;
-          min-width: 0;
-
-          .session-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1f2937;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            margin-bottom: 4px;
-          }
-
-          .session-time {
-            font-size: 11px;
-            color: #9ca3af;
-          }
-        }
+      &:hover {
+        background: var(--color-bg-secondary);
+        border-color: var(--color-border);
 
         .delete-btn {
-          position: absolute;
-          top: 8px;
-          right: 8px;
-          width: 24px;
-          height: 24px;
-          padding: 0;
-          background: rgba(255, 255, 255, 0.9);
-          border: 1px solid #e5e7eb;
-          cursor: pointer;
-          border-radius: 4px;
-          transition: all 0.2s ease;
-          font-size: 18px;
-          opacity: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #6b7280;
+          opacity: 1;
+        }
+      }
 
-          &:hover {
-            background: #fee2e2;
-            color: #dc2626;
-            border-color: #dc2626;
-          }
+      &.active {
+        background: var(--color-primary-bg);
+        border-color: var(--color-primary);
+      }
 
-          &:active {
-            transform: scale(0.95);
-          }
+      .session-icon {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-primary-bg);
+        border-radius: var(--radius-sm);
+        flex-shrink: 0;
+      }
+
+      .session-info {
+        flex: 1;
+        min-width: 0;
+
+        .session-title {
+          font-size: var(--font-size-base);
+          font-weight: 500;
+          color: var(--color-text-primary);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin-bottom: 2px;
+        }
+
+        .session-time {
+          font-size: var(--font-size-xs);
+          color: var(--color-text-tertiary);
+        }
+      }
+
+      .delete-btn {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        cursor: pointer;
+        border-radius: var(--radius-sm);
+        transition: all var(--duration-fast) var(--easing);
+        font-size: 14px;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text-secondary);
+
+        &:hover {
+          background: var(--color-danger-bg);
+          color: var(--color-danger);
+          border-color: var(--color-danger);
         }
       }
     }
   }
-
-  .content {
-    flex: 1;
-    min-height: 0;
-    background-color: #ffffff;
-    border-radius: 0;
-    margin: 0;
-    box-shadow: none;
-    border-left: 1px solid #e9ecef;
-    overflow: hidden;
-  }
 }
 
-// 动画
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-// 用户下拉菜单样式
-.user-info {
-  position: relative;
-}
-
-.user-dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  min-width: 160px;
-  z-index: 3001;
+.content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  background: var(--color-bg);
   overflow: hidden;
-  padding: 4px;
-
-  .user-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    font-size: 14px;
-    color: #1f2937;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background 0.15s ease;
-
-    &:hover {
-      background-color: #f5f7fa;
-      color: #3b82f6;
-    }
-
-    .dropdown-icon {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-    }
-  }
-
-  .user-dropdown-divider {
-    height: 1px;
-    background: #e5e7eb;
-    margin: 4px 8px;
-  }
 }
 
-// 响应式设计
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 @media (max-width: 768px) {
-  .workspace-nav {
-    .nav-left {
-      .logo-section {
-        .brand-name {
-          display: none;
-        }
-      }
-    }
-  }
-
-  .workspace-main {
-    .sidebar {
-      width: 240px;
-    }
-
-    .content {
-      margin: 0;
-    }
+  .sidebar {
+    width: 240px;
   }
 }
 
 @media (max-width: 480px) {
-  .workspace-nav {
-    padding: 0 12px;
+  .workspace-container {
+    flex-direction: column;
   }
 
-  .workspace-main {
-    flex-direction: column;
-
-    .sidebar {
-      width: 100%;
-      height: auto;
-      max-height: 300px;
-    }
-
-    .content {
-      flex: 1;
-      margin: 0;
-    }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    max-height: 240px;
   }
 }
 </style>
-
