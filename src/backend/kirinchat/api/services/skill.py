@@ -100,7 +100,7 @@ class SkillService:
     @staticmethod
     def _get_skills_dir():
         """Return the configured skills directory path."""
-        return app_settings.get("skills_dir", SKILLS_DIR)
+        return getattr(app_settings, "skills_dir", SKILLS_DIR)
 
     @classmethod
     def _load_skill_from_dir(cls, skill_id: str, skill_path: str, load_references=False):
