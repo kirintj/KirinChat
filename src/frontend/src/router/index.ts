@@ -47,34 +47,6 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/workspace',
-    name: 'workspace',
-    component: Workspace,
-    meta: {
-      requiresAuth: true
-    },
-    children: [
-      {
-        path: '',
-        name: 'workspaceDefaultPage',
-        component: WorkspaceDefaultPage,
-      },
-      {
-        path: 'workspacePage',
-        name: 'workspacePage',
-        component: WorkspacePage,
-      }
-    ]
-  },
-  {
-    path: '/workspace/taskGraph',
-    name: 'taskGraphPage',
-    component: TaskGraphPage,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: '/',
     redirect: '/workspace',
     name: 'index',
@@ -230,6 +202,32 @@ const routes: RouteRecordRaw[] = [
           current: 'dashboard'
         },
         component: Dashboard,
+      },
+      {
+        path: '/workspace',
+        name: 'workspace',
+        component: Workspace,
+        meta: {
+          requiresAuth: true,
+          current: 'workspace'
+        },
+        children: [
+          {
+            path: '',
+            name: 'workspaceDefaultPage',
+            component: WorkspaceDefaultPage,
+          },
+          {
+            path: 'workspacePage',
+            name: 'workspacePage',
+            component: WorkspacePage,
+          },
+          {
+            path: 'taskGraph',
+            name: 'taskGraphPage',
+            component: TaskGraphPage,
+          }
+        ]
       }
     ]
   },
