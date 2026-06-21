@@ -692,14 +692,14 @@ watch(
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  background: linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);
+  background: var(--color-bg);
   padding: 0;
   overflow-y: auto;
 
   &.chat-active {
     padding: 0;
     overflow: hidden;
-    background-color: #f7f8fa;
+    background: var(--color-bg-secondary);
   }
 }
 
@@ -889,7 +889,7 @@ watch(
   &.input-fixed {
     max-width: 100%;
     padding: 10px 20px 20px 20px;
-    background: #f7f8fa;
+    background: var(--color-bg-secondary);
     animation: none;
 
     .input-wrapper {
@@ -899,8 +899,8 @@ watch(
   }
 
   .input-wrapper {
-    background: #ffffff;
-    border: 2px solid #e5e7eb;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
     border-radius: 20px;
     padding: 16px 20px;
     transition: all 0.3s ease;
@@ -923,8 +923,8 @@ watch(
     }
 
     &:focus-within {
-      border-color: #667eea;
-      box-shadow: 0 6px 24px rgba(102, 126, 234, 0.15);
+      border-color: var(--color-primary);
+      box-shadow: 0 6px 24px rgba(59, 130, 246, 0.15);
       transform: translateY(-2px);
     }
 
@@ -934,7 +934,7 @@ watch(
       background: transparent;
       font-size: 15px;
       line-height: 1.6;
-      color: #1f2937;
+      color: var(--color-text-primary);
       resize: none;
       outline: none;
       font-family: inherit;
@@ -942,7 +942,7 @@ watch(
       margin-bottom: 12px;
 
       &::placeholder {
-        color: #9ca3af;
+        color: var(--color-text-tertiary);
       }
     }
 
@@ -963,11 +963,11 @@ watch(
             align-items: center;
             gap: 8px;
             padding: 8px 14px;
-            background: #f8f9fa;
-            border: 1px solid #e5e7eb;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
             border-radius: 8px;
             font-size: 13px;
-            color: #4b5563;
+            color: var(--color-text-secondary);
             cursor: pointer;
             transition: all 0.2s ease;
             user-select: none;
@@ -1006,16 +1006,16 @@ watch(
             }
 
             &:hover {
-              border-color: #667eea;
-              background: #f0f4ff;
-              color: #667eea;
+              border-color: var(--color-primary);
+              background: var(--color-primary-bg);
+              color: var(--color-primary);
             }
 
             &.active {
-              background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-              border-color: #667eea;
-              color: #667eea;
-              box-shadow: 0 2px 6px rgba(102, 126, 234, 0.15);
+              background: var(--color-primary-bg);
+              border-color: var(--color-primary);
+              color: var(--color-primary);
+              box-shadow: 0 2px 6px rgba(51, 112, 255, 0.15);
             }
 
             &:active {
@@ -1407,7 +1407,7 @@ watch(
   padding: 0;
   overflow-y: auto;
   width: 100%;
-  background-color: #f7f8fa;
+  background: var(--color-bg-secondary);
   scroll-behavior: smooth;  // 平滑滚动
   
   .message-group {
