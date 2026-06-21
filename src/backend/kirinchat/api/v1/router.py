@@ -3,7 +3,7 @@ from kirinchat.api.v1 import (
     completion, dialog, message, agent, history, mars,
     user, llm, tool, knowledge, knowledge_file, mcp_server, mcp_user_config,
     workspace, lingseek, usage_stats, upload, wechat, agent_skill,
-    register_mcp, register_mcp_completion, register_task
+    register_mcp, register_mcp_completion, register_task, interview,
 )
 
 api_v1_router = APIRouter(prefix="/api/v1")
@@ -30,3 +30,4 @@ api_v1_router.include_router(agent_skill.router)
 api_v1_router.include_router(register_task.router)
 api_v1_router.include_router(register_mcp.router)
 api_v1_router.include_router(register_mcp_completion.router)
+api_v1_router.include_router(interview.router)
