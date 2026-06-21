@@ -1047,8 +1047,8 @@ $error: #ef4444;
 
 .task-graph-page {
   width: 100%;
-  height: 100vh;
-  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #ffffff 100%);
+  height: 100%;
+  background: var(--bg);
   overflow: hidden;
   position: relative;
   
