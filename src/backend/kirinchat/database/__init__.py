@@ -22,6 +22,7 @@ from kirinchat.database.models.agent_skill import AgentSkill
 from kirinchat.database.models.register_mcp import RegisterMcpServer
 from kirinchat.database.models.register_task import RegisterMcpTask
 from kirinchat.database.models.register_mcp_tool import RegisterMcpTool
+from kirinchat.database.models.resume import ResumeTable  # noqa: F401
 from kirinchat.settings import app_settings
 
 
