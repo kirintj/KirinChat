@@ -109,6 +109,14 @@ onMounted(() => {
           </div>
         </div>
       </div>
+
+      <div class="alternative-entry">
+        <div class="divider">—— 或者 ——</div>
+        <div class="entry-buttons">
+          <button class="entry-btn" @click="router.push('/interview/resume')">上传简历，AI 定制面试</button>
+          <button class="entry-btn" @click="router.push('/interview/jd')">粘贴 JD，精准匹配面试</button>
+        </div>
+      </div>
     </div>
 
     <!-- Configuration View -->
@@ -411,5 +419,17 @@ onMounted(() => {
 .start-btn {
   margin-top: 12px;
   width: 200px;
+}
+
+.alternative-entry {
+  margin-top: 24px; text-align: center;
+  .divider { color: #999; margin-bottom: 16px; }
+  .entry-buttons { display: flex; gap: 16px; justify-content: center; }
+  .entry-btn {
+    padding: 12px 24px; border-radius: var(--radius-sm);
+    border: 1px dashed var(--color-border); background: var(--color-bg);
+    cursor: pointer; font-size: 14px; transition: all 0.2s;
+    &:hover { border-color: var(--color-primary); color: var(--color-primary); }
+  }
 }
 </style>

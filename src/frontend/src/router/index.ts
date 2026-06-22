@@ -241,6 +241,11 @@ const routes: RouteRecordRaw[] = [
             path: 'resume/:id',
             name: 'interviewResumeDetail',
             component: () => import('@/pages/interview/resumeDetailPage/resumeDetailPage.vue'),
+          },
+          {
+            path: 'jd',
+            name: 'interviewJd',
+            component: () => import('@/pages/interview/jdParsePage/jdParsePage.vue'),
           }
         ]
       },
