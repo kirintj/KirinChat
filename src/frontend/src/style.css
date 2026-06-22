@@ -3,10 +3,10 @@
 /* 暗色模式（默认） */
 :root,
 [data-theme="dark"] {
-  /* 背景层（三级） */
-  --color-bg:           #0a1628;
-  --color-bg-secondary: #0d2137;
-  --color-bg-tertiary:  #132d50;
+  /* 背景层（三级） - 全部白色 */
+  --color-bg:           #ffffff;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary:  #ffffff;
 
   /* 主色 */
   --color-primary:       #3370ff;
@@ -14,17 +14,17 @@
   --color-primary-active:#1a5cd7;
   --color-primary-bg:    rgba(51,112,255,0.12);
 
-  /* 文字 */
-  --color-text-primary:   #e8f0fe;
-  --color-text-secondary: #a0b4d0;
-  --color-text-tertiary:  #6b8299;
-  --color-text-disabled:  #4a6070;
+  /* 文字 - 深色文字适配白色背景 */
+  --color-text-primary:   #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary:  #9ca3af;
+  --color-text-disabled:  #d1d5db;
 
-  /* 边框 */
-  --color-border:          rgba(255,255,255,0.08);
-  --color-border-hover:    rgba(255,255,255,0.15);
+  /* 边框 - 浅色边框适配白色背景 */
+  --color-border:          #e5e7eb;
+  --color-border-hover:    #d1d5db;
   --color-border-focus:    #3370ff;
-  --color-border-secondary: rgba(255,255,255,0.12);
+  --color-border-secondary: #e5e7eb;
 
   /* 功能色 */
   --color-success:     #34d399;
@@ -36,19 +36,19 @@
   --color-error:       #e5432a;
   --color-error-bg:    rgba(229,67,42,0.12);
 
-  /* 阴影 */
-  --shadow-sm:    0 1px 3px rgba(0,0,0,0.3);
-  --shadow-md:    0 4px 12px rgba(0,0,0,0.4);
-  --shadow-card:  0 2px 8px rgba(0,0,0,0.3), 0 0 1px rgba(51,112,255,0.1);
-  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.4), 0 0 2px rgba(51,112,255,0.15);
-  --shadow-glow:  0 0 20px rgba(51,112,255,0.15);
+  /* 阴影 - 浅色阴影适配白色背景 */
+  --shadow-sm:    0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:    0 4px 12px rgba(0,0,0,0.1);
+  --shadow-card:  0 2px 8px rgba(0,0,0,0.08);
+  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-glow:  0 0 20px rgba(51,112,255,0.1);
 }
 
-/* 亮色模式 */
+/* 亮色模式 - 全部白色背景 */
 [data-theme="light"] {
-  --color-bg:           #f0f5ff;
+  --color-bg:           #ffffff;
   --color-bg-secondary: #ffffff;
-  --color-bg-tertiary:  #e8f0fe;
+  --color-bg-tertiary:  #ffffff;
 
   --color-primary:       #3370ff;
   --color-primary-hover: #5c9aff;
@@ -150,7 +150,7 @@ html {
 .h-loading-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 22, 40, 0.6);
+  background: rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -160,11 +160,34 @@ html {
 .h-loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid rgba(255,255,255,0.2);
+  border: 3px solid rgba(0,0,0,0.1);
   border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;
 }
 @keyframes h-spin {
   to { transform: rotate(360deg); }
+}
+
+/* 全局滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--color-primary);
 }

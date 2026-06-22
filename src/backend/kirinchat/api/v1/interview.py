@@ -69,7 +69,7 @@ def _skill_to_detail(skill: dict) -> SkillDetailResp:
     categories = [
         SkillCategoryResp(
             key=c.get("key", ""),
-            label=c.get("name", ""),
+            label=c.get("label", ""),
             priority=0,
         )
         for c in skill.get("categories", [])
@@ -312,19 +312,6 @@ async def get_skill_detail(
         skill = SkillService.get_skill_by_id(skill_id)
         if skill is None:
             return resp_500(message=f"Skill not found: {skill_id}")
-
-        # Load with references
-        skill_with_refs = SkillService.get_skill_by_id(skill_id)
-        if skill_with_refs is not None:
-            categories = skill_with_refs.get("categories", [])
-            refs = {}
-            for cat in categories:
-                ref = cat.get("ref")
-                if ref:
-                    content = SkillService.load_skill_references(skill_id, ref)
-                    if content is not None:
-                        refs[cat["key"]] = content
-            skill["references"] = refs
 
         data = _skill_to_detail(skill)
         return resp_200(data=data.model_dump())

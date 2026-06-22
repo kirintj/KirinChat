@@ -63,10 +63,12 @@ const handleLogin = async () => {
     }
   } catch (error: any) {
     console.error('登录错误:', error)
-    if (error.response?.data?.message) {
+    if (error.response?.data?.status_message) {
       HMessage.error(error.response.data.status_message)
     } else if (error.response?.data?.detail) {
       HMessage.error(error.response.data.detail)
+    } else if (error.response?.data?.message) {
+      HMessage.error(error.response.data.message)
     } else {
       HMessage.error('登录失败，请检查网络连接')
     }

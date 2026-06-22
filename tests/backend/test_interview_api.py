@@ -27,6 +27,17 @@ sys.modules["kirinchat.database.dao.interview"] = MagicMock(
     EvaluationReportDao=_mock_evaluation_report_dao,
 )
 
+# Mock services to avoid app_settings/redis/database dependency chain
+sys.modules["kirinchat.services.storage"] = MagicMock()
+sys.modules["kirinchat.services.redis"] = MagicMock()
+sys.modules["kirinchat.api.services.user"] = MagicMock(
+    UserPayload=MagicMock,
+    get_login_user=MagicMock(),
+)
+# Force re-import of the interview module so it picks up our mocks
+if "kirinchat.api.v1.interview" in sys.modules:
+    del sys.modules["kirinchat.api.v1.interview"]
+
 from kirinchat.api.services.evaluation import EvaluationService  # noqa: E402
 
 
@@ -106,3 +117,53 @@ def test_merge_batch_results():
     assert merged["category_scores"]["mysql"] == 7.0
     assert merged["category_scores"]["redis"] == 9.0
     assert len(merged["question_scores"]) == 2
+
+
+# ---------------------------------------------------------------------------
+# API helper function tests
+# ---------------------------------------------------------------------------
+
+
+def test_skill_to_detail_uses_label_field():
+    """测试 _skill_to_detail 正确使用 category 的 label 字段"""
+    from kirinchat.api.v1.interview import _skill_to_detail
+
+    skill = {
+        "id": "java-backend",
+        "name": "Java 后端",
+        "description": "Java 面试",
+        "icon": "☕",
+        "categories": [
+            {"key": "java", "label": "Java 核心", "priority": "CORE"},
+            {"key": "mysql", "label": "MySQL", "priority": "CORE"},
+        ],
+        "references": {"java": "java content", "mysql": "mysql content"},
+    }
+
+    result = _skill_to_detail(skill)
+    assert result.skill.id == "java-backend"
+    # Category labels should come from 'label' field, not 'name'
+    assert result.categories[0].label == "Java 核心"
+    assert result.categories[1].label == "MySQL"
+
+
+def test_skill_to_info():
+    """测试 _skill_to_info 转换"""
+    from kirinchat.api.v1.interview import _skill_to_info
+
+    skill = {
+        "id": "test",
+        "name": "Test Skill",
+        "description": "A test skill",
+        "icon": "📝",
+        "categories": [
+            {"key": "cat1", "label": "Category 1"},
+            {"key": "cat2", "label": "Category 2"},
+        ],
+    }
+
+    result = _skill_to_info(skill)
+    assert result.id == "test"
+    assert result.name == "Test Skill"
+    assert result.icon == "📝"
+    assert result.categories == ["cat1", "cat2"]

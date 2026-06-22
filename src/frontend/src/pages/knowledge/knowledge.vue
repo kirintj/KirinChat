@@ -159,7 +159,11 @@ const handleCreate = async () => {
   
   createLoading.value = true
   try {
-    const response = await createKnowledgeAPI(createForm.value)
+    const requestData: KnowledgeCreateRequest = {
+      knowledge_name: createForm.value.knowledge_name.trim(),
+      ...(desc ? { knowledge_desc: desc } : {})
+    }
+    const response = await createKnowledgeAPI(requestData)
     if (response.data.status_code === 200) {
       HMessage.success('创建成功')
       createDialogVisible.value = false
@@ -220,8 +224,8 @@ const handleEdit = async () => {
   try {
     const updateData: KnowledgeUpdateRequest = {
       knowledge_id: editForm.value.knowledge_id,
-      knowledge_name: editForm.value.knowledge_name,
-      knowledge_desc: editForm.value.knowledge_desc
+      knowledge_name: editForm.value.knowledge_name.trim(),
+      ...(desc ? { knowledge_desc: desc } : {})
     }
     
     const response = await updateKnowledgeAPI(updateData)

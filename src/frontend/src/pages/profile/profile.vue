@@ -60,7 +60,7 @@ const loadUserInfo = async () => {
         
         // 更新表单数据
         formData.value = {
-          user_avatar: userInfo.user_avatar || userInfo.avatar || '/src/assets/user.svg',
+          user_avatar: userInfo.user_avatar || userInfo.avatar || '/user.svg',
           user_description: userInfo.user_description || userInfo.description || '该用户很懒，没有留下一片云彩'
         }
         selectedAvatar.value = formData.value.user_avatar
@@ -68,7 +68,7 @@ const loadUserInfo = async () => {
     } else {
       // 如果没有用户ID，使用本地存储的信息
       formData.value = {
-        user_avatar: userStore.userInfo?.avatar || '/src/assets/user.svg',
+        user_avatar: userStore.userInfo?.avatar || '/user.svg',
         user_description: userStore.userInfo?.description || '该用户很懒，没有留下一片云彩'
       }
       selectedAvatar.value = formData.value.user_avatar
@@ -77,7 +77,7 @@ const loadUserInfo = async () => {
     console.error('获取用户信息失败:', error)
     // 使用本地存储的信息作为备选
     formData.value = {
-      user_avatar: userStore.userInfo?.avatar || '/src/assets/user.svg',
+      user_avatar: userStore.userInfo?.avatar || '/user.svg',
       user_description: userStore.userInfo?.description || '该用户很懒，没有留下一片云彩'
     }
     selectedAvatar.value = formData.value.user_avatar
@@ -233,7 +233,7 @@ const cancelEditDescription = () => {
 // 处理图片加载错误
 const handleImageError = (event: Event) => {
   const target = event.target as HTMLImageElement
-  target.src = '/src/assets/user.svg' // 设置默认头像
+  target.src = '/user.svg' // 设置默认头像
 }
 
 // 处理自定义上传

@@ -186,7 +186,7 @@ import {
 import { useUserStore } from '../../store/user'
 
 const userStore = useUserStore()
-const userAvatar = computed(() => userStore.userInfo?.avatar || '/src/assets/user.svg')
+const userAvatar = computed(() => userStore.userInfo?.avatar || '/user.svg')
 
 const tasks = ref<MCPTask[]>([])
 const currentTaskId = ref<string | null>(null)
