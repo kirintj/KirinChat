@@ -79,8 +79,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { getLearningPathAPI } from '../../apis/interview'
-import type { LearningPath } from '../../apis/interview'
+import { getLearningPathAPI } from '../../../apis/interview'
+import type { LearningPath } from '../../../apis/interview'
 
 const router = useRouter()
 const route = useRoute()
