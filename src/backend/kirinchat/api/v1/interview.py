@@ -1,5 +1,7 @@
 from loguru import logger
 from fastapi import APIRouter, Depends
+from fastapi.responses import FileResponse
+import tempfile
 
 from kirinchat.api.services.interview import InterviewService
 from kirinchat.api.services.skill import SkillService
@@ -389,3 +391,36 @@ async def get_learning_path(
     except Exception as err:
         logger.error(f"Get learning path error: {err}")
         return resp_500(message=str(err))
+
+
+@router.get("/interview/evaluation/{evaluation_id}/pdf")
+async def download_evaluation_pdf(evaluation_id: str, login_user: UserPayload = Depends(get_login_user)):
+    """下载面试评估报告 PDF。"""
+    try:
+        report = await EvaluationService.get_report_by_id(evaluation_id)
+        if not report:
+            return resp_500(message="评估报告不存在")
+
+        from kirinchat.api.services.skill import SkillService
+        from kirinchat.common.export.pdf_service import PdfService
+
+        session = await InterviewService.get_session(report.session_id)
+        skill = SkillService.get_skill_by_id(session.skill_id) if session else None
+        skill_name = skill.get("name", "未知") if skill else "未知"
+
+        report_data = {
+            "total_score": report.total_score,
+            "category_scores": report.category_scores,
+            "summary": report.summary,
+            "strengths": report.strengths,
+            "improvements": report.improvements,
+        }
+
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as f:
+            output_path = f.name
+
+        PdfService.generate_evaluation_report(report_data, skill_name, output_path)
+        return FileResponse(output_path, filename=f"evaluation_{evaluation_id}.pdf", media_type="application/pdf")
+    except Exception as e:
+        logger.exception("Download evaluation PDF failed")
+        return resp_500(message=str(e))

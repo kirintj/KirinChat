@@ -1,5 +1,7 @@
 from loguru import logger
 from fastapi import APIRouter, Depends, UploadFile, File
+from fastapi.responses import FileResponse
+import tempfile
 
 from kirinchat.api.services.resume import ResumeService
 from kirinchat.schemas.resume import (
@@ -146,3 +148,31 @@ async def get_resume_status(
     except Exception as err:
         logger.error(f"Get resume status error: {err}")
         return resp_500(message=str(err))
+
+
+@router.get("/resume/{resume_id}/pdf")
+async def download_resume_pdf(resume_id: str, login_user: UserPayload = Depends(get_login_user)):
+    """下载简历分析报告 PDF。"""
+    try:
+        resume = await ResumeService.get_resume(resume_id)
+        if not resume or resume.user_id != login_user.user_id:
+            return resp_500(message="简历不存在")
+        if resume.status != "COMPLETED":
+            return resp_500(message="简历分析尚未完成")
+
+        from kirinchat.common.export.pdf_service import PdfService
+
+        resume_data = {
+            "filename": resume.filename,
+            "score": resume.score,
+            "analysis_result": resume.analysis_result,
+        }
+
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as f:
+            output_path = f.name
+
+        PdfService.generate_resume_report(resume_data, output_path)
+        return FileResponse(output_path, filename=f"resume_{resume_id}.pdf", media_type="application/pdf")
+    except Exception as e:
+        logger.exception("Download resume PDF failed")
+        return resp_500(message=str(e))
