@@ -179,3 +179,11 @@ export function getInterviewHistoryAPI() {
     method: 'GET'
   })
 }
+
+/** Delete an interview session */
+export function deleteInterviewSessionAPI(sessionId: string) {
+  return request<UnifiedResponse<null>>({
+    url: `/api/v1/interview/session/${sessionId}`,
+    method: 'DELETE'
+  })
+}

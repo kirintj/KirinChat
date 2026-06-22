@@ -47,6 +47,33 @@ class InterviewSessionDao:
             result = session.exec(statement).all()
             return result
 
+    @classmethod
+    async def delete_session(cls, session_id: str):
+        with session_getter() as session:
+            # Delete related questions
+            q_stmt = select(InterviewQuestionTable).where(
+                InterviewQuestionTable.session_id == session_id
+            )
+            for q in session.exec(q_stmt).all():
+                session.delete(q)
+
+            # Delete related evaluation reports
+            r_stmt = select(EvaluationReportTable).where(
+                EvaluationReportTable.session_id == session_id
+            )
+            for r in session.exec(r_stmt).all():
+                session.delete(r)
+
+            # Delete the session itself
+            s_stmt = select(InterviewSessionTable).where(
+                InterviewSessionTable.id == session_id
+            )
+            s = session.exec(s_stmt).first()
+            if s:
+                session.delete(s)
+
+            session.commit()
+
 
 class InterviewQuestionDao:
 

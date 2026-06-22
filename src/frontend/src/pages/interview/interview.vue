@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { HMessage } from '@/components/ui'
-import { getInterviewHistoryAPI } from '../../apis/interview'
+import { getInterviewHistoryAPI, deleteInterviewSessionAPI } from '../../apis/interview'
 import type { InterviewSession } from '../../apis/interview'
 import { useInterviewStore } from '../../store/interview'
 
@@ -62,6 +62,25 @@ const startNewInterview = () => {
   router.push('/interview')
 }
 
+const deleteSession = async (sessionId: string, event: Event) => {
+  event.stopPropagation()
+  try {
+    const res = await deleteInterviewSessionAPI(sessionId)
+    if (res.data.status_code === 200) {
+      HMessage.success('已删除')
+      await fetchHistory()
+      if (selectedSession.value === sessionId) {
+        selectedSession.value = ''
+        router.push('/interview')
+      }
+    } else {
+      HMessage.error('删除失败')
+    }
+  } catch {
+    HMessage.error('删除失败')
+  }
+}
+
 const selectSession = (session: InterviewSession) => {
   selectedSession.value = session.id
   if (session.status === 'COMPLETED') {
@@ -114,6 +133,7 @@ onMounted(() => {
               </span>
             </div>
           </div>
+          <button class="delete-btn" @click="deleteSession(session.id, $event)" title="删除">×</button>
         </div>
       </div>
     </div>
@@ -204,10 +224,15 @@ onMounted(() => {
       border-radius: var(--radius-md);
       cursor: pointer;
       transition: all var(--duration-fast) var(--easing);
+      position: relative;
 
       &:hover {
         background: var(--color-bg-secondary);
         border-color: var(--color-border);
+
+        .delete-btn {
+          opacity: 1;
+        }
       }
 
       &.active {
@@ -271,6 +296,32 @@ onMounted(() => {
             font-size: var(--font-size-xs);
             color: var(--color-text-tertiary);
           }
+        }
+      }
+
+      .delete-btn {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        cursor: pointer;
+        border-radius: var(--radius-sm);
+        font-size: 14px;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text-secondary);
+        transition: all var(--duration-fast) var(--easing);
+
+        &:hover {
+          background: var(--color-danger-bg);
+          color: var(--color-danger);
+          border-color: var(--color-danger);
         }
       }
     }

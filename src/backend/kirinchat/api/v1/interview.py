@@ -306,6 +306,27 @@ async def get_interview_history(
         return resp_500(message=str(err))
 
 
+@router.delete("/interview/session/{session_id}", response_model=UnifiedResponseModel)
+async def delete_interview_session(
+    session_id: str,
+    login_user: UserPayload = Depends(get_login_user),
+):
+    """Delete an interview session and all related data."""
+    try:
+        session = await InterviewService.get_session(session_id)
+        if session is None:
+            return resp_500(message="Session not found")
+
+        if session.user_id != login_user.user_id:
+            return resp_500(message="Unauthorized")
+
+        await InterviewService.delete_session(session_id)
+        return resp_200(data=None)
+    except Exception as err:
+        logger.error(f"Delete interview session error: {err}")
+        return resp_500(message=str(err))
+
+
 # ---------------------------------------------------------------------------
 # Skill endpoints
 # ---------------------------------------------------------------------------

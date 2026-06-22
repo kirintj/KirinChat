@@ -44,6 +44,11 @@ class InterviewService:
         """Get all interview sessions for a user."""
         return await InterviewSessionDao.select_sessions_by_user(user_id)
 
+    @classmethod
+    async def delete_session(cls, session_id):
+        """Delete an interview session and all related data."""
+        await InterviewSessionDao.delete_session(session_id)
+
     # ------------------------------------------------------------------
     # Question management
     # ------------------------------------------------------------------
