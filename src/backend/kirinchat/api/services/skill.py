@@ -20,6 +20,8 @@ _PRIORITY_ORDER = {
 class SkillService:
     """Service for loading interview skill definitions from the filesystem."""
 
+    _temp_skills: dict = {}  # 临时 Skill 存储（内存）
+
     # ------------------------------------------------------------------
     # Public API
     # ------------------------------------------------------------------
@@ -50,6 +52,12 @@ class SkillService:
         return skills
 
     @classmethod
+    def register_temp_skill(cls, skill_data: dict):
+        """注册一个临时 Skill（如 JD 解析生成的），仅存于内存。"""
+        skill_id = skill_data.get("id", "")
+        cls._temp_skills[skill_id] = skill_data
+
+    @classmethod
     def get_skill_by_id(cls, skill_id: str):
         """
         Load a single skill by its directory name (id).
@@ -57,6 +65,8 @@ class SkillService:
         Returns the skill dict with categories sorted by priority,
         or None if the skill doesn't exist or is invalid.
         """
+        if skill_id in cls._temp_skills:
+            return cls._temp_skills[skill_id]
         skills_dir = cls._get_skills_dir()
         skill_path = os.path.join(skills_dir, skill_id)
         return cls._load_skill_from_dir(skill_id, skill_path, load_references=True)
