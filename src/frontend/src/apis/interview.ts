@@ -123,7 +123,8 @@ export function startInterviewAPI(data: InterviewStartRequest) {
   return request<UnifiedResponse<InterviewStartData>>({
     url: '/api/v1/interview/start',
     method: 'POST',
-    data
+    data,
+    timeout: 120000
   })
 }
 
@@ -132,7 +133,8 @@ export function submitAnswerAPI(data: InterviewAnswerRequest) {
   return request<UnifiedResponse<InterviewAnswerData>>({
     url: '/api/v1/interview/answer',
     method: 'POST',
-    data
+    data,
+    timeout: 120000
   })
 }
 
@@ -149,7 +151,8 @@ export function completeInterviewAPI(data: InterviewCompleteRequest) {
   return request<UnifiedResponse<InterviewCompleteData>>({
     url: '/api/v1/interview/complete',
     method: 'POST',
-    data
+    data,
+    timeout: 180000
   })
 }
 

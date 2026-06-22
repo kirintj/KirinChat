@@ -72,7 +72,7 @@ describe('useInterviewStore', () => {
             session_id: 'sess-1',
             first_question: {
               id: 'q1',
-              type: 'OPEN',
+              type: 'MAIN',
               category: 'java',
               content: '什么是多态？',
             },
@@ -98,7 +98,7 @@ describe('useInterviewStore', () => {
             session_id: 'sess-1',
             first_question: {
               id: 'q1',
-              type: 'OPEN',
+              type: 'MAIN',
               category: 'java',
               content: '解释 SOLID 原则',
             },
@@ -124,7 +124,7 @@ describe('useInterviewStore', () => {
           status_message: 'ok',
           data: {
             session_id: 'sess-1',
-            first_question: { id: 'q1', type: 'OPEN', category: 'java', content: 'Q1' },
+            first_question: { id: 'q1', type: 'MAIN', category: 'java', content: 'Q1' },
           },
         },
       } as any)
@@ -165,7 +165,7 @@ describe('useInterviewStore', () => {
           status_message: 'ok',
           data: {
             session_id: 's1',
-            first_question: { id: 'q1', type: 'OPEN', category: 'java', content: 'Q' },
+            first_question: { id: 'q1', type: 'MAIN', category: 'java', content: 'Q' },
           },
         },
       })
@@ -186,7 +186,7 @@ describe('useInterviewStore', () => {
           status_message: 'ok',
           data: {
             session_id: 'sess-1',
-            first_question: { id: 'q1', type: 'OPEN', category: 'java', content: 'Q1' },
+            first_question: { id: 'q1', type: 'MAIN', category: 'java', content: 'Q1' },
           },
         },
       } as any)
@@ -202,7 +202,7 @@ describe('useInterviewStore', () => {
           status_code: 200,
           status_message: 'ok',
           data: {
-            next_question: { id: 'q2', type: 'OPEN', category: 'java', content: 'Q2' },
+            next_question: { id: 'q2', type: 'MAIN', category: 'java', content: 'Q2' },
             is_completed: false,
           },
         },
@@ -224,7 +224,7 @@ describe('useInterviewStore', () => {
           status_code: 200,
           status_message: 'ok',
           data: {
-            next_question: { id: 'q2', type: 'OPEN', category: 'mysql', content: '什么是索引？' },
+            next_question: { id: 'q2', type: 'MAIN', category: 'mysql', content: '什么是索引？' },
             is_completed: false,
           },
         },
@@ -246,7 +246,7 @@ describe('useInterviewStore', () => {
           status_code: 200,
           status_message: 'ok',
           data: {
-            next_question: { id: 'q2', type: 'OPEN', category: 'java', content: 'Q2' },
+            next_question: { id: 'q2', type: 'MAIN', category: 'java', content: 'Q2' },
             is_completed: false,
           },
         },
@@ -260,7 +260,7 @@ describe('useInterviewStore', () => {
           status_code: 200,
           status_message: 'ok',
           data: {
-            next_question: { id: 'q3', type: 'OPEN', category: 'java', content: 'Q3' },
+            next_question: { id: 'q3', type: 'MAIN', category: 'java', content: 'Q3' },
             is_completed: false,
           },
         },

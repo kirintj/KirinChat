@@ -94,8 +94,12 @@ export const useInterviewStore = defineStore('interview', () => {
         }
 
         // Got next question
+        // Only increment progress when the answered question was a MAIN question
+        const answeredType = currentQuestion.value?.type
+        if (answeredType === 'MAIN') {
+          progress.value.current += 1
+        }
         currentQuestion.value = data.next_question
-        progress.value.current += 1
         messages.value.push({
           role: 'interviewer',
           content: data.next_question.content,
