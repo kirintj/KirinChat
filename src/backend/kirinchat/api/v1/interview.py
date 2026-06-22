@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 from kirinchat.api.services.interview import InterviewService
 from kirinchat.api.services.skill import SkillService
 from kirinchat.api.services.evaluation import EvaluationService
+from kirinchat.api.services.learning import LearningService
 from kirinchat.core.agents.interview_agent import InterviewAgent
 from kirinchat.schemas.interview import (
     InterviewStartReq,
@@ -363,4 +364,28 @@ async def get_skill_detail(
         return resp_200(data=data.model_dump())
     except Exception as err:
         logger.error(f"Get skill detail error: {err}")
+        return resp_500(message=str(err))
+
+
+# ---------------------------------------------------------------------------
+# Learning path endpoints
+# ---------------------------------------------------------------------------
+
+
+@router.get("/interview/learning-path/{skill_id}", response_model=UnifiedResponseModel)
+async def get_learning_path(
+    skill_id: str,
+    login_user: UserPayload = Depends(get_login_user),
+):
+    """Get personalized learning path based on interview history."""
+    try:
+        path = await LearningService.get_learning_path(
+            user_id=login_user.user_id,
+            skill_id=skill_id,
+        )
+        if path is None:
+            return resp_500(message=f"Skill not found: {skill_id}")
+        return resp_200(data=path)
+    except Exception as err:
+        logger.error(f"Get learning path error: {err}")
         return resp_500(message=str(err))

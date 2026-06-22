@@ -165,6 +165,14 @@ onMounted(() => {
         <HButton type="primary" size="large" @click="startNewInterview">
           重新面试
         </HButton>
+        <HButton
+          v-if="interviewStore.skillId"
+          type="secondary"
+          size="large"
+          @click="router.push({ path: '/interview/learning', query: { skillId: interviewStore.skillId } })"
+        >
+          查看学习路径
+        </HButton>
         <HButton type="secondary" size="large" @click="goBack">
           返回列表
         </HButton>

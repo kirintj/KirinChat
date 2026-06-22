@@ -187,3 +187,39 @@ export function deleteInterviewSessionAPI(sessionId: string) {
     method: 'DELETE'
   })
 }
+
+// ---------------------------------------------------------------------------
+// Learning path types
+// ---------------------------------------------------------------------------
+
+export interface WeakCategory {
+  category: string
+  label: string
+  avg_score: number
+  session_count: number
+}
+
+export interface LearningResource {
+  label: string
+  reference: string
+}
+
+export interface LearningPath {
+  skill_id: string
+  skill_name: string
+  weak_categories: WeakCategory[]
+  resources: Record<string, LearningResource>
+  study_order: string[]
+  total_sessions: number
+  overall_avg_score: number
+  overall_level: string
+  overall_level_label: string
+}
+
+/** Get personalized learning path for a skill */
+export function getLearningPathAPI(skillId: string) {
+  return request<UnifiedResponse<LearningPath>>({
+    url: `/api/v1/interview/learning-path/${skillId}`,
+    method: 'GET'
+  })
+}
