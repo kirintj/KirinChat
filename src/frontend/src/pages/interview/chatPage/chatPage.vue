@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { HButton, HMessage } from '@/components/ui'
 import { useInterviewStore } from '../../../store/interview'
 import { getSessionDetailAPI } from '../../../apis/interview'
+import { marked } from 'marked'
 
 const router = useRouter()
 const interviewStore = useInterviewStore()
@@ -14,6 +15,11 @@ const isTyping = computed(() => interviewStore.loading)
 const canSubmit = computed(() =>
   !!answerInput.value.trim() && !interviewStore.loading && interviewStore.isActive
 )
+
+const renderMarkdown = (text: string) => {
+  if (!text) return ''
+  return marked.parse(text) as string
+}
 
 const scrollBottom = () => {
   nextTick(() => {
@@ -110,7 +116,7 @@ onMounted(async () => {
         <!-- Interviewer (AI) message -->
         <div v-if="msg.role === 'interviewer'" class="message-row ai">
           <div class="avatar ai-avatar">🤖</div>
-          <div class="bubble ai-bubble">{{ msg.content }}</div>
+          <div class="bubble ai-bubble markdown-body" v-html="renderMarkdown(msg.content)"></div>
         </div>
 
         <!-- Candidate (user) message -->
@@ -272,7 +278,6 @@ onMounted(async () => {
   font-size: 14px;
   line-height: 1.6;
   word-break: break-word;
-  white-space: pre-wrap;
 
   &.ai-bubble {
     background: var(--color-bg-secondary);
@@ -361,5 +366,50 @@ onMounted(async () => {
   justify-content: space-between;
   font-size: 14px;
   color: var(--color-text-secondary);
+}
+
+// Markdown rendering inside AI bubbles
+:deep(.markdown-body) {
+  p {
+    margin: 0 0 6px 0;
+    &:last-child { margin-bottom: 0; }
+  }
+
+  h1, h2, h3, h4 {
+    margin: 10px 0 6px 0;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  ul, ol {
+    padding-left: 20px;
+    margin: 6px 0;
+  }
+
+  li { margin: 3px 0; }
+
+  code {
+    background: rgba(128, 128, 128, 0.15);
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+  }
+
+  pre {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 8px 0;
+
+    code {
+      background: none;
+      padding: 0;
+    }
+  }
+
+  strong { font-weight: 600; }
+  em { font-style: italic; }
 }
 </style>
