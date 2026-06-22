@@ -260,6 +260,31 @@ async def get_evaluation_report(
         return resp_500(message=str(err))
 
 
+@router.get("/interview/evaluation/by-session/{session_id}", response_model=UnifiedResponseModel)
+async def get_evaluation_by_session(
+    session_id: str,
+    login_user: UserPayload = Depends(get_login_user),
+):
+    """Get an evaluation report by session ID."""
+    try:
+        report = await EvaluationService.get_report_by_session(session_id)
+        if report is None:
+            return resp_500(message="Evaluation report not found for this session")
+
+        data = EvaluationReportResp(
+            id=report.id,
+            total_score=report.total_score,
+            category_scores=report.category_scores or {},
+            summary=report.summary or "",
+            strengths=report.strengths or [],
+            improvements=report.improvements or [],
+        )
+        return resp_200(data=data.model_dump())
+    except Exception as err:
+        logger.error(f"Get evaluation by session error: {err}")
+        return resp_500(message=str(err))
+
+
 @router.get("/interview/history", response_model=UnifiedResponseModel)
 async def get_interview_history(
     login_user: UserPayload = Depends(get_login_user),

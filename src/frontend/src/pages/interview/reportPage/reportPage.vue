@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { HButton, HMessage } from '@/components/ui'
 import { useInterviewStore } from '../../../store/interview'
-import { getEvaluationReportAPI, getSessionDetailAPI } from '../../../apis/interview'
+import { getEvaluationReportAPI, getEvaluationBySessionAPI } from '../../../apis/interview'
 import type { EvaluationReport } from '../../../apis/interview'
 
 const router = useRouter()
@@ -36,32 +36,29 @@ const categoryEntries = computed(() => {
 const fetchReport = async () => {
   loading.value = true
   try {
-    // Try from store first
-    let evalId = interviewStore.evaluationId || (router.currentRoute.value.query.evaluationId as string)
+    const evalId = interviewStore.evaluationId || (router.currentRoute.value.query.evaluationId as string)
+    const sessionId = router.currentRoute.value.query.sessionId as string
 
-    // If no evaluationId, try to get from session
-    if (!evalId) {
-      const sessionId = router.currentRoute.value.query.sessionId as string
-      if (sessionId) {
-        const sessionRes = await getSessionDetailAPI(sessionId)
-        if (sessionRes.data.status_code === 200) {
-          // Session exists but we need the evaluation id
-          // Try completing to get it
-        }
+    if (evalId) {
+      // Fetch by evaluation ID
+      const res = await getEvaluationReportAPI(evalId)
+      if (res.data.status_code === 200 && res.data.data) {
+        report.value = res.data.data
+      } else {
+        HMessage.error('获取评估报告失败')
       }
-    }
-
-    if (!evalId) {
+    } else if (sessionId) {
+      // Fetch by session ID (from history list)
+      const res = await getEvaluationBySessionAPI(sessionId)
+      if (res.data.status_code === 200 && res.data.data) {
+        report.value = res.data.data
+      } else {
+        HMessage.error('该面试尚未生成评估报告')
+        router.replace('/interview')
+      }
+    } else {
       HMessage.error('未找到评估报告')
       router.replace('/interview')
-      return
-    }
-
-    const res = await getEvaluationReportAPI(evalId)
-    if (res.data.status_code === 200 && res.data.data) {
-      report.value = res.data.data
-    } else {
-      HMessage.error('获取评估报告失败')
     }
   } catch {
     HMessage.error('获取评估报告失败')

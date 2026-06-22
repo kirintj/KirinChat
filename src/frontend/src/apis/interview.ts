@@ -164,6 +164,14 @@ export function getEvaluationReportAPI(evaluationId: string) {
   })
 }
 
+/** Get evaluation report by session ID */
+export function getEvaluationBySessionAPI(sessionId: string) {
+  return request<UnifiedResponse<EvaluationReport>>({
+    url: `/api/v1/interview/evaluation/by-session/${sessionId}`,
+    method: 'GET'
+  })
+}
+
 /** Get interview history for current user */
 export function getInterviewHistoryAPI() {
   return request<UnifiedResponse<InterviewHistoryData>>({
