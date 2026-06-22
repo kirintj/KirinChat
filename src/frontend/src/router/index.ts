@@ -231,6 +231,16 @@ const routes: RouteRecordRaw[] = [
             path: 'learning',
             name: 'interviewLearning',
             component: InterviewLearning,
+          },
+          {
+            path: 'resume',
+            name: 'interviewResume',
+            component: () => import('@/pages/interview/resumePage/resumePage.vue'),
+          },
+          {
+            path: 'resume/:id',
+            name: 'interviewResumeDetail',
+            component: () => import('@/pages/interview/resumeDetailPage/resumeDetailPage.vue'),
           }
         ]
       },
