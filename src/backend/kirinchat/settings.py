@@ -21,6 +21,17 @@ class Settings(BaseSettings):
     storage: Optional[StorageConfig] = None
     multi_models: Optional[MultiModels] = None
 
+    # MinIO 配置
+    minio_endpoint: str = "localhost:9000"
+    minio_access_key: str = "minioadmin"
+    minio_secret_key: str = "minioadmin"
+    minio_bucket: str = "kirinchat"
+    minio_secure: bool = False
+
+    # Celery 配置
+    celery_broker_url: str = "redis://localhost:6379/1"
+    celery_result_backend: str = "redis://localhost:6379/2"
+
 
 app_settings = Settings()
 
