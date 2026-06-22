@@ -46,6 +46,7 @@ const menuItems = [
   { index: 'knowledge', label: '知识库', icon: knowledgeIcon },
   { index: 'tool', label: '工具', icon: pluginIcon },
   { index: 'agent-skill', label: 'Skill', icon: skillIcon },
+  { index: 'interview', label: '面试', icon: skillIcon },
   { index: 'model', label: '模型', icon: modelIcon },
   { index: 'dashboard', label: '数据看板', icon: dashboardIcon },
 ]
@@ -102,7 +103,7 @@ onMounted(async () => {
       if (response.data.status_code === 200 && response.data.data) {
         const userData = response.data.data
         userStore.updateUserInfo({
-          avatar: userData.user_avatar || userData.avatar || '/src/assets/user.svg',
+          avatar: userData.user_avatar || userData.avatar || '/user.svg',
           description: userData.user_description || userData.description
         })
       }
@@ -138,6 +139,7 @@ const goCurrent = (item: string) => {
     "knowledge": "/knowledge",
     "tool": "/tool",
     "agent-skill": "/agent-skill",
+    "interview": "/interview",
     "model": "/model",
     "workspace": "/workspace",
     "dashboard": "/dashboard"
@@ -177,7 +179,7 @@ const handleLogout = async () => {
 const handleAvatarError = (event: Event) => {
   const target = event.target as HTMLImageElement
   if (target) {
-    target.src = '/src/assets/user.svg'
+    target.src = '/user.svg'
   }
 }
 
@@ -199,15 +201,12 @@ watch(
   <div class="brand-name" @click="godefault">KirinChat</div>
 </div>
       <div class="right">
-        <button class="new-chat-btn" @click="goCurrent('conversation')">
-          新建会话
-        </button>
         <div class="user-info">
           <div class="user-dropdown" @click="toggleUserMenu">
             <div class="user-avatar-wrapper">
               <div class="user-avatar">
                 <img
-                  :src="userStore.userInfo?.avatar || '/src/assets/user.svg'"
+                  :src="userStore.userInfo?.avatar || '/user.svg'"
                   alt="用户头像"
                   @error="handleAvatarError"
                   referrerpolicy="no-referrer"
@@ -289,22 +288,6 @@ watch(
       display: flex;
       align-items: center;
       gap: var(--spacing-sm);
-
-      .new-chat-btn {
-        background: var(--color-primary);
-        color: var(--color-bg);
-        border: none;
-        padding: 7px 18px;
-        border-radius: var(--radius-md);
-        font-size: 13px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background-color 0.2s;
-
-        &:hover {
-          background: var(--color-primary-hover);
-        }
-      }
 
       .user-info {
         .user-avatar-wrapper {
@@ -406,7 +389,7 @@ watch(
     .content {
       flex: 1;
       overflow-y: auto;
-      padding: var(--spacing-xl);
+      padding: 0;
     }
   }
 }
