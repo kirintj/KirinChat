@@ -1,0 +1,30 @@
+display:
+  icon: "🧮"
+  gradient: "from-purple-500 to-pink-500"
+  colors:
+    primary: "#a855f7"
+    secondary: "#ec4899"
+
+categories:
+  - key: data-structure
+    label: 数据结构
+    priority: CORE
+    ref: data-structure.md
+  - key: sorting-searching
+    label: 排序与搜索
+    priority: CORE
+    ref: sorting-searching.md
+  - key: dynamic-programming
+    label: 动态规划
+    priority: CORE
+    ref: dynamic-programming.md
+  - key: graph
+    label: 图论
+    priority: NORMAL
+    ref: graph.md
+  - key: string
+    label: 字符串算法
+    priority: NORMAL
+  - key: coding
+    label: 编码实现
+    priority: ALWAYS_ONE
