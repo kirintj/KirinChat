@@ -1,6 +1,7 @@
 from loguru import logger
 from fastapi import APIRouter, Depends
 from fastapi.responses import FileResponse
+import json
 import tempfile
 
 from kirinchat.api.services.interview import InterviewService
@@ -26,6 +27,7 @@ from kirinchat.schemas.interview import (
     QuestionResp,
 )
 from kirinchat.api.responses.builder import resp_200, resp_500, UnifiedResponseModel
+from kirinchat.api.responses.streaming import WatchedStreamingResponse
 from kirinchat.api.services.user import UserPayload, get_login_user
 
 router = APIRouter(tags=["Interview"])
@@ -187,6 +189,95 @@ async def submit_answer(
         return resp_500(message=str(err))
     except Exception as err:
         logger.error(f"Submit answer error: {err}")
+        return resp_500(message=str(err))
+
+
+@router.post("/interview/answer/stream")
+async def submit_answer_stream(
+    req: InterviewAnswerReq,
+    login_user: UserPayload = Depends(get_login_user),
+):
+    """提交答案，流式返回追问题和下一题（SSE）。"""
+    try:
+        session = await InterviewService.get_session(req.session_id)
+        if session is None:
+            return resp_500(message="Session not found")
+
+        # 保存用户答案
+        await InterviewService.submit_answer(req.question_id, req.answer)
+
+        # 获取原始题目内容
+        questions = await InterviewService.get_session_questions(req.session_id)
+        original_question = ""
+        for q in questions:
+            if q.id == req.question_id:
+                original_question = q.content
+                break
+
+        # 初始化 agent
+        agent = InterviewAgent(agent_config={})
+        await agent.init_interview_agent(skill_id=session.skill_id)
+
+        async def stream():
+            follow_up_content = ""
+            next_question_content = ""
+            is_completed = False
+
+            # 阶段一：流式生成追问题
+            async for event in agent.stream_follow_up(
+                session_id=req.session_id,
+                original_question=original_question,
+                user_answer=req.answer,
+            ):
+                follow_up_content = event["data"]["accumulated"]
+                yield f"data: {json.dumps(event)}\n\n"
+
+            # 如果有追问题，发送 done 事件并结束（不生成下一题）
+            if follow_up_content.strip() and follow_up_content.strip() != "NO_FOLLOW_UP":
+                done_data = {
+                    "type": "done",
+                    "data": {
+                        "follow_up": {"content": follow_up_content.strip()},
+                        "next_question": None,
+                        "is_completed": False,
+                    },
+                }
+                yield f"data: {json.dumps(done_data)}\n\n"
+                return
+
+            # 阶段二：流式生成下一题
+            async for event in agent.stream_next_question(
+                session_id=req.session_id,
+                user_id=login_user.user_id,
+                difficulty=session.difficulty,
+            ):
+                data = event["data"]
+                if data.get("is_completed"):
+                    is_completed = True
+                    break
+                next_question_content = data["accumulated"]
+                yield f"data: {json.dumps(event)}\n\n"
+
+            # 发送完成事件
+            done_data = {
+                "type": "done",
+                "data": {
+                    "follow_up": None,
+                    "next_question": {"content": next_question_content.strip()} if next_question_content.strip() else None,
+                    "is_completed": is_completed,
+                },
+            }
+            yield f"data: {json.dumps(done_data)}\n\n"
+
+        return WatchedStreamingResponse(
+            content=stream(),
+            media_type="text/event-stream",
+        )
+    except ValueError as err:
+        logger.warning(f"Submit answer stream validation error: {err}")
+        return resp_500(message=str(err))
+    except Exception as err:
+        logger.error(f"Submit answer stream error: {err}")
         return resp_500(message=str(err))
 
 
