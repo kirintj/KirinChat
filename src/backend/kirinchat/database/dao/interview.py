@@ -1,4 +1,3 @@
-from sqlalchemy import and_
 from sqlmodel import select, update
 
 from kirinchat.database.models.interview import (
@@ -120,7 +119,7 @@ class InterviewQuestionDao:
     @classmethod
     async def select_main_questions_by_user_skill(
         cls, user_id: str, skill_id: str, exclude_session_id: str, limit: int = 50
-    ) -> list:
+    ) -> list[InterviewQuestionTable]:
         """查询同用户同技能方向其他 session 的历史 MAIN 题目。
 
         通过 JOIN interview_session 表筛选 user_id 和 skill_id，
@@ -134,12 +133,10 @@ class InterviewQuestionDao:
                     InterviewQuestionTable.session_id == InterviewSessionTable.id,
                 )
                 .where(
-                    and_(
-                        InterviewSessionTable.user_id == user_id,
-                        InterviewSessionTable.skill_id == skill_id,
-                        InterviewQuestionTable.type == "MAIN",
-                        InterviewQuestionTable.session_id != exclude_session_id,
-                    )
+                    InterviewSessionTable.user_id == user_id,
+                    InterviewSessionTable.skill_id == skill_id,
+                    InterviewQuestionTable.type == "MAIN",
+                    InterviewQuestionTable.session_id != exclude_session_id,
                 )
                 .order_by(InterviewQuestionTable.create_time.desc())
                 .limit(limit)
