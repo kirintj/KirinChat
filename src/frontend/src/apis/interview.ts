@@ -1,4 +1,5 @@
 import { request } from '../utils/request'
+import { fetchEventSource } from '@microsoft/fetch-event-source'
 
 // ---------------------------------------------------------------------------
 // Type definitions
@@ -140,7 +141,60 @@ export function submitAnswerAPI(data: InterviewAnswerRequest) {
   })
 }
 
-/** Get interview session detail with questions */
+/** 提交答案并以 SSE 流式接收（追问 + 下一题） */
+export function submitAnswerStreamAPI(
+  data: InterviewAnswerRequest,
+  callbacks: {
+    onFollowUpChunk: (chunk: string, accumulated: string) => void
+    onNextQuestionChunk: (chunk: string, accumulated: string) => void
+    onDone: (result: { follow_up: { content: string } | null; next_question: { content: string } | null; is_completed: boolean }) => void
+    onError: (err: Error) => void
+  },
+) {
+  const ctrl = new AbortController()
+
+  fetchEventSource('/api/v1/interview/answer/stream', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
+    },
+    body: JSON.stringify(data),
+    signal: ctrl.signal,
+    openWhenHidden: true,
+    async onopen(response: Response) {
+      if (response.status !== 200) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+    },
+    onmessage(msg: { data: string }) {
+      try {
+        const event = JSON.parse(msg.data)
+        if (event.type === 'follow_up_chunk') {
+          callbacks.onFollowUpChunk(event.data.chunk, event.data.accumulated)
+        } else if (event.type === 'next_question_chunk') {
+          callbacks.onNextQuestionChunk(event.data.chunk, event.data.accumulated)
+        } else if (event.type === 'done') {
+          callbacks.onDone(event.data)
+        }
+      } catch (error) {
+        console.error('解析 SSE 消息出错:', error)
+      }
+    },
+    onclose() {
+      // 连接关闭
+    },
+    onerror(err: Error) {
+      callbacks.onError(err)
+      ctrl.abort()
+      throw err
+    },
+  })
+
+  return ctrl
+}
+
+/** 获取面试会话详情（含题目列表） */
 export function getSessionDetailAPI(sessionId: string) {
   return request<UnifiedResponse<InterviewSessionDetail>>({
     url: `/api/v1/interview/session/${sessionId}`,
