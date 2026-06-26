@@ -71,6 +71,8 @@ class InterviewSessionResp(BaseModel):
     status: str = Field(..., description="会话状态")
     difficulty: Optional[str] = Field(None, description="难度等级")
     progress: Dict[str, int] = Field(default={}, description="进度信息")
+    skill_name: str = Field(default="", description="技能名称")
+    total_score: Optional[float] = Field(None, description="总分（已评估时有值）")
 
 
 class InterviewSessionDetailResp(BaseModel):
@@ -125,6 +127,9 @@ class EvaluationReportResp(BaseModel):
 class InterviewHistoryResp(BaseModel):
     """面试历史响应"""
     sessions: List[InterviewSessionResp] = Field(default=[], description="会话列表")
+    total: int = Field(default=0, description="总记录数")
+    page: int = Field(default=1, description="当前页码")
+    page_size: int = Field(default=20, description="每页条数")
 
 
 class SkillDetailResp(BaseModel):
