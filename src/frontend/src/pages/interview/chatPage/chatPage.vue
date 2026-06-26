@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick, onMounted, computed } from 'vue'
+import { ref, nextTick, onMounted, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { HButton, HMessage } from '@/components/ui'
 import { useInterviewStore } from '../../../store/interview'
@@ -9,6 +9,62 @@ import { marked } from 'marked'
 const router = useRouter()
 const interviewStore = useInterviewStore()
 const answerInput = ref('')
+
+// --- 草稿自动保存：localStorage 按 sessionId + questionId 存取 ---
+const DRAFT_PREFIX = 'interview_draft_'
+
+// 生成草稿 key：interview_draft_{sessionId}_{questionId}
+const getDraftKey = () => {
+  const qId = interviewStore.currentQuestion?.id
+  if (!interviewStore.sessionId || !qId) return null
+  return `${DRAFT_PREFIX}${interviewStore.sessionId}_${qId}`
+}
+
+// 保存草稿到 localStorage（空内容时删除 key）
+const saveDraft = () => {
+  const key = getDraftKey()
+  if (!key) return
+  const value = answerInput.value.trim()
+  if (value) {
+    localStorage.setItem(key, value)
+  } else {
+    localStorage.removeItem(key)
+  }
+}
+
+// 从 localStorage 恢复草稿
+const restoreDraft = () => {
+  const key = getDraftKey()
+  if (!key) return
+  const saved = localStorage.getItem(key)
+  if (saved) {
+    answerInput.value = saved
+  }
+}
+
+// 清除当前题目的草稿
+const clearDraft = () => {
+  const key = getDraftKey()
+  if (key) {
+    localStorage.removeItem(key)
+  }
+}
+
+// debounce 工具：延迟执行，重复调用时重置计时器
+let draftTimer: ReturnType<typeof setTimeout> | null = null
+const debounceSaveDraft = () => {
+  if (draftTimer) clearTimeout(draftTimer)
+  draftTimer = setTimeout(saveDraft, 500)
+}
+
+// 监听输入变化，debounce 500ms 自动保存草稿
+watch(answerInput, debounceSaveDraft)
+
+// 监听当前题目变化，恢复新题目的草稿（提交答案后 currentQuestion 会更新）
+watch(() => interviewStore.currentQuestion, () => {
+  nextTick(restoreDraft)
+})
+
 const messagesContainer = ref<HTMLElement | null>(null)
 
 const isTyping = computed(() => interviewStore.loading)
@@ -34,6 +90,7 @@ const submitAnswer = async () => {
   if (!answer || !canSubmit.value) return
 
   answerInput.value = ''
+  clearDraft() // 提交成功后清除草稿
   const success = await interviewStore.submitAnswer(answer)
   scrollBottom()
 
@@ -84,6 +141,7 @@ onMounted(async () => {
     return
   }
 
+  restoreDraft() // 页面加载时恢复草稿
   scrollBottom()
 })
 </script>
@@ -286,8 +344,8 @@ onMounted(async () => {
   }
 
   &.user-bubble {
-    background: linear-gradient(135deg, #6e8efb, #a777e3);
-    color: #fff;
+    background: linear-gradient(135deg, var(--color-info), var(--color-primary));
+    color: var(--color-bg);
     border-top-right-radius: 4px;
   }
 }
@@ -392,7 +450,7 @@ onMounted(async () => {
     background: rgba(128, 128, 128, 0.15);
     padding: 2px 5px;
     border-radius: 4px;
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-family);
     font-size: 13px;
   }
 
