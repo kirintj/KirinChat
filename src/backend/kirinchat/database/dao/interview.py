@@ -4,6 +4,7 @@ from kirinchat.database.models.interview import (
     InterviewSessionTable,
     InterviewQuestionTable,
     EvaluationReportTable,
+    EvaluationQuestionDetailTable,
 )
 from kirinchat.database.session import session_getter
 
@@ -169,6 +170,37 @@ class EvaluationReportDao:
         with session_getter() as session:
             statement = select(EvaluationReportTable).where(
                 EvaluationReportTable.id == report_id
+            )
+            result = session.exec(statement).first()
+            return result
+
+
+class EvaluationQuestionDetailDao:
+
+    @classmethod
+    async def batch_create(cls, details: list[EvaluationQuestionDetailTable]):
+        """批量创建逐题评估详情。"""
+        with session_getter() as session:
+            for detail in details:
+                session.add(detail)
+            session.commit()
+
+    @classmethod
+    async def select_by_evaluation_id(cls, evaluation_id: str) -> list[EvaluationQuestionDetailTable]:
+        """按评估报告 ID 查询所有逐题详情。"""
+        with session_getter() as session:
+            statement = select(EvaluationQuestionDetailTable).where(
+                EvaluationQuestionDetailTable.evaluation_id == evaluation_id
+            )
+            result = session.exec(statement).all()
+            return list(result)
+
+    @classmethod
+    async def select_by_question_id(cls, question_id: str):
+        """按题目 ID 查询单题评估详情。"""
+        with session_getter() as session:
+            statement = select(EvaluationQuestionDetailTable).where(
+                EvaluationQuestionDetailTable.question_id == question_id
             )
             result = session.exec(statement).first()
             return result
