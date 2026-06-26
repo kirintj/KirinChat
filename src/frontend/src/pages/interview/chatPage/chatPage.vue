@@ -121,7 +121,7 @@ const submitAnswer = async () => {
 
   answerInput.value = ''
   clearDraft() // 提交成功后清除草稿
-  const success = await interviewStore.submitAnswer(answer)
+  const success = await interviewStore.submitAnswerStream(answer)
   scrollBottom()
 
   if (!success) {
