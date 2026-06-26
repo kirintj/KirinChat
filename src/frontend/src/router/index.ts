@@ -27,7 +27,7 @@ import WorkspacePage from '../pages/workspace/workspacePage/workspacePage.vue'
 import WorkspaceDefaultPage from '../pages/workspace/defaultPage/defaultPage.vue'
 import TaskGraphPage from '../pages/workspace/taskGraphPage/taskGraphPage.vue'
 import Dashboard from '../pages/dashboard'
-import { Interview, InterviewDefault, InterviewChat, InterviewReport, InterviewLearning, InterviewHub } from '../pages/interview'
+import { Interview, InterviewDefault, InterviewChat, InterviewReport, InterviewLearning, InterviewHub, InterviewQuestionDetail } from '../pages/interview'
 import type { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
@@ -238,6 +238,11 @@ const routes: RouteRecordRaw[] = [
             path: 'learning',
             name: 'interviewLearning',
             component: InterviewLearning,
+          },
+          {
+            path: 'question/:questionId',
+            name: 'interviewQuestionDetail',
+            component: InterviewQuestionDetail,
           },
           {
             path: 'resume',
