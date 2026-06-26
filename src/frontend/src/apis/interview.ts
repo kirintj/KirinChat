@@ -39,12 +39,14 @@ export interface InterviewQuestion {
   type: string
   category: string
   content: string
+  user_answer: string | null
 }
 
 export interface InterviewSession {
   id: string
   skill_id: string
   status: string
+  difficulty: string | null
   progress: { current: number; total: number }
 }
 
