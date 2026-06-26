@@ -51,6 +51,7 @@ export interface InterviewSession {
   progress: { current: number; total: number }
   skill_name?: string
   total_score?: number | null
+  create_time?: string | null
 }
 
 export interface InterviewSessionDetail {

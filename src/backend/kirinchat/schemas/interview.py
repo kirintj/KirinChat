@@ -1,4 +1,5 @@
 from typing import Dict, List, Optional
+from datetime import datetime
 from pydantic import BaseModel, Field
 
 
@@ -73,6 +74,7 @@ class InterviewSessionResp(BaseModel):
     progress: Dict[str, int] = Field(default={}, description="进度信息")
     skill_name: str = Field(default="", description="技能名称")
     total_score: Optional[float] = Field(None, description="总分（已评估时有值）")
+    create_time: Optional[datetime] = Field(None, description="创建时间")
 
 
 class InterviewSessionDetailResp(BaseModel):
