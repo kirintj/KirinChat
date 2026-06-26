@@ -47,7 +47,7 @@ class InterviewAgent:
         self.conversation_model = ModelManager.get_conversation_model()
         logger.info(f"InterviewAgent initialized for skill: {self.skill['name']}")
 
-    async def generate_first_question(self, session_id: str, difficulty: str = "MEDIUM") -> InterviewQuestionTable:
+    async def generate_first_question(self, session_id: str, user_id: str, difficulty: str = "MEDIUM") -> InterviewQuestionTable:
         """Generate the first interview question for a session.
 
         Fetches existing questions for deduplication, selects a category based
@@ -68,13 +68,21 @@ class InterviewAgent:
         existing_questions = await InterviewService.get_session_questions(session_id)
         existing_topics = [q.content for q in existing_questions]
 
+        # 跨 session 去重：获取同技能方向其他 session 的历史题目
+        skill_id = self.skill.get("id", "")
+        historical_topics = await InterviewService.get_historical_questions(
+            user_id, skill_id, exclude_session_id=session_id
+        )
+        # 合并当前 session 和历史题目，dict.fromkeys 保序去重
+        all_topics = list(dict.fromkeys(existing_topics + historical_topics))
+
         # Pick the next category to cover
         categories = self.skill.get("categories", [])
         category = self._select_category(categories, existing_questions)
 
         # Build the prompt
         difficulty_desc = _DIFFICULTY_MAP.get(difficulty, _DIFFICULTY_MAP["MEDIUM"])
-        dedup_section = self._get_dedup_prompt(existing_topics)
+        dedup_section = self._get_dedup_prompt(all_topics)
 
         category_name = category.get("name", "") if category else ""
         category_desc = category.get("description", "") if category else ""
@@ -167,7 +175,7 @@ class InterviewAgent:
         logger.info(f"Follow-up question generated for session {session_id}: {content[:50]}...")
         return saved_question
 
-    async def generate_next_question(self, session_id: str, difficulty: str = "MEDIUM") -> InterviewQuestionTable | None:
+    async def generate_next_question(self, session_id: str, user_id: str, difficulty: str = "MEDIUM") -> InterviewQuestionTable | None:
         """Generate the next main question in an ongoing interview session.
 
         Checks whether the question limit has been reached (completing the
@@ -199,6 +207,14 @@ class InterviewAgent:
         # Collect existing topics for deduplication
         existing_topics = [q.content for q in main_questions]
 
+        # 跨 session 去重：获取同技能方向其他 session 的历史题目
+        skill_id = self.skill.get("id", "")
+        historical_topics = await InterviewService.get_historical_questions(
+            user_id, skill_id, exclude_session_id=session_id
+        )
+        # 合并当前 session 和历史题目，dict.fromkeys 保序去重
+        all_topics = list(dict.fromkeys(existing_topics + historical_topics))
+
         # Gather covered categories for smart selection
         covered_categories = set(q.category for q in main_questions)
 
@@ -208,7 +224,7 @@ class InterviewAgent:
 
         # Build the prompt
         difficulty_desc = _DIFFICULTY_MAP.get(difficulty, _DIFFICULTY_MAP["MEDIUM"])
-        dedup_section = self._get_dedup_prompt(existing_topics)
+        dedup_section = self._get_dedup_prompt(all_topics)
 
         category_name = category.get("name", "") if category else ""
         category_desc = category.get("description", "") if category else ""
