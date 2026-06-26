@@ -98,6 +98,19 @@ onMounted(() => {
 <template>
   <div class="interview-container">
     <div class="sidebar">
+      <div class="hub-nav">
+        <!-- 面试中心导航按钮，点击跳转到面试中心仪表盘页面 -->
+        <button class="hub-btn" @click="router.push('/interview/hub')">
+          <span class="hub-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+            </svg>
+          </span>
+          <span>面试中心</span>
+        </button>
+      </div>
+
       <div class="create-section">
         <button class="create-btn" @click="startNewInterview">
           <span>＋</span>
@@ -160,6 +173,39 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+
+  /* 面试中心导航按钮样式 */
+  .hub-nav {
+    padding: 12px 16px 0;
+  }
+
+  .hub-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 8px;
+    background: var(--bg-secondary, #f9fafb);
+    color: var(--text-primary, #1f2937);
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--bg-hover, #f3f4f6);
+      border-color: var(--primary-color, #6366f1);
+      color: var(--primary-color, #6366f1);
+    }
+
+    /* SVG图标容器，保持图标垂直居中 */
+    .hub-icon {
+      display: flex;
+      align-items: center;
+    }
+  }
 
   .create-section {
     padding: 16px;
