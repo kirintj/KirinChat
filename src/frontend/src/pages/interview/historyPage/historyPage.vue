@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { HButton, HMessage } from '@/components/ui'
+import { HButton, HMessage, HMessageBox } from '@/components/ui'
 import {
   getInterviewHistoryAPI,
   getSkillListAPI,
@@ -147,7 +147,15 @@ const viewReport = (sessionId: string) => {
 
 // 删除面试
 const deleteSession = async (sessionId: string) => {
-  if (!confirm('确定要删除这条面试记录吗？此操作不可撤销。')) return
+  try {
+    await HMessageBox.confirm('确定要删除这条面试记录吗？此操作不可撤销。', '确认删除', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    })
+  } catch {
+    return
+  }
   try {
     const res = await deleteInterviewSessionAPI(sessionId)
     if (res.data.status_code === 200) {
@@ -189,6 +197,10 @@ const formatTime = (t?: string | null) => {
 watch([selectedSkillId, selectedDifficulty], () => {
   currentPage.value = 1
   fetchHistory()
+})
+
+onBeforeUnmount(() => {
+  if (searchTimer) clearTimeout(searchTimer)
 })
 
 onMounted(() => {
