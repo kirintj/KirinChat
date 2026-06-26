@@ -175,6 +175,60 @@ class InterviewAgent:
         logger.info(f"Follow-up question generated for session {session_id}: {content[:50]}...")
         return saved_question
 
+    async def stream_follow_up(self, session_id: str, original_question: str, user_answer: str) -> AsyncGenerator[Dict[str, Any], None]:
+        """流式生成追问题：逐步输出 LLM 响应，最后保存到数据库。
+
+        Args:
+            session_id: 面试会话 ID。
+            original_question: 原始题目内容。
+            user_answer: 用户答案。
+
+        Yields:
+            {"type": "follow_up_chunk", "data": {"chunk": "...", "accumulated": "..."}}
+        """
+        prompt = f"""你是一位专业的技术面试官。
+
+# 你的角色
+{self.skill.get('persona', '')}
+
+# 任务
+候选人回答了以下面试题目，请判断是否需要追问。
+
+# 原始题目
+{original_question}
+
+# 候选人回答
+{user_answer}
+
+# 规则
+1. 如果回答过于简短、有明显遗漏、或存在可深挖的点，请生成一道追问
+2. 如果回答已经完整且准确，回复 "NO_FOLLOW_UP"
+3. 追问应引导候选人深入思考，不要重复原始题目
+4. 只输出追问内容或 "NO_FOLLOW_UP"，不要输出其他说明"""
+
+        accumulated = ""
+        async for chunk in self.conversation_model.astream([HumanMessage(content=prompt)]):
+            if chunk.content:
+                accumulated += chunk.content
+                yield {
+                    "type": "follow_up_chunk",
+                    "data": {"chunk": chunk.content, "accumulated": accumulated},
+                }
+
+        # 流式结束后，保存到数据库
+        content = accumulated.strip()
+        if content and content != "NO_FOLLOW_UP":
+            question = InterviewQuestionTable(
+                session_id=session_id,
+                type="FOLLOW_UP",
+                category="follow_up",
+                content=content,
+            )
+            await InterviewService.save_question(question)
+            logger.info(f"Follow-up question streamed and saved for session {session_id}: {content[:50]}...")
+        else:
+            logger.info(f"No follow-up needed for session {session_id}")
+
     async def generate_next_question(self, session_id: str, user_id: str, difficulty: str = "MEDIUM") -> InterviewQuestionTable | None:
         """Generate the next main question in an ongoing interview session.
 
@@ -260,6 +314,91 @@ class InterviewAgent:
 
         logger.info(f"Next question generated for session {session_id} ({len(main_questions) + 1}/{session.question_count}): {content[:50]}...")
         return saved_question
+
+    async def stream_next_question(self, session_id: str, user_id: str, difficulty: str = "MEDIUM") -> AsyncGenerator[Dict[str, Any], None]:
+        """流式生成下一题：逐步输出 LLM 响应，最后保存到数据库。
+
+        如果已达题目上限，发送 is_completed=True 事件。
+
+        Args:
+            session_id: 面试会话 ID。
+            user_id: 用户 ID（用于跨 session 去重）。
+            difficulty: 难度等级。
+
+        Yields:
+            {"type": "next_question_chunk", "data": {"chunk": "...", "accumulated": "..."}}
+            如果已完成: {"type": "next_question_chunk", "data": {"chunk": "", "accumulated": "", "is_completed": True}}
+        """
+        session = await InterviewService.get_session(session_id)
+        if session is None:
+            yield {"type": "next_question_chunk", "data": {"chunk": "", "accumulated": "", "is_completed": True}}
+            return
+
+        # 检查是否达到题目上限
+        existing_questions = await InterviewService.get_session_questions(session_id)
+        main_questions = [q for q in existing_questions if q.type == "MAIN"]
+
+        if len(main_questions) >= session.question_count:
+            await InterviewService.update_session_status(session_id, "COMPLETED")
+            yield {"type": "next_question_chunk", "data": {"chunk": "", "accumulated": "", "is_completed": True}}
+            return
+
+        # 收集已有题目用于去重
+        existing_topics = [q.content for q in main_questions]
+        skill_id = self.skill.get("id", "")
+        historical_topics = await InterviewService.get_historical_questions(
+            user_id, skill_id, exclude_session_id=session_id
+        )
+        all_topics = list(dict.fromkeys(existing_topics + historical_topics))
+
+        # 选择分类
+        covered_categories = set(q.category for q in main_questions)
+        categories = self.skill.get("categories", [])
+        category = self._select_category(categories, existing_questions)
+
+        # 构建 prompt
+        difficulty_desc = _DIFFICULTY_MAP.get(difficulty, _DIFFICULTY_MAP["MEDIUM"])
+        dedup_section = self._get_dedup_prompt(all_topics)
+        category_name = category.get("name", "") if category else ""
+        category_desc = category.get("description", "") if category else ""
+
+        prompt = f"""你是一位专业的技术面试官。
+
+# 你的角色
+{self.skill.get('persona', '')}
+
+# 任务
+请生成下一道面试题目。这是第 {len(main_questions) + 1}/{session.question_count} 题。
+
+# 已考察的分类
+{', '.join(covered_categories) if covered_categories else '暂无'}
+
+# 要求
+- 分类: {category_name} - {category_desc}
+- 难度: {difficulty_desc}
+- 只输出题目内容，不要输出答案或其他说明
+- 题目应简洁清晰，不超过 3 句话
+{dedup_section}"""
+
+        accumulated = ""
+        async for chunk in self.conversation_model.astream([HumanMessage(content=prompt)]):
+            if chunk.content:
+                accumulated += chunk.content
+                yield {
+                    "type": "next_question_chunk",
+                    "data": {"chunk": chunk.content, "accumulated": accumulated},
+                }
+
+        # 流式结束后，保存到数据库
+        content = accumulated.strip()
+        question = InterviewQuestionTable(
+            session_id=session_id,
+            type="MAIN",
+            category=category.get("key", "general") if category else "general",
+            content=content,
+        )
+        await InterviewService.save_question(question)
+        logger.info(f"Next question streamed and saved for session {session_id}: {content[:50]}...")
 
     # ------------------------------------------------------------------
     # Internal helpers
