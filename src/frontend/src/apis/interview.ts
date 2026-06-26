@@ -49,6 +49,8 @@ export interface InterviewSession {
   status: string
   difficulty: string | null
   progress: { current: number; total: number }
+  skill_name?: string
+  total_score?: number | null
 }
 
 export interface InterviewSessionDetail {
@@ -107,6 +109,9 @@ export interface QuestionDetailData {
 
 export interface InterviewHistoryData {
   sessions: InterviewSession[]
+  total: number
+  page: number
+  page_size: number
 }
 
 // Request types
@@ -253,11 +258,24 @@ export function getEvaluationBySessionAPI(sessionId: string) {
   })
 }
 
+/** Query parameters for interview history */
+export interface HistoryQueryParams {
+  status?: string
+  skill_id?: string
+  difficulty?: string
+  keyword?: string
+  sort_by?: string
+  sort_order?: string
+  page?: number
+  page_size?: number
+}
+
 /** Get interview history for current user */
-export function getInterviewHistoryAPI() {
+export function getInterviewHistoryAPI(params?: HistoryQueryParams) {
   return request<UnifiedResponse<InterviewHistoryData>>({
     url: '/api/v1/interview/history',
-    method: 'GET'
+    method: 'GET',
+    params
   })
 }
 
