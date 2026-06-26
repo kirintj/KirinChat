@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick, onMounted, computed, watch } from 'vue'
+import { ref, nextTick, onMounted, onUnmounted, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { HButton, HMessage } from '@/components/ui'
 import { useInterviewStore } from '../../../store/interview'
@@ -62,8 +62,38 @@ watch(answerInput, debounceSaveDraft)
 
 // 监听当前题目变化，恢复新题目的草稿（提交答案后 currentQuestion 会更新）
 watch(() => interviewStore.currentQuestion, () => {
+  questionSeconds.value = 0 // 新题目重置题目计时
   nextTick(restoreDraft)
 })
+
+// --- 答题计时器：当前题目耗时 + 总面试时长 ---
+const questionSeconds = ref(0)
+const totalSeconds = ref(0)
+let timerInterval: ReturnType<typeof setInterval> | null = null
+
+// 格式化秒数为 mm:ss
+const formatTime = (seconds: number) => {
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0')
+  const s = String(seconds % 60).padStart(2, '0')
+  return `${m}:${s}`
+}
+
+// 启动计时器，每秒递增
+const startTimer = () => {
+  if (timerInterval) return
+  timerInterval = setInterval(() => {
+    questionSeconds.value += 1
+    totalSeconds.value += 1
+  }, 1000)
+}
+
+// 停止计时器
+const stopTimer = () => {
+  if (timerInterval) {
+    clearInterval(timerInterval)
+    timerInterval = null
+  }
+}
 
 const messagesContainer = ref<HTMLElement | null>(null)
 
@@ -143,6 +173,11 @@ onMounted(async () => {
 
   restoreDraft() // 页面加载时恢复草稿
   scrollBottom()
+  startTimer() // 启动答题计时器
+})
+
+onUnmounted(() => {
+  stopTimer()
 })
 </script>
 
@@ -154,7 +189,10 @@ onMounted(async () => {
         <span class="progress-label">
           第 {{ interviewStore.progress.current + (interviewStore.isActive ? 1 : 0) }} / {{ interviewStore.progress.total }} 题
         </span>
-        <span class="progress-skill">{{ interviewStore.skillName }}</span>
+        <span class="progress-skill">
+          {{ interviewStore.skillName }}
+          <span class="timer-display">⏱ {{ formatTime(questionSeconds) }} | 总 {{ formatTime(totalSeconds) }}</span>
+        </span>
       </div>
       <div class="progress-track">
         <div
@@ -261,6 +299,13 @@ onMounted(async () => {
     .progress-skill {
       font-size: 12px;
       color: var(--color-text-secondary);
+    }
+
+    .timer-display {
+      margin-left: 12px;
+      font-size: 12px;
+      color: var(--color-text-tertiary, #9ca3af);
+      font-variant-numeric: tabular-nums; // 等宽数字，避免计时跳动导致布局偏移
     }
   }
 
