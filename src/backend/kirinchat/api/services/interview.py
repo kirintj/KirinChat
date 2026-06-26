@@ -82,3 +82,20 @@ class InterviewService:
         total = len(questions)
         answered = sum(1 for q in questions if q.user_answer is not None)
         return {"current": answered, "total": total}
+
+    # ------------------------------------------------------------------
+    # 历史题目查询（跨 session 去重）
+    # ------------------------------------------------------------------
+
+    @classmethod
+    async def get_historical_questions(
+        cls, user_id: str, skill_id: str, exclude_session_id: str
+    ) -> list[str]:
+        """获取同技能方向其他 session 的历史题目内容列表。
+
+        用于出题时的跨 session 去重，返回值直接传给 _get_dedup_prompt。
+        """
+        questions = await InterviewQuestionDao.select_main_questions_by_user_skill(
+            user_id, skill_id, exclude_session_id
+        )
+        return [q.content for q in questions]
