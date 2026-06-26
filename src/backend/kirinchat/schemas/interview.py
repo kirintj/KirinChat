@@ -85,6 +85,32 @@ class InterviewCompleteResp(BaseModel):
     status: str = Field(..., description="评估状态")
 
 
+class QuestionDetailResp(BaseModel):
+    """单题评估详情响应"""
+    question_id: str = Field(..., description="题目ID")
+    session_id: str = Field(default="", description="所属会话ID")
+    content: str = Field(default="", description="题目内容")
+    user_answer: Optional[str] = Field(None, description="用户答案")
+    type: str = Field(default="MAIN", description="题目类型")
+    category: str = Field(default="", description="题目分类")
+    score: int = Field(default=0, description="得分 (0-10)")
+    feedback: str = Field(default="", description="AI 反馈")
+    reference_answer: str = Field(default="", description="参考答案")
+    skill_name: str = Field(default="", description="技能名称")
+
+
+class QuestionDetailItem(BaseModel):
+    """评估报告中的逐题摘要项"""
+    question_id: str = Field(..., description="题目ID")
+    content: str = Field(default="", description="题目内容")
+    user_answer: Optional[str] = Field(None, description="用户答案")
+    type: str = Field(default="MAIN", description="题目类型")
+    category: str = Field(default="", description="题目分类")
+    score: int = Field(default=0, description="得分 (0-10)")
+    feedback: str = Field(default="", description="AI 反馈")
+    reference_answer: str = Field(default="", description="参考答案")
+
+
 class EvaluationReportResp(BaseModel):
     """评估报告响应"""
     id: str = Field(..., description="评估ID")
@@ -93,6 +119,7 @@ class EvaluationReportResp(BaseModel):
     summary: str = Field(..., description="总结")
     strengths: List[str] = Field(default=[], description="优势列表")
     improvements: List[str] = Field(default=[], description="待改进列表")
+    question_details: List[QuestionDetailItem] = Field(default=[], description="逐题详情")
 
 
 class InterviewHistoryResp(BaseModel):
