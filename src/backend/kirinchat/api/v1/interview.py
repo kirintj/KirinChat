@@ -25,6 +25,8 @@ from kirinchat.schemas.interview import (
     SkillInfoResp,
     SkillCategoryResp,
     QuestionResp,
+    QuestionDetailResp,
+    QuestionDetailItem,
 )
 from kirinchat.api.responses.builder import resp_200, resp_500, UnifiedResponseModel
 from kirinchat.api.responses.streaming import WatchedStreamingResponse
@@ -87,6 +89,35 @@ def _skill_to_detail(skill: dict) -> SkillDetailResp:
         skill=_skill_to_info(skill),
         categories=categories,
         references=references,
+    )
+
+
+async def _build_evaluation_resp(report) -> EvaluationReportResp:
+    """构建包含逐题详情的评估报告响应。"""
+    details = await EvaluationService.get_details_by_evaluation(report.id)
+    questions = await InterviewService.get_session_questions(report.session_id)
+    q_map = {q.id: q for q in questions}
+    question_items = []
+    for d in details:
+        q = q_map.get(d.question_id)
+        question_items.append(QuestionDetailItem(
+            question_id=d.question_id,
+            content=q.content if q else "",
+            user_answer=q.user_answer if q else None,
+            type=q.type if q else "MAIN",
+            category=q.category if q else "",
+            score=d.score,
+            feedback=d.feedback,
+            reference_answer=d.reference_answer,
+        ))
+    return EvaluationReportResp(
+        id=report.id,
+        total_score=report.total_score,
+        category_scores=report.category_scores or {},
+        summary=report.summary or "",
+        strengths=report.strengths or [],
+        improvements=report.improvements or [],
+        question_details=question_items,
     )
 
 
@@ -338,20 +369,13 @@ async def get_evaluation_report(
     evaluation_id: str,
     login_user: UserPayload = Depends(get_login_user),
 ):
-    """Get an evaluation report by ID."""
+    """Get an evaluation report by ID (includes per-question details)."""
     try:
         report = await EvaluationService.get_report_by_id(evaluation_id)
         if report is None:
             return resp_500(message="Evaluation report not found")
 
-        data = EvaluationReportResp(
-            id=report.id,
-            total_score=report.total_score,
-            category_scores=report.category_scores or {},
-            summary=report.summary or "",
-            strengths=report.strengths or [],
-            improvements=report.improvements or [],
-        )
+        data = await _build_evaluation_resp(report)
         return resp_200(data=data.model_dump())
     except Exception as err:
         logger.error(f"Get evaluation report error: {err}")
@@ -363,23 +387,64 @@ async def get_evaluation_by_session(
     session_id: str,
     login_user: UserPayload = Depends(get_login_user),
 ):
-    """Get an evaluation report by session ID."""
+    """Get an evaluation report by session ID (includes per-question details)."""
     try:
         report = await EvaluationService.get_report_by_session(session_id)
         if report is None:
             return resp_500(message="Evaluation report not found for this session")
 
-        data = EvaluationReportResp(
-            id=report.id,
-            total_score=report.total_score,
-            category_scores=report.category_scores or {},
-            summary=report.summary or "",
-            strengths=report.strengths or [],
-            improvements=report.improvements or [],
-        )
+        data = await _build_evaluation_resp(report)
         return resp_200(data=data.model_dump())
     except Exception as err:
         logger.error(f"Get evaluation by session error: {err}")
+        return resp_500(message=str(err))
+
+
+@router.get("/interview/question-detail/{question_id}", response_model=UnifiedResponseModel)
+async def get_question_detail(
+    question_id: str,
+    login_user: UserPayload = Depends(get_login_user),
+):
+    """获取单题的评估详情（得分、反馈、参考答案）。"""
+    try:
+        detail = await EvaluationService.get_detail_by_question(question_id)
+        if detail is None:
+            return resp_500(message="Question detail not found")
+
+        # 通过 evaluation_id 获取 report，再通过 session_id 获取题目
+        report = await EvaluationService.get_report_by_id(detail.evaluation_id)
+        q = None
+        session = None
+        if report:
+            session = await InterviewService.get_session(report.session_id)
+            if session:
+                questions = await InterviewService.get_session_questions(session.id)
+                for candidate in questions:
+                    if candidate.id == question_id:
+                        q = candidate
+                        break
+
+        # 获取技能名称
+        skill_name = ""
+        if session:
+            skill = SkillService.get_skill_by_id(session.skill_id)
+            skill_name = skill.get("name", "") if skill else ""
+
+        data = QuestionDetailResp(
+            question_id=detail.question_id,
+            session_id=q.session_id if q else "",
+            content=q.content if q else "",
+            user_answer=q.user_answer if q else None,
+            type=q.type if q else "MAIN",
+            category=q.category if q else "",
+            score=detail.score,
+            feedback=detail.feedback,
+            reference_answer=detail.reference_answer,
+            skill_name=skill_name,
+        )
+        return resp_200(data=data.model_dump())
+    except Exception as err:
+        logger.error(f"Get question detail error: {err}")
         return resp_500(message=str(err))
 
 
