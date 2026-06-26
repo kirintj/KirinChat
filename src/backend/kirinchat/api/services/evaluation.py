@@ -1,4 +1,5 @@
 import json
+import asyncio
 import logging
 
 from kirinchat.api.services.interview import InterviewService
@@ -6,8 +7,10 @@ from kirinchat.core.models.manager import ModelManager
 from kirinchat.database.dao.interview import (
     EvaluationReportDao,
     InterviewQuestionDao,
+    EvaluationQuestionDetailDao,
 )
-from kirinchat.database.models.interview import EvaluationReportTable
+from kirinchat.database.models.interview import EvaluationReportTable, EvaluationQuestionDetailTable
+from kirinchat.utils.llm_parser import parse_llm_json
 
 logger = logging.getLogger(__name__)
 
@@ -23,18 +26,7 @@ class EvaluationService:
 
     @classmethod
     async def evaluate_session(cls, session_id):
-        """Evaluate an interview session -- main entry point.
-
-        Flow:
-        1. Fetch all questions for the session.
-        2. Split into batches.
-        3. Evaluate each batch via LLM (skip on failure).
-        4. Merge batch results.
-        5. Generate a summary via LLM (fallback to default on failure).
-        6. Save the report.
-        7. Update individual question scores.
-        8. Update session status to EVALUATED.
-        """
+        """Evaluate an interview session -- main entry point."""
         questions = await InterviewService.get_session_questions(session_id)
 
         if not questions:
@@ -42,18 +34,13 @@ class EvaluationService:
             await InterviewService.update_session_status(session_id, "EVALUATED")
             return report
 
-        # Convert question objects to dicts for easier manipulation
         question_dicts = [cls._question_to_dict(q) for q in questions]
         batches = cls._batch_questions(question_dicts, cls.DEFAULT_BATCH_SIZE)
 
-        batch_results = []
-        for batch in batches:
-            try:
-                result = await cls._evaluate_batch(batch)
-                if result is not None:
-                    batch_results.append(result)
-            except Exception:
-                logger.exception("Batch evaluation failed for batch of %d questions", len(batch))
+        # [P4] 并行评估所有批次
+        tasks = [cls._evaluate_batch_safe(batch) for batch in batches]
+        batch_results = await asyncio.gather(*tasks)
+        batch_results = [r for r in batch_results if r is not None]
 
         if not batch_results:
             report = await cls._save_default_report(session_id)
@@ -79,7 +66,6 @@ class EvaluationService:
         merged.setdefault("total_score", 0.0)
         merged.setdefault("category_scores", {})
 
-        # Save report
         report = EvaluationReportTable(
             session_id=session_id,
             total_score=merged["total_score"],
@@ -90,29 +76,43 @@ class EvaluationService:
         )
         report = await EvaluationReportDao.create_report(report)
 
-        # Update question scores
+        # 持久化逐题评估详情（得分 + 反馈 + 参考答案）
+        detail_objects = []
         for qs in merged.get("question_scores", []):
             qid = qs.get("id")
             score = qs.get("score")
             if qid and score is not None:
-                try:
-                    await InterviewQuestionDao.update_question_score(qid, float(score))
-                except Exception:
-                    logger.exception("Failed to update score for question %s", qid)
+                detail = EvaluationQuestionDetailTable(
+                    evaluation_id=report.id,
+                    question_id=qid,
+                    score=int(float(score)),
+                    feedback=qs.get("feedback", ""),
+                    reference_answer=qs.get("reference_answer", ""),
+                )
+                detail_objects.append(detail)
+        if detail_objects:
+            await EvaluationQuestionDetailDao.batch_create(detail_objects)
 
-        # Update session status
         await InterviewService.update_session_status(session_id, "EVALUATED")
         return report
 
     @classmethod
     async def get_report_by_id(cls, report_id):
-        """Get an evaluation report by its ID."""
         return await EvaluationReportDao.select_report_by_id(report_id)
 
     @classmethod
     async def get_report_by_session(cls, session_id):
-        """Get an evaluation report by session ID."""
         return await EvaluationReportDao.select_report_by_session(session_id)
+
+    @classmethod
+    async def get_details_by_evaluation(cls, evaluation_id: str):
+        """获取评估报告的逐题详情列表。"""
+        return await EvaluationQuestionDetailDao.select_by_evaluation_id(evaluation_id)
+
+    @classmethod
+    async def get_detail_by_question(cls, question_id: str):
+        """获取单题的评估详情。"""
+        return await EvaluationQuestionDetailDao.select_by_question_id(question_id)
 
     # ------------------------------------------------------------------
     # Internal helpers
@@ -120,7 +120,6 @@ class EvaluationService:
 
     @classmethod
     def _batch_questions(cls, questions, batch_size=DEFAULT_BATCH_SIZE):
-        """Split questions into batches of ``batch_size``."""
         if not questions:
             return []
         return [
@@ -129,8 +128,16 @@ class EvaluationService:
         ]
 
     @classmethod
+    async def _evaluate_batch_safe(cls, batch):
+        """安全评估单个批次，失败返回 None。"""
+        try:
+            return await cls._evaluate_batch(batch)
+        except Exception:
+            logger.exception("Batch evaluation failed for batch of %d questions", len(batch))
+            return None
+
+    @classmethod
     async def _evaluate_batch(cls, batch):
-        """Evaluate a single batch of questions via LLM."""
         prompt = cls._build_evaluation_prompt(batch)
         llm = ModelManager.get_conversation_model()
         response = await llm.ainvoke(prompt)
@@ -139,7 +146,6 @@ class EvaluationService:
 
     @classmethod
     async def _summarize_evaluation(cls, merged):
-        """Generate a human-readable summary of the merged evaluation."""
         summary_prompt = (
             "你是一位专业的面试评估专家。请根据以下评估结果，撰写一段简洁的中文评估总结（3-5句话）。\n\n"
             f"总分: {merged.get('total_score', 0)}\n"
@@ -155,7 +161,6 @@ class EvaluationService:
 
     @classmethod
     def _build_evaluation_prompt(cls, batch):
-        """Build the LLM prompt for evaluating a batch of questions."""
         questions_text = ""
         for q in batch:
             questions_text += (
@@ -172,7 +177,7 @@ class EvaluationService:
             "{\n"
             '  "category_scores": {"分类名": 分数(0-10)},\n'
             '  "question_scores": [\n'
-            '    {"id": "题目ID", "score": 分数(0-10), "feedback": "简短评价"}\n'
+            '    {"id": "题目ID", "score": 分数(0-10), "feedback": "简短评价(50字以内)", "reference_answer": "该题的标准参考答案(100字以内)"}\n'
             "  ],\n"
             '  "strengths": ["优势1", "优势2"],\n'
             '  "improvements": ["改进1", "改进2"]\n'
@@ -186,46 +191,34 @@ class EvaluationService:
     def _parse_evaluation_result(cls, content, batch):
         """Parse the LLM evaluation response into a structured dict."""
         try:
-            # Try to extract JSON from the response
-            text = content.strip()
-            # Handle markdown code blocks
-            if "```" in text:
-                # Extract content between ``` markers
-                parts = text.split("```")
-                for part in parts:
-                    part = part.strip()
-                    if part.startswith("json"):
-                        part = part[4:].strip()
-                    if part.startswith("{"):
-                        text = part
-                        break
-
-            result = json.loads(text)
-
-            # Validate and normalize
-            category_scores = result.get("category_scores", {})
-            question_scores = result.get("question_scores", [])
-
-            # Ensure all questions from the batch have a score entry
-            scored_ids = {qs.get("id") for qs in question_scores}
-            for q in batch:
-                qid = q.get("id")
-                if qid and qid not in scored_ids:
-                    question_scores.append({"id": qid, "score": 0.0, "feedback": "未评分"})
-
-            return {
-                "category_scores": {k: float(v) for k, v in category_scores.items()},
-                "question_scores": question_scores,
-                "strengths": result.get("strengths", []),
-                "improvements": result.get("improvements", []),
-            }
-        except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+            result = parse_llm_json(content)
+        except (json.JSONDecodeError, ValueError):
             logger.warning("Failed to parse LLM evaluation result")
             return None
 
+        category_scores = result.get("category_scores", {})
+        question_scores = result.get("question_scores", [])
+
+        scored_ids = {qs.get("id") for qs in question_scores}
+        for q in batch:
+            qid = q.get("id")
+            if qid and qid not in scored_ids:
+                question_scores.append({"id": qid, "score": 0.0, "feedback": "未评分", "reference_answer": ""})
+
+        try:
+            normalized_categories = {k: float(v) for k, v in category_scores.items()}
+        except (ValueError, TypeError):
+            normalized_categories = {}
+
+        return {
+            "category_scores": normalized_categories,
+            "question_scores": question_scores,
+            "strengths": result.get("strengths", []),
+            "improvements": result.get("improvements", []),
+        }
+
     @classmethod
     def _merge_batch_results(cls, batch_results):
-        """Merge results from multiple batches into a single evaluation."""
         if not batch_results:
             return {
                 "total_score": 0.0,
@@ -240,7 +233,6 @@ class EvaluationService:
         all_strengths = []
         all_improvements = []
 
-        # Collect category scores -- average across batches
         category_counts = {}
         for result in batch_results:
             for cat, score in result.get("category_scores", {}).items():
@@ -254,13 +246,11 @@ class EvaluationService:
             all_strengths.extend(result.get("strengths", []))
             all_improvements.extend(result.get("improvements", []))
 
-        # Average category scores
         for cat in merged_categories:
             count = category_counts[cat]
             if count > 0:
                 merged_categories[cat] = round(merged_categories[cat] / count, 1)
 
-        # Compute total score as average of all question scores
         scores = [
             float(qs.get("score", 0))
             for qs in all_question_scores
@@ -278,7 +268,6 @@ class EvaluationService:
 
     @classmethod
     def _question_to_dict(cls, q):
-        """Convert a question ORM object to a plain dict."""
         return {
             "id": q.id,
             "content": q.content,
@@ -289,7 +278,6 @@ class EvaluationService:
 
     @classmethod
     def _build_default_report(cls):
-        """Build a default (empty) evaluation report dict."""
         return {
             "total_score": 0.0,
             "summary": "暂无评估数据。",
@@ -300,7 +288,6 @@ class EvaluationService:
 
     @classmethod
     async def _save_default_report(cls, session_id):
-        """Save a default evaluation report to the database."""
         default = cls._build_default_report()
         report = EvaluationReportTable(
             session_id=session_id,
@@ -311,3 +298,10 @@ class EvaluationService:
             improvements=default["improvements"],
         )
         return await EvaluationReportDao.create_report(report)
+
+    @staticmethod
+    async def _update_question_score_safe(qid: str, score: float):
+        try:
+            await InterviewQuestionDao.update_question_score(qid, score)
+        except Exception:
+            logger.exception("Failed to update score for question %s", qid)
