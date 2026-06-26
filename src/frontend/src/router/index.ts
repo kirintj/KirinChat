@@ -27,7 +27,7 @@ import WorkspacePage from '../pages/workspace/workspacePage/workspacePage.vue'
 import WorkspaceDefaultPage from '../pages/workspace/defaultPage/defaultPage.vue'
 import TaskGraphPage from '../pages/workspace/taskGraphPage/taskGraphPage.vue'
 import Dashboard from '../pages/dashboard'
-import { Interview, InterviewDefault, InterviewChat, InterviewReport, InterviewLearning } from '../pages/interview'
+import { Interview, InterviewDefault, InterviewChat, InterviewReport, InterviewLearning, InterviewHub } from '../pages/interview'
 import type { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
@@ -213,6 +213,13 @@ const routes: RouteRecordRaw[] = [
         },
         children: [
           {
+            // hub 路由放在 default 路由之前，确保 /interview/hub 能被正确匹配
+            // 如果放在 '' 空路径后面，空路径作为兜底会优先匹配
+            path: 'hub',
+            name: 'interviewHub',
+            component: InterviewHub,
+          },
+          {
             path: '',
             name: 'interviewDefault',
             component: InterviewDefault,
@@ -248,6 +255,14 @@ const routes: RouteRecordRaw[] = [
             component: () => import('@/pages/interview/jdParsePage/jdParsePage.vue'),
           }
         ]
+      },
+      {
+        path: '/voice-interview',
+        name: 'voiceInterview',
+        component: () => import('@/pages/voice-interview/index.vue'),
+        meta: {
+          current: 'interview'
+        },
       },
       {
         path: '/workspace',
