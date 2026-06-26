@@ -555,7 +555,7 @@ async def get_learning_path(
 
 @router.get("/interview/evaluation/{evaluation_id}/pdf")
 async def download_evaluation_pdf(evaluation_id: str, login_user: UserPayload = Depends(get_login_user)):
-    """下载面试评估报告 PDF。"""
+    """下载面试评估报告 PDF（含逐题详情）。"""
     try:
         report = await EvaluationService.get_report_by_id(evaluation_id)
         if not report:
@@ -568,12 +568,29 @@ async def download_evaluation_pdf(evaluation_id: str, login_user: UserPayload = 
         skill = SkillService.get_skill_by_id(session.skill_id) if session else None
         skill_name = skill.get("name", "未知") if skill else "未知"
 
+        # 获取逐题详情
+        details = await EvaluationService.get_details_by_evaluation(evaluation_id)
+        questions = await InterviewService.get_session_questions(report.session_id) if session else []
+        q_map = {q.id: q for q in questions}
+
+        question_details = []
+        for d in details:
+            q = q_map.get(d.question_id)
+            question_details.append({
+                "content": q.content if q else "",
+                "user_answer": q.user_answer if q else "",
+                "score": d.score,
+                "feedback": d.feedback,
+                "reference_answer": d.reference_answer,
+            })
+
         report_data = {
             "total_score": report.total_score,
             "category_scores": report.category_scores,
             "summary": report.summary,
             "strengths": report.strengths,
             "improvements": report.improvements,
+            "question_details": question_details,
         }
 
         with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as f:
