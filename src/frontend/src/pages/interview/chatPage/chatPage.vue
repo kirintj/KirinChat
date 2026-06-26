@@ -150,25 +150,50 @@ const goBack = () => {
 }
 
 onMounted(async () => {
-  // If no active interview, try to restore from route query
+  // 如果没有活跃面试，尝试从 URL sessionId 恢复
   if (!interviewStore.isActive && !interviewStore.isCompleted) {
     const sessionId = router.currentRoute.value.query.sessionId as string
     if (sessionId) {
       try {
         const res = await getSessionDetailAPI(sessionId)
         if (res.data.status_code === 200 && res.data.data) {
-          // Redirect to report if completed
-          const session = res.data.data.session
+          const { session, questions } = res.data.data
+
+          // 已完成的面试跳转到报告页
           if (session.status === 'COMPLETED') {
             router.replace({ path: '/interview/report', query: { sessionId } })
             return
           }
+
+          // 从后端数据重建面试状态（服务端恢复）
+          interviewStore.sessionId = session.id
+          interviewStore.skillId = session.skill_id
+          interviewStore.difficulty = session.difficulty || 'MEDIUM'
+          interviewStore.questionCount = session.progress.total
+          interviewStore.status = 'IN_PROGRESS'
+
+          // 重建对话历史：遍历题目，已回答的生成 interviewer+candidate 消息对
+          const restoredMessages: { role: 'interviewer' | 'candidate'; content: string }[] = []
+          let restoredQuestion = null
+          for (const q of questions) {
+            restoredMessages.push({ role: 'interviewer', content: q.content })
+            if (q.user_answer) {
+              restoredMessages.push({ role: 'candidate', content: q.user_answer })
+            } else if (!restoredQuestion) {
+              restoredQuestion = q // 第一个未回答的题目作为当前题
+            }
+          }
+          interviewStore.messages = restoredMessages
+          interviewStore.currentQuestion = restoredQuestion
+          interviewStore.progress = session.progress
         }
       } catch { /* ignore */ }
     }
-    // No active session, go back to selection
-    router.replace('/interview')
-    return
+    // 恢复失败，回到选择页
+    if (!interviewStore.isActive) {
+      router.replace('/interview')
+      return
+    }
   }
 
   restoreDraft() // 页面加载时恢复草稿
