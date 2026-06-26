@@ -71,6 +71,17 @@ export interface InterviewCompleteData {
   status: string
 }
 
+export interface QuestionDetailItem {
+  question_id: string
+  content: string
+  user_answer: string | null
+  type: string
+  category: string
+  score: number
+  feedback: string
+  reference_answer: string
+}
+
 export interface EvaluationReport {
   id: string
   total_score: number
@@ -78,6 +89,20 @@ export interface EvaluationReport {
   summary: string
   strengths: string[]
   improvements: string[]
+  question_details: QuestionDetailItem[]
+}
+
+export interface QuestionDetailData {
+  question_id: string
+  session_id: string
+  content: string
+  user_answer: string | null
+  type: string
+  category: string
+  score: number
+  feedback: string
+  reference_answer: string
+  skill_name: string
 }
 
 export interface InterviewHistoryData {
@@ -270,6 +295,14 @@ export interface LearningPath {
   overall_avg_score: number
   overall_level: string
   overall_level_label: string
+}
+
+/** 获取单题评估详情 */
+export function getQuestionDetailAPI(questionId: string) {
+  return request<UnifiedResponse<QuestionDetailData>>({
+    url: `/api/v1/interview/question-detail/${questionId}`,
+    method: 'GET'
+  })
 }
 
 /** Get personalized learning path for a skill */
