@@ -54,7 +54,7 @@ def _question_to_resp(q) -> QuestionResp:
     )
 
 
-def _session_to_resp(session, skill_name: str = "", total_score: float | None = None) -> InterviewSessionResp:
+def _session_to_resp(session, skill_name: str = "", total_score: Optional[float] = None) -> InterviewSessionResp:
     """Convert an InterviewSessionTable to an InterviewSessionResp."""
     return InterviewSessionResp(
         id=session.id,
@@ -467,15 +467,31 @@ async def get_interview_history(
 ):
     """获取面试历史列表，支持筛选、排序、分页。"""
     try:
+        # 参数校验
+        page = max(1, page)
+        page_size = max(1, min(page_size, 100))
+
         # 查询用户所有会话
         sessions = await InterviewService.get_user_sessions(login_user.user_id)
 
         # 为每个会话补充 skill_name 和 total_score，同时做筛选
         enriched = []
         for s in sessions:
+            # 廉价筛选（仅需 session 对象）
+            if status and s.status != status:
+                continue
+            if skill_id and s.skill_id != skill_id:
+                continue
+            if difficulty and s.difficulty != difficulty:
+                continue
+
             # 获取技能名称
             skill = SkillService.get_skill_by_id(s.skill_id)
             skill_name = skill.get("name", "") if skill else ""
+
+            # 关键词筛选（需要 skill_name）
+            if keyword and keyword.lower() not in skill_name.lower():
+                continue
 
             # 获取总分（仅已评估的会话有）
             report = await EvaluationService.get_report_by_session(s.id)
@@ -483,19 +499,6 @@ async def get_interview_history(
 
             # 计算进度
             progress = await InterviewService.calculate_progress(s.id)
-
-            # 筛选：status
-            if status and s.status != status:
-                continue
-            # 筛选：skill_id
-            if skill_id and s.skill_id != skill_id:
-                continue
-            # 筛选：difficulty
-            if difficulty and s.difficulty != difficulty:
-                continue
-            # 筛选：keyword（匹配技能名称）
-            if keyword and keyword.lower() not in skill_name.lower():
-                continue
 
             enriched.append({
                 "session": s,
