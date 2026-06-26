@@ -78,3 +78,24 @@ class EvaluationReportTable(SQLModelSerializable, table=True):
         ),
         description="创建时间"
     )
+
+
+class EvaluationQuestionDetailTable(SQLModelSerializable, table=True):
+    """评估逐题详情表：存储每道题的得分、AI反馈和参考答案。"""
+    __tablename__ = "evaluation_question_detail"
+
+    id: str = Field(default_factory=lambda: uuid4().hex, primary_key=True, description="详情ID")
+    evaluation_id: str = Field(description="关联评估报告ID")
+    question_id: str = Field(description="关联面试题目ID")
+    score: int = Field(default=0, description="该题得分 (0-10)")
+    feedback: str = Field(default="", sa_column=Column(Text), description="AI 对该题答案的评价")
+    reference_answer: str = Field(default="", sa_column=Column(Text), description="参考答案")
+
+    create_time: Optional[datetime] = Field(
+        sa_column=Column(
+            DateTime,
+            nullable=False,
+            server_default=text('CURRENT_TIMESTAMP')
+        ),
+        description="创建时间"
+    )
