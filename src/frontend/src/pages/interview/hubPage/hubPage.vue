@@ -161,7 +161,7 @@ onMounted(() => {
         <section class="hub-section">
           <div class="section-header">
             <h3 class="section-title">最近面试</h3>
-            <span class="section-link" @click="router.push('/interview')">查看全部 &rarr;</span>
+            <router-link to="/interview/history" class="view-all-link">查看全部 &rarr;</router-link>
           </div>
           <div v-if="recentInterviews.length > 0" class="recent-list">
             <RecentInterviewItem
@@ -267,6 +267,17 @@ onMounted(() => {
   font-size: 13px;
   color: var(--primary-color, #6366f1);
   cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.view-all-link {
+  font-size: 13px;
+  color: var(--color-primary, #6366f1);
+  text-decoration: none;
+  font-weight: 400;
 
   &:hover {
     text-decoration: underline;
