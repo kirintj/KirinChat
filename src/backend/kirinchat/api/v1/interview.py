@@ -43,6 +43,7 @@ def _question_to_resp(q) -> QuestionResp:
         type=q.type,
         category=q.category,
         content=q.content,
+        user_answer=q.user_answer,
     )
 
 
@@ -52,6 +53,7 @@ def _session_to_resp(session) -> InterviewSessionResp:
         id=session.id,
         skill_id=session.skill_id,
         status=session.status,
+        difficulty=session.difficulty,
         progress={},
     )
 

@@ -49,6 +49,7 @@ class QuestionResp(BaseModel):
     type: str = Field(..., description="题目类型")
     category: str = Field(..., description="题目分类")
     content: str = Field(..., description="题目内容")
+    user_answer: Optional[str] = Field(None, description="用户答案（未答则为 null）")
 
 
 class InterviewStartResp(BaseModel):
@@ -68,6 +69,7 @@ class InterviewSessionResp(BaseModel):
     id: str = Field(..., description="会话ID")
     skill_id: str = Field(..., description="技能ID")
     status: str = Field(..., description="会话状态")
+    difficulty: Optional[str] = Field(None, description="难度等级")
     progress: Dict[str, int] = Field(default={}, description="进度信息")
 
 
