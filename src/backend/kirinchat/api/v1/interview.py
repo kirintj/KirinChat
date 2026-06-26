@@ -1,3 +1,6 @@
+from datetime import datetime
+from typing import Optional
+
 from loguru import logger
 from fastapi import APIRouter, Depends
 from fastapi.responses import FileResponse
@@ -51,7 +54,7 @@ def _question_to_resp(q) -> QuestionResp:
     )
 
 
-def _session_to_resp(session) -> InterviewSessionResp:
+def _session_to_resp(session, skill_name: str = "", total_score: float | None = None) -> InterviewSessionResp:
     """Convert an InterviewSessionTable to an InterviewSessionResp."""
     return InterviewSessionResp(
         id=session.id,
@@ -59,6 +62,8 @@ def _session_to_resp(session) -> InterviewSessionResp:
         status=session.status,
         difficulty=session.difficulty,
         progress={},
+        skill_name=skill_name,
+        total_score=total_score,
     )
 
 
@@ -450,19 +455,89 @@ async def get_question_detail(
 
 @router.get("/interview/history", response_model=UnifiedResponseModel)
 async def get_interview_history(
+    status: Optional[str] = None,
+    skill_id: Optional[str] = None,
+    difficulty: Optional[str] = None,
+    keyword: Optional[str] = None,
+    sort_by: str = "create_time",
+    sort_order: str = "desc",
+    page: int = 1,
+    page_size: int = 20,
     login_user: UserPayload = Depends(get_login_user),
 ):
-    """Get interview history for the current user."""
+    """获取面试历史列表，支持筛选、排序、分页。"""
     try:
+        # 查询用户所有会话
         sessions = await InterviewService.get_user_sessions(login_user.user_id)
-        session_resps = []
-        for s in sessions:
-            progress = await InterviewService.calculate_progress(s.id)
-            sr = _session_to_resp(s)
-            sr.progress = progress
-            session_resps.append(sr)
 
-        data = InterviewHistoryResp(sessions=session_resps)
+        # 为每个会话补充 skill_name 和 total_score，同时做筛选
+        enriched = []
+        for s in sessions:
+            # 获取技能名称
+            skill = SkillService.get_skill_by_id(s.skill_id)
+            skill_name = skill.get("name", "") if skill else ""
+
+            # 获取总分（仅已评估的会话有）
+            report = await EvaluationService.get_report_by_session(s.id)
+            total_score = report.total_score if report else None
+
+            # 计算进度
+            progress = await InterviewService.calculate_progress(s.id)
+
+            # 筛选：status
+            if status and s.status != status:
+                continue
+            # 筛选：skill_id
+            if skill_id and s.skill_id != skill_id:
+                continue
+            # 筛选：difficulty
+            if difficulty and s.difficulty != difficulty:
+                continue
+            # 筛选：keyword（匹配技能名称）
+            if keyword and keyword.lower() not in skill_name.lower():
+                continue
+
+            enriched.append({
+                "session": s,
+                "skill_name": skill_name,
+                "total_score": total_score,
+                "progress": progress,
+            })
+
+        # 排序
+        reverse = sort_order.lower() == "desc"
+        if sort_by == "total_score":
+            # None 排到最后
+            enriched.sort(key=lambda x: (x["total_score"] is None, x["total_score"] or 0), reverse=reverse)
+        else:
+            # 默认按 create_time 排序
+            enriched.sort(key=lambda x: x["session"].create_time or datetime.min, reverse=reverse)
+
+        # 分页
+        total = len(enriched)
+        start = (page - 1) * page_size
+        end = start + page_size
+        page_items = enriched[start:end]
+
+        # 构建响应
+        session_resps = [
+            _session_to_resp(
+                item["session"],
+                skill_name=item["skill_name"],
+                total_score=item["total_score"],
+            )
+            for item in page_items
+        ]
+        # 给每个 session_resp 填充 progress
+        for resp_obj, item in zip(session_resps, page_items):
+            resp_obj.progress = item["progress"]
+
+        data = InterviewHistoryResp(
+            sessions=session_resps,
+            total=total,
+            page=page,
+            page_size=page_size,
+        )
         return resp_200(data=data.model_dump())
     except Exception as err:
         logger.error(f"Get interview history error: {err}")
