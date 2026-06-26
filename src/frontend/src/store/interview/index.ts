@@ -4,6 +4,7 @@ import type { InterviewQuestion } from '../../apis/interview'
 import {
   startInterviewAPI,
   submitAnswerAPI,
+  submitAnswerStreamAPI,
   completeInterviewAPI,
   getEvaluationReportAPI,
 } from '../../apis/interview'
@@ -112,6 +113,71 @@ export const useInterviewStore = defineStore('interview', () => {
     }
   }
 
+  async function submitAnswerStream(answer: string): Promise<boolean> {
+    if (!currentQuestion.value || !sessionId.value) return false
+    loading.value = true
+
+    // 添加候选人消息
+    messages.value.push({ role: 'candidate', content: answer })
+    const answeredQuestionId = currentQuestion.value.id
+
+    return new Promise((resolve) => {
+      // 添加空的 AI 消息气泡（用于流式填充）
+      const aiMessageIndex = messages.value.length
+      messages.value.push({ role: 'interviewer', content: '' })
+
+      submitAnswerStreamAPI(
+        {
+          session_id: sessionId.value,
+          question_id: answeredQuestionId,
+          answer,
+        },
+        {
+          onFollowUpChunk(_chunk: string, accumulated: string) {
+            // 实时更新追问题消息内容
+            messages.value[aiMessageIndex].content = accumulated
+          },
+          onNextQuestionChunk(_chunk: string, accumulated: string) {
+            // 如果追问题已完成，添加新的下一题消息气泡
+            if (messages.value.length === aiMessageIndex + 1) {
+              messages.value.push({ role: 'interviewer', content: accumulated })
+            } else {
+              // 已经有下一题消息气泡，更新它
+              messages.value[messages.value.length - 1].content = accumulated
+            }
+          },
+          onDone(result) {
+            if (result.is_completed) {
+              status.value = 'COMPLETED'
+              currentQuestion.value = null
+              messages.value.push({
+                role: 'interviewer',
+                content: '面试已结束！正在为你生成评估报告...',
+              })
+            } else if (result.next_question) {
+              // 更新 currentQuestion
+              currentQuestion.value = {
+                id: '',
+                type: 'MAIN',
+                category: '',
+                content: result.next_question.content,
+                user_answer: null,
+              }
+              // 更新进度（只有 MAIN 类型才计数）
+              progress.value.current += 1
+            }
+            loading.value = false
+            resolve(true)
+          },
+          onError() {
+            loading.value = false
+            resolve(false)
+          },
+        },
+      )
+    })
+  }
+
   async function endInterview(): Promise<string | null> {
     if (!sessionId.value) return null
     loading.value = true
@@ -174,6 +240,7 @@ export const useInterviewStore = defineStore('interview', () => {
     // Actions
     startInterview,
     submitAnswer,
+    submitAnswerStream,
     endInterview,
     fetchReport,
     reset,
