@@ -109,6 +109,7 @@ async def start_interview(
         await agent.init_interview_agent(skill_id=req.skill_id)
         first_question = await agent.generate_first_question(
             session_id=session.id,
+            user_id=login_user.user_id,
             difficulty=req.difficulty,
         )
 
@@ -166,6 +167,7 @@ async def submit_answer(
             # No follow-up; try to generate the next main question
             next_q = await agent.generate_next_question(
                 session_id=req.session_id,
+                user_id=login_user.user_id,
                 difficulty=session.difficulty,
             )
             if next_q is not None:
