@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { HButton, HMessage } from '@/components/ui'
 import { useInterviewStore } from '../../../store/interview'
 import { getEvaluationReportAPI, getEvaluationBySessionAPI } from '../../../apis/interview'
 import type { EvaluationReport } from '../../../apis/interview'
+import * as echarts from 'echarts'
 
 const router = useRouter()
 const interviewStore = useInterviewStore()
@@ -33,6 +34,44 @@ const categoryEntries = computed(() => {
   return Object.entries(report.value.category_scores)
 })
 
+// --- 雷达图 ---
+const radarChartRef = ref<HTMLElement | null>(null)
+let radarChart: echarts.ECharts | null = null
+
+// 初始化雷达图
+const initRadarChart = () => {
+  if (!radarChartRef.value || !report.value?.category_scores) return
+  const scores = report.value.category_scores
+  const indicator = Object.keys(scores).map(name => ({ name, max: 100 }))
+  const values = Object.values(scores)
+
+  radarChart = echarts.init(radarChartRef.value)
+  radarChart.setOption({
+    radar: {
+      indicator,
+      shape: 'polygon',
+      splitNumber: 5,
+      axisName: {
+        color: '#6b7280',
+        fontSize: 12,
+      },
+      splitLine: { lineStyle: { color: '#e5e7eb' } },
+      splitArea: { show: false },
+    },
+    series: [{
+      type: 'radar',
+      data: [{
+        value: values,
+        areaStyle: { opacity: 0.15 },
+        lineStyle: { width: 2 },
+      }],
+    }],
+  })
+}
+
+// 窗口 resize 时重绘图表
+const handleResize = () => { radarChart?.resize() }
+
 const fetchReport = async () => {
   loading.value = true
   try {
@@ -44,6 +83,7 @@ const fetchReport = async () => {
       const res = await getEvaluationReportAPI(evalId)
       if (res.data.status_code === 200 && res.data.data) {
         report.value = res.data.data
+        nextTick(initRadarChart)
       } else {
         HMessage.error('获取评估报告失败')
       }
@@ -52,6 +92,7 @@ const fetchReport = async () => {
       const res = await getEvaluationBySessionAPI(sessionId)
       if (res.data.status_code === 200 && res.data.data) {
         report.value = res.data.data
+        nextTick(initRadarChart)
       } else {
         HMessage.error('该面试尚未生成评估报告')
         router.replace('/interview')
@@ -78,6 +119,12 @@ const goBack = () => {
 
 onMounted(() => {
   fetchReport()
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+  radarChart?.dispose()
 })
 </script>
 
@@ -132,6 +179,12 @@ onMounted(() => {
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- 雷达图 -->
+      <div v-if="categoryEntries.length > 0" class="section">
+        <h3 class="section-title">能力雷达图</h3>
+        <div ref="radarChartRef" class="radar-chart"></div>
       </div>
 
       <!-- Summary -->
@@ -340,6 +393,12 @@ onMounted(() => {
   }
 }
 
+// 雷达图
+.radar-chart {
+  width: 100%;
+  height: 300px;
+}
+
 // Summary
 .summary-text {
   font-size: 14px;
@@ -364,13 +423,13 @@ onMounted(() => {
   font-size: 13px;
 
   &.tag-strength {
-    background: #e8f5e9;
-    color: #2e7d32;
+    background: var(--color-success-bg);
+    color: var(--color-success);
   }
 
   &.tag-improve {
-    background: #fff3e0;
-    color: #e65100;
+    background: var(--color-warning-bg);
+    color: var(--color-warning);
   }
 }
 
