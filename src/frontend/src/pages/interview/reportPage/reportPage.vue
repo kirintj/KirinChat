@@ -117,6 +117,31 @@ const goBack = () => {
   router.push('/interview')
 }
 
+const downloadPDF = () => {
+  if (!report.value) return
+  const token = localStorage.getItem('token') || ''
+  const url = `/api/v1/interview/evaluation/${report.value.id}/pdf`
+  fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+    .then(res => res.blob())
+    .then(blob => {
+      const blobUrl = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = blobUrl
+      a.download = `evaluation_${report.value!.id}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(blobUrl)
+    })
+    .catch(() => HMessage.error('PDF 下载失败'))
+}
+
+const goToQuestionDetail = (questionId: string) => {
+  router.push({ path: `/interview/question/${questionId}` })
+}
+
 onMounted(() => {
   fetchReport()
   window.addEventListener('resize', handleResize)
@@ -213,8 +238,42 @@ onUnmounted(() => {
         </div>
       </div>
 
+      <!-- Question Details List -->
+      <div v-if="report.question_details?.length" class="section">
+        <h3 class="section-title">题目详情</h3>
+        <div class="question-list">
+          <div
+            v-for="(q, index) in report.question_details"
+            :key="q.question_id"
+            class="question-item"
+            @click="goToQuestionDetail(q.question_id)"
+          >
+            <div class="question-left">
+              <span class="question-index">Q{{ index + 1 }}</span>
+              <span class="question-text">{{ q.content }}</span>
+            </div>
+            <div class="question-right">
+              <span
+                class="question-score-badge"
+                :class="{
+                  'score-high': q.score >= 8,
+                  'score-mid': q.score >= 6 && q.score < 8,
+                  'score-low': q.score < 6,
+                }"
+              >
+                {{ q.score }}/10
+              </span>
+              <span class="question-arrow">→</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Actions -->
       <div class="report-actions">
+        <HButton type="secondary" size="large" @click="downloadPDF">
+          下载 PDF
+        </HButton>
         <HButton type="primary" size="large" @click="startNewInterview">
           重新面试
         </HButton>
@@ -430,6 +489,85 @@ onUnmounted(() => {
   &.tag-improve {
     background: var(--color-warning-bg);
     color: var(--color-warning);
+  }
+}
+
+// Question list
+.question-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.question-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--easing);
+
+  &:hover {
+    background: var(--color-primary-bg);
+  }
+
+  .question-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+
+    .question-index {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-primary);
+      flex-shrink: 0;
+    }
+
+    .question-text {
+      font-size: 14px;
+      color: var(--color-text-primary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .question-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+
+    .question-score-badge {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+
+      &.score-high {
+        background: var(--color-success-bg);
+        color: var(--color-success);
+      }
+
+      &.score-mid {
+        background: var(--color-warning-bg);
+        color: var(--color-warning);
+      }
+
+      &.score-low {
+        background: rgba(244, 67, 54, 0.1);
+        color: #f44336;
+      }
+    }
+
+    .question-arrow {
+      font-size: 14px;
+      color: var(--color-text-tertiary);
+    }
   }
 }
 
