@@ -2,10 +2,11 @@ from datetime import datetime
 from typing import Optional
 
 from loguru import logger
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, BackgroundTasks, Depends
 from fastapi.responses import FileResponse
 import json
-import tempfile
+
+from kirinchat.common.utils.temp_file import make_temp_path, cleanup_temp_file
 
 from kirinchat.api.services.interview import InterviewService
 from kirinchat.api.services.skill import SkillService
@@ -659,7 +660,11 @@ async def get_learning_path(
 
 
 @router.get("/interview/evaluation/{evaluation_id}/pdf")
-async def download_evaluation_pdf(evaluation_id: str, login_user: UserPayload = Depends(get_login_user)):
+async def download_evaluation_pdf(
+    evaluation_id: str,
+    background_tasks: BackgroundTasks,
+    login_user: UserPayload = Depends(get_login_user),
+):
     """下载面试评估报告 PDF（含逐题详情）。"""
     try:
         report = await EvaluationService.get_report_by_id(evaluation_id)
@@ -698,10 +703,12 @@ async def download_evaluation_pdf(evaluation_id: str, login_user: UserPayload = 
             "question_details": question_details,
         }
 
-        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as f:
-            output_path = f.name
-
+        # 使用 UUID 生成唯一临时文件路径，避免并发冲突
+        output_path = make_temp_path(suffix=".pdf")
         PdfService.generate_evaluation_report(report_data, skill_name, output_path)
+
+        # 注册后台任务：响应发送完成后清理临时文件
+        background_tasks.add_task(cleanup_temp_file, output_path)
         return FileResponse(output_path, filename=f"evaluation_{evaluation_id}.pdf", media_type="application/pdf")
     except Exception as e:
         logger.exception("Download evaluation PDF failed")
