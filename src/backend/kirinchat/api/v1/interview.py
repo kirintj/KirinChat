@@ -12,6 +12,7 @@ from kirinchat.api.services.skill import SkillService
 from kirinchat.api.services.evaluation import EvaluationService
 from kirinchat.api.services.learning import LearningService
 from kirinchat.core.agents.interview_agent import InterviewAgent
+from kirinchat.database.dao.interview import InterviewSessionDao, InterviewQuestionDao
 from kirinchat.schemas.interview import (
     InterviewStartReq,
     InterviewStartResp,
@@ -471,37 +472,65 @@ async def get_interview_history(
         page = max(1, page)
         page_size = max(1, min(page_size, 100))
 
-        # 查询用户所有会话
-        sessions = await InterviewService.get_user_sessions(login_user.user_id)
+        # 第1次查询：一次性加载 session + total_score（DB 层筛选 + 分页）
+        # keyword 筛选无法在 DB 层完成（skill_name 来自文件系统），需要额外处理
+        db_keyword = None  # DB 层不传 keyword
+        sessions_with_details, total = await InterviewSessionDao.select_sessions_with_details(
+            user_id=login_user.user_id,
+            status=status,
+            skill_id=skill_id,
+            keyword=db_keyword,
+            difficulty=difficulty,
+            page=page,
+            page_size=page_size,
+        )
 
-        # 为每个会话补充 skill_name 和 total_score，同时做筛选
+        # 如果有 keyword 筛选，需要在 Python 层处理
+        # 注意：此时已经分页，keyword 筛选会导致结果不准确
+        # 因此如果有 keyword，先不过 DB 分页，全部查出后在 Python 层筛选+分页
+        if keyword:
+            sessions_with_details_full, total_full = await InterviewSessionDao.select_sessions_with_details(
+                user_id=login_user.user_id,
+                status=status,
+                skill_id=skill_id,
+                keyword=None,
+                difficulty=difficulty,
+                page=1,
+                page_size=10000,  # 取足够大的值
+            )
+            # 在 Python 层按 keyword 筛选
+            keyword_lower = keyword.lower()
+            filtered = []
+            for session_obj, total_score in sessions_with_details_full:
+                skill = SkillService.get_skill_by_id(session_obj.skill_id)
+                skill_name = skill.get("name", "") if skill else ""
+                if keyword_lower in skill_name.lower():
+                    filtered.append((session_obj, total_score))
+
+            # Python 层分页
+            total = len(filtered)
+            start = (page - 1) * page_size
+            end = start + page_size
+            sessions_with_details = filtered[start:end]
+
+        # 第2次查询：批量计算所有 session 的进度
+        session_ids = [s.id for s, _ in sessions_with_details]
+        progress_map = await InterviewQuestionDao.batch_calculate_progress(session_ids)
+
+        # 批量加载所有需要的 skill_name（每个 skill_id 只加载一次）
+        unique_skill_ids = list(set(s.skill_id for s, _ in sessions_with_details))
+        skill_name_cache = {}
+        for sid in unique_skill_ids:
+            skill = SkillService.get_skill_by_id(sid)
+            skill_name_cache[sid] = skill.get("name", "") if skill else ""
+
+        # 在 Python 中组装结果
         enriched = []
-        for s in sessions:
-            # 廉价筛选（仅需 session 对象）
-            if status and s.status != status:
-                continue
-            if skill_id and s.skill_id != skill_id:
-                continue
-            if difficulty and s.difficulty != difficulty:
-                continue
-
-            # 获取技能名称
-            skill = SkillService.get_skill_by_id(s.skill_id)
-            skill_name = skill.get("name", "") if skill else ""
-
-            # 关键词筛选（需要 skill_name）
-            if keyword and keyword.lower() not in skill_name.lower():
-                continue
-
-            # 获取总分（仅已评估的会话有）
-            report = await EvaluationService.get_report_by_session(s.id)
-            total_score = report.total_score if report else None
-
-            # 计算进度
-            progress = await InterviewService.calculate_progress(s.id)
-
+        for session_obj, total_score in sessions_with_details:
+            skill_name = skill_name_cache.get(session_obj.skill_id, "")
+            progress = progress_map.get(session_obj.id, {"current": 0, "total": 0})
             enriched.append({
-                "session": s,
+                "session": session_obj,
                 "skill_name": skill_name,
                 "total_score": total_score,
                 "progress": progress,
@@ -510,17 +539,15 @@ async def get_interview_history(
         # 排序
         reverse = sort_order.lower() == "desc"
         if sort_by == "total_score":
-            # None 排到最后
-            enriched.sort(key=lambda x: (x["total_score"] is None, x["total_score"] or 0), reverse=reverse)
+            enriched.sort(
+                key=lambda x: (x["total_score"] is None, x["total_score"] or 0),
+                reverse=reverse,
+            )
         else:
-            # 默认按 create_time 排序
-            enriched.sort(key=lambda x: x["session"].create_time or datetime.min, reverse=reverse)
-
-        # 分页
-        total = len(enriched)
-        start = (page - 1) * page_size
-        end = start + page_size
-        page_items = enriched[start:end]
+            enriched.sort(
+                key=lambda x: x["session"].create_time or datetime.min,
+                reverse=reverse,
+            )
 
         # 构建响应
         session_resps = [
@@ -529,10 +556,10 @@ async def get_interview_history(
                 skill_name=item["skill_name"],
                 total_score=item["total_score"],
             )
-            for item in page_items
+            for item in enriched
         ]
         # 给每个 session_resp 填充 progress
-        for resp_obj, item in zip(session_resps, page_items):
+        for resp_obj, item in zip(session_resps, enriched):
             resp_obj.progress = item["progress"]
 
         data = InterviewHistoryResp(

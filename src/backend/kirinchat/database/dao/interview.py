@@ -1,4 +1,4 @@
-from sqlmodel import select, update
+from sqlmodel import select, update, func, col
 
 from kirinchat.database.models.interview import (
     InterviewSessionTable,
@@ -47,6 +47,61 @@ class InterviewSessionDao:
             )
             result = session.exec(statement).all()
             return result
+
+    @classmethod
+    async def select_sessions_with_details(
+        cls,
+        user_id: str,
+        status: str = None,
+        skill_id: str = None,
+        keyword: str = None,
+        difficulty: str = None,
+        page: int = 1,
+        page_size: int = 20,
+    ):
+        """一次性查询 session + total_score（LEFT JOIN evaluation_report），支持筛选和分页。
+
+        返回 (rows, total) 其中 rows 是 (InterviewSessionTable, total_score) 元组列表。
+        注意：keyword 筛选和 skill_name 需要在 Python 层处理（因为 skill 来自文件系统），
+        此处仅做 DB 层筛选，keyword 传入时此处不做过滤，交由调用方处理。
+        """
+        with session_getter() as session:
+            # 构建基础查询：LEFT JOIN evaluation_report 获取 total_score
+            base_query = (
+                select(
+                    InterviewSessionTable,
+                    EvaluationReportTable.total_score,
+                )
+                .outerjoin(
+                    EvaluationReportTable,
+                    InterviewSessionTable.id == EvaluationReportTable.session_id,
+                )
+                .where(InterviewSessionTable.user_id == user_id)
+            )
+
+            # DB 层筛选条件
+            if status:
+                base_query = base_query.where(InterviewSessionTable.status == status)
+            if skill_id:
+                base_query = base_query.where(InterviewSessionTable.skill_id == skill_id)
+            if difficulty:
+                base_query = base_query.where(InterviewSessionTable.difficulty == difficulty)
+
+            # keyword 无法在 DB 层筛选（skill_name 来自文件系统），跳过
+
+            # 计算总数
+            count_query = select(func.count()).select_from(
+                base_query.subquery()
+            )
+            total = session.exec(count_query).one()
+
+            # 分页查询
+            offset = (max(1, page) - 1) * max(1, page_size)
+            paginated = base_query.offset(offset).limit(max(1, page_size))
+            result = session.exec(paginated).all()
+
+            rows = [(row[0], row[1]) for row in result]
+            return rows, total
 
     @classmethod
     async def delete_session(cls, session_id: str):
@@ -144,6 +199,34 @@ class InterviewQuestionDao:
             )
             result = session.exec(statement).all()
             return list(result)
+
+    @classmethod
+    async def batch_calculate_progress(cls, session_ids: list[str]) -> dict:
+        """批量计算多个 session 的进度。
+
+        一次查询获取所有相关 question，然后在 Python 层分组统计。
+        返回 {session_id: {"current": answered_count, "total": total_count}} 字典。
+        """
+        if not session_ids:
+            return {}
+        with session_getter() as session:
+            statement = select(InterviewQuestionTable).where(
+                col(InterviewQuestionTable.session_id).in_(session_ids)
+            )
+            questions = session.exec(statement).all()
+
+        progress_map = {}
+        for q in questions:
+            if q.session_id not in progress_map:
+                progress_map[q.session_id] = {"current": 0, "total": 0}
+            progress_map[q.session_id]["total"] += 1
+            if q.user_answer is not None:
+                progress_map[q.session_id]["current"] += 1
+        # 确保没有 question 的 session 也有默认值
+        for sid in session_ids:
+            if sid not in progress_map:
+                progress_map[sid] = {"current": 0, "total": 0}
+        return progress_map
 
 
 class EvaluationReportDao:
