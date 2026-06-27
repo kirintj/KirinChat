@@ -119,4 +119,38 @@ langfuse:
   secret_key: "你的Langfuse私钥"
   user_id: "kirin"
 
+# 语音面试配置
+voice_interview:
+  asr_provider: "mimo"
+  tts_provider: "mimo"
+  llm_provider: "mimo"
+  asr:
+    model: "mimo-v2.5-asr"
+    language: "zh"
+  tts:
+    model: "mimo-v2.5-tts"
+    voice: "冰糖"
+    sample_rate: 24000
+  default_difficulty: "medium"
+  default_duration: 30
+
 whitelist_paths: ["/mcp/*"]
+
+# CORS 配置
+cors:
+  enabled: true
+  allowed_origins:
+    - "http://localhost:5173"      # Vite 开发服务器
+    - "http://localhost:3000"      # React 开发服务器
+  allow_credentials: false
+  allowed_methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "DELETE"
+    - "OPTIONS"
+  allowed_headers:
+    - "Authorization"
+    - "Content-Type"
+    - "Accept"
+  max_age: 3600

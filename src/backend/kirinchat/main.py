@@ -30,18 +30,19 @@ async def register_router(app: FastAPI):
 
 
 def register_middleware(app: FastAPI):
-    origins = [
-        '*',
-    ]
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=origins,
-        allow_credentials=False,
-        allow_methods=['*'],
-        allow_headers=['*'],
-    )
+    cors_config = app_settings.cors
 
-    # Trace ID的中间件操作
+    if cors_config.enabled:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=cors_config.allowed_origins,
+            allow_credentials=cors_config.allow_credentials,
+            allow_methods=cors_config.allowed_methods,
+            allow_headers=cors_config.allowed_headers,
+            max_age=cors_config.max_age,
+        )
+
+    # Trace ID 的中间件操作
     app.add_middleware(TraceIDMiddleware)
 
     # 注册白名单中间件
@@ -66,6 +67,11 @@ def print_logo():
 async def lifespan(app: FastAPI):
     await init_config()
 
+    # 在配置加载后注册中间件，确保读取 YAML 中的 CORS 配置
+    register_middleware(app)
+    app.title = app_settings.server.name
+    app.version = app_settings.server.version
+
     redis_client = aioredis.from_url(
         app_settings.redis.get("endpoint"),
         decode_responses=True
@@ -82,12 +88,10 @@ async def lifespan(app: FastAPI):
 
 def create_app():
     app = FastAPI(
-        title=app_settings.server.name,
-        version=app_settings.server.version,
+        title="KirinChat",
+        version="2.5.0",
         lifespan=lifespan
     )
-
-    app = register_middleware(app)
 
     # 配置 AuthJWT
     @AuthJWT.load_config
