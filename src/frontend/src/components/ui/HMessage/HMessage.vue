@@ -58,10 +58,11 @@ const icons: Record<string, string> = {
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  border-radius: var(--radius-md);
+  border-radius: var(--harmony-corner-radius-level10);
   background: var(--color-bg-secondary);
+  backdrop-filter: blur(20px) saturate(1.2);
   border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
   font-size: var(--font-size-base);
   color: var(--color-text-primary);
   opacity: 0;
@@ -82,11 +83,11 @@ const icons: Record<string, string> = {
   justify-content: center;
   font-size: 12px;
   font-weight: 700;
-  color: #fff;
+  color: var(--color-on-primary);
   flex-shrink: 0;
 }
 .h-message--success .h-message__icon { background: var(--color-success); }
 .h-message--error .h-message__icon { background: var(--color-error); }
-.h-message--warning .h-message__icon { background: var(--color-warning); color: #000; }
+.h-message--warning .h-message__icon { background: var(--color-warning); color: var(--color-text-primary); }
 .h-message--info .h-message__icon { background: var(--color-primary); }
 </style>

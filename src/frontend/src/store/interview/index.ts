@@ -39,7 +39,13 @@ export const useInterviewStore = defineStore('interview', () => {
 
   // --- Actions ---
 
+  // --- 防止并发重复创建面试的锁 ---
+  let _creatingLock = false
+
   async function startInterview(skill_id: string, diff: string, count: number) {
+    // 并发防护：防止快速双击创建两个 session
+    if (_creatingLock || loading.value) return false
+    _creatingLock = true
     loading.value = true
     try {
       const res = await startInterviewAPI({
@@ -64,6 +70,7 @@ export const useInterviewStore = defineStore('interview', () => {
       return false
     } finally {
       loading.value = false
+      _creatingLock = false
     }
   }
 

@@ -1,0 +1,30 @@
+display:
+  icon: "🐍"
+  gradient: "from-yellow-500 to-green-500"
+  colors:
+    primary: "#eab308"
+    secondary: "#22c55e"
+
+categories:
+  - key: python-core
+    label: Python 核心
+    priority: CORE
+    ref: python-core.md
+  - key: async
+    label: 异步编程
+    priority: CORE
+    ref: async.md
+  - key: fastapi
+    label: FastAPI
+    priority: CORE
+    ref: fastapi.md
+  - key: database
+    label: 数据库与 ORM
+    priority: CORE
+    ref: database.md
+  - key: testing
+    label: 测试与质量
+    priority: NORMAL
+  - key: project
+    label: 项目经历
+    priority: ALWAYS_ONE

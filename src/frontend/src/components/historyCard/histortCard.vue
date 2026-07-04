@@ -1,33 +1,57 @@
+/**
+ * 历史会话卡片组件
+ * 展示会话的基本信息、时间显示和操作按钮
+ */
 <script lang="ts" setup>
 import { computed } from "vue"
 import { HistoryListType } from "../../type"
 
-const emits = defineEmits<{
-    (event:'delete'):void
-    (event:'select'):void
-}>();
+interface Props {
+  item: HistoryListType
+}
 
-const props = defineProps<{
-    item:HistoryListType
-}>();
+interface Emits {
+  (e: 'delete'): void
+  (e: 'select'): void
+}
 
-// 格式化时间显示
+const props = defineProps<Props>()
+const emits = defineEmits<Emits>()
+
+// 时间常量（毫秒）
+const MILLISECONDS = {
+  SECOND: 1000,
+  MINUTE: 1000 * 60,
+  HOUR: 1000 * 60 * 60,
+  DAY: 1000 * 60 * 60 * 24,
+  WEEK: 1000 * 60 * 60 * 24 * 7
+} as const
+
+/**
+ * 格式化时间显示
+ * - 1小时内显示"刚刚"
+ * - 24小时内显示"X小时前"
+ * - 7天内显示"X天前"
+ * - 超过7天显示具体日期
+ */
 const formattedTime = computed(() => {
   try {
     const date = new Date(props.item.createTime)
     const now = new Date()
-    const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60)
-    
+    const diffInMs = now.getTime() - date.getTime()
+    const diffInHours = diffInMs / MILLISECONDS.HOUR
+
     if (diffInHours < 1) {
       return '刚刚'
     } else if (diffInHours < 24) {
       return `${Math.floor(diffInHours)}小时前`
-    } else if (diffInHours < 24 * 7) {
-      return `${Math.floor(diffInHours / 24)}天前`
+    } else if (diffInHours < 7) {
+      const diffInDays = Math.floor(diffInMs / MILLISECONDS.DAY)
+      return `${diffInDays}天前`
     } else {
-      return date.toLocaleDateString('zh-CN', { 
-        month: 'short', 
-        day: 'numeric' 
+      return date.toLocaleDateString('zh-CN', {
+        month: 'short',
+        day: 'numeric'
       })
     }
   } catch (error) {
@@ -35,14 +59,18 @@ const formattedTime = computed(() => {
   }
 })
 
+/**
+ * 删除卡片（阻止事件冒泡）
+ */
 const deleteCard = (event: Event) => {
   event.stopPropagation()
   emits('delete')
 }
 
-// 选择会话
+/**
+ * 选择会话
+ */
 const selectCard = () => {
-  console.log('【historyCard】点击了会话卡片，item:', props.item)
   emits('select')
 }
 </script>
@@ -54,14 +82,14 @@ const selectCard = () => {
       <!-- 左侧图标和标题 -->
       <div class="card-left">
         <div class="avatar">
-          <img :src="props.item.logo || '/default-avatar.png'" alt="" />
+          <img :src="item.logo || '/default-avatar.png'" :alt="item.name || '会话'" />
         </div>
         <div class="content">
-          <div class="title" :title="props.item.name">
-            {{ props.item.name || '未命名会话' }}
+          <div class="title" :title="item.name">
+            {{ item.name || '未命名会话' }}
           </div>
           <div class="subtitle">
-            {{ props.item.agent || '智能助手' }}
+            {{ item.agent || '智能助手' }}
           </div>
         </div>
       </div>
@@ -70,10 +98,9 @@ const selectCard = () => {
       <div class="card-right">
         <div class="time">{{ formattedTime }}</div>
         <div class="actions">
-          <span
-            class="delete-icon"
-            @click="deleteCard"
-          >×</span>
+          <button class="delete-btn" @click="deleteCard" title="删除会话">
+            ×
+          </button>
         </div>
       </div>
     </div>
@@ -81,19 +108,27 @@ const selectCard = () => {
 </template>
 
 <style lang="scss" scoped>
+/* 样式变量 */
+$card-padding: 16px;
+$border-radius-lg: 12px;
+$border-radius-md: 8px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$transition-default: all 0.3s ease;
+
 .history-card {
   position: relative;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 16px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: $border-radius-lg;
+  padding: $card-padding;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 8px;
+  transition: $transition-default;
+  margin-bottom: $spacing-sm;
 
   &:hover {
-    border-color: #3b82f6;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
   }
 
@@ -101,12 +136,12 @@ const selectCard = () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: $spacing-md;
 
     .card-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: $spacing-md;
       flex: 1;
       min-width: 0;
 
@@ -114,9 +149,9 @@ const selectCard = () => {
         flex-shrink: 0;
         width: 40px;
         height: 40px;
-        border-radius: 8px;
+        border-radius: $border-radius-md;
         overflow: hidden;
-        background-color: #f3f4f6;
+        background-color: var(--color-bg-tertiary);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -135,7 +170,7 @@ const selectCard = () => {
         .title {
           font-size: 14px;
           font-weight: 600;
-          color: #1f2937;
+          color: var(--color-text-primary);
           margin-bottom: 4px;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -144,7 +179,7 @@ const selectCard = () => {
 
         .subtitle {
           font-size: 12px;
-          color: #6b7280;
+          color: var(--color-text-secondary);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -156,21 +191,21 @@ const selectCard = () => {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 8px;
+      gap: $spacing-sm;
       flex-shrink: 0;
 
       .time {
         font-size: 11px;
-        color: #9ca3af;
+        color: var(--color-text-tertiary);
         white-space: nowrap;
       }
 
       .actions {
-        opacity: 1; /* 修改为始终可见 */
+        opacity: 1;
         transition: opacity 0.2s ease;
 
-        .delete-icon {
-          color: #909399;
+        .delete-btn {
+          color: var(--color-text-tertiary);
           font-size: 18px;
           font-weight: bold;
           cursor: pointer;
@@ -180,9 +215,15 @@ const selectCard = () => {
           align-items: center;
           justify-content: center;
           transition: transform 0.2s;
-          
+          background: none;
+          border: none;
+          padding: 0;
+          border-radius: 4px;
+
           &:hover {
             transform: scale(1.2);
+            color: var(--color-danger);
+            background-color: var(--color-danger-bg);
           }
         }
       }
@@ -190,25 +231,25 @@ const selectCard = () => {
   }
 }
 
-// 激活状态
+/* 激活状态 */
 .history-card.active {
-  border-color: #3b82f6;
-  background-color: #eff6ff;
-  box-shadow: 0 0 0 1px #3b82f6;
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-bg);
+  box-shadow: 0 0 0 1px var(--color-primary);
 
   .card-left .content .title {
-    color: #1d4ed8;
+    color: var(--color-primary);
   }
 }
 
-// 响应式设计
+/* 响应式设计 */
 @media (max-width: 480px) {
   .history-card {
     padding: 12px;
 
     .card-main {
       .card-left {
-        gap: 8px;
+        gap: $spacing-sm;
 
         .avatar {
           width: 32px;
@@ -226,10 +267,8 @@ const selectCard = () => {
         }
       }
 
-      .card-right {
-        .time {
-          font-size: 10px;
-        }
+      .card-right .time {
+        font-size: 10px;
       }
     }
   }

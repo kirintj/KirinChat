@@ -48,8 +48,8 @@ function onDrop(event: DragEvent) {
 </template>
 
 <style scoped>
-.h-upload__dropzone { border: 2px dashed var(--color-border); border-radius: var(--radius-md); padding: 32px; text-align: center; cursor: pointer; transition: border-color var(--duration-fast) var(--easing); color: var(--color-text-tertiary); }
-.h-upload__dropzone:hover { border-color: var(--color-primary); }
+.h-upload__dropzone { border: 2px dashed var(--color-border); border-radius: var(--radius-md); padding: 32px; text-align: center; cursor: pointer; transition: border-color var(--duration-fast) var(--easing), background var(--duration-fast) var(--easing); color: var(--color-text-tertiary); }
+.h-upload__dropzone:hover { border-color: var(--color-primary); background: var(--color-bg-hover); }
 .h-upload__tip em { color: var(--color-primary); font-style: normal; cursor: pointer; }
 .h-upload__list { margin-top: 8px; }
 .h-upload__file { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--color-bg-tertiary); border-radius: var(--radius-sm); margin-top: 4px; font-size: var(--font-size-sm); color: var(--color-text-primary); }

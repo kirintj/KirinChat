@@ -13,6 +13,6 @@ withDefaults(defineProps<Props>(), { size: 40, shape: 'circle' })
 <style scoped>
 .h-avatar { display: inline-flex; align-items: center; justify-content: center; background: var(--color-primary-bg); color: var(--color-primary); overflow: hidden; flex-shrink: 0; }
 .h-avatar--circle { border-radius: 50%; }
-.h-avatar--square { border-radius: var(--radius-md); }
+.h-avatar--square { border-radius: var(--harmony-corner-radius-level8); }
 .h-avatar__img { width: 100%; height: 100%; object-fit: cover; }
 </style>

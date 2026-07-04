@@ -392,7 +392,7 @@ onMounted(() => {
           </div>
           
           <div class="form-item">
-            <label>知识库描述 <span style="color: #909399; font-size: 12px;">(可选，10-200字符)</span></label>
+            <label>知识库描述 <span style="color: var(--color-text-tertiary); font-size: var(--font-size-xs);">(可选，10-200字符)</span></label>
             <div class="textarea-with-count">
               <textarea 
                 v-model="createForm.knowledge_desc"
@@ -447,7 +447,7 @@ onMounted(() => {
           </div>
           
           <div class="form-item">
-            <label>知识库描述 <span style="color: #909399; font-size: 12px;">(可选，10-200字符)</span></label>
+            <label>知识库描述 <span style="color: var(--color-text-tertiary); font-size: var(--font-size-xs);">(可选，10-200字符)</span></label>
             <div class="textarea-with-count">
               <textarea 
                 v-model="editForm.knowledge_desc"
@@ -512,18 +512,18 @@ onMounted(() => {
 .knowledge-page {
   padding: 32px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--color-bg);
   
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    padding: 20px 28px;
-    border-radius: 16px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-    border: 1px solid rgba(226, 232, 240, 0.6);
+    background: var(--color-bg);
+    padding: var(--spacing-2xl) var(--spacing-2xl);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 24px var(--shadow-sm);
+    border: 1px solid var(--color-border);
 
     .header-title {
       display: flex;
@@ -537,9 +537,9 @@ onMounted(() => {
       
       h2 {
         margin: 0;
-        font-size: 24px;
+        font-size: var(--font-size-2xl);
         font-weight: 600;
-        background: linear-gradient(90deg, #1B7CE4, #409eff);
+        background: var(--color-primary);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -550,35 +550,35 @@ onMounted(() => {
       .h-button {
         font-weight: 600;
         letter-spacing: 0.025em;
-        border-radius: 12px;
-        padding: 12px 24px;
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-md) var(--spacing-2xl);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
         &:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(64, 158, 255, 0.3);
+          box-shadow: 0 8px 25px var(--color-primary-bg);
         }
       }
     }
   }
   
   .knowledge-container {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-    border: 1px solid rgba(226, 232, 240, 0.6);
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 24px var(--shadow-sm);
+    border: 1px solid var(--color-border);
     overflow: hidden;
     
     .list-header {
       display: grid;
       grid-template-columns: 2fr 3fr 1fr 1fr 1.2fr 1.5fr;
       gap: 16px;
-      padding: 16px 24px;
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-      border-bottom: 2px solid #e1e5e9;
+      padding: var(--spacing-lg) var(--spacing-2xl);
+      background: var(--color-bg);
+      border-bottom: 2px solid var(--color-border);
       font-weight: 600;
-      font-size: 13px;
-      color: #606266;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       
@@ -588,8 +588,8 @@ onMounted(() => {
         gap: 6px;
 
         svg {
-          font-size: 14px;
-          color: #909399;
+          font-size: var(--font-size-base);
+          color: var(--color-text-tertiary);
         }
       }
     }
@@ -599,15 +599,15 @@ onMounted(() => {
         display: grid;
         grid-template-columns: 2fr 3fr 1fr 1fr 1.2fr 1.5fr;
         gap: 16px;
-        padding: 20px 24px;
-        border-bottom: 1px solid #f0f2f5;
+        padding: var(--spacing-2xl) var(--spacing-2xl);
+        border-bottom: 1px solid var(--color-border);
         transition: all 0.2s ease;
         cursor: pointer;
         align-items: center;
         
         &:hover {
-          background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+          background: var(--color-bg-hover);
+          box-shadow: 0 2px 8px var(--shadow-sm);
         }
         
         &:last-child {
@@ -623,8 +623,8 @@ onMounted(() => {
             .knowledge-avatar {
               width: 40px;
               height: 40px;
-              border-radius: 10px;
-              background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+              border-radius: var(--radius-md);
+              background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
               display: flex;
               align-items: center;
               justify-content: center;
@@ -637,9 +637,9 @@ onMounted(() => {
             }
             
             .knowledge-name {
-              font-size: 15px;
+              font-size: var(--font-size-lg);
               font-weight: 600;
-              color: #303133;
+              color: var(--color-text-primary);
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
@@ -649,8 +649,8 @@ onMounted(() => {
         
         .col-desc {
           .knowledge-desc {
-            font-size: 14px;
-            color: #606266;
+            font-size: var(--font-size-base);
+            color: var(--color-text-secondary);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -664,26 +664,26 @@ onMounted(() => {
             align-items: center;
             gap: 6px;
             padding: 6px 12px;
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            border-radius: 8px;
-            font-size: 13px;
+            background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
             font-weight: 600;
-            color: #1976d2;
+            color: var(--color-primary);
           }
         }
         
         .col-size {
           .size-text {
-            font-size: 14px;
+            font-size: var(--font-size-base);
             font-weight: 500;
-            color: #606266;
+            color: var(--color-text-secondary);
           }
         }
         
         .col-time {
           .time-text {
-            font-size: 13px;
-            color: #909399;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-tertiary);
           }
         }
         
@@ -695,40 +695,40 @@ onMounted(() => {
           .action-btn {
             width: 36px;
             height: 36px;
-            border: 1px solid #e1e5e9;
-            border-radius: 8px;
-            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-bg);
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #606266;
+            color: var(--color-text-secondary);
 
             span {
-              font-size: 18px;
+              font-size: var(--font-size-xl);
             }
             
             &:hover {
               transform: translateY(-2px);
-              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              box-shadow: 0 4px 8px var(--shadow-md);
             }
             
             &.view-btn:hover {
-              background: #409eff;
-              border-color: #409eff;
+              background: var(--color-primary);
+              border-color: var(--color-primary);
               color: white;
             }
             
             &.edit-btn:hover {
-              background: #67c23a;
-              border-color: #67c23a;
+              background: var(--color-success);
+              border-color: var(--color-success);
               color: white;
             }
             
             &.delete-btn:hover {
-              background: #f56c6c;
-              border-color: #f56c6c;
+              background: var(--color-danger);
+              border-color: var(--color-danger);
               color: white;
             }
           }
@@ -742,7 +742,7 @@ onMounted(() => {
 .loading-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 22, 40, 0.6);
+  background: var(--color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -753,9 +753,9 @@ onMounted(() => {
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--color-primary, #409eff);
-  border-radius: 50%;
+  border: 3px solid var(--color-bg-overlay);
+  border-top-color: var(--color-primary, var(--color-primary));
+  border-radius: var(--radius-full);
   animation: h-spin 0.6s linear infinite;
 }
 
@@ -770,7 +770,7 @@ onMounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -778,9 +778,9 @@ onMounted(() => {
 }
 
 .dialog-container {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px var(--shadow-lg);
   width: 500px;
   max-width: 90vw;
   max-height: 80vh;
@@ -792,27 +792,27 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 20px 20px 0 20px;
-  border-bottom: 1px solid #e4e7ed;
+  border-bottom: 1px solid var(--color-border);
   margin-bottom: 20px;
   
   h3 {
     margin: 0;
-    font-size: 18px;
-    color: #303133;
+    font-size: var(--font-size-xl);
+    color: var(--color-text-primary);
   }
   
   .close-btn {
     background: none;
     border: none;
-    font-size: 24px;
-    color: #909399;
+    font-size: var(--font-size-2xl);
+    color: var(--color-text-tertiary);
     cursor: pointer;
     padding: 0;
     width: 24px;
     height: 24px;
     
     &:hover {
-      color: #f56c6c;
+      color: var(--color-danger);
     }
   }
 }
@@ -826,49 +826,49 @@ onMounted(() => {
     label {
       display: block;
       margin-bottom: 8px;
-      font-size: 14px;
-      color: #606266;
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
       font-weight: 500;
     }
     
     input, textarea {
       width: 100%;
       padding: 12px;
-      border: 1px solid #dcdfe6;
-      border-radius: 4px;
-      font-size: 14px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-base);
       box-sizing: border-box;
       transition: border-color 0.2s;
       
       &:focus {
         outline: none;
-        border-color: #409eff;
+        border-color: var(--color-primary);
       }
       
       &::placeholder {
-        color: #c0c4cc;
+        color: var(--color-text-tertiary);
       }
     }
     
     textarea {
       resize: vertical;
-      font-family: inherit;
+      font-family: var(--font-family);
     }
   }
 }
 
 .dialog-footer {
   padding: 20px;
-  border-top: 1px solid #e4e7ed;
+  border-top: 1px solid var(--color-border);
   display: flex;
   justify-content: flex-end;
   gap: 12px;
   
   button {
     padding: 8px 20px;
-    border: 1px solid #dcdfe6;
-    border-radius: 4px;
-    font-size: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-base);
     cursor: pointer;
     transition: all 0.2s;
     
@@ -883,13 +883,13 @@ onMounted(() => {
   }
   
   .primary-btn {
-    background: #409eff;
+    background: var(--color-primary);
     color: white;
-    border-color: #409eff;
+    border-color: var(--color-primary);
     
     &:hover:not(:disabled) {
-      background: #66b1ff;
-      border-color: #66b1ff;
+      background: var(--color-primary);
+      border-color: var(--color-primary);
     }
   }
 }
@@ -899,22 +899,22 @@ onMounted(() => {
   position: relative;
   
   input.error, textarea.error {
-    border-color: #f56c6c !important;
-    box-shadow: 0 0 0 2px rgba(245, 108, 108, 0.2);
+    border-color: var(--color-danger) !important;
+    box-shadow: 0 0 0 2px var(--color-danger-bg);
   }
   
   .char-count {
     position: absolute;
     font-size: 11px;
-    color: #909399;
-    background: rgba(255, 255, 255, 0.9);
+    color: var(--color-text-tertiary);
+    background: var(--color-bg);
     padding: 2px 4px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     font-weight: 500;
     
     &.error {
-      color: #f56c6c;
-      background: rgba(245, 108, 108, 0.1);
+      color: var(--color-danger);
+      background: var(--color-danger-bg);
     }
   }
 }
@@ -928,7 +928,7 @@ onMounted(() => {
 .textarea-with-count .char-count {
   right: 8px;
   bottom: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px var(--shadow-md);
 }
 
 /* 空状态样式 */
@@ -948,8 +948,8 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(64, 158, 255, 0.1);
-    border-radius: 50%;
+    background: var(--color-primary-bg);
+    border-radius: var(--radius-full);
     margin-bottom: 20px;
     
     .empty-icon-symbol {
@@ -964,28 +964,28 @@ onMounted(() => {
   }
   
   h3 {
-    font-size: 20px;
-    color: #303133;
+    font-size: var(--font-size-xl);
+    color: var(--color-text-primary);
     margin: 0 0 16px;
   }
   
   p {
     margin: 0 0 20px;
-    font-size: 16px;
-    color: #909399;
+    font-size: var(--font-size-lg);
+    color: var(--color-text-tertiary);
     max-width: 300px;
   }
   
   .create-btn {
-    padding: 12px 24px;
-    font-size: 16px;
+    padding: var(--spacing-md) var(--spacing-2xl);
+    font-size: var(--font-size-lg);
   }
 }
 
 /* 删除确认对话框样式 */
 .delete-dialog-container {
-  background: white;
-  border-radius: 12px;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   width: 400px;
   max-width: 90vw;
@@ -997,12 +997,12 @@ onMounted(() => {
   
   p {
     margin: 0;
-    font-size: 16px;
-    color: #303133;
+    font-size: var(--font-size-lg);
+    color: var(--color-text-primary);
     line-height: 1.6;
     
     strong {
-      color: #f56c6c;
+      color: var(--color-danger);
       font-weight: 600;
     }
   }
@@ -1013,15 +1013,15 @@ onMounted(() => {
   justify-content: flex-end;
   gap: 12px;
   padding: 20px 30px;
-  background: #f8fafc;
-  border-top: 1px solid #e4e7ed;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
 }
 
 .delete-dialog-btn {
   padding: 10px 24px;
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -1032,20 +1032,20 @@ onMounted(() => {
   }
   
   &.cancel-btn {
-    background: #f5f7fa;
-    color: #606266;
+    background: var(--color-bg);
+    color: var(--color-text-secondary);
     
     &:hover:not(:disabled) {
-      background: #e4e7ed;
+      background: var(--color-border);
     }
   }
   
   &.confirm-btn {
-    background: #f56c6c;
+    background: var(--color-danger);
     color: white;
     
     &:hover:not(:disabled) {
-      background: #f78989;
+      background: var(--color-danger);
     }
   }
 }

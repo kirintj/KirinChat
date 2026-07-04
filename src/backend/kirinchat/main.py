@@ -1,5 +1,6 @@
 import logging
 import warnings
+import yaml
 import redis.asyncio as aioredis
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
@@ -13,7 +14,7 @@ from kirinchat.mcp_proxy.session.manager import SessionManager
 from kirinchat.middleware.trace_id_middleware import TraceIDMiddleware
 from kirinchat.middleware.white_list_middleware import WhitelistMiddleware
 from kirinchat.settings import init_app_settings
-from kirinchat.settings import app_settings
+from kirinchat.settings import app_settings, CORSConfig
 
 warnings.filterwarnings("ignore")
 logging.getLogger("chromadb").setLevel(logging.WARNING)
@@ -30,6 +31,7 @@ async def register_router(app: FastAPI):
 
 
 def register_middleware(app: FastAPI):
+    """注册中间件（在 app 启动前调用，确保 Starlette 中间件栈正确构建）"""
     cors_config = app_settings.cors
 
     if cors_config.enabled:
@@ -51,6 +53,18 @@ def register_middleware(app: FastAPI):
     return app
 
 
+def _load_cors_config(file_path: str = None):
+    """同步加载 CORS 配置（中间件注册需要在 lifespan 之前完成）"""
+    file_path = file_path or "kirinchat/config.yaml"
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = yaml.safe_load(f)
+            if data and "cors" in data:
+                app_settings.cors = CORSConfig(**data["cors"])
+    except FileNotFoundError:
+        pass
+
+
 async def init_config():
     await init_app_settings()
 
@@ -67,8 +81,6 @@ def print_logo():
 async def lifespan(app: FastAPI):
     await init_config()
 
-    # 在配置加载后注册中间件，确保读取 YAML 中的 CORS 配置
-    register_middleware(app)
     app.title = app_settings.server.name
     app.version = app_settings.server.version
 
@@ -92,6 +104,10 @@ def create_app():
         version="2.5.0",
         lifespan=lifespan
     )
+
+    # 同步加载 CORS 配置，确保中间件在 ASGI 启动前注册
+    _load_cors_config()
+    register_middleware(app)
 
     # 配置 AuthJWT
     @AuthJWT.load_config

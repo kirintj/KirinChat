@@ -459,7 +459,7 @@ const handleCustomUpload = async (event: Event) => {
   width: 24px;
   height: 24px;
   border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--color-primary, #409eff);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;
 }
@@ -471,22 +471,22 @@ const handleCustomUpload = async (event: Event) => {
 .description-textarea {
   width: 100%;
   padding: 12px;
-  border: 1px solid #dcdfe6;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
   resize: vertical;
   box-sizing: border-box;
   transition: border-color 0.2s;
   &:focus {
     outline: none;
-    border-color: var(--color-primary, #409eff);
+    border-color: var(--color-primary);
   }
 }
 
 .profile-page {
   padding: 24px;
-  background-color: #f5f7fa;
+  background-color: var(--color-bg-secondary);
   min-height: 100vh;
 
   .profile-header {
@@ -499,13 +499,13 @@ const handleCustomUpload = async (event: Event) => {
       margin: 0 0 8px 0;
       font-size: 28px;
       font-weight: 600;
-      color: #2c3e50;
+      color: var(--color-text-primary);
     }
 
     p {
       margin: 0;
-      color: #7f8c8d;
-      font-size: 16px;
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-lg);
     }
   }
 
@@ -513,8 +513,8 @@ const handleCustomUpload = async (event: Event) => {
     max-width: 800px;
 
     .profile-card {
-      background: white;
-      border-radius: 12px;
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
       padding: 32px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
@@ -523,7 +523,7 @@ const handleCustomUpload = async (event: Event) => {
         align-items: center;
         margin-bottom: 32px;
         padding-bottom: 24px;
-        border-bottom: 1px solid #ebeef5;
+        border-bottom: 1px solid var(--color-border);
 
         .avatar-container {
           margin-right: 24px;
@@ -539,7 +539,7 @@ const handleCustomUpload = async (event: Event) => {
               height: 100%;
               border-radius: 50%;
               object-fit: cover;
-              border: 4px solid #74b9ff;
+              border: 4px solid var(--color-info);
             }
 
             .avatar-overlay {
@@ -555,7 +555,7 @@ const handleCustomUpload = async (event: Event) => {
               justify-content: center;
               opacity: 0;
               transition: opacity 0.3s ease;
-              color: white;
+              color: var(--color-bg);
               font-size: 24px;
 
               &:hover {
@@ -570,13 +570,13 @@ const handleCustomUpload = async (event: Event) => {
             margin: 0 0 8px 0;
             font-size: 24px;
             font-weight: 600;
-            color: #2c3e50;
+            color: var(--color-text-primary);
           }
 
           .user-id {
             margin: 0;
-            color: #7f8c8d;
-            font-size: 14px;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-base);
           }
         }
       }
@@ -592,20 +592,20 @@ const handleCustomUpload = async (event: Event) => {
             margin: 0;
             font-size: 18px;
             font-weight: 600;
-            color: #2c3e50;
+            color: var(--color-text-primary);
           }
         }
 
         .description-display {
           p {
             margin: 0;
-            font-size: 16px;
+            font-size: var(--font-size-lg);
             line-height: 1.6;
-            color: #5a6c7d;
-            background: #f8f9fa;
+            color: var(--color-text-secondary);
+            background: var(--color-bg-secondary);
             padding: 16px;
-            border-radius: 8px;
-            border-left: 4px solid #74b9ff;
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--color-info);
           }
         }
 
@@ -630,8 +630,8 @@ const handleCustomUpload = async (event: Event) => {
 
     h4 {
       margin-bottom: 12px;
-      font-size: 16px;
-      color: #2c3e50;
+      font-size: var(--font-size-lg);
+      color: var(--color-text-primary);
     }
 
     .selected-avatar {
@@ -640,7 +640,7 @@ const handleCustomUpload = async (event: Event) => {
         height: 80px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid #74b9ff;
+        border: 3px solid var(--color-info);
       }
     }
   }
@@ -650,8 +650,8 @@ const handleCustomUpload = async (event: Event) => {
 
     h4 {
       margin-bottom: 16px;
-      font-size: 16px;
-      color: #2c3e50;
+      font-size: var(--font-size-lg);
+      color: var(--color-text-primary);
     }
 
     .avatar-grid {
@@ -672,12 +672,12 @@ const handleCustomUpload = async (event: Event) => {
         position: relative;
 
         &:hover:not(.active) {
-          border-color: #74b9ff;
+          border-color: var(--color-info);
           transform: scale(1.05);
         }
 
         &.active {
-          border-color: #74b9ff;
+          border-color: var(--color-info);
           box-shadow: 0 0 0 2px rgba(116, 185, 255, 0.3);
           transform: scale(1.02);
         }
@@ -700,14 +700,14 @@ const handleCustomUpload = async (event: Event) => {
   .upload-section {
     h4 {
       margin-bottom: 12px;
-      font-size: 16px;
-      color: #2c3e50;
+      font-size: var(--font-size-lg);
+      color: var(--color-text-primary);
     }
 
     .upload-tip {
       margin-top: 8px;
-      font-size: 12px;
-      color: #7f8c8d;
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
     }
   }
 }
@@ -727,8 +727,8 @@ const handleCustomUpload = async (event: Event) => {
 }
 
 .custom-dialog {
-  background-color: white;
-  border-radius: 8px;
+  background-color: var(--color-bg);
+  border-radius: var(--radius-sm);
   width: 700px;
   max-width: 95%;
   max-height: 90vh;
@@ -738,27 +738,27 @@ const handleCustomUpload = async (event: Event) => {
 
 .custom-dialog-header {
   padding: 20px;
-  border-bottom: 1px solid #ebeef5;
+  border-bottom: 1px solid var(--color-border);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+
   h3 {
     margin: 0;
     font-size: 18px;
     font-weight: 600;
-    color: #303133;
+    color: var(--color-text-primary);
   }
-  
+
   .close-button {
     border: none;
     background: none;
     font-size: 24px;
     cursor: pointer;
-    color: #909399;
-    
+    color: var(--color-text-secondary);
+
     &:hover {
-      color: #409eff;
+      color: var(--color-primary);
     }
   }
 }
@@ -766,46 +766,46 @@ const handleCustomUpload = async (event: Event) => {
 .custom-dialog-body {
   padding: 20px;
   display: flex;
-  
+
   .current-selection {
     width: 120px;
     margin-right: 20px;
     text-align: center;
-    
+
     h4 {
       margin: 0 0 12px 0;
-      font-size: 16px;
-      color: #303133;
+      font-size: var(--font-size-lg);
+      color: var(--color-text-primary);
     }
-    
+
     .selected-avatar {
       img {
         width: 100px;
         height: 100px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid #74b9ff;
+        border: 3px solid var(--color-info);
       }
     }
   }
-  
+
   .avatar-content {
     flex: 1;
-    
+
     .preset-avatars {
       margin-bottom: 20px;
-      
+
       h4 {
         margin: 0 0 12px 0;
-        font-size: 16px;
-        color: #303133;
+        font-size: var(--font-size-lg);
+        color: var(--color-text-primary);
       }
-      
+
       .avatar-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
         gap: 12px;
-        
+
         .avatar-option {
           width: 70px;
           height: 70px;
@@ -814,17 +814,17 @@ const handleCustomUpload = async (event: Event) => {
           border-radius: 50%;
           overflow: hidden;
           transition: all 0.2s ease;
-          
+
           &:hover:not(.active) {
-            border-color: #74b9ff;
+            border-color: var(--color-info);
             transform: scale(1.05);
           }
-          
+
           &.active {
-            border-color: #74b9ff;
+            border-color: var(--color-info);
             box-shadow: 0 0 0 2px rgba(116, 185, 255, 0.3);
           }
-          
+
           img {
             width: 100%;
             height: 100%;
@@ -833,33 +833,34 @@ const handleCustomUpload = async (event: Event) => {
         }
       }
     }
-    
+
     .upload-section {
       h4 {
         margin: 0 0 12px 0;
-        font-size: 16px;
-        color: #303133;
+        font-size: var(--font-size-lg);
+        color: var(--color-text-primary);
       }
-      
+
       .upload-area {
         .upload-button {
           display: inline-block;
           padding: 10px 20px;
-          background-color: #409eff;
-          color: white;
+          background-color: var(--color-primary);
+          color: var(--color-bg);
           border-radius: 4px;
           cursor: pointer;
           transition: background-color 0.3s;
-          
+
           &:hover {
-            background-color: #66b1ff;
+            background-color: var(--color-primary);
+            opacity: 0.85;
           }
         }
-        
+
         .upload-tip {
           margin-top: 8px;
-          font-size: 12px;
-          color: #909399;
+          font-size: var(--font-size-xs);
+          color: var(--color-text-secondary);
         }
       }
     }
@@ -869,42 +870,40 @@ const handleCustomUpload = async (event: Event) => {
 .custom-dialog-footer {
   padding: 15px 20px;
   text-align: right;
-  border-top: 1px solid #ebeef5;
-  
+  border-top: 1px solid var(--color-border);
+
   button {
     padding: 10px 20px;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     border-radius: 4px;
     cursor: pointer;
     margin-left: 10px;
     transition: all 0.3s;
   }
-  
+
   .cancel-button {
-    border: 1px solid #dcdfe6;
-    background-color: #fff;
-    color: #606266;
-    
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    color: var(--color-text-secondary);
+
     &:hover {
-      color: #409eff;
-      border-color: #c6e2ff;
-      background-color: #ecf5ff;
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+      background-color: var(--color-primary-bg);
     }
   }
-  
+
   .confirm-button {
-    border: 1px solid #409eff;
-    background-color: #409eff;
-    color: #fff;
-    
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+
     &:hover {
-      background-color: #66b1ff;
-      border-color: #66b1ff;
+      opacity: 0.85;
     }
-    
+
     &:disabled {
-      background-color: #a0cfff;
-      border-color: #a0cfff;
+      opacity: 0.5;
       cursor: not-allowed;
     }
   }

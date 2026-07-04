@@ -5,6 +5,7 @@
       "name": "frontend",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
+      "cwd": "src/frontend",
       "port": 8090,
       "autoPort": false
     }

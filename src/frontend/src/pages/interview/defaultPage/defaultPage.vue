@@ -113,6 +113,13 @@ onMounted(() => {
       <div class="alternative-entry">
         <div class="divider">—— 或者 ——</div>
         <div class="entry-buttons">
+          <button class="entry-btn voice-btn" @click="router.push('/voice-interview')">
+            <span class="btn-icon">🎙️</span>
+            <span class="btn-text">
+              <span class="btn-title">语音面试</span>
+              <span class="btn-desc">实时语音对话，模拟真实面试场景</span>
+            </span>
+          </button>
           <button class="entry-btn" @click="router.push('/interview/resume')">上传简历，AI 定制面试</button>
           <button class="entry-btn" @click="router.push('/interview/jd')">粘贴 JD，精准匹配面试</button>
         </div>
@@ -423,13 +430,33 @@ onMounted(() => {
 
 .alternative-entry {
   margin-top: 24px; text-align: center;
-  .divider { color: #999; margin-bottom: 16px; }
+  .divider { color: var(--color-text-tertiary); margin-bottom: 16px; }
   .entry-buttons { display: flex; gap: 16px; justify-content: center; }
   .entry-btn {
     padding: 12px 24px; border-radius: var(--radius-sm);
     border: 1px dashed var(--color-border); background: var(--color-bg);
     cursor: pointer; font-size: 14px; transition: all 0.2s;
     &:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+    &.voice-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--color-primary);
+      background: var(--color-primary-bg);
+      border-style: solid;
+      padding: 14px 24px;
+      .btn-icon { font-size: 24px; flex-shrink: 0; }
+      .btn-text { display: flex; flex-direction: column; text-align: left; }
+      .btn-title { font-weight: 600; font-size: 15px; color: var(--color-text-primary); }
+      .btn-desc { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+      &:hover {
+        border-color: var(--color-primary-hover, var(--color-primary));
+        box-shadow: var(--shadow-card);
+        transform: translateY(-1px);
+        color: inherit;
+      }
+    }
   }
 }
 </style>

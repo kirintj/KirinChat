@@ -362,7 +362,7 @@ onMounted(() => {
 .model-editor-page {
   padding: 24px;
   height: 100%;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--color-bg);
   min-height: 100vh;
   
   .page-header {
@@ -370,12 +370,12 @@ onMounted(() => {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 32px;
-    background: white;
-    padding: 24px 32px;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(226, 232, 240, 0.6);
-    
+    background: var(--color-bg);
+    padding: var(--spacing-2xl) var(--spacing-2xl);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 20px var(--shadow-sm);
+    border: 1px solid var(--color-border);
+
           .header-left {
         display: flex;
         align-items: center;
@@ -385,23 +385,23 @@ onMounted(() => {
           display: flex;
           align-items: center;
           gap: 12px;
-          font-size: 15px;
-          color: #94a3b8;
+          font-size: var(--font-size-lg);
+          color: var(--color-text-tertiary);
           
           .breadcrumb-item {
             transition: all 0.3s ease;
             padding: 8px 12px;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             cursor: default;
             
             &.clickable {
               cursor: pointer;
-              color: #64748b;
+              color: var(--color-text-secondary);
               font-weight: 500;
               
               &:hover {
-                color: #3b82f6;
-                background: rgba(59, 130, 246, 0.1);
+                color: var(--color-primary);
+                background: var(--color-primary-bg);
                 transform: translateY(-1px);
               }
               
@@ -411,14 +411,14 @@ onMounted(() => {
             }
             
             &.active {
-              color: #3b82f6;
+              color: var(--color-primary);
               font-weight: 600;
-              background: rgba(59, 130, 246, 0.05);
+              background: var(--color-primary-bg);
             }
           }
           
           .breadcrumb-separator {
-            color: #cbd5e1;
+            color: var(--color-border);
             font-weight: 500;
           }
         }
@@ -432,19 +432,19 @@ onMounted(() => {
       .title-icon {
         width: 48px;
         height: 48px;
-        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-        border-radius: 12px;
+        background: var(--color-primary);
+        border-radius: var(--radius-lg);
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        box-shadow: 0 8px 20px var(--color-primary-bg);
       }
       
       h2 {
         margin: 0;
-        font-size: 28px;
+        font-size: var(--font-size-2xl);
         font-weight: 700;
-        background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+        background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-text-secondary) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -454,11 +454,11 @@ onMounted(() => {
   
   .edit-form-section {
     .form-container {
-      background: white;
-      border-radius: 20px;
+      background: var(--color-bg);
+      border-radius: var(--radius-full);
       padding: 32px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-      border: 1px solid rgba(226, 232, 240, 0.6);
+      box-shadow: 0 8px 32px var(--shadow-sm);
+      border: 1px solid var(--color-border);
       
       .form-header {
         display: flex;
@@ -466,25 +466,25 @@ onMounted(() => {
         gap: 20px;
         margin-bottom: 32px;
         padding-bottom: 24px;
-        border-bottom: 2px solid #f1f5f9;
+        border-bottom: 2px solid var(--color-bg);
         
         .form-icon {
           width: 56px;
           height: 56px;
-          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-          border-radius: 16px;
+          background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success) 100%);
+          border-radius: var(--radius-lg);
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+          box-shadow: 0 8px 20px var(--color-success-bg);
         }
         
                   .form-title {
             h3 {
               margin: 0 0 12px 0;
-              font-size: 28px;
+              font-size: var(--font-size-2xl);
               font-weight: 800;
-              background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+              background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-text-secondary) 100%);
               -webkit-background-clip: text;
               -webkit-text-fill-color: transparent;
               background-clip: text;
@@ -493,8 +493,8 @@ onMounted(() => {
             
             p {
               margin: 0;
-              font-size: 16px;
-              color: #64748b;
+              font-size: var(--font-size-lg);
+              color: var(--color-text-secondary);
               line-height: 1.6;
               font-weight: 500;
             }
@@ -506,12 +506,12 @@ onMounted(() => {
           margin-bottom: 32px;
           
           .section-title {
-            font-size: 18px;
+            font-size: var(--font-size-xl);
             font-weight: 600;
-            color: #334155;
+            color: var(--color-text-primary);
             margin: 0 0 20px 0;
             padding-bottom: 12px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid var(--color-border);
             position: relative;
             
             &::before {
@@ -521,7 +521,7 @@ onMounted(() => {
               left: 0;
               width: 40px;
               height: 2px;
-              background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+              background: var(--color-primary);
               border-radius: 1px;
             }
           }
@@ -544,37 +544,37 @@ onMounted(() => {
           .form-input,
           .form-select {
             .h-input {
-              background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-              border: 2px solid #e2e8f0;
-              border-radius: 16px;
+              background: var(--color-bg);
+              border: 2px solid var(--color-border);
+              border-radius: var(--radius-lg);
               padding: 16px 20px;
               transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+              box-shadow: 0 2px 8px var(--shadow-xs);
               position: relative;
               overflow: hidden;
 
               &:hover {
-                border-color: #cbd5e1;
-                background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                border-color: var(--color-border);
+                background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-border) 100%);
+                box-shadow: 0 4px 12px var(--shadow-sm);
                 transform: translateY(-1px);
               }
 
               &.h-input--focused {
-                border-color: #3b82f6;
-                background: white;
-                box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 8px 24px rgba(0, 0, 0, 0.12);
+                border-color: var(--color-primary);
+                background: var(--color-bg);
+                box-shadow: 0 0 0 4px var(--color-primary-bg), 0 8px 24px var(--shadow-md);
                 transform: translateY(-2px);
               }
             }
 
             .h-input__inner {
-              font-size: 15px;
-              color: #1e293b;
+              font-size: var(--font-size-lg);
+              color: var(--color-text-primary);
               font-weight: 500;
 
               &::placeholder {
-                color: #94a3b8;
+                color: var(--color-text-tertiary);
                 font-weight: 400;
               }
             }
@@ -582,13 +582,13 @@ onMounted(() => {
 
           .h-form-item__label {
             font-weight: 700;
-            color: #334155;
-            font-size: 15px;
+            color: var(--color-text-primary);
+            font-size: var(--font-size-lg);
             position: relative;
             
             &::before {
               content: '*';
-              color: #ef4444;
+              color: var(--color-danger);
               margin-right: 4px;
               font-weight: 800;
             }
@@ -602,13 +602,13 @@ onMounted(() => {
           gap: 20px;
           margin-top: 40px;
           padding-top: 32px;
-          border-top: 2px solid #f1f5f9;
+          border-top: 2px solid var(--color-bg);
           
           .action-btn {
             padding: 16px 32px;
-            border-radius: 16px;
+            border-radius: var(--radius-lg);
             font-weight: 700;
-            font-size: 15px;
+            font-size: var(--font-size-lg);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid transparent;
             min-width: 140px;
@@ -622,7 +622,7 @@ onMounted(() => {
               left: -100%;
               width: 100%;
               height: 100%;
-              background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+              background: linear-gradient(90deg, transparent, var(--color-bg-overlay), transparent);
               transition: left 0.5s ease;
             }
             
@@ -640,25 +640,25 @@ onMounted(() => {
             }
             
             &.cancel-btn {
-              background: white;
-              border-color: #e2e8f0;
-              color: #64748b;
+              background: var(--color-bg);
+              border-color: var(--color-border);
+              color: var(--color-text-secondary);
               
               &:hover {
-                border-color: #cbd5e1;
-                background: #f8fafc;
-                color: #475569;
+                border-color: var(--color-border);
+                background: var(--color-bg);
+                color: var(--color-text-secondary);
               }
             }
             
             &.primary-btn {
-              background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+              background: var(--color-primary);
               border-color: transparent;
               color: white;
               
               &:hover {
-                background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-                box-shadow: 0 12px 28px rgba(59, 130, 246, 0.4);
+                background: var(--color-primary);
+                box-shadow: 0 12px 28px var(--color-primary-bg);
               }
             }
           }
@@ -674,28 +674,28 @@ onMounted(() => {
     justify-content: center;
     height: 100%;
     text-align: center;
-    background: white;
-    border-radius: 20px;
+    background: var(--color-bg);
+    border-radius: var(--radius-full);
     padding: 80px 40px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 32px var(--shadow-sm);
     
     .empty-icon {
       font-size: 80px;
-      color: #cbd5e1;
+      color: var(--color-border);
       margin-bottom: 24px;
     }
     
     h3 {
       margin: 0 0 12px 0;
-      font-size: 24px;
+      font-size: var(--font-size-2xl);
       font-weight: 600;
-      color: #475569;
+      color: var(--color-text-secondary);
     }
     
     p {
       margin: 0 0 32px 0;
-      color: #64748b;
-      font-size: 16px;
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-lg);
     }
   }
 }
@@ -714,7 +714,7 @@ onMounted(() => {
          justify-content: center;
          
          .breadcrumb {
-           font-size: 14px;
+           font-size: var(--font-size-base);
            
            .breadcrumb-item {
              padding: 6px 10px;

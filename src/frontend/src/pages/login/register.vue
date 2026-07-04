@@ -248,7 +248,7 @@ const goToLogin = () => {
       height: 160px;
       top: 200px;
       left: 50px;
-      background: linear-gradient(180deg, #6b9eff, #4f81ff);
+      background: linear-gradient(180deg, #6b9eff, var(--color-primary));
       border-radius: 40px;
       box-shadow: 0 10px 30px rgba(79, 129, 255, 0.3);
       animation: floatUp 6s ease-in-out infinite;
@@ -260,7 +260,7 @@ const goToLogin = () => {
       height: 60px;
       top: 120px;
       right: 80px;
-      background: radial-gradient(circle at 30% 30%, #8bb6ff, #4f81ff);
+      background: radial-gradient(circle at 30% 30%, #8bb6ff, var(--color-primary));
       border-radius: 50%;
       box-shadow: 0 8px 25px rgba(79, 129, 255, 0.4);
       animation: floatDown 8s ease-in-out infinite;
@@ -297,7 +297,7 @@ const goToLogin = () => {
           font-size: 20px;
           font-weight: 700;
           letter-spacing: 2px;
-          font-family: 'SF Pro Display', 'Helvetica Neue', 'Arial', sans-serif;
+          font-family: var(--font-family);
           box-shadow: 0 4px 12px rgba(79, 129, 255, 0.3);
         }
       }
@@ -308,7 +308,7 @@ const goToLogin = () => {
         margin: 0;
         line-height: 1.6;
         font-weight: 400;
-        font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
+        font-family: var(--font-family);
       }
     }
 
@@ -322,7 +322,7 @@ const goToLogin = () => {
           font-weight: 600;
           color: var(--color-text-primary);
           margin-bottom: 10px;
-          font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
+          font-family: var(--font-family);
           letter-spacing: 0.5px;
         }
 
@@ -347,7 +347,7 @@ const goToLogin = () => {
           :deep(.el-input__inner) {
             color: var(--color-text-primary);
             font-size: 16px;
-            font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
+            font-family: var(--font-family);
             font-weight: 400;
 
             &::placeholder {
@@ -366,7 +366,7 @@ const goToLogin = () => {
         .login-link {
           font-size: 15px;
           color: var(--color-text-secondary);
-          font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
+          font-family: var(--font-family);
 
           a {
             color: var(--color-primary);
@@ -391,7 +391,7 @@ const goToLogin = () => {
         border-radius: 10px;
         font-size: 18px;
         font-weight: 600;
-        font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
+        font-family: var(--font-family);
         letter-spacing: 1px;
         transition: all 0.3s ease;
 
@@ -411,11 +411,11 @@ const goToLogin = () => {
       justify-content: space-between;
       align-items: center;
       margin-top: 20px;
-      color: #667084;
+      color: var(--color-text-tertiary);
       font-size: 13px;
-      font-family: 'PingFang SC', 'Helvetica Neue', 'Arial', sans-serif;
+      font-family: var(--font-family);
       font-weight: 400;
-      border-top: 1px solid #eef2f7;
+      border-top: 1px solid var(--color-border);
       padding-top: 16px;
 
       .version-badge {
@@ -423,9 +423,9 @@ const goToLogin = () => {
         align-items: center;
         padding: 4px 10px;
         border-radius: 999px;
-        background: #f2f8ff;
-        color: #3b82f6;
-        border: 1px solid rgba(59, 130, 246, 0.25);
+        background: var(--color-primary-bg);
+        color: var(--color-primary);
+        border: 1px solid rgba(10, 89, 247, 0.25);
         font-weight: 600;
         letter-spacing: 0.3px;
       }
@@ -440,16 +440,16 @@ const goToLogin = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #f8fafc;
-          border: 1px solid #e5e7eb;
+          background: var(--color-bg-secondary);
+          border: 1px solid var(--color-border);
           border-radius: 8px;
           transition: all 0.2s ease;
           overflow: hidden;
 
           &:hover {
             transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
-            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 6px 16px rgba(10, 89, 247, 0.2);
+            border-color: rgba(10, 89, 247, 0.4);
           }
 
           .icon-img {

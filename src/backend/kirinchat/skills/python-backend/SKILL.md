@@ -1,5 +1,5 @@
 ---
-name: python-backend
+name: Python 后端
 description: Python 后端开发面试，涵盖 Python 核心/Django/FastAPI/异步编程/数据库
 ---
 

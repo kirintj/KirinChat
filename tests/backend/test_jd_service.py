@@ -22,9 +22,10 @@ class TestJdService:
         assert "Java" in persona
 
     def test_find_reference_file_known(self):
-        path = JdService._find_reference_file("java")
-        assert path is not None
-        assert "java.md" in path
+        content = JdService._find_reference_file("java")
+        assert content is not None
+        assert len(content) > 100  # 参考资料内容应该足够长
+        assert "Java" in content
 
     def test_find_reference_file_unknown(self):
         path = JdService._find_reference_file("nonexistent_xyz")

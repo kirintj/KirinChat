@@ -113,7 +113,7 @@ function getStatusText(status: string) {
   h2 { margin: 0; font-size: 20px; }
   .upload-btn {
     padding: 8px 20px; border-radius: var(--radius-sm);
-    background: var(--color-primary); color: #fff; border: none; cursor: pointer;
+    background: var(--color-primary); color: var(--color-bg); border: none; cursor: pointer;
     &:disabled { opacity: 0.6; cursor: not-allowed; }
   }
 }
@@ -124,17 +124,17 @@ function getStatusText(status: string) {
   border: 1px solid var(--color-border); cursor: pointer; transition: border-color 0.2s;
   &:hover { border-color: var(--color-primary); }
   .card-info { display: flex; align-items: center; gap: 12px; .filename { font-weight: 500; } }
-  .card-meta { display: flex; gap: 16px; color: #999; font-size: 13px; .score { color: var(--color-primary); font-weight: 500; } }
+  .card-meta { display: flex; gap: 16px; color: var(--color-text-tertiary); font-size: 13px; .score { color: var(--color-primary); font-weight: 500; } }
   .delete-btn {
-    padding: 4px 12px; border: 1px solid #ff4d4f; color: #ff4d4f;
+    padding: 4px 12px; border: 1px solid var(--color-danger); color: var(--color-danger);
     background: transparent; border-radius: var(--radius-sm); cursor: pointer;
-    &:hover { background: #ff4d4f; color: #fff; }
+    &:hover { background: var(--color-danger); color: var(--color-bg); }
   }
 }
-.status-tag { padding: 2px 8px; border-radius: 4px; font-size: 12px; }
-.status-done { background: #e6f7e6; color: #52c41a; }
-.status-active { background: #e6f0ff; color: #1890ff; }
-.status-failed { background: #fff2f0; color: #ff4d4f; }
-.status-pending { background: #f5f5f5; color: #999; }
-.loading, .empty { text-align: center; padding: 60px; color: #999; }
+.status-tag { padding: 2px 8px; border-radius: 4px; font-size: var(--font-size-xs); }
+.status-done { background: var(--color-success-bg); color: var(--color-success); }
+.status-active { background: var(--color-info-bg); color: var(--color-info); }
+.status-failed { background: var(--color-danger-bg); color: var(--color-danger); }
+.status-pending { background: var(--color-bg-secondary); color: var(--color-text-tertiary); }
+.loading, .empty { text-align: center; padding: 60px; color: var(--color-text-tertiary); }
 </style>

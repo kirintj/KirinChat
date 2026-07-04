@@ -14,5 +14,5 @@ withDefaults(defineProps<Props>(), { maxHeight: '100%' })
 .h-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
 .h-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .h-scrollbar::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
-.h-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--color-border-hover); }
+.h-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--color-text-disabled); }
 </style>

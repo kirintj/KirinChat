@@ -12,11 +12,16 @@ _mock_interview_question_dao = MagicMock()
 _mock_evaluation_report_dao = MagicMock()
 _mock_interview_models = MagicMock()
 
-sys.modules["kirinchat.database"] = MagicMock()
-sys.modules["kirinchat.database.session"] = MagicMock()
-sys.modules["kirinchat.database.models"] = MagicMock()
+# Only mock leaf submodules, NOT parent packages (kirinchat.database,
+# kirinchat.database.dao).  The conftest pre-imports those with a working
+# SQLite engine, so they are real packages with __path__.
+_MOCK_KEYS = [
+    "kirinchat.database.models.interview",
+    "kirinchat.database.dao.interview",
+]
+_saved_modules = {k: sys.modules.get(k) for k in _MOCK_KEYS}
+
 sys.modules["kirinchat.database.models.interview"] = _mock_interview_models
-sys.modules["kirinchat.database.dao"] = MagicMock()
 sys.modules["kirinchat.database.dao.interview"] = MagicMock(
     InterviewSessionDao=_mock_interview_session_dao,
     InterviewQuestionDao=_mock_interview_question_dao,
@@ -28,6 +33,13 @@ if "kirinchat.api.services.learning" in sys.modules:
     del sys.modules["kirinchat.api.services.learning"]
 
 from kirinchat.api.services.learning import LearningService  # noqa: E402
+
+# Restore original sys.modules entries to prevent contamination of other tests.
+for _k, _v in _saved_modules.items():
+    if _v is None:
+        sys.modules.pop(_k, None)
+    else:
+        sys.modules[_k] = _v
 
 
 @pytest.fixture(autouse=True)

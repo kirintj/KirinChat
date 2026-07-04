@@ -44,25 +44,31 @@ function close() {
 <style scoped>
 .h-dialog-overlay {
   position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: var(--color-overlay);
   display: flex; align-items: center; justify-content: center;
   z-index: var(--z-dialog);
 }
 .h-dialog {
   width: 100%;
   background: var(--color-bg-secondary);
+  backdrop-filter: blur(20px) saturate(1.2);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  border-radius: var(--harmony-corner-radius-level16);
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
 }
 .h-dialog__header {
   display: flex; justify-content: space-between; align-items: center;
   padding: 20px 24px 12px;
+  border-bottom: 1px solid var(--color-border);
 }
 .h-dialog__title { font-size: var(--font-size-xl); font-weight: 600; color: var(--color-text-primary); }
-.h-dialog__close { cursor: pointer; color: var(--color-text-tertiary); font-size: 16px; padding: 4px; }
-.h-dialog__close:hover { color: var(--color-text-primary); }
+.h-dialog__close {
+  cursor: pointer; color: var(--color-text-tertiary); font-size: 16px; padding: 4px;
+  position: relative; overflow: hidden; border-radius: var(--radius-sm);
+}
+.h-dialog__close:hover { color: var(--color-text-primary); background: var(--color-bg-hover); }
+.h-dialog__close:active { background: var(--color-bg-active); }
 .h-dialog__body { padding: 16px 24px; color: var(--color-text-secondary); }
 .h-dialog__footer { display: flex; justify-content: flex-end; gap: 12px; padding: 16px 24px 20px; }
 .h-dialog-enter-active, .h-dialog-leave-active { transition: opacity var(--duration-normal) var(--easing); }

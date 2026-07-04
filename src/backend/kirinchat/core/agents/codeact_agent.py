@@ -92,11 +92,12 @@ class CodeActAgent:
                 code: str, _locals: dict[str, Any]
         ) -> tuple[str, dict[str, Any]]:
             # Create a wrapper function that will execute the code and return locals
+            indented_code = "\n".join(" " * 8 + line for line in code.strip().split("\n"))
             wrapper_code = f"""
 def execute():
     try:
         # Execute the provided code
-{"\n".join(" " * 8 + line for line in code.strip().split("\n"))}
+{indented_code}
         return locals()
     except Exception as e:
         return {{"error": str(e)}}

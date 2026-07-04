@@ -1037,7 +1037,7 @@ defineExpose({ loadAgent })
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 50%, #f3f4f6 100%);
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 50%, var(--color-bg-secondary) 100%);
   position: relative;
   
   &::before {
@@ -1047,7 +1047,7 @@ defineExpose({ loadAgent })
     left: 0;
     right: 0;
     height: 300px;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #8b5cf6 50%, #06b6d4 100%);
     opacity: 0.03;
     z-index: 0;
   }
@@ -1068,7 +1068,7 @@ defineExpose({ loadAgent })
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(20px);
       border: none;
-      border-right: 1px solid rgba(226, 232, 240, 0.4);
+      border-right: 1px solid var(--color-border);
       border-radius: 0;
       box-shadow: none;
       overflow: hidden;
@@ -1092,9 +1092,9 @@ defineExpose({ loadAgent })
         height: 64px;
         box-sizing: border-box;
         background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.8) 100%);
-        border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+        border-bottom: 1px solid var(--color-border);
         position: relative;
-        
+
         &::after {
           content: '';
           position: absolute;
@@ -1112,7 +1112,7 @@ defineExpose({ loadAgent })
           gap: 10px;
 
           .panel-icon {
-            color: #6366f1;
+            color: var(--color-primary);
             font-size: 20px;
             filter: drop-shadow(0 2px 4px rgba(99, 102, 241, 0.15));
             flex-shrink: 0;
@@ -1121,7 +1121,7 @@ defineExpose({ loadAgent })
           .panel-title {
             font-size: 16px;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--color-text-primary);
             letter-spacing: -0.025em;
           }
         }
@@ -1132,8 +1132,8 @@ defineExpose({ loadAgent })
           align-items: center;
 
           .cancel-btn {
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            color: #64748b;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-secondary);
             background: rgba(255, 255, 255, 0.9);
             transition: all 0.3s ease;
             border-radius: 10px;
@@ -1143,8 +1143,8 @@ defineExpose({ loadAgent })
             font-size: 13px;
 
             &:hover {
-              border-color: #6366f1;
-              color: #6366f1;
+              border-color: var(--color-primary);
+              color: var(--color-primary);
             }
           }
 
@@ -1181,7 +1181,7 @@ defineExpose({ loadAgent })
       .basic-info-section {
         margin-bottom: 20px;
         padding-bottom: 20px;
-        border-bottom: 1px solid rgba(226, 232, 240, 0.4);
+        border-bottom: 1px solid var(--color-border);
 
         .basic-info-layout {
           display: flex;
@@ -1213,12 +1213,12 @@ defineExpose({ loadAgent })
 
                 .avatar-icon {
                   font-size: 20px;
-                  color: #6366f1;
+                  color: var(--color-primary);
                 }
 
                 .avatar-text {
                   font-size: 11px;
-                  color: #94a3b8;
+                  color: var(--color-text-tertiary);
                   font-weight: 500;
                 }
               }
@@ -1247,7 +1247,7 @@ defineExpose({ loadAgent })
               .field-label {
                 font-size: 13px;
                 font-weight: 600;
-                color: #475569;
+                color: var(--color-text-secondary);
                 white-space: nowrap;
                 width: 36px;
                 text-align: right;
@@ -1255,7 +1255,7 @@ defineExpose({ loadAgent })
                 position: relative;
 
                 .required-mark {
-                  color: #ef4444;
+                  color: var(--color-danger);
                   position: absolute;
                   left: -10px;
                   top: 0;
@@ -1271,7 +1271,7 @@ defineExpose({ loadAgent })
             .name-input {
               font-size: 15px;
               font-weight: 600;
-              color: #1e293b;
+              color: var(--color-text-primary);
             }
           }
         }
@@ -1281,7 +1281,7 @@ defineExpose({ loadAgent })
         .prompt-label {
           font-size: 13px;
           font-weight: 600;
-          color: #475569;
+          color: var(--color-text-secondary);
           margin-bottom: 8px;
         }
 
@@ -1290,10 +1290,10 @@ defineExpose({ loadAgent })
           line-height: 1.7;
           font-size: 14px;
           resize: none;
-          border: 1px solid rgba(226, 232, 240, 0.5);
+          border: 1px solid var(--color-border);
           border-radius: 16px;
           padding: 20px;
-          background: rgba(248, 250, 252, 0.8);
+          background: var(--color-bg-secondary);
           backdrop-filter: blur(10px);
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           box-shadow:
@@ -1301,7 +1301,7 @@ defineExpose({ loadAgent })
             inset 0 1px 0 rgba(255, 255, 255, 0.5);
 
           &:focus {
-            border-color: #6366f1;
+            border-color: var(--color-primary);
             background: rgba(255, 255, 255, 0.95);
             box-shadow:
               0 0 0 4px rgba(99, 102, 241, 0.1),
@@ -1323,7 +1323,7 @@ defineExpose({ loadAgent })
           padding: 16px 20px;
           background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.8) 100%);
           border-radius: 12px;
-          border: 1px solid rgba(226, 232, 240, 0.4);
+          border: 1px solid var(--color-border);
           backdrop-filter: blur(10px);
           box-shadow: 
             0 2px 8px rgba(0, 0, 0, 0.02),
@@ -1336,13 +1336,13 @@ defineExpose({ loadAgent })
 
             .info-label {
               font-size: 12px;
-              color: #64748b;
+              color: var(--color-text-secondary);
               font-weight: 500;
             }
 
             .info-value {
               font-size: 14px;
-              color: #1e293b;
+              color: var(--color-text-primary);
               font-weight: 600;
             }
           }
@@ -1356,7 +1356,7 @@ defineExpose({ loadAgent })
       .config-form {
         .config-section {
           margin-bottom: 24px;
-          border: 1px solid rgba(226, 232, 240, 0.4);
+          border: 1px solid var(--color-border);
           border-radius: 16px;
           overflow: hidden;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1410,7 +1410,7 @@ defineExpose({ loadAgent })
               gap: 12px;
 
               .section-icon {
-                color: #6366f1;
+                color: var(--color-primary);
                 font-size: 18px;
                 filter: drop-shadow(0 1px 2px rgba(99, 102, 241, 0.2));
                 transition: all 0.3s ease;
@@ -1418,7 +1418,7 @@ defineExpose({ loadAgent })
 
               span {
                 font-weight: 700;
-                color: #1e293b;
+                color: var(--color-text-primary);
                 font-size: 16px;
                 letter-spacing: -0.025em;
               }
@@ -1458,7 +1458,7 @@ defineExpose({ loadAgent })
           height: 48px;
           border: none;
           border-radius: 24px;
-          background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+          background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-border) 100%);
           cursor: pointer;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           display: flex;
@@ -1477,7 +1477,7 @@ defineExpose({ loadAgent })
           }
 
           &.active {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, var(--color-primary) 0%, #8b5cf6 100%);
             box-shadow: 
               0 4px 16px rgba(99, 102, 241, 0.3),
               inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -1499,7 +1499,7 @@ defineExpose({ loadAgent })
             left: 4px;
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-secondary) 100%);
             border-radius: 20px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 
@@ -1510,7 +1510,7 @@ defineExpose({ loadAgent })
           .toggle-text {
             font-size: 14px;
             font-weight: 500;
-            color: #64748b;
+            color: var(--color-text-secondary);
             transition: all 0.4s ease;
             margin: 0 16px;
             z-index: 1;
@@ -1520,12 +1520,12 @@ defineExpose({ loadAgent })
 
         .memory-description {
           font-size: 12px;
-          color: #64748b;
+          color: var(--color-text-secondary);
           line-height: 1.4;
           padding: 8px 12px;
-          background: rgba(248, 250, 252, 0.6);
+          background: rgba(241, 243, 245, 0.6);
           border-radius: 8px;
-          border: 1px solid rgba(226, 232, 240, 0.4);
+          border: 1px solid var(--color-border);
           backdrop-filter: blur(5px);
         }
       }
@@ -1533,9 +1533,9 @@ defineExpose({ loadAgent })
       .form-input,
       .form-textarea,
       .form-select {
-        border: 1px solid rgba(226, 232, 240, 0.5);
+        border: 1px solid var(--color-border);
         border-radius: 12px;
-        background: rgba(248, 250, 252, 0.8);
+        background: var(--color-bg-secondary);
         backdrop-filter: blur(10px);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow:
@@ -1553,7 +1553,7 @@ defineExpose({ loadAgent })
         }
 
         &:focus-within {
-          border-color: #6366f1;
+          border-color: var(--color-primary);
           background: rgba(255, 255, 255, 0.95);
           box-shadow:
             0 0 0 4px rgba(99, 102, 241, 0.1),
@@ -1609,7 +1609,7 @@ defineExpose({ loadAgent })
   .option-name {
     flex: 1;
     font-weight: 500;
-    color: #111827;
+    color: var(--color-text-primary);
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;

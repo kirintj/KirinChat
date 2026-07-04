@@ -1,0 +1,43 @@
+display:
+  icon: "⚡"
+  gradient: from-orange-500 to-red-500
+  colors:
+    primary: "#ea580c"
+    secondary: "#dc2626"
+
+categories:
+  - key: PROJECT
+    label: 项目经历
+    priority: ALWAYS_ONE
+  - key: SYSTEM_DESIGN_SCENARIO
+    label: 系统设计/场景题
+    priority: CORE
+    ref: system-design-scenarios.md
+  - key: DB_DESIGN
+    label: 数据库设计
+    priority: CORE
+    ref: db-design.md
+  - key: DISTRIBUTED
+    label: 分布式
+    priority: CORE
+    ref: distributed.md
+  - key: MYSQL
+    label: MySQL
+    priority: NORMAL
+    ref: mysql.md
+  - key: REDIS
+    label: Redis
+    priority: NORMAL
+    ref: redis.md
+  - key: CACHE
+    label: 缓存
+    priority: NORMAL
+    ref: redis.md
+  - key: MQ
+    label: 消息队列
+    priority: NORMAL
+    ref: mq.md
+  - key: DESIGN_PATTERN
+    label: 设计模式
+    priority: NORMAL
+    ref: design-pattern.md

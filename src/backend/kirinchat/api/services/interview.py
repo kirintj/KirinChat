@@ -15,10 +15,23 @@ class InterviewService:
 
     @classmethod
     async def create_session(cls, user_id, skill_id, difficulty="MEDIUM", question_count=10):
-        """Create an interview session after verifying the skill exists."""
+        """Create an interview session after verifying the skill exists.
+
+        防重复保护：若 10 秒内已有同用户同技能的 CREATED/IN_PROGRESS session，
+        直接返回该 session，避免快速双击产生两条记录。
+        """
         skill = SkillService.get_skill_by_id(skill_id)
         if skill is None:
             raise ValueError(f"Skill not found: {skill_id}")
+
+        # 查找 10 秒内刚创建的同技能 session（防双击）
+        recent = await InterviewSessionDao.select_recent_session(
+            user_id=user_id,
+            skill_id=skill_id,
+            within_seconds=10,
+        )
+        if recent:
+            return recent
 
         session = InterviewSessionTable(
             user_id=user_id,

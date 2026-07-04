@@ -325,7 +325,7 @@ onMounted(() => {
   width: 24px;
   height: 24px;
   border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--color-primary, #409eff);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;
 }
@@ -337,23 +337,23 @@ onMounted(() => {
 .agent-page {
   padding: 24px;
   height: 100vh;
-  background-color: #f8f9fa;
-  
+  background-color: var(--color-bg-secondary);
+
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    background: white;
+    background: var(--color-bg);
     padding: 20px 24px;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    
+
     h2 {
       margin: 0;
       font-size: 24px;
       font-weight: 600;
-      color: #2c3e50;
+      color: var(--color-text-primary);
     }
     
     .header-actions {
@@ -383,11 +383,11 @@ onMounted(() => {
       gap: 24px;
       
       .agent-card {
-        background: white;
+        background: var(--color-bg);
         border-radius: 16px;
         padding: 24px;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-        border: 1px solid #e1e8ed;
+        border: 1px solid var(--color-border);
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
@@ -408,7 +408,7 @@ onMounted(() => {
           border-radius: 16px;
           overflow: hidden;
           margin-bottom: 16px;
-          border: 2px solid #f0f0f0;
+          border: 2px solid var(--color-border);
           
           img {
             width: 100%;
@@ -421,7 +421,7 @@ onMounted(() => {
           .agent-name {
             font-size: 20px;
             font-weight: 600;
-            color: #2c3e50;
+            color: var(--color-text-primary);
             margin: 0 0 8px 0;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -429,7 +429,7 @@ onMounted(() => {
           }
           
           .agent-description {
-            color: #64748b;
+            color: var(--color-text-secondary);
             font-size: 14px;
             line-height: 1.6;
             margin: 0 0 16px 0;
@@ -447,12 +447,12 @@ onMounted(() => {
             margin-bottom: 12px;
             
             .meta-item {
-              font-size: 12px;
-              color: #64748b;
+              font-size: var(--font-size-xs);
+              color: var(--color-text-secondary);
               display: flex;
               align-items: center;
               gap: 4px;
-              background: #f8fafc;
+              background: var(--color-bg-secondary);
               padding: 4px 8px;
               border-radius: 6px;
               
@@ -488,14 +488,14 @@ onMounted(() => {
     .empty-state {
       text-align: center;
       padding: 80px 20px;
-      color: #64748b;
-      background: white;
+      color: var(--color-text-secondary);
+      background: var(--color-bg);
       border-radius: 16px;
       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
       
       p {
         margin-top: 24px;
-        font-size: 16px;
+        font-size: var(--font-size-lg);
         line-height: 1.5;
       }
     }

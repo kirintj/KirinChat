@@ -1,5 +1,5 @@
 import os
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 from fastapi import APIRouter, Body, Depends, Query
 
 from kirinchat.services.storage import storage_client
@@ -19,14 +19,27 @@ async def upload_file(
     login_user: UserPayload = Depends(get_login_user)
 ):
     try:
-        # 获取本地临时文件路径
-        file_name = file_url.split("/")[-1]
+        # URL 解码文件名（修复中文/特殊字符文件名问题）
+        file_name = unquote(file_url.split("/")[-1])
         local_file_path = get_save_tempfile(file_name)
-        # 根据URL解析出对应的object name
+
+        # 根据URL解析出 object key
         parsed = urlparse(file_url)
         object_key = parsed.path.lstrip('/')
+
+        # 去除 URL 路径中多余的 bucket 前缀
+        # MinIO URL 格式: http://host:port/bucket_name/object_key
+        # fget_object 内部会自动拼接 bucket_name，所以 object_key 不能包含它
+        bucket_prefix = f"{storage_client.bucket_name}/"
+        if object_key.startswith(bucket_prefix):
+            object_key = object_key[len(bucket_prefix):]
+
         storage_client.download_file(object_key, local_file_path)
-        # 获得文件的字节数
+
+        # 防御性校验：确保文件确实下载成功
+        if not os.path.exists(local_file_path):
+            raise FileNotFoundError(f"文件下载失败，请检查 MinIO 中对象是否存在: {object_key}")
+
         file_size_bytes = os.path.getsize(local_file_path)
 
         name_part, ext_part = file_name.rsplit('.', 1) if '.' in file_name else (file_name, '')

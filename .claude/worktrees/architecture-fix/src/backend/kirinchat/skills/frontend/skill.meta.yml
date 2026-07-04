@@ -1,0 +1,33 @@
+display:
+  icon: "⚛️"
+  gradient: "from-blue-500 to-cyan-500"
+  colors:
+    primary: "#3b82f6"
+    secondary: "#06b6d4"
+
+categories:
+  - key: javascript
+    label: JavaScript 核心
+    priority: CORE
+    ref: javascript.md
+  - key: typescript
+    label: TypeScript
+    priority: CORE
+    ref: typescript.md
+  - key: react
+    label: React 框架
+    priority: CORE
+    ref: react.md
+  - key: css
+    label: CSS 与布局
+    priority: NORMAL
+    ref: css.md
+  - key: engineering
+    label: 工程化
+    priority: NORMAL
+  - key: performance
+    label: 性能优化
+    priority: NORMAL
+  - key: project
+    label: 项目经历
+    priority: ALWAYS_ONE

@@ -81,7 +81,7 @@ function goBack() {
   }
   .parse-btn {
     margin-top: 12px; padding: 10px 24px; background: var(--color-primary);
-    color: #fff; border: none; border-radius: var(--radius-sm); cursor: pointer;
+    color: var(--color-bg); border: none; border-radius: var(--radius-sm); cursor: pointer;
     &:disabled { opacity: 0.6; cursor: not-allowed; }
   }
 }
@@ -92,17 +92,17 @@ function goBack() {
 .result-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px;
   .result-item {
-    label { display: block; font-size: 12px; color: #999; margin-bottom: 4px; }
-    span { font-size: 16px; font-weight: 500; }
+    label { display: block; font-size: var(--font-size-xs); color: var(--color-text-tertiary); margin-bottom: 4px; }
+    span { font-size: var(--font-size-lg); font-weight: 500; }
   }
 }
 .categories-section { margin-bottom: 20px; h4 { margin: 0 0 12px; } }
 .category-tags {
   display: flex; flex-wrap: wrap; gap: 8px;
-  .cat-tag { padding: 4px 12px; background: var(--color-primary); color: #fff; border-radius: 4px; font-size: 13px; }
+  .cat-tag { padding: 4px 12px; background: var(--color-primary); color: var(--color-bg); border-radius: 4px; font-size: 13px; }
 }
 .start-btn {
-  padding: 12px 32px; background: #52c41a; color: #fff; border: none;
+  padding: 12px 32px; background: var(--color-success); color: var(--color-bg); border: none;
   border-radius: var(--radius-sm); font-size: 16px; cursor: pointer;
   &:disabled { opacity: 0.6; cursor: not-allowed; }
 }

@@ -18,7 +18,7 @@ function showMessage(type: MessageType, message: string, duration = 3000) {
   const el = document.createElement('div')
   el.className = 'h-message'
   el.innerHTML = `
-    <span class="h-message__icon" style="background:${bgColors[type]}${type === 'warning' ? ';color:#000' : ''}">${icons[type]}</span>
+    <span class="h-message__icon" style="background:${bgColors[type]}${type === 'warning' ? ';color:var(--color-text-primary)' : ''}">${icons[type]}</span>
     <span class="h-message__text">${message}</span>
   `
 
@@ -32,10 +32,11 @@ function showMessage(type: MessageType, message: string, duration = 3000) {
     alignItems: 'center',
     gap: '8px',
     padding: '10px 20px',
-    borderRadius: 'var(--radius-md)',
+    borderRadius: 'var(--harmony-corner-radius-level10)',
     background: 'var(--color-bg-secondary)',
+    backdropFilter: 'blur(20px) saturate(1.2)',
     border: '1px solid var(--color-border)',
-    boxShadow: 'var(--shadow-md)',
+    boxShadow: 'var(--shadow-lg)',
     fontSize: 'var(--font-size-base)',
     color: 'var(--color-text-primary)',
     opacity: '0',
@@ -55,7 +56,7 @@ function showMessage(type: MessageType, message: string, duration = 3000) {
       justifyContent: 'center',
       fontSize: '12px',
       fontWeight: '700',
-      color: '#fff',
+      color: 'var(--color-on-primary)',
       flexShrink: '0',
     })
   }

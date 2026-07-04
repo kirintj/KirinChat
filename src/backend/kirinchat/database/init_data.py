@@ -5,7 +5,7 @@ import aiofiles
 from loguru import logger
 from sqlmodel import SQLModel
 
-from kirinchat.database import engine, SystemUser, ensure_mysql_database, AgentTable, ToolTable
+from kirinchat.database import get_engine, SystemUser, ensure_mysql_database, AgentTable, ToolTable
 from kirinchat.api.services.agent import AgentService
 from kirinchat.api.services.llm import LLMService
 from kirinchat.api.services.tool import ToolService
@@ -68,7 +68,7 @@ async def init_database():
     """
     try:
         ensure_mysql_database()
-        SQLModel.metadata.create_all(engine)
+        SQLModel.metadata.create_all(get_engine())
         logger.success("MySQL tables are ready")
     except Exception as err:
         logger.error(f"Create MySQL Table Error: {err}")

@@ -1,5 +1,5 @@
 ---
-name: system-design
+name: 系统设计
 description: 系统设计面试，涵盖分布式系统/微服务/缓存/消息队列/高可用架构
 ---
 

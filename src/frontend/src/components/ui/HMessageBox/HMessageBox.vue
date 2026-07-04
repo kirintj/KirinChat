@@ -82,9 +82,10 @@ function handleCancel() {
 .h-messagebox--visible { opacity: 1; }
 .h-messagebox {
   background: var(--color-bg-secondary);
+  backdrop-filter: blur(20px) saturate(1.2);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  border-radius: var(--harmony-corner-radius-level16);
+  box-shadow: var(--shadow-lg);
   min-width: 360px;
   max-width: 420px;
   transform: scale(0.95);
@@ -143,7 +144,7 @@ function handleCancel() {
 }
 .h-messagebox__btn--confirm {
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 .h-messagebox__btn--confirm:hover {
   background: var(--color-primary-hover);

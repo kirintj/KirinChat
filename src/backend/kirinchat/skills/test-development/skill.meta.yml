@@ -1,0 +1,35 @@
+display:
+  icon: "✅"
+  gradient: from-emerald-500 to-teal-500
+  colors:
+    primary: "#10b981"
+    secondary: "#14b8a6"
+
+categories:
+  - key: TESTING_BASIC
+    label: 测试基础
+    priority: CORE
+    ref: test-development.md
+  - key: TEST_CASE_DESIGN
+    label: 用例设计
+    priority: CORE
+    ref: test-development.md
+  - key: AUTOMATION
+    label: 自动化测试
+    priority: CORE
+    ref: test-development.md
+  - key: PERFORMANCE_SECURITY
+    label: 性能与安全测试
+    priority: CORE
+    ref: test-development.md
+  - key: API_TESTING
+    label: API 测试
+    priority: NORMAL
+    ref: test-development.md
+  - key: WEB_MOBILE_TESTING
+    label: Web/移动端测试
+    priority: NORMAL
+    ref: test-development.md
+  - key: PROJECT
+    label: 项目经历
+    priority: ALWAYS_ONE

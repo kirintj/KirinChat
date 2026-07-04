@@ -94,7 +94,7 @@ export function uploadFileAPI(file: File) {
   formData.append('file', file)
   
   return request<ApiResponse<string>>({
-    url: '/api/v1/upload/upload',
+    url: '/api/v1/upload',
     method: 'POST',
     data: formData,
     headers: {

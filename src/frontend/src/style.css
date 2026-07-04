@@ -1,115 +1,141 @@
-/* ========== 鸿蒙宇宙蓝 主题变量 ========== */
+/* ========== HarmonyOS Design Token 导入 ========== */
+@import './styles/harmony-tokens.css';
+@import './styles/mobile-scale.css';
 
-/* 暗色模式（默认） */
+/* ========== KirinChat 主题变量 → HarmonyOS 映射 ========== */
+
+/* 亮色模式（默认） */
 :root,
-[data-theme="dark"] {
-  /* 背景层（三级） - 全部白色 */
-  --color-bg:           #ffffff;
-  --color-bg-secondary: #ffffff;
-  --color-bg-tertiary:  #ffffff;
-
-  /* 主色 */
-  --color-primary:       #3370ff;
-  --color-primary-hover: #5c9aff;
-  --color-primary-active:#1a5cd7;
-  --color-primary-bg:    rgba(51,112,255,0.12);
-
-  /* 文字 - 深色文字适配白色背景 */
-  --color-text-primary:   #1f2937;
-  --color-text-secondary: #6b7280;
-  --color-text-tertiary:  #9ca3af;
-  --color-text-disabled:  #d1d5db;
-
-  /* 边框 - 浅色边框适配白色背景 */
-  --color-border:          #e5e7eb;
-  --color-border-hover:    #d1d5db;
-  --color-border-focus:    #3370ff;
-  --color-border-secondary: #e5e7eb;
-
-  /* 功能色 */
-  --color-success:     #34d399;
-  --color-success-bg:  rgba(52,211,153,0.12);
-  --color-warning:     #fbbf24;
-  --color-warning-bg:  rgba(251,191,36,0.12);
-  --color-danger:      #f87171;
-  --color-danger-bg:   rgba(248,113,113,0.12);
-  --color-error:       #e5432a;
-  --color-error-bg:    rgba(229,67,42,0.12);
-
-  /* 阴影 - 浅色阴影适配白色背景 */
-  --shadow-sm:    0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md:    0 4px 12px rgba(0,0,0,0.1);
-  --shadow-card:  0 2px 8px rgba(0,0,0,0.08);
-  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.12);
-  --shadow-glow:  0 0 20px rgba(51,112,255,0.1);
-}
-
-/* 亮色模式 - 全部白色背景 */
 [data-theme="light"] {
+  /* 背景层 — 业务要求全部白色，不跟随 HarmonyOS 灰色背景 */
   --color-bg:           #ffffff;
   --color-bg-secondary: #ffffff;
   --color-bg-tertiary:  #ffffff;
+  --color-bg-overlay:   rgba(255, 255, 255, 0.8);
+  --color-bg-hover:     var(--harmony-interactive-hover);
+  --color-bg-active:    var(--harmony-interactive-pressed);
 
-  --color-primary:       #3370ff;
-  --color-primary-hover: #5c9aff;
-  --color-primary-active:#1a5cd7;
-  --color-primary-bg:    #e8f0fe;
+  /* 主色 → HarmonyOS brand */
+  --color-primary:       var(--harmony-brand);
+  --color-primary-hover: var(--harmony-interactive-hover);
+  --color-primary-active:var(--harmony-interactive-pressed);
+  --color-primary-bg:    var(--harmony-comp-emphasize-tertiary);
+  --color-on-primary:    var(--harmony-font-on-primary);
 
-  --color-text-primary:   #0d2137;
-  --color-text-secondary: #4a6785;
-  --color-text-tertiary:  #8ca0b8;
-  --color-text-disabled:  #b0c0d0;
+  /* 文字 → HarmonyOS font 层级 */
+  --color-text-primary:   var(--harmony-font-primary);
+  --color-text-secondary: var(--harmony-font-secondary);
+  --color-text-tertiary:  var(--harmony-font-tertiary);
+  --color-text-disabled:  var(--harmony-font-fourth);
 
-  --color-border:          #d0e0ff;
-  --color-border-hover:    #b0ccff;
-  --color-border-focus:    #3370ff;
-  --color-border-secondary: #d0e0ff;
+  /* 边框 → HarmonyOS divider */
+  --color-border:          var(--harmony-comp-divider);
+  --color-border-hover:    var(--harmony-interactive-hover);
+  --color-border-focus:    var(--harmony-interactive-focus);
+  --color-border-secondary:var(--harmony-comp-divider);
 
-  --color-success:     #059669;
-  --color-success-bg:  #d1fae5;
-  --color-warning:     #d97706;
-  --color-warning-bg:  #fef3c7;
-  --color-danger:      #dc2626;
-  --color-danger-bg:   #fee2e2;
-  --color-error:       #dc2626;
-  --color-error-bg:    #fee2e2;
+  /* 焦点环 → HarmonyOS interactive focus */
+  --color-focus-ring: var(--harmony-interactive-focus);
 
-  --shadow-sm:    0 1px 3px rgba(0,0,0,0.04);
-  --shadow-md:    0 4px 12px rgba(0,0,0,0.06);
-  --shadow-card:  0 2px 8px rgba(0,0,0,0.06);
+  /* 交互态 → HarmonyOS interactive */
+  --color-overlay: var(--harmony-comp-background-secondary);
+
+  /* 功能色 → HarmonyOS 语义色 */
+  --color-success:     var(--harmony-confirm);
+  --color-success-bg:  rgba(100, 187, 92, 0.12);
+  --color-warning:     var(--harmony-alert);
+  --color-warning-bg:  rgba(237, 111, 33, 0.12);
+  --color-danger:      var(--harmony-warning);
+  --color-danger-bg:   rgba(232, 64, 38, 0.12);
+  --color-error:       var(--harmony-warning);
+  --color-error-bg:    rgba(232, 64, 38, 0.12);
+
+  /* 阴影 */
+  --shadow-xs:         0 1px 2px rgba(0,0,0,0.02);
+  --shadow-sm:         0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md:         0 4px 12px rgba(0,0,0,0.06);
+  --shadow-lg:         0 8px 24px rgba(0,0,0,0.08);
+  --shadow-card:       0 2px 8px rgba(0,0,0,0.06);
   --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.08);
-  --shadow-glow:  0 0 0 transparent;
+  --shadow-glow:       0 0 0 transparent;
 }
 
-/* 共用 Tokens（不随主题变化） */
-:root {
-  /* 圆角 */
-  --radius-sm:   8px;
-  --radius-md:   12px;
-  --radius-lg:   16px;
-  --radius-full: 9999px;
+/* 暗色模式 */
+[data-theme="dark"] {
+  --color-bg:           #ffffff;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary:  #ffffff;
+  --color-bg-overlay:   rgba(255, 255, 255, 0.8);
+  --color-bg-hover:     var(--harmony-interactive-hover);
+  --color-bg-active:    var(--harmony-interactive-pressed);
 
-  /* 间距 */
-  --spacing-xs:  8px;
-  --spacing-sm:  12px;
-  --spacing-md:  16px;
-  --spacing-lg:  20px;
-  --spacing-xl:  24px;
-  --spacing-2xl: 32px;
+  --color-primary:       var(--harmony-brand);
+  --color-primary-hover: var(--harmony-interactive-hover);
+  --color-primary-active:var(--harmony-interactive-pressed);
+  --color-primary-bg:    var(--harmony-comp-emphasize-tertiary);
+  --color-on-primary:    var(--harmony-font-on-primary);
+
+  --color-text-primary:   var(--harmony-font-primary);
+  --color-text-secondary: var(--harmony-font-secondary);
+  --color-text-tertiary:  var(--harmony-font-tertiary);
+  --color-text-disabled:  var(--harmony-font-fourth);
+
+  --color-border:          var(--harmony-comp-divider);
+  --color-border-hover:    var(--harmony-interactive-hover);
+  --color-border-focus:    var(--harmony-interactive-focus);
+  --color-border-secondary:var(--harmony-comp-divider);
+
+  --color-focus-ring: var(--harmony-interactive-focus);
+  --color-overlay:    var(--harmony-comp-background-secondary);
+
+  --color-success:     var(--harmony-confirm);
+  --color-success-bg:  rgba(91, 168, 84, 0.12);
+  --color-warning:     var(--harmony-alert);
+  --color-warning-bg:  rgba(219, 107, 66, 0.12);
+  --color-danger:      var(--harmony-warning);
+  --color-danger-bg:   rgba(217, 72, 56, 0.12);
+  --color-error:       var(--harmony-warning);
+  --color-error-bg:    rgba(217, 72, 56, 0.12);
+
+  --shadow-xs:         0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm:         0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:         0 4px 12px rgba(0,0,0,0.1);
+  --shadow-lg:         0 8px 24px rgba(0,0,0,0.14);
+  --shadow-card:       0 2px 8px rgba(0,0,0,0.08);
+  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-glow:       0 0 20px rgba(49,122,247,0.1);
+}
+
+/* ========== 共用 Tokens（映射 HarmonyOS mobile-scale） ========== */
+:root {
+  /* 圆角 → HarmonyOS corner-radius */
+  --radius-sm:   var(--harmony-corner-radius-level4);
+  --radius-md:   var(--harmony-corner-radius-level6);
+  --radius-lg:   var(--harmony-corner-radius-level8);
+  --radius-full: var(--harmony-corner-radius-level18);
+
+  /* 间距 → HarmonyOS padding */
+  --spacing-xs:  var(--harmony-padding-level4);
+  --spacing-sm:  var(--harmony-padding-level6);
+  --spacing-md:  var(--harmony-padding-level8);
+  --spacing-lg:  var(--harmony-padding-level10);
+  --spacing-xl:  var(--harmony-padding-level12);
+  --spacing-2xl: var(--harmony-padding-level16);
 
   /* 动效 */
   --duration-fast:   150ms;
   --duration-normal: 200ms;
+  --duration-slow:   300ms;
   --easing:          cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* 字体 */
+  /* 字体 → HarmonyOS 字阶 */
   --font-family: 'HarmonyOS Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-size-xs:   12px;
-  --font-size-sm:   13px;
-  --font-size-base: 14px;
-  --font-size-lg:   16px;
-  --font-size-xl:   20px;
-  --font-size-2xl:  24px;
+  --font-size-xs:   var(--harmony-font-size-body-s);
+  --font-size-sm:   var(--harmony-font-size-subtitle-s);
+  --font-size-base: var(--harmony-font-size-body-m);
+  --font-size-lg:   var(--harmony-font-size-body-l);
+  --font-size-xl:   var(--harmony-font-size-title-s);
+  --font-size-2xl:  var(--harmony-font-size-title-m);
 
   /* 层级 */
   --z-dropdown:  100;
@@ -118,6 +144,7 @@
   --z-loading:   400;
 }
 
+/* ========== 全局重置 ========== */
 * {
   margin: 0;
   padding: 0;
@@ -132,7 +159,6 @@ body {
               color var(--duration-normal) var(--easing);
 }
 
-/* 主题过渡动画 */
 html {
   transition: background-color var(--duration-normal) var(--easing);
 }
@@ -150,7 +176,7 @@ html {
 .h-loading-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--color-bg-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -160,7 +186,7 @@ html {
 .h-loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid rgba(0,0,0,0.1);
+  border: 3px solid var(--color-border);
   border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;
@@ -180,14 +206,66 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: var(--color-border);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: var(--color-text-disabled);
 }
 
 ::-webkit-scrollbar-thumb:active {
   background: var(--color-primary);
+}
+
+/* ========== 全局过渡动画（Vue Transition） ========== */
+
+/* Dialog 弹窗 */
+.h-dialog-enter-active,
+.h-dialog-leave-active {
+  transition: opacity var(--duration-normal) var(--easing),
+              transform var(--duration-normal) var(--easing);
+}
+.h-dialog-enter-from,
+.h-dialog-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* Drawer 抽屉 */
+.h-drawer-enter-active,
+.h-drawer-leave-active {
+  transition: transform var(--duration-slow) var(--easing);
+}
+.h-drawer-enter-from,
+.h-drawer-leave-to {
+  transform: translateX(100%);
+}
+.h-drawer-enter-from.is-left,
+.h-drawer-leave-to.is-left {
+  transform: translateX(-100%);
+}
+
+/* Tooltip 提示 */
+.h-tooltip-enter-active,
+.h-tooltip-leave-active {
+  transition: opacity var(--duration-fast) var(--easing),
+              transform var(--duration-fast) var(--easing);
+}
+.h-tooltip-enter-from,
+.h-tooltip-leave-to {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+/* Dropdown 下拉 */
+.h-dropdown-enter-active,
+.h-dropdown-leave-active {
+  transition: opacity var(--duration-fast) var(--easing),
+              transform var(--duration-fast) var(--easing);
+}
+.h-dropdown-enter-from,
+.h-dropdown-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
 }

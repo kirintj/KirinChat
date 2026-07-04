@@ -21,7 +21,7 @@
     display: flex;
     font-size: 25px;
     justify-content: center;
-    color:rgb(157, 157, 157);
+    color: var(--color-text-tertiary);
   }
 }
 </style>

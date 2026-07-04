@@ -549,7 +549,7 @@ onMounted(() => {
 .mcp-chat-container {
   display: flex;
   height: 100%;
-  background: #f7f8fa;
+  background: var(--color-bg);
   overflow: hidden;
 }
 
@@ -557,7 +557,7 @@ onMounted(() => {
 .sidebar-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--shadow-lg);
   z-index: 100;
   display: flex;
 }
@@ -565,10 +565,10 @@ onMounted(() => {
 .sidebar {
   width: 280px;
   height: 100%;
-  background: #fff;
+  background: var(--color-bg);
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+  box-shadow: 4px 0 24px var(--shadow-md);
 
   .sidebar-header {
     padding: 16px;
@@ -578,7 +578,7 @@ onMounted(() => {
     justify-content: space-between;
 
     .sidebar-title {
-      font-size: 15px;
+      font-size: var(--font-size-lg);
       font-weight: 600;
       color: var(--color-text-primary);
     }
@@ -593,14 +593,14 @@ onMounted(() => {
       text-align: center;
       padding: 20px;
       color: var(--color-text-secondary);
-      font-size: 14px;
+      font-size: var(--font-size-base);
     }
 
     .task-item {
       padding: 12px;
       margin-bottom: 4px;
       background: transparent;
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       cursor: pointer;
       transition: all 0.2s;
       border: 1px solid transparent;
@@ -626,7 +626,7 @@ onMounted(() => {
         margin-bottom: 6px;
 
         .task-item-title {
-          font-size: 14px;
+          font-size: var(--font-size-base);
           font-weight: 500;
           color: var(--color-text-primary);
         }
@@ -638,7 +638,7 @@ onMounted(() => {
       }
 
       .task-item-preview {
-        font-size: 12px;
+        font-size: var(--font-size-xs);
         color: var(--color-text-secondary);
         overflow: hidden;
         text-overflow: ellipsis;
@@ -676,14 +676,14 @@ onMounted(() => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #f7f8fa;
+  background: var(--color-bg);
   position: relative;
 
   .chat-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 24px;
+    padding: var(--spacing-lg) var(--spacing-2xl);
     background: transparent;
     border-bottom: none;
 
@@ -698,9 +698,9 @@ onMounted(() => {
       }
 
       .toolbar-title {
-        font-size: 20px;
+        font-size: var(--font-size-xl);
         font-weight: 600;
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        background: var(--color-primary);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -734,13 +734,13 @@ onMounted(() => {
       }
       
       .empty-state-text {
-        font-size: 18px;
+        font-size: var(--font-size-xl);
         margin-bottom: 8px;
         font-weight: 500;
       }
       
       .empty-state-hint {
-        font-size: 14px;
+        font-size: var(--font-size-base);
         opacity: 0.7;
       }
     }
@@ -777,10 +777,10 @@ onMounted(() => {
       }
       
       .message-content {
-        padding: 12px 16px;
-        border-radius: 16px;
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-radius: var(--radius-lg);
         line-height: 1.5;
-        font-size: 15px;
+        font-size: var(--font-size-lg);
         word-wrap: break-word;
         overflow-wrap: break-word;
         word-break: break-word;
@@ -806,7 +806,7 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     min-height: 28px;
-    color: #6e8efb;
+    color: var(--color-primary);
   }
   
   .chat-input-wrapper {
@@ -814,7 +814,7 @@ onMounted(() => {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 16px 24px 24px;
+    padding: var(--spacing-lg) var(--spacing-2xl) 24px;
     background: transparent;
     border-top: none;
     
@@ -828,7 +828,7 @@ onMounted(() => {
         .chat-input {
           &:focus {
             border-color: var(--color-primary);
-            box-shadow: 0 2px 12px rgba(64, 158, 255, 0.15);
+            box-shadow: 0 2px 12px var(--color-primary-bg);
           }
         }
 
@@ -837,7 +837,7 @@ onMounted(() => {
 
           &:not(:disabled):hover {
             transform: translateY(-50%) scale(1.08);
-            box-shadow: 0 4px 10px rgba(64, 158, 255, 0.4);
+            box-shadow: 0 4px 10px var(--color-primary-bg);
           }
         }
       }
@@ -849,23 +849,23 @@ onMounted(() => {
 :deep(.event-item) {
   margin: 0 0 4px 0;
   padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 13px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
   border-left: 3px solid;
   
   &.START {
-    background: rgba(37, 99, 235, 0.08);
-    border-left-color: #2563eb;
+    background: var(--color-primary-bg);
+    border-left-color: var(--color-primary);
   }
   
   &.END {
-    background: rgba(34, 197, 94, 0.08);
-    border-left-color: #22c55e;
+    background: var(--color-success-bg);
+    border-left-color: var(--color-success);
   }
   
   &.ERROR {
-    background: rgba(239, 68, 68, 0.08);
-    border-left-color: #ef4444;
+    background: var(--color-danger-bg);
+    border-left-color: var(--color-danger);
   }
   
   .event-header {
@@ -879,21 +879,21 @@ onMounted(() => {
   .event-icon {
     width: 16px;
     height: 16px;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     flex-shrink: 0;
   }
   
   &.START .event-icon {
-    background: #2563eb;
+    background: var(--color-primary);
     animation: pulse 1.5s ease-in-out infinite;
   }
   
   &.END .event-icon {
-    background: #22c55e;
+    background: var(--color-success);
   }
   
   &.ERROR .event-icon {
-    background: #ef4444;
+    background: var(--color-danger);
   }
   
   .event-title {
@@ -902,45 +902,45 @@ onMounted(() => {
   }
   
   &.START .event-title {
-    color: #2563eb;
+    color: var(--color-primary);
   }
   
   &.END .event-title {
-    color: #22c55e;
+    color: var(--color-success);
   }
   
   &.ERROR .event-title {
-    color: #ef4444;
+    color: var(--color-danger);
   }
   
   .event-status {
     font-size: 11px;
     padding: 2px 8px;
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     font-weight: 500;
   }
   
   &.START .event-status {
-    background: rgba(37, 99, 235, 0.15);
-    color: #2563eb;
+    background: var(--color-primary-bg);
+    color: var(--color-primary);
   }
   
   &.END .event-status {
-    background: rgba(34, 197, 94, 0.15);
-    color: #22c55e;
+    background: var(--color-success-bg);
+    color: var(--color-success);
   }
   
   &.ERROR .event-status {
-    background: rgba(239, 68, 68, 0.15);
-    color: #ef4444;
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
   }
   
   .event-message {
     margin-top: 8px;
     padding: 8px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 6px;
-    font-size: 12px;
+    background: var(--color-bg-overlay);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
     line-height: 1.5;
   }
 }
@@ -955,7 +955,7 @@ onMounted(() => {
 .interrupt-feedback {
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid rgba(37, 99, 235, 0.3);
+  border-top: 1px solid var(--color-primary-bg);
   
   .interrupt-feedback-input {
     margin-bottom: 10px;
@@ -969,7 +969,7 @@ onMounted(() => {
 }
 
 .processed-hint {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
   margin-top: 8px;
 }
@@ -978,22 +978,22 @@ onMounted(() => {
 :deep(.interrupt-container) {
   margin: 8px 0;
   padding: 16px;
-  background: rgba(37, 99, 235, 0.08);
-  border: 1px solid rgba(37, 99, 235, 0.3);
-  border-radius: 12px;
+  background: var(--color-primary-bg);
+  border: 1px solid var(--color-primary-bg);
+  border-radius: var(--radius-lg);
   
   &.processed {
     opacity: 0.6;
   }
   
   .interrupt-description {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     line-height: 1.5;
     margin-bottom: 12px;
     
     p { margin: 0 0 8px 0; &:last-child { margin-bottom: 0; } }
-    code { background: rgba(128, 128, 128, 0.2); padding: 2px 5px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 13px; }
-    pre { background: rgba(0, 0, 0, 0.3); padding: 12px; border-radius: 8px; overflow-x: auto; margin: 8px 0; code { background: none; padding: 0; } }
+    code { background: var(--color-border); padding: 2px 5px; border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-sm); }
+    pre { background: var(--shadow-lg); padding: 12px; border-radius: var(--radius-md); overflow-x: auto; margin: 8px 0; code { background: none; padding: 0; } }
   }
 }
 
@@ -1022,17 +1022,17 @@ onMounted(() => {
   }
   
   code {
-    background: rgba(128, 128, 128, 0.2);
+    background: var(--color-border);
     padding: 2px 5px;
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
   }
   
   pre {
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--shadow-lg);
     padding: 12px;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     overflow-x: auto;
     margin: 8px 0;
     

@@ -78,26 +78,26 @@ onMounted(async () => {
 .agent-card {
   padding: 32px;
   min-height: calc(100vh - 150px);
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--color-bg-secondary);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 16px;
-  
+
   .create {
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     height: 160px;
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    border-radius: 20px;
+    background: linear-gradient(135deg, var(--color-info), var(--color-primary));
+    border-radius: var(--radius-xl);
     border: 2px solid transparent;
     box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    
+
     &::before {
       content: '';
       position: absolute;
@@ -108,7 +108,7 @@ onMounted(async () => {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
       backdrop-filter: blur(20px);
     }
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -116,7 +116,7 @@ onMounted(async () => {
       left: -2px;
       right: -2px;
       bottom: -2px;
-      background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+      background: linear-gradient(135deg, var(--color-primary), var(--color-info), var(--color-primary));
       border-radius: 22px;
       z-index: -1;
       opacity: 0;
@@ -136,7 +136,7 @@ onMounted(async () => {
           display: flex;
           align-items: center;
           margin-bottom: 12px;
-          
+
           img {
             width: 40px;
             height: 40px;
@@ -144,23 +144,23 @@ onMounted(async () => {
             filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(255, 255, 255, 0.3));
             transition: all 0.3s ease;
           }
-          
+
           span {
             font-size: 18px;
             font-weight: 600;
-            color: white;
-            font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--color-bg);
+            font-family: var(--font-family);
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
           }
         }
 
         .middle {
-          font-size: 14px;
+          font-size: var(--font-size-base);
           font-weight: 400;
           line-height: 1.5;
           color: rgba(255, 255, 255, 0.9);
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-          font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+          font-family: var(--font-family);
         }
       }
     

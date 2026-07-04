@@ -16,3 +16,9 @@ def _patch_settings():
 
 
 _patch_settings()
+
+# Pre-import the real database package so that it is cached in sys.modules
+# BEFORE any test file that mocks sys.modules runs.  This ensures the mock-
+# injecting test files can save and restore the real module references.
+import kirinchat.database  # noqa: E402
+import kirinchat.database.dao  # noqa: E402

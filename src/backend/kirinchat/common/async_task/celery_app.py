@@ -8,6 +8,7 @@ celery_app = Celery(
     include=[
         "kirinchat.common.async_task.resume_tasks",
         "kirinchat.common.async_task.evaluation_tasks",
+        "kirinchat.common.async_task.voice_interview_tasks",
     ],
 )
 

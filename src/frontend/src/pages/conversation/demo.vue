@@ -338,7 +338,7 @@ const clearSearch = () => {
 
   .demo-header {
     text-align: center;
-    color: white;
+    color: var(--color-on-primary);
     margin-bottom: 20px;
 
     h1 {
@@ -360,13 +360,13 @@ const clearSearch = () => {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 16px;
     backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
 
     .sidebar {
       width: 300px;
-      background: #f8f9fa;
-      border-right: 1px solid #e9ecef;
+      background: var(--color-bg-secondary);
+      border-right: 1px solid var(--color-border);
       display: flex;
       flex-direction: column;
 
@@ -389,7 +389,7 @@ const clearSearch = () => {
 
       .search-section {
         padding: 16px;
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid var(--color-border);
       }
 
       .list-header {
@@ -401,12 +401,12 @@ const clearSearch = () => {
         .title {
           font-size: 14px;
           font-weight: 600;
-          color: #1f2937;
+          color: var(--color-text-primary);
         }
 
         .count {
           font-size: 12px;
-          color: #6b7280;
+          color: var(--color-text-secondary);
         }
       }
 
@@ -421,7 +421,7 @@ const clearSearch = () => {
           align-items: center;
           justify-content: center;
           height: 200px;
-          color: #9ca3af;
+          color: var(--color-text-tertiary);
 
           .empty-icon {
             font-size: 48px;
@@ -435,13 +435,13 @@ const clearSearch = () => {
 
           .empty-hint {
             font-size: 12px;
-            color: #d1d5db;
+            color: var(--color-text-disabled);
           }
         }
 
         .dialog-card {
-          background: white;
-          border: 1px solid #e5e7eb;
+          background: var(--color-bg);
+          border: 1px solid var(--color-border);
           border-radius: 12px;
           padding: 16px;
           margin-bottom: 8px;
@@ -449,14 +449,14 @@ const clearSearch = () => {
           transition: all 0.3s ease;
 
           &:hover {
-            border-color: #3b82f6;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md);
             transform: translateY(-2px);
           }
 
           &.active {
-            border-color: #3b82f6;
-            background-color: #eff6ff;
+            border-color: var(--color-primary);
+            background-color: var(--color-primary-bg);
           }
 
           .card-main {
@@ -490,7 +490,7 @@ const clearSearch = () => {
                 .title {
                   font-size: 14px;
                   font-weight: 600;
-                  color: #1f2937;
+                  color: var(--color-text-primary);
                   margin-bottom: 4px;
                   overflow: hidden;
                   text-overflow: ellipsis;
@@ -499,7 +499,7 @@ const clearSearch = () => {
 
                 .subtitle {
                   font-size: 12px;
-                  color: #6b7280;
+                  color: var(--color-text-secondary);
                 }
               }
             }
@@ -512,7 +512,7 @@ const clearSearch = () => {
 
               .time {
                 font-size: 11px;
-                color: #9ca3af;
+                color: var(--color-text-tertiary);
               }
 
               .actions {
@@ -547,7 +547,7 @@ const clearSearch = () => {
         align-items: center;
         justify-content: center;
         text-align: center;
-        color: #6b7280;
+        color: var(--color-text-secondary);
 
         .welcome-icon {
           margin-bottom: 24px;
@@ -556,7 +556,7 @@ const clearSearch = () => {
         h2 {
           font-size: 1.5rem;
           margin: 0 0 12px 0;
-          color: #1f2937;
+          color: var(--color-text-primary);
         }
 
         p {
@@ -572,12 +572,12 @@ const clearSearch = () => {
 
         .chat-header {
           padding: 20px;
-          border-bottom: 1px solid #e5e7eb;
-          background: #f9fafb;
+          border-bottom: 1px solid var(--color-border);
+          background: var(--color-bg-secondary);
 
           h3 {
             margin: 0;
-            color: #1f2937;
+            color: var(--color-text-primary);
           }
         }
 
@@ -591,8 +591,8 @@ const clearSearch = () => {
             margin-bottom: 12px;
 
             &.system {
-              background: #f3f4f6;
-              color: #6b7280;
+              background: var(--color-bg-tertiary);
+              color: var(--color-text-secondary);
             }
           }
         }
@@ -616,19 +616,19 @@ const clearSearch = () => {
       .title {
         font-size: 16px;
         font-weight: 600;
-        color: #1f2937;
+        color: var(--color-text-primary);
       }
 
       .count {
         font-size: 14px;
-        color: #6b7280;
+        color: var(--color-text-secondary);
       }
     }
 
     .empty-state {
       text-align: center;
       padding: 40px 20px;
-      color: #9ca3af;
+      color: var(--color-text-tertiary);
 
       .empty-icon {
         font-size: 48px;
@@ -655,12 +655,12 @@ const clearSearch = () => {
         transition: all 0.2s ease;
 
         &:hover {
-          background: #f9fafb;
+          background: var(--color-bg-secondary);
         }
 
         &.active {
-          border-color: #3b82f6;
-          background: #eff6ff;
+          border-color: var(--color-primary);
+          background: var(--color-primary-bg);
         }
 
         .agent-avatar {
@@ -682,13 +682,13 @@ const clearSearch = () => {
           .agent-name {
             font-size: 14px;
             font-weight: 600;
-            color: #1f2937;
+            color: var(--color-text-primary);
             margin-bottom: 4px;
           }
 
           .agent-description {
             font-size: 12px;
-            color: #6b7280;
+            color: var(--color-text-secondary);
           }
         }
       }

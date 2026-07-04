@@ -8,11 +8,9 @@ from kirinchat.common.async_task.celery_app import celery_app
 def evaluate_interview_task(self, session_id: str):
     """异步评估面试会话。"""
     try:
-        asyncio.get_event_loop().run_until_complete(
-            _evaluate(session_id)
-        )
+        asyncio.run(_evaluate(session_id))
     except Exception as exc:
-        logger.exception(f"Interview evaluation failed for {session_id}")
+        logger.exception("Interview evaluation failed for %s", session_id)
         raise
 
 

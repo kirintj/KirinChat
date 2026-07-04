@@ -1,84 +1,71 @@
-import { onMounted } from 'vue';
+/**
+ * 通用卡片组件
+ * 展示带有图片、标题和描述的基础卡片
+ */
 <script lang="ts" setup>
-import { onMounted} from 'vue';
-const props = defineProps<{
+interface Props {
   title: string
   detail: string
   type?: string
   imgUrl: string
-}>()
-onMounted(()=>{
+}
 
-   
-})
+defineProps<Props>()
 </script>
 
 <template>
-  <div class="historyCard">
-    <div class="content">
-      <div class="top">
-        <img :src="props.imgUrl" alt="" width="40px" height="40px" />
-        <span>{{ props.title }}</span>
+  <div class="common-card">
+    <div class="card-content">
+      <div class="card-header">
+        <img :src="imgUrl" :alt="title" class="card-image" />
+        <span class="card-title">{{ title }}</span>
       </div>
-      <div class="middle">
-        {{ props.detail }}
+      <div class="card-description">
+        {{ detail }}
       </div>
     </div>
-
   </div>
 </template>
 
 <style lang="scss" scoped>
-.historyCard {
+.common-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 150px;
-  background-color: #f9f9fc;
+  background-color: var(--color-bg-secondary);
   border-radius: 10px;
   padding: 5px 10px;
   margin-right: 15px;
   margin-top: 15px;
-  .content {
+
+  .card-content {
     margin: 5px 0px 0px 10px;
 
-    .top {
+    .card-header {
       display: flex;
       font-size: 18px;
       align-items: center;
       font-weight: 600;
       margin-bottom: 15px;
-      img {
+
+      .card-image {
         margin-right: 10px;
+      }
+
+      .card-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
 
-    .middle {
+    .card-description {
       font-size: 16px;
       font-weight: 500;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-    }
-  }
-
-  .bottom {
-    display: flex;
-    justify-content: end;
-    font-size: 13px;
-    font-weight: 300;
-    color: #f9f9fc;
-
-    .agent {
-      padding: 10px;
-      background-color: #024de3;
-      border-radius: 0 0 10px 0;
-    }
-
-    .skill {
-      padding: 10px;
-      background-color: black;
-      border-radius: 0 0 10px 0;
     }
   }
 }

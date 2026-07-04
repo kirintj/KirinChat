@@ -18,6 +18,13 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [vue()],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern',
+        },
+      },
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src')

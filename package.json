@@ -1,4 +1,15 @@
 {
+  "name": "kirinchat",
+  "version": "2.5.0",
+  "private": true,
+  "description": "KirinChat - Agent chat platform",
+  "scripts": {
+    "dev": "npm run dev --prefix src/frontend",
+    "build": "npm run build --prefix src/frontend",
+    "preview": "npm run preview --prefix src/frontend",
+    "lint": "npm run lint --prefix src/frontend",
+    "test": "vitest run"
+  },
   "devDependencies": {
     "@vue/test-utils": "^2.4.11",
     "happy-dom": "^20.10.6",

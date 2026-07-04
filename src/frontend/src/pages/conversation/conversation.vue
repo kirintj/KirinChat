@@ -560,7 +560,7 @@ const closeCreateDialog = () => {
         color: var(--color-bg);
         border: none;
         cursor: pointer;
-        font-size: 14px;
+        font-size: var(--font-size-base);
 
         &:hover {
           transform: translateY(-1px);
@@ -599,7 +599,7 @@ const closeCreateDialog = () => {
           position: absolute;
           left: 12px;
           color: var(--color-text-tertiary);
-          font-size: 14px;
+          font-size: var(--font-size-base);
           z-index: 1;
         }
 
@@ -608,7 +608,7 @@ const closeCreateDialog = () => {
           padding: 8px 12px 8px 36px;
           border: 1px solid var(--color-border);
           border-radius: var(--radius-sm);
-          font-size: 14px;
+          font-size: var(--font-size-base);
           background: var(--color-bg-secondary);
           transition: all 0.2s ease;
 
@@ -616,7 +616,7 @@ const closeCreateDialog = () => {
             outline: none;
             border-color: var(--color-primary);
             background: var(--color-bg);
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 0 0 2px var(--shadow-xs);
           }
 
           &::placeholder {
@@ -633,13 +633,13 @@ const closeCreateDialog = () => {
       gap: 4px;
 
       .title {
-        font-size: 14px;
+        font-size: var(--font-size-base);
         font-weight: 600;
         color: var(--color-text-primary);
       }
 
       .count {
-        font-size: 12px;
+        font-size: var(--font-size-xs);
         color: var(--color-text-tertiary);
       }
     }
@@ -664,7 +664,7 @@ const closeCreateDialog = () => {
         }
 
         .loading-text {
-          font-size: 14px;
+          font-size: var(--font-size-base);
           color: var(--color-text-secondary);
         }
       }
@@ -683,12 +683,12 @@ const closeCreateDialog = () => {
         }
 
         .empty-text {
-          font-size: 14px;
+          font-size: var(--font-size-base);
           margin-bottom: 8px;
         }
 
         .empty-hint {
-          font-size: 12px;
+          font-size: var(--font-size-xs);
           color: var(--color-text-tertiary);
         }
       }
@@ -736,7 +736,7 @@ const closeCreateDialog = () => {
           top: 16px;
           left: 68px;
           right: 60px;
-          font-size: 14px;
+          font-size: var(--font-size-base);
           font-weight: 600;
           color: var(--color-text-primary);
           overflow: hidden;
@@ -756,7 +756,7 @@ const closeCreateDialog = () => {
           cursor: pointer;
           border-radius: var(--radius-sm);
           transition: all 0.2s ease;
-          font-size: 14px;
+          font-size: var(--font-size-base);
           opacity: 0;
           z-index: 9999;
           display: flex;
@@ -884,13 +884,13 @@ const closeCreateDialog = () => {
       margin-bottom: 16px;
 
       .title {
-        font-size: 16px;
+        font-size: var(--font-size-base);
         font-weight: 600;
         color: var(--color-text-primary);
       }
 
       .count {
-        font-size: 14px;
+        font-size: var(--font-size-base);
         color: var(--color-text-secondary);
       }
     }
@@ -906,12 +906,12 @@ const closeCreateDialog = () => {
       }
 
       .empty-text {
-        font-size: 14px;
+        font-size: var(--font-size-base);
         margin-bottom: 8px;
       }
 
       .empty-hint {
-        font-size: 12px;
+        font-size: var(--font-size-xs);
         color: var(--color-text-tertiary);
       }
     }
@@ -961,14 +961,14 @@ const closeCreateDialog = () => {
           flex: 1;
 
           .agent-name {
-            font-size: 16px;
+            font-size: var(--font-size-base);
             font-weight: 600;
             color: var(--color-text-primary);
             margin-bottom: 4px;
           }
 
           .agent-description {
-            font-size: 14px;
+            font-size: var(--font-size-base);
             color: var(--color-text-secondary);
             line-height: 1.4;
           }
@@ -1103,7 +1103,7 @@ const closeCreateDialog = () => {
           padding: 16px 56px 16px 52px;
           border: 1px solid var(--color-border-secondary);
           border-radius: var(--radius-md);
-          font-size: 15px;
+          font-size: var(--font-size-sm);
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
           background: var(--color-bg);
           color: var(--color-text-primary);
@@ -1113,7 +1113,7 @@ const closeCreateDialog = () => {
             outline: none;
             border-color: var(--color-primary);
             background: var(--color-bg);
-            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 0 0 4px var(--shadow-xs);
           }
 
           &::placeholder {
@@ -1166,7 +1166,7 @@ const closeCreateDialog = () => {
           }
 
           .count {
-            font-size: 14px;
+            font-size: var(--font-size-base);
             color: var(--color-text-secondary);
             background: var(--color-bg);
             padding: 5px 12px;
@@ -1194,7 +1194,7 @@ const closeCreateDialog = () => {
         }
 
         .loading-text {
-          font-size: 15px;
+          font-size: var(--font-size-sm);
           color: var(--color-text-secondary);
           font-weight: 600;
         }
@@ -1213,14 +1213,14 @@ const closeCreateDialog = () => {
         }
 
         .empty-text {
-          font-size: 16px;
+          font-size: var(--font-size-base);
           color: var(--color-text-primary);
           margin-bottom: 10px;
           font-weight: 600;
         }
 
         .empty-hint {
-          font-size: 14px;
+          font-size: var(--font-size-base);
           color: var(--color-text-tertiary);
         }
       }
@@ -1359,7 +1359,7 @@ const closeCreateDialog = () => {
             width: 100%;
 
             .agent-name {
-              font-size: 16px;
+              font-size: var(--font-size-base);
               font-weight: 700;
               color: var(--color-text-primary);
               margin-bottom: 8px;
@@ -1401,7 +1401,7 @@ const closeCreateDialog = () => {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 14px;
+      font-size: var(--font-size-base);
       color: var(--color-text-secondary);
       flex: 1;
 
@@ -1430,7 +1430,7 @@ const closeCreateDialog = () => {
       border: none;
       border-radius: var(--radius-md);
       cursor: pointer;
-      font-size: 15px;
+      font-size: var(--font-size-sm);
       font-weight: 600;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
@@ -1455,7 +1455,7 @@ const closeCreateDialog = () => {
       background: var(--color-primary);
       color: var(--color-bg);
       cursor: pointer;
-      font-size: 15px;
+      font-size: var(--font-size-sm);
       font-weight: 600;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;

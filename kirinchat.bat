@@ -1,9 +1,10 @@
 @echo off
 setlocal enabledelayedexpansion
-chcp 65001 >nul 2>&1
 
-REM KirinChat 统一启动脚本
-REM 用法: kirinchat.bat <command> [options]
+REM ============================================================
+REM  KirinChat Launcher - encoding-safe version
+REM  Usage: kirinchat.bat <command> [options]
+REM ============================================================
 
 if "%~1"=="" goto :help
 if "%~1"=="help" goto :help
@@ -16,39 +17,39 @@ if "%~1"=="logs" goto :logs
 if "%~1"=="clean" goto :clean
 if "%~1"=="build" goto :build
 
-echo [ERROR] 未知命令: %~1
-echo 运行 kirinchat.bat help 查看可用命令
+echo [ERROR] Unknown command: %~1
+echo Run 'kirinchat.bat help' to see available commands
 exit /b 2
 
-REM ─── help ──────────────────────────────────────────────
+REM ============ help ============
 :help
 echo.
-echo   KirinChat 统一启动脚本
-echo   ─────────────────────────────────────
+echo   KirinChat Launcher
+echo   --------------------------------------------------------
 echo.
-echo   用法: kirinchat.bat ^<command^> [options]
+echo   Usage: kirinchat.bat ^<command^> [options]
 echo.
-echo   命令:
-echo     up [options]      启动服务
-echo       --backend-only    只启动 Docker + 后端
-echo       --frontend-only   只启动前端
-echo       --build           强制重新构建 Docker 镜像
-echo     down              停止所有服务
-echo     status            查看 Docker 容器状态
-echo     logs [service]    查看日志
-echo     clean             清除 Docker 数据卷（需二次确认）
-echo     build             重新构建 Docker 镜像
-echo     help              显示本帮助信息
+echo   Commands:
+echo     up [options]      Start services
+echo       --backend-only    Start Docker + Backend only
+echo       --frontend-only   Start Frontend only
+echo       --build           Force rebuild Docker images
+echo     down              Stop all services
+echo     status            Show Docker container status
+echo     logs [service]    Show logs
+echo     clean             Remove Docker data volumes (needs confirm)
+echo     build             Rebuild Docker images
+echo     help              Show this help message
 echo.
-echo   示例:
-echo     kirinchat.bat up                 启动全部服务
-echo     kirinchat.bat up --backend-only  只启动后端
-echo     kirinchat.bat down               停止所有服务
-echo     kirinchat.bat logs backend       查看后端日志
+echo   Examples:
+echo     kirinchat.bat up                 Start all services
+echo     kirinchat.bat up --backend-only  Start backend only
+echo     kirinchat.bat down               Stop all services
+echo     kirinchat.bat logs backend       Show backend logs
 echo.
 goto :eof
 
-REM ─── up ────────────────────────────────────────────────
+REM ============ up ============
 :up
 set "BACKEND_ONLY=false"
 set "FRONTEND_ONLY=false"
@@ -67,57 +68,64 @@ cd /d "%~dp0"
 
 if "%FRONTEND_ONLY%"=="true" goto :up_frontend_only
 
-REM 检查 Docker
+REM Check Docker
 docker info >nul 2>&1
 if errorlevel 1 (
-    echo [ERROR] Docker 未运行，请启动 Docker Desktop
+    echo [ERROR] Docker is not running. Please start Docker Desktop.
     exit /b 3
 )
 
 if "%FORCE_BUILD%"=="true" (
-    echo [步骤] 重新构建 Docker 镜像...
+    echo [Step] Rebuilding Docker images...
     docker compose -f docker\docker-compose-dev.yml up --build -d
 ) else (
-    echo [步骤] 启动 Docker 基础服务...
+    echo [Step] Starting Docker services...
     docker compose -f docker\docker-compose-dev.yml up -d
 )
 
-if errorlevel 1 (
-    echo [ERROR] Docker 服务启动失败
-    pause
-    exit /b 1
-)
+echo.
+echo [Step] Checking Docker containers...
+docker compose -f docker\docker-compose-dev.yml ps
 
-echo [步骤] 等待服务就绪...
+echo.
+echo [INFO] If some containers failed to pull images, please:
+echo        1. Check your network connection
+echo        2. Configure a Docker registry mirror (recommended in China)
+echo           In Docker Desktop - Settings - Docker Engine:
+echo           "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"]
+echo        3. Or pull images manually: docker pull mysql:8.0
+echo.
+
+echo [Step] Waiting for services to be ready...
 timeout /t 20 >nul
 
 if "%BACKEND_ONLY%"=="true" goto :up_backend_only
 
-REM 启动全部
+REM Start all
 call :ensure_backend_deps
 call :ensure_frontend_deps
 
-echo [步骤] 启动后端服务（端口 7860）...
+echo [Step] Starting Backend (port 7860)...
 cd /d "%~dp0src\backend"
 call .venv\Scripts\activate.bat
 start "KirinChat Backend" cmd /k "title KirinChat Backend && uvicorn kirinchat.main:app --reload --host 0.0.0.0 --port 7860"
 
-echo [步骤] 启动前端服务（端口 8090）...
+echo [Step] Starting Frontend (port 8090)...
 cd /d "%~dp0src\frontend"
 start "KirinChat Frontend" cmd /k "title KirinChat Frontend && npm run dev"
 
 echo.
-echo   ─────────────────────────────────────
-echo   ✅ KirinChat 已启动
-echo   ─────────────────────────────────────
+echo   --------------------------------------------------------
+echo   [OK] KirinChat started successfully
+echo   --------------------------------------------------------
 echo.
-echo   前端界面:    http://localhost:8090
-echo   后端API:     http://localhost:7860
-echo   API文档:     http://localhost:7860/docs
-echo   MinIO控制台: http://localhost:9001
+echo   Frontend:      http://localhost:8090
+echo   Backend API:   http://localhost:7860
+echo   API Docs:      http://localhost:7860/docs
+echo   MinIO Console: http://localhost:9001
 echo.
-echo   关闭后端和前端窗口停止服务
-echo   或运行 kirinchat.bat down
+echo   Close the backend/frontend windows to stop services,
+echo   or run: kirinchat.bat down
 echo.
 pause
 goto :eof
@@ -125,13 +133,13 @@ goto :eof
 :up_backend_only
 call :ensure_backend_deps
 
-echo [步骤] 启动后端服务（端口 7860）...
+echo [Step] Starting Backend (port 7860)...
 cd /d "%~dp0src\backend"
 call .venv\Scripts\activate.bat
 start "KirinChat Backend" cmd /k "title KirinChat Backend && uvicorn kirinchat.main:app --reload --host 0.0.0.0 --port 7860"
 
 echo.
-echo ✅ 后端已启动: http://localhost:7860
+echo [OK] Backend started: http://localhost:7860
 echo.
 pause
 goto :eof
@@ -139,34 +147,34 @@ goto :eof
 :up_frontend_only
 call :ensure_frontend_deps
 
-echo [步骤] 启动前端服务（端口 8090）...
+echo [Step] Starting Frontend (port 8090)...
 cd /d "%~dp0src\frontend"
 start "KirinChat Frontend" cmd /k "title KirinChat Frontend && npm run dev"
 goto :eof
 
-REM ─── down ──────────────────────────────────────────────
+REM ============ down ============
 :down
 cd /d "%~dp0"
 
-echo [步骤] 停止 Docker 服务...
+echo [Step] Stopping Docker services...
 docker compose -f docker\docker-compose-dev.yml down
 
 if errorlevel 1 (
-    echo [ERROR] 停止服务失败
+    echo [ERROR] Failed to stop services.
     pause
     exit /b 1
 )
 
 echo.
-echo ✅ 所有服务已停止
+echo [OK] All services stopped.
 echo.
-echo   数据已保留在 Docker 卷中
-echo   完全清理数据: kirinchat.bat clean
+echo   Data is preserved in Docker volumes.
+echo   To clean all data: kirinchat.bat clean
 echo.
 pause
 goto :eof
 
-REM ─── status ────────────────────────────────────────────
+REM ============ status ============
 :status
 cd /d "%~dp0"
 docker compose -f docker\docker-compose-dev.yml ps
@@ -174,7 +182,7 @@ echo.
 pause
 goto :eof
 
-REM ─── logs ──────────────────────────────────────────────
+REM ============ logs ============
 :logs
 cd /d "%~dp0"
 if "%~2"=="" (
@@ -184,56 +192,56 @@ if "%~2"=="" (
 )
 goto :eof
 
-REM ─── clean ─────────────────────────────────────────────
+REM ============ clean ============
 :clean
 cd /d "%~dp0"
 
-echo [警告] 此操作将删除所有数据（数据库、缓存、文件）！
-set /p CONFIRM="确认清除？(y/N): "
+echo [WARNING] This will delete ALL data (database, cache, files)!
+set /p CONFIRM="Confirm cleanup? (y/N): "
 if /i not "%CONFIRM%"=="y" (
-    echo 已取消
+    echo Cancelled.
     pause
     goto :eof
 )
 
-echo [步骤] 清除 Docker 数据卷...
+echo [Step] Removing Docker data volumes...
 docker compose -f docker\docker-compose-dev.yml down -v
-echo ✅ 数据已清除
+echo [OK] Data cleaned.
 pause
 goto :eof
 
-REM ─── build ─────────────────────────────────────────────
+REM ============ build ============
 :build
 cd /d "%~dp0"
-echo [步骤] 重新构建 Docker 镜像...
+echo [Step] Rebuilding Docker images...
 docker compose -f docker\docker-compose-dev.yml up --build -d
-echo ✅ 构建完成
+echo [OK] Build completed.
 pause
 goto :eof
 
-REM ─── 辅助函数 ──────────────────────────────────────────
+REM ============ helper functions ============
 :ensure_backend_deps
 if not exist "%~dp0src\backend\.venv" (
-    echo [步骤] 首次运行，安装后端依赖...
+    echo [Step] First run, installing backend dependencies...
     cd /d "%~dp0src\backend"
     call pip install uv
     call uv sync
-    echo ✅ 后端依赖安装完成
+    echo [OK] Backend dependencies installed.
 )
 if not exist "%~dp0src\backend\kirinchat\config.yaml" (
-    echo [步骤] 创建配置文件...
+    echo [Step] Creating config file...
     copy "%~dp0src\backend\agentchat\config-dev.yaml" "%~dp0src\backend\kirinchat\config.yaml"
-    echo [警告] 已创建默认配置文件，请编辑 src\backend\kirinchat\config.yaml
+    echo [WARNING] Default config created. Please edit: src\backend\kirinchat\config.yaml
 )
 cd /d "%~dp0"
 goto :eof
 
 :ensure_frontend_deps
 if not exist "%~dp0src\frontend\node_modules" (
-    echo [步骤] 首次运行，安装前端依赖...
+    echo [Step] First run, installing frontend dependencies...
     cd /d "%~dp0src\frontend"
     call npm install
-    echo ✅ 前端依赖安装完成
+    echo [OK] Frontend dependencies installed.
 )
 cd /d "%~dp0"
 goto :eof

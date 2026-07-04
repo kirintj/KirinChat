@@ -1,0 +1,39 @@
+display:
+  icon: "⚡"
+  gradient: from-green-500 to-emerald-500
+  colors:
+    primary: "#16a34a"
+    secondary: "#10b981"
+
+categories:
+  - key: NET_OS
+    label: 计网与操作系统
+    priority: CORE
+    ref: network-os.md
+  - key: JAVA
+    label: Java
+    priority: CORE
+    ref: java.md
+  - key: MYSQL
+    label: MySQL
+    priority: NORMAL
+    ref: mysql.md
+  - key: REDIS
+    label: Redis
+    priority: NORMAL
+    ref: redis.md
+  - key: MQ
+    label: 消息队列
+    priority: NORMAL
+    ref: mq.md
+  - key: SYSTEM_DESIGN_SCENARIO
+    label: 系统设计/场景题
+    priority: NORMAL
+    ref: system-design-scenarios.md
+  - key: SPRING
+    label: Spring
+    priority: NORMAL
+    ref: spring.md
+  - key: PROJECT
+    label: 项目经历
+    priority: ALWAYS_ONE

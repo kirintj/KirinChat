@@ -367,8 +367,8 @@ defineExpose({ open, close })
     justify-content: space-between;
     align-items: center;
     padding: 20px 24px;
-    border-bottom: 1px solid var(--color-border, #e4e7ed);
-    background: var(--color-bg-secondary, #fff);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
 
     .header-left {
       display: flex;
@@ -382,7 +382,7 @@ defineExpose({ open, close })
       .header-title {
         font-size: 18px;
         font-weight: 600;
-        color: var(--color-text-primary, #303133);
+        color: var(--color-text-primary);
       }
     }
 
@@ -400,8 +400,8 @@ defineExpose({ open, close })
     .left-panel {
       width: 25%;
       min-width: 300px;
-      background-color: var(--color-bg-tertiary, #fafbfc);
-      border-right: 1px solid var(--color-border, #e4e7ed);
+      background-color: var(--color-bg-tertiary);
+      border-right: 1px solid var(--color-border);
       overflow-y: auto;
       flex-shrink: 0;
       padding: 32px 24px;
@@ -410,7 +410,7 @@ defineExpose({ open, close })
         font-size: 16px;
         font-weight: 600;
         margin-bottom: 16px;
-        color: var(--color-text-primary, #303133);
+        color: var(--color-text-primary);
       }
 
       .prompt-textarea {
@@ -420,15 +420,15 @@ defineExpose({ open, close })
         line-height: 1.5;
         border-radius: 6px;
         padding: 12px;
-        border: 1px solid var(--color-border, #dcdfe6);
-        background: var(--color-bg-secondary, #fff);
-        color: var(--color-text-primary, #303133);
+        border: 1px solid var(--color-border);
+        background: var(--color-bg);
+        color: var(--color-text-primary);
         resize: vertical;
         box-sizing: border-box;
 
         &:focus {
           outline: none;
-          border-color: var(--color-primary, #409eff);
+          border-color: var(--color-primary);
         }
       }
     }
@@ -436,8 +436,8 @@ defineExpose({ open, close })
     .middle-panel {
       width: 35%;
       min-width: 400px;
-      background-color: var(--color-bg-secondary, #fff);
-      border-right: 1px solid var(--color-border, #e4e7ed);
+      background-color: var(--color-bg);
+      border-right: 1px solid var(--color-border);
       overflow-y: auto;
       flex-shrink: 0;
       padding: 32px 24px;
@@ -445,9 +445,9 @@ defineExpose({ open, close })
       .config-sections {
         .config-section {
           margin-bottom: 16px;
-          border: 1px solid var(--color-border, #e4e7ed);
+          border: 1px solid var(--color-border);
           border-radius: 8px;
-          background-color: var(--color-bg-tertiary, #fafbfc);
+          background-color: var(--color-bg-tertiary);
 
           .section-header {
             display: flex;
@@ -458,10 +458,10 @@ defineExpose({ open, close })
             user-select: none;
             font-size: 15px;
             font-weight: 500;
-            color: var(--color-text-primary, #303133);
+            color: var(--color-text-primary);
 
             &:hover {
-              background-color: var(--color-bg-hover, #f0f2f5);
+              background-color: var(--color-bg-hover);
             }
 
             .collapse-arrow {
@@ -476,8 +476,8 @@ defineExpose({ open, close })
 
           .section-content {
             padding: 16px;
-            background-color: var(--color-bg-secondary, #fff);
-            border-top: 1px solid var(--color-border, #e4e7ed);
+            background-color: var(--color-bg);
+            border-top: 1px solid var(--color-border);
           }
         }
       }
@@ -486,7 +486,7 @@ defineExpose({ open, close })
     .right-panel {
       width: 40%;
       min-width: 400px;
-      background-color: var(--color-bg-tertiary, #fafbfc);
+      background-color: var(--color-bg-tertiary);
       overflow-y: auto;
       flex-shrink: 0;
       padding: 32px 24px;
@@ -501,12 +501,12 @@ defineExpose({ open, close })
           margin-bottom: 20px;
 
           .status-text {
-            color: var(--color-success, #67c23a);
+            color: var(--color-success);
             font-size: 12px;
-            border: 1px dashed var(--color-success, #67c23a);
+            border: 1px dashed var(--color-success);
             padding: 4px 12px;
             border-radius: 4px;
-            background-color: var(--color-success-bg, #f0f9ff);
+            background-color: var(--color-success-bg);
           }
         }
 
@@ -526,7 +526,7 @@ defineExpose({ open, close })
               display: flex;
               align-items: center;
               justify-content: center;
-              background-color: var(--color-bg-tertiary, #f0f2f5);
+              background-color: var(--color-bg-tertiary);
 
               img {
                 width: 100%;
@@ -537,14 +537,14 @@ defineExpose({ open, close })
 
             .message-content {
               flex: 1;
-              background-color: var(--color-bg-secondary, #fff);
+              background-color: var(--color-bg);
               padding: 12px;
               border-radius: 8px;
-              box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+              box-shadow: var(--shadow-sm);
 
               p {
                 margin: 0;
-                color: var(--color-text-primary, #303133);
+                color: var(--color-text-primary);
                 font-size: 14px;
                 line-height: 1.5;
               }
@@ -558,23 +558,23 @@ defineExpose({ open, close })
           h4 {
             margin: 0 0 12px 0;
             font-size: 14px;
-            color: var(--color-text-primary, #303133);
+            color: var(--color-text-primary);
           }
 
           .question-list {
             .question-item {
               padding: 8px 12px;
-              background-color: var(--color-bg-tertiary, #f0f2f5);
+              background-color: var(--color-bg-hover);
               border-radius: 6px;
               margin-bottom: 8px;
               font-size: 13px;
-              color: var(--color-text-secondary, #606266);
+              color: var(--color-text-secondary);
               cursor: pointer;
               transition: all 0.3s;
 
               &:hover {
-                background-color: var(--color-primary-bg, #e6f7ff);
-                color: var(--color-primary, #409eff);
+                background-color: var(--color-primary-bg);
+                color: var(--color-primary);
               }
             }
           }
@@ -584,13 +584,13 @@ defineExpose({ open, close })
           .input-wrapper {
             display: flex;
             align-items: center;
-            background-color: var(--color-bg-secondary, #fff);
+            background-color: var(--color-bg);
             border-radius: 8px;
             padding: 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
 
             .input-icon {
-              color: var(--color-text-tertiary, #909399);
+              color: var(--color-text-tertiary);
               margin-right: 8px;
             }
 
@@ -599,11 +599,11 @@ defineExpose({ open, close })
               border: none;
               outline: none;
               font-size: 14px;
-              color: var(--color-text-primary, #303133);
+              color: var(--color-text-primary);
               background: transparent;
 
               &::placeholder {
-                color: var(--color-text-tertiary, #c0c4cc);
+                color: var(--color-text-disabled);
               }
             }
 
@@ -617,7 +617,7 @@ defineExpose({ open, close })
             margin-top: 8px;
 
             span {
-              color: var(--color-text-tertiary, #909399);
+              color: var(--color-text-tertiary);
               font-size: 12px;
             }
           }

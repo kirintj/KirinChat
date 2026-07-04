@@ -1,5 +1,5 @@
 ---
-name: algorithm
+name: 算法
 description: 算法面试，涵盖数据结构/常见算法/动态规划/图论/系统设计算法
 ---
 

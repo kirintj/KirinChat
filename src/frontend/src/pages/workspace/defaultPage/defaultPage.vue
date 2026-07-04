@@ -35,9 +35,16 @@ const isGenerating = ref(false)  // 是否正在生成回复
 // 模型数据（来自应用中心"可见模型"）
 const modelOptions = ref<LLMResponse[]>([])
 const modelsLoading = ref(false)
+const modelsError = ref('')          // 错误提示文案
+const modelsRetryable = ref(false)   // 是否显示重试按钮
 
 // 本页对话消息（用户在上，AI在下）
 const messages = ref<Array<{ role: 'user' | 'assistant'; content: string }>>([])
+
+// 插件状态
+const pluginsError = ref('')
+const pluginsRetryable = ref(false)
+const pluginsLoading = ref(false)
 
 // 头像加载错误处理
 const handleAvatarError = (event: Event) => {
@@ -63,6 +70,8 @@ const modes = [
 // 从接口加载模型
 const fetchModels = async () => {
   modelsLoading.value = true
+  modelsError.value = ''
+  modelsRetryable.value = false
   try {
     const res = await getVisibleLLMsAPI()
     if (res.data && res.data.status_code === 200) {
@@ -71,16 +80,18 @@ const fetchModels = async () => {
       Object.values(grouped).forEach((arr: any) => {
         if (Array.isArray(arr)) list.push(...arr)
       })
-      // 仅保留 LLM 类型
       modelOptions.value = list.filter(m => (m.llm_type || '').toUpperCase() === 'LLM')
-      // 默认选择第一个
       if (!selectedModelId.value && modelOptions.value.length > 0) {
         selectedModelId.value = modelOptions.value[0].llm_id
         selectedModel.value = modelOptions.value[0].model
       }
     }
-  } catch (e) {
-    console.error('获取模型失败', e)
+  } catch (e: any) {
+    const msg = e?.friendlyMessage || '获取模型失败'
+    console.error(msg, e)
+    modelsError.value = msg
+    // 超时 / 网络错误 → 允许重试
+    modelsRetryable.value = e?.code === 'ECONNABORTED' || !e?.response
   } finally {
     modelsLoading.value = false
   }
@@ -88,14 +99,21 @@ const fetchModels = async () => {
 
 // 获取可用插件
 const fetchPlugins = async () => {
+  pluginsLoading.value = true
+  pluginsError.value = ''
+  pluginsRetryable.value = false
   try {
     const response = await getWorkspacePluginsAPI()
     if (response.data.status_code === 200) {
       plugins.value = response.data.data || []
-      console.log('可用插件:', plugins.value)
     }
-  } catch (error) {
-    console.error('获取插件列表出错:', error)
+  } catch (error: any) {
+    const msg = error?.friendlyMessage || '获取插件列表失败'
+    console.error(msg, error)
+    pluginsError.value = msg
+    pluginsRetryable.value = error?.code === 'ECONNABORTED' || !error?.response
+  } finally {
+    pluginsLoading.value = false
   }
 }
 
@@ -473,6 +491,11 @@ watch(
                       <span class="empty-icon">⏳</span>
                       <span class="empty-text">正在加载模型...</span>
                     </div>
+                    <div v-else-if="modelsError" class="dropdown-empty dropdown-error">
+                      <span class="empty-icon">⚠️</span>
+                      <span class="empty-text">{{ modelsError }}</span>
+                      <button v-if="modelsRetryable" class="retry-btn" @click.stop="fetchModels">重新加载</button>
+                    </div>
                     <div v-else-if="modelOptions.length === 0" class="dropdown-empty">
                       <img src="../../../assets/model.svg" alt="模型" class="empty-icon-img" />
                       <span class="empty-text">暂无可用模型</span>
@@ -535,7 +558,16 @@ watch(
 
                     <!-- 工具列表 -->
                     <div class="dropdown-list">
-                      <div v-if="plugins.length === 0" class="dropdown-empty">
+                      <div v-if="pluginsLoading" class="dropdown-empty">
+                        <span class="empty-icon">⏳</span>
+                        <span class="empty-text">正在加载工具...</span>
+                      </div>
+                      <div v-else-if="pluginsError" class="dropdown-empty dropdown-error">
+                        <span class="empty-icon">⚠️</span>
+                        <span class="empty-text">{{ pluginsError }}</span>
+                        <button v-if="pluginsRetryable" class="retry-btn" @click.stop="fetchPlugins">重新加载</button>
+                      </div>
+                      <div v-else-if="plugins.length === 0" class="dropdown-empty">
                         <img src="../../../assets/plugin.svg" alt="工具" class="empty-icon-img" />
                         <span class="empty-text">暂无可用工具</span>
                       </div>
@@ -748,7 +780,7 @@ watch(
   .welcome-title {
     font-size: 32px;
     font-weight: 700;
-    background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%);
+    background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-text-secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -758,7 +790,7 @@ watch(
 
   .welcome-subtitle {
     font-size: 15px;
-    color: #6b7280;
+    color: var(--color-text-secondary);
     margin: 0;
     line-height: 1.7;
     max-width: 500px;
@@ -777,11 +809,11 @@ watch(
     align-items: center;
     gap: 10px;
     padding: 12px 24px;
-    border: 2px solid #e5e7eb;
+    border: 2px solid var(--color-border);
     border-radius: 24px;
-    background: white;
-    color: #6b7280;
-    font-size: 14px;
+    background: var(--color-bg);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -796,8 +828,8 @@ watch(
     }
 
     &:hover {
-      border-color: #667eea;
-      background: #f8f9ff;
+      border-color: var(--color-primary);
+      background: var(--color-primary-bg);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
 
@@ -807,9 +839,9 @@ watch(
     }
 
     &.active {
-      border-color: #667eea;
-      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-      color: #667eea;
+      border-color: var(--color-primary);
+      background: var(--color-primary-bg);
+      color: var(--color-primary);
       box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
       transform: translateY(-2px);
 
@@ -965,7 +997,7 @@ watch(
             padding: 8px 14px;
             background: var(--color-bg-secondary);
             border: 1px solid var(--color-border);
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-size: 13px;
             color: var(--color-text-secondary);
             cursor: pointer;
@@ -973,7 +1005,7 @@ watch(
             user-select: none;
 
             .selector-icon {
-              font-size: 16px;
+              font-size: var(--font-size-lg);
             }
 
             .selector-icon-img {
@@ -1000,8 +1032,8 @@ watch(
             }
 
             .selector-check {
-              font-size: 14px;
-              color: #667eea;
+              font-size: var(--font-size-base);
+              color: var(--color-primary);
               font-weight: 600;
             }
 
@@ -1028,9 +1060,9 @@ watch(
             bottom: calc(100% + 8px);
             left: 0;
             min-width: 200px;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
             box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
             z-index: 1000;
             max-height: 320px;
@@ -1064,22 +1096,22 @@ watch(
               justify-content: space-between;
               align-items: center;
               padding: 12px 16px;
-              background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
-              border-bottom: 1px solid #e5e7eb;
+              background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-hover) 100%);
+              border-bottom: 1px solid var(--color-border);
 
               .header-title {
-                font-size: 14px;
+                font-size: var(--font-size-base);
                 font-weight: 600;
-                color: #1f2937;
+                color: var(--color-text-primary);
               }
 
               .header-count {
-                font-size: 12px;
-                color: #6b7280;
-                background: white;
+                font-size: var(--font-size-xs);
+                color: var(--color-text-secondary);
+                background: var(--color-bg);
                 padding: 2px 8px;
                 border-radius: 10px;
-                border: 1px solid #e5e7eb;
+                border: 1px solid var(--color-border);
               }
             }
 
@@ -1097,11 +1129,11 @@ watch(
               }
 
               &::-webkit-scrollbar-thumb {
-                background: #e0e0e0;
+                background: var(--color-border);
                 border-radius: 4px;
 
                 &:hover {
-                  background: #bdbdbd;
+                  background: var(--color-border);
                 }
               }
             }
@@ -1109,7 +1141,7 @@ watch(
             .dropdown-empty {
               padding: 48px 20px;
               text-align: center;
-              color: #9ca3af;
+              color: var(--color-text-tertiary);
               display: flex;
               flex-direction: column;
               align-items: center;
@@ -1128,8 +1160,33 @@ watch(
               }
 
               .empty-text {
-                font-size: 14px;
-                color: #6b7280;
+                font-size: var(--font-size-base);
+                color: var(--color-text-secondary);
+              }
+
+              &.dropdown-error {
+                gap: 10px;
+
+                .empty-text {
+                  color: var(--color-danger, #e74c3c);
+                  font-size: var(--font-size-sm, 12px);
+                }
+
+                .retry-btn {
+                  padding: 4px 16px;
+                  border: 1px solid var(--color-primary, #409eff);
+                  border-radius: 4px;
+                  background: transparent;
+                  color: var(--color-primary, #409eff);
+                  font-size: var(--font-size-sm, 12px);
+                  cursor: pointer;
+                  transition: all 0.2s;
+
+                  &:hover {
+                    background: var(--color-primary, #409eff);
+                    color: #fff;
+                  }
+                }
               }
             }
 
@@ -1144,7 +1201,7 @@ watch(
               transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
               margin-bottom: 4px;
               border: 2px solid transparent;
-              background: #fafafa;
+              background: var(--color-bg-tertiary);
 
               .item-left {
                 display: flex;
@@ -1160,7 +1217,7 @@ watch(
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+                background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-border) 100%);
                 border-radius: 10px;
                 flex-shrink: 0;
                 transition: all 0.3s ease;
@@ -1184,14 +1241,14 @@ watch(
                 .item-text {
                   font-size: 15px;
                   font-weight: 600;
-                  color: #1f2937;
+                  color: var(--color-text-primary);
                   margin-bottom: 4px;
                   line-height: 1.3;
                 }
 
                 .item-desc {
-                  font-size: 12px;
-                  color: #6b7280;
+                  font-size: var(--font-size-xs);
+                  color: var(--color-text-secondary);
                   overflow: hidden;
                   text-overflow: ellipsis;
                   display: -webkit-box;
@@ -1208,36 +1265,36 @@ watch(
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%);
                 border-radius: 50%;
                 flex-shrink: 0;
                 box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 
                 .item-check {
-                  font-size: 16px;
-                  color: white;
+                  font-size: var(--font-size-lg);
+                  color: var(--color-bg);
                   font-weight: 700;
                 }
               }
 
               &:hover {
-                background: #f5f7fa;
+                background: var(--color-bg-secondary);
                 transform: translateX(2px);
-                border-color: #e5e7eb;
+                border-color: var(--color-border);
 
                 .item-icon-wrapper {
-                  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+                  background: var(--color-border);
                   transform: scale(1.05);
                 }
               }
 
               &.selected {
-                background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%);
-                border-color: #667eea;
+                background: var(--color-primary-bg);
+                border-color: var(--color-primary);
                 box-shadow: 0 2px 8px rgba(102, 126, 234, 0.12);
 
                 .item-icon-wrapper {
-                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  background: linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%);
                   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
                   
                   .item-icon-img {
@@ -1250,7 +1307,7 @@ watch(
                 }
 
                 .item-text {
-                  color: #667eea;
+                  color: var(--color-primary);
                 }
               }
 
@@ -1264,16 +1321,16 @@ watch(
               justify-content: space-between;
               align-items: center;
               padding: 12px 16px;
-              border-top: 2px solid #f0f0f0;
-              background: linear-gradient(135deg, #fafbfc 0%, #f5f7fa 100%);
+              border-top: 2px solid var(--color-border);
+              background: var(--color-bg-secondary);
 
               .clear-btn {
                 padding: 8px 16px;
-                background: white;
-                border: 1px solid #e5e7eb;
-                border-radius: 8px;
+                background: var(--color-bg);
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-sm);
                 font-size: 13px;
-                color: #6b7280;
+                color: var(--color-text-secondary);
                 cursor: pointer;
                 transition: all 0.25s ease;
                 font-weight: 500;
@@ -1301,12 +1358,12 @@ watch(
 
                 .selected-count {
                   font-size: 13px;
-                  color: #667eea;
+                  color: var(--color-primary);
                   font-weight: 600;
                   padding: 4px 12px;
-                  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-                  border-radius: 12px;
-                  border: 1px solid #667eea;
+                  background: var(--color-primary-bg);
+                  border-radius: var(--radius-lg);
+                  border: 1px solid var(--color-primary);
                 }
               }
             }
@@ -1325,16 +1382,16 @@ watch(
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #f8f9fa;
-          border: 1px solid #e5e7eb;
-          border-radius: 8px;
+          background: var(--color-bg-secondary);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-sm);
           cursor: pointer;
           transition: all 0.2s ease;
           font-size: 18px;
 
           &:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
             transform: translateY(-1px);
           }
 
@@ -1362,11 +1419,11 @@ watch(
           justify-content: center;
           background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
           border: none;
-          border-radius: 8px;
-          color: white;
+          border-radius: var(--radius-sm);
+          color: var(--color-bg);
           cursor: pointer;
           transition: all 0.2s ease;
-          font-size: 16px;
+          font-size: var(--font-size-lg);
           box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
 
           &:hover:not(.btn-disabled) {
@@ -1379,7 +1436,7 @@ watch(
           }
 
           &.btn-disabled {
-            background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+            background: linear-gradient(135deg, var(--color-text-tertiary) 0%, var(--color-text-secondary) 100%);
             cursor: not-allowed;
             opacity: 0.6;
           }
@@ -1430,15 +1487,15 @@ watch(
       border-radius: 50%;
       margin-right: 15px;
       flex-shrink: 0;
-      border: 1px solid #eee;
+      border: 1px solid var(--color-border);
     }
 
     .message-content {
-      background-color: #ffffff;
+      background-color: var(--color-bg);
       border-radius: 18px;
       padding: 12px 18px;
       max-width: 70%;
-      color: #333;
+      color: var(--color-text-primary);
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       word-break: break-word;
 
@@ -1448,13 +1505,13 @@ watch(
         align-items: center;
         gap: 12px;
         padding: 4px 0;
-        color: #6b7280;
-        font-size: 14px;
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-base);
 
         .loading-spinner {
           width: 16px;
           height: 16px;
-          border: 2px solid #d1d5db;
+          border: 2px solid var(--color-border);
           border-top: 2px solid transparent;
           border-radius: 50%;
           animation: spin 1s linear infinite;
@@ -1462,7 +1519,7 @@ watch(
 
         .loading-text {
           font-weight: 500;
-          color: #9ca3af;
+          color: var(--color-text-tertiary);
         }
       }
     }
@@ -1479,14 +1536,14 @@ watch(
       border-radius: 50%;
       margin-left: 12px;
       flex-shrink: 0;
-      border: 1px solid #eee;
+      border: 1px solid var(--color-border);
     }
 
     .message-content {
       display: flex;
       align-items: center;
       background: linear-gradient(135deg, #6e8efb, #a777e3);
-      color: white;
+      color: var(--color-bg);
       border-radius: 18px;
       padding: 12px 18px;
       max-width: 70%;
@@ -1536,7 +1593,7 @@ watch(
     }
 
     .welcome-subtitle {
-      font-size: 14px;
+      font-size: var(--font-size-base);
     }
   }
 

@@ -1,5 +1,5 @@
 ---
-name: frontend
+name: 前端开发
 description: 前端开发面试，涵盖 HTML/CSS/JavaScript/TypeScript/React/Vue/性能优化
 ---
 

@@ -147,13 +147,17 @@ async def start_interview(
             question_count=req.question_count,
         )
 
-        agent = InterviewAgent(agent_config={})
-        await agent.init_interview_agent(skill_id=req.skill_id)
-        first_question = await agent.generate_first_question(
-            session_id=session.id,
-            user_id=login_user.user_id,
-            difficulty=req.difficulty,
-        )
+        try:
+            agent = InterviewAgent(agent_config={})
+            await agent.init_interview_agent(skill_id=req.skill_id)
+            first_question = await agent.generate_first_question(
+                session_id=session.id,
+                user_id=login_user.user_id,
+                difficulty=req.difficulty,
+            )
+        except Exception:
+            await InterviewService.delete_session(session.id)
+            raise
 
         data = InterviewStartResp(
             session_id=session.id,

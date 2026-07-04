@@ -168,7 +168,7 @@ defineExpose({
 
     .search-section {
       padding: 20px 24px 16px;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid var(--color-border);
     }
 
     .agents-section {
@@ -185,12 +185,12 @@ defineExpose({
         .title {
           font-size: 16px;
           font-weight: 600;
-          color: #1f2937;
+          color: var(--color-text-primary);
         }
 
         .count {
           font-size: 14px;
-          color: #6b7280;
+          color: var(--color-text-secondary);
         }
       }
 
@@ -204,7 +204,7 @@ defineExpose({
         align-items: center;
         justify-content: center;
         height: 200px;
-        color: #9ca3af;
+        color: var(--color-text-tertiary);
 
         .empty-icon {
           font-size: 48px;
@@ -218,7 +218,7 @@ defineExpose({
 
         .empty-hint {
           font-size: 12px;
-          color: #d1d5db;
+          color: var(--color-text-disabled);
         }
       }
 
@@ -235,12 +235,12 @@ defineExpose({
 
           &:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
           }
 
           &.active {
-            border-color: #3b82f6;
-            background-color: #eff6ff;
+            border-color: var(--color-primary);
+            background-color: var(--color-primary-bg);
           }
         }
       }
@@ -248,7 +248,7 @@ defineExpose({
 
     .actions-section {
       padding: 20px 24px;
-      border-top: 1px solid #f0f0f0;
+      border-top: 1px solid var(--color-border);
       display: flex;
       gap: 12px;
 

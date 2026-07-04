@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from sqlmodel import select, update, func, col
 
 from kirinchat.database.models.interview import (
@@ -47,6 +49,24 @@ class InterviewSessionDao:
             )
             result = session.exec(statement).all()
             return result
+
+    @classmethod
+    async def select_recent_session(cls, user_id: str, skill_id: str, within_seconds: int = 10):
+        """查找指定时间内、同用户同技能的最新 session（防重复创建）。"""
+        cutoff = datetime.now() - timedelta(seconds=within_seconds)
+        with session_getter() as session:
+            statement = (
+                select(InterviewSessionTable)
+                .where(
+                    InterviewSessionTable.user_id == user_id,
+                    InterviewSessionTable.skill_id == skill_id,
+                    InterviewSessionTable.create_time >= cutoff,
+                    InterviewSessionTable.status.in_(["CREATED", "IN_PROGRESS"]),
+                )
+                .order_by(InterviewSessionTable.create_time.desc())
+                .limit(1)
+            )
+            return session.exec(statement).first()
 
     @classmethod
     async def select_sessions_with_details(

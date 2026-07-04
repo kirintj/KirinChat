@@ -1365,7 +1365,7 @@ const saveUserConfig = async () => {
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1376,9 +1376,9 @@ const saveUserConfig = async () => {
 }
 
 .modal-dialog {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 40px var(--shadow-md);
   width: 90%;
   max-width: 600px;
   max-height: 90vh;
@@ -1399,15 +1399,15 @@ const saveUserConfig = async () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
-  border-bottom: 1px solid #ebeef5;
-  background: #fff;
+  padding: var(--spacing-2xl) var(--spacing-2xl);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
   
   h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: var(--font-size-xl);
     font-weight: 600;
-    color: #303133;
+    color: var(--color-text-primary);
   }
   
   .close-btn {
@@ -1415,17 +1415,17 @@ const saveUserConfig = async () => {
     height: 28px;
     border: none;
     background: none;
-    color: #909399;
+    color: var(--color-text-tertiary);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     transition: all 0.2s ease;
     
     &:hover {
-      background: #f5f7fa;
-      color: #606266;
+      background: var(--color-bg);
+      color: var(--color-text-secondary);
     }
   }
 }
@@ -1434,7 +1434,7 @@ const saveUserConfig = async () => {
   padding: 24px;
   overflow: hidden;
   flex: 1;
-  background: #fafafa;
+  background: var(--color-bg);
   
   &.tools-content {
     overflow-y: auto;
@@ -1443,19 +1443,19 @@ const saveUserConfig = async () => {
 }
 
 .modal-footer {
-  padding: 16px 24px;
-  border-top: 1px solid #ebeef5;
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  border-top: 1px solid var(--color-border);
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  background: #fff;
+  background: var(--color-bg);
 }
 
 // 删除对话框样式
 .delete-dialog {
   .delete-header {
-    background: linear-gradient(135deg, #fff5f5 0%, #fff0f0 100%);
-    border-bottom-color: #fde2e2;
+    background: linear-gradient(135deg, var(--color-danger-bg) 0%, var(--color-danger-bg) 100%);
+    border-bottom-color: var(--color-danger-bg);
     position: relative;
     padding-left: 60px;
     
@@ -1467,7 +1467,7 @@ const saveUserConfig = async () => {
     }
     
     h3 {
-      color: #f56c6c;
+      color: var(--color-danger);
     }
   }
   
@@ -1477,24 +1477,24 @@ const saveUserConfig = async () => {
   
   .delete-warning {
     .warning-text {
-      font-size: 16px;
-      color: #303133;
+      font-size: var(--font-size-lg);
+      color: var(--color-text-primary);
       margin: 0 0 20px 0;
       line-height: 1.6;
       
       .server-name-highlight {
-        color: #f56c6c;
+        color: var(--color-danger);
         font-weight: 600;
         padding: 2px 6px;
-        background: rgba(245, 108, 108, 0.1);
-        border-radius: 4px;
+        background: var(--color-danger-bg);
+        border-radius: var(--radius-sm);
       }
     }
     
     .warning-details {
-      background: #fef0f0;
-      border: 1px solid #fde2e2;
-      border-radius: 8px;
+      background: var(--color-danger-bg);
+      border: 1px solid var(--color-danger-bg);
+      border-radius: var(--radius-md);
       padding: 16px;
       
       .detail-item {
@@ -1513,8 +1513,8 @@ const saveUserConfig = async () => {
         }
         
         span {
-          font-size: 14px;
-          color: #606266;
+          font-size: var(--font-size-base);
+          color: var(--color-text-secondary);
           line-height: 1.5;
         }
       }
@@ -1522,15 +1522,15 @@ const saveUserConfig = async () => {
   }
   
   .delete-footer {
-    background: #fafafa;
+    background: var(--color-bg);
     
     .btn-danger {
-      background: #f56c6c;
+      background: var(--color-danger);
       color: white;
       border: none;
       padding: 10px 20px;
-      border-radius: 6px;
-      font-size: 14px;
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-base);
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -1539,9 +1539,9 @@ const saveUserConfig = async () => {
       gap: 6px;
       
       &:hover:not(:disabled) {
-        background: #f78989;
+        background: var(--color-danger);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(245, 108, 108, 0.3);
+        box-shadow: 0 4px 12px var(--color-danger-bg);
       }
       
       &:active:not(:disabled) {
@@ -1556,9 +1556,9 @@ const saveUserConfig = async () => {
       .loading-spinner {
         width: 14px;
         height: 14px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
+        border: 2px solid var(--color-bg-overlay);
         border-top-color: white;
-        border-radius: 50%;
+        border-radius: var(--radius-full);
         animation: spin 0.6s linear infinite;
       }
     }
@@ -1579,35 +1579,35 @@ const saveUserConfig = async () => {
     align-items: center;
     gap: 16px;
     padding: 20px;
-    background: linear-gradient(135deg, #f8fbff 0%, #f0f7ff 100%);
-    border: 1px solid #e1ecf4;
-    border-radius: 12px;
+    background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
+    border: 1px solid var(--color-primary-bg);
+    border-radius: var(--radius-lg);
     margin-bottom: 24px;
     
     .wizard-icon {
       flex-shrink: 0;
       width: 48px;
       height: 48px;
-      background: white;
-      border-radius: 12px;
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(64, 158, 255, 0.1);
+      box-shadow: 0 2px 8px var(--color-primary-bg);
     }
     
     .wizard-text {
       h4 {
         margin: 0 0 6px 0;
-        font-size: 18px;
+        font-size: var(--font-size-xl);
         font-weight: 600;
-        color: #303133;
+        color: var(--color-text-primary);
       }
       
       p {
         margin: 0;
-        font-size: 14px;
-        color: #606266;
+        font-size: var(--font-size-base);
+        color: var(--color-text-secondary);
         line-height: 1.5;
       }
     }
@@ -1616,12 +1616,12 @@ const saveUserConfig = async () => {
 
 .mcp-form {
   .form-section {
-    background: white;
-    border: 1px solid #ebeef5;
-    border-radius: 12px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 8px var(--shadow-xs);
     
     .section-title {
       display: flex;
@@ -1629,13 +1629,13 @@ const saveUserConfig = async () => {
       gap: 8px;
       margin-bottom: 20px;
       padding-bottom: 12px;
-      border-bottom: 1px solid #f0f2f5;
+      border-bottom: 1px solid var(--color-border);
       font-weight: 600;
-      color: #303133;
-      font-size: 16px;
+      color: var(--color-text-primary);
+      font-size: var(--font-size-lg);
       
       .required-mark {
-        color: #f56c6c;
+        color: var(--color-danger);
         margin-left: 4px;
       }
     }
@@ -1674,12 +1674,12 @@ const saveUserConfig = async () => {
       align-items: center;
       gap: 8px;
       font-weight: 600;
-      color: #303133;
+      color: var(--color-text-primary);
       margin-bottom: 12px;
-      font-size: 14px;
+      font-size: var(--font-size-base);
       
       .required-mark {
-        color: #f56c6c;
+        color: var(--color-danger);
         margin-left: 2px;
       }
       
@@ -1690,44 +1690,44 @@ const saveUserConfig = async () => {
     
     input, select, textarea {
       width: 100%;
-      padding: 12px 16px;
-      border: 1px solid #dcdfe6;
-      border-radius: 6px;
-      font-size: 14px;
+      padding: var(--spacing-md) var(--spacing-lg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-base);
       transition: all 0.2s ease;
-      background: white;
+      background: var(--color-bg);
       box-sizing: border-box;
-      font-family: inherit;
+      font-family: var(--font-family);
       
       &:focus {
         outline: none;
-        border-color: #409eff;
-        box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.1);
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px var(--color-primary-bg);
       }
       
       &:hover {
-        border-color: #c0c4cc;
+        border-color: var(--color-text-tertiary);
       }
       
       &.error {
-        border-color: #f56c6c;
-        background-color: #fef0f0;
+        border-color: var(--color-danger);
+        background-color: var(--color-danger-bg);
       }
       
       &::placeholder {
-        color: #c0c4cc;
-        font-size: 13px;
+        color: var(--color-text-tertiary);
+        font-size: var(--font-size-sm);
       }
       
       &:disabled,
       &[readonly] {
-        background-color: #f5f7fa;
-        border-color: #e4e7ed;
-        color: #c0c4cc;
+        background-color: var(--color-bg);
+        border-color: var(--color-border);
+        color: var(--color-text-tertiary);
         cursor: not-allowed;
         
         &::placeholder {
-          color: #c0c4cc;
+          color: var(--color-text-tertiary);
         }
       }
     }
@@ -1735,9 +1735,9 @@ const saveUserConfig = async () => {
     textarea {
       resize: vertical;
       min-height: 100px;
-      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-family: var(--font-family);
       line-height: 1.6;
-      font-size: 16px;
+      font-size: var(--font-size-lg);
     }
     
     select {
@@ -1752,8 +1752,8 @@ const saveUserConfig = async () => {
     
     .error-text {
       display: block;
-      color: #f56c6c;
-      font-size: 12px;
+      color: var(--color-danger);
+      font-size: var(--font-size-xs);
       margin-top: 6px;
       font-weight: 500;
     }
@@ -1762,14 +1762,14 @@ const saveUserConfig = async () => {
       display: flex;
       align-items: flex-start;
       gap: 6px;
-      font-size: 12px;
-      color: #909399;
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
       margin-top: 8px;
       line-height: 1.5;
       padding: 8px 12px;
-      background: #f5f7fa;
-      border-radius: 4px;
-      border-left: 3px solid #409eff;
+      background: var(--color-bg);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--color-primary);
       
       svg {
         flex-shrink: 0;
@@ -1781,14 +1781,14 @@ const saveUserConfig = async () => {
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      font-size: 12px;
-      color: #909399;
+      font-size: var(--font-size-xs);
+      color: var(--color-text-tertiary);
       margin-top: 8px;
       line-height: 1.5;
       padding: 8px 12px;
-      background: #f8f9fa;
-      border-radius: 6px;
-      border-left: 3px solid #67c23a;
+      background: var(--color-bg);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--color-success);
       
       svg {
         flex-shrink: 0;
@@ -1806,13 +1806,13 @@ const saveUserConfig = async () => {
         display: flex;
         align-items: center;
         gap: 4px;
-        background: rgba(255, 255, 255, 0.9);
+        background: var(--color-bg);
         padding: 4px 8px;
-        border-radius: 4px;
+        border-radius: var(--radius-sm);
         font-size: 11px;
-        color: #909399;
+        color: var(--color-text-tertiary);
         font-weight: 500;
-        border: 1px solid #e4e7ed;
+        border: 1px solid var(--color-border);
         backdrop-filter: blur(4px);
       }
     }
@@ -1822,19 +1822,19 @@ const saveUserConfig = async () => {
       margin-left: 20px;
       width: 100px;
       height: 100px;
-      border: 2px solid #409eff;
-      border-radius: 8px;
+      border: 2px solid var(--color-primary);
+      border-radius: var(--radius-md);
       cursor: pointer;
       position: relative;
       overflow: hidden;
       transition: all 0.3s ease;
-      background: #ecf5ff;
+      background: var(--color-primary-bg);
       display: block;
       box-sizing: border-box;
 
       &:hover {
-        background: #409eff;
-        border-color: #409eff;
+        background: var(--color-primary);
+        border-color: var(--color-primary);
 
         .logo-upload-placeholder {
           svg path {
@@ -1849,7 +1849,7 @@ const saveUserConfig = async () => {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #409eff;
+        color: var(--color-primary);
         transition: all 0.3s ease;
         background: transparent;
 
@@ -1859,15 +1859,15 @@ const saveUserConfig = async () => {
           display: block;
 
           path {
-            stroke: #409eff !important;
+            stroke: var(--color-primary) !important;
             stroke-width: 2.5;
           }
         }
 
         &.uploading {
           .uploading-text {
-            font-size: 12px;
-            color: #409eff;
+            font-size: var(--font-size-xs);
+            color: var(--color-primary);
             font-weight: 500;
           }
         }
@@ -1885,7 +1885,7 @@ const saveUserConfig = async () => {
         width: 100%;
         height: 100%;
         position: relative;
-        border-radius: 8px;
+        border-radius: var(--radius-md);
         overflow: hidden;
         display: flex;
         align-items: center;
@@ -1895,7 +1895,7 @@ const saveUserConfig = async () => {
           width: 50px;
           height: 50px;
           object-fit: cover;
-          border-radius: 4px;
+          border-radius: var(--radius-sm);
         }
         
         .logo-overlay {
@@ -1904,7 +1904,7 @@ const saveUserConfig = async () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(0, 0, 0, 0.5);
+          background: var(--color-overlay);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1923,8 +1923,8 @@ const saveUserConfig = async () => {
 // 按钮样式
 .btn {
   padding: 10px 20px;
-  border-radius: 4px;
-  font-size: 14px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
   border: 1px solid transparent;
@@ -1941,30 +1941,30 @@ const saveUserConfig = async () => {
   }
   
   &.btn-cancel {
-    background: #fff;
-    border-color: #dcdfe6;
-    color: #606266;
+    background: var(--color-bg);
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
     
     &:hover:not(:disabled) {
-      color: #409eff;
-      border-color: #c6e2ff;
-      background-color: #ecf5ff;
+      color: var(--color-primary);
+      border-color: var(--color-primary-bg);
+      background-color: var(--color-primary-bg);
     }
   }
   
   &.btn-primary {
-    background: #409eff;
-    border-color: #409eff;
-    color: #fff;
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-bg);
     
     &:hover:not(:disabled) {
-      background: #66b1ff;
-      border-color: #66b1ff;
+      background: var(--color-primary);
+      border-color: var(--color-primary);
     }
     
     &:active:not(:disabled) {
-      background: #3a8ee6;
-      border-color: #3a8ee6;
+      background: var(--color-primary);
+      border-color: var(--color-primary);
     }
   }
 }
@@ -1973,8 +1973,8 @@ const saveUserConfig = async () => {
   display: inline-block;
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
+  border: 2px solid var(--color-bg-overlay);
+  border-radius: var(--radius-full);
   border-top-color: white;
   animation: spin 1s ease-in-out infinite;
   margin-right: 8px;
@@ -1988,7 +1988,7 @@ const saveUserConfig = async () => {
 
 // 工具详情样式
 .tools-content {
-  background: #f8f9fa;
+  background: var(--color-bg);
   
   .no-tools {
     text-align: center;
@@ -2002,14 +2002,14 @@ const saveUserConfig = async () => {
     .empty-text {
       h3 {
         margin: 0 0 8px 0;
-        font-size: 18px;
+        font-size: var(--font-size-xl);
         font-weight: 600;
-        color: #909399;
+        color: var(--color-text-tertiary);
       }
       
       p {
-        color: #c0c4cc;
-        font-size: 14px;
+        color: var(--color-text-tertiary);
+        font-size: var(--font-size-base);
         margin: 0;
         line-height: 1.5;
       }
@@ -2021,20 +2021,20 @@ const saveUserConfig = async () => {
       margin-bottom: 24px;
       
       .stat-card {
-        background: white;
-        border: 1px solid #ebeef5;
-        border-radius: 12px;
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
         padding: 20px;
         display: flex;
         align-items: center;
         gap: 16px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 2px 8px var(--shadow-xs);
         
         .stat-icon {
           width: 48px;
           height: 48px;
-          background: #f0f7ff;
-          border-radius: 12px;
+          background: var(--color-primary-bg);
+          border-radius: var(--radius-lg);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -2046,15 +2046,15 @@ const saveUserConfig = async () => {
           gap: 4px;
           
           .stat-number {
-            font-size: 24px;
+            font-size: var(--font-size-2xl);
             font-weight: 700;
-            color: #409eff;
+            color: var(--color-primary);
             line-height: 1;
           }
           
           .stat-label {
-            font-size: 14px;
-            color: #606266;
+            font-size: var(--font-size-base);
+            color: var(--color-text-secondary);
             font-weight: 500;
           }
         }
@@ -2063,22 +2063,22 @@ const saveUserConfig = async () => {
     
     .tools-list {
       .tool-item {
-        background: white;
-        border: 1px solid #ebeef5;
-        border-radius: 12px;
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
         margin-bottom: 12px;
         overflow: hidden;
         transition: all 0.2s ease;
         cursor: pointer;
         
         &:hover {
-          border-color: #409eff;
-          box-shadow: 0 2px 12px rgba(64, 158, 255, 0.1);
+          border-color: var(--color-primary);
+          box-shadow: 0 2px 12px var(--color-primary-bg);
         }
         
         &.expanded {
-          border-color: #409eff;
-          box-shadow: 0 4px 16px rgba(64, 158, 255, 0.15);
+          border-color: var(--color-primary);
+          box-shadow: 0 4px 16px var(--color-primary-bg);
           
           .tool-expand-icon svg {
             transform: rotate(180deg);
@@ -2089,7 +2089,7 @@ const saveUserConfig = async () => {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 20px 24px;
+          padding: var(--spacing-2xl) var(--spacing-2xl);
           
           .tool-info {
             display: flex;
@@ -2100,8 +2100,8 @@ const saveUserConfig = async () => {
             .tool-icon {
               width: 40px;
               height: 40px;
-              background: #f0f7ff;
-              border-radius: 10px;
+              background: var(--color-primary-bg);
+              border-radius: var(--radius-md);
               display: flex;
               align-items: center;
               justify-content: center;
@@ -2113,15 +2113,15 @@ const saveUserConfig = async () => {
               
               .tool-name {
                 margin: 0 0 6px 0;
-                font-size: 16px;
+                font-size: var(--font-size-lg);
                 font-weight: 600;
-                color: #303133;
+                color: var(--color-text-primary);
               }
               
               .tool-description {
                 margin: 0;
-                color: #606266;
-                font-size: 14px;
+                color: var(--color-text-secondary);
+                font-size: var(--font-size-base);
                 line-height: 1.5;
               }
             }
@@ -2129,7 +2129,7 @@ const saveUserConfig = async () => {
           
           .tool-expand-icon {
             flex-shrink: 0;
-            color: #909399;
+            color: var(--color-text-tertiary);
             transition: all 0.3s ease;
             
             svg {
@@ -2139,13 +2139,13 @@ const saveUserConfig = async () => {
         }
         
         .tool-details {
-          border-top: 1px solid #ebeef5;
+          border-top: 1px solid var(--color-border);
           padding: 0 24px 20px 24px;
           
           .tool-schema {
-            background: #f8f9fa;
-            border: 1px solid #ebeef5;
-            border-radius: 8px;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
             padding: 20px;
             margin-top: 20px;
             
@@ -2155,10 +2155,10 @@ const saveUserConfig = async () => {
               gap: 8px;
               margin-bottom: 16px;
               padding-bottom: 12px;
-              border-bottom: 1px solid #e4e7ed;
+              border-bottom: 1px solid var(--color-border);
               font-weight: 600;
-              color: #303133;
-              font-size: 14px;
+              color: var(--color-text-primary);
+              font-size: var(--font-size-base);
             }
             
             .schema-content {
@@ -2173,18 +2173,18 @@ const saveUserConfig = async () => {
                   
                   .meta-label {
                     font-weight: 500;
-                    color: #606266;
+                    color: var(--color-text-secondary);
                     min-width: 60px;
                   }
                   
                   .meta-value {
-                    color: #303133;
+                    color: var(--color-text-primary);
                     
                     &.type {
-                      background: #f0f2f5;
+                      background: var(--color-bg);
                       padding: 2px 8px;
-                      border-radius: 4px;
-                      font-size: 12px;
+                      border-radius: var(--radius-sm);
+                      font-size: var(--font-size-xs);
                       font-weight: 500;
                     }
                   }
@@ -2200,8 +2200,8 @@ const saveUserConfig = async () => {
                   gap: 6px;
                   margin-bottom: 12px;
                   font-weight: 600;
-                  color: #f56c6c;
-                  font-size: 14px;
+                  color: var(--color-danger);
+                  font-size: var(--font-size-base);
                 }
                 
                 .required-params {
@@ -2210,12 +2210,12 @@ const saveUserConfig = async () => {
                   gap: 8px;
                   
                   .required-param {
-                    background: #fef0f0;
-                    color: #f56c6c;
-                    border: 1px solid #fbc4c4;
+                    background: var(--color-danger-bg);
+                    color: var(--color-danger);
+                    border: 1px solid var(--color-danger-bg);
                     padding: 4px 8px;
-                    border-radius: 4px;
-                    font-size: 12px;
+                    border-radius: var(--radius-sm);
+                    font-size: var(--font-size-xs);
                     font-weight: 500;
                   }
                 }
@@ -2228,8 +2228,8 @@ const saveUserConfig = async () => {
                   gap: 6px;
                   margin-bottom: 12px;
                   font-weight: 600;
-                  color: #67c23a;
-                  font-size: 14px;
+                  color: var(--color-success);
+                  font-size: var(--font-size-base);
                 }
                 
                 .properties-grid {
@@ -2237,9 +2237,9 @@ const saveUserConfig = async () => {
                   gap: 12px;
                   
                   .property-card {
-                    background: white;
-                    border: 1px solid #ebeef5;
-                    border-radius: 6px;
+                    background: var(--color-bg);
+                    border: 1px solid var(--color-border);
+                    border-radius: var(--radius-sm);
                     padding: 16px;
                     
                     .property-header {
@@ -2250,24 +2250,24 @@ const saveUserConfig = async () => {
                       
                       .property-name {
                         font-weight: 600;
-                        color: #303133;
-                        font-size: 14px;
+                        color: var(--color-text-primary);
+                        font-size: var(--font-size-base);
                       }
                       
                       .property-type {
-                        background: #ecf5ff;
-                        color: #409eff;
+                        background: var(--color-primary-bg);
+                        color: var(--color-primary);
                         padding: 2px 8px;
-                        border-radius: 4px;
-                        font-size: 12px;
+                        border-radius: var(--radius-sm);
+                        font-size: var(--font-size-xs);
                         font-weight: 500;
                       }
                     }
                     
                     .property-body {
                       .property-desc {
-                        color: #606266;
-                        font-size: 13px;
+                        color: var(--color-text-secondary);
+                        font-size: var(--font-size-sm);
                         line-height: 1.5;
                         margin: 0 0 8px 0;
                       }
@@ -2278,17 +2278,17 @@ const saveUserConfig = async () => {
                         gap: 6px;
                         
                         .default-label {
-                          font-size: 12px;
-                          color: #909399;
+                          font-size: var(--font-size-xs);
+                          color: var(--color-text-tertiary);
                         }
                         
                         .default-value {
-                          background: #f4f4f5;
-                          color: #303133;
+                          background: var(--color-bg);
+                          color: var(--color-text-primary);
                           padding: 2px 6px;
                           border-radius: 3px;
-                          font-size: 12px;
-                          font-family: 'Monaco', 'Menlo', monospace;
+                          font-size: var(--font-size-xs);
+                          font-family: var(--font-family);
                         }
                       }
                     }
@@ -2320,18 +2320,18 @@ const saveUserConfig = async () => {
 .mcp-server-page {
   padding: 32px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--color-bg);
   
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    padding: 20px 28px;
-    border-radius: 16px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-    border: 1px solid rgba(226, 232, 240, 0.6);
+    background: var(--color-bg);
+    padding: var(--spacing-2xl) var(--spacing-2xl);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 24px var(--shadow-sm);
+    border: 1px solid var(--color-border);
     
     .header-title {
       display: flex;
@@ -2345,9 +2345,9 @@ const saveUserConfig = async () => {
       
       h2 {
         margin: 0;
-        font-size: 24px;
+        font-size: var(--font-size-2xl);
         font-weight: 600;
-        background: linear-gradient(90deg, #1B7CE4, #409eff);
+        background: var(--color-primary);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -2358,13 +2358,13 @@ const saveUserConfig = async () => {
       .h-button {
         font-weight: 600;
         letter-spacing: 0.025em;
-        border-radius: 12px;
-        padding: 12px 24px;
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-md) var(--spacing-2xl);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         
         &:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(64, 158, 255, 0.3);
+          box-shadow: 0 8px 25px var(--color-primary-bg);
         }
       }
     }
@@ -2372,30 +2372,30 @@ const saveUserConfig = async () => {
   
   .server-list {
     min-height: 400px;
-    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 20px var(--shadow-sm);
+    border: 1px solid var(--color-bg-overlay);
     overflow: auto;
     
     :deep(.server-table-wrapper) {
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       overflow: hidden;
     }
 
     .server-table {
       width: 100%;
       border-collapse: collapse;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: var(--font-family);
 
       thead {
         th {
-          background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-          color: #374151;
+          background: var(--color-bg);
+          color: var(--color-text-primary);
           font-weight: 700;
-          font-size: 13px;
+          font-size: var(--font-size-sm);
           padding: 18px 12px;
-          border-bottom: 2px solid #e2e8f0;
+          border-bottom: 2px solid var(--color-border);
           letter-spacing: 0.025em;
           text-transform: uppercase;
         }
@@ -2406,18 +2406,18 @@ const saveUserConfig = async () => {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
           &:hover {
-            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            background: var(--color-bg);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px var(--shadow-xs);
           }
 
           td {
             padding: 20px 12px;
-            border-bottom: 1px solid #f1f5f9;
-            font-size: 14px;
+            border-bottom: 1px solid var(--color-border);
+            font-size: var(--font-size-base);
             font-weight: 500;
-            color: #374151;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--color-text-primary);
+            font-family: var(--font-family);
             line-height: 1.5;
           }
         }
@@ -2427,9 +2427,9 @@ const saveUserConfig = async () => {
     .server-avatar {
       width: 40px;
       height: 40px;
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       overflow: hidden;
-      border: 1px solid #e1e8ed;
+      border: 1px solid var(--color-border);
       margin: 0 auto;
       
       img {
@@ -2448,13 +2448,13 @@ const saveUserConfig = async () => {
       
       .name {
         font-weight: 600;
-        color: #1f2937;
-        font-size: 15px;
+        color: var(--color-text-primary);
+        font-size: var(--font-size-lg);
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: var(--font-family);
         letter-spacing: -0.01em;
       }
       
@@ -2462,7 +2462,7 @@ const saveUserConfig = async () => {
         opacity: 0.8;
         
         .name {
-          color: #6b7280;
+          color: var(--color-text-secondary);
           font-weight: 500;
         }
       }
@@ -2483,8 +2483,8 @@ const saveUserConfig = async () => {
       .h-tag {
         font-weight: 600;
         letter-spacing: 0.025em;
-        border-radius: 8px;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        border-radius: var(--radius-md);
+        font-family: var(--font-family);
       }
       
       .clickable-tag {
@@ -2495,9 +2495,9 @@ const saveUserConfig = async () => {
         
         &:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
-          background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-          border-color: #d97706;
+          box-shadow: 0 8px 20px var(--color-warning-bg);
+          background: linear-gradient(135deg, var(--color-warning) 0%, var(--color-warning) 100%);
+          border-color: var(--color-warning);
           color: white;
         }
         
@@ -2518,35 +2518,35 @@ const saveUserConfig = async () => {
       justify-content: center;
       
       .h-tag {
-        font-size: 12px;
+        font-size: var(--font-size-xs);
         padding: 6px 12px;
         font-weight: 600;
         letter-spacing: 0.025em;
-        border-radius: 8px;
+        border-radius: var(--radius-md);
       }
     }
     
     .tools-count {
       .h-button {
-        font-size: 12px;
+        font-size: var(--font-size-xs);
         padding: 8px 14px;
         font-weight: 600;
         letter-spacing: 0.025em;
-        border-radius: 8px;
+        border-radius: var(--radius-md);
         transition: all 0.3s ease;
 
         &:hover {
           transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(64, 158, 255, 0.25);
+          box-shadow: 0 4px 12px var(--color-primary-bg);
         }
       }
     }
     
     .create-time {
-      font-size: 13px;
-      color: #6b7280;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
       font-weight: 500;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: var(--font-family);
     }
     
     .action-buttons {
@@ -2557,9 +2557,9 @@ const saveUserConfig = async () => {
       
       .h-button {
         padding: 8px 16px;
-        font-size: 13px;
+        font-size: var(--font-size-sm);
         font-weight: 600;
-        border-radius: 8px;
+        border-radius: var(--radius-md);
         transition: all 0.3s ease;
 
         &:hover {
@@ -2574,10 +2574,10 @@ const saveUserConfig = async () => {
 
       p {
         margin-top: 24px;
-        font-size: 16px;
-        color: #6b7280;
+        font-size: var(--font-size-lg);
+        color: var(--color-text-secondary);
         font-weight: 500;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: var(--font-family);
         letter-spacing: -0.01em;
       }
     }
@@ -2604,9 +2604,9 @@ const saveUserConfig = async () => {
       margin-bottom: 24px;
       
       .info-card {
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        border: 1px solid #bae6fd;
-        border-radius: 12px;
+        background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
+        border: 1px solid var(--color-primary-bg);
+        border-radius: var(--radius-lg);
         padding: 16px;
         display: flex;
         align-items: flex-start;
@@ -2616,8 +2616,8 @@ const saveUserConfig = async () => {
           flex-shrink: 0;
           width: 40px;
           height: 40px;
-          background: rgba(64, 158, 255, 0.1);
-          border-radius: 50%;
+          background: var(--color-primary-bg);
+          border-radius: var(--radius-full);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -2628,15 +2628,15 @@ const saveUserConfig = async () => {
           
           h4 {
             margin: 0 0 6px 0;
-            font-size: 16px;
+            font-size: var(--font-size-lg);
             font-weight: 600;
-            color: #1e293b;
+            color: var(--color-text-primary);
           }
           
           p {
             margin: 0;
-            font-size: 14px;
-            color: #64748b;
+            font-size: var(--font-size-base);
+            color: var(--color-text-secondary);
             line-height: 1.6;
           }
         }
@@ -2649,7 +2649,7 @@ const saveUserConfig = async () => {
     
     .json-indicator {
       span {
-        color: #e67e22;
+        color: var(--color-warning);
         font-weight: 500;
       }
     }
@@ -2667,11 +2667,11 @@ const saveUserConfig = async () => {
     
     .config-server-name {
       font-weight: 700;
-      color: #1e293b;
+      color: var(--color-text-primary);
     }
     
     .config-title {
-      color: #64748b;
+      color: var(--color-text-secondary);
       font-weight: 500;
     }
     
@@ -2680,7 +2680,7 @@ const saveUserConfig = async () => {
       display: inline-block;
       width: 4px;
       height: 18px;
-      background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+      background: var(--color-primary);
       border-radius: 2px;
       margin-right: 8px;
     }
@@ -2690,9 +2690,9 @@ const saveUserConfig = async () => {
     margin-bottom: 20px;
     
     .info-card {
-      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-      border: 1px solid #bae6fd;
-      border-radius: 12px;
+      background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
+      border: 1px solid var(--color-primary-bg);
+      border-radius: var(--radius-lg);
       padding: 16px;
       display: flex;
       align-items: flex-start;
@@ -2702,8 +2702,8 @@ const saveUserConfig = async () => {
         flex-shrink: 0;
         width: 40px;
         height: 40px;
-        background: rgba(59, 130, 246, 0.1);
-        border-radius: 50%;
+        background: var(--color-primary-bg);
+        border-radius: var(--radius-full);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -2714,15 +2714,15 @@ const saveUserConfig = async () => {
         
         h4 {
           margin: 0 0 6px 0;
-          font-size: 16px;
+          font-size: var(--font-size-lg);
           font-weight: 600;
-          color: #1e293b;
+          color: var(--color-text-primary);
         }
         
         p {
           margin: 0;
-          font-size: 14px;
-          color: #64748b;
+          font-size: var(--font-size-base);
+          color: var(--color-text-secondary);
           line-height: 1.6;
         }
       }
@@ -2734,8 +2734,8 @@ const saveUserConfig = async () => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
     border-bottom: none;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -2746,18 +2746,18 @@ const saveUserConfig = async () => {
       align-items: center;
       gap: 6px;
       border: none;
-      background: #f1f5f9;
-      color: #475569;
+      background: var(--color-bg);
+      color: var(--color-text-secondary);
       padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 13px;
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-sm);
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
       
       &:hover {
-        background: #e2e8f0;
-        color: #334155;
+        background: var(--color-border);
+        color: var(--color-text-primary);
       }
       
       svg {
@@ -2770,18 +2770,18 @@ const saveUserConfig = async () => {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 13px;
+      font-size: var(--font-size-sm);
       padding: 6px 12px;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       
       &.is-valid {
-        background: rgba(34, 197, 94, 0.1);
-        color: #16a34a;
+        background: var(--color-success-bg);
+        color: var(--color-success);
       }
       
       &.is-invalid {
-        background: rgba(239, 68, 68, 0.1);
-        color: #dc2626;
+        background: var(--color-danger-bg);
+        color: var(--color-danger);
       }
     }
   }
@@ -2789,7 +2789,7 @@ const saveUserConfig = async () => {
   // 编辑器容器
   .editor-container {
     height: 300px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     overflow: hidden;
@@ -2803,9 +2803,9 @@ const saveUserConfig = async () => {
   // 帮助说明
   .config-help {
     margin-top: 24px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     overflow: hidden;
     
     .help-title {
@@ -2813,12 +2813,12 @@ const saveUserConfig = async () => {
       align-items: center;
       gap: 8px;
       margin: 0;
-      padding: 12px 16px;
-      background: #f1f5f9;
-      color: #1e293b;
-      font-size: 14px;
+      padding: var(--spacing-md) var(--spacing-lg);
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      font-size: var(--font-size-base);
       font-weight: 600;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--color-border);
     }
     
     .help-content {
@@ -2833,15 +2833,15 @@ const saveUserConfig = async () => {
         
         h5 {
           margin: 0 0 8px 0;
-          font-size: 14px;
-          color: #334155;
+          font-size: var(--font-size-base);
+          color: var(--color-text-primary);
           font-weight: 600;
         }
         
         p {
           margin: 0 0 8px 0;
-          font-size: 13px;
-          color: #475569;
+          font-size: var(--font-size-sm);
+          color: var(--color-text-secondary);
           line-height: 1.5;
         }
         
@@ -2850,17 +2850,17 @@ const saveUserConfig = async () => {
           padding-left: 20px;
           
           li {
-            font-size: 13px;
-            color: #475569;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
             margin-bottom: 4px;
             
             code {
-              background: #e2e8f0;
+              background: var(--color-border);
               padding: 2px 4px;
-              border-radius: 4px;
-              color: #334155;
-              font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-              font-size: 12px;
+              border-radius: var(--radius-sm);
+              color: var(--color-text-primary);
+              font-family: var(--font-family);
+              font-size: var(--font-size-xs);
             }
           }
         }
@@ -2878,14 +2878,14 @@ const saveUserConfig = async () => {
             gap: 8px;
             
             .key {
-              background: #e2e8f0;
+              background: var(--color-border);
               padding: 2px 6px;
-              border-radius: 4px;
-              color: #475569;
-              font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-              font-size: 12px;
-              border: 1px solid #cbd5e1;
-              box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+              border-radius: var(--radius-sm);
+              color: var(--color-text-secondary);
+              font-family: var(--font-family);
+              font-size: var(--font-size-xs);
+              border: 1px solid var(--color-border);
+              box-shadow: 0 1px 2px var(--shadow-xs);
             }
           }
         }
@@ -2938,8 +2938,8 @@ const saveUserConfig = async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(64, 158, 255, 0.1);
-    border-radius: 50%;
+    background: var(--color-primary-bg);
+    border-radius: var(--radius-full);
     margin-bottom: 20px;
     
     .empty-icon-symbol {
@@ -2948,21 +2948,21 @@ const saveUserConfig = async () => {
   }
   
   h3 {
-    font-size: 20px;
-    color: #303133;
+    font-size: var(--font-size-xl);
+    color: var(--color-text-primary);
     margin: 0 0 16px;
   }
   
   p {
     margin: 0 0 20px;
-    font-size: 16px;
-    color: #909399;
+    font-size: var(--font-size-lg);
+    color: var(--color-text-tertiary);
     max-width: 300px;
   }
   
   .create-btn {
-    padding: 12px 24px;
-    font-size: 16px;
+    padding: var(--spacing-md) var(--spacing-2xl);
+    font-size: var(--font-size-lg);
   }
 }
 </style>
@@ -2980,8 +2980,8 @@ const saveUserConfig = async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
-  background: white;
+  padding: var(--spacing-2xl) var(--spacing-2xl);
+  background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
   
   .header-title {
@@ -2996,7 +2996,7 @@ const saveUserConfig = async () => {
     
     h2 {
       margin: 0;
-      font-size: 20px;
+      font-size: var(--font-size-xl);
       font-weight: 600;
       color: var(--color-text-primary);
     }
@@ -3032,13 +3032,13 @@ const saveUserConfig = async () => {
     }
     
     h3 {
-      font-size: 18px;
+      font-size: var(--font-size-xl);
       margin: 0 0 8px 0;
       font-weight: 500;
     }
     
     p {
-      font-size: 14px;
+      font-size: var(--font-size-base);
       margin: 0 0 24px 0;
       opacity: 0.7;
     }
@@ -3048,7 +3048,7 @@ const saveUserConfig = async () => {
 .server-avatar {
   width: 48px;
   height: 48px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -3091,7 +3091,7 @@ const saveUserConfig = async () => {
 }
 
 .create-time {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
 }
 

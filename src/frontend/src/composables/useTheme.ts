@@ -4,7 +4,7 @@ import { useLocalStorage } from '@vueuse/core'
 type ThemeMode = 'light' | 'dark' | 'system'
 
 export function useTheme() {
-  const mode = useLocalStorage<ThemeMode>('agentchat-theme', 'system')
+  const mode = useLocalStorage<ThemeMode>('kirinchat-theme', 'system')
   const systemPrefersDark = ref(false)
 
   const resolved = computed<'light' | 'dark'>(() => {
@@ -16,6 +16,7 @@ export function useTheme() {
 
   watch(resolved, (theme) => {
     document.documentElement.setAttribute('data-theme', theme)
+    document.documentElement.setAttribute('data-harmony-token-set', 'system')
   }, { immediate: true })
 
   onMounted(() => {

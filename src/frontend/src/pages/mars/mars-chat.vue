@@ -651,7 +651,7 @@ onMounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -659,9 +659,9 @@ onMounted(() => {
 }
 
 .leave-modal {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 60px var(--shadow-lg);
   max-width: 420px;
   width: 90%;
   max-height: 80vh;
@@ -681,82 +681,82 @@ onMounted(() => {
 }
 
 .leave-modal-header {
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid #e9ecef;
+  padding: var(--spacing-2xl) var(--spacing-2xl) 16px;
+  border-bottom: 1px solid var(--color-border);
   
   h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: var(--font-size-xl);
     font-weight: 600;
-    color: #333;
+    color: var(--color-text-primary);
   }
 }
 
 .leave-modal-body {
-  padding: 20px 24px;
+  padding: var(--spacing-2xl) var(--spacing-2xl);
   
   p {
     margin: 0 0 12px 0;
     line-height: 1.6;
-    color: #555;
+    color: var(--color-text-secondary);
     
     &:first-child {
       font-weight: 600;
-      color: #4a90e2;
+      color: var(--color-primary);
     }
     
     &:last-child {
       margin-bottom: 0;
       font-weight: 500;
-      color: #333;
+      color: var(--color-text-primary);
     }
   }
 }
 
 .leave-modal-footer {
-  padding: 16px 24px 20px;
+  padding: var(--spacing-lg) var(--spacing-2xl) 20px;
   display: flex;
   gap: 12px;
   justify-content: flex-end;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid var(--color-border);
 }
 
 .modal-btn {
   padding: 10px 20px;
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: 80px;
   
   &.cancel-btn {
-    background: #f8f9fa;
-    color: #666;
-    border: 1px solid #e9ecef;
+    background: var(--color-bg);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
     
     &:hover {
-      background: #e9ecef;
-      color: #333;
+      background: var(--color-border);
+      color: var(--color-text-primary);
     }
   }
   
   &.confirm-btn {
-    background: #4a90e2;
+    background: var(--color-primary);
     color: white;
     
     &:hover {
-      background: #357abd;
+      background: var(--color-primary);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+      box-shadow: 0 4px 12px var(--color-primary-bg);
     }
   }
 }
 
 .mars-output-page {
   height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: var(--color-bg);
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -766,7 +766,7 @@ onMounted(() => {
 .mars-output-container {
   flex: 1;
   width: 100%;
-  background: white;
+  background: var(--color-bg);
   overflow-y: auto; /* 只在内容超出时显示垂直滚动条 */
   overflow-x: hidden; /* 隐藏水平滚动条 */
   display: flex;
@@ -790,8 +790,8 @@ onMounted(() => {
 .typing-dots span {
   width: 8px;
   height: 8px;
-  background-color: #666;
-  border-radius: 50%;
+  background-color: var(--color-text-secondary);
+  border-radius: var(--radius-full);
   animation: typing-blink 1.4s infinite both;
 }
 
@@ -816,27 +816,27 @@ onMounted(() => {
 }
 
 .thinking-segment {
-  background-color: #f9f9f9;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   margin-bottom: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 24px var(--shadow-md), 0 2px 6px var(--shadow-xs);
   transition: all 0.3s ease;
 }
 
 .thinking-header {
-  padding: 12px 16px;
+  padding: var(--spacing-md) var(--spacing-lg);
   font-weight: 600;
-  color: #333;
+  color: var(--color-text-primary);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .collapse-icon {
-  font-size: 14px;
+  font-size: var(--font-size-base);
   transition: transform 0.3s ease;
 }
 
@@ -855,7 +855,7 @@ onMounted(() => {
 .thinking-content :deep(.md-editor-preview) h4,
 .thinking-content :deep(.md-editor-preview) h5,
 .thinking-content :deep(.md-editor-preview) h6 {
-  color: #495057 !important;
+  color: var(--color-text-secondary) !important;
 }
 
 .answer-segment {
@@ -865,11 +865,11 @@ onMounted(() => {
 
 // 加载对话框样式
 .mars-loading-dialog {
-  background: #f8f9fa;
-  border-radius: 12px;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
   padding: 16px 20px;
-  border: 1px solid #e9ecef;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px var(--shadow-md);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -912,11 +912,11 @@ onMounted(() => {
   /*
   .mars-generating {
     margin-top: 16px;
-    padding: 12px 16px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    border: 1px solid #e9ecef;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 8px var(--shadow-md);
     
     .mars-generating-indicator {
       display: flex;
@@ -926,9 +926,9 @@ onMounted(() => {
       .mars-generating-spinner {
         width: 20px;
         height: 20px;
-        border: 2px solid #e9ecef;
-        border-top: 2px solid #666;
-        border-radius: 50%;
+        border: 2px solid var(--color-border);
+        border-top: 2px solid var(--color-text-secondary);
+        border-radius: var(--radius-full);
         animation: spin 1s linear infinite;
       }
     }
@@ -966,27 +966,27 @@ onMounted(() => {
     }
     
     .mars-error-text {
-      font-size: 16px;
-      color: #ff4d4f;
+      font-size: var(--font-size-lg);
+      color: var(--color-danger);
       margin-bottom: 32px;
       font-weight: 500;
     }
   }
   
   .mars-retry-btn {
-    background: #722ed1;
+    background: var(--color-primary);
     color: white;
     border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 14px;
+    padding: var(--spacing-md) var(--spacing-2xl);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
     cursor: pointer;
     transition: all 0.2s ease;
     
     &:hover {
-      background: #531dab;
+      background: var(--color-primary);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(114, 46, 209, 0.3);
+      box-shadow: 0 4px 12px var(--color-primary-bg);
     }
   }
 }
@@ -1021,26 +1021,26 @@ onMounted(() => {
     }
     
     .mars-empty-text {
-      font-size: 16px;
-      color: #999;
+      font-size: var(--font-size-lg);
+      color: var(--color-text-tertiary);
       margin-bottom: 32px;
     }
   }
   
   .mars-back-btn {
-    background: #722ed1;
+    background: var(--color-primary);
     color: white;
     border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 14px;
+    padding: var(--spacing-md) var(--spacing-2xl);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
     cursor: pointer;
     transition: all 0.2s ease;
     
     &:hover {
-      background: #531dab;
+      background: var(--color-primary);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(114, 46, 209, 0.3);
+      box-shadow: 0 4px 12px var(--color-primary-bg);
     }
   }
 }
@@ -1057,11 +1057,11 @@ onMounted(() => {
     
     // 确保代码块有合适的样式并充分利用宽度
     pre {
-      background: #f6f8fa;
-      border-radius: 6px;
+      background: var(--color-bg);
+      border-radius: var(--radius-sm);
       padding: 16px;
       margin: 8px 0;
-      border: 1px solid #e1e4e8;
+      border: 1px solid var(--color-border);
       width: 100%;
       box-sizing: border-box;
       overflow-x: auto;
@@ -1096,24 +1096,24 @@ onMounted(() => {
       max-width: 100%;
       
       th, td {
-        border: 1px solid #e1e4e8;
+        border: 1px solid var(--color-border);
         padding: 8px 12px;
         text-align: left;
         word-wrap: break-word;
       }
       
       th {
-        background: #f6f8fa;
+        background: var(--color-bg);
         font-weight: 600;
       }
     }
     
     // 引用块样式
     blockquote {
-      border-left: 4px solid #722ed1;
+      border-left: 4px solid var(--color-primary);
       padding-left: 16px;
       margin: 8px 0;
-      color: #666;
+      color: var(--color-text-secondary);
       font-style: italic;
       width: 100%;
       box-sizing: border-box;
@@ -1121,11 +1121,11 @@ onMounted(() => {
     
     // 行内代码样式
     code {
-      background: #f6f8fa;
+      background: var(--color-bg);
       padding: 2px 4px;
       border-radius: 3px;
       font-size: 0.9em;
-      color: #d73a49;
+      color: var(--color-danger);
     }
     
     // 确保所有内容元素都充分利用宽度
@@ -1194,13 +1194,13 @@ onMounted(() => {
     .mars-content {
     .mars-chat-message {
       .mars-loading-dialog {
-        padding: 12px 16px;
+        padding: var(--spacing-md) var(--spacing-lg);
         min-width: 100px;
         
         .mars-loading-spinner {
           width: 16px;
           height: 16px;
-          border-top: 2px solid #666;
+          border-top: 2px solid var(--color-text-secondary);
         }
       }
     }

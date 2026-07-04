@@ -1,5 +1,5 @@
 ---
-name: java-backend
+name: Java 后端
 description: Java 后端开发面试，涵盖 Java 核心、数据库、缓存、框架和系统设计
 ---
 

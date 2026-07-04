@@ -16,9 +16,11 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
 <template>
   <div class="h-dropdown" ref="wrapperRef" @click="trigger === 'click' && toggle()">
     <slot />
-    <div v-if="visible" class="h-dropdown__menu" @click="close">
-      <slot name="dropdown" />
-    </div>
+    <Transition name="h-dropdown">
+      <div v-if="visible" class="h-dropdown__menu" @click="close">
+        <slot name="dropdown" />
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -27,9 +29,10 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
 .h-dropdown__menu {
   position: absolute; top: 100%; right: 0; margin-top: 4px; min-width: 140px;
   background: var(--color-bg-secondary);
+  backdrop-filter: blur(20px) saturate(1.2);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
+  border-radius: var(--harmony-corner-radius-level8);
+  box-shadow: var(--shadow-lg);
   z-index: var(--z-dropdown); overflow: hidden;
 }
 </style>

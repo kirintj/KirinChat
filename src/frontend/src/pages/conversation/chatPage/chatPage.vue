@@ -523,7 +523,7 @@ watch(
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #f7f8fa;
+  background-color: var(--color-bg-secondary);
 }
 
 .chat-conversation {
@@ -552,16 +552,16 @@ watch(
       border-radius: 50%;
       margin-right: 15px;
       flex-shrink: 0;
-      border: 1px solid #eee;
+      border: 1px solid var(--color-border);
     }
 
     .message-content {
-      background-color: #ffffff;
+      background-color: var(--color-bg);
       border-radius: 18px;
       padding: 12px 18px;
       max-width: 70%;
-      color: #333;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      color: var(--color-text-primary);
+      box-shadow: var(--shadow-card);
       word-break: break-word;
     }
   }
@@ -577,18 +577,18 @@ watch(
       border-radius: 50%;
       margin-left: 12px;
       flex-shrink: 0;
-      border: 1px solid #eee;
+      border: 1px solid var(--color-border);
     }
 
     .message-content {
       display: flex;
       align-items: center;
-      background: linear-gradient(135deg, #6e8efb, #a777e3);
-      color: white;
+      background: var(--color-primary);
+      color: var(--color-bg);
       border-radius: 18px;
       padding: 12px 18px;
       max-width: 70%;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: var(--shadow-card);
     }
   }
 }
@@ -602,25 +602,25 @@ watch(
   margin-bottom: 8px;
   border-radius: 8px;
   padding: 8px 12px;
-  background: #f8fafc;
+  background: var(--color-bg-secondary);
   cursor: pointer;
   transition: background 0.3s ease;
   display: flex;
   flex-direction: column;
   
-  &.START { 
-    border-left: 4px solid #409eff; 
-    background: #f0f7ff;
+  &.START {
+    border-left: 4px solid var(--color-primary);
+    background: rgba(64, 158, 255, 0.06);
   }
-  
-  &.END { 
-    border-left: 4px solid #67c23a; 
-    background: #f0fff4;
+
+  &.END {
+    border-left: 4px solid var(--color-success);
+    background: rgba(103, 194, 58, 0.06);
   }
-  
-  &.ERROR { 
-    border-left: 4px solid #f56c6c; 
-    background: #fff0f0;
+
+  &.ERROR {
+    border-left: 4px solid var(--color-danger);
+    background: rgba(245, 108, 108, 0.06);
   }
   
   &:hover {
@@ -636,63 +636,63 @@ watch(
 .event-info-title { 
   margin-left: 8px; 
   font-weight: 600;
-  color: #333;
+  color: var(--color-text-primary);
 }
 
 .event-info-status {
   margin-left: 8px;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   padding: 2px 6px;
   border-radius: 10px;
-  background: #eee;
-  
+  background: var(--color-bg-secondary);
+
   .START & {
-    background: #e6f1ff;
-    color: #409eff;
+    background: rgba(64, 158, 255, 0.1);
+    color: var(--color-primary);
   }
-  
+
   .END & {
-    background: #e7f9eb;
-    color: #67c23a;
+    background: rgba(103, 194, 58, 0.1);
+    color: var(--color-success);
   }
-  
+
   .ERROR & {
-    background: #ffeded;
-    color: #f56c6c;
+    background: rgba(245, 108, 108, 0.1);
+    color: var(--color-danger);
   }
 }
 
-.event-info-toggle { 
-  margin-left: auto; 
-  color: #aaa; 
-  font-size: 12px;
-  
+.event-info-toggle {
+  margin-left: auto;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-xs);
+
   &:hover {
-    color: #666;
+    color: var(--color-text-secondary);
   }
 }
 
-.event-info-message { 
-  margin-top: 8px; 
-  color: #333;
+.event-info-message {
+  margin-top: 8px;
+  color: var(--color-text-primary);
   padding: 8px;
   background: rgba(255, 255, 255, 0.7);
   border-radius: 4px;
-  font-size: 14px;
+  font-size: var(--font-size-base);
   line-height: 1.5;
 }
 
 .rotating { 
   animation: spin 1.2s linear infinite;
-  color: #409eff;
+  color: var(--color-primary);
 }
 
 .success-icon {
-  color: #67c23a;
+  color: var(--color-success);
 }
 
 .error-icon {
-  color: #f56c6c;
+  color: var(--color-danger);
 }
 
 @keyframes spin { 
@@ -705,33 +705,33 @@ watch(
   justify-content: center;
   align-items: center;
   min-height: 28px;
-  color: #6e8efb;
+  color: var(--color-primary);
 }
 
 .input-area {
   display: flex;
   align-items: flex-end;
   padding: 15px 20px;
-  border-top: 1px solid #e0e0e0;
-  background-color: #ffffff;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-card);
 
   .action-btn {
     margin-right: 10px;
-    background-color: #f0f2f5;
+    background-color: var(--color-bg-secondary);
     border: none;
     width: 48px;
     height: 48px;
     font-size: 24px;
     transition: all 0.3s ease;
     &:hover {
-      background-color: #e6e8eb;
+      background-color: var(--color-border);
     }
     &.file-uploaded {
-      background-color: #67c23a;
-      color: white;
+      background-color: var(--color-success);
+      color: var(--color-bg);
       &:hover {
-        background-color: #5daf34;
+        background-color: var(--color-success);
       }
     }
     &:disabled {
@@ -753,8 +753,8 @@ watch(
     align-items: center;
     gap: 8px;
     padding: 6px 10px;
-    background: linear-gradient(135deg, #f5fbff 0%, #ecf5ff 100%);
-    border: 1px solid #b3d8ff;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(236, 245, 255, 0.95) 100%);
+    border: 1px solid var(--color-border);
     border-radius: 16px;
     font-size: 12px;
     z-index: 10;
@@ -780,7 +780,7 @@ watch(
     }
 
     .file-name {
-      color: #1f6fd6;
+      color: var(--color-primary);
       text-decoration: none;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -806,12 +806,12 @@ watch(
   .message-textarea {
     width: 100%;
     border-radius: 20px;
-    background-color: #f0f2f5;
+    background-color: var(--color-bg-secondary);
     box-shadow: none;
     border: 1px solid transparent;
     padding: 12px 18px;
-    font-family: inherit;
-    font-size: 14px;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
     resize: none;
     overflow-y: auto;
     max-height: 120px;
@@ -819,24 +819,24 @@ watch(
     outline: none;
     transition: border-color 0.2s;
     &:focus {
-      border-color: #6e8efb;
+      border-color: var(--color-primary);
     }
   }
 
   .send-btn {
     margin-left: 10px;
-    background-color: #6e8efb;
+    background-color: var(--color-primary);
     border: none;
     width: 48px;
     height: 48px;
     font-size: 24px;
     &:hover {
-      background-color: #5a78e6;
+      background-color: var(--color-primary-hover);
     }
     &.pause-mode {
-      background-color: #f56c6c;
+      background-color: var(--color-danger);
       &:hover {
-        background-color: #dd6161;
+        background-color: var(--color-danger);
       }
     }
   }

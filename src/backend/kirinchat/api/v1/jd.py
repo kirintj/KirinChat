@@ -29,11 +29,11 @@ async def parse_jd(
         result = await JdService.parse_jd(req.jd_text)
         return resp_200(data=result.model_dump())
     except ValueError as err:
-        logger.warning(f"Parse JD validation error: {err}")
+        logger.warning("Parse JD validation error: %s", err)
         return resp_500(message=str(err))
     except Exception as err:
-        logger.error(f"Parse JD error: {err}")
-        return resp_500(message=str(err))
+        logger.error("Parse JD error: %s", err)
+        return resp_500(message="解析 JD 失败，请稍后重试")
 
 
 @router.post("/jd/create-skill", response_model=UnifiedResponseModel)
@@ -46,8 +46,8 @@ async def create_skill_from_jd(
         result = await JdService.create_skill_from_jd(req)
         return resp_200(data=result.model_dump())
     except ValueError as err:
-        logger.warning(f"Create skill from JD validation error: {err}")
+        logger.warning("Create skill from JD validation error: %s", err)
         return resp_500(message=str(err))
     except Exception as err:
-        logger.error(f"Create skill from JD error: {err}")
-        return resp_500(message=str(err))
+        logger.error("Create skill from JD error: %s", err)
+        return resp_500(message="创建面试方向失败")

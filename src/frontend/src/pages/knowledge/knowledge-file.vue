@@ -778,7 +778,7 @@ onUnmounted(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--color-bg);
   min-height: 100vh;
   
   .page-header {
@@ -786,11 +786,11 @@ onUnmounted(() => {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    padding: 20px 28px;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    border-radius: 16px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-    border: 1px solid rgba(226, 232, 240, 0.6);
+    padding: var(--spacing-2xl) var(--spacing-2xl);
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 24px var(--shadow-sm);
+    border: 1px solid var(--color-border);
     
     .header-left {
       display: flex;
@@ -808,32 +808,32 @@ onUnmounted(() => {
           gap: 10px;
           
           .title-icon {
-            font-size: 16px;
+            font-size: var(--font-size-lg);
           }
           
           .title-text {
-            font-size: 18px;
+            font-size: var(--font-size-xl);
             font-weight: 600;
-            color: #303133;
+            color: var(--color-text-primary);
           }
         }
       
         .breadcrumb {
           display: flex;
           align-items: center;
-          font-size: 14px;
+          font-size: var(--font-size-base);
           
           .breadcrumb-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #606266;
+            color: var(--color-text-secondary);
             transition: all 0.2s ease;
             padding: 8px 14px;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             
             .breadcrumb-icon {
-              font-size: 14px;
+              font-size: var(--font-size-base);
             }
             
             .breadcrumb-text {
@@ -842,18 +842,18 @@ onUnmounted(() => {
             
             &.clickable {
               cursor: pointer;
-              background: #f5f7fa;
+              background: var(--color-bg);
               
               &:hover {
-                background: #e4e7ed;
-                color: #409eff;
+                background: var(--color-border);
+                color: var(--color-primary);
               }
             }
             
             &.current {
-              color: #409eff;
+              color: var(--color-primary);
               font-weight: 600;
-              background: rgba(64, 158, 255, 0.1);
+              background: var(--color-primary-bg);
             }
           }
           
@@ -861,7 +861,7 @@ onUnmounted(() => {
             margin: 0 8px;
             
             .separator-icon {
-              color: #909399;
+              color: var(--color-text-tertiary);
               font-size: 10px;
             }
           }
@@ -883,15 +883,15 @@ onUnmounted(() => {
           align-items: center;
           gap: 10px;
           padding: 10px 16px;
-          background: white;
-          border-radius: 10px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-          border: 1px solid #e1e5e9;
+          background: var(--color-bg);
+          border-radius: var(--radius-md);
+          box-shadow: 0 2px 8px var(--shadow-sm);
+          border: 1px solid var(--color-border);
           transition: all 0.2s ease;
           min-width: 90px;
             
           &:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px var(--shadow-sm);
           }
             
           .stat-icon-wrapper {
@@ -900,10 +900,10 @@ onUnmounted(() => {
             justify-content: center;
             width: 28px;
             height: 28px;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             
             .stat-icon {
-              font-size: 14px;
+              font-size: var(--font-size-base);
             }
           }
           
@@ -912,7 +912,7 @@ onUnmounted(() => {
             flex-direction: column;
             
             .stat-number {
-              font-size: 15px;
+              font-size: var(--font-size-lg);
               font-weight: 600;
               line-height: 1;
               margin-bottom: 2px;
@@ -920,35 +920,35 @@ onUnmounted(() => {
             
             .stat-label {
               font-size: 11px;
-              color: #909399;
+              color: var(--color-text-tertiary);
               font-weight: 500;
             }
           }
             
           &.total {
             .stat-icon-wrapper {
-              background: #e3f2fd;
+              background: var(--color-primary-bg);
             }
             .stat-number {
-              color: #1976d2;
+              color: var(--color-primary);
             }
           }
           
           &.processing {
             .stat-icon-wrapper {
-              background: #fff3e0;
+              background: var(--color-bg)3e0;
             }
             .stat-number {
-              color: #f57c00;
+              color: var(--color-warning);
             }
           }
           
           &.success {
             .stat-icon-wrapper {
-              background: #e8f5e9;
+              background: var(--color-success-bg);
             }
             .stat-number {
-              color: #388e3c;
+              color: var(--color-success);
             }
           }
         }
@@ -958,9 +958,9 @@ onUnmounted(() => {
           align-items: center;
           gap: 8px;
           padding: 8px 12px;
-          background: rgba(64, 158, 255, 0.1);
-          border-radius: 8px;
-          border: 1px solid rgba(64, 158, 255, 0.2);
+          background: var(--color-primary-bg);
+          border-radius: var(--radius-md);
+          border: 1px solid var(--color-primary-bg);
           
           .sync-animation {
             display: flex;
@@ -969,8 +969,8 @@ onUnmounted(() => {
             .sync-dot {
               width: 4px;
               height: 4px;
-              background: #409eff;
-              border-radius: 50%;
+              background: var(--color-primary);
+              border-radius: var(--radius-full);
               animation: syncWave 1.5s infinite ease-in-out;
               
               &:nth-child(1) { animation-delay: 0s; }
@@ -980,8 +980,8 @@ onUnmounted(() => {
           }
           
           .sync-text {
-            font-size: 12px;
-            color: #409eff;
+            font-size: var(--font-size-xs);
+            color: var(--color-primary);
             font-weight: 500;
           }
         }
@@ -992,17 +992,17 @@ onUnmounted(() => {
             align-items: center;
             gap: 8px;
             padding: 10px 20px;
-            background: #409eff;
+            background: var(--color-primary);
             border: none;
-            border-radius: 10px;
+            border-radius: var(--radius-md);
             color: white;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
-            font-size: 14px;
+            font-size: var(--font-size-base);
             
             &:hover {
-              background: #66b1ff;
+              background: var(--color-primary);
             }
             
             .btn-icon-wrapper {
@@ -1011,15 +1011,15 @@ onUnmounted(() => {
               justify-content: center;
               
               .btn-icon {
-                font-size: 14px;
+                font-size: var(--font-size-base);
               }
               
               .loading-spinner {
                 width: 14px;
                 height: 14px;
-                border: 2px solid rgba(255, 255, 255, 0.3);
+                border: 2px solid var(--color-bg-overlay);
                 border-top: 2px solid white;
-                border-radius: 50%;
+                border-radius: var(--radius-full);
                 animation: spin 1s linear infinite;
               }
             }
@@ -1029,13 +1029,13 @@ onUnmounted(() => {
               align-items: center;
               
               .btn-main-text {
-                font-size: 14px;
+                font-size: var(--font-size-base);
                 font-weight: 600;
               }
             }
             
             &.uploading {
-              background: #74b9ff;
+              background: var(--color-primary);
               cursor: not-allowed;
             }
           }
@@ -1054,20 +1054,20 @@ onUnmounted(() => {
       .custom-table {
         width: 100%;
         border-collapse: collapse;
-        background: white;
-        border-radius: 12px;
+        background: var(--color-bg);
+        border-radius: var(--radius-lg);
         overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        border: 1px solid #e1e5e9;
+        box-shadow: 0 2px 8px var(--shadow-sm);
+        border: 1px solid var(--color-border);
         
         th {
-          background: #f5f7fa;
-          color: #606266;
+          background: var(--color-bg);
+          color: var(--color-text-secondary);
           font-weight: 600;
-          padding: 14px 20px;
+          padding: var(--spacing-lg) var(--spacing-2xl);
           text-align: center;
-          border-bottom: 2px solid #e1e5e9;
-          font-size: 13px;
+          border-bottom: 2px solid var(--color-border);
+          font-size: var(--font-size-sm);
           text-transform: uppercase;
           letter-spacing: 0.5px;
           
@@ -1080,11 +1080,11 @@ onUnmounted(() => {
         }
         
         .file-row {
-          border-bottom: 1px solid #f0f2f5;
+          border-bottom: 1px solid var(--color-border);
           transition: all 0.2s ease;
           
           &:hover {
-            background: #f8f9fa;
+            background: var(--color-bg);
           }
           
           &:last-child {
@@ -1092,16 +1092,16 @@ onUnmounted(() => {
           }
           
           &.temp-file {
-            background: rgba(64, 158, 255, 0.05);
-            border-left: 3px solid #409eff;
+            background: var(--color-primary-bg);
+            border-left: 3px solid var(--color-primary);
           }
         }
         
         td {
           padding: 16px 20px;
           vertical-align: middle;
-          font-size: 14px;
-          color: #606266;
+          font-size: var(--font-size-base);
+          color: var(--color-text-secondary);
           text-align: center;
         }
         
@@ -1135,11 +1135,11 @@ onUnmounted(() => {
           justify-content: center;
           width: 36px;
           height: 36px;
-          background: #e3f2fd;
-          border-radius: 8px;
+          background: var(--color-primary-bg);
+          border-radius: var(--radius-md);
           
           .file-icon {
-            font-size: 18px;
+            font-size: var(--font-size-xl);
           }
           
           .upload-overlay {
@@ -1148,8 +1148,8 @@ onUnmounted(() => {
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(64, 158, 255, 0.8);
-            border-radius: 8px;
+            background: var(--color-primary);
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1159,7 +1159,7 @@ onUnmounted(() => {
               height: 16px;
               border: 2px solid white;
               border-top: 2px solid transparent;
-              border-radius: 50%;
+              border-radius: var(--radius-full);
               animation: spin 1s linear infinite;
             }
           }
@@ -1176,18 +1176,18 @@ onUnmounted(() => {
             text-overflow: ellipsis;
             white-space: nowrap;
             font-weight: 600;
-            color: #303133;
-            font-size: 14px;
+            color: var(--color-text-primary);
+            font-size: var(--font-size-base);
           }
           
           .temp-badge {
             display: flex;
             align-items: center;
             gap: 4px;
-            background: #409eff;
+            background: var(--color-primary);
             color: white;
             padding: 2px 8px;
-            border-radius: 10px;
+            border-radius: var(--radius-md);
             font-size: 11px;
             font-weight: 600;
             width: fit-content;
@@ -1202,10 +1202,10 @@ onUnmounted(() => {
       .type-tag {
         display: inline-block;
         padding: 4px 10px;
-        background: #e3f2fd;
-        color: #1976d2;
-        border-radius: 12px;
-        font-size: 12px;
+        background: var(--color-primary-bg);
+        color: var(--color-primary);
+        border-radius: var(--radius-lg);
+        font-size: var(--font-size-xs);
         font-weight: 600;
       }
       
@@ -1215,10 +1215,10 @@ onUnmounted(() => {
         justify-content: center;
         gap: 4px;
         font-weight: 500;
-        font-size: 13px;
+        font-size: var(--font-size-sm);
         
         .size-icon {
-          font-size: 14px;
+          font-size: var(--font-size-base);
         }
       }
       
@@ -1229,13 +1229,13 @@ onUnmounted(() => {
         gap: 6px;
         
         .time-icon {
-          font-size: 14px;
-          color: #909399;
+          font-size: var(--font-size-base);
+          color: var(--color-text-tertiary);
         }
         
         .time-text {
-          font-size: 13px;
-          color: #606266;
+          font-size: var(--font-size-sm);
+          color: var(--color-text-secondary);
         }
       }
       
@@ -1244,8 +1244,8 @@ onUnmounted(() => {
         align-items: center;
         justify-content: center;
         padding: 6px 12px;
-        border-radius: 12px;
-        font-size: 12px;
+        border-radius: var(--radius-lg);
+        font-size: var(--font-size-xs);
         font-weight: 600;
         min-width: 80px;
         
@@ -1256,23 +1256,23 @@ onUnmounted(() => {
         }
         
         &.status-success {
-          background: #e8f5e9;
-          color: #388e3c;
+          background: var(--color-success-bg);
+          color: var(--color-success);
         }
         
         &.status-process {
-          background: #fff3e0;
-          color: #f57c00;
+          background: var(--color-bg)3e0;
+          color: var(--color-warning);
         }
         
         &.status-fail {
-          background: #ffebee;
-          color: #d32f2f;
+          background: var(--color-error-bg);
+          color: var(--color-danger);
         }
         
         &.status-default {
-          background: #f5f7fa;
-          color: #909399;
+          background: var(--color-bg);
+          color: var(--color-text-tertiary);
         }
       }
       
@@ -1286,21 +1286,21 @@ onUnmounted(() => {
           align-items: center;
           gap: 4px;
           padding: 6px 12px;
-          background: white;
-          color: #f56c6c;
-          border: 1px solid #f56c6c;
-          border-radius: 8px;
+          background: var(--color-bg);
+          color: var(--color-danger);
+          border: 1px solid var(--color-danger);
+          border-radius: var(--radius-md);
           cursor: pointer;
-          font-size: 12px;
+          font-size: var(--font-size-xs);
           font-weight: 600;
           transition: all 0.2s ease;
           
           .btn-icon {
-            font-size: 14px;
+            font-size: var(--font-size-base);
           }
           
           &:hover {
-            background: #f56c6c;
+            background: var(--color-danger);
             color: white;
           }
         }
@@ -1310,14 +1310,14 @@ onUnmounted(() => {
           align-items: center;
           gap: 4px;
           padding: 6px 12px;
-          background: rgba(64, 158, 255, 0.1);
-          color: #409eff;
-          border-radius: 8px;
-          font-size: 12px;
+          background: var(--color-primary-bg);
+          color: var(--color-primary);
+          border-radius: var(--radius-md);
+          font-size: var(--font-size-xs);
           font-weight: 600;
           
           .uploading-icon {
-            font-size: 14px;
+            font-size: var(--font-size-base);
           }
         }
       }
@@ -1329,10 +1329,10 @@ onUnmounted(() => {
       align-items: center;
       justify-content: center;
       height: 500px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      border: 1px solid #e1e5e9;
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 2px 8px var(--shadow-sm);
+      border: 1px solid var(--color-border);
       padding: 40px;
       
       .empty-illustration {
@@ -1361,7 +1361,7 @@ onUnmounted(() => {
             gap: 8px;
             
             .file-float {
-              font-size: 16px;
+              font-size: var(--font-size-lg);
               animation: float 3s ease-in-out infinite;
               
               &:nth-child(1) {
@@ -1384,9 +1384,9 @@ onUnmounted(() => {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 20px;
+        font-size: var(--font-size-xl);
         font-weight: 600;
-        color: #303133;
+        color: var(--color-text-primary);
         margin: 0 0 12px 0;
         
         .title-icon {
@@ -1395,8 +1395,8 @@ onUnmounted(() => {
       }
       
       .empty-description {
-        font-size: 14px;
-        color: #909399;
+        font-size: var(--font-size-base);
+        color: var(--color-text-tertiary);
         margin: 0 0 24px 0;
         text-align: center;
       }
@@ -1412,17 +1412,17 @@ onUnmounted(() => {
           align-items: center;
           gap: 6px;
           padding: 12px;
-          background: #f5f7fa;
-          border-radius: 8px;
+          background: var(--color-bg);
+          border-radius: var(--radius-md);
           min-width: 90px;
           
           .feature-icon {
-            font-size: 20px;
+            font-size: var(--font-size-xl);
           }
           
           .feature-text {
-            font-size: 12px;
-            color: #606266;
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
             font-weight: 500;
             text-align: center;
           }
@@ -1432,7 +1432,7 @@ onUnmounted(() => {
       .empty-upload-btn {
         .btn-icon {
           margin-right: 6px;
-          font-size: 16px;
+          font-size: var(--font-size-lg);
         }
       }
     }
@@ -1477,7 +1477,7 @@ onUnmounted(() => {
 .loading-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 22, 40, 0.6);
+  background: var(--color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1488,9 +1488,9 @@ onUnmounted(() => {
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--color-primary, #409eff);
-  border-radius: 50%;
+  border: 3px solid var(--color-bg-overlay);
+  border-top-color: var(--color-primary, var(--color-primary));
+  border-radius: var(--radius-full);
   animation: h-spin 0.6s linear infinite;
 }
 
@@ -1504,15 +1504,15 @@ onUnmounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--color-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 
   .confirm-dialog-content {
-    background-color: white;
-    border-radius: 12px;
+    background-color: var(--color-bg);
+    border-radius: var(--radius-lg);
     padding: 24px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -1520,15 +1520,15 @@ onUnmounted(() => {
     max-width: 90%;
 
     .dialog-title {
-      font-size: 18px;
+      font-size: var(--font-size-xl);
       font-weight: 600;
-      color: #303133;
+      color: var(--color-text-primary);
       margin-bottom: 16px;
     }
 
     .dialog-body {
-      font-size: 14px;
-      color: #606266;
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
       margin-bottom: 24px;
       line-height: 1.6;
     }
@@ -1540,8 +1540,8 @@ onUnmounted(() => {
 
       .btn-cancel, .btn-confirm {
         padding: 8px 20px;
-        border-radius: 8px;
-        font-size: 14px;
+        border-radius: var(--radius-md);
+        font-size: var(--font-size-base);
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -1549,20 +1549,20 @@ onUnmounted(() => {
       }
 
       .btn-cancel {
-        background-color: #f5f7fa;
-        color: #606266;
+        background-color: var(--color-bg);
+        color: var(--color-text-secondary);
         
         &:hover {
-          background-color: #e4e7ed;
+          background-color: var(--color-border);
         }
       }
 
       .btn-confirm {
-        background-color: #f56c6c;
+        background-color: var(--color-danger);
         color: white;
         
         &:hover {
-          background-color: #f78989;
+          background-color: var(--color-danger);
         }
       }
     }

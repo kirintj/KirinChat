@@ -5,13 +5,13 @@ from typing import Iterator, AsyncIterator
 
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import Session
-from kirinchat.database import engine, async_engine
+from kirinchat.database import get_engine, get_async_engine
 
 logger = logging.getLogger(__name__)
 
 @contextmanager
 def session_getter() -> Iterator[Session]:
-    session = Session(engine)
+    session = Session(get_engine())
 
     try:
         yield session
@@ -24,7 +24,7 @@ def session_getter() -> Iterator[Session]:
 
 @asynccontextmanager
 async def async_session_getter() -> AsyncIterator[AsyncSession]:
-    session = AsyncSession(async_engine)  # 使用异步引擎创建会话
+    session = AsyncSession(get_async_engine())
 
     try:
         yield session

@@ -87,6 +87,8 @@ const appCenterColumns = ref([
 ])
 const current = ref(route.meta.current)
 const cardList = ref<Agent[]>([])
+const agentsError = ref('')
+const agentsRetryable = ref(false)
 
 // 顶栏按钮激活态
 const isWorkspaceActive = computed(() => route.path.startsWith('/workspace'))
@@ -121,11 +123,16 @@ const godefault = () => {
 }
   
 const updateList = async () => {
+  agentsError.value = ''
+  agentsRetryable.value = false
   try {
     const response = await getAgentsAPI()
     cardList.value = response.data.data
-  } catch (error) {
-    console.error('获取智能体列表失败:', error)
+  } catch (error: any) {
+    const msg = error?.friendlyMessage || '获取智能体列表失败'
+    console.error(msg, error)
+    agentsError.value = msg
+    agentsRetryable.value = error?.code === 'ECONNABORTED' || !error?.response
   }
 }
 
@@ -269,7 +276,7 @@ watch(
     padding: 0 var(--spacing-xl);
     border-bottom: 1px solid var(--color-border);
     position: relative;
-    z-index: 3000;
+    z-index: var(--z-dropdown);
 
     .left {
       display: flex;
@@ -277,7 +284,7 @@ watch(
       gap: var(--spacing-md);
 
       .brand-name {
-        font-size: 15px;
+        font-size: var(--font-size-lg);
         font-weight: 600;
         color: var(--color-text-primary);
         cursor: pointer;
@@ -336,7 +343,7 @@ watch(
           cursor: pointer;
           margin-bottom: 4px;
           color: var(--color-text-secondary);
-          font-size: 13px;
+          font-size: var(--font-size-base);
           transition: all 0.2s ease;
 
           &:hover {
@@ -380,7 +387,7 @@ watch(
           line-height: 24px;
           background: var(--color-bg-secondary);
           border-radius: var(--radius-sm);
-          font-size: 12px;
+          font-size: var(--font-size-xs);
           color: var(--color-text-secondary);
         }
       }

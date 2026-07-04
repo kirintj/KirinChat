@@ -150,10 +150,10 @@ onMounted(fetchPath)
 
 .back-btn {
   background: none;
-  border: 1px solid var(--main-color);
-  color: var(--main-color);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
   padding: 6px 16px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
 }
 
@@ -161,22 +161,22 @@ onMounted(fetchPath)
 .empty-state {
   text-align: center;
   padding: 48px;
-  color: #888;
+  color: var(--color-text-tertiary);
 }
 
 .primary-btn {
-  background: var(--main-color);
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-bg);
   border: none;
   padding: 8px 24px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   margin-top: 16px;
 }
 
 .section {
-  background: var(--bg-color);
-  border-radius: 12px;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
   padding: 20px;
   margin-bottom: 16px;
 }
@@ -186,8 +186,8 @@ onMounted(fetchPath)
 }
 
 .section-desc {
-  color: #888;
-  font-size: 14px;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-base);
   margin: -8px 0 16px;
 }
 
@@ -210,20 +210,20 @@ onMounted(fetchPath)
 
 .stat-label {
   font-size: 13px;
-  color: #888;
+  color: var(--color-text-tertiary);
 }
 
 .level-badge {
-  font-size: 16px;
+  font-size: var(--font-size-lg);
   padding: 4px 12px;
-  border-radius: 16px;
-  color: #fff;
+  border-radius: var(--radius-xl);
+  color: var(--color-bg);
 }
 
-.level-badge.excellent { background: #22c55e; }
-.level-badge.intermediate { background: #3b82f6; }
-.level-badge.beginner { background: #f59e0b; }
-.level-badge.needs_work { background: #ef4444; }
+.level-badge.excellent { background: var(--color-success); }
+.level-badge.intermediate { background: var(--color-info); }
+.level-badge.beginner { background: var(--color-warning); }
+.level-badge.needs_work { background: var(--color-danger); }
 
 .category-grid {
   display: flex;
@@ -235,17 +235,17 @@ onMounted(fetchPath)
   flex: 1;
   min-width: 100px;
   padding: 16px;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   text-align: center;
   border: 2px solid transparent;
 }
 
-.category-card.weak { border-color: #ef4444; background: #fef2f2; }
-.category-card.medium { border-color: #f59e0b; background: #fffbeb; }
-.category-card.strong { border-color: #22c55e; background: #f0fdf4; }
+.category-card.weak { border-color: var(--color-danger); background: var(--color-danger-bg); }
+.category-card.medium { border-color: var(--color-warning); background: var(--color-warning-bg); }
+.category-card.strong { border-color: var(--color-success); background: var(--color-success-bg); }
 
 .cat-label {
-  font-size: 14px;
+  font-size: var(--font-size-base);
   font-weight: 600;
 }
 
@@ -256,13 +256,13 @@ onMounted(fetchPath)
 }
 
 .cat-count {
-  font-size: 12px;
-  color: #888;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
 }
 
 .resource-block {
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
   margin-bottom: 8px;
   overflow: hidden;
 }
@@ -276,7 +276,7 @@ onMounted(fetchPath)
 }
 
 .resource-header:hover {
-  background: var(--border-color);
+  background: var(--color-bg-secondary);
 }
 
 .resource-title {
@@ -285,33 +285,33 @@ onMounted(fetchPath)
 }
 
 .resource-score {
-  color: #888;
-  font-size: 14px;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-base);
   margin-right: 12px;
 }
 
 .expand-icon {
-  font-size: 12px;
-  color: #888;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
 }
 
 .resource-content {
   padding: 0 16px 16px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--color-border);
 }
 
 .resource-content pre {
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-family: inherit;
-  font-size: 14px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
   line-height: 1.6;
-  color: var(--text-color);
+  color: var(--color-text-primary);
   margin: 0;
 }
 
 .no-resources {
-  color: #888;
+  color: var(--color-text-tertiary);
   text-align: center;
 }
 </style>

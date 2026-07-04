@@ -101,9 +101,9 @@ const handleExampleClick = (_: any, index: number) => {
   }
 
   .brand-name {
-    font-size: 36px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -134,7 +134,7 @@ const handleExampleClick = (_: any, index: number) => {
     border: none;
     background: transparent;
     padding: 8px;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     line-height: 1.6;
     color: var(--color-text-primary);
     outline: none;
@@ -158,7 +158,7 @@ const handleExampleClick = (_: any, index: number) => {
       color: white;
       border: none;
       border-radius: 50%;
-      font-size: 14px;
+      font-size: var(--font-size-base);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -204,14 +204,14 @@ const handleExampleClick = (_: any, index: number) => {
   }
 
   .card-title {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     font-weight: 600;
     color: var(--color-text-primary);
     margin: 0;
   }
 
   .card-tag {
-    font-size: 11px;
+    font-size: var(--font-size-xs);
     color: var(--color-text-tertiary);
     background: var(--color-bg-secondary);
     padding: 2px 8px;
@@ -219,7 +219,7 @@ const handleExampleClick = (_: any, index: number) => {
   }
 
   .card-desc {
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     color: var(--color-text-secondary);
     line-height: 1.5;
     margin: 0;
@@ -233,7 +233,7 @@ const handleExampleClick = (_: any, index: number) => {
   }
 
   .logo-section .brand-name {
-    font-size: 28px;
+    font-size: var(--font-size-2xl);
   }
 
   .examples-section .examples-grid {

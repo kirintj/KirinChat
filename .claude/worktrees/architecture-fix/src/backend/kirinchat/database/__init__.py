@@ -1,0 +1,101 @@
+from loguru import logger
+from sqlmodel import SQLModel, create_engine, text
+from sqlalchemy.ext.asyncio import create_async_engine
+
+from kirinchat.database.models.agent import AgentTable
+from kirinchat.database.models.history import HistoryTable
+from kirinchat.database.models.memory_history import MemoryHistoryTable
+from kirinchat.database.models.user import SystemUser
+from kirinchat.database.models.knowledge import KnowledgeTable
+from kirinchat.database.models.knowledge_file import KnowledgeFileTable
+from kirinchat.database.models.tool import ToolTable
+from kirinchat.database.models.dialog import DialogTable
+from kirinchat.database.models.mcp_server import MCPServerTable, MCPServerStdioTable
+from kirinchat.database.models.mcp_user_config import MCPUserConfigTable
+from kirinchat.database.models.user_role import UserRole
+from kirinchat.database.models.llm import LLMTable
+from kirinchat.database.models.message import MessageDownTable, MessageLikeTable
+from kirinchat.database.models.role import Role
+from kirinchat.database.models.workspace_session import WorkSpaceSession
+from kirinchat.database.models.usage_stats import UsageStats
+from kirinchat.database.models.agent_skill import AgentSkill
+from kirinchat.database.models.register_mcp import RegisterMcpServer
+from kirinchat.database.models.register_task import RegisterMcpTask
+from kirinchat.database.models.register_mcp_tool import RegisterMcpTool
+from kirinchat.database.models.resume import ResumeTable  # noqa: F401
+from kirinchat.settings import app_settings
+
+
+# 创建数据库引擎（配置已在 settings 模块加载时同步初始化）
+engine = create_engine(
+    url=app_settings.mysql.get('endpoint'),
+    pool_pre_ping=True, # 连接前检查其有效性
+    pool_recycle=3600, # 每隔1小时进行重连一次
+    connect_args={
+        "charset": "utf8mb4",
+        "use_unicode": True,
+        "init_command": "SET SESSION time_zone = '+08:00'"
+    }
+)
+
+async_engine = create_async_engine(
+    url=app_settings.mysql.get('async_endpoint'),
+    pool_pre_ping=True,  # 连接前检查其有效性
+    pool_recycle=3600,  # 每隔1小时进行重连一次
+    connect_args={
+        "charset": "utf8mb4",
+        "use_unicode": True,
+        "init_command": "SET SESSION time_zone = '+08:00'"
+    }
+)
+
+
+def ensure_mysql_database(endpoint: str=None) -> None:
+    """
+    Ensure MySQL database exists.
+    This function is safe to call on every startup.
+    """
+    from urllib.parse import urlparse, urlunparse
+
+    if not endpoint:
+        endpoint = app_settings.mysql.get('endpoint')
+    parsed = urlparse(endpoint)
+
+    database = parsed.path.lstrip("/")
+    if not database:
+        raise ValueError("MySQL endpoint must include database name")
+
+    bootstrap_url = urlunparse((
+        "mysql+pymysql",
+        f"{parsed.username}:{parsed.password}@{parsed.hostname}:{parsed.port or 3306}",
+        "/",
+        "",
+        "",
+        ""
+    ))
+
+    logger.info(f"Checking MySQL database `{database}`")
+
+    engine = create_engine(
+        bootstrap_url,
+        isolation_level="AUTOCOMMIT",
+        connect_args={
+            "charset": "utf8mb4",
+            "init_command": "SET SESSION time_zone = '+08:00'"
+        }
+    )
+
+    try:
+        with engine.connect() as conn:
+            conn.execute(
+                text(
+                    f"""
+                    CREATE DATABASE IF NOT EXISTS `{database}`
+                    DEFAULT CHARACTER SET utf8mb4
+                    COLLATE utf8mb4_unicode_ci
+                    """
+                )
+            )
+        logger.success(f"MySQL database `{database}` is ready")
+    finally:
+        engine.dispose()

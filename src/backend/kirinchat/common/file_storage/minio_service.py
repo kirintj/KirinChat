@@ -1,4 +1,6 @@
 from io import BytesIO
+from loguru import logger
+
 from minio import Minio
 from kirinchat.settings import app_settings
 
@@ -7,13 +9,26 @@ class MinioService:
     """MinIO/S3 文件存储服务。"""
 
     def __init__(self):
-        self.client = Minio(
-            app_settings.minio_endpoint,
-            access_key=app_settings.minio_access_key,
-            secret_key=app_settings.minio_secret_key,
-            secure=app_settings.minio_secure,
-        )
-        self.bucket = app_settings.minio_bucket
+        self._client = None
+        self._bucket = None
+
+    @property
+    def client(self) -> Minio:
+        """延迟初始化 MinIO 客户端，避免模块导入时连接失败。"""
+        if self._client is None:
+            self._client = Minio(
+                app_settings.minio_endpoint,
+                access_key=app_settings.minio_access_key,
+                secret_key=app_settings.minio_secret_key,
+                secure=app_settings.minio_secure,
+            )
+        return self._client
+
+    @property
+    def bucket(self) -> str:
+        if self._bucket is None:
+            self._bucket = app_settings.minio_bucket
+        return self._bucket
 
     def ensure_bucket(self):
         """确保存储桶存在，不存在则创建。"""

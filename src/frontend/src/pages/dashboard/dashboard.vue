@@ -540,7 +540,7 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .dashboard-container {
   padding: 24px;
-  background-color: #f5f7fa;
+  background-color: var(--color-bg);
   min-height: calc(100vh - 60px);
 }
 
@@ -552,27 +552,27 @@ onBeforeUnmount(() => {
     gap: 10px;
   }
   .badge {
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     padding: 2px 8px;
     border-radius: 999px;
-    background: #eef2ff;
-    color: #4f46e5;
-    border: 1px solid #c7d2fe;
+    background: var(--color-primary-bg);
+    color: var(--color-primary);
+    border: 1px solid var(--color-border);
   }
   .sub {
     margin-top: 6px;
-    color: #7a8395;
-    font-size: 13px;
+    color: var(--color-text-tertiary);
+    font-size: var(--font-size-sm);
     font-weight: 500;
     letter-spacing: .2px;
     -webkit-font-smoothing: antialiased;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif;
+    font-family: var(--font-family);
   }
   
   h2 {
-    font-size: 24px;
+    font-size: var(--font-size-2xl);
     font-weight: 600;
-    color: #303133;
+    color: var(--color-text-primary);
     margin: 0;
   }
 }
@@ -582,12 +582,12 @@ onBeforeUnmount(() => {
   align-items: flex-end;
   gap: 16px;
   padding: 16px 20px;
-  background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg) 100%);
   border-radius: 14px;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 32px var(--shadow-sm);
   margin-bottom: 28px;
   flex-wrap: wrap;
-  border: 1px solid #e4e8f1;
+  border: 1px solid var(--color-border);
 }
 
 .filter-group {
@@ -598,14 +598,14 @@ onBeforeUnmount(() => {
   min-width: 220px;
   
   label {
-    font-size: 12px;
-    color: #4f5d75;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
     white-space: nowrap;
     padding-left: 4px;
     font-weight: 600;
     letter-spacing: .3px;
     -webkit-font-smoothing: antialiased;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif;
+    font-family: var(--font-family);
   }
 }
 
@@ -618,25 +618,25 @@ onBeforeUnmount(() => {
   align-self: center;
   margin-left: auto;
   padding: 0 20px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-weight: 600;
   letter-spacing: .3px;
-  box-shadow: 0 8px 20px rgba(99,102,241,0.2);
+  box-shadow: 0 8px 20px var(--color-primary-bg);
 }
 .filter-action:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 12px 24px rgba(99,102,241,0.25);
+  box-shadow: 0 12px 24px var(--color-primary-bg);
 }
 .filter-action:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 6px 18px rgba(99,102,241,0.22);
+  box-shadow: 0 6px 18px var(--color-primary-bg);
 }
 
 /* 加载中遮罩 */
 .loading-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 22, 40, 0.6);
+  background: var(--color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -647,9 +647,9 @@ onBeforeUnmount(() => {
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--color-primary, #409eff);
-  border-radius: 50%;
+  border: 3px solid var(--color-bg-overlay);
+  border-top-color: var(--color-primary, var(--color-primary));
+  border-radius: var(--radius-full);
   animation: h-spin 0.6s linear infinite;
 }
 
@@ -665,28 +665,28 @@ onBeforeUnmount(() => {
 }
 
 .kpi-card {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-  border: 1px solid #eef0f4;
-  border-radius: 12px;
+  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-primary-bg) 100%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   padding: 16px 18px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 24px var(--shadow-xs);
   position: relative;
 
   .kpi-title {
-    font-size: 12px;
-    color: #909399;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
     margin-bottom: 6px;
   }
   .kpi-value {
-    font-size: 28px;
+    font-size: var(--font-size-2xl);
     font-weight: 700;
-    color: #303133;
+    color: var(--color-text-primary);
     line-height: 1.2;
   }
   .kpi-desc {
     margin-top: 8px;
-    font-size: 12px;
-    color: #a0a3ad;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
   }
   .kpi-top {
     display: flex;
@@ -697,22 +697,22 @@ onBeforeUnmount(() => {
   .kpi-icon {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #eef2ff;
-    color: #4f46e5;
+    background: var(--color-primary-bg);
+    color: var(--color-primary);
     font-weight: 800;
-    box-shadow: inset 0 0 0 1px #c7d2fe;
+    box-shadow: inset 0 0 0 1px var(--color-border);
   }
 }
 
 .kpi-card--primary {
-  background: linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
+  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-primary-bg) 100%);
 }
 .kpi-card--warning {
-  background: linear-gradient(180deg, #ffffff 0%, #fff9f3 100%);
+  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-warning-bg) 100%);
 }
 
 .charts-container {
@@ -722,21 +722,21 @@ onBeforeUnmount(() => {
 }
 
 .chart-wrapper {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+  background-color: var(--color-bg);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 32px var(--shadow-sm);
   padding: 20px;
   min-height: 400px;
   position: relative;
 }
 
 .chart-title {
-  font-size: 16px;
+  font-size: var(--font-size-lg);
   font-weight: 600;
-  color: #303133;
+  color: var(--color-text-primary);
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #ebeef5;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .chart-content {
@@ -753,8 +753,8 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a8abb2;
-  font-size: 13px;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
   pointer-events: none;
 }
 

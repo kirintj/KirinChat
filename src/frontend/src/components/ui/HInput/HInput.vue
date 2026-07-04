@@ -68,6 +68,7 @@ function togglePassword() {
       }
     ]"
   >
+    <span class="h-input__overlay"></span>
     <div v-if="$slots.prefix" class="h-input__prefix">
       <slot name="prefix" />
     </div>
@@ -98,9 +99,10 @@ function togglePassword() {
   position: relative;
   display: flex;
   align-items: center;
-  background: var(--color-bg-tertiary);
+  background: var(--color-bg-secondary);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: 20px;
   transition: all var(--duration-fast) var(--easing);
 }
 .h-input:hover:not(.h-input--disabled) {
@@ -108,7 +110,8 @@ function togglePassword() {
 }
 .h-input--focused {
   border-color: var(--color-border-focus);
-  box-shadow: 0 0 0 3px var(--color-primary-bg);
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: -1px;
 }
 .h-input--error {
   border-color: var(--color-error);
@@ -119,9 +122,26 @@ function togglePassword() {
 }
 
 /* Sizes */
-.h-input--small { height: 32px; padding: 0 10px; }
-.h-input--medium { height: 38px; padding: 0 12px; }
-.h-input--large { height: 44px; padding: 0 16px; }
+.h-input--small { height: 32px; padding: 0 10px; border-radius: 16px; }
+.h-input--medium { height: 40px; padding: 0 12px; border-radius: 20px; }
+.h-input--large { height: 48px; padding: 0 16px; border-radius: 24px; }
+
+/* Overlay */
+.h-input__overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--easing);
+}
+.h-input:hover .h-input__overlay {
+  opacity: 1;
+  background: var(--color-bg-hover);
+}
+.h-input:active .h-input__overlay {
+  background: var(--color-bg-active);
+}
 
 .h-input__inner {
   flex: 1;

@@ -1,0 +1,193 @@
+/* ========== 鸿蒙宇宙蓝 主题变量 ========== */
+
+/* 暗色模式（默认） */
+:root,
+[data-theme="dark"] {
+  /* 背景层（三级） - 全部白色 */
+  --color-bg:           #ffffff;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary:  #ffffff;
+
+  /* 主色 */
+  --color-primary:       #3370ff;
+  --color-primary-hover: #5c9aff;
+  --color-primary-active:#1a5cd7;
+  --color-primary-bg:    rgba(51,112,255,0.12);
+
+  /* 文字 - 深色文字适配白色背景 */
+  --color-text-primary:   #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary:  #9ca3af;
+  --color-text-disabled:  #d1d5db;
+
+  /* 边框 - 浅色边框适配白色背景 */
+  --color-border:          #e5e7eb;
+  --color-border-hover:    #d1d5db;
+  --color-border-focus:    #3370ff;
+  --color-border-secondary: #e5e7eb;
+
+  /* 功能色 */
+  --color-success:     #34d399;
+  --color-success-bg:  rgba(52,211,153,0.12);
+  --color-warning:     #fbbf24;
+  --color-warning-bg:  rgba(251,191,36,0.12);
+  --color-danger:      #f87171;
+  --color-danger-bg:   rgba(248,113,113,0.12);
+  --color-error:       #e5432a;
+  --color-error-bg:    rgba(229,67,42,0.12);
+
+  /* 阴影 - 浅色阴影适配白色背景 */
+  --shadow-sm:    0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:    0 4px 12px rgba(0,0,0,0.1);
+  --shadow-card:  0 2px 8px rgba(0,0,0,0.08);
+  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-glow:  0 0 20px rgba(51,112,255,0.1);
+}
+
+/* 亮色模式 - 全部白色背景 */
+[data-theme="light"] {
+  --color-bg:           #ffffff;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary:  #ffffff;
+
+  --color-primary:       #3370ff;
+  --color-primary-hover: #5c9aff;
+  --color-primary-active:#1a5cd7;
+  --color-primary-bg:    #e8f0fe;
+
+  --color-text-primary:   #0d2137;
+  --color-text-secondary: #4a6785;
+  --color-text-tertiary:  #8ca0b8;
+  --color-text-disabled:  #b0c0d0;
+
+  --color-border:          #d0e0ff;
+  --color-border-hover:    #b0ccff;
+  --color-border-focus:    #3370ff;
+  --color-border-secondary: #d0e0ff;
+
+  --color-success:     #059669;
+  --color-success-bg:  #d1fae5;
+  --color-warning:     #d97706;
+  --color-warning-bg:  #fef3c7;
+  --color-danger:      #dc2626;
+  --color-danger-bg:   #fee2e2;
+  --color-error:       #dc2626;
+  --color-error-bg:    #fee2e2;
+
+  --shadow-sm:    0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md:    0 4px 12px rgba(0,0,0,0.06);
+  --shadow-card:  0 2px 8px rgba(0,0,0,0.06);
+  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-glow:  0 0 0 transparent;
+}
+
+/* 共用 Tokens（不随主题变化） */
+:root {
+  /* 圆角 */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-full: 9999px;
+
+  /* 间距 */
+  --spacing-xs:  8px;
+  --spacing-sm:  12px;
+  --spacing-md:  16px;
+  --spacing-lg:  20px;
+  --spacing-xl:  24px;
+  --spacing-2xl: 32px;
+
+  /* 动效 */
+  --duration-fast:   150ms;
+  --duration-normal: 200ms;
+  --easing:          cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* 字体 */
+  --font-family: 'HarmonyOS Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-xs:   12px;
+  --font-size-sm:   13px;
+  --font-size-base: 14px;
+  --font-size-lg:   16px;
+  --font-size-xl:   20px;
+  --font-size-2xl:  24px;
+
+  /* 层级 */
+  --z-dropdown:  100;
+  --z-dialog:    200;
+  --z-toast:     300;
+  --z-loading:   400;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  transition: background-color var(--duration-normal) var(--easing),
+              color var(--duration-normal) var(--easing);
+}
+
+/* 主题过渡动画 */
+html {
+  transition: background-color var(--duration-normal) var(--easing);
+}
+
+/* Markdown 编辑器透明背景适配 */
+.md-editor {
+  background-color: transparent !important;
+}
+
+.md-editor-preview-wrapper {
+  padding: 0 !important;
+}
+
+/* HLoading directive styles */
+.h-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-loading);
+  border-radius: inherit;
+}
+.h-loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(0,0,0,0.1);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: h-spin 0.6s linear infinite;
+}
+@keyframes h-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 全局滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--color-primary);
+}

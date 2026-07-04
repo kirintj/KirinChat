@@ -1,6 +1,7 @@
 # encoding=utf-8
 import json
 import os.path
+import re
 import tempfile
 import logging
 from urllib.parse import urlparse
@@ -27,6 +28,13 @@ def load_file_to_obj(filepath):
         logging.error(f"Error loading scene prompts: {e}")
         return {}
 
+def _sanitize_filename(name: str) -> str:
+    """清洗文件名中的特殊字符，仅保留中英文、数字、下划线、连字符、点。
+    《》《》[](){} 等在 HTTP 路径中行为不一致的 Unicode 标点全部移除。
+    """
+    # 移除不允许的字符，保留: 中文 一-鿿、英文字母、数字、_ - .
+    return re.sub(r'[^\w一-鿿\-.]', '', name)
+
 def get_object_storage_base_path(file_name):
     beijing_time = get_beijing_date_str()
     file_type = get_file_type(file_name)
@@ -43,7 +51,10 @@ def get_file_type(file_name):
 def reset_file_name(file_name):
     file_type = get_file_type(file_name)
 
-    return f"{"_".join(file_name.split(".")[:-1])}_{str(uuid4().hex)[:10]}.{file_type}"
+    name_without_ext = "_".join(file_name.split(".")[:-1])
+    # 清洗特殊字符（《》[](){} 等），防止 MinIO HTTP 路径匹配失败
+    clean_name = _sanitize_filename(name_without_ext)
+    return f"{clean_name}_{str(uuid4().hex)[:10]}.{file_type}"
 
 async def save_upload_file(upload_file):
     # 创建临时文件夹
@@ -87,9 +98,9 @@ def get_convert_markdown_images_dir():
 def generate_unique_filename(file_name: str, file_suffix: str=None) -> str:
     file_name = os.path.basename(file_name)
     if file_suffix:
-        return f"{file_name.split(".")[0]}_{uuid4().hex}.{file_suffix}"
+        return f"{file_name.split('.')[0]}_{uuid4().hex}.{file_suffix}"
     else:
-        return f"{file_name.split(".")[0]}_{uuid4().hex}.{file_name.split(".")[-1]}"
+        return f"{file_name.split('.')[0]}_{uuid4().hex}.{file_name.split('.')[-1]}"
 
 async def get_oss_object_name(file_path, knowledge_id):
     file_name = os.path.basename(file_path)

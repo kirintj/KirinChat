@@ -104,6 +104,10 @@ class MCPService:
     async def mcp_server_need_update(cls):
         server = await MCPServerDao.get_first_mcp_server()
 
+        # 数据库无 MCP Server 记录时视为需要初始化
+        if not server:
+            return True
+
         # 获取当前时间（使用与数据库相同的时区）
         current_time = datetime.now(pytz.timezone('Asia/Shanghai'))
         # 计算时间差

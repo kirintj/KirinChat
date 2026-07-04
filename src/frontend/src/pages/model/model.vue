@@ -600,18 +600,18 @@ onMounted(() => {
 .model-page {
   padding: 32px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--color-bg);
   
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    padding: 20px 28px;
-    border-radius: 16px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-    border: 1px solid rgba(226, 232, 240, 0.6);
+    background: var(--color-bg);
+    padding: var(--spacing-2xl) var(--spacing-2xl);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 24px var(--shadow-sm);
+    border: 1px solid var(--color-border);
     
     .header-title {
       display: flex;
@@ -625,9 +625,9 @@ onMounted(() => {
       
       h2 {
         margin: 0;
-        font-size: 24px;
+        font-size: var(--font-size-2xl);
         font-weight: 600;
-        background: linear-gradient(90deg, #409eff, #3a7be2);
+        background: var(--color-primary);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -648,9 +648,9 @@ onMounted(() => {
         gap: 12px;
 
         .h-button {
-          border-radius: 8px;
+          border-radius: var(--radius-md);
           padding: 12px 20px;
-          font-size: 14px;
+          font-size: var(--font-size-base);
           font-weight: 500;
           transition: all 0.3s;
           
@@ -660,20 +660,20 @@ onMounted(() => {
           
           &.refresh-btn {
             &:hover {
-              background-color: #67c23a;
-              border-color: #67c23a;
+              background-color: var(--color-success);
+              border-color: var(--color-success);
               color: white;
             }
           }
           
           &.add-btn {
-            background: linear-gradient(135deg, #409eff 0%, #3a7be2 100%);
+            background: var(--color-primary);
             border: none;
-            box-shadow: 0 4px 12px rgba(64, 158, 255, 0.2);
+            box-shadow: 0 4px 12px var(--color-primary-bg);
             
             &:hover {
-              background: linear-gradient(135deg, #66b1ff 0%, #409eff 100%);
-              box-shadow: 0 6px 16px rgba(64, 158, 255, 0.3);
+              background: var(--color-primary);
+              box-shadow: 0 6px 16px var(--color-primary-bg);
             }
           }
         }
@@ -683,23 +683,23 @@ onMounted(() => {
   
   // 列表容器
   .model-container {
-    background: #ffffff;
-    border-radius: 16px;
-    border: 1px solid #e5e7eb;
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
     overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 4px 6px -1px var(--shadow-xs);
     min-height: 300px;
 
     // 列表头部
     .list-header {
       display: flex;
       align-items: center;
-      padding: 14px 24px;
-      background: #f8fafc;
-      border-bottom: 1px solid #e5e7eb;
-      font-size: 12px;
+      padding: var(--spacing-lg) var(--spacing-2xl);
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      font-size: var(--font-size-xs);
       font-weight: 600;
-      color: #64748b;
+      color: var(--color-text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.5px;
 
@@ -715,8 +715,8 @@ onMounted(() => {
       .model-row {
         display: flex;
         align-items: center;
-        padding: 16px 24px;
-        border-bottom: 1px solid #f1f5f9;
+        padding: var(--spacing-lg) var(--spacing-2xl);
+        border-bottom: 1px solid var(--color-border);
         transition: all 0.2s ease;
 
         &:last-child {
@@ -724,11 +724,11 @@ onMounted(() => {
         }
 
         &:hover {
-          background: #f8fafc;
+          background: var(--color-bg);
 
           .col-name .name-info .provider-avatar {
             transform: scale(1.05);
-            box-shadow: 0 0 0 3px rgba(64, 158, 255, 0.1);
+            box-shadow: 0 0 0 3px var(--color-primary-bg);
           }
 
           .col-actions .action-btn {
@@ -747,31 +747,31 @@ onMounted(() => {
             .provider-avatar {
               width: 36px;
               height: 36px;
-              border-radius: 10px;
+              border-radius: var(--radius-md);
               display: flex;
               align-items: center;
               justify-content: center;
               flex-shrink: 0;
               transition: all 0.2s ease;
               color: white;
-              font-size: 16px;
+              font-size: var(--font-size-lg);
               font-weight: 700;
 
               &.llm {
-                background: linear-gradient(135deg, #409eff 0%, #3a7be2 100%);
+                background: var(--color-primary);
               }
               &.embedding {
-                background: linear-gradient(135deg, #67c23a 0%, #529b2e 100%);
+                background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success) 100%);
               }
               &.rerank {
-                background: linear-gradient(135deg, #e6a23c 0%, #d9b55b 100%);
+                background: linear-gradient(135deg, var(--color-warning) 0%, var(--color-warning) 100%);
               }
             }
 
             .model-name {
-              font-size: 15px;
+              font-size: var(--font-size-lg);
               font-weight: 600;
-              color: #1e293b;
+              color: var(--color-text-primary);
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -780,10 +780,10 @@ onMounted(() => {
             .official-tag {
               font-size: 11px;
               font-weight: 600;
-              color: #e6a23c;
-              background: #fef6e4;
-              border: 1px solid #f8d4a5;
-              border-radius: 20px;
+              color: var(--color-warning);
+              background: var(--color-warning-bg);
+              border: 1px solid var(--color-warning-bg);
+              border-radius: var(--radius-full);
               padding: 2px 8px;
               flex-shrink: 0;
             }
@@ -795,9 +795,9 @@ onMounted(() => {
           padding-right: 8px;
 
           .provider-name {
-            font-size: 14px;
+            font-size: var(--font-size-base);
             font-weight: 500;
-            color: #64748b;
+            color: var(--color-text-secondary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -814,21 +814,21 @@ onMounted(() => {
             align-items: center;
             gap: 4px;
             padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 13px;
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
             font-weight: 500;
 
             &.llm {
-              background: rgba(64, 158, 255, 0.1);
-              color: #409eff;
+              background: var(--color-primary-bg);
+              color: var(--color-primary);
             }
             &.embedding {
-              background: rgba(103, 194, 58, 0.1);
-              color: #67c23a;
+              background: var(--color-success-bg);
+              color: var(--color-success);
             }
             &.rerank {
-              background: rgba(230, 162, 60, 0.1);
-              color: #e6a23c;
+              background: var(--color-warning-bg);
+              color: var(--color-warning);
             }
           }
         }
@@ -840,9 +840,9 @@ onMounted(() => {
           padding-right: 16px;
 
           .url-text {
-            font-size: 13px;
-            color: #64748b;
-            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            font-family: var(--font-family);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -860,7 +860,7 @@ onMounted(() => {
             width: 32px;
             height: 32px;
             border: 1px solid transparent;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -870,25 +870,25 @@ onMounted(() => {
             background: transparent;
 
             span {
-              font-size: 16px;
+              font-size: var(--font-size-lg);
             }
 
             &.edit-btn {
-              color: #409eff;
+              color: var(--color-primary);
 
               &:hover:not(.disabled) {
-                background: rgba(64, 158, 255, 0.1);
-                border-color: rgba(64, 158, 255, 0.3);
+                background: var(--color-primary-bg);
+                border-color: var(--color-primary-bg);
                 opacity: 1;
               }
             }
 
             &.delete-btn {
-              color: #f56c6c;
+              color: var(--color-danger);
 
               &:hover:not(.disabled) {
-                background: rgba(245, 108, 108, 0.1);
-                border-color: rgba(245, 108, 108, 0.3);
+                background: var(--color-danger-bg);
+                border-color: var(--color-danger-bg);
                 opacity: 1;
               }
             }
@@ -917,29 +917,29 @@ onMounted(() => {
       }
 
       h3 {
-        font-size: 18px;
+        font-size: var(--font-size-xl);
         font-weight: 600;
-        color: #475569;
+        color: var(--color-text-secondary);
         margin-bottom: 8px;
       }
 
       p {
-        font-size: 14px;
-        color: #94a3b8;
+        font-size: var(--font-size-base);
+        color: var(--color-text-tertiary);
         margin-bottom: 24px;
       }
 
       .h-button {
-        border-radius: 8px;
-        background: linear-gradient(135deg, #409eff 0%, #3a7be2 100%);
+        border-radius: var(--radius-md);
+        background: var(--color-primary);
         border: none;
-        box-shadow: 0 4px 12px rgba(64, 158, 255, 0.2);
+        box-shadow: 0 4px 12px var(--color-primary-bg);
         transition: all 0.3s;
 
         &:hover {
           transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(64, 158, 255, 0.3);
-          background: linear-gradient(135deg, #66b1ff 0%, #409eff 100%);
+          box-shadow: 0 6px 16px var(--color-primary-bg);
+          background: var(--color-primary);
         }
       }
     }
@@ -950,7 +950,7 @@ onMounted(() => {
 .loading-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 22, 40, 0.6);
+  background: var(--color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -961,9 +961,9 @@ onMounted(() => {
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--color-primary, #409eff);
-  border-radius: 50%;
+  border: 3px solid var(--color-bg-overlay);
+  border-top-color: var(--color-primary, var(--color-primary));
+  border-radius: var(--radius-full);
   animation: h-spin 0.6s linear infinite;
 }
 
@@ -1028,7 +1028,7 @@ onMounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--color-overlay);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -1063,17 +1063,17 @@ onMounted(() => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
-  border-radius: 20px;
+  background: var(--color-bg);
+  border-radius: var(--radius-full);
   box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.3),
-    0 8px 32px rgba(0, 0, 0, 0.15);
+    0 20px 60px var(--shadow-lg),
+    0 8px 32px var(--shadow-md);
   width: 92%;
   max-width: 500px;
   max-height: 88vh;
   overflow: hidden;
   animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--color-bg-overlay);
 }
 
 
@@ -1083,7 +1083,7 @@ onMounted(() => {
   padding: 36px;
   max-height: 65vh;
   overflow-y: auto;
-  background: #fafbfc;
+  background: var(--color-bg);
 }
 
 .form-row {
@@ -1102,19 +1102,19 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
-  font-size: 15px;
+  font-size: var(--font-size-lg);
   font-weight: 600;
-  color: #2d3748;
+  color: var(--color-text-primary);
 }
 
 .label-text {
-  color: #374151;
+  color: var(--color-text-primary);
 }
 
 .required-mark {
-  color: #ef4444;
+  color: var(--color-danger);
   font-weight: 700;
-  font-size: 16px;
+  font-size: var(--font-size-lg);
 }
 
 .input-wrapper,
@@ -1137,43 +1137,43 @@ onMounted(() => {
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #9ca3af;
+  color: var(--color-text-tertiary);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: color 0.2s ease;
 
   span {
-    font-size: 18px;
+    font-size: var(--font-size-xl);
   }
 
   &:hover {
-    color: #4f46e5;
+    color: var(--color-primary);
   }
 }
 
 .form-input {
   width: 100%;
   padding: 16px 20px;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  font-size: 15px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-lg);
   font-weight: 500;
-  color: #1f2937;
-  background: white;
+  color: var(--color-text-primary);
+  background: var(--color-bg);
   transition: all 0.3s ease;
   box-sizing: border-box;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-bg);
   transform: translateY(-1px);
 }
 
 .form-input::placeholder {
-  color: #9ca3af;
+  color: var(--color-text-tertiary);
   font-weight: 400;
 }
 
@@ -1181,8 +1181,8 @@ onMounted(() => {
   position: absolute;
   right: 16px;
   bottom: -24px;
-  font-size: 12px;
-  color: #6b7280;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
   font-weight: 500;
 }
 
@@ -1192,8 +1192,8 @@ onMounted(() => {
   justify-content: flex-end;
   gap: 16px;
   padding: 20px 36px;
-  background: #f8fafc;
-  border-top: 1px solid #e2e8f0;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
 }
 
 .dialog-btn {
@@ -1202,8 +1202,8 @@ onMounted(() => {
   gap: 10px;
   padding: 14px 28px;
   border: none;
-  border-radius: 12px;
-  font-size: 15px;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-lg);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -1220,7 +1220,7 @@ onMounted(() => {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, var(--color-bg-overlay), transparent);
   transition: left 0.5s ease;
 }
 
@@ -1229,39 +1229,39 @@ onMounted(() => {
 }
 
 .cancel-btn {
-  background: #f1f5f9;
-  color: #64748b;
-  border: 2px solid #e2e8f0;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  border: 2px solid var(--color-border);
 }
 
 .cancel-btn:hover {
-  background: #e2e8f0;
-  color: #475569;
+  background: var(--color-border);
+  color: var(--color-text-secondary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px var(--shadow-md);
 }
 
 .confirm-btn {
-  background: #f1f5f9;
-  color: #64748b;
-  border: 2px solid #e2e8f0;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  border: 2px solid var(--color-border);
 }
 
 .confirm-btn:hover:not(.disabled) {
-  background: #e2e8f0;
-  color: #475569;
+  background: var(--color-border);
+  color: var(--color-text-secondary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px var(--shadow-md);
 }
 
 .confirm-btn.disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  background: #9ca3af;
+  background: var(--color-text-tertiary);
 }
 
 .btn-icon {
-  font-size: 16px;
+  font-size: var(--font-size-lg);
   display: flex;
   align-items: center;
 }
@@ -1316,14 +1316,14 @@ onMounted(() => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px var(--shadow-md);
   width: 90%;
   max-width: 400px;
   overflow: hidden;
   animation: slideIn 0.3s ease-out;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
 }
 
 .delete-dialog-body {
@@ -1332,12 +1332,12 @@ onMounted(() => {
   
   p {
     margin: 0;
-    font-size: 16px;
-    color: #374151;
+    font-size: var(--font-size-lg);
+    color: var(--color-text-primary);
     line-height: 1.5;
     
     strong {
-      color: #1f2937;
+      color: var(--color-text-primary);
       font-weight: 600;
     }
   }
@@ -1353,33 +1353,33 @@ onMounted(() => {
   flex: 1;
   padding: 12px 20px;
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .delete-dialog-btn.cancel-btn {
-  background: #f9fafb;
-  color: #6b7280;
-  border: 1px solid #d1d5db;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
 }
 
 .delete-dialog-btn.cancel-btn:hover:not(:disabled) {
-  background: #f3f4f6;
-  color: #374151;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
 }
 
 .delete-dialog-btn.confirm-btn {
-  background: #3b82f6;
+  background: var(--color-primary);
   color: white;
-  border: 1px solid #3b82f6;
+  border: 1px solid var(--color-primary);
 }
 
 .delete-dialog-btn.confirm-btn:hover:not(:disabled) {
-  background: #2563eb;
-  border-color: #2563eb;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .delete-dialog-btn:disabled {
@@ -1398,7 +1398,7 @@ onMounted(() => {
     padding: 24px 20px 20px;
     
     p {
-      font-size: 15px;
+      font-size: var(--font-size-lg);
     }
   }
   

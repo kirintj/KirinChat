@@ -25,7 +25,7 @@
 | `src/backend/kirinchat/database/dao/interview.py` | 新增 `select_main_questions_by_user_skill` 查询方法 |
 | `src/backend/kirinchat/api/services/interview.py` | 新增 `get_historical_questions` 编排方法 |
 | `src/backend/kirinchat/core/agents/interview_agent.py` | `generate_first_question` 和 `generate_next_question` 新增 `user_id` 参数，合并历史题目到去重列表 |
-| `src/backend/kirinchat/api/v1/interview.py` | `/interview/start` 和 `/interview/answer` 端点传入 `user.id` |
+| `src/backend/kirinchat/api/v1/interview.py` | `/interview/start` 和 `/interview/answer` 端点传入 `login_user.user_id` |
 
 ### 不变的部分
 
@@ -58,8 +58,8 @@ async def select_main_questions_by_user_skill(
 - 只返回 `content` 字段列表
 
 **性能考量**：
-- `interview_session` 表的 `user_id` 和 `skill_id` 字段已有索引（用于 `select_sessions_by_user` 查询）
 - `interview_question` 表的 `session_id` 字段是外键，已有索引
+- `interview_session` 表的 `user_id` 和 `skill_id` 索引需确认：如果当前 migration 未建索引，需补充 `CREATE INDEX` 语句（用于 `select_sessions_by_user` 和本次新增的 JOIN 查询）
 - LIMIT 50 确保单次查询不会返回过多数据
 
 ---
@@ -71,9 +71,9 @@ async def select_main_questions_by_user_skill(
 在 `InterviewService` 类中新增方法：
 
 ```python
-@staticmethod
+@classmethod
 async def get_historical_questions(
-    user_id: str, skill_id: str, exclude_session_id: str
+    cls, user_id: str, skill_id: str, exclude_session_id: str
 ) -> list[str]:
     """获取同技能方向其他 session 的历史题目内容列表。
     
@@ -117,8 +117,8 @@ historical_topics = await InterviewService.get_historical_questions(
     user_id, skill_id, exclude_session_id=session_id
 )
 
-# 合并去重列表，去重（set 去重后转回 list）
-all_topics = list(set(existing_topics + historical_topics))
+# 合并去重列表，保持最近题目在前（dict.fromkeys 保序，set 会打乱顺序）
+all_topics = list(dict.fromkeys(existing_topics + historical_topics))
 dedup_section = self._get_dedup_prompt(all_topics)
 ```
 
@@ -134,14 +134,21 @@ dedup_section = self._get_dedup_prompt(all_topics)
 
 ### 6.1 `/interview/start` 端点
 
-现有代码已有 `user = Depends(get_login_user)`。修改 agent 调用：
+现有代码已有 `login_user: UserPayload = Depends(get_login_user)`。修改 agent 调用：
 
 ```python
 # 修改前
-question = await agent.generate_first_question(session_id, difficulty=body.difficulty)
+first_question = await agent.generate_first_question(
+    session_id=session.id,
+    difficulty=req.difficulty,
+)
 
 # 修改后
-question = await agent.generate_first_question(session_id, user_id=user.id, difficulty=body.difficulty)
+first_question = await agent.generate_first_question(
+    session_id=session.id,
+    user_id=login_user.user_id,
+    difficulty=req.difficulty,
+)
 ```
 
 ### 6.2 `/interview/answer` 端点
@@ -150,13 +157,20 @@ question = await agent.generate_first_question(session_id, user_id=user.id, diff
 
 ```python
 # 修改前
-next_question = await agent.generate_next_question(session_id, difficulty=...)
+next_q = await agent.generate_next_question(
+    session_id=req.session_id,
+    difficulty=session.difficulty,
+)
 
 # 修改后
-next_question = await agent.generate_next_question(session_id, user_id=user.id, difficulty=...)
+next_q = await agent.generate_next_question(
+    session_id=req.session_id,
+    user_id=login_user.user_id,
+    difficulty=session.difficulty,
+)
 ```
 
-注意：`/interview/answer` 端点中 difficulty 来自 session 对象（`session.difficulty`），需在调用 `generate_next_question` 前从 session 中获取。检查现有代码确认 difficulty 的传递路径。
+注意：`/interview/answer` 端点中 difficulty 来自 session 对象（`session.difficulty`），无需额外处理。
 
 ---
 
