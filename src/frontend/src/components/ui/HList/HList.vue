@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { HIcon } from '@/components/ui'
+
 interface Props {
+  variant?: 'single' | 'icondot' | 'iconsingle' | '2lines' | 'icon2lines' | '3lines'
   clickable?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
+  variant: 'single',
   clickable: false,
 })
 
@@ -13,7 +17,10 @@ const emit = defineEmits<{ click: [event: MouseEvent] }>()
 <template>
   <div
     class="h-list-item"
-    :class="{ 'h-list-item--clickable': clickable }"
+    :class="[
+      `h-list-item--${variant}`,
+      { 'h-list-item--clickable': clickable },
+    ]"
     @click="clickable && emit('click', $event)"
   >
     <div v-if="$slots.prefix" class="h-list-item__prefix">
@@ -37,24 +44,31 @@ const emit = defineEmits<{ click: [event: MouseEvent] }>()
 .h-list-item {
   display: flex;
   align-items: center;
-  padding: var(--harmony-padding-level4) var(--harmony-padding-level4);
+  padding: 0 var(--harmony-padding-level6);
   gap: var(--harmony-padding-level4);
-  min-height: var(--harmony-control-height-56);
   box-sizing: border-box;
+  width: 328px;
   transition: background var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 
+/* 6种高度变体 */
+.h-list-item--single { height: 48px; }
+.h-list-item--icondot { height: 56px; }
+.h-list-item--iconsingle { height: 64px; }
+.h-list-item--2lines { height: 64px; }
+.h-list-item--icon2lines { height: 72px; }
+.h-list-item--3lines { height: 96px; }
+
 .h-list-item--clickable {
   cursor: pointer;
-  border-radius: var(--harmony-corner-radius-level8);
 }
 
 .h-list-item--clickable:hover {
-  background: var(--harmony-interactive-hover);
+  background: rgba(0, 0, 0, 0.047);
 }
 
 .h-list-item--clickable:active {
-  background: var(--harmony-interactive-pressed);
+  background: rgba(0, 0, 0, 0.098);
 }
 
 .h-list-item__prefix {
@@ -66,18 +80,22 @@ const emit = defineEmits<{ click: [event: MouseEvent] }>()
 .h-list-item__content {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .h-list-item__title {
-  font-size: var(--harmony-font-size-body-m);
+  font-size: var(--harmony-font-size-body-l);
+  font-weight: 500;
   color: var(--harmony-font-primary);
   line-height: 1.4;
 }
 
 .h-list-item__desc {
-  font-size: var(--harmony-font-size-body-s);
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 400;
   color: var(--harmony-font-tertiary);
-  margin-top: var(--harmony-padding-level1);
 }
 
 .h-list-item__suffix {

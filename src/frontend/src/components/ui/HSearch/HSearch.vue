@@ -71,20 +71,26 @@ const onKeydown = (e: KeyboardEvent) => {
   display: flex;
   align-items: center;
   height: var(--harmony-control-height-40);
-  padding: 0 var(--harmony-padding-level4);
+  padding: var(--harmony-padding-level4) var(--harmony-padding-level6);
   gap: var(--harmony-padding-level2);
-  border-radius: var(--harmony-corner-radius-level10);
-  background: var(--harmony-comp-background-secondary);
-  border: 1px solid var(--harmony-comp-divider);
-  transition: border-color var(--harmony-duration-fast) var(--harmony-motion-standard),
+  border-radius: var(--harmony-corner-radius-level12);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px) saturate(1.8);
+  -webkit-backdrop-filter: blur(8px) saturate(1.8);
+  mix-blend-mode: plus-lighter;
+  border: none;
+  transition: background var(--harmony-duration-fast) var(--harmony-motion-standard),
               box-shadow var(--harmony-duration-fast) var(--harmony-motion-standard);
   width: 100%;
   box-sizing: border-box;
 }
 
 .h-search--focused {
-  border-color: var(--harmony-brand);
-  box-shadow: 0 0 0 2px var(--harmony-comp-emphasize-tertiary);
+  box-shadow: inset 0 0 0 2px var(--harmony-brand);
+}
+
+.h-search__input::placeholder {
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .h-search--disabled {
@@ -112,7 +118,7 @@ const onKeydown = (e: KeyboardEvent) => {
 }
 
 .h-search__input::placeholder {
-  color: var(--harmony-font-fourth);
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .h-search__clear {

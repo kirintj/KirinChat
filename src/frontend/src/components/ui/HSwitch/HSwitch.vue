@@ -27,20 +27,18 @@ const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
 <style scoped>
 .h-switch {
   position: relative;
-  width: 52px;
-  height: 32px;
-  border-radius: 16px;
-  border: 2px solid var(--harmony-comp-divider);
-  background: var(--harmony-comp-background-secondary);
+  width: 36px;
+  height: 20px;
+  border-radius: 12px;
+  border: none;
+  background: rgba(0, 0, 0, 0.098);
   cursor: pointer;
   padding: 0;
-  transition: background var(--harmony-duration-normal) var(--harmony-motion-standard),
-              border-color var(--harmony-duration-normal) var(--harmony-motion-standard);
+  transition: background var(--harmony-duration-normal) var(--harmony-motion-standard);
 }
 
 .h-switch--on {
   background: var(--harmony-brand);
-  border-color: var(--harmony-brand);
 }
 
 .h-switch--disabled {
@@ -52,15 +50,15 @@ const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
   position: absolute;
   top: 2px;
   left: 2px;
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-  transition: transform var(--harmony-duration-normal) var(--harmony-motion-spring);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: transform var(--harmony-duration-normal) var(--harmony-motion-standard);
 }
 
 .h-switch--on .h-switch__thumb {
-  transform: translateX(20px);
+  transform: translateX(16px);
 }
 </style>

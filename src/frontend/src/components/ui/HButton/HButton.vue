@@ -46,11 +46,11 @@ defineEmits<{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--harmony-padding-level4);
+  gap: var(--harmony-padding-level2);
   border: none;
   border-radius: var(--harmony-corner-radius-level6);
-  font-family: var(--harmony-font-family);
-  font-weight: 500;
+  font-family: 'HarmonyOS Sans', sans-serif;
+  font-weight: 400;
   cursor: pointer;
   transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
   white-space: nowrap;

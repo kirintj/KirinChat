@@ -10,15 +10,21 @@ withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{ click: [event: MouseEvent] }>()
+
+const sizeMap = {
+  max: { width: '328px', height: '496px' },
+  larger: { width: '328px', height: '328px' },
+  medium: { width: '328px', height: '156px' },
+  small: { width: '156px', height: '156px' },
+  mini: { width: '328px', height: '56px' },
+}
 </script>
 
 <template>
   <div
     class="h-card"
-    :class="[
-      `h-card--${size}`,
-      { 'h-card--clickable': clickable },
-    ]"
+    :class="{ 'h-card--clickable': clickable }"
+    :style="{ width: sizeMap[size].width, height: sizeMap[size].height }"
     @click="clickable && emit('click', $event)"
   >
     <div v-if="$slots.cover" class="h-card__cover">
@@ -41,9 +47,10 @@ const emit = defineEmits<{ click: [event: MouseEvent] }>()
 <style scoped>
 .h-card {
   background: var(--harmony-comp-background-secondary);
-  border-radius: var(--harmony-corner-radius-level8);
+  border-radius: 20px;
   overflow: hidden;
   box-shadow: var(--harmony-shadow-card);
+  box-sizing: border-box;
   transition: box-shadow var(--harmony-duration-fast) var(--harmony-motion-standard),
               transform var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
@@ -61,31 +68,6 @@ const emit = defineEmits<{ click: [event: MouseEvent] }>()
   transform: translateY(0);
 }
 
-/* 尺寸变体 */
-.h-card--max {
-  width: 100%;
-}
-
-.h-card--larger {
-  width: 100%;
-  max-width: 480px;
-}
-
-.h-card--medium {
-  width: 100%;
-  max-width: 328px;
-}
-
-.h-card--small {
-  width: 100%;
-  max-width: 160px;
-}
-
-.h-card--mini {
-  width: 100%;
-  max-width: 100px;
-}
-
 .h-card__cover {
   width: 100%;
   overflow: hidden;
@@ -97,7 +79,7 @@ const emit = defineEmits<{ click: [event: MouseEvent] }>()
 }
 
 .h-card__body {
-  padding: var(--harmony-padding-level4);
+  padding: var(--harmony-padding-level6);
 }
 
 .h-card__header {

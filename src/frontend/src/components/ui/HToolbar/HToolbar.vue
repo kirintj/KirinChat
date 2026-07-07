@@ -30,7 +30,7 @@ const emit = defineEmits<{ click: [key: string] }>()
       :title="item.label"
       @click="emit('click', item.key)"
     >
-      <HIcon :name="item.icon" :size="20" />
+      <HIcon :name="item.icon" :size="24" />
       <span v-if="item.label" class="h-toolbar__label">{{ item.label }}</span>
     </button>
   </div>
@@ -40,37 +40,42 @@ const emit = defineEmits<{ click: [key: string] }>()
 .h-toolbar {
   display: flex;
   align-items: center;
-  gap: var(--harmony-padding-level2);
-  padding: var(--harmony-padding-level2);
-  background: var(--harmony-comp-background-secondary);
-  border-radius: var(--harmony-corner-radius-level8);
-  backdrop-filter: blur(20px) saturate(1.8);
-  -webkit-backdrop-filter: blur(20px) saturate(1.8);
-  box-shadow: var(--harmony-shadow-md);
+  height: 56px;
+  padding: 0 var(--harmony-padding-level6);
+  gap: 0;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(80px) saturate(1.8);
+  -webkit-backdrop-filter: blur(80px) saturate(1.8);
+  mix-blend-mode: plus-lighter;
+  border-radius: 28px;
+  box-shadow: 0 4px 48px rgba(0, 0, 0, 0.08),
+              0 4px 8px rgba(0, 0, 0, 0.25);
 }
 
 .h-toolbar__item {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 56px;
+  height: 56px;
   gap: var(--harmony-padding-level2);
-  padding: var(--harmony-padding-level2);
+  padding: var(--harmony-padding-level2) 0;
   border: none;
   background: transparent;
   color: var(--harmony-font-secondary);
-  border-radius: var(--harmony-corner-radius-level4);
+  border-radius: 14px;
   cursor: pointer;
   transition: background var(--harmony-duration-fast) var(--harmony-motion-standard),
               color var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 
 .h-toolbar__item:hover {
-  background: var(--harmony-interactive-hover);
-  color: var(--harmony-font-primary);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .h-toolbar__item:active {
-  background: var(--harmony-interactive-pressed);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .h-toolbar__item--disabled {
@@ -79,6 +84,8 @@ const emit = defineEmits<{ click: [key: string] }>()
 }
 
 .h-toolbar__label {
-  font-size: var(--harmony-font-size-body-s);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 14px;
 }
 </style>

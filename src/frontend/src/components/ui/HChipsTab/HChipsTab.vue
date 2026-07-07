@@ -30,28 +30,37 @@ const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
 .h-chips-tab {
   display: flex;
   gap: var(--harmony-padding-level2);
+  padding: var(--harmony-padding-level5) var(--harmony-padding-level6);
   flex-wrap: wrap;
 }
 
 .h-chips-tab__item {
-  padding: var(--harmony-padding-level2) var(--harmony-padding-level4);
-  border-radius: var(--harmony-corner-radius-level18);
-  border: 1px solid var(--harmony-comp-divider);
-  background: transparent;
-  color: var(--harmony-font-secondary);
-  font-size: var(--harmony-font-size-body-m);
+  height: 36px;
+  padding: var(--harmony-padding-level4) var(--harmony-padding-level8);
+  border-radius: 20px;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(0, 0, 0, 0.6);
+  font-size: var(--harmony-font-size-body-l);
   cursor: pointer;
   transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
   white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .h-chips-tab__item:hover {
-  background: var(--harmony-interactive-hover);
+  background: rgba(0, 0, 0, 0.047);
+}
+
+.h-chips-tab__item:active {
+  background: rgba(0, 0, 0, 0.098);
 }
 
 .h-chips-tab__item--active {
-  background: var(--harmony-comp-emphasize-tertiary);
-  border-color: var(--harmony-brand);
-  color: var(--harmony-brand);
+  background: #0091FF;
+  color: rgba(255, 255, 255, 1);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.08),
+              0 4px 8px rgba(0, 0, 0, 0.25);
 }
 </style>
