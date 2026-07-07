@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, inject, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { HMessage, HButton, HInput, HTooltip } from '@/components/ui'
 import modelIcon from '../../assets/model.svg'
@@ -14,6 +14,7 @@ import {
 } from '../../apis/llm'
 
 const router = useRouter()
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 
 // 响应式数据
 const models = ref<LLMResponse[]>([])
@@ -339,7 +340,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="model-page">
+  <!-- Desktop -->
+  <div v-if="!isMobile" class="model-page">
     <!-- 页面头部 -->
     <div class="page-header">
       <div class="header-title">
@@ -592,6 +594,40 @@ onMounted(() => {
           </button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Mobile -->
+  <div v-else class="model-mobile">
+    <!-- Toolbar: search + create -->
+    <div class="mm-toolbar">
+      <div class="mm-search">
+        <input v-model="searchKeyword" placeholder="搜索模型..." @keyup.enter="searchModels" />
+      </div>
+      <button class="mm-create-btn" @click="openCreateDialog">+ 添加</button>
+    </div>
+
+    <!-- Model list -->
+    <div class="mm-list" v-if="models.length > 0">
+      <div
+        v-for="model in models"
+        :key="model.llm_id"
+        class="mm-item"
+      >
+        <div class="mm-item__icon">🤖</div>
+        <div class="mm-item__content">
+          <h3 class="mm-item__name">{{ model.model }}</h3>
+          <p class="mm-item__provider">{{ model.provider }}</p>
+        </div>
+        <div class="mm-item__actions">
+          <button class="mm-action" @click="openEditDialog(model)">✏️</button>
+          <button class="mm-action mm-action--danger" @click="deleteModel(model)">🗑️</button>
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="mm-empty">
+      <p>暂无模型</p>
     </div>
   </div>
 </template>
@@ -1378,5 +1414,129 @@ onMounted(() => {
   .delete-dialog-footer {
     padding: 0 20px 24px;
   }
+}
+
+/* ==================== MOBILE: hmos mobile-list ==================== */
+.model-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-section-gap-mobile, 16px);
+  padding-top: var(--harmony-padding-level8, 16px);
+}
+
+.mm-toolbar {
+  display: flex;
+  gap: var(--harmony-padding-level4, 8px);
+  align-items: center;
+}
+
+.mm-search {
+  flex: 1;
+  input {
+    width: 100%;
+    height: var(--harmony-control-height-40, 40px);
+    padding: 0 var(--harmony-padding-level6, 12px);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level6, 12px);
+    font-size: var(--harmony-font-size-body-m);
+    background: var(--harmony-comp-background-primary);
+    color: var(--harmony-font-primary);
+    box-sizing: border-box;
+    &:focus { border-color: var(--harmony-brand); outline: none; }
+    &::placeholder { color: var(--harmony-font-tertiary); }
+  }
+}
+
+.mm-create-btn {
+  height: var(--harmony-control-height-40, 40px);
+  padding: 0 var(--harmony-padding-level8, 16px);
+  background: var(--harmony-brand);
+  color: white;
+  border: none;
+  border-radius: var(--harmony-corner-radius-level6, 12px);
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mm-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-card-gap-mobile, 12px);
+}
+
+.mm-item {
+  display: flex;
+  align-items: center;
+  gap: var(--harmony-padding-level6, 12px);
+  padding: var(--harmony-padding-level6, 12px);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+  transition: background 0.15s ease;
+
+  &__icon {
+    width: var(--harmony-control-height-40, 40px);
+    height: var(--harmony-control-height-40, 40px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--harmony-comp-background-secondary);
+    border-radius: var(--harmony-corner-radius-level6, 12px);
+    flex-shrink: 0;
+    font-size: 20px;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: var(--harmony-font-size-body-m);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+    margin: 0 0 var(--harmony-padding-level1, 2px) 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__provider {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
+    margin: 0;
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--harmony-padding-level2, 4px);
+    flex-shrink: 0;
+  }
+}
+
+.mm-action {
+  width: var(--harmony-control-height-36, 36px);
+  height: var(--harmony-control-height-36, 36px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--harmony-comp-background-secondary);
+  border: none;
+  border-radius: var(--harmony-corner-radius-level4, 8px);
+  cursor: pointer;
+  font-size: 16px;
+  &:active { background: var(--harmony-interactive-pressed); }
+  &--danger:active { background: rgba(232, 64, 38, 0.1); }
+}
+
+.mm-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  p { font-size: var(--harmony-font-size-body-m); color: var(--harmony-font-tertiary); margin: 0; }
 }
 </style>
