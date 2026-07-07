@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, provide } from 'vue'
 
 const BREAKPOINT = 768
 const isMobile = ref(window.innerWidth < BREAKPOINT)
@@ -10,6 +10,8 @@ const onResize = () => {
 
 onMounted(() => window.addEventListener('resize', onResize))
 onUnmounted(() => window.removeEventListener('resize', onResize))
+
+provide('isMobile', isMobile)
 </script>
 
 <template>
