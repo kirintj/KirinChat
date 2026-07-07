@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue"
+import { ref, onMounted, computed, inject } from "vue"
 import { useRouter } from "vue-router"
 import { HMessage } from "@/components/ui"
 import { getAgentsAPI } from "../../apis/agent"
@@ -9,6 +9,7 @@ import type { HistoryListType, DialogCreateType } from "../../type"
 import histortCard from '../../components/historyCard/histortCard.vue'
 import { useHistoryChatStore } from "../../store/history_chat_msg"
 
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 const router = useRouter()
 const historyChatStore = useHistoryChatStore()
 const searchKeyword = ref('')
@@ -344,12 +345,13 @@ const closeCreateDialog = () => {
 </script>
 
 <template>
-  <div class="conversation-main">
+  <!-- Desktop -->
+  <div v-if="!isMobile" class="conversation-main">
     <!-- 左侧边栏 -->
     <div class="sidebar">
       <!-- 新建会话按钮 -->
       <div class="create-section">
-        <button 
+        <button
           @click="openCreateDialog"
           class="create-btn-native"
         >
@@ -360,7 +362,7 @@ const closeCreateDialog = () => {
         </button>
       </div>
 
-      
+
 
       <!-- 会话列表标题 -->
       <div class="list-header">
@@ -398,7 +400,7 @@ const closeCreateDialog = () => {
         </div>
         <!-- 用 histortCard 渲染会话卡片 -->
         <histortCard
-          v-for="dialog in filteredDialogs" 
+          v-for="dialog in filteredDialogs"
           :key="dialog.dialogId"
           :item="dialog"
           :class="{ active: selectedDialog === dialog.dialogId }"
@@ -413,129 +415,175 @@ const closeCreateDialog = () => {
       <router-view />
     </div>
 
-    <!-- 创建会话对话框 -->
-    <div v-if="showCreateDialog" class="create-dialog-overlay" @click="closeCreateDialog">
-      <div class="create-dialog" @click.stop>
-        <div class="dialog-body">
-          <!-- 智能体搜索框 -->
-          <div class="search-section">
-            <div class="search-wrapper">
-              <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
-                <path d="M12.5 12.5L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </div>
+
+  <!-- Mobile -->
+  <div v-else class="conv-mobile">
+    <!-- Dialog list (when no dialog selected) -->
+    <div v-if="!selectedDialog" class="cm-list">
+      <div class="cm-list__header">
+        <button class="cm-create-btn" @click="openCreateDialog">+ 新建会话</button>
+      </div>
+
+      <!-- Loading -->
+      <div v-if="loading" class="cm-loading">加载中...</div>
+
+      <!-- Empty -->
+      <div v-else-if="filteredDialogs.length === 0" class="cm-empty">
+        <p>暂无会话记录</p>
+      </div>
+
+      <!-- Dialog items -->
+      <div v-else class="cm-items">
+        <div
+          v-for="dialog in filteredDialogs"
+          :key="dialog.dialogId"
+          class="cm-item"
+          @click="selectDialog(dialog.dialogId)"
+        >
+          <div class="cm-item__avatar">
+            <img :src="dialog.logo" alt="" />
+          </div>
+          <div class="cm-item__content">
+            <h3 class="cm-item__name">{{ dialog.name }}</h3>
+            <p class="cm-item__time">{{ formatTime(dialog.createTime) }}</p>
+          </div>
+          <button class="cm-item__delete" @click.stop="deleteDialog(dialog.dialogId)">&times;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat content (when dialog selected) -->
+    <div v-else class="cm-chat">
+      <div class="cm-chat__back" @click="selectedDialog = ''">&larr; 返回列表</div>
+      <div class="cm-chat__content">
+        <router-view />
+      </div>
+    </div>
+  </div>
+
+  <!-- 创建会话对话框 (shared desktop/mobile) -->
+  <div v-if="showCreateDialog" class="create-dialog-overlay" @click="closeCreateDialog">
+    <div class="create-dialog" @click.stop>
+      <div class="dialog-body">
+        <!-- 智能体搜索框 -->
+        <div class="search-section">
+          <div class="search-wrapper">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
+              <path d="M12.5 12.5L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input
+              v-model="agentSearchKeyword"
+              placeholder="搜索智能体名称或描述..."
+              class="search-input"
+            />
+            <div v-if="agentSearchKeyword" class="clear-btn" @click="agentSearchKeyword = ''">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.1"/>
+                <path d="M10 6L6 10M6 6L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
-              <input
-                v-model="agentSearchKeyword"
-                placeholder="搜索智能体名称或描述..."
-                class="search-input"
-              />
-              <div v-if="agentSearchKeyword" class="clear-btn" @click="agentSearchKeyword = ''">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.1"/>
-                  <path d="M10 6L6 10M6 6L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 智能体列表 -->
+        <div class="agents-section">
+          <div class="section-header">
+            <div class="header-left">
+              <svg class="section-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="3" y="3" width="14" height="14" rx="3" stroke="currentColor" stroke-width="2"/>
+                <circle cx="7" cy="8" r="1.5" fill="currentColor"/>
+                <circle cx="13" cy="8" r="1.5" fill="currentColor"/>
+                <path d="M7 12C7 12 8 13.5 10 13.5C12 13.5 13 12 13 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="title">可用智能体</span>
+              <span class="count">{{ filteredAgents.length }}</span>
             </div>
           </div>
 
-          <!-- 智能体列表 -->
-          <div class="agents-section">
-            <div class="section-header">
-              <div class="header-left">
-                <svg class="section-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <rect x="3" y="3" width="14" height="14" rx="3" stroke="currentColor" stroke-width="2"/>
-                  <circle cx="7" cy="8" r="1.5" fill="currentColor"/>
-                  <circle cx="13" cy="8" r="1.5" fill="currentColor"/>
-                  <path d="M7 12C7 12 8 13.5 10 13.5C12 13.5 13 12 13 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-                <span class="title">可用智能体</span>
-                <span class="count">{{ filteredAgents.length }}</span>
-              </div>
+          <!-- 加载状态 -->
+          <div v-if="agentsLoading" class="loading-state">
+            <div class="loading-spinner">
+              <svg class="spinner" width="40" height="40" viewBox="0 0 40 40">
+                <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="4" fill="none" opacity="0.2"/>
+                <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="4" fill="none" stroke-dasharray="80" stroke-dashoffset="60"/>
+              </svg>
             </div>
+            <div class="loading-text">正在加载智能体列表...</div>
+          </div>
 
-            <!-- 加载状态 -->
-            <div v-if="agentsLoading" class="loading-state">
-              <div class="loading-spinner">
-                <svg class="spinner" width="40" height="40" viewBox="0 0 40 40">
-                  <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="4" fill="none" opacity="0.2"/>
-                  <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="4" fill="none" stroke-dasharray="80" stroke-dashoffset="60"/>
-                </svg>
-              </div>
-              <div class="loading-text">正在加载智能体列表...</div>
+          <!-- 空状态 -->
+          <div v-else-if="filteredAgents.length === 0" class="empty-state">
+            <div class="empty-illustration">
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="40" r="35" fill="var(--harmony-comp-background-tertiary)"/>
+                <rect x="25" y="25" width="30" height="30" rx="6" stroke="#9ca3af" stroke-width="2"/>
+                <circle cx="33" cy="35" r="2" fill="#9ca3af"/>
+                <circle cx="47" cy="35" r="2" fill="#9ca3af"/>
+                <path d="M32 45C32 45 35 48 40 48C45 48 48 45 48 45" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/>
+              </svg>
             </div>
-
-            <!-- 空状态 -->
-            <div v-else-if="filteredAgents.length === 0" class="empty-state">
-              <div class="empty-illustration">
-                <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                  <circle cx="40" cy="40" r="35" fill="var(--harmony-comp-background-tertiary)"/>
-                  <rect x="25" y="25" width="30" height="30" rx="6" stroke="#9ca3af" stroke-width="2"/>
-                  <circle cx="33" cy="35" r="2" fill="#9ca3af"/>
-                  <circle cx="47" cy="35" r="2" fill="#9ca3af"/>
-                  <path d="M32 45C32 45 35 48 40 48C45 48 48 45 48 45" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <div class="empty-text">
-                {{ agentSearchKeyword ? '没有找到相关智能体' : '暂无可用智能体' }}
-              </div>
-              <div v-if="!agentSearchKeyword" class="empty-hint">
-                请联系管理员添加智能体
-              </div>
+            <div class="empty-text">
+              {{ agentSearchKeyword ? '没有找到相关智能体' : '暂无可用智能体' }}
             </div>
+            <div v-if="!agentSearchKeyword" class="empty-hint">
+              请联系管理员添加智能体
+            </div>
+          </div>
 
-            <div v-else class="agents-grid">
-              <div
-                v-for="agent in filteredAgents"
-                :key="(agent as any).id || agent.agent_id"
-                :class="['agent-card', selectedAgent === ((agent as any).id || agent.agent_id) ? 'active' : '']"
-                @click="selectAgent((agent as any).id || agent.agent_id)"
-              >
-                <div class="card-inner">
-                  <div class="agent-avatar">
-                    <img :src="agent.logo_url" alt="" />
-                    <div v-if="selectedAgent === ((agent as any).id || agent.agent_id)" class="avatar-badge">
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <circle cx="10" cy="10" r="10" fill="white"/>
-                        <path d="M6 10L9 13L14 8" stroke="#667eea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </div>
+          <div v-else class="agents-grid">
+            <div
+              v-for="agent in filteredAgents"
+              :key="(agent as any).id || agent.agent_id"
+              :class="['agent-card', selectedAgent === ((agent as any).id || agent.agent_id) ? 'active' : '']"
+              @click="selectAgent((agent as any).id || agent.agent_id)"
+            >
+              <div class="card-inner">
+                <div class="agent-avatar">
+                  <img :src="agent.logo_url" alt="" />
+                  <div v-if="selectedAgent === ((agent as any).id || agent.agent_id)" class="avatar-badge">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <circle cx="10" cy="10" r="10" fill="white"/>
+                      <path d="M6 10L9 13L14 8" stroke="#667eea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                   </div>
-                  <div class="agent-info">
-                    <div class="agent-name">{{ agent.name }}</div>
-                    <div class="agent-description">{{ agent.description }}</div>
-                  </div>
+                </div>
+                <div class="agent-info">
+                  <div class="agent-name">{{ agent.name }}</div>
+                  <div class="agent-description">{{ agent.description }}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="dialog-footer">
-          <div class="footer-info">
-            <svg class="info-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M8 7V11M8 5V5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <div class="dialog-footer">
+        <div class="footer-info">
+          <svg class="info-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M8 7V11M8 5V5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span v-if="selectedAgent">
+            已选择: {{ agents.find(a => (a.agent_id === selectedAgent || (a as any).id === selectedAgent))?.name || '未知' }}
+          </span>
+          <span v-else>请选择一个智能体</span>
+        </div>
+        <div class="footer-actions">
+          <button @click="closeCreateDialog" class="btn-cancel">
+            <span>取消</span>
+          </button>
+          <button
+            @click="createDialog"
+            :disabled="!selectedAgent"
+            class="btn-confirm"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
-            <span v-if="selectedAgent">
-              已选择: {{ agents.find(a => (a.agent_id === selectedAgent || (a as any).id === selectedAgent))?.name || '未知' }}
-            </span>
-            <span v-else>请选择一个智能体</span>
-          </div>
-          <div class="footer-actions">
-            <button @click="closeCreateDialog" class="btn-cancel">
-              <span>取消</span>
-            </button>
-            <button 
-              @click="createDialog"
-              :disabled="!selectedAgent"
-              class="btn-confirm"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-              <span>创建会话</span>
-            </button>
-          </div>
+            <span>创建会话</span>
+          </button>
         </div>
       </div>
     </div>
@@ -1520,4 +1568,142 @@ const closeCreateDialog = () => {
 }
     transform: translateY(0);
   }
+
+/* ==================== MOBILE: hmos mobile-list ==================== */
+.conv-mobile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cm-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--harmony-card-gap-mobile, 12px);
+  padding-top: var(--harmony-padding-level8, 16px);
+
+  &__header {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.cm-create-btn {
+  height: var(--harmony-control-height-40, 40px);
+  padding: 0 var(--harmony-padding-level8, 16px);
+  background: var(--harmony-brand);
+  color: white;
+  border: none;
+  border-radius: var(--harmony-corner-radius-level6, 12px);
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cm-loading, .cm-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  font-size: var(--harmony-font-size-body-m);
+  color: var(--harmony-font-tertiary);
+}
+
+.cm-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-card-gap-mobile, 12px);
+}
+
+.cm-item {
+  display: flex;
+  align-items: center;
+  gap: var(--harmony-padding-level6, 12px);
+  padding: var(--harmony-padding-level6, 12px);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:active {
+    background: var(--harmony-interactive-pressed);
+  }
+
+  &__avatar {
+    width: var(--harmony-control-height-40, 40px);
+    height: var(--harmony-control-height-40, 40px);
+    border-radius: var(--harmony-corner-radius-level6, 12px);
+    overflow: hidden;
+    background: var(--harmony-comp-background-secondary);
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: var(--harmony-font-size-body-m);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+    margin: 0 0 var(--harmony-padding-level1, 2px) 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__time {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-tertiary);
+    margin: 0;
+  }
+
+  &__delete {
+    width: var(--harmony-control-height-36, 36px);
+    height: var(--harmony-control-height-36, 36px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: var(--harmony-corner-radius-level4, 8px);
+    color: var(--harmony-font-tertiary);
+    font-size: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &:active {
+      background: var(--harmony-interactive-pressed);
+      color: var(--harmony-warning);
+    }
+  }
+}
+
+.cm-chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__back {
+    padding: var(--harmony-padding-level4, 8px) 0;
+    font-size: var(--harmony-font-size-body-m);
+    color: var(--harmony-brand);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  &__content {
+    flex: 1;
+    overflow: hidden;
+  }
+}
 </style>
