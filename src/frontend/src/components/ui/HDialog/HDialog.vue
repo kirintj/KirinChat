@@ -44,7 +44,7 @@ function close() {
 <style scoped>
 .h-dialog-overlay {
   position: fixed; inset: 0;
-  background: var(--harmony-comp-background-secondary);
+  background: var(--harmony-overlay-light);
   display: flex; align-items: center; justify-content: center;
   z-index: var(--z-dialog);
 }
@@ -59,18 +59,18 @@ function close() {
 }
 .h-dialog__header {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 20px 24px 12px;
+  padding: var(--harmony-padding-level10) var(--harmony-padding-level12) var(--harmony-padding-level6);
   border-bottom: 1px solid var(--harmony-comp-divider);
 }
 .h-dialog__title { font-size: var(--harmony-font-size-title-s); font-weight: 600; color: var(--harmony-font-primary); }
 .h-dialog__close {
-  cursor: pointer; color: var(--harmony-font-tertiary); font-size: 16px; padding: 4px;
+  cursor: pointer; color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-body-m); padding: var(--harmony-padding-level2);
   position: relative; overflow: hidden; border-radius: var(--harmony-corner-radius-level4);
 }
 .h-dialog__close:hover { color: var(--harmony-font-primary); background: var(--harmony-interactive-hover); }
 .h-dialog__close:active { background: var(--harmony-interactive-pressed); }
-.h-dialog__body { padding: 16px 24px; color: var(--harmony-font-secondary); }
-.h-dialog__footer { display: flex; justify-content: flex-end; gap: 12px; padding: 16px 24px 20px; }
+.h-dialog__body { padding: var(--harmony-padding-level8) var(--harmony-padding-level12); color: var(--harmony-font-secondary); }
+.h-dialog__footer { display: flex; justify-content: flex-end; gap: var(--harmony-padding-level6); padding: var(--harmony-padding-level8) var(--harmony-padding-level12) var(--harmony-padding-level10); }
 .h-dialog-enter-active, .h-dialog-leave-active { transition: opacity var(--harmony-duration-normal) var(--harmony-motion-standard); }
 .h-dialog-enter-from, .h-dialog-leave-to { opacity: 0; }
 </style>

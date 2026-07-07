@@ -46,7 +46,7 @@ defineEmits<{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--harmony-padding-level4);
   border: none;
   border-radius: var(--harmony-corner-radius-level6);
   font-family: var(--harmony-font-family);
