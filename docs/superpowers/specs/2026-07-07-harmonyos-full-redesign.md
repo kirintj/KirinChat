@@ -118,7 +118,7 @@ src/frontend/src/
 | `--font-size-lg` | `--harmony-font-size-body-l` | 删除别名 |
 | `--font-size-xl` | `--harmony-font-size-title-s` | 删除别名 |
 | `--font-size-2xl` | `--harmony-font-size-title-m` | 删除别名 |
-| `--color-bg: #ffffff` | 保留（业务约束：白色背景） | 业务特殊要求 |
+| `--color-bg` | `--harmony-comp-background-primary` | 删除别名 |
 
 ### 新增 glass-mixins.css
 
@@ -366,5 +366,4 @@ HDialog、HDrawer、HDropdown/DropdownItem、HForm/FormItem、HInput、HSelect/H
 2. **五态交互层**：hover / pressed / focus / active / select 使用 `::before` / `::after` 伪元素，颜色引用 `--harmony-interactive-*` token
 3. **液态玻璃材质**：浮层组件使用 `backdrop-filter: blur() saturate()` + `mix-blend-mode: plus-lighter`
 4. **HMSymbol 优先**：壳层组件强制使用 HMSymbol 字体图标，不允许 SVG 或 CSS 手绘替代
-5. **白色背景保留**：`--color-bg: #ffffff` 作为业务特殊要求保留，不跟随鸿蒙默认灰色背景
 6. **主题切换**：保持 `[data-theme="light"]` / `[data-theme="dark"]` 机制，兼容鸿蒙 token 的 4 种模式（system/wearable × light/dark）
