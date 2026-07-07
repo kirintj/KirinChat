@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container">
+  <div v-if="!isMobile" class="dashboard-container">
     <div class="dashboard-header">
       <div class="title-wrap">
         <h2>数据看板</h2>
@@ -126,10 +126,128 @@
       </div>
     </div>
   </div>
+
+  <!-- ==================== MOBILE: hmos mobile-card ==================== -->
+  <div v-else class="dashboard-mobile">
+    <!-- KPI section: 2 columns -->
+    <section class="dm-section">
+      <header class="dm-section__header">
+        <h2 class="dm-section__title">数据概览</h2>
+      </header>
+      <div class="dm-grid-2col">
+        <div class="dm-kpi">
+          <span class="dm-kpi__value">{{ totalCalls.toLocaleString() }}</span>
+          <span class="dm-kpi__label">总调用次数</span>
+          <span class="dm-kpi__desc">{{ periodText }}</span>
+        </div>
+        <div class="dm-kpi">
+          <span class="dm-kpi__value">{{ totalTokens.toLocaleString() }}</span>
+          <span class="dm-kpi__label">总 Token 消耗</span>
+          <span class="dm-kpi__desc">{{ periodText }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mobile filters -->
+    <section class="dm-section">
+      <header class="dm-section__header">
+        <h2 class="dm-section__title">筛选条件</h2>
+      </header>
+      <div class="dm-filters">
+        <div class="dm-filter">
+          <label class="dm-filter__label">模型</label>
+          <HSelect
+            v-model="filters.model"
+            placeholder="全部模型"
+            clearable
+            filterable
+            class="dm-filter__select"
+            @change="handleFilterChange"
+          >
+            <HOption label="全部" value="" />
+            <HOption
+              v-for="model in modelsList"
+              :key="model"
+              :label="model"
+              :value="model"
+            />
+          </HSelect>
+        </div>
+        <div class="dm-filter">
+          <label class="dm-filter__label">智能体</label>
+          <HSelect
+            v-model="filters.agent"
+            placeholder="全部智能体"
+            clearable
+            filterable
+            class="dm-filter__select"
+            @change="handleFilterChange"
+          >
+            <HOption label="全部" value="" />
+            <HOption
+              v-for="agent in agentsList"
+              :key="agent"
+              :label="agent"
+              :value="agent"
+            />
+          </HSelect>
+        </div>
+        <div class="dm-filter">
+          <label class="dm-filter__label">时间范围</label>
+          <HSelect
+            v-model="filters.delta_days"
+            class="dm-filter__select"
+            @change="handleFilterChange"
+          >
+            <HOption label="周内" :value="7" />
+            <HOption label="月内" :value="30" />
+            <HOption label="年内" :value="365" />
+            <HOption label="全部" :value="10000" />
+          </HSelect>
+        </div>
+        <HButton
+          type="primary"
+          class="dm-filter__action"
+          @click="handleRefresh"
+          :loading="loading"
+        >
+          刷新数据
+        </HButton>
+      </div>
+    </section>
+
+    <!-- Call count chart -->
+    <section class="dm-section">
+      <header class="dm-section__header">
+        <h2 class="dm-section__title">调用次数统计</h2>
+      </header>
+      <div class="dm-chart">
+        <div v-if="loading" class="loading-overlay">
+          <div class="loading-spinner"></div>
+        </div>
+        <div class="dm-chart__content" ref="callCountChartRef"></div>
+        <div class="empty" v-if="!hasCallCountData">暂无数据</div>
+      </div>
+    </section>
+
+    <!-- Token usage chart -->
+    <section class="dm-section">
+      <header class="dm-section__header">
+        <h2 class="dm-section__title">Token使用量统计</h2>
+      </header>
+      <div class="dm-chart">
+        <div v-if="loading" class="loading-overlay">
+          <div class="loading-spinner"></div>
+        </div>
+        <div class="dm-chart__content" ref="tokenUsageChartRef"></div>
+        <div class="empty" v-if="!hasTokenUsageData">暂无数据</div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, nextTick, computed, inject } from 'vue'
 import { HMessage, HSelect, HOption, HButton } from '@/components/ui'
 // 按需引入 ECharts，避免打包体积和解析问题
 import * as echarts from 'echarts/core'
@@ -147,6 +265,9 @@ import {
   type UsageDataByDate,
   type UsageCountByDate
 } from '../../apis/usage-stats'
+
+// Mobile detection
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 
 // 筛选条件
 const filters = ref<UsageStatsRequest>({
@@ -768,6 +889,112 @@ onBeforeUnmount(() => {
 @media (max-width: 1400px) {
   .charts-container {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ==================== MOBILE: hmos mobile-card ==================== */
+.dashboard-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-section-gap-mobile, 16px);
+  padding-top: var(--harmony-padding-level8, 16px);
+}
+
+.dm-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-padding-level6, 12px);
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: var(--harmony-font-size-body-l, 16px);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+    margin: 0;
+  }
+}
+
+.dm-grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--harmony-card-gap-mobile, 12px);
+}
+
+.dm-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-padding-level2, 4px);
+  padding: var(--harmony-padding-level8, 16px);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+
+  &__value {
+    font-size: var(--harmony-font-size-title-s, 20px);
+    font-weight: 700;
+    color: var(--harmony-font-primary);
+  }
+
+  &__label {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
+  }
+
+  &__desc {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-tertiary);
+  }
+}
+
+.dm-filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-padding-level6, 12px);
+  padding: var(--harmony-padding-level8, 16px);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+}
+
+.dm-filter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-padding-level2, 4px);
+
+  &__label {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  &__select {
+    width: 100%;
+  }
+
+  &__action {
+    margin-top: var(--harmony-padding-level2, 4px);
+    width: 100%;
+    border-radius: var(--harmony-corner-radius-level8, 16px);
+    font-weight: 600;
+  }
+}
+
+.dm-chart {
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+  padding: var(--harmony-padding-level8, 16px);
+  min-height: 200px;
+  position: relative;
+
+  &__content {
+    width: 100%;
+    height: 260px;
   }
 }
 </style>
