@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, nextTick, reactive } from 'vue'
-import { HMessage, HButton, HTooltip, HForm, HFormItem, HInput, HSelect, HOption } from '@/components/ui'
-import skillIcon from '../../assets/skill.svg'
+import { HMessage, HButton, HTooltip, HForm, HFormItem, HInput, HSelect, HOption, HIcon } from '@/components/ui'
 import * as monaco from 'monaco-editor'
 import { 
   getAgentSkillsAPI, 
@@ -471,7 +470,7 @@ onMounted(() => {
     <!-- 页面头部 - 增强设计 -->
     <div class="page-header">
       <div class="header-title">
-        <img :src="skillIcon" alt="Skill" class="title-icon" />
+        <HIcon svg="skill" :size="24" class="title-icon" />
         <h2>Agent Skill</h2>
       </div>
       <div class="header-actions">
@@ -515,7 +514,7 @@ onMounted(() => {
           <div class="col-name">
             <div class="skill-info">
               <div class="skill-avatar">
-                <img :src="skillIcon" alt="Skill" />
+                <HIcon svg="skill" :size="20" />
               </div>
               <span class="skill-name">{{ skill.name }}</span>
             </div>
@@ -550,7 +549,7 @@ onMounted(() => {
       <div v-if="skills.length === 0 && !loading" class="empty-state">
         <div class="empty-visual">
           <div class="empty-icon-wrapper">
-            <img :src="skillIcon" alt="No Skills" class="empty-icon" />
+            <HIcon svg="skill" :size="48" class="empty-icon" />
           </div>
         </div>
         <div class="empty-content">
@@ -573,7 +572,7 @@ onMounted(() => {
         <div class="modal-dialog create-dialog">
           <div class="dialog-header">
             <div class="dialog-icon">
-              <img :src="skillIcon" alt="Create Skill" />
+              <HIcon svg="skill" :size="20" />
             </div>
             <div class="dialog-title-wrapper">
               <h3>创建新 Skill</h3>
@@ -632,7 +631,7 @@ onMounted(() => {
           <div class="ide-header">
             <div class="ide-tabs">
               <div class="ide-tab active">
-                <img :src="skillIcon" class="tab-icon" alt="Skill" />
+                <HIcon svg="skill" :size="16" class="tab-icon" />
                 <span class="tab-name">{{ currentSkill?.name }}</span>
               </div>
             </div>

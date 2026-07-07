@@ -2,6 +2,7 @@
 import AgentCard from "../../components/agentCard/index"
 import { onMounted, ref } from "vue"
 import { useRouter } from "vue-router"
+import { HIcon } from '@/components/ui'
 import { Agent } from "../../type"
 import { getAgentsAPI } from "../../apis/agent"
 
@@ -53,7 +54,7 @@ onMounted(async () => {
     <div class="create" @click="openDialog('create')">
       <div class="content">
         <div class="top">
-          <img src="../../assets/plugin.svg" alt="" width="40px" height="40px" />
+          <HIcon svg="plugin" :size="40" />
           <span>新建助手</span>
         </div>
         <div class="middle">

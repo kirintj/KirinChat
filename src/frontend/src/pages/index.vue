@@ -2,18 +2,7 @@
 import { onMounted, ref, watch, computed } from "vue"
 import { useRouter } from "vue-router"
 import { useRoute } from "vue-router"
-import { HMessage } from '@/components/ui'
-import workspaceIcon from '../assets/workspace.svg'
-import applicationCenterIcon from '../assets/application-center.svg'
-import exploreIcon from '../assets/explore.svg'
-import dialogIcon from '../assets/dialog.svg'
-import robotIcon from '../assets/robot.svg'
-import pluginIcon from '../assets/plugin.svg'
-import knowledgeIcon from '../assets/knowledge.svg'
-import modelIcon from '../assets/model.svg'
-import mcpIcon from '../assets/mcp.svg'
-import skillIcon from '../assets/skill.svg'
-import dashboardIcon from '../assets/dashboard.svg'
+import { HMessage, HIcon } from '@/components/ui'
 import { useAgentCardStore } from "../store/agent_card"
 import { useUserStore } from "../store/user"
 import { getAgentsAPI } from "../apis/agent"
@@ -38,17 +27,17 @@ const showUserMenu = ref(false)
 const toggleUserMenu = () => { showUserMenu.value = !showUserMenu.value }
 
 const menuItems = [
-  { index: 'workspace', label: '工作台', icon: workspaceIcon },
-  { index: 'homepage', label: '探索', icon: exploreIcon },
-  { index: 'conversation', label: '会话', icon: dialogIcon },
-  { index: 'agent', label: '智能体', icon: robotIcon },
-  { index: 'mcp-server', label: 'MCP', icon: mcpIcon },
-  { index: 'knowledge', label: '知识库', icon: knowledgeIcon },
-  { index: 'tool', label: '工具', icon: pluginIcon },
-  { index: 'agent-skill', label: 'Skill', icon: skillIcon },
-  { index: 'interview', label: '面试', icon: skillIcon },
-  { index: 'model', label: '模型', icon: modelIcon },
-  { index: 'dashboard', label: '数据看板', icon: dashboardIcon },
+  { index: 'workspace', label: '工作台', icon: 'workspace' },
+  { index: 'homepage', label: '探索', icon: 'explore' },
+  { index: 'conversation', label: '会话', icon: 'dialog' },
+  { index: 'agent', label: '智能体', icon: 'robot' },
+  { index: 'mcp-server', label: 'MCP', icon: 'mcp' },
+  { index: 'knowledge', label: '知识库', icon: 'knowledge' },
+  { index: 'tool', label: '工具', icon: 'plugin' },
+  { index: 'agent-skill', label: 'Skill', icon: 'skill' },
+  { index: 'interview', label: '面试', icon: 'skill' },
+  { index: 'model', label: '模型', icon: 'model' },
+  { index: 'dashboard', label: '数据看板', icon: 'dashboard' },
 ]
 
 const openAppCenterMenu = () => {
@@ -69,20 +58,20 @@ const goWorkspaceTop = () => {
 
 const appCenterColumns = ref([
   [
-    { label: '会话', icon: dialogIcon, route: '/conversation' },
-    { label: '工作台', icon: workspaceIcon, route: '/workspace' }
+    { label: '会话', icon: 'dialog', route: '/conversation' },
+    { label: '工作台', icon: 'workspace', route: '/workspace' }
   ],
   [
-    { label: '智能体', icon: robotIcon, route: '/agent' },
-    { label: '工具', icon: pluginIcon, route: '/tool' }
+    { label: '智能体', icon: 'robot', route: '/agent' },
+    { label: '工具', icon: 'plugin', route: '/tool' }
   ],
   [
-    { label: '知识库', icon: knowledgeIcon, route: '/knowledge' },
-    { label: '模型', icon: modelIcon, route: '/model' }
+    { label: '知识库', icon: 'knowledge', route: '/knowledge' },
+    { label: '模型', icon: 'model', route: '/model' }
   ],
   [
-    { label: 'MCP', icon: mcpIcon, route: '/mcp-server' },
-    { label: 'Skill', icon: skillIcon, route: '/agent-skill' }
+    { label: 'MCP', icon: 'mcp', route: '/mcp-server' },
+    { label: 'Skill', icon: 'skill', route: '/agent-skill' }
   ]
 ])
 const current = ref(route.meta.current)
@@ -244,7 +233,7 @@ watch(
             :title="sidebarCollapsed ? item.label : ''"
           >
             <div class="menu-icon">
-              <img :src="item.icon" width="18px" height="18px" />
+              <HIcon :svg="item.icon" :size="18" />
             </div>
             <span v-if="!sidebarCollapsed" class="menu-text">{{ item.label }}</span>
           </div>

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { HMessage, HButton, HTooltip } from '@/components/ui'
-import knowledgeIcon from '../../assets/knowledge.svg'
+import { HMessage, HButton, HTooltip, HIcon } from '@/components/ui'
 import {
   getKnowledgeListAPI,
   createKnowledgeAPI,
@@ -255,7 +254,7 @@ onMounted(() => {
   <div class="knowledge-page">
     <div class="page-header">
       <div class="header-title">
-        <img :src="knowledgeIcon" alt="知识库" class="title-icon" />
+        <HIcon svg="knowledge" :size="24" class="title-icon" />
         <h2>知识库管理</h2>
       </div>
       <div class="header-actions">
@@ -314,7 +313,7 @@ onMounted(() => {
           <div class="col-name">
             <div class="knowledge-info">
               <div class="knowledge-avatar">
-                <img :src="knowledgeIcon" alt="Knowledge" />
+                <HIcon svg="knowledge" :size="20" />
               </div>
               <span class="knowledge-name">{{ knowledge.name }}</span>
             </div>
@@ -356,7 +355,7 @@ onMounted(() => {
       
       <div v-if="knowledges.length === 0 && !loading" class="empty-state">
         <div class="empty-icon">
-          <img :src="knowledgeIcon" alt="知识库" class="empty-icon-img" />
+          <HIcon svg="knowledge" :size="48" class="empty-icon-img" />
         </div>
         <h3>暂无知识库</h3>
         <p>您可以创建知识库来存储和管理您的文档资料</p>
