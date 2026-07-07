@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
+import { useRouter } from 'vue-router'
 import { HMessage, HButton, HInput, HDialog } from '@/components/ui'
 import { useUserStore } from '../../store/user'
 import { updateUserInfoAPI, getUserIconsAPI, getUserInfoAPI } from '../../apis/auth'
 
 const userStore = useUserStore()
+
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
+const router = useRouter()
 
 // 表单数据
 const formData = ref({
@@ -236,6 +240,18 @@ const handleImageError = (event: Event) => {
   target.src = '/user.svg' // 设置默认头像
 }
 
+// 处理头像加载错误（移动端）
+const handleAvatarError = (event: Event) => {
+  const target = event.target as HTMLImageElement
+  target.src = '/user.svg'
+}
+
+// 退出登录
+const handleLogout = () => {
+  userStore.logout?.()
+  router.push('/login')
+}
+
 // 处理自定义上传
 const handleCustomUpload = async (event: Event) => {
   const input = event.target as HTMLInputElement;
@@ -289,7 +305,8 @@ const handleCustomUpload = async (event: Event) => {
 </script>
 
 <template>
-  <div class="profile-page" style="position: relative;">
+  <!-- Desktop -->
+  <div v-if="!isMobile" class="profile-page" style="position: relative;">
     <div v-if="pageLoading" class="loading-overlay">
       <div class="loading-spinner"></div>
     </div>
@@ -309,8 +326,8 @@ const handleCustomUpload = async (event: Event) => {
         <div class="avatar-section">
           <div class="avatar-container">
             <div class="avatar-wrapper">
-              <img 
-                :src="formData.user_avatar" 
+              <img
+                :src="formData.user_avatar"
                 alt="用户头像"
                 class="user-avatar"
                 @error="handleImageError"
@@ -320,7 +337,7 @@ const handleCustomUpload = async (event: Event) => {
               </div>
             </div>
           </div>
-          
+
           <div class="user-basic-info">
             <h3>{{ userStore.userInfo?.nickname || userStore.userInfo?.username || '用户' }}</h3>
             <p class="user-id">ID: {{ userStore.userInfo?.id || '未知' }}</p>
@@ -340,11 +357,11 @@ const handleCustomUpload = async (event: Event) => {
               编辑
             </HButton>
           </div>
-          
+
           <div v-if="!editingDescription" class="description-display">
             <p>{{ formData.user_description }}</p>
           </div>
-          
+
           <div v-else class="description-edit">
             <textarea
               v-model="formData.user_description"
@@ -370,73 +387,100 @@ const handleCustomUpload = async (event: Event) => {
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- 自定义头像选择对话框 -->
-    <div v-if="showAvatarDialog" class="custom-dialog-overlay">
-      <div class="custom-dialog">
-        <div class="custom-dialog-header">
-          <h3>选择头像</h3>
-          <button class="close-button" @click="showAvatarDialog = false">×</button>
+  <!-- Mobile -->
+  <div v-else class="profile-mobile">
+    <!-- Profile hero card -->
+    <section class="pm-hero">
+      <div class="pm-hero__avatar">
+        <img :src="userStore.userInfo?.avatar || '/user.svg'" alt="avatar" @error="handleAvatarError" />
+      </div>
+      <h2 class="pm-hero__name">{{ userStore.userInfo?.name || '用户' }}</h2>
+      <p class="pm-hero__desc">{{ userStore.userInfo?.description || '这个人很懒，什么都没写' }}</p>
+      <button class="pm-edit-btn" @click="showAvatarDialog = true">编辑资料</button>
+    </section>
+
+    <!-- Settings list -->
+    <section class="pm-group">
+      <div class="pm-group__card">
+        <div class="pm-row" @click="router.push('/configuration')">
+          <span class="pm-row__label">设置</span>
+          <span class="pm-row__chevron">›</span>
         </div>
-        
-        <div class="custom-dialog-body">
-          <!-- 当前选中头像 -->
-          <div class="current-selection">
-            <h4>当前选择：</h4>
-            <div class="selected-avatar">
-              <img :src="selectedAvatar" alt="选中的头像" />
+        <div class="pm-divider"></div>
+        <div class="pm-row" @click="handleLogout">
+          <span class="pm-row__label pm-row__label--danger">退出登录</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 自定义头像选择对话框（桌面/移动端共用） -->
+  <div v-if="showAvatarDialog" class="custom-dialog-overlay">
+    <div class="custom-dialog">
+      <div class="custom-dialog-header">
+        <h3>选择头像</h3>
+        <button class="close-button" @click="showAvatarDialog = false">×</button>
+      </div>
+
+      <div class="custom-dialog-body">
+        <!-- 当前选中头像 -->
+        <div class="current-selection">
+          <h4>当前选择：</h4>
+          <div class="selected-avatar">
+            <img :src="selectedAvatar" alt="选中的头像" />
+          </div>
+        </div>
+
+        <div class="avatar-content">
+          <!-- 预设头像列表 -->
+          <div class="preset-avatars">
+            <h4>选择预设头像：</h4>
+            <div class="avatar-grid">
+              <div
+                v-for="(icon, index) in availableIcons"
+                :key="index"
+                class="avatar-option"
+                :class="{ active: selectedAvatar === icon }"
+                @click="selectAvatar(icon)"
+              >
+                <img :src="icon" alt="头像选项" />
+              </div>
             </div>
           </div>
 
-          <div class="avatar-content">
-            <!-- 预设头像列表 -->
-            <div class="preset-avatars">
-              <h4>选择预设头像：</h4>
-              <div class="avatar-grid">
-                <div
-                  v-for="(icon, index) in availableIcons"
-                  :key="index"
-                  class="avatar-option"
-                  :class="{ active: selectedAvatar === icon }"
-                  @click="selectAvatar(icon)"
-                >
-                  <img :src="icon" alt="头像选项" />
-                </div>
-              </div>
-            </div>
-
-            <!-- 上传自定义头像 -->
-            <div class="upload-section">
-              <h4>上传自定义头像：</h4>
-              <div class="upload-area">
-                <label for="avatar-upload" class="upload-button">
-                  <span v-if="!uploading">点击上传头像</span>
-                  <span v-else>上传中...</span>
-                </label>
-                <input 
-                  id="avatar-upload" 
-                  type="file" 
-                  accept="image/*" 
-                  @change="handleCustomUpload" 
-                  :disabled="uploading"
-                  style="display: none;"
-                />
-                <p class="upload-tip">支持 JPG、PNG 格式，文件大小不超过 2MB</p>
-              </div>
+          <!-- 上传自定义头像 -->
+          <div class="upload-section">
+            <h4>上传自定义头像：</h4>
+            <div class="upload-area">
+              <label for="avatar-upload" class="upload-button">
+                <span v-if="!uploading">点击上传头像</span>
+                <span v-else>上传中...</span>
+              </label>
+              <input
+                id="avatar-upload"
+                type="file"
+                accept="image/*"
+                @change="handleCustomUpload"
+                :disabled="uploading"
+                style="display: none;"
+              />
+              <p class="upload-tip">支持 JPG、PNG 格式，文件大小不超过 2MB</p>
             </div>
           </div>
         </div>
-        
-        <div class="custom-dialog-footer">
-          <button class="cancel-button" @click="showAvatarDialog = false">取消</button>
-          <button 
-            class="confirm-button" 
-            @click="confirmAvatarSelection"
-            :disabled="!selectedAvatar"
-          >
-            确定选择
-          </button>
-        </div>
+      </div>
+
+      <div class="custom-dialog-footer">
+        <button class="cancel-button" @click="showAvatarDialog = false">取消</button>
+        <button
+          class="confirm-button"
+          @click="confirmAvatarSelection"
+          :disabled="!selectedAvatar"
+        >
+          确定选择
+        </button>
       </div>
     </div>
   </div>
@@ -904,4 +948,106 @@ const handleCustomUpload = async (event: Event) => {
     }
   }
 }
-</style> 
+
+/* ==================== MOBILE: hmos mobile-list ==================== */
+.profile-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-section-gap-mobile, 16px);
+  padding-top: var(--harmony-padding-level8, 16px);
+}
+
+.pm-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--harmony-padding-level6, 12px);
+  padding: var(--harmony-padding-level12, 24px) var(--harmony-padding-level8, 16px);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+
+  &__avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--harmony-comp-background-secondary);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__name {
+    font-size: var(--harmony-font-size-title-s, 20px);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+    margin: 0;
+  }
+
+  &__desc {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.pm-edit-btn {
+  height: var(--harmony-control-height-36, 36px);
+  padding: 0 var(--harmony-padding-level12, 24px);
+  background: var(--harmony-comp-background-secondary);
+  color: var(--harmony-font-primary);
+  border: none;
+  border-radius: var(--harmony-corner-radius-level6, 12px);
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.pm-group {
+  &__card {
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level8, 16px);
+    overflow: hidden;
+  }
+}
+
+.pm-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--harmony-control-height-56, 56px);
+  padding: 0 var(--harmony-padding-level8, 16px);
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:active {
+    background: var(--harmony-interactive-pressed);
+  }
+
+  &__label {
+    font-size: var(--harmony-font-size-body-l, 16px);
+    color: var(--harmony-font-primary);
+
+    &--danger {
+      color: var(--harmony-warning);
+    }
+  }
+
+  &__chevron {
+    font-size: 20px;
+    color: var(--harmony-font-tertiary);
+  }
+}
+
+.pm-divider {
+  height: 1px;
+  margin: 0 var(--harmony-padding-level8, 16px);
+  background: var(--harmony-comp-divider);
+}
+</style>
