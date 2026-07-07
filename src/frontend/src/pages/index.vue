@@ -224,6 +224,8 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .ai-body {
   overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 /* ==================== DESKTOP ==================== */
