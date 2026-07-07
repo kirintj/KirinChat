@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, nextTick, reactive } from 'vue'
+import { ref, inject, onMounted, computed, nextTick, reactive } from 'vue'
 import { HMessage, HButton, HTooltip, HForm, HFormItem, HInput, HSelect, HOption, HIcon } from '@/components/ui'
 import * as monaco from 'monaco-editor'
 import { 
@@ -15,6 +15,7 @@ import {
 } from '../../apis/agent-skill'
 
 // Monaco 编辑器实例
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 let monacoEditor: monaco.editor.IStandaloneCodeEditor | null = null
 
 // 响应式数据
@@ -466,7 +467,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="skill-page">
+  <div class="skill-page" v-if="!isMobile">
     <!-- 页面头部 - 增强设计 -->
     <div class="page-header">
       <div class="header-title">
@@ -904,6 +905,104 @@ onMounted(() => {
         </div>
       </div>
     </Teleport>
+  </div>
+
+  <div v-else class="skill-mobile">
+    <!-- Create button -->
+    <div class="sm-header">
+      <button class="sm-create-btn" @click="showCreateDialog = true">+ 创建技能</button>
+    </div>
+
+    <!-- Skill list as cards -->
+    <div class="sm-list" v-if="skills.length > 0">
+      <div
+        v-for="skill in skills"
+        :key="skill.id"
+        class="sm-item"
+        @click="openDetailDialog(skill)"
+      >
+        <div class="sm-item__icon">
+          <HIcon svg="skill" :size="20" />
+        </div>
+        <div class="sm-item__content">
+          <h3 class="sm-item__name">{{ skill.name }}</h3>
+          <p class="sm-item__desc">{{ skill.description || '-' }}</p>
+        </div>
+        <div class="sm-item__actions" @click.stop>
+          <button class="sm-action sm-action--danger" @click="handleDeleteSkill(skill, $event)" title="删除">🗑️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div v-else-if="!loading" class="sm-empty">
+      <HIcon svg="skill" :size="48" />
+      <p>暂无技能</p>
+      <button class="sm-create-btn" @click="showCreateDialog = true">创建技能</button>
+    </div>
+
+    <!-- Mobile create dialog -->
+    <div v-if="showCreateDialog" class="dialog-overlay">
+      <div class="dialog-container">
+        <div class="dialog-header">
+          <h3>创建新 Skill</h3>
+          <button class="close-btn" @click="showCreateDialog = false">×</button>
+        </div>
+        <div class="dialog-body">
+          <div class="form-item">
+            <label>Skill 名称 <span style="color: red;">*</span></label>
+            <input
+              v-model="createForm.name"
+              type="text"
+              placeholder="例如：数据分析专家、代码审查助手"
+            />
+          </div>
+          <div class="form-item">
+            <label>Skill 描述 <span style="color: red;">*</span></label>
+            <textarea
+              v-model="createForm.description"
+              placeholder="详细描述这个 Skill 的功能、适用场景和特点..."
+              rows="4"
+            ></textarea>
+          </div>
+        </div>
+        <div class="dialog-footer">
+          <button @click="showCreateDialog = false">取消</button>
+          <button
+            class="primary-btn"
+            @click="handleCreateSkill"
+          >
+            + 创建 Skill
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile delete confirm dialog -->
+    <div
+      v-if="confirmDialog.visible"
+      class="dialog-overlay"
+      @click.self="closeConfirmDialog(false)"
+    >
+      <div class="dialog-container">
+        <div class="dialog-header">
+          <h3>{{ confirmDialog.title }}</h3>
+          <button class="close-btn" @click="closeConfirmDialog(false)">×</button>
+        </div>
+        <div class="dialog-body">
+          <p class="dialog-message">{{ confirmDialog.message }}</p>
+        </div>
+        <div class="dialog-footer">
+          <button @click="closeConfirmDialog(false)">{{ confirmDialog.cancelText }}</button>
+          <button
+            :class="confirmDialog.variant === 'danger' ? 'danger-btn' : 'primary-btn'"
+            @click="closeConfirmDialog(true)"
+          >
+            {{ confirmDialog.confirmText }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -2101,4 +2200,290 @@ onMounted(() => {
     }
   }
 }
+
+// Mobile layout (hmos pattern)
+.skill-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-section-gap-mobile, 16px);
+  padding-top: var(--harmony-padding-level8, 16px);
+}
+
+.sm-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sm-create-btn {
+  height: var(--harmony-control-height-40, 40px);
+  padding: 0 var(--harmony-padding-level8, 16px);
+  background: var(--harmony-brand);
+  color: white;
+  border: none;
+  border-radius: var(--harmony-corner-radius-level6, 12px);
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sm-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-card-gap-mobile, 12px);
+}
+
+.sm-item {
+  display: flex;
+  align-items: center;
+  gap: var(--harmony-padding-level6, 12px);
+  padding: var(--harmony-padding-level8, 16px);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:active {
+    background: var(--harmony-interactive-pressed);
+  }
+
+  &__icon {
+    width: var(--harmony-control-height-40, 40px);
+    height: var(--harmony-control-height-40, 40px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--harmony-comp-emphasize-tertiary);
+    border-radius: var(--harmony-corner-radius-level6, 12px);
+    flex-shrink: 0;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: var(--harmony-font-size-body-l, 16px);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+    margin: 0 0 var(--harmony-padding-level2, 4px) 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__desc {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--harmony-padding-level2, 4px);
+    flex-shrink: 0;
+  }
+}
+
+.sm-action {
+  width: var(--harmony-control-height-36, 36px);
+  height: var(--harmony-control-height-36, 36px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--harmony-comp-background-secondary);
+  border: none;
+  border-radius: var(--harmony-corner-radius-level4, 8px);
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.15s ease;
+
+  &:active {
+    background: var(--harmony-interactive-pressed);
+  }
+
+  &--danger:active {
+    background: rgba(232, 64, 38, 0.1);
+  }
+}
+
+.sm-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  gap: var(--harmony-padding-level8, 16px);
+
+  p {
+    font-size: var(--harmony-font-size-body-m);
+    color: var(--harmony-font-tertiary);
+    margin: 0;
+  }
+}
+
+// Mobile dialog styles (shared)
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  animation: harmony-fade-in 0.2s ease;
+}
+
+.dialog-container {
+  width: 90%;
+  max-width: 480px;
+  background: var(--harmony-comp-background-primary);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
+  animation: harmony-slide-up 0.3s ease;
+  overflow: hidden;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--harmony-padding-level8, 16px) var(--harmony-padding-level10, 20px);
+  border-bottom: 1px solid var(--harmony-comp-divider);
+
+  h3 {
+    margin: 0;
+    font-size: var(--harmony-font-size-body-l, 16px);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+  }
+
+  .close-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: var(--harmony-font-secondary);
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--harmony-corner-radius-level4, 8px);
+
+    &:active {
+      background: var(--harmony-interactive-pressed);
+    }
+  }
+}
+
+.dialog-body {
+  padding: var(--harmony-padding-level8, 16px) var(--harmony-padding-level10, 20px);
+
+  .form-item {
+    margin-bottom: var(--harmony-padding-level8, 16px);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: var(--harmony-font-size-body-m);
+      font-weight: 600;
+      color: var(--harmony-font-primary);
+      margin-bottom: var(--harmony-padding-level4, 8px);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: var(--harmony-padding-level4, 8px) var(--harmony-padding-level6, 12px);
+      border: 1px solid var(--harmony-comp-divider);
+      border-radius: var(--harmony-corner-radius-level6, 12px);
+      font-size: var(--harmony-font-size-body-m);
+      color: var(--harmony-font-primary);
+      background: var(--harmony-comp-background-secondary);
+      font-family: var(--harmony-font-family);
+      outline: none;
+      transition: border-color 0.15s ease;
+
+      &:focus {
+        border-color: var(--harmony-brand);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      line-height: 1.5;
+    }
+  }
+
+  .dialog-message {
+    margin: 0;
+    font-size: var(--harmony-font-size-body-m);
+    color: var(--harmony-font-secondary);
+    line-height: 1.6;
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--harmony-padding-level4, 8px);
+  padding: var(--harmony-padding-level8, 16px) var(--harmony-padding-level10, 20px);
+  border-top: 1px solid var(--harmony-comp-divider);
+
+  button {
+    height: var(--harmony-control-height-40, 40px);
+    padding: 0 var(--harmony-padding-level8, 16px);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level6, 12px);
+    background: var(--harmony-comp-background-primary);
+    color: var(--harmony-font-secondary);
+    font-size: var(--harmony-font-size-body-m);
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:active {
+      background: var(--harmony-interactive-pressed);
+    }
+  }
+
+  .primary-btn {
+    background: var(--harmony-brand);
+    border-color: var(--harmony-brand);
+    color: white;
+
+    &:active {
+      filter: brightness(0.95);
+    }
+  }
+
+  .danger-btn {
+    background: var(--harmony-warning);
+    border-color: var(--harmony-warning);
+    color: white;
+
+    &:active {
+      filter: brightness(0.95);
+    }
+  }
+}
+
+@keyframes harmony-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes harmony-slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
 </style>
