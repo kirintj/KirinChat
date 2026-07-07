@@ -564,7 +564,7 @@ onBeforeUnmount(() => {
   .badge {
     font-size: var(--harmony-font-size-body-s);
     padding: 2px 8px;
-    border-radius: 999px;
+    border-radius: var(--harmony-corner-radius-level18);
     background: var(--harmony-comp-emphasize-tertiary);
     color: var(--harmony-brand);
     border: 1px solid var(--harmony-comp-divider);
@@ -593,7 +593,7 @@ onBeforeUnmount(() => {
   gap: 16px;
   padding: 16px 20px;
   background: var(--harmony-comp-background-primary);
-  border-radius: 14px;
+  border-radius: var(--harmony-corner-radius-level7);
   box-shadow: var(--harmony-shadow-xs);
   margin-bottom: 28px;
   flex-wrap: wrap;

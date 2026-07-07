@@ -843,7 +843,7 @@ const handleCustomUpload = async (event: Event) => {
           padding: 10px 20px;
           background-color: var(--harmony-brand);
           color: var(--harmony-comp-background-primary);
-          border-radius: 4px;
+          border-radius: var(--harmony-corner-radius-level2);
           cursor: pointer;
           transition: background-color 0.3s;
 
@@ -871,7 +871,7 @@ const handleCustomUpload = async (event: Event) => {
   button {
     padding: 10px 20px;
     font-size: var(--harmony-font-size-body-m);
-    border-radius: 4px;
+    border-radius: var(--harmony-corner-radius-level2);
     cursor: pointer;
     margin-left: 10px;
     transition: all 0.3s;

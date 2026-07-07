@@ -99,7 +99,7 @@ function goBack() {
 .categories-section { margin-bottom: 20px; h4 { margin: 0 0 12px; } }
 .category-tags {
   display: flex; flex-wrap: wrap; gap: 8px;
-  .cat-tag { padding: 4px 12px; background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border-radius: 4px; font-size: 13px; }
+  .cat-tag { padding: 4px 12px; background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border-radius: var(--harmony-corner-radius-level2); font-size: 13px; }
 }
 .start-btn {
   padding: 12px 32px; background: var(--harmony-confirm); color: var(--harmony-comp-background-primary); border: none;

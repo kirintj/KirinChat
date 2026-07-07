@@ -134,7 +134,7 @@ const testFileUpload = async (event: Event) => {
   margin-bottom: 30px;
   padding: 20px;
   border: 1px solid var(--harmony-comp-divider);
-  border-radius: 8px;
+  border-radius: var(--harmony-corner-radius-level4);
 }
 
 .test-section h3 {
@@ -154,7 +154,7 @@ const testFileUpload = async (event: Event) => {
   margin-bottom: 10px;
   padding: 8px;
   background-color: var(--harmony-comp-background-primary);
-  border-radius: 4px;
+  border-radius: var(--harmony-corner-radius-level2);
 }
 
 .message strong {

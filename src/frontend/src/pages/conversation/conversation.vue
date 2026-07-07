@@ -468,7 +468,7 @@ const closeCreateDialog = () => {
             <div v-else-if="filteredAgents.length === 0" class="empty-state">
               <div class="empty-illustration">
                 <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                  <circle cx="40" cy="40" r="35" fill="#f3f4f6"/>
+                  <circle cx="40" cy="40" r="35" fill="var(--harmony-comp-background-tertiary)"/>
                   <rect x="25" y="25" width="30" height="30" rx="6" stroke="#9ca3af" stroke-width="2"/>
                   <circle cx="33" cy="35" r="2" fill="#9ca3af"/>
                   <circle cx="47" cy="35" r="2" fill="#9ca3af"/>
@@ -738,7 +738,7 @@ const closeCreateDialog = () => {
           left: 16px;
           width: 40px;
           height: 40px;
-          border-radius: 8px;
+          border-radius: var(--harmony-corner-radius-level4);
           overflow: hidden;
 
           img {
@@ -962,7 +962,7 @@ const closeCreateDialog = () => {
         .agent-avatar {
           width: 48px;
           height: 48px;
-          border-radius: 8px;
+          border-radius: var(--harmony-corner-radius-level4);
           overflow: hidden;
           flex-shrink: 0;
 
@@ -1061,7 +1061,7 @@ const closeCreateDialog = () => {
 
 .create-dialog {
   background: var(--harmony-comp-background-primary);
-  border-radius: 24px;
+  border-radius: var(--harmony-corner-radius-level12);
   width: 85vw;
   max-width: 1200px;
   height: 75vh;
@@ -1077,7 +1077,7 @@ const closeCreateDialog = () => {
     padding: 40px;
     overflow-y: auto;
     background: var(--harmony-comp-background-secondary);
-    border-radius: 24px 24px 0 0;
+    border-radius: var(--harmony-corner-radius-level12) 24px 0 0;
 
     &::-webkit-scrollbar {
       width: 10px;
@@ -1184,7 +1184,7 @@ const closeCreateDialog = () => {
             color: var(--harmony-font-secondary);
             background: var(--harmony-comp-background-primary);
             padding: 5px 12px;
-            border-radius: 20px;
+            border-radius: var(--harmony-corner-radius-level10);
             font-weight: 600;
             border: 1px solid var(--harmony-comp-divider);
           }
@@ -1253,12 +1253,12 @@ const closeCreateDialog = () => {
 
         &::-webkit-scrollbar-track {
           background: var(--harmony-comp-background-secondary);
-          border-radius: 4px;
+          border-radius: var(--harmony-corner-radius-level2);
         }
 
         &::-webkit-scrollbar-thumb {
           background: var(--harmony-comp-divider);
-          border-radius: 4px;
+          border-radius: var(--harmony-corner-radius-level2);
 
           &:hover {
             background: var(--harmony-font-tertiary);

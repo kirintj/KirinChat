@@ -16,7 +16,7 @@ const scoreColor = computed(() => {
   const s = detail.value.score
   if (s >= 8) return '#4caf50'
   if (s >= 6) return '#ff9800'
-  return '#f44336'
+  return 'var(--harmony-warning)'
 })
 
 // 渲染 Markdown
@@ -213,7 +213,7 @@ onMounted(async () => {
     font-weight: 700;
     color: white;
     padding: 4px 12px;
-    border-radius: 16px;
+    border-radius: var(--harmony-corner-radius-level8);
   }
 
   .feedback-text {

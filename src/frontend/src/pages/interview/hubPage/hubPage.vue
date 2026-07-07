@@ -272,7 +272,7 @@ onMounted(() => {
 
 .section-link {
   font-size: 13px;
-  color: var(--primary-color, #6366f1);
+  color: var(--primary-color, var(--harmony-brand));
   cursor: pointer;
 
   &:hover {
@@ -317,8 +317,8 @@ onMounted(() => {
 .empty-state {
   text-align: center;
   padding: 32px 16px;
-  border-radius: 10px;
-  border: 1px dashed var(--border-color, #e5e7eb);
+  border-radius: var(--harmony-corner-radius-level5);
+  border: 1px dashed var(--border-color, var(--harmony-comp-divider));
 }
 
 .empty-text {
@@ -329,15 +329,15 @@ onMounted(() => {
 
 .empty-btn {
   padding: 8px 20px;
-  border-radius: 8px;
-  border: 1px solid var(--primary-color, #6366f1);
+  border-radius: var(--harmony-corner-radius-level4);
+  border: 1px solid var(--primary-color, var(--harmony-brand));
   background: transparent;
-  color: var(--primary-color, #6366f1);
+  color: var(--primary-color, var(--harmony-brand));
   font-size: 13px;
   cursor: pointer;
 
   &:hover {
-    background: var(--primary-light, #eef2ff);
+    background: var(--primary-light, var(--harmony-comp-emphasize-tertiary));
   }
 }
 
@@ -347,7 +347,7 @@ onMounted(() => {
   gap: 24px;
   margin-bottom: 16px;
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--border-light, #f3f4f6);
+  border-bottom: 1px solid var(--border-light, var(--harmony-comp-background-tertiary));
 }
 
 .stat-item {

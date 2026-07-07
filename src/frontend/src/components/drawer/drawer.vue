@@ -229,7 +229,7 @@ defineExpose({
 
         .agent-card {
           cursor: pointer;
-          border-radius: 8px;
+          border-radius: var(--harmony-corner-radius-level4);
           transition: all 0.2s ease;
           border: 2px solid transparent;
 
@@ -254,12 +254,12 @@ defineExpose({
 
       .cancel-btn {
         flex: 1;
-        border-radius: 8px;
+        border-radius: var(--harmony-corner-radius-level4);
       }
 
       .confirm-btn {
         flex: 1;
-        border-radius: 8px;
+        border-radius: var(--harmony-corner-radius-level4);
         display: flex;
         align-items: center;
         justify-content: center;

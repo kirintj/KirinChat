@@ -185,9 +185,9 @@ onMounted(() => {
     gap: 8px;
     width: 100%;
     padding: 10px 14px;
-    border: 1px solid var(--border-color, #e5e7eb);
-    border-radius: 8px;
-    background: var(--bg-secondary, #f9fafb);
+    border: 1px solid var(--border-color, var(--harmony-comp-divider));
+    border-radius: var(--harmony-corner-radius-level4);
+    background: var(--bg-secondary, var(--harmony-comp-background-tertiary));
     color: var(--harmony-font-primary);
     cursor: pointer;
     font-size: 14px;
@@ -195,9 +195,9 @@ onMounted(() => {
     transition: all 0.2s ease;
 
     &:hover {
-      background: var(--bg-hover, #f3f4f6);
-      border-color: var(--primary-color, #6366f1);
-      color: var(--primary-color, #6366f1);
+      background: var(--bg-hover, var(--harmony-comp-background-tertiary));
+      border-color: var(--primary-color, var(--harmony-brand));
+      color: var(--primary-color, var(--harmony-brand));
     }
 
     /* SVG图标容器，保持图标垂直居中 */
@@ -320,7 +320,7 @@ onMounted(() => {
           .status-tag {
             font-size: 11px;
             padding: 1px 6px;
-            border-radius: 4px;
+            border-radius: var(--harmony-corner-radius-level2);
           }
 
           .status-done {

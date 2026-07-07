@@ -578,7 +578,7 @@ watch(
 
     .message-content {
       background-color: var(--harmony-comp-background-primary);
-      border-radius: 18px;
+      border-radius: var(--harmony-corner-radius-level9);
       padding: 12px 18px;
       max-width: 70%;
       color: var(--harmony-font-primary);
@@ -606,7 +606,7 @@ watch(
       align-items: center;
       background: var(--harmony-brand);
       color: var(--harmony-comp-background-primary);
-      border-radius: 18px;
+      border-radius: var(--harmony-corner-radius-level9);
       padding: 12px 18px;
       max-width: 70%;
       box-shadow: var(--harmony-shadow-card);
@@ -621,7 +621,7 @@ watch(
 
 .event-info-row {
   margin-bottom: 8px;
-  border-radius: 8px;
+  border-radius: var(--harmony-corner-radius-level4);
   padding: 8px 12px;
   background: var(--harmony-comp-background-secondary);
   cursor: pointer;
@@ -664,7 +664,7 @@ watch(
   margin-left: 8px;
   font-size: var(--harmony-font-size-body-s);
   padding: 2px 6px;
-  border-radius: 10px;
+  border-radius: var(--harmony-corner-radius-level5);
   background: var(--harmony-comp-background-secondary);
 
   .START & {
@@ -698,7 +698,7 @@ watch(
   color: var(--harmony-font-primary);
   padding: 8px;
   background: rgba(255, 255, 255, 0.7);
-  border-radius: 4px;
+  border-radius: var(--harmony-corner-radius-level2);
   font-size: var(--harmony-font-size-body-m);
   line-height: 1.5;
 }
@@ -784,7 +784,7 @@ watch(
     padding: 6px 10px;
     background: var(--harmony-comp-background-primary);
     border: 1px solid var(--harmony-comp-divider);
-    border-radius: 16px;
+    border-radius: var(--harmony-corner-radius-level8);
     font-size: 12px;
     z-index: 10;
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);
@@ -792,7 +792,7 @@ watch(
     .file-avatar {
       width: 22px;
       height: 22px;
-      border-radius: 6px;
+      border-radius: var(--harmony-corner-radius-level3);
       overflow: hidden;
       background: rgba(64, 158, 255, 0.1);
       display: flex;
@@ -834,7 +834,7 @@ watch(
 
   .message-textarea {
     width: 100%;
-    border-radius: 20px;
+    border-radius: var(--harmony-corner-radius-level10);
     background-color: var(--harmony-comp-background-secondary);
     box-shadow: none;
     border: 1px solid transparent;

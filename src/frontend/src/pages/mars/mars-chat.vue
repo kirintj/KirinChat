@@ -1109,7 +1109,7 @@ onMounted(() => {
     code {
       background: var(--harmony-comp-background-primary);
       padding: 2px 4px;
-      border-radius: 3px;
+      border-radius: var(--harmony-corner-radius-level2);
       font-size: 0.9em;
       color: var(--harmony-warning);
     }

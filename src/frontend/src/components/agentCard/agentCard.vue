@@ -241,7 +241,7 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         color: var(--harmony-brand);
         background: var(--harmony-comp-emphasize-tertiary);
         padding: 1px 4px;
-        border-radius: 4px;
+        border-radius: var(--harmony-corner-radius-level2);
         min-width: 16px;
         text-align: center;
         line-height: 1;

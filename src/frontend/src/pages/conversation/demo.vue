@@ -358,7 +358,7 @@ const clearSearch = () => {
     display: flex;
     height: calc(100vh - 120px);
     background: rgba(255, 255, 255, 0.95);
-    border-radius: 16px;
+    border-radius: var(--harmony-corner-radius-level8);
     backdrop-filter: blur(10px);
     box-shadow: var(--harmony-shadow-dialog);
     overflow: hidden;
@@ -376,7 +376,7 @@ const clearSearch = () => {
         .create-btn {
           width: 100%;
           height: 48px;
-          border-radius: 8px;
+          border-radius: var(--harmony-corner-radius-level4);
 
           .btn-content {
             display: flex;
@@ -442,7 +442,7 @@ const clearSearch = () => {
         .dialog-card {
           background: var(--harmony-comp-background-primary);
           border: 1px solid var(--harmony-comp-divider);
-          border-radius: 12px;
+          border-radius: var(--harmony-corner-radius-level6);
           padding: 16px;
           margin-bottom: 8px;
           cursor: pointer;
@@ -474,7 +474,7 @@ const clearSearch = () => {
               .avatar {
                 width: 40px;
                 height: 40px;
-                border-radius: 8px;
+                border-radius: var(--harmony-corner-radius-level4);
                 overflow: hidden;
 
                 img {
@@ -587,7 +587,7 @@ const clearSearch = () => {
 
           .message {
             padding: 12px 16px;
-            border-radius: 8px;
+            border-radius: var(--harmony-corner-radius-level4);
             margin-bottom: 12px;
 
             &.system {
@@ -650,7 +650,7 @@ const clearSearch = () => {
         gap: 12px;
         padding: 16px;
         border: 2px solid transparent;
-        border-radius: 8px;
+        border-radius: var(--harmony-corner-radius-level4);
         cursor: pointer;
         transition: all 0.2s ease;
 
@@ -666,7 +666,7 @@ const clearSearch = () => {
         .agent-avatar {
           width: 40px;
           height: 40px;
-          border-radius: 8px;
+          border-radius: var(--harmony-corner-radius-level4);
           overflow: hidden;
 
           img {

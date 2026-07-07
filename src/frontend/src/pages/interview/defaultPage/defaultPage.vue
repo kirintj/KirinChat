@@ -289,7 +289,7 @@ onMounted(() => {
         padding: 2px 8px;
         background: var(--harmony-comp-background-secondary);
         color: var(--harmony-font-secondary);
-        border-radius: 4px;
+        border-radius: var(--harmony-corner-radius-level2);
       }
     }
   }

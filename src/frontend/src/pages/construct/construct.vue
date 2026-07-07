@@ -116,7 +116,7 @@ onMounted(async () => {
       right: -2px;
       bottom: -2px;
       background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-brand), var(--harmony-brand));
-      border-radius: 22px;
+      border-radius: var(--harmony-corner-radius-level11);
       z-index: -1;
       opacity: 0;
       transition: opacity 0.3s ease;

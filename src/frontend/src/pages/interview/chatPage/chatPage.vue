@@ -353,13 +353,13 @@ onUnmounted(() => {
   .progress-track {
     height: 4px;
     background: var(--harmony-comp-background-secondary);
-    border-radius: 2px;
+    border-radius: var(--harmony-corner-radius-level1);
     overflow: hidden;
 
     .progress-fill {
       height: 100%;
       background: var(--harmony-brand);
-      border-radius: 2px;
+      border-radius: var(--harmony-corner-radius-level1);
       transition: width 0.3s ease;
     }
   }
@@ -418,7 +418,7 @@ onUnmounted(() => {
 
 .bubble {
   padding: 12px 16px;
-  border-radius: 18px;
+  border-radius: var(--harmony-corner-radius-level9);
   font-size: 14px;
   line-height: 1.6;
   word-break: break-word;
@@ -533,7 +533,7 @@ onUnmounted(() => {
   code {
     background: rgba(128, 128, 128, 0.15);
     padding: 2px 5px;
-    border-radius: 4px;
+    border-radius: var(--harmony-corner-radius-level2);
     font-family: var(--harmony-font-family);
     font-size: 13px;
   }
@@ -541,7 +541,7 @@ onUnmounted(() => {
   pre {
     background: rgba(0, 0, 0, 0.2);
     padding: 12px;
-    border-radius: 8px;
+    border-radius: var(--harmony-corner-radius-level4);
     overflow-x: auto;
     margin: 8px 0;
 

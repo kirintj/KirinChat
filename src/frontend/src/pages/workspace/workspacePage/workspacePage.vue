@@ -656,7 +656,7 @@ const handleStartTask = () => {
   flex-direction: column;
   background: var(--harmony-comp-background-primary);
   border: 1px solid var(--harmony-comp-divider);
-  border-radius: 14px;
+  border-radius: var(--harmony-corner-radius-level7);
   overflow: hidden;
 
   .history-header {
@@ -680,7 +680,7 @@ const handleStartTask = () => {
         justify-content: center;
         background: var(--harmony-brand);
         color: var(--harmony-comp-background-primary);
-        border-radius: 10px;
+        border-radius: var(--harmony-corner-radius-level5);
 
         svg {
           width: 20px;
@@ -702,7 +702,7 @@ const handleStartTask = () => {
         color: var(--harmony-font-secondary);
         background: var(--harmony-comp-background-secondary);
         padding: 6px 14px;
-        border-radius: 999px;
+        border-radius: var(--harmony-corner-radius-level18);
         border: 1px solid var(--harmony-comp-divider);
       }
     }
@@ -760,7 +760,7 @@ const handleStartTask = () => {
             color: var(--harmony-brand);
             background: var(--harmony-comp-emphasize-tertiary);
             padding: 3px 10px;
-            border-radius: 999px;
+            border-radius: var(--harmony-corner-radius-level18);
             flex-shrink: 0;
           }
 
@@ -863,7 +863,7 @@ const handleStartTask = () => {
               code {
                 background: var(--harmony-comp-background-secondary);
                 padding: 2px 6px;
-                border-radius: 4px;
+                border-radius: var(--harmony-corner-radius-level2);
                 font-family: var(--harmony-font-family);
                 font-size: 0.9em;
                 color: var(--harmony-warning);
@@ -960,7 +960,7 @@ const handleStartTask = () => {
         justify-content: center;
         background: var(--harmony-brand);
         color: var(--harmony-comp-background-primary);
-        border-radius: 8px;
+        border-radius: var(--harmony-corner-radius-level4);
 
         svg {
           width: 18px;
@@ -986,7 +986,7 @@ const handleStartTask = () => {
         gap: 6px;
         padding: 5px 12px;
         background: var(--harmony-comp-emphasize-tertiary);
-        border-radius: 999px;
+        border-radius: var(--harmony-corner-radius-level18);
         border: 1px solid var(--harmony-brand);
 
         .loading-dot {
@@ -1010,7 +1010,7 @@ const handleStartTask = () => {
         gap: 6px;
         padding: 5px 12px;
         background: var(--harmony-confirm-bg);
-        border-radius: 999px;
+        border-radius: var(--harmony-corner-radius-level18);
         border: 1px solid var(--harmony-confirm);
 
         .edit-icon {
@@ -1031,7 +1031,7 @@ const handleStartTask = () => {
     flex: 1;
     background: var(--harmony-comp-background-primary);
     border: 1px solid var(--harmony-comp-divider);
-    border-radius: 14px;
+    border-radius: var(--harmony-corner-radius-level7);
     overflow: hidden;
     transition: border-color 0.2s ease;
 
@@ -1144,7 +1144,7 @@ const handleStartTask = () => {
           :deep(code) {
             background: var(--harmony-comp-background-secondary);
             padding: 2px 6px;
-            border-radius: 4px;
+            border-radius: var(--harmony-corner-radius-level2);
             font-family: var(--harmony-font-family);
             font-size: 0.9em;
             color: var(--harmony-warning);
@@ -1154,7 +1154,7 @@ const handleStartTask = () => {
             background: var(--harmony-font-primary);
             color: var(--harmony-comp-background-primary);
             padding: 10px;
-            border-radius: 6px;
+            border-radius: var(--harmony-corner-radius-level3);
             overflow-x: auto;
             margin-top: 3px;
             margin-bottom: 4px;
@@ -1201,7 +1201,7 @@ const handleStartTask = () => {
       gap: 8px;
       padding: 12px 24px;
       border: none;
-      border-radius: 10px;
+      border-radius: var(--harmony-corner-radius-level5);
       font-size: var(--harmony-font-size-subtitle-s);
       font-weight: 600;
       cursor: pointer;
@@ -1257,7 +1257,7 @@ const handleStartTask = () => {
 
 .feedback-modal {
   background: var(--harmony-comp-background-primary);
-  border-radius: 14px;
+  border-radius: var(--harmony-corner-radius-level7);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
   width: 420px;
   max-width: 90vw;
@@ -1285,7 +1285,7 @@ const handleStartTask = () => {
     height: 28px;
     border: none;
     background: var(--harmony-comp-background-secondary);
-    border-radius: 6px;
+    border-radius: var(--harmony-corner-radius-level3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1359,7 +1359,7 @@ const handleStartTask = () => {
   button {
     padding: 10px 18px;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--harmony-corner-radius-level4);
     font-size: var(--harmony-font-size-subtitle-s);
     font-weight: 600;
     cursor: pointer;

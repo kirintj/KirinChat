@@ -1120,7 +1120,7 @@ const getNodeColor = (status: string) => {
   flex-direction: column;
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--harmony-corner-radius-level7);
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.2s ease;
@@ -1146,7 +1146,7 @@ const getNodeColor = (status: string) => {
       justify-content: center;
       background: var(--primary);
       color: var(--harmony-comp-background-primary);
-      border-radius: 10px;
+      border-radius: var(--harmony-corner-radius-level5);
       flex-shrink: 0;
 
       svg {
@@ -1169,7 +1169,7 @@ const getNodeColor = (status: string) => {
       gap: 6px;
       font-size: var(--harmony-font-size-body-s);
       padding: 6px 12px;
-      border-radius: 999px;
+      border-radius: var(--harmony-corner-radius-level18);
       font-weight: 600;
       background: var(--harmony-comp-background-secondary);
       color: var(--muted);
@@ -1310,7 +1310,7 @@ const getNodeColor = (status: string) => {
         gap: 8px;
         padding: 12px 16px;
         border: none;
-        border-radius: 10px;
+        border-radius: var(--harmony-corner-radius-level5);
         font-size: var(--harmony-font-size-subtitle-s);
         font-weight: 600;
         cursor: pointer;
@@ -1491,7 +1491,7 @@ const getNodeColor = (status: string) => {
       code {
         background: var(--harmony-comp-background-secondary);
         padding: 2px 6px;
-        border-radius: 4px;
+        border-radius: var(--harmony-corner-radius-level2);
         font-family: var(--harmony-font-family);
         font-size: 0.9em;
         color: var(--harmony-warning);
@@ -1577,7 +1577,7 @@ const getNodeColor = (status: string) => {
 
   .modal-content {
     background: var(--harmony-comp-background-primary);
-    border-radius: 14px;
+    border-radius: var(--harmony-corner-radius-level7);
     width: 90%;
     max-width: 700px;
     max-height: 80vh;
@@ -1611,7 +1611,7 @@ const getNodeColor = (status: string) => {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 6px;
+        border-radius: var(--harmony-corner-radius-level3);
         transition: background 0.15s ease;
 
         &:hover {
@@ -1657,7 +1657,7 @@ const getNodeColor = (status: string) => {
           .status-tag {
             display: inline-block;
             padding: 3px 10px;
-            border-radius: 999px;
+            border-radius: var(--harmony-corner-radius-level18);
             font-size: var(--harmony-font-size-body-s);
             font-weight: 600;
 
@@ -1698,7 +1698,7 @@ const getNodeColor = (status: string) => {
 
   .feedback-modal {
     background: var(--harmony-comp-background-primary);
-    border-radius: 14px;
+    border-radius: var(--harmony-corner-radius-level7);
     width: 90%;
     max-width: 600px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
@@ -1731,7 +1731,7 @@ const getNodeColor = (status: string) => {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 6px;
+        border-radius: var(--harmony-corner-radius-level3);
         transition: background 0.15s ease;
 
         &:hover {

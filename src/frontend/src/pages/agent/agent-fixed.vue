@@ -381,7 +381,7 @@ onMounted(() => {
       
       .agent-card {
         background: var(--harmony-comp-background-primary);
-        border-radius: 16px;
+        border-radius: var(--harmony-corner-radius-level8);
         padding: 24px;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
         border: 1px solid var(--harmony-comp-divider);
@@ -402,7 +402,7 @@ onMounted(() => {
         .agent-avatar {
           width: 64px;
           height: 64px;
-          border-radius: 16px;
+          border-radius: var(--harmony-corner-radius-level8);
           overflow: hidden;
           margin-bottom: 16px;
           border: 2px solid var(--harmony-comp-divider);
@@ -451,7 +451,7 @@ onMounted(() => {
               gap: 4px;
               background: var(--harmony-comp-background-secondary);
               padding: 4px 8px;
-              border-radius: 6px;
+              border-radius: var(--harmony-corner-radius-level3);
               
               .meta-icon {
                 font-size: 14px;
@@ -476,7 +476,7 @@ onMounted(() => {
 
           .h-button {
             padding: 8px;
-            border-radius: 8px;
+            border-radius: var(--harmony-corner-radius-level4);
           }
         }
       }
@@ -487,7 +487,7 @@ onMounted(() => {
       padding: 80px 20px;
       color: var(--harmony-font-secondary);
       background: var(--harmony-comp-background-primary);
-      border-radius: 16px;
+      border-radius: var(--harmony-corner-radius-level8);
       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
       
       p {

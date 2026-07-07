@@ -132,7 +132,7 @@ const barWidth = computed(() => {
   text-align: center;
   color: #fff;
   background: var(--harmony-warning);
-  border-radius: 8px;
+  border-radius: var(--harmony-corner-radius-level4);
 }
 
 .harmony-bottomtab__label {

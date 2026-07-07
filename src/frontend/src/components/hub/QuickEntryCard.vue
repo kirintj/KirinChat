@@ -46,8 +46,8 @@ const emit = defineEmits<{
   align-items: center;
   gap: 8px;
   padding: 24px 16px;
-  border-radius: 12px;
-  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: var(--harmony-corner-radius-level6);
+  border: 1px solid var(--border-color, var(--harmony-comp-divider));
   background: var(--bg-primary, #ffffff);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -57,7 +57,7 @@ const emit = defineEmits<{
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border-color: var(--primary-color, #6366f1);
+    border-color: var(--primary-color, var(--harmony-brand));
   }
 }
 

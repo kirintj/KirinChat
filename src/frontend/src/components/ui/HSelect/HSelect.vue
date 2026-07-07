@@ -83,7 +83,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
   overflow: hidden;
   background: var(--harmony-comp-background-tertiary);
   border: 1px solid var(--harmony-comp-divider);
-  border-radius: 20px;
+  border-radius: var(--harmony-corner-radius-level10);
   cursor: pointer;
   transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 }

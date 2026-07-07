@@ -38,15 +38,15 @@ const progressPercent = (current: number, total: number) => {
 <style lang="scss" scoped>
 .active-session-card {
   padding: 16px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: var(--harmony-corner-radius-level5);
+  border: 1px solid var(--border-color, var(--harmony-comp-divider));
   background: var(--bg-primary, #ffffff);
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: 200px;  // 保证卡片在水平滚动中有最小宽度
 
   &:hover {
-    border-color: var(--primary-color, #6366f1);
+    border-color: var(--primary-color, var(--harmony-brand));
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 }
@@ -67,9 +67,9 @@ const progressPercent = (current: number, total: number) => {
 .status-badge {
   font-size: 11px;
   padding: 2px 8px;
-  border-radius: 10px;
-  background: var(--primary-light, #eef2ff);
-  color: var(--primary-color, #6366f1);
+  border-radius: var(--harmony-corner-radius-level5);
+  background: var(--primary-light, var(--harmony-comp-emphasize-tertiary));
+  color: var(--primary-color, var(--harmony-brand));
 }
 
 .progress-section {
@@ -81,15 +81,15 @@ const progressPercent = (current: number, total: number) => {
 .progress-bar {
   flex: 1;
   height: 6px;
-  border-radius: 3px;
-  background: var(--bg-secondary, #f3f4f6);
+  border-radius: var(--harmony-corner-radius-level2);
+  background: var(--bg-secondary, var(--harmony-comp-background-tertiary));
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  border-radius: 3px;
-  background: var(--primary-color, #6366f1);
+  border-radius: var(--harmony-corner-radius-level2);
+  background: var(--primary-color, var(--harmony-brand));
   transition: width 0.3s ease;  // 平滑过渡，避免进度突变
 }
 

@@ -40,7 +40,7 @@ const barColor = (score: number) => {
 <style lang="scss" scoped>
 .skill-stat-card {
   padding: 12px 0;
-  border-bottom: 1px solid var(--border-light, #f3f4f6);
+  border-bottom: 1px solid var(--border-light, var(--harmony-comp-background-tertiary));
 
   &:last-child {
     border-bottom: none;
@@ -74,14 +74,14 @@ const barColor = (score: number) => {
 .stat-bar {
   flex: 1;
   height: 6px;
-  border-radius: 3px;
-  background: var(--bg-secondary, #f3f4f6);
+  border-radius: var(--harmony-corner-radius-level2);
+  background: var(--bg-secondary, var(--harmony-comp-background-tertiary));
   overflow: hidden;
 }
 
 .stat-bar-fill {
   height: 100%;
-  border-radius: 3px;
+  border-radius: var(--harmony-corner-radius-level2);
   transition: width 0.3s ease;
 }
 

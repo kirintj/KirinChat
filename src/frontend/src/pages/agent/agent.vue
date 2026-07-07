@@ -658,7 +658,7 @@ onMounted(() => {
   font-family: inherit;
 
   &:hover {
-    background: #fef2f2;
+    background: var(--harmony-warning-bg);
     border-color: var(--harmony-warning);
     color: var(--harmony-warning);
   }
@@ -826,7 +826,7 @@ onMounted(() => {
   border-radius: 50%;
 
   &.danger {
-    background: #fef2f2;
+    background: var(--harmony-warning-bg);
     color: var(--harmony-warning);
   }
 }

@@ -267,7 +267,7 @@ const goToRegister = () => {
           background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
           color: white;
           padding: 12px 24px;
-          border-radius: 8px;
+          border-radius: var(--harmony-corner-radius-level4);
           font-size: 20px;
           font-weight: 700;
           letter-spacing: 2px;
@@ -304,7 +304,7 @@ const goToRegister = () => {
           :deep(.el-input__wrapper) {
             background: var(--harmony-comp-background-tertiary);
             border: 1px solid var(--harmony-comp-divider);
-            border-radius: 8px;
+            border-radius: var(--harmony-corner-radius-level4);
             padding: 12px 16px;
             box-shadow: none;
 
@@ -362,7 +362,7 @@ const goToRegister = () => {
         height: 52px;
         background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
         border: none;
-        border-radius: 10px;
+        border-radius: var(--harmony-corner-radius-level5);
         font-size: 18px;
         font-weight: 600;
         font-family: var(--harmony-font-family);
@@ -396,7 +396,7 @@ const goToRegister = () => {
         display: inline-flex;
         align-items: center;
         padding: 4px 10px;
-        border-radius: 999px;
+        border-radius: var(--harmony-corner-radius-level18);
         background: var(--harmony-comp-emphasize-tertiary);
         color: var(--harmony-brand);
         border: 1px solid rgba(10, 89, 247, 0.25);
@@ -416,7 +416,7 @@ const goToRegister = () => {
           justify-content: center;
           background: var(--harmony-comp-background-secondary);
           border: 1px solid var(--harmony-comp-divider);
-          border-radius: 8px;
+          border-radius: var(--harmony-corner-radius-level4);
           transition: all 0.2s ease;
           overflow: hidden;
 

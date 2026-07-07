@@ -34,7 +34,7 @@ defineProps<Props>()
   justify-content: space-between;
   height: 150px;
   background-color: var(--harmony-comp-background-secondary);
-  border-radius: 10px;
+  border-radius: var(--harmony-corner-radius-level5);
   padding: 5px 10px;
   margin-right: 15px;
   margin-top: 15px;

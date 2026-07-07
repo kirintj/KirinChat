@@ -129,5 +129,5 @@ defineExpose({ toggle, isRecording, startRecording, stopRecording })
   &.disabled { opacity: 0.5; cursor: not-allowed; }
 }
 .volume-bars { display: flex; align-items: flex-end; gap: 2px; height: 32px; }
-.bar { width: 4px; min-height: 2px; background: var(--harmony-brand); border-radius: 2px; transition: height 0.1s; }
+.bar { width: 4px; min-height: 2px; background: var(--harmony-brand); border-radius: var(--harmony-corner-radius-level1); transition: height 0.1s; }
 </style>

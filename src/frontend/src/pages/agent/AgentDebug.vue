@@ -122,7 +122,7 @@ const testAPI = async () => {
       background: var(--harmony-font-primary);
       color: var(--harmony-confirm);
       padding: 15px;
-      border-radius: 4px;
+      border-radius: var(--harmony-corner-radius-level2);
       font-family: var(--harmony-font-family);
       font-size: var(--harmony-font-size-body-s);
       white-space: pre-wrap;

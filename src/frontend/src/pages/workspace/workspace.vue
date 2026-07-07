@@ -265,7 +265,7 @@ onMounted(async () => {
       color: var(--harmony-font-tertiary);
       background: var(--harmony-comp-background-secondary);
       padding: 2px 8px;
-      border-radius: 999px;
+      border-radius: var(--harmony-corner-radius-level18);
       font-weight: 500;
     }
   }
@@ -416,12 +416,12 @@ onMounted(async () => {
     border: 1px solid var(--harmony-comp-divider);
 
     &.simple {
-      background: #eef2ff;
+      background: var(--harmony-comp-emphasize-tertiary);
       border-color: #c7d2fe;
     }
 
     &.lingseek {
-      background: #fef3c7;
+      background: var(--harmony-alert-bg);
       border-color: #fde68a;
     }
   }
@@ -448,19 +448,19 @@ onMounted(async () => {
       .card-badge {
         font-size: 10px;
         padding: 1px 6px;
-        border-radius: 999px;
+        border-radius: var(--harmony-corner-radius-level18);
         font-weight: 500;
         flex-shrink: 0;
         line-height: 1.4;
 
         &.simple {
-          background: #eef2ff;
-          color: #4f46e5;
+          background: var(--harmony-comp-emphasize-tertiary);
+          color: var(--harmony-brand);
         }
 
         &.lingseek {
-          background: #fef3c7;
-          color: #d97706;
+          background: var(--harmony-alert-bg);
+          color: var(--harmony-alert);
         }
       }
     }

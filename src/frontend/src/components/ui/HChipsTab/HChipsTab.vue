@@ -37,7 +37,7 @@ const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
 .h-chips-tab__item {
   height: 36px;
   padding: var(--harmony-padding-level4) var(--harmony-padding-level8);
-  border-radius: 20px;
+  border-radius: var(--harmony-corner-radius-level10);
   border: none;
   background: rgba(255, 255, 255, 0.05);
   color: rgba(0, 0, 0, 0.6);

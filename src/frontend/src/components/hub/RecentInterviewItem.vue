@@ -45,12 +45,12 @@ const scoreColor = (score: number) => {
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px solid var(--border-light, #f3f4f6);
+  border-bottom: 1px solid var(--border-light, var(--harmony-comp-background-tertiary));
   cursor: pointer;
   transition: background 0.15s ease;
 
   &:hover {
-    background: var(--bg-hover, #f9fafb);
+    background: var(--bg-hover, var(--harmony-comp-background-tertiary));
   }
 
   &:last-child {

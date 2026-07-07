@@ -64,7 +64,7 @@ const emit = defineEmits<{ click: [key: string] }>()
   border: none;
   background: transparent;
   color: var(--harmony-font-secondary);
-  border-radius: 14px;
+  border-radius: var(--harmony-corner-radius-level7);
   cursor: pointer;
   transition: background var(--harmony-duration-fast) var(--harmony-motion-standard),
               color var(--harmony-duration-fast) var(--harmony-motion-standard);

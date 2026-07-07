@@ -142,7 +142,7 @@ function goBack() {
 .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .tags {
   display: flex; flex-wrap: wrap; gap: 8px;
-  .tag { padding: 4px 12px; background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border-radius: 4px; font-size: 13px; }
+  .tag { padding: 4px 12px; background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border-radius: var(--harmony-corner-radius-level2); font-size: 13px; }
 }
 .analyzing, .error, .loading { text-align: center; padding: 60px; color: var(--harmony-font-tertiary); }
 .analyzing { display: flex; flex-direction: column; align-items: center; gap: 12px; }

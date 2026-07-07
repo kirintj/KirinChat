@@ -143,21 +143,21 @@ onUnmounted(() => { wsClient.value?.disconnect(); store.reset() })
 .status-tag {
   font-size: 12px;
   padding: 2px 10px;
-  border-radius: 10px;
+  border-radius: var(--harmony-corner-radius-level5);
 
   &.recording {
-    background: #e8f5e9;
-    color: #2e7d32;
+    background: var(--harmony-confirm-bg);
+    color: var(--harmony-confirm);
   }
 
   &.paused {
-    background: #fff3e0;
-    color: #e65100;
+    background: var(--harmony-alert-bg);
+    color: var(--harmony-alert);
   }
 
   &.completed {
-    background: #e3f2fd;
-    color: #1565c0;
+    background: var(--harmony-comp-emphasize-tertiary);
+    color: var(--harmony-brand);
   }
 }
 

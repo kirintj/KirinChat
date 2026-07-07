@@ -1641,7 +1641,7 @@ onMounted(() => {
               gap: 6px;
               height: 30px;
               padding: 0 14px;
-              border-radius: 999px;
+              border-radius: var(--harmony-corner-radius-level18);
               font-size: var(--harmony-font-size-body-s);
               font-weight: 500;
               border: 1px solid transparent;

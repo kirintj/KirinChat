@@ -13,6 +13,6 @@ withDefaults(defineProps<Props>(), { maxHeight: '100%' })
 .h-scrollbar { overflow: auto; }
 .h-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
 .h-scrollbar::-webkit-scrollbar-track { background: transparent; }
-.h-scrollbar::-webkit-scrollbar-thumb { background: var(--harmony-comp-divider); border-radius: 3px; }
+.h-scrollbar::-webkit-scrollbar-thumb { background: var(--harmony-comp-divider); border-radius: var(--harmony-corner-radius-level2); }
 .h-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--harmony-font-fourth); }
 </style>

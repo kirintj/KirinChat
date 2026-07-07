@@ -218,7 +218,7 @@ $transition-default: all 0.3s ease;
           background: none;
           border: none;
           padding: 0;
-          border-radius: 4px;
+          border-radius: var(--harmony-corner-radius-level2);
 
           &:hover {
             transform: scale(1.2);

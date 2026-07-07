@@ -418,7 +418,7 @@ defineExpose({ open, close })
         font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
         font-size: 14px;
         line-height: 1.5;
-        border-radius: 6px;
+        border-radius: var(--harmony-corner-radius-level3);
         padding: 12px;
         border: 1px solid var(--harmony-comp-divider);
         background: var(--harmony-comp-background-primary);
@@ -445,7 +445,7 @@ defineExpose({ open, close })
         .config-section {
           margin-bottom: 16px;
           border: 1px solid var(--harmony-comp-divider);
-          border-radius: 8px;
+          border-radius: var(--harmony-corner-radius-level4);
           background-color: var(--harmony-comp-background-tertiary);
 
           .section-header {
@@ -504,7 +504,7 @@ defineExpose({ open, close })
             font-size: 12px;
             border: 1px dashed var(--harmony-confirm);
             padding: 4px 12px;
-            border-radius: 4px;
+            border-radius: var(--harmony-corner-radius-level2);
             background-color: var(--harmony-confirm-bg);
           }
         }
@@ -520,7 +520,7 @@ defineExpose({ open, close })
             .message-avatar {
               width: 32px;
               height: 32px;
-              border-radius: 6px;
+              border-radius: var(--harmony-corner-radius-level3);
               overflow: hidden;
               display: flex;
               align-items: center;
@@ -538,7 +538,7 @@ defineExpose({ open, close })
               flex: 1;
               background-color: var(--harmony-comp-background-primary);
               padding: 12px;
-              border-radius: 8px;
+              border-radius: var(--harmony-corner-radius-level4);
               box-shadow: var(--harmony-shadow-sm);
 
               p {
@@ -564,7 +564,7 @@ defineExpose({ open, close })
             .question-item {
               padding: 8px 12px;
               background-color: var(--harmony-interactive-hover);
-              border-radius: 6px;
+              border-radius: var(--harmony-corner-radius-level3);
               margin-bottom: 8px;
               font-size: 13px;
               color: var(--harmony-font-secondary);
@@ -584,7 +584,7 @@ defineExpose({ open, close })
             display: flex;
             align-items: center;
             background-color: var(--harmony-comp-background-primary);
-            border-radius: 8px;
+            border-radius: var(--harmony-corner-radius-level4);
             padding: 12px;
             box-shadow: var(--harmony-shadow-sm);
 

@@ -727,7 +727,7 @@ watch(
 .msg-bubble {
   max-width: 68%;
   padding: 10px 14px;
-  border-radius: 16px;
+  border-radius: var(--harmony-corner-radius-level8);
   font-size: var(--harmony-font-size-subtitle-s);
   line-height: 1.6;
   word-break: break-word;
@@ -782,7 +782,7 @@ watch(
   .input-box {
     background: var(--harmony-comp-background-primary);
     border: 1px solid var(--harmony-comp-divider);
-    border-radius: 16px;
+    border-radius: var(--harmony-corner-radius-level8);
     padding: 10px 14px;
     transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
     box-shadow: var(--harmony-shadow-sm);

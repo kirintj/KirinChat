@@ -58,7 +58,7 @@ onMounted(async () => {
           text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
           .highlight {
-            color: #fbbf24;
+            color: var(--harmony-alert);
             text-shadow: 0 2px 4px rgba(251, 191, 36, 0.3);
           }
         }
@@ -82,7 +82,7 @@ onMounted(async () => {
 
       .search-input {
         :deep(.el-input__wrapper) {
-          border-radius: 12px;
+          border-radius: var(--harmony-corner-radius-level6);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(10px);
@@ -114,7 +114,7 @@ onMounted(async () => {
   .agents-section {
     flex: 1;
     background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
+    border-radius: var(--harmony-corner-radius-level10);
     padding: 32px;
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -142,7 +142,7 @@ onMounted(async () => {
           color: var(--harmony-font-secondary);
           background: var(--harmony-comp-background-secondary);
           padding: 4px 8px;
-          border-radius: 12px;
+          border-radius: var(--harmony-corner-radius-level6);
         }
       }
     }
@@ -182,7 +182,7 @@ onMounted(async () => {
       .agent-item {
         .agent-card {
           transition: all 0.3s ease;
-          border-radius: 16px;
+          border-radius: var(--harmony-corner-radius-level8);
           overflow: hidden;
           box-shadow: var(--harmony-shadow-card);
 

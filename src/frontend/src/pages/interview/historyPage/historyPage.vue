@@ -547,22 +547,22 @@ onMounted(() => {
     .difficulty-tag {
       font-size: 11px;
       padding: 2px 8px;
-      border-radius: 10px;
+      border-radius: var(--harmony-corner-radius-level5);
       font-weight: 500;
 
       &.easy {
-        background: #e6f9f0;
-        color: #0a7c42;
+        background: var(--harmony-confirm-bg);
+        color: var(--harmony-confirm);
       }
 
       &.medium {
-        background: #fff7e6;
-        color: #b35c00;
+        background: var(--harmony-alert-bg);
+        color: var(--harmony-alert);
       }
 
       &.hard {
-        background: #ffe6e6;
-        color: #c0392b;
+        background: var(--harmony-warning-bg);
+        color: var(--harmony-warning);
       }
     }
   }

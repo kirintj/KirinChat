@@ -2293,7 +2293,7 @@ const saveUserConfig = async () => {
                           background: var(--harmony-comp-background-primary);
                           color: var(--harmony-font-primary);
                           padding: 2px 6px;
-                          border-radius: 3px;
+                          border-radius: var(--harmony-corner-radius-level2);
                           font-size: var(--harmony-font-size-body-s);
                           font-family: var(--harmony-font-family);
                         }
@@ -2695,7 +2695,7 @@ const saveUserConfig = async () => {
       width: 4px;
       height: 18px;
       background: var(--harmony-brand);
-      border-radius: 2px;
+      border-radius: var(--harmony-corner-radius-level1);
       margin-right: 8px;
     }
   }

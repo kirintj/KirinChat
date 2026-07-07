@@ -18,7 +18,7 @@ const scoreColor = computed(() => {
   const s = report.value.total_score
   if (s >= 80) return '#4caf50'
   if (s >= 60) return '#ff9800'
-  return '#f44336'
+  return 'var(--harmony-warning)'
 })
 
 const scoreLabel = computed(() => {
@@ -60,7 +60,7 @@ const initRadarChart = () => {
         color: '#6b7280',
         fontSize: 12,
       },
-      splitLine: { lineStyle: { color: '#e5e7eb' } },
+      splitLine: { lineStyle: { color: 'var(--harmony-comp-divider)' } },
       splitArea: { show: false },
     },
     series: [{
@@ -211,7 +211,7 @@ onUnmounted(() => {
                 class="category-fill"
                 :style="{
                   width: score + '%',
-                  background: score >= 80 ? '#4caf50' : score >= 60 ? '#ff9800' : '#f44336'
+                  background: score >= 80 ? '#4caf50' : score >= 60 ? '#ff9800' : 'var(--harmony-warning)'
                 }"
               ></div>
             </div>
@@ -454,12 +454,12 @@ onUnmounted(() => {
   .category-bar {
     height: 8px;
     background: var(--harmony-comp-background-secondary);
-    border-radius: 4px;
+    border-radius: var(--harmony-corner-radius-level2);
     overflow: hidden;
 
     .category-fill {
       height: 100%;
-      border-radius: 4px;
+      border-radius: var(--harmony-corner-radius-level2);
       transition: width 0.6s ease;
     }
   }
@@ -491,7 +491,7 @@ onUnmounted(() => {
 
 .tag {
   padding: 6px 14px;
-  border-radius: 20px;
+  border-radius: var(--harmony-corner-radius-level10);
   font-size: 13px;
 
   &.tag-strength {
@@ -559,7 +559,7 @@ onUnmounted(() => {
       font-size: 12px;
       font-weight: 600;
       padding: 2px 8px;
-      border-radius: 10px;
+      border-radius: var(--harmony-corner-radius-level5);
 
       &.score-high {
         background: var(--harmony-confirm-bg);
@@ -573,7 +573,7 @@ onUnmounted(() => {
 
       &.score-low {
         background: rgba(244, 67, 54, 0.1);
-        color: #f44336;
+        color: var(--harmony-warning);
       }
     }
 

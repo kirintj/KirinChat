@@ -131,7 +131,7 @@ function getStatusText(status: string) {
     &:hover { background: var(--harmony-warning); color: var(--harmony-comp-background-primary); }
   }
 }
-.status-tag { padding: 2px 8px; border-radius: 4px; font-size: var(--harmony-font-size-body-s); }
+.status-tag { padding: 2px 8px; border-radius: var(--harmony-corner-radius-level2); font-size: var(--harmony-font-size-body-s); }
 .status-done { background: var(--harmony-confirm-bg); color: var(--harmony-confirm); }
 .status-active { background: var(--harmony-comp-emphasize-tertiary); color: var(--harmony-brand); }
 .status-failed { background: var(--harmony-warning-bg); color: var(--harmony-warning); }

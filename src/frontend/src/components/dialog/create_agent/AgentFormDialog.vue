@@ -617,7 +617,7 @@ defineExpose({ open, close })
           .assistant-avatar {
             width: 60px;
             height: 60px;
-            border-radius: 12px;
+            border-radius: var(--harmony-corner-radius-level6);
             border: 2px dashed var(--harmony-comp-divider);
             display: flex;
             align-items: center;
@@ -679,7 +679,7 @@ defineExpose({ open, close })
         .config-section {
           margin-bottom: 16px;
           border: 1px solid var(--harmony-comp-divider);
-          border-radius: 8px;
+          border-radius: var(--harmony-corner-radius-level4);
 
           .section-header {
             display: flex;
@@ -721,7 +721,7 @@ defineExpose({ open, close })
           width: 80px;
           height: 80px;
           border: 2px dashed var(--harmony-comp-divider);
-          border-radius: 12px;
+          border-radius: var(--harmony-corner-radius-level6);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -745,7 +745,7 @@ defineExpose({ open, close })
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: var(--harmony-corner-radius-level5);
           }
 
           .upload-loading {
@@ -798,7 +798,7 @@ defineExpose({ open, close })
           .question-item {
             padding: 12px 16px;
             background-color: var(--harmony-interactive-hover);
-            border-radius: 8px;
+            border-radius: var(--harmony-corner-radius-level4);
             margin-bottom: 8px;
             font-size: 14px;
             color: var(--harmony-font-secondary);

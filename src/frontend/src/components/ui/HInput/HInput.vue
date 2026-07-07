@@ -102,7 +102,7 @@ function togglePassword() {
   background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(8px);
   border: 1px solid var(--harmony-comp-divider);
-  border-radius: 20px;
+  border-radius: var(--harmony-corner-radius-level10);
   transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 .h-input:hover:not(.h-input--disabled) {
@@ -122,9 +122,9 @@ function togglePassword() {
 }
 
 /* Sizes */
-.h-input--small { height: 32px; padding: 0 10px; border-radius: 16px; }
-.h-input--medium { height: 40px; padding: 0 12px; border-radius: 20px; }
-.h-input--large { height: 48px; padding: 0 16px; border-radius: 24px; }
+.h-input--small { height: 32px; padding: 0 10px; border-radius: var(--harmony-corner-radius-level8); }
+.h-input--medium { height: 40px; padding: 0 12px; border-radius: var(--harmony-corner-radius-level10); }
+.h-input--large { height: 48px; padding: 0 16px; border-radius: var(--harmony-corner-radius-level12); }
 
 /* Overlay */
 .h-input__overlay {

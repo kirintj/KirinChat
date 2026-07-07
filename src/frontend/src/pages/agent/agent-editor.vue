@@ -906,7 +906,7 @@ onMounted(async () => {
   padding: 0 6px;
   background: var(--harmony-comp-emphasize-tertiary);
   color: var(--harmony-brand);
-  border-radius: 10px;
+  border-radius: var(--harmony-corner-radius-level5);
   font-size: 11px;
   font-weight: 600;
   display: flex;

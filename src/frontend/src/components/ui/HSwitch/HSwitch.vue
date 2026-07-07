@@ -29,7 +29,7 @@ const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
   position: relative;
   width: 36px;
   height: 20px;
-  border-radius: 12px;
+  border-radius: var(--harmony-corner-radius-level6);
   border: none;
   background: rgba(0, 0, 0, 0.098);
   cursor: pointer;

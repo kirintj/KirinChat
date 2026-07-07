@@ -92,21 +92,21 @@ defineEmits<{
 .h-button--small {
   min-width: 72px;
   height: 28px;
-  border-radius: 14px;
+  border-radius: var(--harmony-corner-radius-level7);
   padding: 0 12px;
   font-size: var(--harmony-font-size-subtitle-s);
 }
 .h-button--medium {
   min-width: 120px;
   height: 40px;
-  border-radius: 20px;
+  border-radius: var(--harmony-corner-radius-level10);
   padding: 0 16px;
   font-size: var(--harmony-font-size-body-l);
 }
 .h-button--large {
   min-width: 140px;
   height: 44px;
-  border-radius: 22px;
+  border-radius: var(--harmony-corner-radius-level11);
   padding: 0 24px;
   font-size: var(--harmony-font-size-body-l);
 }
