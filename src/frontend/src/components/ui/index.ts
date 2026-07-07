@@ -21,6 +21,14 @@ export { HScrollbar } from './HScrollbar'
 export { HAvatar } from './HAvatar'
 export { HSkeleton } from './HSkeleton'
 
+// 壳层组件导出
+export { default as HAppShell } from './shell/HAppShell.vue'
+export { default as HStatusbar } from './shell/HStatusbar.vue'
+export { default as HTitlebar } from './shell/HTitlebar.vue'
+export { default as HBottomTab } from './shell/HBottomTab.vue'
+export { default as HAIBottomBar } from './shell/HAIBottomBar.vue'
+export { default as HEmpty } from './shell/HEmpty.vue'
+
 // 指令导出
 export { vHLoading } from './HLoading'
 

@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import { useTheme } from './composables/useTheme'
+import { HAppShell } from '@/components/ui'
 const { resolved } = useTheme()
 </script>
 
 <template>
-  <router-view></router-view>
-</template> 
+  <HAppShell>
+    <template #default="{ isMobile }">
+      <router-view v-slot="{ Component, route }">
+        <Transition name="harmony-page" mode="out-in">
+          <component :is="Component" :key="route.path" />
+        </Transition>
+      </router-view>
+    </template>
+  </HAppShell>
+</template>
 
-<style lang="scss" scoped>
-
-
+<style scoped>
 </style>
