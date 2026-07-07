@@ -78,7 +78,13 @@ src/frontend/src/
 │   │   ├── HCardView.vue       # 新增
 │   │   ├── HChipsTab.vue       # 新增（或重构 HTabs）
 │   │   └── ...                 # 保留升级：HDialog、HDrawer 等
-│   └── ...                     # 业务组件（不变）
+│   └── business/               # 重构：业务组件鸿蒙化适配
+│       ├── agentCard/          # agentCard.vue — 卡片样式对齐 HCardView
+│       ├── commonCard/         # commonCard.vue — 卡片样式对齐 HCardView
+│       ├── historyCard/        # histortCard.vue — 列表项对齐 HList
+│       ├── hub/                # QuickEntryCard/ActiveSessionCard/RecentInterviewItem/SkillStatCard — 对齐 HCardView + HList
+│       ├── dialog/             # AgentFormDialog — 对齐 HDialog 标准
+│       └── drawer/             # drawer.vue — 对齐 HDrawer 标准
 └── ...
 ```
 
@@ -322,7 +328,23 @@ HDialog、HDrawer、HDropdown/DropdownItem、HForm/FormItem、HInput、HSelect/H
 4. HIcon 双模式扩展（HMSymbol + SVG 降级）
 5. 注册新组件到 UI 插件（main.ts 中 app.use(UI)）
 
-### Phase 4: 页面迁移
+### Phase 4: 页面与业务组件迁移
+
+**业务组件迁移（与页面同步进行）：**
+
+| 业务组件 | 适配方式 |
+|---|---|
+| agentCard.vue | 样式对齐 HCardView，token 直引 |
+| commonCard.vue | 样式对齐 HCardView，token 直引 |
+| histortCard.vue | 列表项样式对齐 HList |
+| hub/QuickEntryCard.vue | 对齐 HCardView |
+| hub/ActiveSessionCard.vue | 对齐 HCardView |
+| hub/RecentInterviewItem.vue | 对齐 HList 列表项 |
+| hub/SkillStatCard.vue | 对齐 HCardView |
+| dialog/AgentFormDialog.vue | 对齐 HDialog 标准（液态玻璃 + 交互态） |
+| drawer/drawer.vue | 对齐 HDrawer 标准（液态玻璃 + 交互态） |
+
+**页面迁移批次：**
 
 **批次 A（核心页面）：**
 - conversation/chatPage
