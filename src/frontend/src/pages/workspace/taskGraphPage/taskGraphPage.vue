@@ -1824,4 +1824,5 @@ const getNodeColor = (status: string) => {
 @keyframes typingBounce {
   0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
 
+}
 </style>

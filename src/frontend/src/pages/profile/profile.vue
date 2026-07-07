@@ -905,4 +905,5 @@ const handleCustomUpload = async (event: Event) => {
     }
   }
 }
+}
 </style> 

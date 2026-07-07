@@ -2041,14 +2041,12 @@ onMounted(() => {
     opacity: 1;
     transform: translateY(0);
   }
-}
 
 
   100% {
     transform: scale(1);
     opacity: 0;
   }
-}
 
 // 卡片列表动画
 .card-list-enter-active,
