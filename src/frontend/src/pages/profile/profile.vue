@@ -464,9 +464,7 @@ const handleCustomUpload = async (event: Event) => {
   animation: h-spin 0.6s linear infinite;
 }
 
-@keyframes h-spin {
 
-}
 .description-textarea {
   width: 100%;
   padding: 12px;

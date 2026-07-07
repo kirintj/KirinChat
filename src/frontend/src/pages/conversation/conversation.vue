@@ -1512,15 +1512,8 @@ const closeCreateDialog = () => {
 
 
 
-  to {
-    transform: rotate(360deg);
-  }
 
 
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 
 @keyframes float {
   0%, 100% {

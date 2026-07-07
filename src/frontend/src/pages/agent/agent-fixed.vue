@@ -330,9 +330,7 @@ onMounted(() => {
   animation: h-spin 0.6s linear infinite;
 }
 
-@keyframes h-spin {
 
-}
 .agent-page {
   padding: 24px;
   height: 100vh;

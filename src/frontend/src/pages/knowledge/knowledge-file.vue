@@ -1590,9 +1590,6 @@ onUnmounted(() => {
   animation: h-spin 0.6s linear infinite;
 }
 
-@keyframes h-spin {
-  to { transform: rotate(360deg); }
-}
 
 .custom-confirm-dialog {
   position: fixed;

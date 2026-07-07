@@ -756,9 +756,7 @@ onMounted(() => {
   animation: h-spin 0.6s linear infinite;
 }
 
-@keyframes h-spin {
 
-}
 /* 原生对话框样式 */
 .dialog-overlay {
   position: fixed;

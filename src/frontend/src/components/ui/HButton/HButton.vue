@@ -172,7 +172,5 @@ defineEmits<{
   width: 100%;
 }
 
-@keyframes h-spin {
 
-}
 </style>

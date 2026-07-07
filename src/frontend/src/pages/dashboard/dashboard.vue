@@ -663,9 +663,7 @@ onBeforeUnmount(() => {
   animation: h-spin 0.6s linear infinite;
 }
 
-@keyframes h-spin {
 
-}
 .kpi-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

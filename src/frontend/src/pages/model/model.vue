@@ -967,9 +967,6 @@ onMounted(() => {
   animation: h-spin 0.6s linear infinite;
 }
 
-@keyframes h-spin {
-  to { transform: rotate(360deg); }
-}
 
 // 响应式调整
 @media (max-width: 768px) {
@@ -1254,9 +1251,6 @@ onMounted(() => {
 }
 
 
-  to {
-    transform: rotate(360deg);
-  }
 
 .btn-text {
   font-weight: 600;

@@ -438,9 +438,7 @@ const goToRegister = () => {
   }
 }
 
-@keyframes rotateCube {
 
-}
 @keyframes floatUp {
   0%, 100% { transform: translateY(0px); }
 
