@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { HButton, HInput, HMessage } from '@/components/ui'
 import {
@@ -9,6 +9,7 @@ import {
 } from '../../apis/agent'
 
 const router = useRouter()
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 const agents = ref<any[]>([])
 const loading = ref(false)
 const searchLoading = ref(false)
@@ -140,6 +141,8 @@ onMounted(() => {
 
 <template>
   <div class="agent-page">
+    <!-- ===== Desktop: original layout ===== -->
+    <template v-if="!isMobile">
     <!-- ===== 页面头部 ===== -->
     <div class="page-header">
       <div class="header-left">
@@ -350,6 +353,47 @@ onMounted(() => {
           <button class="btn-secondary" @click="cancelDelete">取消</button>
           <button class="btn-danger" @click="confirmDelete">确认删除</button>
         </div>
+      </div>
+    </div>
+    </template>
+
+    <!-- ===== Mobile: hmos mobile-card layout ===== -->
+    <div v-else class="agent-mobile">
+      <!-- Search + Create row -->
+      <div class="am-toolbar">
+        <div class="am-search">
+          <input v-model="searchKeyword" placeholder="搜索智能体..." @keyup.enter="searchAgents" />
+        </div>
+        <button class="am-create-btn" @click="createAgent">+ 创建</button>
+      </div>
+
+      <!-- Agent cards grid -->
+      <div class="am-grid" v-if="agents.length > 0">
+        <div
+          v-for="agent in agents"
+          :key="agent.agent_id || agent.id"
+          class="am-card"
+          :class="{ 'is-official': agent.is_custom === false }"
+          @click="handleCardClick(agent)"
+        >
+          <div class="am-card__avatar">
+            <img v-if="agent.logo_url" :src="agent.logo_url" :alt="agent.name" @error="handleImageError" />
+          </div>
+          <div class="am-card__info">
+            <h3 class="am-card__name">{{ agent.name }}</h3>
+            <p class="am-card__desc">{{ agent.description || '暂无描述' }}</p>
+          </div>
+          <div class="am-card__meta">
+            <span class="am-tag">工具 {{ getAgentMeta(agent).tools }}</span>
+            <span class="am-tag">知识库 {{ getAgentMeta(agent).knowledge }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div v-else-if="!loading" class="am-empty">
+        <p>暂无智能体</p>
+        <button class="am-create-btn" @click="createAgent">创建智能体</button>
       </div>
     </div>
   </div>
@@ -906,6 +950,157 @@ onMounted(() => {
 
   .btn-primary span {
     display: inline;
+  }
+}
+
+/* ==================== MOBILE: hmos mobile-card ==================== */
+.agent-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-section-gap-mobile, 16px);
+  padding-top: var(--harmony-padding-level8, 16px);
+}
+
+.am-toolbar {
+  display: flex;
+  gap: var(--harmony-padding-level4, 8px);
+  align-items: center;
+}
+
+.am-search {
+  flex: 1;
+
+  input {
+    width: 100%;
+    height: var(--harmony-control-height-40, 40px);
+    padding: 0 var(--harmony-padding-level6, 12px);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level6, 12px);
+    font-size: var(--harmony-font-size-body-m);
+    background: var(--harmony-comp-background-primary);
+    color: var(--harmony-font-primary);
+    box-sizing: border-box;
+
+    &:focus {
+      border-color: var(--harmony-brand);
+      outline: none;
+    }
+
+    &::placeholder {
+      color: var(--harmony-font-tertiary);
+    }
+  }
+}
+
+.am-create-btn {
+  height: var(--harmony-control-height-40, 40px);
+  padding: 0 var(--harmony-padding-level8, 16px);
+  background: var(--harmony-brand);
+  color: white;
+  border: none;
+  border-radius: var(--harmony-corner-radius-level6, 12px);
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.am-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--harmony-card-gap-mobile, 12px);
+}
+
+.am-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-padding-level4, 8px);
+  padding: var(--harmony-padding-level8, 16px);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:active {
+    background: var(--harmony-interactive-pressed);
+  }
+
+  &.is-official {
+    opacity: 0.7;
+  }
+
+  &__avatar {
+    width: var(--harmony-control-height-48, 48px);
+    height: var(--harmony-control-height-48, 48px);
+    border-radius: var(--harmony-corner-radius-level6, 12px);
+    overflow: hidden;
+    background: var(--harmony-comp-background-secondary);
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: var(--harmony-font-size-body-m);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+    margin: 0 0 var(--harmony-padding-level2, 4px) 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__desc {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__meta {
+    display: flex;
+    gap: var(--harmony-padding-level2, 4px);
+    flex-wrap: wrap;
+    padding-top: var(--harmony-padding-level4, 8px);
+    border-top: 1px solid var(--harmony-comp-divider);
+  }
+}
+
+.am-tag {
+  font-size: var(--harmony-font-size-caption-l, 12px);
+  color: var(--harmony-font-tertiary);
+  background: var(--harmony-comp-background-secondary);
+  padding: var(--harmony-padding-level1, 2px) var(--harmony-padding-level4, 8px);
+  border-radius: var(--harmony-corner-radius-level4, 8px);
+}
+
+.am-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  gap: var(--harmony-padding-level8, 16px);
+
+  p {
+    font-size: var(--harmony-font-size-body-m);
+    color: var(--harmony-font-tertiary);
+    margin: 0;
   }
 }
 </style>
