@@ -378,9 +378,7 @@ onMounted(async () => {
     flex: 1;
     overflow-y: auto;
     border-radius: 28px;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
+    background: var(--harmony-comp-background-primary);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
   }
 }
