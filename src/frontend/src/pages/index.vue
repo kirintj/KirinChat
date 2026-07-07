@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, computed, onMounted, watch } from "vue"
+import { inject, ref, computed, onMounted } from "vue"
 import { useRouter, useRoute } from "vue-router"
 import { HMessage, HIcon, HDrawer, HStatusbar, HTitlebar, HBottomTab } from '@/components/ui'
 import { useAgentCardStore } from "../store/agent_card"
@@ -55,9 +55,11 @@ const mobileTitleVariant = computed<'big' | 'normal'>(() =>
   route.path === '/homepage' ? 'big' : 'normal'
 )
 
-/* ---- route watch for desktop ---- */
-const current = ref<string>(route.meta.current as string ?? '')
-watch(route, () => { current.value = route.meta.current as string }, { immediate: true })
+/* ---- active menu key (by route path) ---- */
+const current = computed(() => {
+  const match = allMenuItems.find(m => route.path.startsWith(m.route))
+  return match?.key || ''
+})
 
 /* ---- user dropdown commands ---- */
 const handleUserCommand = async (command: string) => {
