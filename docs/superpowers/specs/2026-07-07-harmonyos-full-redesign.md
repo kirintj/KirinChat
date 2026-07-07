@@ -300,6 +300,127 @@ HDialog、HDrawer、HDropdown/DropdownItem、HForm/FormItem、HInput、HSelect/H
 - `layout-grid` — 网格布局（如 knowledge、agent 列表）
 - `layout-list` — 列表布局（如 conversation 历史）
 
+## 统一路由布局
+
+### 现状问题
+
+`App.vue` 仅包含 `<router-view>`，侧边栏和导航栏在各页面独立重写，导致：
+- 壳层组件（statusbar/titlebar/bottomtab）无法全局注入
+- 侧边栏样式和交互各页面不一致
+- 响应式断点逻辑重复实现
+
+### 目标方案
+
+将 App.vue 改为统一路由布局容器：
+
+```vue
+<!-- App.vue -->
+<template>
+  <HAppShell>
+    <!-- 移动端壳层 -->
+    <template v-if="isMobile">
+      <HTitlebar variant="big" />
+      <router-view class="layout-content" />
+      <HBottomTab variant="4" />
+    </template>
+    <!-- 桌面端壳层 -->
+    <template v-else>
+      <HSidebar />
+      <div class="main-area">
+        <HTitlebar variant="normal" />
+        <router-view class="layout-content" />
+      </div>
+    </template>
+  </HAppShell>
+</template>
+```
+
+- **HAppShell**：新增根容器组件，管理响应式断点状态
+- **HSidebar**：从各页面抽取为共享组件，桌面端固定左侧
+- 各页面不再自行实现侧边栏和导航，仅关注内容区
+
+## 动效系统统一
+
+### 现状问题
+
+30+ 处自定义 keyframes（fadeIn、slideIn、slideUp、scaleIn、pulse、float、cardAppear 等）分散在各页面，未使用统一的鸿蒙动效曲线。
+
+### 目标方案
+
+在 `style.css` 中集中定义鸿蒙标准动效：
+
+```css
+:root {
+  /* 鸿蒙标准动效曲线 */
+  --harmony-motion-standard: cubic-bezier(0.2, 0, 0.4, 1);
+  --harmony-motion-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --harmony-motion-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --harmony-motion-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* 标准时长 */
+  --harmony-duration-immediate: 100ms;
+  --harmony-duration-fast: 150ms;
+  --harmony-duration-normal: 200ms;
+  --harmony-duration-slow: 300ms;
+  --harmony-duration-extra: 500ms;
+}
+
+/* 标准入场动效 */
+@keyframes harmony-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes harmony-slide-up { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes harmony-slide-in-right { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes harmony-scale-in { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes harmony-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+```
+
+各页面/组件的自定义 keyframes 全部替换为上述标准动效。
+
+## 硬编码样式清理
+
+### 现状问题
+
+- 35 个 .vue 文件含硬编码颜色（`#409eff`、`#67c23a`、`#f56c6c` 等）
+- 100+ 处硬编码 `border-radius`（2px、8px、12px 等）
+- 60+ 处 `style=""` 内联样式
+
+### 清理规则
+
+| 硬编码值 | → HarmonyOS Token |
+|---|---|
+| `#409eff`、`#3b82f6` 等蓝色 | `var(--harmony-brand)` 或对应语义色 |
+| `#67c23a` 等绿色 | `var(--harmony-confirm)` |
+| `#f56c6c` 等红色 | `var(--harmony-warning)` |
+| `#e6a23c` 等橙色 | `var(--harmony-alert)` |
+| `#cbd5e1` 等灰色 | `var(--harmony-font-tertiary)` 或 `var(--harmony-comp-divider)` |
+| `border-radius: 4px` | `var(--harmony-corner-radius-level2)` |
+| `border-radius: 8px` | `var(--harmony-corner-radius-level4)` |
+| `border-radius: 12px` | `var(--harmony-corner-radius-level6)` |
+| `border-radius: 16px` | `var(--harmony-corner-radius-level8)` |
+| `border-radius: 999px` | `var(--harmony-corner-radius-level18)` |
+| 内联 `style=""` | 迁移到 `<style scoped>` 中使用 token |
+
+所有硬编码样式在 Phase 4 页面迁移时同步清理，每个页面迁移完成前必须通过 `grep` 检查无残留硬编码值。
+
+## 图标迁移 HMSymbol
+
+### 现状
+
+`src/assets/` 下 28 个 SVG 图标 + 3 个 PNG 图标，均未通过 HMSymbol 加载。
+
+### 迁移策略
+
+1. **评估映射**：逐个检查 28 个 SVG 图标，判断是否有对应的 HMSymbol Unicode 字符
+2. **可映射图标**：直接替换为 HMSymbol 字体引用（如 add、delete、copy、search、send 等常见图标）
+3. **不可映射图标**：保留 SVG 但统一视觉风格（圆角、线宽、尺寸对齐鸿蒙规范）
+4. **HIcon 组件**：所有图标统一通过 `<HIcon>` 组件调用，不再直接使用 `<img>` 或 `<svg>` 标签
+
+### 第三方库样式适配
+
+Monaco Editor、Vditor、ECharts、MdEditor 的样式覆盖：
+- 定义 `harmony-editor-overrides.css` 统一管理第三方库样式覆盖
+- 主题色、字体、圆角对齐鸿蒙 token
+- 适配 light/dark 主题切换
+
 ## 实施分期
 
 ### Phase 1: 基础设施
@@ -311,14 +432,19 @@ HDialog、HDrawer、HDropdown/DropdownItem、HForm/FormItem、HInput、HSelect/H
 5. 部署字体文件到 `assets/`（HMSymbolVF_1.ttf、HMOSColorEmojiCompat.ttf）
 6. 删除 `style.css` 中的业务变量映射，精简为全局重置 + transition 动画
 7. 全局搜索替换：所有 `--color-*` / `--radius-*` / `--spacing-*` / `--font-size-*` 引用替换为对应 `--harmony-*` token
+8. 新增鸿蒙标准动效系统（`--harmony-motion-*`、`--harmony-duration-*`、标准 keyframes）
+9. 新增 `harmony-editor-overrides.css`（第三方库样式覆盖）
 
-### Phase 2: 壳层组件
+### Phase 2: 壳层组件 + 统一布局
 
 1. 实现 HStatusbar（从 statusbar-tem.html 提取，部署 PNG 图标资源）
 2. 实现 HTitlebar（4 种变体，渐隐背板 + backdrop-filter）
 3. 实现 HBottomTab（6 种变体，液态玻璃胶囊 + home indicator）
 4. 实现 HAIBottomBar（AI 底部指示栏）
-5. 更新 App.vue 壳层组装（响应式条件渲染）
+5. 实现 HAppShell（根容器组件，管理响应式断点状态）
+6. 抽取 HSidebar 为共享组件（从各页面提取侧边栏逻辑）
+7. 更新 App.vue 统一路由布局（响应式条件渲染）
+8. 评估 28 个 SVG 图标到 HMSymbol 的映射，可映射的替换为字体引用
 
 ### Phase 3: UI 组件库
 
@@ -366,7 +492,10 @@ HDialog、HDrawer、HDropdown/DropdownItem、HForm/FormItem、HInput、HSelect/H
 1. 替换业务变量为 `--harmony-*` 原生 token
 2. 替换自定义样式为鸿蒙组件
 3. 接入壳层组件（选择合适的 titlebar 变体）
-4. 响应式验证（桌面 + 移动端）
+4. 清理硬编码颜色、圆角、内联样式，替换为 token
+5. 替换自定义 keyframes 为鸿蒙标准动效
+6. 图标统一通过 `<HIcon>` 组件调用
+7. 响应式验证（桌面 + 移动端）
 
 ## 参考项目关键路径
 
