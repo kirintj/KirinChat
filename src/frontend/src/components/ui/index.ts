@@ -21,6 +21,15 @@ export { HScrollbar } from './HScrollbar'
 export { HAvatar } from './HAvatar'
 export { HSkeleton } from './HSkeleton'
 
+// 新增组件导出
+export { HSearch } from './HSearch'
+export { HSwitch } from './HSwitch'
+export { HList } from './HList'
+export { HCardView } from './HCardView'
+export { HChipsTab } from './HChipsTab'
+export { HToolbar } from './HToolbar'
+export { HDivider } from './HDivider'
+
 // 壳层组件导出
 export { default as HAppShell } from './shell/HAppShell.vue'
 export { default as HStatusbar } from './shell/HStatusbar.vue'

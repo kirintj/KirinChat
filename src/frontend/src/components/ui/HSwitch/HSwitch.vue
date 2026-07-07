@@ -1,0 +1,66 @@
+<script setup lang="ts">
+interface Props {
+  modelValue?: boolean
+  disabled?: boolean
+}
+
+defineProps<Props>()
+const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
+</script>
+
+<template>
+  <button
+    class="h-switch"
+    :class="{
+      'h-switch--on': modelValue,
+      'h-switch--disabled': disabled,
+    }"
+    :disabled="disabled"
+    @click="emit('update:modelValue', !modelValue)"
+    role="switch"
+    :aria-checked="modelValue"
+  >
+    <span class="h-switch__thumb" />
+  </button>
+</template>
+
+<style scoped>
+.h-switch {
+  position: relative;
+  width: 52px;
+  height: 32px;
+  border-radius: 16px;
+  border: 2px solid var(--harmony-comp-divider);
+  background: var(--harmony-comp-background-secondary);
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--harmony-duration-normal) var(--harmony-motion-standard),
+              border-color var(--harmony-duration-normal) var(--harmony-motion-standard);
+}
+
+.h-switch--on {
+  background: var(--harmony-brand);
+  border-color: var(--harmony-brand);
+}
+
+.h-switch--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.h-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform var(--harmony-duration-normal) var(--harmony-motion-spring);
+}
+
+.h-switch--on .h-switch__thumb {
+  transform: translateX(20px);
+}
+</style>
