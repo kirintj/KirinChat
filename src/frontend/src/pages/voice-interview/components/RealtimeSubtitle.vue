@@ -41,11 +41,11 @@ watch(() => [props.messages.length, props.aiText, props.userText], () => {
 .message { display: flex; &.ai { justify-content: flex-start; } &.user { justify-content: flex-end; } }
 .bubble {
   max-width: 70%; padding: 10px 14px; border-radius: 12px; line-height: 1.5; font-size: 14px;
-  .ai & { background: var(--color-bg-secondary, #f5f5f5); border-bottom-left-radius: 4px; }
-  .user & { background: var(--color-primary); color: white; border-bottom-right-radius: 4px; }
+  .ai & { background: var(--harmony-comp-background-secondary); border-bottom-left-radius: 4px; }
+  .user & { background: var(--harmony-brand); color: white; border-bottom-right-radius: 4px; }
 }
 .cursor { animation: blink 0.8s infinite; margin-left: 2px; }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 .dots { margin-left: 4px; }
-.status { text-align: center; color: var(--color-text-secondary, #999); font-size: 12px; }
+.status { text-align: center; color: var(--harmony-font-secondary); font-size: 12px; }
 </style>

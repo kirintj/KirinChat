@@ -1,0 +1,157 @@
+<h2>壳层组件 + UI 组件库重构设计</h2>
+<p class="subtitle">13 个参考组件 + 4 个壳层组件 = 17 个 Vue 组件</p>
+
+<div class="section">
+  <h3>壳层组件（Shell Fragments）— 全新</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 14px; border-left: 4px solid #4285f4;">
+      <div style="font-weight: bold; color: #1a73e8; font-size: 14px;">HStatusbar</div>
+      <div style="font-size: 11px; color: #5f6368; margin-top: 4px;">
+        系统状态栏 · 360×36px<br>
+        WiFi/信号/电池 PNG 图标<br>
+        light/dark 变体<br>
+        <code style="font-size: 10px;">statusbar.md + statusbar-tem.html</code>
+      </div>
+    </div>
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 14px; border-left: 4px solid #4285f4;">
+      <div style="font-weight: bold; color: #1a73e8; font-size: 14px;">HTitlebar</div>
+      <div style="font-size: 11px; color: #5f6368; margin-top: 4px;">
+        浮动标题栏 · 4 种变体<br>
+        big / normal / secondary / drawer<br>
+        渐隐背板 + 高斯模糊<br>
+        <code style="font-size: 10px;">titlebar.md + titlebar-tem.html</code>
+      </div>
+    </div>
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 14px; border-left: 4px solid #34a853;">
+      <div style="font-weight: bold; color: #1e8e3e; font-size: 14px;">HBottomTab</div>
+      <div style="font-size: 11px; color: #5f6368; margin-top: 4px;">
+        浮动底栏 · 6 种变体<br>
+        2/3/4/5 tab + 1bar + multibar<br>
+        液态玻璃胶囊 + home indicator<br>
+        <code style="font-size: 10px;">bottomtab.md + bottomtab-tem.html</code>
+      </div>
+    </div>
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 14px; border-left: 4px solid #34a853;">
+      <div style="font-weight: bold; color: #1e8e3e; font-size: 14px;">HAIBottomBar</div>
+      <div style="font-size: 11px; color: #5f6368; margin-top: 4px;">
+        AI 底部指示栏 · 360×28px<br>
+        横条拖拽指示器<br>
+        <code style="font-size: 10px;">aibottombar.md + aibottombar-tem.html</code>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>UI 组件映射（现有 → 重构）</h3>
+  <div class="mockup">
+    <div class="mockup-header">18 个 H 组件 → 13 个参考组件 + 补充组件</div>
+    <div class="mockup-body" style="padding: 12px; font-size: 11px;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr style="background: #e8f0fe;">
+          <td style="padding: 6px 8px; border: 1px solid #dadce0; font-weight: bold;">参考组件</td>
+          <td style="padding: 6px 8px; border: 1px solid #dadce0; font-weight: bold;">现有 H 组件</td>
+          <td style="padding: 6px 8px; border: 1px solid #dadce0; font-weight: bold;">动作</td>
+          <td style="padding: 6px 8px; border: 1px solid #dadce0; font-weight: bold;">关键变更</td>
+        </tr>
+        <tr>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">button</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">HButton</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed; color: #e37400;">重构</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">5 类型×2 尺寸×6 状态，液态玻璃填充</td>
+        </tr>
+        <tr>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">search</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">HInput (search)</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed; color: #1e8e3e;">新建</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">独立 HSearch 组件，off/on 模式×10 状态</td>
+        </tr>
+        <tr>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">switch</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">—</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed; color: #1e8e3e;">新建</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">HSwitch，on/off×5 状态</td>
+        </tr>
+        <tr>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">chipstab</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">HTabs</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed; color: #e37400;">重构</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">胶囊标签样式，3 变体</td>
+        </tr>
+        <tr>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">toolbar</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">—</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed; color: #1e8e3e;">新建</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">HToolbar 浮动工具栏，5 变体</td>
+        </tr>
+        <tr>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">list</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">—</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed; color: #1e8e3e;">新建</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">HList，鸿蒙标准列表项</td>
+        </tr>
+        <tr>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">divider</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">—</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed; color: #1e8e3e;">新建</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">HDivider，分割线</td>
+        </tr>
+        <tr>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">cardview</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">—</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed; color: #1e8e3e;">新建</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">HCardView，5 尺寸 (max→mini)</td>
+        </tr>
+        <tr style="background: #fef7e0;">
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">—</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">HDialog</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed; color: #e37400;">保留升级</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">液态玻璃背景 + 鸿蒙交互态</td>
+        </tr>
+        <tr style="background: #fef7e0;">
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">—</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">HDrawer</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed; color: #e37400;">保留升级</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">液态玻璃 + 鸿蒙动效曲线</td>
+        </tr>
+        <tr style="background: #fef7e0;">
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">—</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">HDropdown/Select/Form/Tooltip/Upload/Avatar/Skeleton/Message/Scrollbar</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed; color: #e37400;">保留升级</td>
+          <td style="padding: 5px 8px; border: 1px solid #e8eaed;">Token 直引 + 鸿蒙交互态 + 液态玻璃</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>组件实现规范</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 14px;">
+      <div style="font-weight: bold; color: #d93025; font-size: 13px; margin-bottom: 8px;">数值基线锁定</div>
+      <div style="font-size: 11px; color: #5f6368; line-height: 1.6;">
+        每个组件的尺寸、间距、圆角必须与参考模板的 <code>numeric_baseline</code> 一一对应。不允许近似值。
+      </div>
+    </div>
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 14px;">
+      <div style="font-weight: bold; color: #d93025; font-size: 13px; margin-bottom: 8px;">五态交互层</div>
+      <div style="font-size: 11px; color: #5f6368; line-height: 1.6;">
+        hover / pressed / focus / active / select 使用 <code>::before</code>/<code>::after</code> 伪元素实现，颜色引用 <code>--harmony-interactive-*</code> token。
+      </div>
+    </div>
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 14px;">
+      <div style="font-weight: bold; color: #d93025; font-size: 13px; margin-bottom: 8px;">液态玻璃材质</div>
+      <div style="font-size: 11px; color: #5f6368; line-height: 1.6;">
+        浮层组件（titlebar/bottomtab/dialog/drawer）使用 <code>backdrop-filter: blur() saturate()</code> + <code>mix-blend-mode: plus-lighter</code>。
+      </div>
+    </div>
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 14px;">
+      <div style="font-weight: bold; color: #d93025; font-size: 13px; margin-bottom: 8px;">响应式适配</div>
+      <div style="font-size: 11px; color: #5f6368; line-height: 1.6;">
+        桌面端 ≥768px：侧边栏导航 + 宽屏布局<br>
+        移动端 &lt;768px：BottomTab + 360px 画布
+      </div>
+    </div>
+  </div>
+</div>

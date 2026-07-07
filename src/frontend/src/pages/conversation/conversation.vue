@@ -372,12 +372,23 @@ const closeCreateDialog = () => {
       <div class="dialog-list">
         <!-- 加载状态 -->
         <div v-if="loading" class="loading-state">
-          <div class="loading-icon">⏳</div>
+          <div class="loading-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5" opacity="0.2"/>
+              <path d="M12 22C6.47715 22 2 17.5228 2 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
           <div class="loading-text">正在加载会话列表...</div>
         </div>
         <!-- 空状态 -->
         <div v-else-if="filteredDialogs.length === 0" class="empty-state">
-          <div class="empty-icon">💬</div>
+          <div class="empty-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4H20C21.1046 4 22 4.89543 22 6V16C22 17.1046 21.1046 18 20 18H8L4 21V6C4 4.89543 4.89543 4 4 4Z" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="8" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="8" y1="13" x2="14" y2="13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </div>
           <div class="empty-text">
             {{ searchKeyword ? '没有找到相关会话' : '暂无会话记录' }}
           </div>
@@ -535,37 +546,37 @@ const closeCreateDialog = () => {
 .conversation-main {
   display: flex;
   height: calc(100vh - 60px);
-  background-color: var(--color-bg);
+  background-color: var(--harmony-comp-background-primary);
 
   .sidebar {
     height: 100%;
     width: 280px;
-    background-color: var(--color-bg);
-    border-right: 1px solid var(--color-border-secondary);
+    background-color: var(--harmony-comp-background-primary);
+    border-right: 1px solid var(--harmony-comp-divider);
     display: flex;
     flex-direction: column;
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--harmony-shadow-card);
 
     .create-section {
       padding: 20px 16px 16px;
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--harmony-comp-divider);
 
       .create-btn-native {
         width: 100%;
         height: 48px;
-        border-radius: var(--radius-md);
+        border-radius: var(--harmony-corner-radius-level6);
         font-weight: 500;
         transition: all 0.3s ease;
-        background: var(--color-primary);
-        color: var(--color-bg);
+        background: var(--harmony-brand);
+        color: var(--harmony-comp-background-primary);
         border: none;
         cursor: pointer;
-        font-size: var(--font-size-base);
+        font-size: var(--harmony-font-size-body-m);
 
         &:hover {
           transform: translateY(-1px);
-          box-shadow: var(--shadow-card-hover);
-          background: var(--color-primary-hover);
+          box-shadow: var(--harmony-shadow-card-hover);
+          background: var(--harmony-interactive-hover);
         }
 
         &:active {
@@ -588,7 +599,7 @@ const closeCreateDialog = () => {
 
     .search-section {
       padding: 16px;
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--harmony-comp-divider);
 
       .search-input-wrapper {
         position: relative;
@@ -598,29 +609,29 @@ const closeCreateDialog = () => {
         .search-icon {
           position: absolute;
           left: 12px;
-          color: var(--color-text-tertiary);
-          font-size: var(--font-size-base);
+          color: var(--harmony-font-tertiary);
+          font-size: var(--harmony-font-size-body-m);
           z-index: 1;
         }
 
         .search-input {
           width: 100%;
           padding: 8px 12px 8px 36px;
-          border: 1px solid var(--color-border);
-          border-radius: var(--radius-sm);
-          font-size: var(--font-size-base);
-          background: var(--color-bg-secondary);
+          border: 1px solid var(--harmony-comp-divider);
+          border-radius: var(--harmony-corner-radius-level4);
+          font-size: var(--harmony-font-size-body-m);
+          background: var(--harmony-comp-background-secondary);
           transition: all 0.2s ease;
 
           &:focus {
             outline: none;
-            border-color: var(--color-primary);
-            background: var(--color-bg);
-            box-shadow: 0 0 0 2px var(--shadow-xs);
+            border-color: var(--harmony-brand);
+            background: var(--harmony-comp-background-primary);
+            box-shadow: 0 0 0 2px var(--harmony-shadow-xs);
           }
 
           &::placeholder {
-            color: var(--color-text-tertiary);
+            color: var(--harmony-font-tertiary);
           }
         }
       }
@@ -633,14 +644,14 @@ const closeCreateDialog = () => {
       gap: 4px;
 
       .title {
-        font-size: var(--font-size-base);
+        font-size: var(--harmony-font-size-body-m);
         font-weight: 600;
-        color: var(--color-text-primary);
+        color: var(--harmony-font-primary);
       }
 
       .count {
-        font-size: var(--font-size-xs);
-        color: var(--color-text-tertiary);
+        font-size: var(--harmony-font-size-body-s);
+        color: var(--harmony-font-tertiary);
       }
     }
 
@@ -655,17 +666,24 @@ const closeCreateDialog = () => {
         align-items: center;
         justify-content: center;
         height: 200px;
-        color: var(--color-primary);
+        color: var(--harmony-brand);
 
         .loading-icon {
-          font-size: 48px;
-          margin-bottom: 16px;
-          animation: spin 1s linear infinite;
+          width: 32px;
+          height: 32px;
+          margin-bottom: 14px;
+          color: var(--harmony-brand);
+          animation: spin 0.8s linear infinite;
+
+          svg {
+            width: 100%;
+            height: 100%;
+          }
         }
 
         .loading-text {
-          font-size: var(--font-size-base);
-          color: var(--color-text-secondary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-font-secondary);
         }
       }
 
@@ -675,7 +693,7 @@ const closeCreateDialog = () => {
         align-items: center;
         justify-content: center;
         height: 200px;
-        color: var(--color-text-tertiary);
+        color: var(--harmony-font-tertiary);
 
         .empty-icon {
           font-size: 48px;
@@ -683,36 +701,36 @@ const closeCreateDialog = () => {
         }
 
         .empty-text {
-          font-size: var(--font-size-base);
+          font-size: var(--harmony-font-size-body-m);
           margin-bottom: 8px;
         }
 
         .empty-hint {
-          font-size: var(--font-size-xs);
-          color: var(--color-text-tertiary);
+          font-size: var(--harmony-font-size-body-s);
+          color: var(--harmony-font-tertiary);
         }
       }
 
       .dialog-card {
-        background: var(--color-bg);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
-        padding: var(--spacing-md);
-        margin-bottom: var(--spacing-xs);
+        background: var(--harmony-comp-background-primary);
+        border: 1px solid var(--harmony-comp-divider);
+        border-radius: var(--harmony-corner-radius-level8);
+        padding: var(--harmony-padding-level8);
+        margin-bottom: var(--harmony-padding-level4);
         cursor: pointer;
         transition: all 0.3s ease;
         min-height: 80px;
         position: relative;
 
         &:hover {
-          border-color: var(--color-primary);
-          box-shadow: var(--shadow-card-hover);
+          border-color: var(--harmony-brand);
+          box-shadow: var(--harmony-shadow-card-hover);
           transform: translateY(-2px);
         }
 
         &.active {
-          border-color: var(--color-primary);
-          background-color: var(--color-bg-secondary);
+          border-color: var(--harmony-brand);
+          background-color: var(--harmony-comp-background-secondary);
         }
 
         .avatar {
@@ -736,9 +754,9 @@ const closeCreateDialog = () => {
           top: 16px;
           left: 68px;
           right: 60px;
-          font-size: var(--font-size-base);
+          font-size: var(--harmony-font-size-body-m);
           font-weight: 600;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -752,11 +770,11 @@ const closeCreateDialog = () => {
           height: 32px;
           padding: 4px;
           background: rgba(255, 255, 255, 0.9);
-          border: 1px solid var(--color-border);
+          border: 1px solid var(--harmony-comp-divider);
           cursor: pointer;
-          border-radius: var(--radius-sm);
+          border-radius: var(--harmony-corner-radius-level4);
           transition: all 0.2s ease;
-          font-size: var(--font-size-base);
+          font-size: var(--harmony-font-size-body-m);
           opacity: 0;
           z-index: 9999;
           display: flex;
@@ -767,9 +785,9 @@ const closeCreateDialog = () => {
           outline: none;
 
           &:hover {
-            background: var(--color-bg-secondary);
-            color: var(--color-primary);
-            border-color: var(--color-primary);
+            background: var(--harmony-comp-background-secondary);
+            color: var(--harmony-brand);
+            border-color: var(--harmony-brand);
             opacity: 1;
           }
 
@@ -780,9 +798,9 @@ const closeCreateDialog = () => {
 
         &:hover .delete-btn {
           opacity: 1 !important;
-          background: var(--color-bg-secondary) !important;
-          color: var(--color-primary) !important;
-          border-color: var(--color-primary) !important;
+          background: var(--harmony-comp-background-secondary) !important;
+          color: var(--harmony-brand) !important;
+          border-color: var(--harmony-brand) !important;
         }
 
         .time {
@@ -790,7 +808,7 @@ const closeCreateDialog = () => {
           bottom: 8px;
           right: 16px;
           font-size: 11px;
-          color: var(--color-text-tertiary);
+          color: var(--harmony-font-tertiary);
         }
       }
     }
@@ -798,11 +816,11 @@ const closeCreateDialog = () => {
 
   .content {
     flex: 1;
-    background-color: var(--color-bg);
+    background-color: var(--harmony-comp-background-primary);
     border-radius: 0;
     margin: 0;
     box-shadow: none;
-    border-left: 1px solid var(--color-border-secondary);
+    border-left: 1px solid var(--harmony-comp-divider);
     overflow: hidden;
 
     .welcome-content {
@@ -812,7 +830,7 @@ const closeCreateDialog = () => {
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: var(--color-text-tertiary);
+      color: var(--harmony-font-tertiary);
       height: 100%;
 
       .welcome-icon {
@@ -820,14 +838,14 @@ const closeCreateDialog = () => {
 
         .icon {
           font-size: 48px;
-          color: var(--color-primary);
+          color: var(--harmony-brand);
         }
       }
 
       h2 {
         font-size: 1.5rem;
         margin: 0 0 12px 0;
-        color: var(--color-text-primary);
+        color: var(--harmony-font-primary);
       }
 
       p {
@@ -843,12 +861,12 @@ const closeCreateDialog = () => {
 
       .chat-header {
         padding: 20px;
-        border-bottom: 1px solid var(--color-border);
-        background: var(--color-bg-secondary);
+        border-bottom: 1px solid var(--harmony-comp-divider);
+        background: var(--harmony-comp-background-secondary);
 
         h3 {
           margin: 0;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
         }
       }
 
@@ -858,12 +876,12 @@ const closeCreateDialog = () => {
 
         .message {
           padding: 12px 16px;
-          border-radius: var(--radius-md);
+          border-radius: var(--harmony-corner-radius-level6);
           margin-bottom: 12px;
 
           &.system {
-            background: var(--color-bg-secondary);
-            color: var(--color-text-secondary);
+            background: var(--harmony-comp-background-secondary);
+            color: var(--harmony-font-secondary);
           }
         }
       }
@@ -884,21 +902,21 @@ const closeCreateDialog = () => {
       margin-bottom: 16px;
 
       .title {
-        font-size: var(--font-size-base);
+        font-size: var(--harmony-font-size-body-m);
         font-weight: 600;
-        color: var(--color-text-primary);
+        color: var(--harmony-font-primary);
       }
 
       .count {
-        font-size: var(--font-size-base);
-        color: var(--color-text-secondary);
+        font-size: var(--harmony-font-size-body-m);
+        color: var(--harmony-font-secondary);
       }
     }
 
     .empty-state {
       text-align: center;
       padding: 40px 20px;
-      color: var(--color-text-tertiary);
+      color: var(--harmony-font-tertiary);
 
       .empty-icon {
         font-size: 48px;
@@ -906,13 +924,13 @@ const closeCreateDialog = () => {
       }
 
       .empty-text {
-        font-size: var(--font-size-base);
+        font-size: var(--harmony-font-size-body-m);
         margin-bottom: 8px;
       }
 
       .empty-hint {
-        font-size: var(--font-size-xs);
-        color: var(--color-text-tertiary);
+        font-size: var(--harmony-font-size-body-s);
+        color: var(--harmony-font-tertiary);
       }
     }
 
@@ -926,21 +944,21 @@ const closeCreateDialog = () => {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: var(--spacing-md);
+        padding: var(--harmony-padding-level8);
         border: 2px solid transparent;
-        border-radius: var(--radius-md);
+        border-radius: var(--harmony-corner-radius-level6);
         cursor: pointer;
         transition: all 0.2s ease;
         position: relative;
 
         &:hover {
-          background: var(--color-bg-secondary);
-          border-color: var(--color-border);
+          background: var(--harmony-comp-background-secondary);
+          border-color: var(--harmony-comp-divider);
         }
 
         &.active {
-          border-color: var(--color-primary);
-          background: var(--color-bg-secondary);
+          border-color: var(--harmony-brand);
+          background: var(--harmony-comp-background-secondary);
         }
 
         .agent-avatar {
@@ -961,15 +979,15 @@ const closeCreateDialog = () => {
           flex: 1;
 
           .agent-name {
-            font-size: var(--font-size-base);
+            font-size: var(--harmony-font-size-body-m);
             font-weight: 600;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
             margin-bottom: 4px;
           }
 
           .agent-description {
-            font-size: var(--font-size-base);
-            color: var(--color-text-secondary);
+            font-size: var(--harmony-font-size-body-m);
+            color: var(--harmony-font-secondary);
             line-height: 1.4;
           }
         }
@@ -983,7 +1001,7 @@ const closeCreateDialog = () => {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--color-bg-secondary);
+            background: var(--harmony-comp-background-secondary);
             border-radius: 50%;
           }
         }
@@ -1035,24 +1053,23 @@ const closeCreateDialog = () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeIn 0.2s ease;
 }
 
 .create-dialog {
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   border-radius: 24px;
   width: 85vw;
   max-width: 1200px;
   height: 75vh;
   max-height: 675px;
   overflow: hidden;
-  box-shadow: var(--shadow-card-hover);
+  box-shadow: var(--harmony-shadow-card-hover);
   animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   display: flex;
   flex-direction: column;
@@ -1061,7 +1078,7 @@ const closeCreateDialog = () => {
     flex: 1;
     padding: 40px;
     overflow-y: auto;
-    background: var(--color-bg-secondary);
+    background: var(--harmony-comp-background-secondary);
     border-radius: 24px 24px 0 0;
 
     &::-webkit-scrollbar {
@@ -1069,16 +1086,16 @@ const closeCreateDialog = () => {
     }
 
     &::-webkit-scrollbar-track {
-      background: var(--color-bg-secondary);
+      background: var(--harmony-comp-background-secondary);
       border-radius: 5px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: var(--color-border-secondary);
+      background: var(--harmony-comp-divider);
       border-radius: 5px;
 
       &:hover {
-        background: var(--color-text-tertiary);
+        background: var(--harmony-font-tertiary);
       }
     }
 
@@ -1093,7 +1110,7 @@ const closeCreateDialog = () => {
         .search-icon {
           position: absolute;
           left: 18px;
-          color: var(--color-text-tertiary);
+          color: var(--harmony-font-tertiary);
           pointer-events: none;
           z-index: 1;
         }
@@ -1101,23 +1118,23 @@ const closeCreateDialog = () => {
         .search-input {
           width: 100%;
           padding: 16px 56px 16px 52px;
-          border: 1px solid var(--color-border-secondary);
-          border-radius: var(--radius-md);
-          font-size: var(--font-size-sm);
+          border: 1px solid var(--harmony-comp-divider);
+          border-radius: var(--harmony-corner-radius-level6);
+          font-size: var(--harmony-font-size-subtitle-s);
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-          background: var(--color-bg);
-          color: var(--color-text-primary);
+          background: var(--harmony-comp-background-primary);
+          color: var(--harmony-font-primary);
           font-weight: 500;
 
           &:focus {
             outline: none;
-            border-color: var(--color-primary);
-            background: var(--color-bg);
-            box-shadow: 0 0 0 4px var(--shadow-xs);
+            border-color: var(--harmony-brand);
+            background: var(--harmony-comp-background-primary);
+            box-shadow: 0 0 0 4px var(--harmony-shadow-xs);
           }
 
           &::placeholder {
-            color: var(--color-text-tertiary);
+            color: var(--harmony-font-tertiary);
             font-weight: 400;
           }
         }
@@ -1125,18 +1142,18 @@ const closeCreateDialog = () => {
         .clear-btn {
           position: absolute;
           right: 14px;
-          color: var(--color-text-tertiary);
+          color: var(--harmony-font-tertiary);
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.2s ease;
           padding: 6px;
-          border-radius: var(--radius-md);
+          border-radius: var(--harmony-corner-radius-level6);
 
           &:hover {
-            color: var(--color-text-primary);
-            background: var(--color-bg-secondary);
+            color: var(--harmony-font-primary);
+            background: var(--harmony-comp-background-secondary);
           }
         }
       }
@@ -1155,24 +1172,24 @@ const closeCreateDialog = () => {
           gap: 12px;
 
           .section-icon {
-            color: var(--color-text-secondary);
+            color: var(--harmony-font-secondary);
           }
 
           .title {
             font-size: 18px;
             font-weight: 700;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
             letter-spacing: -0.01em;
           }
 
           .count {
-            font-size: var(--font-size-base);
-            color: var(--color-text-secondary);
-            background: var(--color-bg);
+            font-size: var(--harmony-font-size-body-m);
+            color: var(--harmony-font-secondary);
+            background: var(--harmony-comp-background-primary);
             padding: 5px 12px;
             border-radius: 20px;
             font-weight: 600;
-            border: 1px solid var(--color-border);
+            border: 1px solid var(--harmony-comp-divider);
           }
         }
       }
@@ -1188,14 +1205,14 @@ const closeCreateDialog = () => {
           margin-bottom: 24px;
 
           .spinner {
-            color: var(--color-primary);
+            color: var(--harmony-brand);
             animation: spin 1s linear infinite;
           }
         }
 
         .loading-text {
-          font-size: var(--font-size-sm);
-          color: var(--color-text-secondary);
+          font-size: var(--harmony-font-size-subtitle-s);
+          color: var(--harmony-font-secondary);
           font-weight: 600;
         }
       }
@@ -1213,15 +1230,15 @@ const closeCreateDialog = () => {
         }
 
         .empty-text {
-          font-size: var(--font-size-base);
-          color: var(--color-text-primary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-font-primary);
           margin-bottom: 10px;
           font-weight: 600;
         }
 
         .empty-hint {
-          font-size: var(--font-size-base);
-          color: var(--color-text-tertiary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-font-tertiary);
         }
       }
 
@@ -1238,26 +1255,26 @@ const closeCreateDialog = () => {
         }
 
         &::-webkit-scrollbar-track {
-          background: var(--color-bg-secondary);
+          background: var(--harmony-comp-background-secondary);
           border-radius: 4px;
         }
 
         &::-webkit-scrollbar-thumb {
-          background: var(--color-border-secondary);
+          background: var(--harmony-comp-divider);
           border-radius: 4px;
 
           &:hover {
-            background: var(--color-text-tertiary);
+            background: var(--harmony-font-tertiary);
           }
         }
 
         .agent-card {
-          border: 1px solid var(--color-border-secondary);
-          border-radius: var(--radius-lg);
+          border: 1px solid var(--harmony-comp-divider);
+          border-radius: var(--harmony-corner-radius-level8);
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
-          background: var(--color-bg);
+          background: var(--harmony-comp-background-primary);
           overflow: hidden;
           aspect-ratio: 1;
           display: flex;
@@ -1270,15 +1287,15 @@ const closeCreateDialog = () => {
             left: 0;
             right: 0;
             bottom: 0;
-            background: var(--color-bg-secondary);
+            background: var(--harmony-comp-background-secondary);
             opacity: 0;
             transition: opacity 0.3s ease;
           }
 
           &:hover {
-            border-color: var(--color-primary);
+            border-color: var(--harmony-brand);
             transform: translateY(-6px) scale(1.02);
-            box-shadow: var(--shadow-card-hover);
+            box-shadow: var(--harmony-shadow-card-hover);
 
             &::before {
               opacity: 1;
@@ -1286,9 +1303,9 @@ const closeCreateDialog = () => {
           }
 
           &.active {
-            border-color: var(--color-primary);
-            background: var(--color-bg-secondary);
-            box-shadow: var(--shadow-card-hover);
+            border-color: var(--harmony-brand);
+            background: var(--harmony-comp-background-secondary);
+            box-shadow: var(--harmony-shadow-card-hover);
             transform: translateY(-6px) scale(1.02);
 
             &::before {
@@ -1296,12 +1313,12 @@ const closeCreateDialog = () => {
             }
 
             .agent-avatar {
-              border-color: var(--color-primary);
-              box-shadow: var(--shadow-card-hover);
+              border-color: var(--harmony-brand);
+              box-shadow: var(--harmony-shadow-card-hover);
             }
 
             .agent-name {
-              color: var(--color-text-primary);
+              color: var(--harmony-font-primary);
             }
           }
 
@@ -1319,14 +1336,14 @@ const closeCreateDialog = () => {
           .agent-avatar {
             width: 80px;
             height: 80px;
-            border-radius: var(--radius-lg);
+            border-radius: var(--harmony-corner-radius-level8);
             overflow: hidden;
             flex-shrink: 0;
-            border: 2px solid var(--color-border);
+            border: 2px solid var(--harmony-comp-divider);
             transition: all 0.3s ease;
             position: relative;
             margin-bottom: 14px;
-            box-shadow: var(--shadow-card);
+            box-shadow: var(--harmony-shadow-card);
 
             img {
               width: 100%;
@@ -1340,13 +1357,13 @@ const closeCreateDialog = () => {
               right: -8px;
               width: 32px;
               height: 32px;
-              background: var(--color-bg);
+              background: var(--harmony-comp-background-primary);
               border-radius: 50%;
               display: flex;
               align-items: center;
               justify-content: center;
-              box-shadow: var(--shadow-card);
-              border: 2px solid var(--color-primary);
+              box-shadow: var(--harmony-shadow-card);
+              border: 2px solid var(--harmony-brand);
               animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
           }
@@ -1359,9 +1376,9 @@ const closeCreateDialog = () => {
             width: 100%;
 
             .agent-name {
-              font-size: var(--font-size-base);
+              font-size: var(--harmony-font-size-body-m);
               font-weight: 700;
-              color: var(--color-text-primary);
+              color: var(--harmony-font-primary);
               margin-bottom: 8px;
               letter-spacing: -0.01em;
               overflow: hidden;
@@ -1373,7 +1390,7 @@ const closeCreateDialog = () => {
 
             .agent-description {
               font-size: 13px;
-              color: var(--color-text-secondary);
+              color: var(--harmony-font-secondary);
               line-height: 1.5;
               display: -webkit-box;
               -webkit-line-clamp: 2;
@@ -1394,19 +1411,19 @@ const closeCreateDialog = () => {
     justify-content: space-between;
     gap: 20px;
     padding: 24px 40px;
-    border-top: 1px solid var(--color-border);
-    background: var(--color-bg);
+    border-top: 1px solid var(--harmony-comp-divider);
+    background: var(--harmony-comp-background-primary);
 
     .footer-info {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: var(--font-size-base);
-      color: var(--color-text-secondary);
+      font-size: var(--harmony-font-size-body-m);
+      color: var(--harmony-font-secondary);
       flex: 1;
 
       .info-icon {
-        color: var(--color-text-tertiary);
+        color: var(--harmony-font-tertiary);
         flex-shrink: 0;
       }
 
@@ -1425,12 +1442,12 @@ const closeCreateDialog = () => {
 
     .btn-cancel {
       padding: 10px 18px;
-      background: var(--color-bg-secondary);
-      color: var(--color-text-primary);
+      background: var(--harmony-comp-background-secondary);
+      color: var(--harmony-font-primary);
       border: none;
-      border-radius: var(--radius-md);
+      border-radius: var(--harmony-corner-radius-level6);
       cursor: pointer;
-      font-size: var(--font-size-sm);
+      font-size: var(--harmony-font-size-subtitle-s);
       font-weight: 600;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
@@ -1438,9 +1455,9 @@ const closeCreateDialog = () => {
       gap: 8px;
 
       &:hover {
-        background: var(--color-border);
+        background: var(--harmony-comp-divider);
         transform: translateY(-2px);
-        box-shadow: var(--shadow-card);
+        box-shadow: var(--harmony-shadow-card);
       }
 
       &:active {
@@ -1451,17 +1468,17 @@ const closeCreateDialog = () => {
     .btn-confirm {
       padding: 10px 18px;
       border: none;
-      border-radius: var(--radius-md);
-      background: var(--color-primary);
-      color: var(--color-bg);
+      border-radius: var(--harmony-corner-radius-level6);
+      background: var(--harmony-brand);
+      color: var(--harmony-comp-background-primary);
       cursor: pointer;
-      font-size: var(--font-size-sm);
+      font-size: var(--harmony-font-size-subtitle-s);
       font-weight: 600;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       align-items: center;
       gap: 10px;
-      box-shadow: var(--shadow-card);
+      box-shadow: var(--harmony-shadow-card);
 
       svg {
         transition: transform 0.2s ease;
@@ -1469,8 +1486,8 @@ const closeCreateDialog = () => {
 
       &:hover:not(:disabled) {
         transform: translateY(-2px);
-        box-shadow: var(--shadow-card-hover);
-        background: var(--color-primary-hover);
+        box-shadow: var(--harmony-shadow-card-hover);
+        background: var(--harmony-interactive-hover);
 
         svg {
           transform: rotate(90deg);
@@ -1482,7 +1499,7 @@ const closeCreateDialog = () => {
       }
 
       &:disabled {
-        background: var(--color-text-tertiary);
+        background: var(--harmony-font-tertiary);
         cursor: not-allowed;
         transform: none;
         box-shadow: none;

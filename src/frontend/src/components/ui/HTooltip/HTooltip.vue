@@ -27,14 +27,14 @@ function hide() { if (timer) clearTimeout(timer); visible.value = false }
 .h-tooltip-wrapper { position: relative; display: inline-flex; }
 .h-tooltip {
   position: absolute; padding: 6px 10px;
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(16px) saturate(1.2);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8);
-  font-size: var(--font-size-xs);
-  color: var(--color-text-primary);
+  font-size: var(--harmony-font-size-body-s);
+  color: var(--harmony-font-primary);
   white-space: nowrap; z-index: var(--z-dropdown);
-  box-shadow: var(--shadow-md); pointer-events: none;
+  box-shadow: var(--harmony-shadow-md); pointer-events: none;
 }
 .h-tooltip--top { bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
 .h-tooltip--bottom { top: calc(100% + 6px); left: 50%; transform: translateX(-50%); }

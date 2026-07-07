@@ -415,7 +415,13 @@ const handleStartTask = () => {
       <div v-if="showHistory" class="history-section-fullscreen">
         <div class="history-header">
           <div class="header-left">
-            <span class="history-icon">💬</span>
+            <span class="history-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M4 4H20C21.1046 4 22 4.89543 22 6V16C22 17.1046 21.1046 18 20 18H8L4 21V6C4 4.89543 4.89543 4 4 4Z" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="8" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                <line x1="8" y1="13" x2="14" y2="13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+            </span>
             <h2 class="history-title">对话历史</h2>
           </div>
           <div class="header-right">
@@ -436,8 +442,10 @@ const handleStartTask = () => {
                 <span class="conversation-number">#{{ index + 1 }}</span>
                 <span class="conversation-preview">{{ context.query.substring(0, 100) }}{{ context.query.length > 100 ? '...' : '' }}</span>
               </div>
-              <div class="expand-icon">
-                {{ expandedItems.has(index) ? '▼' : '▶' }}
+              <div :class="['expand-icon', { expanded: expandedItems.has(index) }]">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M4 2L8 6L4 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </div>
             </div>
             
@@ -446,7 +454,12 @@ const handleStartTask = () => {
               <!-- 用户问题 -->
               <div class="message-block user-block">
                 <div class="message-header">
-                  <span class="message-icon">👤</span>
+                  <span class="message-icon">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <circle cx="9" cy="6" r="3" stroke="currentColor" stroke-width="1.3"/>
+                      <path d="M3 16C3 13.2386 5.68629 11 9 11C12.3137 11 15 13.2386 15 16" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                    </svg>
+                  </span>
                   <span class="message-title">用户提问</span>
                 </div>
                 <div class="message-body">
@@ -460,7 +473,16 @@ const handleStartTask = () => {
               <!-- AI回答 -->
               <div class="message-block ai-block">
                 <div class="message-header">
-                  <span class="message-icon">🤖</span>
+                  <span class="message-icon">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <rect x="2" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/>
+                      <circle cx="6" cy="10" r="1.5" fill="currentColor"/>
+                      <circle cx="12" cy="10" r="1.5" fill="currentColor"/>
+                      <path d="M9 5V2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                      <path d="M6 2H12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                      <line x1="4" y1="13" x2="14" y2="13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                    </svg>
+                  </span>
                   <span class="message-title">AI回答</span>
                 </div>
                 <div class="message-body">
@@ -479,8 +501,15 @@ const handleStartTask = () => {
       <div v-if="!isExistingSession" class="editor-section">
         <div class="editor-header">
           <div class="header-left">
-            <span class="editor-icon">📝</span>
-            <span class="editor-title">麒麟智聊指导手册</span>
+            <span class="editor-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 2H11L16 7V17C16 17.5523 15.5523 18 15 18H4C3.44772 18 3 17.5523 3 17V3C3 2.44772 3.44772 2 4 2Z" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M11 2V7H16" stroke="currentColor" stroke-width="1.3"/>
+              <line x1="6" y1="10" x2="13" y2="10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="6" y1="13" x2="13" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="editor-title">麒麟智聊指导手册</span>
           </div>
           <div class="header-right">
             <span v-if="isStreaming" class="streaming-indicator">
@@ -488,8 +517,13 @@ const handleStartTask = () => {
               <span class="loading-text">生成中...</span>
             </span>
             <span v-else-if="isEditable" class="editable-indicator">
-              <span class="edit-icon">✏️</span>
-              <span class="edit-text">可编辑</span>
+              <span class="edit-icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 12L10 4L12 6L4 14L2 12Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+                    <path d="M8 2L14 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="edit-text">可编辑</span>
             </span>
           </div>
         </div>
@@ -528,8 +562,15 @@ const handleStartTask = () => {
             :disabled="isStreaming"
             class="action-btn regenerate-btn"
           >
-            <span class="btn-icon">🔄</span>
-            <span class="btn-text">重新生成</span>
+            <span class="btn-icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 8C2 4.68629 4.68629 2 8 2C10.5 2 12.6424 3.54029 13.5 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                    <path d="M14 8C14 11.3137 11.3137 14 8 14C5.5 14 3.35758 12.4597 2.5 10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                    <path d="M14 2V5.5H10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 14V10.5H5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="btn-text">重新生成</span>
           </button>
           
           <button
@@ -537,8 +578,12 @@ const handleStartTask = () => {
             :disabled="isStreaming || !guidePrompt.trim()"
             class="action-btn start-btn"
           >
-            <span class="btn-icon">🚀</span>
-            <span class="btn-text">开始执行</span>
+            <span class="btn-icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 2L12.5 8L3 14V2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="btn-text">开始执行</span>
           </button>
         </div>
       </div>
@@ -582,12 +627,14 @@ const handleStartTask = () => {
 </template>
 
 <style lang="scss" scoped>
+/* =============================
+   workspacePage — 指导手册编辑器
+   ============================= */
+
 .workspace-chat-page {
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  background: linear-gradient(180deg, var(--color-bg-secondary) 0%, var(--color-bg) 100%);
+  background: var(--harmony-comp-background-secondary);
   padding: 0;
   overflow: hidden;
 }
@@ -598,55 +645,65 @@ const handleStartTask = () => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  min-height: 0; // allow inner sections to manage their own overflow
+  gap: 20px;
+  min-height: 0;
 }
 
-// 历史记录区域（全屏模式）
+/* 历史记录区域 */
 .history-section-fullscreen {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg);
-  border-radius: var(--radius-xl);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: 14px;
   overflow: hidden;
-  animation: fadeInUp 0.5s ease both;
 
   .history-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 24px 32px;
-    background: linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%);
-    color: var(--color-bg);
-    border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+    padding: 16px 20px;
+    background: var(--harmony-comp-background-primary);
+    border-bottom: 1px solid var(--harmony-comp-divider);
 
     .header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
 
       .history-icon {
-        font-size: 28px;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--harmony-brand);
+        color: var(--harmony-comp-background-primary);
+        border-radius: 10px;
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
       }
 
       .history-title {
         margin: 0;
-        font-size: 22px;
+        font-size: var(--harmony-font-size-body-m);
         font-weight: 700;
-        color: var(--color-bg);
+        color: var(--harmony-font-primary);
       }
     }
 
     .header-right {
       .history-count {
-        font-size: var(--font-size-base);
-        color: rgba(255, 255, 255, 0.9);
-        background: rgba(255, 255, 255, 0.2);
-        padding: 6px 16px;
-        border-radius: 20px;
-        font-weight: 500;
+        font-size: var(--harmony-font-size-body-s);
+        color: var(--harmony-font-secondary);
+        background: var(--harmony-comp-background-secondary);
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--harmony-comp-divider);
       }
     }
   }
@@ -654,23 +711,23 @@ const handleStartTask = () => {
   .history-content {
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
-    background: var(--color-bg-secondary);
-    // 隐藏滚动条（仍可滚动）
-    scrollbar-width: none; // Firefox
-    -ms-overflow-style: none; // IE/Edge
-    &::-webkit-scrollbar { display: none; } // WebKit
+    padding: 16px;
+    background: var(--harmony-comp-background-secondary);
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar { display: none; }
 
     .conversation-item {
-      background: var(--color-bg);
-      border-radius: var(--radius-lg);
-      margin-bottom: 16px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      transition: all 0.3s ease;
+      background: var(--harmony-comp-background-primary);
+      border: 1px solid var(--harmony-comp-divider);
+      border-radius: var(--harmony-corner-radius-level8);
+      margin-bottom: 12px;
       overflow: hidden;
+      transition: box-shadow 0.2s ease;
 
       &:hover {
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
       }
 
       &:last-child {
@@ -681,37 +738,35 @@ const handleStartTask = () => {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 16px 20px;
-        background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg) 100%);
+        padding: 14px 16px;
+        background: var(--harmony-comp-background-primary);
         cursor: pointer;
-        transition: all 0.2s ease;
-        border-bottom: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--harmony-comp-divider);
 
         &:hover {
-          background: linear-gradient(135deg, var(--color-border) 0%, var(--color-bg-secondary) 100%);
+          background: var(--harmony-comp-background-secondary);
         }
 
         .header-info {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 10px;
           flex: 1;
           min-width: 0;
 
           .conversation-number {
-            font-size: var(--font-size-base);
+            font-size: var(--harmony-font-size-body-s);
             font-weight: 700;
-            color: var(--color-primary);
-            background: var(--color-primary-bg);
-            padding: 4px 12px;
-            border-radius: var(--radius-lg);
+            color: var(--harmony-brand);
+            background: var(--harmony-comp-emphasize-tertiary);
+            padding: 3px 10px;
+            border-radius: 999px;
             flex-shrink: 0;
           }
 
           .conversation-preview {
-            font-size: var(--font-size-base);
-            color: var(--color-text-primary);
-            font-weight: 500;
+            font-size: var(--harmony-font-size-subtitle-s);
+            color: var(--harmony-font-primary);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -719,27 +774,24 @@ const handleStartTask = () => {
         }
 
         .expand-icon {
-          font-size: var(--font-size-base);
-          color: var(--color-text-tertiary);
+          display: flex;
+          align-items: center;
+          color: var(--harmony-font-tertiary);
+          margin-left: 10px;
           transition: transform 0.2s ease;
-          margin-left: 12px;
-        }
-      }
 
-      &.expanded {
-        .conversation-header {
-          .expand-icon {
-            transform: rotate(0deg);
+          &.expanded {
+            transform: rotate(90deg);
           }
         }
       }
 
       .conversation-content {
-        padding: 20px;
-        background: var(--color-bg);
+        padding: 16px;
+        background: var(--harmony-comp-background-primary);
 
         .message-block {
-          margin-bottom: 24px;
+          margin-bottom: 16px;
 
           &:last-child {
             margin-bottom: 0;
@@ -749,28 +801,37 @@ const handleStartTask = () => {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             padding-bottom: 8px;
-            border-bottom: 2px solid var(--color-border);
+            border-bottom: 1px solid var(--harmony-comp-divider);
 
             .message-icon {
-              font-size: 20px;
+              width: 28px;
+              height: 28px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 50%;
+              color: var(--harmony-font-primary);
+
+              svg {
+                width: 16px;
+                height: 16px;
+              }
             }
 
             .message-title {
-              font-size: var(--font-size-base);
+              font-size: var(--harmony-font-size-body-s);
               font-weight: 600;
-              color: var(--color-text-secondary);
-              text-transform: uppercase;
-              letter-spacing: 0.5px;
+              color: var(--harmony-font-secondary);
             }
           }
 
           .message-body {
-            background: var(--color-bg-secondary);
-            border-radius: var(--radius-lg);
-            padding: 16px;
-            border: 1px solid var(--color-border);
+            background: var(--harmony-comp-background-secondary);
+            border-radius: var(--harmony-corner-radius-level6);
+            padding: 14px;
+            border: 1px solid var(--harmony-comp-divider);
 
             :deep(.md-editor-preview) {
               background: transparent;
@@ -779,42 +840,42 @@ const handleStartTask = () => {
               p {
                 margin: 8px 0;
                 line-height: 1.8;
-                color: var(--color-text-primary);
+                color: var(--harmony-font-primary);
               }
 
               h1, h2, h3, h4, h5, h6 {
-                margin: 16px 0 8px 0;
+                margin: 16px 0 8px;
                 font-weight: 600;
-                color: var(--color-text-primary);
+                color: var(--harmony-font-primary);
               }
 
               ul, ol {
-                margin: 12px 0;
+                margin: 10px 0;
                 padding-left: 24px;
 
                 li {
-                  margin: 6px 0;
+                  margin: 4px 0;
                   line-height: 1.6;
-                  color: var(--color-text-primary);
+                  color: var(--harmony-font-primary);
                 }
               }
 
               code {
-                background: var(--color-bg-secondary);
+                background: var(--harmony-comp-background-secondary);
                 padding: 2px 6px;
                 border-radius: 4px;
-                font-family: var(--font-family);
+                font-family: var(--harmony-font-family);
                 font-size: 0.9em;
-                color: var(--color-danger);
+                color: var(--harmony-warning);
               }
 
               pre {
-                background: var(--color-text-primary);
-                color: var(--color-bg);
-                padding: 16px;
-                border-radius: var(--radius-sm);
+                background: var(--harmony-font-primary);
+                color: var(--harmony-comp-background-primary);
+                padding: 14px;
+                border-radius: var(--harmony-corner-radius-level4);
                 overflow-x: auto;
-                margin: 12px 0;
+                margin: 10px 0;
 
                 code {
                   background: none;
@@ -824,26 +885,26 @@ const handleStartTask = () => {
               }
 
               blockquote {
-                border-left: 4px solid var(--color-primary);
-                padding-left: 16px;
-                margin: 12px 0;
-                color: var(--color-text-secondary);
+                border-left: 4px solid var(--harmony-brand);
+                padding-left: 14px;
+                margin: 10px 0;
+                color: var(--harmony-font-secondary);
                 font-style: italic;
               }
 
               table {
                 border-collapse: collapse;
                 width: 100%;
-                margin: 12px 0;
+                margin: 10px 0;
 
                 th, td {
-                  border: 1px solid var(--color-border);
+                  border: 1px solid var(--harmony-comp-divider);
                   padding: 8px 12px;
                   text-align: left;
                 }
 
                 th {
-                  background: var(--color-bg-secondary);
+                  background: var(--harmony-comp-background-secondary);
                   font-weight: 600;
                 }
               }
@@ -851,38 +912,20 @@ const handleStartTask = () => {
           }
 
           &.user-block {
-            .message-header {
-              .message-icon {
-                background: var(--color-info-bg);
-                border-radius: 50%;
-                width: 32px;
-                height: 32px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-              }
+            .message-header .message-icon {
+              background: var(--harmony-comp-emphasize-tertiary);
             }
-
             .message-body {
-              border-left: 3px solid var(--color-primary);
+              border-left: 3px solid var(--harmony-brand);
             }
           }
 
           &.ai-block {
-            .message-header {
-              .message-icon {
-                background: var(--color-success-bg);
-                border-radius: 50%;
-                width: 32px;
-                height: 32px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-              }
+            .message-header .message-icon {
+              background: var(--harmony-confirm-bg);
             }
-
             .message-body {
-              border-left: 3px solid var(--color-success);
+              border-left: 3px solid var(--harmony-confirm);
             }
           }
         }
@@ -891,18 +934,17 @@ const handleStartTask = () => {
   }
 }
 
-// 编辑器区域
+/* 编辑器区域 */
 .editor-section {
   flex: 1;
   display: flex;
   flex-direction: column;
-  animation: fadeInUp 0.5s ease both;
 
   .editor-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     padding: 0 4px;
 
     .header-left {
@@ -911,41 +953,53 @@ const handleStartTask = () => {
       gap: 10px;
 
       .editor-icon {
-        font-size: 20px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--harmony-brand);
+        color: var(--harmony-comp-background-primary);
+        border-radius: 8px;
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
       }
 
       .editor-title {
-        font-size: var(--font-size-lg);
+        font-size: var(--harmony-font-size-body-m);
         font-weight: 600;
-        color: var(--color-text-primary);
+        color: var(--harmony-font-primary);
       }
     }
 
     .header-right {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
 
       .streaming-indicator {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 6px 12px;
-        background: var(--color-primary-bg);
-        border-radius: 20px;
-        border: 1px solid var(--color-primary);
+        gap: 6px;
+        padding: 5px 12px;
+        background: var(--harmony-comp-emphasize-tertiary);
+        border-radius: 999px;
+        border: 1px solid var(--harmony-brand);
 
         .loading-dot {
-          width: 8px;
-          height: 8px;
-          background: var(--color-primary);
+          width: 7px;
+          height: 7px;
+          background: var(--harmony-brand);
           border-radius: 50%;
           animation: pulse 1.5s ease-in-out infinite;
         }
 
         .loading-text {
-          font-size: 13px;
-          color: var(--color-primary);
+          font-size: var(--harmony-font-size-body-s);
+          color: var(--harmony-brand);
           font-weight: 500;
         }
       }
@@ -954,18 +1008,19 @@ const handleStartTask = () => {
         display: flex;
         align-items: center;
         gap: 6px;
-        padding: 6px 12px;
-        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-        border-radius: 20px;
-        border: 1px solid var(--color-success);
+        padding: 5px 12px;
+        background: var(--harmony-confirm-bg);
+        border-radius: 999px;
+        border: 1px solid var(--harmony-confirm);
 
         .edit-icon {
-          font-size: var(--font-size-base);
+          display: flex;
+          color: var(--harmony-confirm);
         }
 
         .edit-text {
-          font-size: 13px;
-          color: #059669;
+          font-size: var(--harmony-font-size-body-s);
+          color: var(--harmony-confirm);
           font-weight: 500;
         }
       }
@@ -974,16 +1029,14 @@ const handleStartTask = () => {
 
   .editor-wrapper {
     flex: 1;
-    background: var(--color-bg);
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-xl);
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
+    transition: border-color 0.2s ease;
 
     &:focus-within {
-      border-color: var(--color-primary);
-      box-shadow: 0 6px 24px rgba(102, 126, 234, 0.15);
+      border-color: var(--harmony-brand);
     }
 
     .editor-content {
@@ -993,20 +1046,19 @@ const handleStartTask = () => {
       .editor-pane {
         width: 50%;
         height: 100%;
-        border-right: 1px solid var(--color-border);
+        border-right: 1px solid var(--harmony-comp-divider);
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        background: var(--color-bg);
+        background: var(--harmony-comp-background-primary);
 
         .pane-header {
-          padding: 12px 16px;
-          background: var(--color-bg-secondary);
-          border-bottom: 1px solid var(--color-border);
-          font-size: 13px;
+          padding: 10px 14px;
+          background: var(--harmony-comp-background-secondary);
+          border-bottom: 1px solid var(--harmony-comp-divider);
+          font-size: var(--harmony-font-size-body-s);
           font-weight: 600;
-          color: var(--color-text-secondary);
-          letter-spacing: 0.5px;
+          color: var(--harmony-font-secondary);
         }
 
         .markdown-editor {
@@ -1015,19 +1067,19 @@ const handleStartTask = () => {
           border: none;
           outline: none;
           resize: none;
-          padding: 16px;
-          font-family: var(--font-family);
-          font-size: var(--font-size-base);
+          padding: 14px;
+          font-family: var(--harmony-font-family);
+          font-size: var(--harmony-font-size-subtitle-s);
           line-height: 1.6;
-          color: var(--color-text-primary);
-          background: var(--color-bg);
+          color: var(--harmony-font-primary);
+          background: var(--harmony-comp-background-primary);
 
           &::placeholder {
-            color: var(--color-text-tertiary);
+            color: var(--harmony-font-tertiary);
           }
 
           &:read-only {
-            background: var(--color-bg-secondary);
+            background: var(--harmony-comp-background-secondary);
             cursor: default;
           }
         }
@@ -1038,151 +1090,83 @@ const handleStartTask = () => {
         height: 100%;
         display: flex;
         flex-direction: column;
-        background: var(--color-bg-secondary);
+        background: var(--harmony-comp-background-secondary);
 
         .pane-header {
-          padding: 12px 16px;
-          background: var(--color-bg-secondary);
-          border-bottom: 1px solid var(--color-border);
-          font-size: 13px;
+          padding: 10px 14px;
+          background: var(--harmony-comp-background-secondary);
+          border-bottom: 1px solid var(--harmony-comp-divider);
+          font-size: var(--harmony-font-size-body-s);
           font-weight: 600;
-          color: var(--color-text-secondary);
-          letter-spacing: 0.5px;
+          color: var(--harmony-font-secondary);
         }
 
         .markdown-preview {
           flex: 1;
           overflow-y: auto;
-          padding: 16px 24px;
-          // 隐藏滚动条（仍可滚动）
-          scrollbar-width: none; // Firefox
-          -ms-overflow-style: none; // IE/Edge
-          &::-webkit-scrollbar { display: none; } // WebKit
-          
+          padding: 14px 20px;
+
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          &::-webkit-scrollbar { display: none; }
+
           :deep(h1), :deep(h2), :deep(h3), :deep(h4), :deep(h5), :deep(h6) {
             margin-top: 6px;
-            margin-bottom: 0px;
+            margin-bottom: 0;
             font-weight: 600;
             line-height: 1.2;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
           }
-
-          :deep(h1) { 
-            font-size: 1.8em; 
-            border-bottom: 1px solid var(--color-border); 
-            padding-bottom: 1px;
-            margin-top: 8px;
-            margin-bottom: 1px;
-          }
-          :deep(h2) { 
-            font-size: 1.5em; 
-            border-bottom: 1px solid var(--color-border); 
-            padding-bottom: 1px;
-            margin-top: 6px;
-            margin-bottom: 0px;
-          }
-          :deep(h3) { 
-            font-size: 1.25em;
-            margin-top: 4px;
-            margin-bottom: 0px;
-          }
-          :deep(h4) { 
-            font-size: 1.1em;
-            margin-top: 3px;
-            margin-bottom: 0px;
-          }
-          :deep(h5) { 
-            font-size: 1em;
-            margin-top: 3px;
-            margin-bottom: 0px;
-          }
-          :deep(h6) {
-            font-size: 0.9em;
-            color: var(--color-text-secondary);
-            margin-top: 3px;
-            margin-bottom: 0px;
-          }
+          :deep(h1) { font-size: 1.8em; border-bottom: 1px solid var(--harmony-comp-divider); padding-bottom: 1px; }
+          :deep(h2) { font-size: 1.5em; border-bottom: 1px solid var(--harmony-comp-divider); padding-bottom: 1px; }
+          :deep(h3) { font-size: 1.25em; }
+          :deep(h4) { font-size: 1.1em; }
+          :deep(h5) { font-size: 1em; }
+          :deep(h6) { font-size: 0.9em; color: var(--harmony-font-secondary); }
 
           :deep(p) {
             margin-top: 0;
             margin-bottom: 2px;
             line-height: 1.5;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
           }
 
           :deep(ul), :deep(ol) {
             padding-left: 1.8em;
             margin-top: 2px;
             margin-bottom: 2px;
-
-            li {
-              margin-bottom: 0px;
-              line-height: 1.4;
-              color: var(--color-text-primary);
-            }
+            li { margin-bottom: 0; line-height: 1.4; color: var(--harmony-font-primary); }
           }
 
-          :deep(ul) {
-            list-style-type: disc;
-          }
-
-          :deep(ol) {
-            list-style-type: decimal;
-          }
-
-          // 嵌套列表样式
-          :deep(ul.list-level-1) {
-            list-style-type: disc;
-            margin-left: 0;
-            margin-top: 2px;
-            margin-bottom: 2px;
-          }
-
-          :deep(ul.list-level-2) {
-            list-style-type: circle;
-            margin-left: 1.5em;
-            margin-top: 0px;
-            margin-bottom: 0px;
-          }
-
-          :deep(ul.list-level-3) {
-            list-style-type: square;
-            margin-left: 3em;
-            margin-top: 0px;
-            margin-bottom: 0px;
-          }
+          :deep(ul.list-level-1) { list-style-type: disc; margin-left: 0; }
+          :deep(ul.list-level-2) { list-style-type: circle; margin-left: 1.5em; }
+          :deep(ul.list-level-3) { list-style-type: square; margin-left: 3em; }
 
           :deep(code) {
-            background: var(--color-bg-secondary);
+            background: var(--harmony-comp-background-secondary);
             padding: 2px 6px;
             border-radius: 4px;
-            font-family: var(--font-family);
+            font-family: var(--harmony-font-family);
             font-size: 0.9em;
-            color: var(--color-danger);
+            color: var(--harmony-warning);
           }
 
           :deep(pre) {
-            background: var(--color-text-primary);
-            color: var(--color-bg);
+            background: var(--harmony-font-primary);
+            color: var(--harmony-comp-background-primary);
             padding: 10px;
             border-radius: 6px;
             overflow-x: auto;
             margin-top: 3px;
             margin-bottom: 4px;
-
-            code {
-              background: none;
-              color: inherit;
-              padding: 0;
-              line-height: 1.4;
-            }
+            code { background: none; color: inherit; padding: 0; line-height: 1.4; }
           }
 
           :deep(blockquote) {
-            border-left: 4px solid var(--color-primary);
+            border-left: 4px solid var(--harmony-brand);
             padding-left: 12px;
             margin: 2px 0;
-            color: var(--color-text-secondary);
+            color: var(--harmony-font-secondary);
             font-style: italic;
             line-height: 1.4;
           }
@@ -1192,180 +1176,72 @@ const handleStartTask = () => {
             width: 100%;
             margin-top: 3px;
             margin-bottom: 4px;
-
-            th, td {
-              border: 1px solid var(--color-border);
-              padding: 5px 8px;
-              text-align: left;
-              line-height: 1.4;
-            }
-
-            th {
-              background: var(--color-bg-secondary);
-              font-weight: 600;
-            }
+            th, td { border: 1px solid var(--harmony-comp-divider); padding: 5px 8px; text-align: left; line-height: 1.4; }
+            th { background: var(--harmony-comp-background-secondary); font-weight: 600; }
           }
 
-          :deep(a) {
-            color: var(--color-primary);
-            text-decoration: none;
-
-            &:hover {
-              text-decoration: underline;
-            }
-          }
-
-          :deep(hr) {
-            border: none;
-            border-top: 1px solid var(--color-border);
-            margin: 6px 0;
-          }
-
-          :deep(.placeholder) {
-            color: var(--color-text-tertiary);
-            font-style: italic;
-          }
-
-          :deep(br) {
-            display: inline;
-            line-height: 0;
-          }
+          :deep(a) { color: var(--harmony-brand); text-decoration: none; &:hover { text-decoration: underline; } }
+          :deep(hr) { border: none; border-top: 1px solid var(--harmony-comp-divider); margin: 6px 0; }
+          :deep(.placeholder) { color: var(--harmony-font-tertiary); font-style: italic; }
         }
       }
     }
   }
 }
 
-// 操作按钮区域
+/* 操作按钮区域 */
 .action-section {
-  animation: fadeInUp 0.5s ease 0.2s both;
-
   .action-buttons {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     justify-content: flex-end;
 
     .action-btn {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 14px 28px;
+      gap: 8px;
+      padding: 12px 24px;
       border: none;
-      border-radius: var(--radius-lg);
-      font-size: 15px;
+      border-radius: 10px;
+      font-size: var(--harmony-font-size-subtitle-s);
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: all 0.15s ease;
 
-      .btn-icon {
-        font-size: 18px;
-      }
-
-      .btn-text {
-        font-weight: 600;
+      .btn-icon svg {
+        width: 16px;
+        height: 16px;
       }
 
       &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
-        transform: none !important;
-      }
-
-      &:not(:disabled):hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-      }
-
-      &:not(:disabled):active {
-        transform: translateY(0);
       }
     }
 
     .regenerate-btn {
-      background: var(--color-bg);
-      color: var(--color-text-secondary);
-      border: 2px solid var(--color-border);
+      background: var(--harmony-comp-background-primary);
+      color: var(--harmony-font-secondary);
+      border: 1px solid var(--harmony-comp-divider);
 
       &:not(:disabled):hover {
-        background: linear-gradient(135deg, var(--color-bg-secondary) 0%, #f0f2f5 100%);
-        border-color: var(--color-primary);
-        color: var(--color-primary);
+        background: var(--harmony-comp-background-secondary);
+        border-color: var(--harmony-comp-divider);
       }
     }
 
     .start-btn {
-      background: linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%);
-      color: var(--color-bg);
+      background: var(--harmony-brand);
+      color: var(--harmony-comp-background-primary);
 
       &:not(:disabled):hover {
-        background: linear-gradient(135deg, #5568d3 0%, #6a3d91 100%);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        background: var(--harmony-interactive-hover);
       }
     }
   }
 }
 
-// 动画
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(0.8);
-  }
-}
-
-// 响应式
-@media (max-width: 768px) {
-  .workspace-chat-page {
-    padding: 16px;
-  }
-
-  .chat-container {
-    gap: 16px;
-  }
-
-  .editor-content {
-    flex-direction: column !important;
-
-    .editor-pane, .preview-pane {
-      width: 100% !important;
-      height: 50% !important;
-    }
-
-    .editor-pane {
-      border-right: none !important;
-      border-bottom: 1px solid var(--color-border);
-    }
-  }
-
-  .action-section {
-    .action-buttons {
-      flex-direction: column;
-
-      .action-btn {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  }
-}
-
-// 自定义反馈弹窗样式
+/* 反馈弹窗 */
 .feedback-modal-overlay {
   position: fixed;
   top: 0;
@@ -1377,17 +1253,16 @@ const handleStartTask = () => {
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  backdrop-filter: blur(4px);
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.2s ease;
 }
 
 .feedback-modal {
-  background: var(--color-bg);
-  border-radius: var(--radius-xl);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background: var(--harmony-comp-background-primary);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
   width: 420px;
   max-width: 90vw;
-  animation: slideUp 0.3s ease;
+  animation: slideUp 0.2s ease;
   overflow: hidden;
 }
 
@@ -1395,49 +1270,45 @@ const handleStartTask = () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
-  border-bottom: 1px solid #f0f0f0;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg) 100%);
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--harmony-comp-divider);
+  background: var(--harmony-comp-background-primary);
 
   .modal-title {
     margin: 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--color-text-primary);
+    font-size: var(--harmony-font-size-body-m);
+    font-weight: 700;
+    color: var(--harmony-font-primary);
   }
 
   .close-btn {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border: none;
-    background: var(--color-border);
-    border-radius: 50%;
+    background: var(--harmony-comp-background-secondary);
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
+    font-size: 18px;
+    transition: background 0.15s ease;
 
     &:hover {
-      background: var(--color-border);
-      color: var(--color-text-primary);
-    }
-
-    span {
-      font-size: 20px;
-      line-height: 1;
+      background: var(--harmony-comp-divider);
+      color: var(--harmony-font-primary);
     }
   }
 }
 
 .modal-body {
-  padding: 24px;
+  padding: 20px;
 
   .feedback-tip {
-    margin: 0 0 16px 0;
-    font-size: var(--font-size-base);
-    color: var(--color-text-secondary);
+    margin: 0 0 14px;
+    font-size: var(--harmony-font-size-subtitle-s);
+    color: var(--harmony-font-secondary);
     line-height: 1.6;
   }
 
@@ -1447,40 +1318,33 @@ const handleStartTask = () => {
     .feedback-textarea {
       width: 100%;
       min-height: 100px;
-      padding: 16px;
-      border: 2px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      font-family: var(--font-family);
-      font-size: var(--font-size-base);
+      padding: 12px 14px;
+      border: 1px solid var(--harmony-comp-divider);
+      border-radius: var(--harmony-corner-radius-level6);
+      font-family: var(--harmony-font-family);
+      font-size: var(--harmony-font-size-subtitle-s);
       line-height: 1.6;
-      color: var(--color-text-primary);
-      background: var(--color-bg-secondary);
+      color: var(--harmony-font-primary);
+      background: var(--harmony-comp-background-primary);
       resize: none;
       outline: none;
-      transition: all 0.3s ease;
       box-sizing: border-box;
 
       &:focus {
-        border-color: var(--color-primary);
-        background: var(--color-bg);
-        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        border-color: var(--harmony-brand);
       }
 
       &::placeholder {
-        color: var(--color-text-tertiary);
-        font-style: italic;
+        color: var(--harmony-font-tertiary);
       }
     }
 
     .char-count {
       position: absolute;
       bottom: 8px;
-      right: 12px;
-      font-size: var(--font-size-xs);
-      color: var(--color-text-tertiary);
-      background: rgba(255, 255, 255, 0.9);
-      padding: 2px 6px;
-      border-radius: 4px;
+      right: 10px;
+      font-size: var(--harmony-font-size-body-s);
+      color: var(--harmony-font-tertiary);
       pointer-events: none;
     }
   }
@@ -1488,76 +1352,79 @@ const handleStartTask = () => {
 
 .modal-footer {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   justify-content: flex-end;
-  padding: 20px 24px;
-  border-top: 1px solid #f0f0f0;
-  background: var(--color-bg-secondary);
+  padding: 16px 20px;
+  border-top: 1px solid var(--harmony-comp-divider);
+  background: var(--harmony-comp-background-primary);
 
   button {
-    padding: 10px 20px;
+    padding: 10px 18px;
     border: none;
-    border-radius: 10px;
-    font-size: var(--font-size-base);
-    font-weight: 500;
+    border-radius: 8px;
+    font-size: var(--harmony-font-size-subtitle-s);
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 80px;
-
-    &:active {
-      transform: translateY(1px);
-    }
+    transition: all 0.15s ease;
   }
 
   .cancel-btn {
-    background: var(--color-bg);
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-background-primary);
+    color: var(--harmony-font-secondary);
+    border: 1px solid var(--harmony-comp-divider);
 
     &:hover {
-      background: var(--color-bg-secondary);
-      border-color: #d1d5db;
-      color: var(--color-text-primary);
+      background: var(--harmony-comp-background-secondary);
     }
   }
 
   .confirm-btn {
-    background: linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%);
-    color: var(--color-bg);
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    background: var(--harmony-brand);
+    color: var(--harmony-comp-background-primary);
 
     &:hover {
-      background: linear-gradient(135deg, #5568d3 0%, #6a3d91 100%);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-      transform: translateY(-1px);
-    }
-
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
+      background: var(--harmony-interactive-hover);
     }
   }
 }
 
-// 动画
+/* 动画 */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .chat-container { gap: 16px; }
+
+  .editor-content {
+    flex-direction: column !important;
+
+    .editor-pane, .preview-pane {
+      width: 100% !important;
+      height: 50% !important;
+    }
+
+    .editor-pane {
+      border-right: none !important;
+      border-bottom: 1px solid var(--harmony-comp-divider);
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+
+  .action-section .action-buttons {
+    flex-direction: column;
+    .action-btn { width: 100%; justify-content: center; }
   }
 }
 </style>

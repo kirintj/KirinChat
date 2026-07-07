@@ -23,21 +23,21 @@ provide('h-tabs', {
 </template>
 
 <style scoped>
-.h-tabs__header { display: flex; gap: var(--spacing-xs); border-bottom: 1px solid var(--color-border); margin-bottom: var(--spacing-md); }
+.h-tabs__header { display: flex; gap: var(--harmony-padding-level4); border-bottom: 1px solid var(--harmony-comp-divider); margin-bottom: var(--harmony-padding-level8); }
 .h-tabs__item {
   position: relative; overflow: hidden;
-  padding: var(--spacing-xs) var(--spacing-md); font-size: var(--font-size-base);
-  color: var(--color-text-secondary); cursor: pointer;
+  padding: var(--harmony-padding-level4) var(--harmony-padding-level8); font-size: var(--harmony-font-size-body-m);
+  color: var(--harmony-font-secondary); cursor: pointer;
   border-bottom: 2px solid transparent;
-  transition: border-color var(--duration-fast) var(--easing), color var(--duration-fast) var(--easing);
+  transition: border-color var(--harmony-duration-fast) var(--harmony-motion-standard), color var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
-.h-tabs__item:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: -2px; border-radius: var(--radius-sm); }
+.h-tabs__item:focus-visible { outline: 2px solid var(--harmony-interactive-focus); outline-offset: -2px; border-radius: var(--harmony-corner-radius-level4); }
 .h-tabs__item-overlay {
   position: absolute; inset: 0;
   pointer-events: none; opacity: 0;
-  transition: opacity var(--duration-fast) var(--easing);
+  transition: opacity var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
-.h-tabs__item:hover .h-tabs__item-overlay { opacity: 1; background: var(--color-bg-hover); }
-.h-tabs__item:hover { color: var(--color-text-primary); }
-.h-tabs__item--active { color: var(--color-primary); border-bottom-color: var(--color-primary); font-weight: 500; }
+.h-tabs__item:hover .h-tabs__item-overlay { opacity: 1; background: var(--harmony-interactive-hover); }
+.h-tabs__item:hover { color: var(--harmony-font-primary); }
+.h-tabs__item--active { color: var(--harmony-brand); border-bottom-color: var(--harmony-brand); font-weight: 500; }
 </style>

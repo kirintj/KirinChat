@@ -26,8 +26,8 @@ const isSelected = computed(() => select?.modelValue.value === props.value)
   position: relative;
   overflow: hidden;
   padding: 8px 12px;
-  font-size: var(--font-size-base);
-  color: var(--color-text-primary);
+  font-size: var(--harmony-font-size-body-m);
+  color: var(--harmony-font-primary);
   border-radius: 4px;
   cursor: pointer;
 }
@@ -35,19 +35,19 @@ const isSelected = computed(() => select?.modelValue.value === props.value)
   position: absolute; inset: 0;
   pointer-events: none;
   opacity: 0;
-  transition: opacity var(--duration-fast) var(--easing);
+  transition: opacity var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 .h-option:hover .h-option__overlay {
   opacity: 1;
-  background: var(--color-bg-hover);
+  background: var(--harmony-interactive-hover);
 }
 .h-option:active .h-option__overlay {
   opacity: 1;
-  background: var(--color-bg-active);
+  background: var(--harmony-interactive-pressed);
 }
 .h-option--selected {
   background: var(--harmony-interactive-select);
-  color: var(--color-primary);
+  color: var(--harmony-brand);
   font-weight: 500;
 }
 </style>

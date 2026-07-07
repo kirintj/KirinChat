@@ -77,19 +77,19 @@ function handleCancel() {
   justify-content: center;
   z-index: var(--z-dialog);
   opacity: 0;
-  transition: opacity var(--duration-normal) var(--easing);
+  transition: opacity var(--harmony-duration-normal) var(--harmony-motion-standard);
 }
 .h-messagebox--visible { opacity: 1; }
 .h-messagebox {
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(20px) saturate(1.2);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level16);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--harmony-shadow-dialog);
   min-width: 360px;
   max-width: 420px;
   transform: scale(0.95);
-  transition: transform var(--duration-normal) var(--easing);
+  transition: transform var(--harmony-duration-normal) var(--harmony-motion-standard);
 }
 .h-messagebox--visible .h-messagebox { transform: scale(1); }
 .h-messagebox__header {
@@ -99,21 +99,21 @@ function handleCancel() {
   padding: 20px 24px 12px;
 }
 .h-messagebox__title {
-  font-size: var(--font-size-lg);
+  font-size: var(--harmony-font-size-body-l);
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--harmony-font-primary);
 }
 .h-messagebox__close {
   cursor: pointer;
-  color: var(--color-text-tertiary);
+  color: var(--harmony-font-tertiary);
   font-size: 14px;
 }
-.h-messagebox__close:hover { color: var(--color-text-primary); }
+.h-messagebox__close:hover { color: var(--harmony-font-primary); }
 .h-messagebox__body {
   padding: 12px 24px;
   text-align: center;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-base);
+  color: var(--harmony-font-secondary);
+  font-size: var(--harmony-font-size-body-m);
   line-height: 1.6;
 }
 .h-messagebox__footer {
@@ -126,27 +126,27 @@ function handleCancel() {
   min-width: 88px;
   height: 36px;
   border: none;
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-base);
+  border-radius: var(--harmony-corner-radius-level6);
+  font-size: var(--harmony-font-size-body-m);
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--duration-fast) var(--easing);
-  font-family: var(--font-family);
+  transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
+  font-family: var(--harmony-font-family);
 }
 .h-messagebox__btn--cancel {
-  background: var(--color-bg-tertiary);
-  color: var(--color-text-secondary);
-  border: 1px solid var(--color-border);
+  background: var(--harmony-comp-background-tertiary);
+  color: var(--harmony-font-secondary);
+  border: 1px solid var(--harmony-comp-divider);
 }
 .h-messagebox__btn--cancel:hover {
-  border-color: var(--color-border-hover);
-  color: var(--color-text-primary);
+  border-color: var(--harmony-interactive-hover);
+  color: var(--harmony-font-primary);
 }
 .h-messagebox__btn--confirm {
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: var(--harmony-brand);
+  color: var(--harmony-font-on-primary);
 }
 .h-messagebox__btn--confirm:hover {
-  background: var(--color-primary-hover);
+  background: var(--harmony-interactive-hover);
 }
 </style>

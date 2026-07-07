@@ -29,7 +29,7 @@ onMounted(async () => {
   flex-direction: column;
   height: 100%;
   padding: 24px;
-  background: linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--harmony-brand) 0%, #764ba2 100%);
   min-height: 100vh;
 
   .header-section {
@@ -92,7 +92,7 @@ onMounted(async () => {
           }
           
           &.is-focus {
-            box-shadow: 0 0 0 2px var(--color-primary);
+            box-shadow: 0 0 0 2px var(--harmony-brand);
           }
         }
 
@@ -100,10 +100,10 @@ onMounted(async () => {
           .el-button {
             border-radius: 0 12px 12px 0;
             border: none;
-            background: var(--color-primary);
+            background: var(--harmony-brand);
 
             &:hover {
-              background: var(--color-primary-hover);
+              background: var(--harmony-interactive-hover);
             }
           }
         }
@@ -133,14 +133,14 @@ onMounted(async () => {
         .section-title {
           font-size: 1.5rem;
           font-weight: 600;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
           margin: 0;
         }
 
         .agent-count {
           font-size: 0.9rem;
-          color: var(--color-text-secondary);
-          background: var(--color-bg-secondary);
+          color: var(--harmony-font-secondary);
+          background: var(--harmony-comp-background-secondary);
           padding: 4px 8px;
           border-radius: 12px;
         }
@@ -154,7 +154,7 @@ onMounted(async () => {
     .empty-state {
       text-align: center;
       padding: 60px 20px;
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
 
       .empty-icon {
         font-size: 4rem;
@@ -165,7 +165,7 @@ onMounted(async () => {
         font-size: 1.25rem;
         font-weight: 600;
         margin-bottom: 8px;
-        color: var(--color-text-primary);
+        color: var(--harmony-font-primary);
       }
 
       .empty-description {
@@ -184,11 +184,11 @@ onMounted(async () => {
           transition: all 0.3s ease;
           border-radius: 16px;
           overflow: hidden;
-          box-shadow: var(--shadow-card);
+          box-shadow: var(--harmony-shadow-card);
 
           &:hover {
             transform: translateY(-4px);
-            box-shadow: var(--shadow-card-hover);
+            box-shadow: var(--harmony-shadow-card-hover);
           }
         }
       }

@@ -133,10 +133,10 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   height: $card-height;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   border-radius: $border-radius-lg;
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-md);
+  border: 1px solid var(--harmony-comp-divider);
+  box-shadow: var(--harmony-shadow-md);
   transition: $transition-default;
   overflow: hidden;
   position: relative;
@@ -148,7 +148,7 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--color-primary) 0%, #8b5cf6 50%, #06b6d4 100%);
+    background: linear-gradient(90deg, var(--harmony-brand) 0%, #8b5cf6 50%, #06b6d4 100%);
     border-radius: $border-radius-lg $border-radius-lg 0 0;
   }
 
@@ -169,7 +169,7 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       height: 36px;
       border-radius: $border-radius-md;
       margin-right: 10px;
-      border: 2px solid var(--color-primary-bg);
+      border: 2px solid var(--harmony-comp-emphasize-tertiary);
       object-fit: cover;
       transition: $transition-default;
     }
@@ -177,8 +177,8 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     .agent-name {
       font-size: 15px;
       font-weight: 600;
-      color: var(--color-text-primary);
-      font-family: var(--font-family);
+      color: var(--harmony-font-primary);
+      font-family: var(--harmony-font-family);
       line-height: 1.3;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -195,10 +195,10 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 12px;
     font-weight: 400;
     line-height: 1.4;
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
     margin-bottom: 10px;
     flex: 1;
-    font-family: var(--font-family);
+    font-family: var(--harmony-font-family);
   }
 
   .card-stats {
@@ -211,15 +211,15 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       align-items: center;
       gap: 3px;
       padding: 2px 4px;
-      background: var(--color-primary-bg);
+      background: var(--harmony-comp-emphasize-tertiary);
       border-radius: $spacing-sm;
-      border: 1px solid var(--color-primary-bg);
+      border: 1px solid var(--harmony-comp-emphasize-tertiary);
       transition: $transition-default;
       cursor: default;
 
       &:hover {
-        background: var(--color-primary-bg);
-        border-color: var(--color-primary-bg);
+        background: var(--harmony-comp-emphasize-tertiary);
+        border-color: var(--harmony-comp-emphasize-tertiary);
         transform: translateY(-1px);
       }
 
@@ -231,15 +231,15 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       .stat-label {
         font-size: 9px;
         font-weight: 500;
-        color: var(--color-text-secondary);
+        color: var(--harmony-font-secondary);
         white-space: nowrap;
       }
 
       .stat-value {
         font-size: 10px;
         font-weight: 600;
-        color: var(--color-primary);
-        background: var(--color-primary-bg);
+        color: var(--harmony-brand);
+        background: var(--harmony-comp-emphasize-tertiary);
         padding: 1px 4px;
         border-radius: 4px;
         min-width: 16px;
@@ -279,14 +279,14 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .edit-btn {
-      background: var(--color-primary-bg);
-      border: 1px solid var(--color-primary-bg);
+      background: var(--harmony-comp-emphasize-tertiary);
+      border: 1px solid var(--harmony-comp-emphasize-tertiary);
 
       &:hover {
-        background: var(--color-primary-bg);
-        border-color: var(--color-primary-bg);
+        background: var(--harmony-comp-emphasize-tertiary);
+        border-color: var(--harmony-comp-emphasize-tertiary);
         transform: translateY(-2px);
-        box-shadow: var(--shadow-lg);
+        box-shadow: var(--harmony-shadow-dialog);
 
         img {
           filter: saturate(1.5);
@@ -296,14 +296,14 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .delete-btn {
-      background: var(--color-danger-bg);
-      border: 1px solid var(--color-danger-bg);
+      background: var(--harmony-warning-bg);
+      border: 1px solid var(--harmony-warning-bg);
 
       &:hover {
-        background: var(--color-danger-bg);
-        border-color: var(--color-danger-bg);
+        background: var(--harmony-warning-bg);
+        border-color: var(--harmony-warning-bg);
         transform: translateY(-2px);
-        box-shadow: var(--shadow-lg);
+        box-shadow: var(--harmony-shadow-dialog);
 
         img {
           filter: saturate(1.5);
@@ -314,20 +314,20 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &:hover {
-    background: var(--color-bg);
-    border-color: var(--color-primary-bg);
-    box-shadow: var(--shadow-lg);
+    background: var(--harmony-comp-background-primary);
+    border-color: var(--harmony-comp-emphasize-tertiary);
+    box-shadow: var(--harmony-shadow-dialog);
     transform: translateY(-8px) scale(1.02);
 
     .card-content {
       .card-header {
         .agent-logo {
-          border-color: var(--color-primary-bg);
+          border-color: var(--harmony-comp-emphasize-tertiary);
           transform: scale(1.05);
         }
 
         .agent-name {
-          color: var(--color-primary);
+          color: var(--harmony-brand);
         }
       }
 

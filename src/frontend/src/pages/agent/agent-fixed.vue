@@ -325,7 +325,7 @@ onMounted(() => {
   width: 24px;
   height: 24px;
   border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--color-primary);
+  border-top-color: var(--harmony-brand);
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;
 }
@@ -337,23 +337,23 @@ onMounted(() => {
 .agent-page {
   padding: 24px;
   height: 100vh;
-  background-color: var(--color-bg-secondary);
+  background-color: var(--harmony-comp-background-secondary);
 
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    background: var(--color-bg);
+    background: var(--harmony-comp-background-primary);
     padding: 20px 24px;
-    border-radius: var(--radius-lg);
+    border-radius: var(--harmony-corner-radius-level8);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 
     h2 {
       margin: 0;
       font-size: 24px;
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
     }
     
     .header-actions {
@@ -383,11 +383,11 @@ onMounted(() => {
       gap: 24px;
       
       .agent-card {
-        background: var(--color-bg);
+        background: var(--harmony-comp-background-primary);
         border-radius: 16px;
         padding: 24px;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-        border: 1px solid var(--color-border);
+        border: 1px solid var(--harmony-comp-divider);
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
@@ -408,7 +408,7 @@ onMounted(() => {
           border-radius: 16px;
           overflow: hidden;
           margin-bottom: 16px;
-          border: 2px solid var(--color-border);
+          border: 2px solid var(--harmony-comp-divider);
           
           img {
             width: 100%;
@@ -421,7 +421,7 @@ onMounted(() => {
           .agent-name {
             font-size: 20px;
             font-weight: 600;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
             margin: 0 0 8px 0;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -429,7 +429,7 @@ onMounted(() => {
           }
           
           .agent-description {
-            color: var(--color-text-secondary);
+            color: var(--harmony-font-secondary);
             font-size: 14px;
             line-height: 1.6;
             margin: 0 0 16px 0;
@@ -447,12 +447,12 @@ onMounted(() => {
             margin-bottom: 12px;
             
             .meta-item {
-              font-size: var(--font-size-xs);
-              color: var(--color-text-secondary);
+              font-size: var(--harmony-font-size-body-s);
+              color: var(--harmony-font-secondary);
               display: flex;
               align-items: center;
               gap: 4px;
-              background: var(--color-bg-secondary);
+              background: var(--harmony-comp-background-secondary);
               padding: 4px 8px;
               border-radius: 6px;
               
@@ -488,14 +488,14 @@ onMounted(() => {
     .empty-state {
       text-align: center;
       padding: 80px 20px;
-      color: var(--color-text-secondary);
-      background: var(--color-bg);
+      color: var(--harmony-font-secondary);
+      background: var(--harmony-comp-background-primary);
       border-radius: 16px;
       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
       
       p {
         margin-top: 24px;
-        font-size: var(--font-size-lg);
+        font-size: var(--harmony-font-size-body-l);
         line-height: 1.5;
       }
     }

@@ -122,12 +122,12 @@ defineExpose({ toggle, isRecording, startRecording, stopRecording })
 .audio-recorder { display: flex; align-items: center; gap: 12px; }
 .mic-btn {
   width: 48px; height: 48px; border-radius: 50%;
-  border: 2px solid var(--color-primary); background: transparent;
-  color: var(--color-primary); cursor: pointer;
+  border: 2px solid var(--harmony-brand); background: transparent;
+  color: var(--harmony-brand); cursor: pointer;
   display: flex; align-items: center; justify-content: center; transition: all 0.2s;
-  &.active { background: var(--color-primary); color: white; }
+  &.active { background: var(--harmony-brand); color: white; }
   &.disabled { opacity: 0.5; cursor: not-allowed; }
 }
 .volume-bars { display: flex; align-items: flex-end; gap: 2px; height: 32px; }
-.bar { width: 4px; min-height: 2px; background: var(--color-primary); border-radius: 2px; transition: height 0.1s; }
+.bar { width: 4px; min-height: 2px; background: var(--harmony-brand); border-radius: 2px; transition: height 0.1s; }
 </style>

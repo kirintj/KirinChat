@@ -81,51 +81,51 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
   display: flex; align-items: center; gap: 8px;
   height: 38px; padding: 0 12px;
   overflow: hidden;
-  background: var(--color-bg-tertiary);
-  border: 1px solid var(--color-border);
+  background: var(--harmony-comp-background-tertiary);
+  border: 1px solid var(--harmony-comp-divider);
   border-radius: 20px;
   cursor: pointer;
-  transition: all var(--duration-fast) var(--easing);
+  transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 .h-select__overlay {
   position: absolute; inset: 0;
   pointer-events: none;
   opacity: 0;
-  transition: opacity var(--duration-fast) var(--easing);
+  transition: opacity var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 .h-select__trigger:hover .h-select__overlay {
   opacity: 1;
-  background: var(--color-bg-hover);
+  background: var(--harmony-interactive-hover);
 }
 .h-select__trigger:active .h-select__overlay {
   opacity: 1;
-  background: var(--color-bg-active);
+  background: var(--harmony-interactive-pressed);
 }
 .h-select--open .h-select__trigger {
-  border-color: var(--color-border-focus);
-  outline: 2px solid var(--color-focus-ring);
+  border-color: var(--harmony-interactive-focus);
+  outline: 2px solid var(--harmony-interactive-focus);
   outline-offset: -1px;
 }
 .h-select--disabled .h-select__trigger { opacity: 0.5; cursor: not-allowed; }
 .h-select__value {
   position: relative; z-index: 1;
-  flex: 1; font-size: var(--font-size-base);
-  color: var(--color-text-primary);
+  flex: 1; font-size: var(--harmony-font-size-body-m);
+  color: var(--harmony-font-primary);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.h-select__placeholder { color: var(--color-text-tertiary); }
+.h-select__placeholder { color: var(--harmony-font-tertiary); }
 .h-select__arrow, .h-select__clear {
   position: relative; z-index: 1;
-  color: var(--color-text-tertiary); font-size: 12px;
+  color: var(--harmony-font-tertiary); font-size: 12px;
 }
-.h-select__clear:hover { color: var(--color-text-primary); }
+.h-select__clear:hover { color: var(--harmony-font-primary); }
 .h-select__dropdown {
   position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(20px) saturate(1.2);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--harmony-shadow-dialog);
   z-index: var(--z-dropdown);
   max-height: 240px; overflow-y: auto; padding: 4px;
 }

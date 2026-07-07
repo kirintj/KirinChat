@@ -37,8 +37,7 @@ const sortOrder = ref('desc') // 默认降序（最新的在前）
 // 检查是否有进行中的文件
 const hasProcessingFiles = computed(() => {
   return files.value.some(file => 
-    String(file.status).includes('🚀') ||
-    String(file.status).includes('进行')
+    String(file.status).includes('PROCESS')
   )
 })
 
@@ -61,13 +60,13 @@ const sortedFiles = computed(() => {
         break
       case 'status':
         // 按状态排序：进行中 > 完成 > 失败
-        const statusOrder = { 
-          '🚀 进行中': 3, 
-          '✅ 完成': 2, 
-          '❌ 失败': 1 
+        const statusOrder: Record<string, number> = { 
+          [KnowledgeFileStatus.PROCESS]: 3, 
+          [KnowledgeFileStatus.SUCCESS]: 2, 
+          [KnowledgeFileStatus.FAIL]: 1 
         }
-        const aOrder = Object.entries(statusOrder).find(([key]) => String(a.status).includes(key.split(' ')[0]))?.[1] || 0
-        const bOrder = Object.entries(statusOrder).find(([key]) => String(b.status).includes(key.split(' ')[0]))?.[1] || 0
+        const aOrder = statusOrder[String(a.status)] || 0
+        const bOrder = statusOrder[String(b.status)] || 0
         result = aOrder - bOrder
         break
       default:
@@ -460,36 +459,52 @@ const isTempFile = (file: KnowledgeFileResponse) => {
 // 状态映射函数 - 将后端英文状态转换为前端显示状态
 const mapStatusToDisplay = (backendStatus: string) => {
   const statusMap: { [key: string]: string } = {
-    'success': KnowledgeFileStatus.SUCCESS, // '✅ 完成'
-    'fail': KnowledgeFileStatus.FAIL,       // '❌ 失败'
-    'process': KnowledgeFileStatus.PROCESS  // '🚀 进行中'
+    'success': KnowledgeFileStatus.SUCCESS,
+    'fail': KnowledgeFileStatus.FAIL,
+    'process': KnowledgeFileStatus.PROCESS
   }
-  return statusMap[backendStatus] || `❓ ${backendStatus}`
+  return statusMap[backendStatus] || backendStatus
 }
 
 // 获取文件图标
-const getFileIcon = (fileName: string) => {
+const getFileIcon = (fileName: string): string => {
   const ext = fileName.split('.').pop()?.toLowerCase()
   const iconMap: { [key: string]: string } = {
-    pdf: '📄',
-    doc: '📝',
-    docx: '📝',
-    txt: '📃',
-    md: '📋',
-    xls: '📊',
-    xlsx: '📊',
-    ppt: '📊',
-    pptx: '📊',
-    jpg: '🖼️',
-    jpeg: '🖼️',
-    png: '🖼️',
-    gif: '🖼️',
-    bmp: '🖼️',
-    zip: '🗜️',
-    rar: '🗜️',
-    '7z': '🗜️'
+    pdf: 'pdf',
+    doc: 'doc',
+    docx: 'doc',
+    txt: 'txt',
+    md: 'md',
+    xls: 'xls',
+    xlsx: 'xls',
+    ppt: 'ppt',
+    pptx: 'ppt',
+    jpg: 'img',
+    jpeg: 'img',
+    png: 'img',
+    gif: 'img',
+    bmp: 'img',
+    zip: 'zip',
+    rar: 'zip',
+    '7z': 'zip'
   }
-  return iconMap[ext || ''] || '📁'
+  return iconMap[ext || ''] || 'file'
+}
+
+// 获取文件图标SVG
+const getFileIconSvg = (type: string): string => {
+  const svgMap: Record<string, string> = {
+    pdf: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="5" x2="11" y2="5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="5" y1="8" x2="11" y2="8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="5" y1="11" x2="9" y2="11" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>',
+    doc: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="5" x2="11" y2="5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="5" y1="8" x2="8" y2="8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>',
+    txt: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="5" x2="11" y2="5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="5" y1="8" x2="11" y2="8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="5" y1="11" x2="8" y2="11" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>',
+    md: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M5 6L7 9L9 6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    xls: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="5" x2="7" y2="8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="7" y1="5" x2="5" y2="8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="9" y1="5" x2="11" y2="8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="11" y1="5" x2="9" y2="8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>',
+    ppt: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="7" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M8 10V13" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>',
+    img: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1.5" width="12" height="13" rx="2" stroke="currentColor" stroke-width="1.2"/><circle cx="6" cy="6" r="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M2 12L5 9L8 12L11 8L14 11" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    zip: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="6" y1="4" x2="10" y2="4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="6" y1="7" x2="10" y2="7" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><line x1="6" y1="10" x2="10" y2="10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>',
+    file: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 1H4C3.44772 1 3 1.44772 3 2V14C3 14.5523 3.44772 15 4 15H12C12.5523 15 13 14.5523 13 14V4L10 1Z" stroke="currentColor" stroke-width="1.2"/><path d="M10 1V4H13" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>'
+  }
+  return svgMap[type] || svgMap.file
 }
 
 // 获取文件大小颜色
@@ -528,19 +543,38 @@ onUnmounted(() => {
         <!-- 导航面包屑 -->
         <div class="navigation-section">
           <div class="nav-title">
-            <span class="title-icon">🗂️</span>
+            <span class="title-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V6C2 4.89543 2.89543 4 4 4Z" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </span>
             <span class="title-text">文件管理</span>
           </div>
           <div class="breadcrumb">
             <span class="breadcrumb-item clickable" @click="goBack">
-              <span class="breadcrumb-icon">📚</span>
+              <span class="breadcrumb-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M2 4H10L13 7V14H2V4Z" stroke="currentColor" stroke-width="1.3"/>
+                  <line x1="4" y1="10" x2="10" y2="10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+              </span>
               <span class="breadcrumb-text">知识库管理</span>
             </span>
             <span class="breadcrumb-separator">
-              <span class="separator-icon">▶</span>
+              <span class="separator-icon">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M4 2L8 6L4 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
             </span>
             <span class="breadcrumb-item clickable current" @click="refreshCurrentPage">
-              <span class="breadcrumb-icon">📂</span>
+              <span class="breadcrumb-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M2 3H10L14 6V14H2V3Z" stroke="currentColor" stroke-width="1.3"/>
+                  <line x1="5" y1="8" x2="9" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+              </span>
               <span class="breadcrumb-text">{{ knowledgeName }}</span>
             </span>
           </div>
@@ -553,7 +587,13 @@ onUnmounted(() => {
           <!-- 文件统计卡片 -->
           <div class="stat-card total">
             <div class="stat-icon-wrapper">
-              <span class="stat-icon">📊</span>
+              <span class="stat-icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <rect x="2" y="2" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/>
+                  <line x1="6" y1="10" x2="14" y2="10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                  <line x1="10" y1="6" x2="10" y2="14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                </svg>
+              </span>
             </div>
             <div class="stat-content">
               <div class="stat-number">{{ files.length }}</div>
@@ -563,20 +603,30 @@ onUnmounted(() => {
           
           <div class="stat-card processing">
             <div class="stat-icon-wrapper">
-              <span class="stat-icon processing-icon">🚀</span>
+              <span class="stat-icon processing-icon">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M10 5V10L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
             </div>
             <div class="stat-content">
-              <div class="stat-number">{{ files.filter((f: KnowledgeFileResponse) => String(f.status).includes('🚀')).length }}</div>
+              <div class="stat-number">{{ files.filter((f: KnowledgeFileResponse) => String(f.status).includes('PROCESS')).length }}</div>
               <div class="stat-label">处理中</div>
             </div>
           </div>
           
           <div class="stat-card success">
             <div class="stat-icon-wrapper">
-              <span class="stat-icon">✅</span>
+              <span class="stat-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M5.5 9L7.5 11L12.5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
             </div>
             <div class="stat-content">
-              <div class="stat-number">{{ files.filter((f: KnowledgeFileResponse) => String(f.status).includes('✅')).length }}</div>
+              <div class="stat-number">{{ files.filter((f: KnowledgeFileResponse) => String(f.status).includes('SUCCESS')).length }}</div>
               <div class="stat-label">已完成</div>
             </div>
           </div>
@@ -602,7 +652,12 @@ onUnmounted(() => {
           <div class="upload-button-wrapper">
             <button class="upload-btn-custom" :class="{ 'uploading': uploading }" @click="triggerFileUpload" :disabled="uploading">
               <div class="btn-icon-wrapper">
-                <span v-if="!uploading" class="btn-icon">📤</span>
+                <span v-if="!uploading" class="btn-icon">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M9 12V3M5 7L9 3L13 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 14V16H15V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
                 <div v-else class="loading-spinner"></div>
               </div>
               <div class="btn-text-wrapper">
@@ -660,7 +715,7 @@ onUnmounted(() => {
               <td class="col-name">
                 <div class="file-info">
                   <div class="file-icon-wrapper">
-                    <span class="file-icon">{{ getFileIcon(file.file_name) }}</span>
+                    <span class="file-icon" v-html="getFileIconSvg(getFileIcon(file.file_name))"></span>
                     <div v-if="isTempFile(file)" class="upload-overlay">
                       <div class="upload-progress"></div>
                     </div>
@@ -679,7 +734,12 @@ onUnmounted(() => {
               </td>
               <td class="col-size">
                 <span class="size-tag" :style="{ color: getFileSizeColor(file.file_size) }">
-                  <span class="size-icon">💾</span>
+                  <span class="size-icon">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/>
+                    <line x1="4" y1="5" x2="10" y2="5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+                  </svg>
+                </span>
                   {{ formatFileSize(file.file_size) }}
                 </span>
               </td>
@@ -690,7 +750,12 @@ onUnmounted(() => {
               </td>
               <td class="col-time">
                 <div class="time-info">
-                  <span class="time-icon">📅</span>
+                  <span class="time-icon">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M7 4V7L9 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                  </svg>
+                </span>
                   <span class="time-text">{{ formatTime(file.create_time) }}</span>
                 </div>
               </td>
@@ -702,11 +767,22 @@ onUnmounted(() => {
                     @click="handleDelete(file)"
                     title="删除文件"
                   >
-                    <span class="btn-icon">🗑️</span>
+                    <span class="btn-icon">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 4H12L10.5 12H3.5L2 4Z" stroke="currentColor" stroke-width="1.2"/>
+                        <line x1="5.5" y1="4" x2="5.5" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                        <line x1="8.5" y1="4" x2="8.5" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                      </svg>
+                    </span>
                     <span class="btn-text">删除</span>
                   </button>
                   <div v-else class="uploading-indicator">
-                    <span class="uploading-icon">⏳</span>
+                    <span class="uploading-icon">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5" opacity="0.25"/>
+                        <path d="M7 2C10.0376 2 12.5 4.46243 12.5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </span>
                     <span class="uploading-text">处理中</span>
                   </div>
                 </div>
@@ -720,16 +796,46 @@ onUnmounted(() => {
       <div v-else-if="!loading" class="empty-state">
         <div class="empty-illustration">
           <div class="empty-cloud">
-            <span class="cloud-icon">☁️</span>
+            <span class="cloud-icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M8 24C4.68629 24 2 21.3137 2 18C2 15.2386 3.94217 12.9162 6.50911 12.3168C6.20674 11.2878 6.04958 10.2003 6.04958 9.07692C6.04958 4.80769 9.37213 1.31953 13.4352 1.04248C14.2688 0.985352 15.0789 1.04384 15.8498 1.20505C17.9753 -0.261264 20.7767 -0.388901 23.0321 0.914039C26.2069 2.78068 27.3881 6.86373 25.5657 10.1029C28.5202 11.2885 30.5 14.1969 30.5 17.5C30.5 21.6421 27.1421 25 23 25H8V24Z" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.08"/>
+              </svg>
+            </span>
             <div class="cloud-files">
-              <span class="file-float">📄</span>
-              <span class="file-float">📊</span>
-              <span class="file-float">🖼️</span>
+              <span class="file-float">
+              <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.1"/>
+                <line x1="5" y1="5" x2="11" y2="5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                <line x1="5" y1="8" x2="11" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                <line x1="5" y1="11" x2="9" y2="11" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+            </span>
+              <span class="file-float">
+              <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.1"/>
+                <line x1="5" y1="5" x2="7" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                <line x1="7" y1="5" x2="5" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                <line x1="9" y1="5" x2="11" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                <line x1="11" y1="5" x2="9" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+            </span>
+              <span class="file-float">
+              <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="1.5" width="12" height="13" rx="2" stroke="currentColor" stroke-width="1.1"/>
+                <circle cx="6" cy="6" r="1.5" stroke="currentColor" stroke-width="1"/>
+                <path d="M2 12L5 9L8 12L11 8L14 11" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
             </div>
           </div>
         </div>
         <h3 class="empty-title">
-          <span class="title-icon">📁</span>
+          <span class="title-icon">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+              <path d="M10 1H4C3.44772 1 3 1.44772 3 2V14C3 14.5523 3.44772 15 4 15H12C12.5523 15 13 14.5523 13 14V4L10 1Z" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M10 1V4H13" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            </svg>
+          </span>
           知识库暂无文件
         </h3>
         <p class="empty-description">
@@ -737,20 +843,43 @@ onUnmounted(() => {
         </p>
         <div class="empty-features">
           <div class="feature-item">
-            <span class="feature-icon">📝</span>
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.1"/>
+                <line x1="5" y1="5" x2="11" y2="5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                <line x1="5" y1="8" x2="8" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+            </span>
             <span class="feature-text">支持 Word、PDF</span>
           </div>
           <div class="feature-item">
-            <span class="feature-icon">📊</span>
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.1"/>
+                <line x1="5" y1="5" x2="7" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                <line x1="7" y1="5" x2="5" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+            </span>
             <span class="feature-text">支持 Excel、PPT</span>
           </div>
           <div class="feature-item">
-            <span class="feature-icon">🖼️</span>
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="1.5" width="12" height="13" rx="2" stroke="currentColor" stroke-width="1.1"/>
+                <circle cx="6" cy="6" r="1.5" stroke="currentColor" stroke-width="1"/>
+                <path d="M2 12L5 9L8 12L11 8L14 11" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
             <span class="feature-text">支持图片格式</span>
           </div>
         </div>
         <HButton type="primary" size="large" class="empty-upload-btn" @click="triggerFileUpload">
-          <span class="btn-icon">🚀</span>
+          <span class="btn-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M9 12V3M5 7L9 3L13 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3 14V16H15V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
           立即上传文件
         </HButton>
       </div>
@@ -778,7 +907,7 @@ onUnmounted(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   min-height: 100vh;
   
   .page-header {
@@ -786,11 +915,11 @@ onUnmounted(() => {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    padding: var(--spacing-2xl) var(--spacing-2xl);
-    background: var(--color-bg);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 6px 24px var(--shadow-sm);
-    border: 1px solid var(--color-border);
+    padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+    background: var(--harmony-comp-background-primary);
+    border-radius: var(--harmony-corner-radius-level8);
+    box-shadow: 0 6px 24px var(--harmony-shadow-sm);
+    border: 1px solid var(--harmony-comp-divider);
     
     .header-left {
       display: flex;
@@ -808,32 +937,32 @@ onUnmounted(() => {
           gap: 10px;
           
           .title-icon {
-            font-size: var(--font-size-lg);
+            font-size: var(--harmony-font-size-body-l);
           }
           
           .title-text {
-            font-size: var(--font-size-xl);
+            font-size: var(--harmony-font-size-title-s);
             font-weight: 600;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
           }
         }
       
         .breadcrumb {
           display: flex;
           align-items: center;
-          font-size: var(--font-size-base);
+          font-size: var(--harmony-font-size-body-m);
           
           .breadcrumb-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--color-text-secondary);
+            color: var(--harmony-font-secondary);
             transition: all 0.2s ease;
             padding: 8px 14px;
-            border-radius: var(--radius-md);
+            border-radius: var(--harmony-corner-radius-level6);
             
             .breadcrumb-icon {
-              font-size: var(--font-size-base);
+              font-size: var(--harmony-font-size-body-m);
             }
             
             .breadcrumb-text {
@@ -842,18 +971,18 @@ onUnmounted(() => {
             
             &.clickable {
               cursor: pointer;
-              background: var(--color-bg);
+              background: var(--harmony-comp-background-primary);
               
               &:hover {
-                background: var(--color-border);
-                color: var(--color-primary);
+                background: var(--harmony-comp-divider);
+                color: var(--harmony-brand);
               }
             }
             
             &.current {
-              color: var(--color-primary);
+              color: var(--harmony-brand);
               font-weight: 600;
-              background: var(--color-primary-bg);
+              background: var(--harmony-comp-emphasize-tertiary);
             }
           }
           
@@ -861,7 +990,7 @@ onUnmounted(() => {
             margin: 0 8px;
             
             .separator-icon {
-              color: var(--color-text-tertiary);
+              color: var(--harmony-font-tertiary);
               font-size: 10px;
             }
           }
@@ -883,15 +1012,15 @@ onUnmounted(() => {
           align-items: center;
           gap: 10px;
           padding: 10px 16px;
-          background: var(--color-bg);
-          border-radius: var(--radius-md);
-          box-shadow: 0 2px 8px var(--shadow-sm);
-          border: 1px solid var(--color-border);
+          background: var(--harmony-comp-background-primary);
+          border-radius: var(--harmony-corner-radius-level6);
+          box-shadow: 0 2px 8px var(--harmony-shadow-sm);
+          border: 1px solid var(--harmony-comp-divider);
           transition: all 0.2s ease;
           min-width: 90px;
             
           &:hover {
-            box-shadow: 0 4px 12px var(--shadow-sm);
+            box-shadow: 0 4px 12px var(--harmony-shadow-sm);
           }
             
           .stat-icon-wrapper {
@@ -900,10 +1029,10 @@ onUnmounted(() => {
             justify-content: center;
             width: 28px;
             height: 28px;
-            border-radius: var(--radius-md);
+            border-radius: var(--harmony-corner-radius-level6);
             
             .stat-icon {
-              font-size: var(--font-size-base);
+              font-size: var(--harmony-font-size-body-m);
             }
           }
           
@@ -912,7 +1041,7 @@ onUnmounted(() => {
             flex-direction: column;
             
             .stat-number {
-              font-size: var(--font-size-lg);
+              font-size: var(--harmony-font-size-body-l);
               font-weight: 600;
               line-height: 1;
               margin-bottom: 2px;
@@ -920,35 +1049,35 @@ onUnmounted(() => {
             
             .stat-label {
               font-size: 11px;
-              color: var(--color-text-tertiary);
+              color: var(--harmony-font-tertiary);
               font-weight: 500;
             }
           }
             
           &.total {
             .stat-icon-wrapper {
-              background: var(--color-primary-bg);
+              background: var(--harmony-comp-emphasize-tertiary);
             }
             .stat-number {
-              color: var(--color-primary);
+              color: var(--harmony-brand);
             }
           }
           
           &.processing {
             .stat-icon-wrapper {
-              background: var(--color-bg)3e0;
+              background: var(--harmony-comp-background-primary)3e0;
             }
             .stat-number {
-              color: var(--color-warning);
+              color: var(--harmony-alert);
             }
           }
           
           &.success {
             .stat-icon-wrapper {
-              background: var(--color-success-bg);
+              background: var(--harmony-confirm-bg);
             }
             .stat-number {
-              color: var(--color-success);
+              color: var(--harmony-confirm);
             }
           }
         }
@@ -958,9 +1087,9 @@ onUnmounted(() => {
           align-items: center;
           gap: 8px;
           padding: 8px 12px;
-          background: var(--color-primary-bg);
-          border-radius: var(--radius-md);
-          border: 1px solid var(--color-primary-bg);
+          background: var(--harmony-comp-emphasize-tertiary);
+          border-radius: var(--harmony-corner-radius-level6);
+          border: 1px solid var(--harmony-comp-emphasize-tertiary);
           
           .sync-animation {
             display: flex;
@@ -969,8 +1098,8 @@ onUnmounted(() => {
             .sync-dot {
               width: 4px;
               height: 4px;
-              background: var(--color-primary);
-              border-radius: var(--radius-full);
+              background: var(--harmony-brand);
+              border-radius: var(--harmony-corner-radius-level18);
               animation: syncWave 1.5s infinite ease-in-out;
               
               &:nth-child(1) { animation-delay: 0s; }
@@ -980,8 +1109,8 @@ onUnmounted(() => {
           }
           
           .sync-text {
-            font-size: var(--font-size-xs);
-            color: var(--color-primary);
+            font-size: var(--harmony-font-size-body-s);
+            color: var(--harmony-brand);
             font-weight: 500;
           }
         }
@@ -992,17 +1121,17 @@ onUnmounted(() => {
             align-items: center;
             gap: 8px;
             padding: 10px 20px;
-            background: var(--color-primary);
+            background: var(--harmony-brand);
             border: none;
-            border-radius: var(--radius-md);
+            border-radius: var(--harmony-corner-radius-level6);
             color: white;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
-            font-size: var(--font-size-base);
+            font-size: var(--harmony-font-size-body-m);
             
             &:hover {
-              background: var(--color-primary);
+              background: var(--harmony-brand);
             }
             
             .btn-icon-wrapper {
@@ -1011,15 +1140,15 @@ onUnmounted(() => {
               justify-content: center;
               
               .btn-icon {
-                font-size: var(--font-size-base);
+                font-size: var(--harmony-font-size-body-m);
               }
               
               .loading-spinner {
                 width: 14px;
                 height: 14px;
-                border: 2px solid var(--color-bg-overlay);
+                border: 2px solid var(--harmony-comp-background-secondary);
                 border-top: 2px solid white;
-                border-radius: var(--radius-full);
+                border-radius: var(--harmony-corner-radius-level18);
                 animation: spin 1s linear infinite;
               }
             }
@@ -1029,13 +1158,13 @@ onUnmounted(() => {
               align-items: center;
               
               .btn-main-text {
-                font-size: var(--font-size-base);
+                font-size: var(--harmony-font-size-body-m);
                 font-weight: 600;
               }
             }
             
             &.uploading {
-              background: var(--color-primary);
+              background: var(--harmony-brand);
               cursor: not-allowed;
             }
           }
@@ -1054,20 +1183,20 @@ onUnmounted(() => {
       .custom-table {
         width: 100%;
         border-collapse: collapse;
-        background: var(--color-bg);
-        border-radius: var(--radius-lg);
+        background: var(--harmony-comp-background-primary);
+        border-radius: var(--harmony-corner-radius-level8);
         overflow: hidden;
-        box-shadow: 0 2px 8px var(--shadow-sm);
-        border: 1px solid var(--color-border);
+        box-shadow: 0 2px 8px var(--harmony-shadow-sm);
+        border: 1px solid var(--harmony-comp-divider);
         
         th {
-          background: var(--color-bg);
-          color: var(--color-text-secondary);
+          background: var(--harmony-comp-background-primary);
+          color: var(--harmony-font-secondary);
           font-weight: 600;
-          padding: var(--spacing-lg) var(--spacing-2xl);
+          padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
           text-align: center;
-          border-bottom: 2px solid var(--color-border);
-          font-size: var(--font-size-sm);
+          border-bottom: 2px solid var(--harmony-comp-divider);
+          font-size: var(--harmony-font-size-subtitle-s);
           text-transform: uppercase;
           letter-spacing: 0.5px;
           
@@ -1080,11 +1209,11 @@ onUnmounted(() => {
         }
         
         .file-row {
-          border-bottom: 1px solid var(--color-border);
+          border-bottom: 1px solid var(--harmony-comp-divider);
           transition: all 0.2s ease;
           
           &:hover {
-            background: var(--color-bg);
+            background: var(--harmony-comp-background-primary);
           }
           
           &:last-child {
@@ -1092,16 +1221,16 @@ onUnmounted(() => {
           }
           
           &.temp-file {
-            background: var(--color-primary-bg);
-            border-left: 3px solid var(--color-primary);
+            background: var(--harmony-comp-emphasize-tertiary);
+            border-left: 3px solid var(--harmony-brand);
           }
         }
         
         td {
           padding: 16px 20px;
           vertical-align: middle;
-          font-size: var(--font-size-base);
-          color: var(--color-text-secondary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-font-secondary);
           text-align: center;
         }
         
@@ -1135,11 +1264,11 @@ onUnmounted(() => {
           justify-content: center;
           width: 36px;
           height: 36px;
-          background: var(--color-primary-bg);
-          border-radius: var(--radius-md);
+          background: var(--harmony-comp-emphasize-tertiary);
+          border-radius: var(--harmony-corner-radius-level6);
           
           .file-icon {
-            font-size: var(--font-size-xl);
+            font-size: var(--harmony-font-size-title-s);
           }
           
           .upload-overlay {
@@ -1148,8 +1277,8 @@ onUnmounted(() => {
             left: 0;
             right: 0;
             bottom: 0;
-            background: var(--color-primary);
-            border-radius: var(--radius-md);
+            background: var(--harmony-brand);
+            border-radius: var(--harmony-corner-radius-level6);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1159,7 +1288,7 @@ onUnmounted(() => {
               height: 16px;
               border: 2px solid white;
               border-top: 2px solid transparent;
-              border-radius: var(--radius-full);
+              border-radius: var(--harmony-corner-radius-level18);
               animation: spin 1s linear infinite;
             }
           }
@@ -1176,18 +1305,18 @@ onUnmounted(() => {
             text-overflow: ellipsis;
             white-space: nowrap;
             font-weight: 600;
-            color: var(--color-text-primary);
-            font-size: var(--font-size-base);
+            color: var(--harmony-font-primary);
+            font-size: var(--harmony-font-size-body-m);
           }
           
           .temp-badge {
             display: flex;
             align-items: center;
             gap: 4px;
-            background: var(--color-primary);
+            background: var(--harmony-brand);
             color: white;
             padding: 2px 8px;
-            border-radius: var(--radius-md);
+            border-radius: var(--harmony-corner-radius-level6);
             font-size: 11px;
             font-weight: 600;
             width: fit-content;
@@ -1202,10 +1331,10 @@ onUnmounted(() => {
       .type-tag {
         display: inline-block;
         padding: 4px 10px;
-        background: var(--color-primary-bg);
-        color: var(--color-primary);
-        border-radius: var(--radius-lg);
-        font-size: var(--font-size-xs);
+        background: var(--harmony-comp-emphasize-tertiary);
+        color: var(--harmony-brand);
+        border-radius: var(--harmony-corner-radius-level8);
+        font-size: var(--harmony-font-size-body-s);
         font-weight: 600;
       }
       
@@ -1215,10 +1344,10 @@ onUnmounted(() => {
         justify-content: center;
         gap: 4px;
         font-weight: 500;
-        font-size: var(--font-size-sm);
+        font-size: var(--harmony-font-size-subtitle-s);
         
         .size-icon {
-          font-size: var(--font-size-base);
+          font-size: var(--harmony-font-size-body-m);
         }
       }
       
@@ -1229,13 +1358,13 @@ onUnmounted(() => {
         gap: 6px;
         
         .time-icon {
-          font-size: var(--font-size-base);
-          color: var(--color-text-tertiary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-font-tertiary);
         }
         
         .time-text {
-          font-size: var(--font-size-sm);
-          color: var(--color-text-secondary);
+          font-size: var(--harmony-font-size-subtitle-s);
+          color: var(--harmony-font-secondary);
         }
       }
       
@@ -1244,8 +1373,8 @@ onUnmounted(() => {
         align-items: center;
         justify-content: center;
         padding: 6px 12px;
-        border-radius: var(--radius-lg);
-        font-size: var(--font-size-xs);
+        border-radius: var(--harmony-corner-radius-level8);
+        font-size: var(--harmony-font-size-body-s);
         font-weight: 600;
         min-width: 80px;
         
@@ -1256,23 +1385,23 @@ onUnmounted(() => {
         }
         
         &.status-success {
-          background: var(--color-success-bg);
-          color: var(--color-success);
+          background: var(--harmony-confirm-bg);
+          color: var(--harmony-confirm);
         }
         
         &.status-process {
-          background: var(--color-bg)3e0;
-          color: var(--color-warning);
+          background: var(--harmony-comp-background-primary)3e0;
+          color: var(--harmony-alert);
         }
         
         &.status-fail {
-          background: var(--color-error-bg);
-          color: var(--color-danger);
+          background: var(--harmony-warning-bg);
+          color: var(--harmony-warning);
         }
         
         &.status-default {
-          background: var(--color-bg);
-          color: var(--color-text-tertiary);
+          background: var(--harmony-comp-background-primary);
+          color: var(--harmony-font-tertiary);
         }
       }
       
@@ -1286,21 +1415,21 @@ onUnmounted(() => {
           align-items: center;
           gap: 4px;
           padding: 6px 12px;
-          background: var(--color-bg);
-          color: var(--color-danger);
-          border: 1px solid var(--color-danger);
-          border-radius: var(--radius-md);
+          background: var(--harmony-comp-background-primary);
+          color: var(--harmony-warning);
+          border: 1px solid var(--harmony-warning);
+          border-radius: var(--harmony-corner-radius-level6);
           cursor: pointer;
-          font-size: var(--font-size-xs);
+          font-size: var(--harmony-font-size-body-s);
           font-weight: 600;
           transition: all 0.2s ease;
           
           .btn-icon {
-            font-size: var(--font-size-base);
+            font-size: var(--harmony-font-size-body-m);
           }
           
           &:hover {
-            background: var(--color-danger);
+            background: var(--harmony-warning);
             color: white;
           }
         }
@@ -1310,14 +1439,14 @@ onUnmounted(() => {
           align-items: center;
           gap: 4px;
           padding: 6px 12px;
-          background: var(--color-primary-bg);
-          color: var(--color-primary);
-          border-radius: var(--radius-md);
-          font-size: var(--font-size-xs);
+          background: var(--harmony-comp-emphasize-tertiary);
+          color: var(--harmony-brand);
+          border-radius: var(--harmony-corner-radius-level6);
+          font-size: var(--harmony-font-size-body-s);
           font-weight: 600;
           
           .uploading-icon {
-            font-size: var(--font-size-base);
+            font-size: var(--harmony-font-size-body-m);
           }
         }
       }
@@ -1329,10 +1458,10 @@ onUnmounted(() => {
       align-items: center;
       justify-content: center;
       height: 500px;
-      background: var(--color-bg);
-      border-radius: var(--radius-lg);
-      box-shadow: 0 2px 8px var(--shadow-sm);
-      border: 1px solid var(--color-border);
+      background: var(--harmony-comp-background-primary);
+      border-radius: var(--harmony-corner-radius-level8);
+      box-shadow: 0 2px 8px var(--harmony-shadow-sm);
+      border: 1px solid var(--harmony-comp-divider);
       padding: 40px;
       
       .empty-illustration {
@@ -1361,7 +1490,7 @@ onUnmounted(() => {
             gap: 8px;
             
             .file-float {
-              font-size: var(--font-size-lg);
+              font-size: var(--harmony-font-size-body-l);
               animation: float 3s ease-in-out infinite;
               
               &:nth-child(1) {
@@ -1384,9 +1513,9 @@ onUnmounted(() => {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: var(--font-size-xl);
+        font-size: var(--harmony-font-size-title-s);
         font-weight: 600;
-        color: var(--color-text-primary);
+        color: var(--harmony-font-primary);
         margin: 0 0 12px 0;
         
         .title-icon {
@@ -1395,8 +1524,8 @@ onUnmounted(() => {
       }
       
       .empty-description {
-        font-size: var(--font-size-base);
-        color: var(--color-text-tertiary);
+        font-size: var(--harmony-font-size-body-m);
+        color: var(--harmony-font-tertiary);
         margin: 0 0 24px 0;
         text-align: center;
       }
@@ -1412,17 +1541,17 @@ onUnmounted(() => {
           align-items: center;
           gap: 6px;
           padding: 12px;
-          background: var(--color-bg);
-          border-radius: var(--radius-md);
+          background: var(--harmony-comp-background-primary);
+          border-radius: var(--harmony-corner-radius-level6);
           min-width: 90px;
           
           .feature-icon {
-            font-size: var(--font-size-xl);
+            font-size: var(--harmony-font-size-title-s);
           }
           
           .feature-text {
-            font-size: var(--font-size-xs);
-            color: var(--color-text-secondary);
+            font-size: var(--harmony-font-size-body-s);
+            color: var(--harmony-font-secondary);
             font-weight: 500;
             text-align: center;
           }
@@ -1432,7 +1561,7 @@ onUnmounted(() => {
       .empty-upload-btn {
         .btn-icon {
           margin-right: 6px;
-          font-size: var(--font-size-lg);
+          font-size: var(--harmony-font-size-body-l);
         }
       }
     }
@@ -1477,7 +1606,7 @@ onUnmounted(() => {
 .loading-overlay {
   position: absolute;
   inset: 0;
-  background: var(--color-overlay);
+  background: var(--harmony-comp-background-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1488,9 +1617,9 @@ onUnmounted(() => {
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid var(--color-bg-overlay);
-  border-top-color: var(--color-primary, var(--color-primary));
-  border-radius: var(--radius-full);
+  border: 3px solid var(--harmony-comp-background-secondary);
+  border-top-color: var(--harmony-brand));
+  border-radius: var(--harmony-corner-radius-level18);
   animation: h-spin 0.6s linear infinite;
 }
 
@@ -1504,15 +1633,15 @@ onUnmounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--color-overlay);
+  background-color: var(--harmony-comp-background-secondary);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 
   .confirm-dialog-content {
-    background-color: var(--color-bg);
-    border-radius: var(--radius-lg);
+    background-color: var(--harmony-comp-background-primary);
+    border-radius: var(--harmony-corner-radius-level8);
     padding: 24px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -1520,15 +1649,15 @@ onUnmounted(() => {
     max-width: 90%;
 
     .dialog-title {
-      font-size: var(--font-size-xl);
+      font-size: var(--harmony-font-size-title-s);
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
       margin-bottom: 16px;
     }
 
     .dialog-body {
-      font-size: var(--font-size-base);
-      color: var(--color-text-secondary);
+      font-size: var(--harmony-font-size-body-m);
+      color: var(--harmony-font-secondary);
       margin-bottom: 24px;
       line-height: 1.6;
     }
@@ -1540,8 +1669,8 @@ onUnmounted(() => {
 
       .btn-cancel, .btn-confirm {
         padding: 8px 20px;
-        border-radius: var(--radius-md);
-        font-size: var(--font-size-base);
+        border-radius: var(--harmony-corner-radius-level6);
+        font-size: var(--harmony-font-size-body-m);
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -1549,20 +1678,20 @@ onUnmounted(() => {
       }
 
       .btn-cancel {
-        background-color: var(--color-bg);
-        color: var(--color-text-secondary);
+        background-color: var(--harmony-comp-background-primary);
+        color: var(--harmony-font-secondary);
         
         &:hover {
-          background-color: var(--color-border);
+          background-color: var(--harmony-comp-divider);
         }
       }
 
       .btn-confirm {
-        background-color: var(--color-danger);
+        background-color: var(--harmony-warning);
         color: white;
         
         &:hover {
-          background-color: var(--color-danger);
+          background-color: var(--harmony-warning);
         }
       }
     }

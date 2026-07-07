@@ -201,7 +201,7 @@ const goToLogin = () => {
 .register-container {
   display: flex;
   height: 100vh;
-  background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-border) 100%);
+  background: linear-gradient(135deg, var(--harmony-comp-background-tertiary) 0%, var(--harmony-comp-divider) 100%);
 }
 
 .left-section {
@@ -230,7 +230,7 @@ const goToLogin = () => {
         position: absolute;
         width: 120px;
         height: 120px;
-        background: linear-gradient(45deg, var(--color-primary), var(--color-primary-active));
+        background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
         border: 1px solid rgba(255, 255, 255, 0.2);
         
         &.front { transform: rotateY(0deg) translateZ(60px); }
@@ -248,7 +248,7 @@ const goToLogin = () => {
       height: 160px;
       top: 200px;
       left: 50px;
-      background: linear-gradient(180deg, #6b9eff, var(--color-primary));
+      background: linear-gradient(180deg, #6b9eff, var(--harmony-brand));
       border-radius: 40px;
       box-shadow: 0 10px 30px rgba(79, 129, 255, 0.3);
       animation: floatUp 6s ease-in-out infinite;
@@ -260,7 +260,7 @@ const goToLogin = () => {
       height: 60px;
       top: 120px;
       right: 80px;
-      background: radial-gradient(circle at 30% 30%, #8bb6ff, var(--color-primary));
+      background: radial-gradient(circle at 30% 30%, #8bb6ff, var(--harmony-brand));
       border-radius: 50%;
       box-shadow: 0 8px 25px rgba(79, 129, 255, 0.4);
       animation: floatDown 8s ease-in-out infinite;
@@ -271,7 +271,7 @@ const goToLogin = () => {
 .right-section {
   overflow: hidden;  // 加上这一行
   width: 450px;
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -290,25 +290,25 @@ const goToLogin = () => {
 
         .logo-text {
           display: inline-block;
-          background: linear-gradient(45deg, var(--color-primary), var(--color-primary-active));
+          background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
           color: white;
           padding: 12px 24px;
           border-radius: 8px;
           font-size: 20px;
           font-weight: 700;
           letter-spacing: 2px;
-          font-family: var(--font-family);
+          font-family: var(--harmony-font-family);
           box-shadow: 0 4px 12px rgba(79, 129, 255, 0.3);
         }
       }
 
       .subtitle {
-        color: var(--color-text-secondary);
+        color: var(--harmony-font-secondary);
         font-size: 16px;
         margin: 0;
         line-height: 1.6;
         font-weight: 400;
-        font-family: var(--font-family);
+        font-family: var(--harmony-font-family);
       }
     }
 
@@ -320,38 +320,38 @@ const goToLogin = () => {
           display: block;
           font-size: 16px;
           font-weight: 600;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
           margin-bottom: 10px;
-          font-family: var(--font-family);
+          font-family: var(--harmony-font-family);
           letter-spacing: 0.5px;
         }
 
         .register-input {
           :deep(.el-input__wrapper) {
-            background: var(--color-bg-tertiary);
-            border: 1px solid var(--color-border);
+            background: var(--harmony-comp-background-tertiary);
+            border: 1px solid var(--harmony-comp-divider);
             border-radius: 8px;
             padding: 12px 16px;
             box-shadow: none;
 
             &:hover {
-              border-color: var(--color-primary);
+              border-color: var(--harmony-brand);
             }
 
             &.is-focus {
-              border-color: var(--color-primary);
+              border-color: var(--harmony-brand);
               box-shadow: 0 0 0 3px rgba(79, 129, 255, 0.1);
             }
           }
 
           :deep(.el-input__inner) {
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
             font-size: 16px;
-            font-family: var(--font-family);
+            font-family: var(--harmony-font-family);
             font-weight: 400;
 
             &::placeholder {
-              color: var(--color-text-tertiary);
+              color: var(--harmony-font-tertiary);
               font-size: 15px;
             }
           }
@@ -365,11 +365,11 @@ const goToLogin = () => {
 
         .login-link {
           font-size: 15px;
-          color: var(--color-text-secondary);
-          font-family: var(--font-family);
+          color: var(--harmony-font-secondary);
+          font-family: var(--harmony-font-family);
 
           a {
-            color: var(--color-primary);
+            color: var(--harmony-brand);
             text-decoration: none;
             margin-left: 6px;
             font-weight: 500;
@@ -377,7 +377,7 @@ const goToLogin = () => {
 
             &:hover {
               text-decoration: underline;
-              color: var(--color-primary-active);
+              color: var(--harmony-interactive-pressed);
             }
           }
         }
@@ -386,12 +386,12 @@ const goToLogin = () => {
       .register-button {
         width: 100%;
         height: 52px;
-        background: linear-gradient(45deg, var(--color-primary), var(--color-primary-active));
+        background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
         border: none;
         border-radius: 10px;
         font-size: 18px;
         font-weight: 600;
-        font-family: var(--font-family);
+        font-family: var(--harmony-font-family);
         letter-spacing: 1px;
         transition: all 0.3s ease;
 
@@ -411,11 +411,11 @@ const goToLogin = () => {
       justify-content: space-between;
       align-items: center;
       margin-top: 20px;
-      color: var(--color-text-tertiary);
+      color: var(--harmony-font-tertiary);
       font-size: 13px;
-      font-family: var(--font-family);
+      font-family: var(--harmony-font-family);
       font-weight: 400;
-      border-top: 1px solid var(--color-border);
+      border-top: 1px solid var(--harmony-comp-divider);
       padding-top: 16px;
 
       .version-badge {
@@ -423,8 +423,8 @@ const goToLogin = () => {
         align-items: center;
         padding: 4px 10px;
         border-radius: 999px;
-        background: var(--color-primary-bg);
-        color: var(--color-primary);
+        background: var(--harmony-comp-emphasize-tertiary);
+        color: var(--harmony-brand);
         border: 1px solid rgba(10, 89, 247, 0.25);
         font-weight: 600;
         letter-spacing: 0.3px;
@@ -440,8 +440,8 @@ const goToLogin = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: var(--color-bg-secondary);
-          border: 1px solid var(--color-border);
+          background: var(--harmony-comp-background-secondary);
+          border: 1px solid var(--harmony-comp-divider);
           border-radius: 8px;
           transition: all 0.2s ease;
           overflow: hidden;

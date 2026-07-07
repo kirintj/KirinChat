@@ -25,11 +25,11 @@ withDefaults(defineProps<Props>(), { stripe: false })
 </template>
 
 <style scoped>
-.h-table-wrapper { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-md); }
-.h-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-base); }
-.h-table th, .h-table td { padding: var(--spacing-sm) var(--spacing-md); text-align: left; border-bottom: 1px solid var(--color-border); color: var(--color-text-primary); }
-.h-table th { background: var(--color-bg-tertiary); font-weight: 500; color: var(--color-text-secondary); }
-.h-table--stripe tbody tr:nth-child(even) { background: var(--color-bg-tertiary); }
-.h-table--stripe tbody tr:hover { background: var(--color-bg-hover); }
-.h-table__empty { text-align: center; padding: var(--spacing-xl) var(--spacing-md); color: var(--color-text-tertiary); }
+.h-table-wrapper { overflow-x: auto; border: 1px solid var(--harmony-comp-divider); border-radius: var(--harmony-corner-radius-level6); }
+.h-table { width: 100%; border-collapse: collapse; font-size: var(--harmony-font-size-body-m); }
+.h-table th, .h-table td { padding: var(--harmony-padding-level6) var(--harmony-padding-level8); text-align: left; border-bottom: 1px solid var(--harmony-comp-divider); color: var(--harmony-font-primary); }
+.h-table th { background: var(--harmony-comp-background-tertiary); font-weight: 500; color: var(--harmony-font-secondary); }
+.h-table--stripe tbody tr:nth-child(even) { background: var(--harmony-comp-background-tertiary); }
+.h-table--stripe tbody tr:hover { background: var(--harmony-interactive-hover); }
+.h-table__empty { text-align: center; padding: var(--harmony-padding-level12) var(--harmony-padding-level8); color: var(--harmony-font-tertiary); }
 </style>

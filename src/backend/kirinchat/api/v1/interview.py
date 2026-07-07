@@ -355,7 +355,7 @@ async def complete_interview(
     req: InterviewCompleteReq,
     login_user: UserPayload = Depends(get_login_user),
 ):
-    """Complete an interview session and trigger evaluation."""
+    """Complete an interview session and trigger async evaluation."""
     try:
         session = await InterviewService.get_session(req.session_id)
         if session is None:
@@ -363,11 +363,13 @@ async def complete_interview(
 
         await InterviewService.update_session_status(req.session_id, "COMPLETED")
 
-        report = await EvaluationService.evaluate_session(req.session_id)
+        # 异步评估：通过 Celery 后台执行，避免 LLM 调用超时
+        from kirinchat.common.async_task.evaluation_tasks import evaluate_interview_task
+        evaluate_interview_task.delay(req.session_id)
 
         data = InterviewCompleteResp(
-            evaluation_id=report.id,
-            status=report.status if hasattr(report, "status") else "EVALUATED",
+            evaluation_id="",
+            status="PENDING",
         )
         return resp_200(data=data.model_dump())
     except Exception as err:
@@ -477,24 +479,10 @@ async def get_interview_history(
         page = max(1, page)
         page_size = max(1, min(page_size, 100))
 
-        # 第1次查询：一次性加载 session + total_score（DB 层筛选 + 分页）
         # keyword 筛选无法在 DB 层完成（skill_name 来自文件系统），需要额外处理
-        db_keyword = None  # DB 层不传 keyword
-        sessions_with_details, total = await InterviewSessionDao.select_sessions_with_details(
-            user_id=login_user.user_id,
-            status=status,
-            skill_id=skill_id,
-            keyword=db_keyword,
-            difficulty=difficulty,
-            page=page,
-            page_size=page_size,
-        )
-
-        # 如果有 keyword 筛选，需要在 Python 层处理
-        # 注意：此时已经分页，keyword 筛选会导致结果不准确
-        # 因此如果有 keyword，先不过 DB 分页，全部查出后在 Python 层筛选+分页
         if keyword:
-            sessions_with_details_full, total_full = await InterviewSessionDao.select_sessions_with_details(
+            # 不传 keyword 到 DB 层，一次性查出所有匹配的记录
+            sessions_with_details_full, _ = await InterviewSessionDao.select_sessions_with_details(
                 user_id=login_user.user_id,
                 status=status,
                 skill_id=skill_id,
@@ -502,8 +490,10 @@ async def get_interview_history(
                 difficulty=difficulty,
                 page=1,
                 page_size=10000,  # 取足够大的值
+                sort_by=sort_by,
+                sort_order=sort_order,
             )
-            # 在 Python 层按 keyword 筛选
+            # 在 Python 层按 keyword 筛选（skill_name 模糊匹配）
             keyword_lower = keyword.lower()
             filtered = []
             for session_obj, total_score in sessions_with_details_full:
@@ -517,8 +507,21 @@ async def get_interview_history(
             start = (page - 1) * page_size
             end = start + page_size
             sessions_with_details = filtered[start:end]
+        else:
+            # DB 层处理筛选 + 排序 + 分页，一次完成
+            sessions_with_details, total = await InterviewSessionDao.select_sessions_with_details(
+                user_id=login_user.user_id,
+                status=status,
+                skill_id=skill_id,
+                keyword=None,
+                difficulty=difficulty,
+                page=page,
+                page_size=page_size,
+                sort_by=sort_by,
+                sort_order=sort_order,
+            )
 
-        # 第2次查询：批量计算所有 session 的进度
+        # 批量计算所有 session 的进度
         session_ids = [s.id for s, _ in sessions_with_details]
         progress_map = await InterviewQuestionDao.batch_calculate_progress(session_ids)
 
@@ -529,7 +532,7 @@ async def get_interview_history(
             skill = SkillService.get_skill_by_id(sid)
             skill_name_cache[sid] = skill.get("name", "") if skill else ""
 
-        # 在 Python 中组装结果
+        # 组装结果
         enriched = []
         for session_obj, total_score in sessions_with_details:
             skill_name = skill_name_cache.get(session_obj.skill_id, "")
@@ -540,19 +543,6 @@ async def get_interview_history(
                 "total_score": total_score,
                 "progress": progress,
             })
-
-        # 排序
-        reverse = sort_order.lower() == "desc"
-        if sort_by == "total_score":
-            enriched.sort(
-                key=lambda x: (x["total_score"] is None, x["total_score"] or 0),
-                reverse=reverse,
-            )
-        else:
-            enriched.sort(
-                key=lambda x: x["session"].create_time or datetime.min,
-                reverse=reverse,
-            )
 
         # 构建响应
         session_resps = [

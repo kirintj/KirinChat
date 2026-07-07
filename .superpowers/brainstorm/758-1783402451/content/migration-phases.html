@@ -1,0 +1,91 @@
+<h2>实施分期策略</h2>
+<p class="subtitle">基础层优先 → 壳层组件 → UI 组件 → 页面迁移</p>
+
+<div class="section">
+  <h3>Phase 1: 基础设施 (Foundation)</h3>
+  <div style="background: #fef7e0; border: 1px solid #fbbc04; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+    <div style="font-weight: bold; color: #e37400; font-size: 14px; margin-bottom: 8px;">目标：建立鸿蒙设计系统的 CSS 基础</div>
+    <div style="font-size: 12px; color: #5f6368; line-height: 1.8;">
+      1. <strong>Token 同步</strong> — 用参考项目的 <code>harmony-tokens.css</code> + <code>mobile-scale.css</code> 替换现有文件<br>
+      2. <strong>消除业务别名层</strong> — 删除 <code>style.css</code> 中的 <code>--color-*</code> / <code>--radius-*</code> / <code>--spacing-*</code> / <code>--font-size-*</code> 映射<br>
+      3. <strong>新增 glass-mixins.css</strong> — 液态玻璃效果 CSS 变量<br>
+      4. <strong>HMSymbol 字体引入</strong> — @font-face + 字体文件部署到 assets<br>
+      5. <strong>全局样式更新</strong> — <code>style.css</code> 精简为全局重置 + transition 动画
+    </div>
+    <div style="font-size: 11px; color: #e37400; margin-top: 8px; padding: 6px 10px; background: rgba(227,116,0,0.08); border-radius: 4px;">
+      产出：所有组件可直接引用 <code>--harmony-*</code> 原生 token，无中间层
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Phase 2: 壳层组件 (Shell)</h3>
+  <div style="background: #e8f0fe; border: 1px solid #4285f4; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+    <div style="font-weight: bold; color: #1a73e8; font-size: 14px; margin-bottom: 8px;">目标：实现标准页面骨架</div>
+    <div style="font-size: 12px; color: #5f6368; line-height: 1.8;">
+      1. <strong>HStatusbar</strong> — 从 statusbar-tem.html 提取，PNG 图标资源部署<br>
+      2. <strong>HTitlebar</strong> — 4 种变体（big/normal/secondary/drawer），渐隐背板 + backdrop-filter<br>
+      3. <strong>HBottomTab</strong> — 6 种变体（2/3/4/5 tab + 1bar + multibar），液态玻璃胶囊<br>
+      4. <strong>HAIBottomBar</strong> — AI 底部指示栏<br>
+      5. <strong>App.vue 壳层组装</strong> — 响应式条件渲染（移动端 BottomTab / 桌面端侧边栏）
+    </div>
+    <div style="font-size: 11px; color: #1a73e8; margin-top: 8px; padding: 6px 10px; background: rgba(26,115,232,0.08); border-radius: 4px;">
+      产出：所有页面共享统一的鸿蒙壳层骨架，响应式自动切换
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Phase 3: UI 组件库 (Components)</h3>
+  <div style="background: #e6f4ea; border: 1px solid #34a853; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+    <div style="font-weight: bold; color: #1e8e3e; font-size: 14px; margin-bottom: 8px;">目标：13 个参考组件 + 现有组件升级</div>
+    <div style="font-size: 12px; color: #5f6368; line-height: 1.8;">
+      <strong>新建（按参考模板）：</strong>HSearch · HSwitch · HToolbar · HList · HDivider · HCardView<br>
+      <strong>重构升级：</strong>HButton · HChipsTab（对齐参考规范的数值基线 + 交互态）<br>
+      <strong>保留升级：</strong>HDialog · HDrawer · HDropdown · HSelect · HForm · HInput · HTabs · HTooltip · HUpload · HAvatar · HSkeleton · HMessage · HScrollbar<br>
+      <strong>HIcon 双模式扩展：</strong>HMSymbol Unicode + SVG 降级
+    </div>
+    <div style="font-size: 11px; color: #1e8e3e; margin-top: 8px; padding: 6px 10px; background: rgba(30,142,62,0.08); border-radius: 4px;">
+      产出：完整鸿蒙组件库，每个组件有像素级精确的数值基线和五态交互
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Phase 4: 页面迁移 (Pages)</h3>
+  <div style="background: #fce8e6; border: 1px solid #ea4335; border-radius: 8px; padding: 16px;">
+    <div style="font-weight: bold; color: #d93025; font-size: 14px; margin-bottom: 8px;">目标：20+ 页面逐步迁移到鸿蒙组件库</div>
+    <div style="font-size: 12px; color: #5f6368; line-height: 1.8;">
+      按优先级排序，每批迁移后验证：<br><br>
+      <strong>批次 A（核心页面）：</strong>conversation/chatPage · workspace · homepage<br>
+      <strong>批次 B（功能页面）：</strong>agent · knowledge · mcp-server · model<br>
+      <strong>批次 C（扩展页面）：</strong>interview · voice-interview · dashboard · profile · configuration · tool · agent-skill · mars · construct<br><br>
+      每个页面迁移步骤：<br>
+      ① 替换业务变量为 --harmony-* 原生 token<br>
+      ② 替换自定义样式为鸿蒙组件<br>
+      ③ 接入壳层组件（titlebar 变体选择）<br>
+      ④ 响应式验证（桌面 + 移动端）
+    </div>
+    <div style="font-size: 11px; color: #d93025; margin-top: 8px; padding: 6px 10px; background: rgba(217,48,37,0.08); border-radius: 4px;">
+      产出：所有页面完全鸿蒙化，视觉风格统一
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>里程碑时间线</h3>
+  <div style="display: flex; align-items: center; gap: 0; font-size: 11px; margin-top: 8px;">
+    <div style="flex: 1; background: #fef7e0; padding: 10px; border-radius: 8px 0 0 8px; text-align: center;">
+      <div style="font-weight: bold; color: #e37400;">P1</div>Foundation<br><span style="font-size: 10px; color: #5f6368;">Token + HMSymbol</span>
+    </div>
+    <div style="flex: 1; background: #e8f0fe; padding: 10px; text-align: center;">
+      <div style="font-weight: bold; color: #1a73e8;">P2</div>Shell<br><span style="font-size: 10px; color: #5f6368;">4 壳层组件</span>
+    </div>
+    <div style="flex: 1; background: #e6f4ea; padding: 10px; text-align: center;">
+      <div style="font-weight: bold; color: #1e8e3e;">P3</div>Components<br><span style="font-size: 10px; color: #5f6368;">13 组件库</span>
+    </div>
+    <div style="flex: 1; background: #fce8e6; padding: 10px; border-radius: 0 8px 8px 0; text-align: center;">
+      <div style="font-weight: bold; color: #d93025;">P4</div>Pages<br><span style="font-size: 10px; color: #5f6368;">20+ 页面迁移</span>
+    </div>
+  </div>
+</div>

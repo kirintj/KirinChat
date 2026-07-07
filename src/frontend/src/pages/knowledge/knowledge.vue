@@ -392,7 +392,7 @@ onMounted(() => {
           </div>
           
           <div class="form-item">
-            <label>知识库描述 <span style="color: var(--color-text-tertiary); font-size: var(--font-size-xs);">(可选，10-200字符)</span></label>
+            <label>知识库描述 <span style="color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-body-s);">(可选，10-200字符)</span></label>
             <div class="textarea-with-count">
               <textarea 
                 v-model="createForm.knowledge_desc"
@@ -447,7 +447,7 @@ onMounted(() => {
           </div>
           
           <div class="form-item">
-            <label>知识库描述 <span style="color: var(--color-text-tertiary); font-size: var(--font-size-xs);">(可选，10-200字符)</span></label>
+            <label>知识库描述 <span style="color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-body-s);">(可选，10-200字符)</span></label>
             <div class="textarea-with-count">
               <textarea 
                 v-model="editForm.knowledge_desc"
@@ -512,18 +512,18 @@ onMounted(() => {
 .knowledge-page {
   padding: 32px;
   min-height: 100vh;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    background: var(--color-bg);
-    padding: var(--spacing-2xl) var(--spacing-2xl);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 6px 24px var(--shadow-sm);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-background-primary);
+    padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+    border-radius: var(--harmony-corner-radius-level8);
+    box-shadow: 0 6px 24px var(--harmony-shadow-sm);
+    border: 1px solid var(--harmony-comp-divider);
 
     .header-title {
       display: flex;
@@ -537,9 +537,9 @@ onMounted(() => {
       
       h2 {
         margin: 0;
-        font-size: var(--font-size-2xl);
+        font-size: var(--harmony-font-size-title-m);
         font-weight: 600;
-        background: var(--color-primary);
+        background: var(--harmony-brand);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -550,35 +550,35 @@ onMounted(() => {
       .h-button {
         font-weight: 600;
         letter-spacing: 0.025em;
-        border-radius: var(--radius-lg);
-        padding: var(--spacing-md) var(--spacing-2xl);
+        border-radius: var(--harmony-corner-radius-level8);
+        padding: var(--harmony-padding-level8) var(--harmony-padding-level16);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
         &:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 25px var(--color-primary-bg);
+          box-shadow: 0 8px 25px var(--harmony-comp-emphasize-tertiary);
         }
       }
     }
   }
   
   .knowledge-container {
-    background: var(--color-bg);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 6px 24px var(--shadow-sm);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-background-primary);
+    border-radius: var(--harmony-corner-radius-level8);
+    box-shadow: 0 6px 24px var(--harmony-shadow-sm);
+    border: 1px solid var(--harmony-comp-divider);
     overflow: hidden;
     
     .list-header {
       display: grid;
       grid-template-columns: 2fr 3fr 1fr 1fr 1.2fr 1.5fr;
       gap: 16px;
-      padding: var(--spacing-lg) var(--spacing-2xl);
-      background: var(--color-bg);
-      border-bottom: 2px solid var(--color-border);
+      padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
+      background: var(--harmony-comp-background-primary);
+      border-bottom: 2px solid var(--harmony-comp-divider);
       font-weight: 600;
-      font-size: var(--font-size-sm);
-      color: var(--color-text-secondary);
+      font-size: var(--harmony-font-size-subtitle-s);
+      color: var(--harmony-font-secondary);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       
@@ -588,8 +588,8 @@ onMounted(() => {
         gap: 6px;
 
         svg {
-          font-size: var(--font-size-base);
-          color: var(--color-text-tertiary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-font-tertiary);
         }
       }
     }
@@ -599,15 +599,15 @@ onMounted(() => {
         display: grid;
         grid-template-columns: 2fr 3fr 1fr 1fr 1.2fr 1.5fr;
         gap: 16px;
-        padding: var(--spacing-2xl) var(--spacing-2xl);
-        border-bottom: 1px solid var(--color-border);
+        padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+        border-bottom: 1px solid var(--harmony-comp-divider);
         transition: all 0.2s ease;
         cursor: pointer;
         align-items: center;
         
         &:hover {
-          background: var(--color-bg-hover);
-          box-shadow: 0 2px 8px var(--shadow-sm);
+          background: var(--harmony-interactive-hover);
+          box-shadow: 0 2px 8px var(--harmony-shadow-sm);
         }
         
         &:last-child {
@@ -623,8 +623,8 @@ onMounted(() => {
             .knowledge-avatar {
               width: 40px;
               height: 40px;
-              border-radius: var(--radius-md);
-              background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
+              border-radius: var(--harmony-corner-radius-level6);
+              background: linear-gradient(135deg, var(--harmony-comp-emphasize-tertiary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
               display: flex;
               align-items: center;
               justify-content: center;
@@ -637,9 +637,9 @@ onMounted(() => {
             }
             
             .knowledge-name {
-              font-size: var(--font-size-lg);
+              font-size: var(--harmony-font-size-body-l);
               font-weight: 600;
-              color: var(--color-text-primary);
+              color: var(--harmony-font-primary);
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
@@ -649,8 +649,8 @@ onMounted(() => {
         
         .col-desc {
           .knowledge-desc {
-            font-size: var(--font-size-base);
-            color: var(--color-text-secondary);
+            font-size: var(--harmony-font-size-body-m);
+            color: var(--harmony-font-secondary);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -664,26 +664,26 @@ onMounted(() => {
             align-items: center;
             gap: 6px;
             padding: 6px 12px;
-            background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-sm);
+            background: linear-gradient(135deg, var(--harmony-comp-emphasize-tertiary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
+            border-radius: var(--harmony-corner-radius-level6);
+            font-size: var(--harmony-font-size-subtitle-s);
             font-weight: 600;
-            color: var(--color-primary);
+            color: var(--harmony-brand);
           }
         }
         
         .col-size {
           .size-text {
-            font-size: var(--font-size-base);
+            font-size: var(--harmony-font-size-body-m);
             font-weight: 500;
-            color: var(--color-text-secondary);
+            color: var(--harmony-font-secondary);
           }
         }
         
         .col-time {
           .time-text {
-            font-size: var(--font-size-sm);
-            color: var(--color-text-tertiary);
+            font-size: var(--harmony-font-size-subtitle-s);
+            color: var(--harmony-font-tertiary);
           }
         }
         
@@ -695,40 +695,40 @@ onMounted(() => {
           .action-btn {
             width: 36px;
             height: 36px;
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            background: var(--color-bg);
+            border: 1px solid var(--harmony-comp-divider);
+            border-radius: var(--harmony-corner-radius-level6);
+            background: var(--harmony-comp-background-primary);
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--color-text-secondary);
+            color: var(--harmony-font-secondary);
 
             span {
-              font-size: var(--font-size-xl);
+              font-size: var(--harmony-font-size-title-s);
             }
             
             &:hover {
               transform: translateY(-2px);
-              box-shadow: 0 4px 8px var(--shadow-md);
+              box-shadow: 0 4px 8px var(--harmony-shadow-md);
             }
             
             &.view-btn:hover {
-              background: var(--color-primary);
-              border-color: var(--color-primary);
+              background: var(--harmony-brand);
+              border-color: var(--harmony-brand);
               color: white;
             }
             
             &.edit-btn:hover {
-              background: var(--color-success);
-              border-color: var(--color-success);
+              background: var(--harmony-confirm);
+              border-color: var(--harmony-confirm);
               color: white;
             }
             
             &.delete-btn:hover {
-              background: var(--color-danger);
-              border-color: var(--color-danger);
+              background: var(--harmony-warning);
+              border-color: var(--harmony-warning);
               color: white;
             }
           }
@@ -742,7 +742,7 @@ onMounted(() => {
 .loading-overlay {
   position: absolute;
   inset: 0;
-  background: var(--color-overlay);
+  background: var(--harmony-comp-background-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -753,9 +753,9 @@ onMounted(() => {
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid var(--color-bg-overlay);
-  border-top-color: var(--color-primary, var(--color-primary));
-  border-radius: var(--radius-full);
+  border: 3px solid var(--harmony-comp-background-secondary);
+  border-top-color: var(--harmony-brand));
+  border-radius: var(--harmony-corner-radius-level18);
   animation: h-spin 0.6s linear infinite;
 }
 
@@ -770,7 +770,7 @@ onMounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--color-overlay);
+  background: var(--harmony-comp-background-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -778,9 +778,9 @@ onMounted(() => {
 }
 
 .dialog-container {
-  background: var(--color-bg);
-  border-radius: var(--radius-md);
-  box-shadow: 0 10px 30px var(--shadow-lg);
+  background: var(--harmony-comp-background-primary);
+  border-radius: var(--harmony-corner-radius-level6);
+  box-shadow: 0 10px 30px var(--harmony-shadow-dialog);
   width: 500px;
   max-width: 90vw;
   max-height: 80vh;
@@ -792,27 +792,27 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 20px 20px 0 20px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--harmony-comp-divider);
   margin-bottom: 20px;
   
   h3 {
     margin: 0;
-    font-size: var(--font-size-xl);
-    color: var(--color-text-primary);
+    font-size: var(--harmony-font-size-title-s);
+    color: var(--harmony-font-primary);
   }
   
   .close-btn {
     background: none;
     border: none;
-    font-size: var(--font-size-2xl);
-    color: var(--color-text-tertiary);
+    font-size: var(--harmony-font-size-title-m);
+    color: var(--harmony-font-tertiary);
     cursor: pointer;
     padding: 0;
     width: 24px;
     height: 24px;
     
     &:hover {
-      color: var(--color-danger);
+      color: var(--harmony-warning);
     }
   }
 }
@@ -826,49 +826,49 @@ onMounted(() => {
     label {
       display: block;
       margin-bottom: 8px;
-      font-size: var(--font-size-base);
-      color: var(--color-text-secondary);
+      font-size: var(--harmony-font-size-body-m);
+      color: var(--harmony-font-secondary);
       font-weight: 500;
     }
     
     input, textarea {
       width: 100%;
       padding: 12px;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
-      font-size: var(--font-size-base);
+      border: 1px solid var(--harmony-comp-divider);
+      border-radius: var(--harmony-corner-radius-level4);
+      font-size: var(--harmony-font-size-body-m);
       box-sizing: border-box;
       transition: border-color 0.2s;
       
       &:focus {
         outline: none;
-        border-color: var(--color-primary);
+        border-color: var(--harmony-brand);
       }
       
       &::placeholder {
-        color: var(--color-text-tertiary);
+        color: var(--harmony-font-tertiary);
       }
     }
     
     textarea {
       resize: vertical;
-      font-family: var(--font-family);
+      font-family: var(--harmony-font-family);
     }
   }
 }
 
 .dialog-footer {
   padding: 20px;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--harmony-comp-divider);
   display: flex;
   justify-content: flex-end;
   gap: 12px;
   
   button {
     padding: 8px 20px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    font-size: var(--font-size-base);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level4);
+    font-size: var(--harmony-font-size-body-m);
     cursor: pointer;
     transition: all 0.2s;
     
@@ -883,13 +883,13 @@ onMounted(() => {
   }
   
   .primary-btn {
-    background: var(--color-primary);
+    background: var(--harmony-brand);
     color: white;
-    border-color: var(--color-primary);
+    border-color: var(--harmony-brand);
     
     &:hover:not(:disabled) {
-      background: var(--color-primary);
-      border-color: var(--color-primary);
+      background: var(--harmony-brand);
+      border-color: var(--harmony-brand);
     }
   }
 }
@@ -899,22 +899,22 @@ onMounted(() => {
   position: relative;
   
   input.error, textarea.error {
-    border-color: var(--color-danger) !important;
-    box-shadow: 0 0 0 2px var(--color-danger-bg);
+    border-color: var(--harmony-warning) !important;
+    box-shadow: 0 0 0 2px var(--harmony-warning-bg);
   }
   
   .char-count {
     position: absolute;
     font-size: 11px;
-    color: var(--color-text-tertiary);
-    background: var(--color-bg);
+    color: var(--harmony-font-tertiary);
+    background: var(--harmony-comp-background-primary);
     padding: 2px 4px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--harmony-corner-radius-level4);
     font-weight: 500;
     
     &.error {
-      color: var(--color-danger);
-      background: var(--color-danger-bg);
+      color: var(--harmony-warning);
+      background: var(--harmony-warning-bg);
     }
   }
 }
@@ -928,7 +928,7 @@ onMounted(() => {
 .textarea-with-count .char-count {
   right: 8px;
   bottom: 8px;
-  box-shadow: 0 1px 3px var(--shadow-md);
+  box-shadow: 0 1px 3px var(--harmony-shadow-md);
 }
 
 /* 空状态样式 */
@@ -948,8 +948,8 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--color-primary-bg);
-    border-radius: var(--radius-full);
+    background: var(--harmony-comp-emphasize-tertiary);
+    border-radius: var(--harmony-corner-radius-level18);
     margin-bottom: 20px;
     
     .empty-icon-symbol {
@@ -964,28 +964,28 @@ onMounted(() => {
   }
   
   h3 {
-    font-size: var(--font-size-xl);
-    color: var(--color-text-primary);
+    font-size: var(--harmony-font-size-title-s);
+    color: var(--harmony-font-primary);
     margin: 0 0 16px;
   }
   
   p {
     margin: 0 0 20px;
-    font-size: var(--font-size-lg);
-    color: var(--color-text-tertiary);
+    font-size: var(--harmony-font-size-body-l);
+    color: var(--harmony-font-tertiary);
     max-width: 300px;
   }
   
   .create-btn {
-    padding: var(--spacing-md) var(--spacing-2xl);
-    font-size: var(--font-size-lg);
+    padding: var(--harmony-padding-level8) var(--harmony-padding-level16);
+    font-size: var(--harmony-font-size-body-l);
   }
 }
 
 /* 删除确认对话框样式 */
 .delete-dialog-container {
-  background: var(--color-bg);
-  border-radius: var(--radius-lg);
+  background: var(--harmony-comp-background-primary);
+  border-radius: var(--harmony-corner-radius-level8);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   width: 400px;
   max-width: 90vw;
@@ -997,12 +997,12 @@ onMounted(() => {
   
   p {
     margin: 0;
-    font-size: var(--font-size-lg);
-    color: var(--color-text-primary);
+    font-size: var(--harmony-font-size-body-l);
+    color: var(--harmony-font-primary);
     line-height: 1.6;
     
     strong {
-      color: var(--color-danger);
+      color: var(--harmony-warning);
       font-weight: 600;
     }
   }
@@ -1013,15 +1013,15 @@ onMounted(() => {
   justify-content: flex-end;
   gap: 12px;
   padding: 20px 30px;
-  background: var(--color-bg);
-  border-top: 1px solid var(--color-border);
+  background: var(--harmony-comp-background-primary);
+  border-top: 1px solid var(--harmony-comp-divider);
 }
 
 .delete-dialog-btn {
   padding: 10px 24px;
   border: none;
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-base);
+  border-radius: var(--harmony-corner-radius-level6);
+  font-size: var(--harmony-font-size-body-m);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -1032,20 +1032,20 @@ onMounted(() => {
   }
   
   &.cancel-btn {
-    background: var(--color-bg);
-    color: var(--color-text-secondary);
+    background: var(--harmony-comp-background-primary);
+    color: var(--harmony-font-secondary);
     
     &:hover:not(:disabled) {
-      background: var(--color-border);
+      background: var(--harmony-comp-divider);
     }
   }
   
   &.confirm-btn {
-    background: var(--color-danger);
+    background: var(--harmony-warning);
     color: white;
     
     &:hover:not(:disabled) {
-      background: var(--color-danger);
+      background: var(--harmony-warning);
     }
   }
 }

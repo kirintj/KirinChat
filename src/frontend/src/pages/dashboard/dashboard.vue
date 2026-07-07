@@ -79,7 +79,12 @@
       <div class="kpi-card kpi-card--primary">
         <div class="kpi-top">
           <div class="kpi-title">总调用次数</div>
-          <div class="kpi-icon">☎️</div>
+          <div class="kpi-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <rect x="3" y="2" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M7 8H15M7 12H13M7 16H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+            </div>
         </div>
         <div class="kpi-value">{{ totalCalls.toLocaleString() }}</div>
         <div class="kpi-desc">{{ periodText }}</div>
@@ -87,7 +92,12 @@
       <div class="kpi-card kpi-card--warning">
         <div class="kpi-top">
           <div class="kpi-title">总 Token 消耗</div>
-          <div class="kpi-icon">Σ</div>
+          <div class="kpi-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M7 11H15M11 7V15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+            </div>
         </div>
         <div class="kpi-value">{{ totalTokens.toLocaleString() }}</div>
         <div class="kpi-desc">输入 + 输出（{{ periodText }}）</div>
@@ -540,7 +550,7 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .dashboard-container {
   padding: 24px;
-  background-color: var(--color-bg);
+  background-color: var(--harmony-comp-background-primary);
   min-height: calc(100vh - 60px);
 }
 
@@ -552,27 +562,27 @@ onBeforeUnmount(() => {
     gap: 10px;
   }
   .badge {
-    font-size: var(--font-size-xs);
+    font-size: var(--harmony-font-size-body-s);
     padding: 2px 8px;
     border-radius: 999px;
-    background: var(--color-primary-bg);
-    color: var(--color-primary);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-emphasize-tertiary);
+    color: var(--harmony-brand);
+    border: 1px solid var(--harmony-comp-divider);
   }
   .sub {
     margin-top: 6px;
-    color: var(--color-text-tertiary);
-    font-size: var(--font-size-sm);
+    color: var(--harmony-font-tertiary);
+    font-size: var(--harmony-font-size-subtitle-s);
     font-weight: 500;
     letter-spacing: .2px;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--font-family);
+    font-family: var(--harmony-font-family);
   }
   
   h2 {
-    font-size: var(--font-size-2xl);
+    font-size: var(--harmony-font-size-title-m);
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
     margin: 0;
   }
 }
@@ -582,12 +592,12 @@ onBeforeUnmount(() => {
   align-items: flex-end;
   gap: 16px;
   padding: 16px 20px;
-  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg) 100%);
+  background: var(--harmony-comp-background-primary);
   border-radius: 14px;
-  box-shadow: 0 12px 32px var(--shadow-sm);
+  box-shadow: var(--harmony-shadow-xs);
   margin-bottom: 28px;
   flex-wrap: wrap;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--harmony-comp-divider);
 }
 
 .filter-group {
@@ -598,14 +608,14 @@ onBeforeUnmount(() => {
   min-width: 220px;
   
   label {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
     white-space: nowrap;
     padding-left: 4px;
     font-weight: 600;
     letter-spacing: .3px;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--font-family);
+    font-family: var(--harmony-font-family);
   }
 }
 
@@ -618,25 +628,25 @@ onBeforeUnmount(() => {
   align-self: center;
   margin-left: auto;
   padding: 0 20px;
-  border-radius: var(--radius-lg);
+  border-radius: var(--harmony-corner-radius-level8);
   font-weight: 600;
   letter-spacing: .3px;
-  box-shadow: 0 8px 20px var(--color-primary-bg);
+  box-shadow: var(--harmony-shadow-xs);
 }
 .filter-action:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 12px 24px var(--color-primary-bg);
+  box-shadow: var(--harmony-shadow-sm);
 }
 .filter-action:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 6px 18px var(--color-primary-bg);
+  box-shadow: var(--harmony-shadow-xs);
 }
 
 /* 加载中遮罩 */
 .loading-overlay {
   position: absolute;
   inset: 0;
-  background: var(--color-overlay);
+  background: var(--harmony-comp-background-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -647,9 +657,9 @@ onBeforeUnmount(() => {
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid var(--color-bg-overlay);
-  border-top-color: var(--color-primary, var(--color-primary));
-  border-radius: var(--radius-full);
+  border: 3px solid var(--harmony-comp-background-secondary);
+  border-top-color: var(--harmony-brand));
+  border-radius: var(--harmony-corner-radius-level18);
   animation: h-spin 0.6s linear infinite;
 }
 
@@ -665,28 +675,28 @@ onBeforeUnmount(() => {
 }
 
 .kpi-card {
-  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-primary-bg) 100%);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8);
   padding: 16px 18px;
-  box-shadow: 0 8px 24px var(--shadow-xs);
+  box-shadow: var(--harmony-shadow-xs);
   position: relative;
 
   .kpi-title {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-tertiary);
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-tertiary);
     margin-bottom: 6px;
   }
   .kpi-value {
-    font-size: var(--font-size-2xl);
+    font-size: var(--harmony-font-size-title-m);
     font-weight: 700;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
     line-height: 1.2;
   }
   .kpi-desc {
     margin-top: 8px;
-    font-size: var(--font-size-xs);
-    color: var(--color-text-tertiary);
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-tertiary);
   }
   .kpi-top {
     display: flex;
@@ -697,22 +707,22 @@ onBeforeUnmount(() => {
   .kpi-icon {
     width: 36px;
     height: 36px;
-    border-radius: var(--radius-full);
+    border-radius: var(--harmony-corner-radius-level18);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-primary-bg);
-    color: var(--color-primary);
+    background: var(--harmony-comp-emphasize-tertiary);
+    color: var(--harmony-brand);
     font-weight: 800;
-    box-shadow: inset 0 0 0 1px var(--color-border);
+    box-shadow: inset 0 0 0 1px var(--harmony-comp-divider);
   }
 }
 
 .kpi-card--primary {
-  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-primary-bg) 100%);
+  background: linear-gradient(180deg, var(--harmony-comp-background-primary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
 }
 .kpi-card--warning {
-  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-warning-bg) 100%);
+  background: linear-gradient(180deg, var(--harmony-comp-background-primary) 0%, var(--harmony-alert-bg) 100%);
 }
 
 .charts-container {
@@ -722,21 +732,21 @@ onBeforeUnmount(() => {
 }
 
 .chart-wrapper {
-  background-color: var(--color-bg);
-  border-radius: var(--radius-md);
-  box-shadow: 0 12px 32px var(--shadow-sm);
+  background-color: var(--harmony-comp-background-primary);
+  border-radius: var(--harmony-corner-radius-level6);
+  box-shadow: var(--harmony-shadow-xs);
   padding: 20px;
   min-height: 400px;
   position: relative;
 }
 
 .chart-title {
-  font-size: var(--font-size-lg);
+  font-size: var(--harmony-font-size-body-l);
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--harmony-font-primary);
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--harmony-comp-divider);
 }
 
 .chart-content {
@@ -753,8 +763,8 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-tertiary);
-  font-size: var(--font-size-sm);
+  color: var(--harmony-font-tertiary);
+  font-size: var(--harmony-font-size-subtitle-s);
   pointer-events: none;
 }
 

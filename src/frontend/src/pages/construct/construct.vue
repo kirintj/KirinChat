@@ -78,7 +78,7 @@ onMounted(async () => {
 .agent-card {
   padding: 32px;
   min-height: calc(100vh - 150px);
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 16px;
@@ -89,8 +89,8 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     height: 160px;
-    background: linear-gradient(135deg, var(--color-info), var(--color-primary));
-    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-brand));
+    border-radius: var(--harmony-corner-radius-level10);
     border: 2px solid transparent;
     box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -116,7 +116,7 @@ onMounted(async () => {
       left: -2px;
       right: -2px;
       bottom: -2px;
-      background: linear-gradient(135deg, var(--color-primary), var(--color-info), var(--color-primary));
+      background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-brand), var(--harmony-brand));
       border-radius: 22px;
       z-index: -1;
       opacity: 0;
@@ -148,19 +148,19 @@ onMounted(async () => {
           span {
             font-size: 18px;
             font-weight: 600;
-            color: var(--color-bg);
-            font-family: var(--font-family);
+            color: var(--harmony-comp-background-primary);
+            font-family: var(--harmony-font-family);
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
           }
         }
 
         .middle {
-          font-size: var(--font-size-base);
+          font-size: var(--harmony-font-size-body-m);
           font-weight: 400;
           line-height: 1.5;
           color: rgba(255, 255, 255, 0.9);
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-          font-family: var(--font-family);
+          font-family: var(--harmony-font-family);
         }
       }
     

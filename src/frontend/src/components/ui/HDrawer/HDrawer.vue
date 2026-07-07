@@ -29,7 +29,7 @@ const close = () => emit('update:modelValue', false)
 .h-drawer-overlay {
   position: fixed;
   inset: 0;
-  background: var(--color-overlay);
+  background: var(--harmony-comp-background-secondary);
   z-index: var(--z-dialog);
 }
 
@@ -37,12 +37,12 @@ const close = () => emit('update:modelValue', false)
   position: fixed;
   top: 0;
   bottom: 0;
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(20px) saturate(1.2);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--harmony-shadow-dialog);
   display: flex;
   flex-direction: column;
-  transition: transform var(--duration-normal) var(--easing);
+  transition: transform var(--harmony-duration-normal) var(--harmony-motion-standard);
 }
 
 .h-drawer--right {
@@ -60,13 +60,13 @@ const close = () => emit('update:modelValue', false)
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--harmony-comp-divider);
 }
 
 .h-drawer__title {
-  font-size: var(--font-size-lg);
+  font-size: var(--harmony-font-size-body-l);
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--harmony-font-primary);
 }
 
 .h-drawer__close {
@@ -79,17 +79,17 @@ const close = () => emit('update:modelValue', false)
   justify-content: center;
   border-radius: 50%;
   cursor: pointer;
-  color: var(--color-text-tertiary);
-  transition: background var(--duration-fast) var(--easing);
+  color: var(--harmony-font-tertiary);
+  transition: background var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 
 .h-drawer__close:hover {
-  color: var(--color-text-primary);
-  background: var(--color-bg-hover);
+  color: var(--harmony-font-primary);
+  background: var(--harmony-interactive-hover);
 }
 
 .h-drawer__close:active {
-  background: var(--color-bg-active);
+  background: var(--harmony-interactive-pressed);
 }
 
 .h-drawer__body {

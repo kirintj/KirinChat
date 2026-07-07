@@ -48,11 +48,11 @@ defineEmits<{
   justify-content: center;
   gap: 8px;
   border: none;
-  border-radius: var(--radius-md);
-  font-family: var(--font-family);
+  border-radius: var(--harmony-corner-radius-level6);
+  font-family: var(--harmony-font-family);
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--duration-fast) var(--easing);
+  transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
   white-space: nowrap;
   user-select: none;
 }
@@ -64,14 +64,14 @@ defineEmits<{
   pointer-events: none;
   border-radius: inherit;
   opacity: 0;
-  transition: opacity var(--duration-fast) var(--easing);
+  transition: opacity var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 .h-button:hover .h-button__overlay {
   opacity: 1;
-  background: var(--color-bg-hover);
+  background: var(--harmony-interactive-hover);
 }
 .h-button:active .h-button__overlay {
-  background: var(--color-bg-active);
+  background: var(--harmony-interactive-pressed);
 }
 
 /* Focus ring layer */
@@ -79,10 +79,10 @@ defineEmits<{
   position: absolute;
   inset: -4px;
   border-radius: calc(inherit + 4px);
-  border: 2px solid var(--color-focus-ring);
+  border: 2px solid var(--harmony-interactive-focus);
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--duration-fast) var(--easing);
+  transition: opacity var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 .h-button:focus-visible .h-button__focus-ring {
   opacity: 1;
@@ -94,47 +94,47 @@ defineEmits<{
   height: 28px;
   border-radius: 14px;
   padding: 0 12px;
-  font-size: var(--font-size-sm);
+  font-size: var(--harmony-font-size-subtitle-s);
 }
 .h-button--medium {
   min-width: 120px;
   height: 40px;
   border-radius: 20px;
   padding: 0 16px;
-  font-size: var(--font-size-lg);
+  font-size: var(--harmony-font-size-body-l);
 }
 .h-button--large {
   min-width: 140px;
   height: 44px;
   border-radius: 22px;
   padding: 0 24px;
-  font-size: var(--font-size-lg);
+  font-size: var(--harmony-font-size-body-l);
 }
 
 /* Primary */
 .h-button--primary {
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: var(--harmony-brand);
+  color: var(--harmony-font-on-primary);
   backdrop-filter: blur(30px) saturate(1.2);
 }
 
 /* Secondary */
 .h-button--secondary {
-  background: var(--color-primary-bg);
-  color: var(--color-primary);
+  background: var(--harmony-comp-emphasize-tertiary);
+  color: var(--harmony-brand);
   backdrop-filter: blur(8px);
 }
 
 /* Text */
 .h-button--text {
   background: transparent;
-  color: var(--color-primary);
+  color: var(--harmony-brand);
 }
 
 /* Danger */
 .h-button--danger {
-  background: var(--color-danger);
-  color: var(--color-on-primary);
+  background: var(--harmony-warning);
+  color: var(--harmony-font-on-primary);
 }
 
 /* Disabled */
@@ -162,7 +162,7 @@ defineEmits<{
   width: 16px;
   height: 16px;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: var(--color-on-primary);
+  border-top-color: var(--harmony-font-on-primary);
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;
 }

@@ -14,14 +14,14 @@ defineEmits<{ click: [command: string | undefined] }>()
 <style scoped>
 .h-dropdown-item {
   position: relative; overflow: hidden;
-  padding: 10px 16px; font-size: var(--font-size-base);
-  color: var(--color-text-primary); cursor: pointer;
+  padding: 10px 16px; font-size: var(--harmony-font-size-body-m);
+  color: var(--harmony-font-primary); cursor: pointer;
 }
 .h-dropdown-item__overlay {
   position: absolute; inset: 0; pointer-events: none;
   background: transparent;
-  transition: background var(--duration-fast) var(--easing);
+  transition: background var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
-.h-dropdown-item:hover .h-dropdown-item__overlay { background: var(--color-bg-hover); }
-.h-dropdown-item:active .h-dropdown-item__overlay { background: var(--color-bg-active); }
+.h-dropdown-item:hover .h-dropdown-item__overlay { background: var(--harmony-interactive-hover); }
+.h-dropdown-item:active .h-dropdown-item__overlay { background: var(--harmony-interactive-pressed); }
 </style>

@@ -913,7 +913,7 @@ onMounted(() => {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: var(--color-overlay);
+  background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -934,12 +934,12 @@ onMounted(() => {
   .confirm-dialog {
     width: 90%;
     max-width: 420px;
-    background: var(--color-bg);
-    border-radius: var(--radius-lg);
+    background: var(--harmony-comp-background-primary);
+    border-radius: var(--harmony-corner-radius-level8);
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
     overflow: hidden;
     animation: slideUp 0.22s ease;
-    border: 1px solid var(--shadow-sm);
+    border: 1px solid var(--harmony-shadow-sm);
   }
 
   .dialog-header {
@@ -947,13 +947,13 @@ onMounted(() => {
     align-items: center;
     justify-content: space-between;
     padding: 14px 16px;
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-bg);
+    border-bottom: 1px solid var(--harmony-comp-divider);
+    background: var(--harmony-comp-background-primary);
 
     .dialog-title {
-      font-size: var(--font-size-lg);
+      font-size: var(--harmony-font-size-body-l);
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
     }
 
     .dialog-close {
@@ -961,10 +961,10 @@ onMounted(() => {
       height: 28px;
       border: none;
       background: transparent;
-      color: var(--color-text-tertiary);
+      color: var(--harmony-font-tertiary);
       cursor: pointer;
-      border-radius: var(--radius-sm);
-      font-size: var(--font-size-xl);
+      border-radius: var(--harmony-corner-radius-level4);
+      font-size: var(--harmony-font-size-title-s);
       line-height: 28px;
       display: flex;
       align-items: center;
@@ -972,8 +972,8 @@ onMounted(() => {
       transition: all 0.15s ease;
 
       &:hover {
-        background: var(--color-text-disabled);
-        color: var(--color-text-secondary);
+        background: var(--harmony-font-fourth);
+        color: var(--harmony-font-secondary);
       }
     }
   }
@@ -983,8 +983,8 @@ onMounted(() => {
 
     .dialog-message {
       margin: 0;
-      font-size: var(--font-size-base);
-      color: var(--color-text-secondary);
+      font-size: var(--harmony-font-size-body-m);
+      color: var(--harmony-font-secondary);
       line-height: 1.6;
       white-space: pre-wrap;
       word-break: break-word;
@@ -995,35 +995,35 @@ onMounted(() => {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    padding: var(--spacing-md) var(--spacing-lg) 16px;
-    background: var(--color-bg);
+    padding: var(--harmony-padding-level8) var(--harmony-padding-level10) 16px;
+    background: var(--harmony-comp-background-primary);
 
     .btn {
       height: 32px;
       padding: 0 14px;
-      border-radius: var(--radius-sm);
+      border-radius: var(--harmony-corner-radius-level4);
       border: 1px solid transparent;
-      font-size: var(--font-size-base);
+      font-size: var(--harmony-font-size-body-m);
       cursor: pointer;
       transition: all 0.15s ease;
       user-select: none;
     }
 
     .btn-default {
-      background: var(--color-bg);
-      border-color: var(--color-border);
-      color: var(--color-text-secondary);
+      background: var(--harmony-comp-background-primary);
+      border-color: var(--harmony-comp-divider);
+      color: var(--harmony-font-secondary);
 
       &:hover {
-        border-color: var(--color-text-tertiary);
-        color: var(--color-primary);
+        border-color: var(--harmony-font-tertiary);
+        color: var(--harmony-brand);
       }
     }
 
     .btn-primary {
-      background: var(--color-primary);
-      border-color: var(--color-primary);
-      color: var(--color-bg);
+      background: var(--harmony-brand);
+      border-color: var(--harmony-brand);
+      color: var(--harmony-comp-background-primary);
 
       &:hover {
         filter: brightness(1.03);
@@ -1031,9 +1031,9 @@ onMounted(() => {
     }
 
     .btn-danger {
-      background: var(--color-danger);
-      border-color: var(--color-danger);
-      color: var(--color-bg);
+      background: var(--harmony-warning);
+      border-color: var(--harmony-warning);
+      color: var(--harmony-comp-background-primary);
 
       &:hover {
         filter: brightness(1.03);
@@ -1045,8 +1045,8 @@ onMounted(() => {
 // 创建弹窗样式
 .create-modal {
   .create-dialog {
-    background: var(--color-bg);
-    border-radius: var(--radius-full);
+    background: var(--harmony-comp-background-primary);
+    border-radius: var(--harmony-corner-radius-level18);
     width: 90%;
     max-width: 520px;
     box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2);
@@ -1058,19 +1058,19 @@ onMounted(() => {
       align-items: center;
       gap: 16px;
       padding: 24px 24px 20px;
-      background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
-      border-bottom: 1px solid var(--color-primary-bg);
+      background: linear-gradient(135deg, var(--harmony-comp-emphasize-tertiary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
+      border-bottom: 1px solid var(--harmony-comp-emphasize-tertiary);
       position: relative;
       
       .dialog-icon {
         width: 56px;
         height: 56px;
-        background: var(--color-bg);
-        border-radius: var(--radius-lg);
+        background: var(--harmony-comp-background-primary);
+        border-radius: var(--harmony-corner-radius-level8);
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 12px var(--color-primary-bg);
+        box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
         
         img {
           width: 36px;
@@ -1083,15 +1083,15 @@ onMounted(() => {
         
         h3 {
           margin: 0 0 4px;
-          font-size: var(--font-size-xl);
+          font-size: var(--harmony-font-size-title-s);
           font-weight: 600;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
         }
         
         p {
           margin: 0;
-          font-size: var(--font-size-base);
-          color: var(--color-text-secondary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-font-secondary);
         }
       }
       
@@ -1102,18 +1102,18 @@ onMounted(() => {
         width: 32px;
         height: 32px;
         border: none;
-        background: var(--shadow-xs);
-        border-radius: var(--radius-md);
+        background: var(--harmony-shadow-xs);
+        border-radius: var(--harmony-corner-radius-level6);
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--color-text-secondary);
+        color: var(--harmony-font-secondary);
         transition: all 0.2s ease;
         
         &:hover {
-          background: var(--shadow-md);
-          color: var(--color-text-primary);
+          background: var(--harmony-shadow-md);
+          color: var(--harmony-font-primary);
         }
       }
     }
@@ -1126,9 +1126,9 @@ onMounted(() => {
         align-items: flex-start;
         gap: 12px;
         padding: 16px;
-        background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
-        border: 1px solid var(--color-primary-bg);
-        border-radius: var(--radius-lg);
+        background: linear-gradient(135deg, var(--harmony-comp-emphasize-tertiary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
+        border: 1px solid var(--harmony-comp-emphasize-tertiary);
+        border-radius: var(--harmony-corner-radius-level8);
         margin-bottom: 24px;
         
         .tip-icon {
@@ -1138,8 +1138,8 @@ onMounted(() => {
         
         p {
           margin: 0;
-          font-size: var(--font-size-base);
-          color: var(--color-primary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-brand);
           line-height: 1.6;
         }
       }
@@ -1147,27 +1147,27 @@ onMounted(() => {
       .create-form {
         .skill-textarea {
           width: 100%;
-          font-family: var(--font-family);
-          font-size: var(--font-size-base);
+          font-family: var(--harmony-font-family);
+          font-size: var(--harmony-font-size-body-m);
           line-height: 1.5;
-          border-radius: var(--radius-md);
+          border-radius: var(--harmony-corner-radius-level6);
           padding: 12px;
-          border: 1px solid var(--color-border, var(--color-border));
-          background: var(--color-bg-secondary, var(--color-bg));
-          color: var(--color-text-primary, var(--color-text-primary));
+          border: 1px solid var(--harmony-comp-divider));
+          background: var(--harmony-comp-background-secondary));
+          color: var(--harmony-font-primary));
           resize: vertical;
           box-sizing: border-box;
 
           &:focus {
             outline: none;
-            border-color: var(--color-primary, var(--color-primary));
+            border-color: var(--harmony-brand));
           }
         }
       }
     }
 
     .dialog-footer {
-      padding: var(--spacing-lg) var(--spacing-2xl) 24px;
+      padding: var(--harmony-padding-level10) var(--harmony-padding-level16) 24px;
       display: flex;
       justify-content: flex-end;
       gap: 12px;
@@ -1191,8 +1191,8 @@ onMounted(() => {
   z-index: 999999 !important;
   
   .add-file-dialog {
-    background: var(--color-bg);
-    border-radius: var(--radius-lg);
+    background: var(--harmony-comp-background-primary);
+    border-radius: var(--harmony-corner-radius-level8);
     width: 90%;
     max-width: 480px;
     box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
@@ -1203,22 +1203,22 @@ onMounted(() => {
       display: flex;
       align-items: center;
       gap: 16px;
-      padding: var(--spacing-2xl) var(--spacing-2xl);
-      background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
-      border-bottom: 1px solid var(--color-primary-bg);
+      padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+      background: linear-gradient(135deg, var(--harmony-comp-emphasize-tertiary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
+      border-bottom: 1px solid var(--harmony-comp-emphasize-tertiary);
       position: relative;
       
       .dialog-icon.add-icon {
         width: 48px;
         height: 48px;
-        background: var(--color-bg);
-        border-radius: var(--radius-lg);
+        background: var(--harmony-comp-background-primary);
+        border-radius: var(--harmony-corner-radius-level8);
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 12px var(--color-primary-bg);
-        color: var(--color-primary);
-        font-size: var(--font-size-2xl);
+        box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
+        color: var(--harmony-brand);
+        font-size: var(--harmony-font-size-title-m);
       }
       
       .dialog-title-wrapper {
@@ -1226,15 +1226,15 @@ onMounted(() => {
         
         h3 {
           margin: 0 0 4px;
-          font-size: var(--font-size-xl);
+          font-size: var(--harmony-font-size-title-s);
           font-weight: 600;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
         }
         
         p {
           margin: 0;
-          font-size: var(--font-size-sm);
-          color: var(--color-text-secondary);
+          font-size: var(--harmony-font-size-subtitle-s);
+          color: var(--harmony-font-secondary);
         }
       }
       
@@ -1245,18 +1245,18 @@ onMounted(() => {
         width: 32px;
         height: 32px;
         border: none;
-        background: var(--shadow-xs);
-        border-radius: var(--radius-md);
+        background: var(--harmony-shadow-xs);
+        border-radius: var(--harmony-corner-radius-level6);
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--color-text-secondary);
+        color: var(--harmony-font-secondary);
         transition: all 0.2s ease;
         
         &:hover {
-          background: var(--shadow-md);
-          color: var(--color-text-primary);
+          background: var(--harmony-shadow-md);
+          color: var(--harmony-font-primary);
         }
       }
     }
@@ -1269,15 +1269,15 @@ onMounted(() => {
         align-items: center;
         gap: 10px;
         padding: 14px 16px;
-        background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
-        border: 1px solid var(--color-primary-bg);
-        border-radius: var(--radius-md);
+        background: linear-gradient(135deg, var(--harmony-comp-emphasize-tertiary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
+        border: 1px solid var(--harmony-comp-emphasize-tertiary);
+        border-radius: var(--harmony-corner-radius-level6);
         margin-bottom: 20px;
-        color: var(--color-primary);
-        font-size: var(--font-size-base);
+        color: var(--harmony-brand);
+        font-size: var(--harmony-font-size-body-m);
 
         strong {
-          color: var(--color-primary);
+          color: var(--harmony-brand);
           font-weight: 600;
         }
       }
@@ -1291,16 +1291,16 @@ onMounted(() => {
         
         label {
           display: block;
-          font-size: var(--font-size-base);
+          font-size: var(--harmony-font-size-body-m);
           font-weight: 600;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
           margin-bottom: 8px;
         }
         
         .file-name-hint {
           margin-top: 8px;
-          font-size: var(--font-size-xs);
-          color: var(--color-text-tertiary);
+          font-size: var(--harmony-font-size-body-s);
+          color: var(--harmony-font-tertiary);
         }
       }
       
@@ -1310,24 +1310,24 @@ onMounted(() => {
         gap: 8px;
         
         .folder-option-icon {
-          color: var(--color-warning);
+          color: var(--harmony-alert);
         }
         
         .folder-option-path {
           margin-left: auto;
-          color: var(--color-text-tertiary);
-          font-size: var(--font-size-xs);
+          color: var(--harmony-font-tertiary);
+          font-size: var(--harmony-font-size-body-s);
         }
       }
     }
     
     .dialog-footer {
-      padding: var(--spacing-lg) var(--spacing-2xl);
+      padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
       display: flex;
       justify-content: flex-end;
       gap: 12px;
-      border-top: 1px solid var(--color-border);
-      background: var(--color-bg);
+      border-top: 1px solid var(--harmony-comp-divider);
+      background: var(--harmony-comp-background-primary);
     }
   }
 }
@@ -1335,13 +1335,13 @@ onMounted(() => {
 // 详情弹窗 - IDE 风格
 .detail-modal {
   .detail-dialog {
-    background: var(--color-bg);
-    border-radius: var(--radius-lg);
+    background: var(--harmony-comp-background-primary);
+    border-radius: var(--harmony-corner-radius-level8);
     width: 95%;
     max-width: 1400px;
     height: 80vh;
-    border: 1px solid var(--color-border);
-    box-shadow: 0 24px 48px var(--shadow-md);
+    border: 1px solid var(--harmony-comp-divider);
+    box-shadow: 0 24px 48px var(--harmony-shadow-md);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -1352,8 +1352,8 @@ onMounted(() => {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--color-bg);
-      border-bottom: 1px solid var(--color-border);
+      background: var(--harmony-comp-background-primary);
+      border-bottom: 1px solid var(--harmony-comp-divider);
       height: 40px;
       padding: 0 12px;
       
@@ -1368,10 +1368,10 @@ onMounted(() => {
           gap: 8px;
           height: 100%;
           padding: 0 16px;
-          background: var(--color-bg);
-          border-top: 2px solid var(--color-primary);
-          color: var(--color-text-primary);
-          font-size: var(--font-size-sm);
+          background: var(--harmony-comp-background-primary);
+          border-top: 2px solid var(--harmony-brand);
+          color: var(--harmony-font-primary);
+          font-size: var(--harmony-font-size-subtitle-s);
           
           .tab-icon {
             width: 16px;
@@ -1386,17 +1386,17 @@ onMounted(() => {
           height: 32px;
           border: none;
           background: transparent;
-          color: var(--color-text-secondary);
+          color: var(--harmony-font-secondary);
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: var(--radius-sm);
+          border-radius: var(--harmony-corner-radius-level4);
           transition: all 0.2s ease;
           
           &:hover {
-            background: var(--color-border);
-            color: var(--color-text-primary);
+            background: var(--harmony-comp-divider);
+            color: var(--harmony-font-primary);
           }
         }
       }
@@ -1411,8 +1411,8 @@ onMounted(() => {
       // 侧边栏
       .ide-sidebar {
         width: 260px;
-        background: var(--color-bg);
-        border-right: 1px solid var(--color-border);
+        background: var(--harmony-comp-background-primary);
+        border-right: 1px solid var(--harmony-comp-divider);
         display: flex;
         flex-direction: column;
         
@@ -1420,22 +1420,22 @@ onMounted(() => {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: var(--spacing-md) var(--spacing-lg);
-          color: var(--color-text-secondary);
+          padding: var(--harmony-padding-level8) var(--harmony-padding-level10);
+          color: var(--harmony-font-secondary);
           font-size: 11px;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          border-bottom: 1px solid var(--color-border);
+          border-bottom: 1px solid var(--harmony-comp-divider);
           
           .sidebar-hint {
-            color: var(--color-text-tertiary);
+            color: var(--harmony-font-tertiary);
             cursor: help;
             display: flex;
             align-items: center;
             
             &:hover {
-              color: var(--color-text-secondary);
+              color: var(--harmony-font-secondary);
             }
           }
         }
@@ -1450,13 +1450,13 @@ onMounted(() => {
             align-items: center;
             gap: 8px;
             padding: 6px 16px;
-            color: var(--color-text-primary);
-            font-size: var(--font-size-sm);
+            color: var(--harmony-font-primary);
+            font-size: var(--harmony-font-size-subtitle-s);
             cursor: pointer;
             position: relative;
             
             &:hover {
-              background: var(--color-bg);
+              background: var(--harmony-comp-background-primary);
               
               .item-delete {
                 opacity: 1;
@@ -1464,8 +1464,8 @@ onMounted(() => {
             }
             
             &.active {
-              background: var(--color-primary-bg);
-              color: var(--color-text-primary);
+              background: var(--harmony-comp-emphasize-tertiary);
+              color: var(--harmony-font-primary);
               
               &::before {
                 content: '';
@@ -1474,19 +1474,19 @@ onMounted(() => {
                 top: 0;
                 bottom: 0;
                 width: 2px;
-                background: var(--color-primary);
+                background: var(--harmony-brand);
               }
             }
             
             &.project-root {
-              color: var(--color-text-primary);
+              color: var(--harmony-font-primary);
               font-weight: 500;
               padding-top: 8px;
               padding-bottom: 8px;
             }
             
             &.folder-item {
-              color: var(--color-warning);
+              color: var(--harmony-alert);
               
               &.can-add:hover {
                 .item-add {
@@ -1500,8 +1500,8 @@ onMounted(() => {
             }
             
             &.empty-hint {
-              color: var(--color-text-tertiary);
-              font-size: var(--font-size-xs);
+              color: var(--harmony-font-tertiary);
+              font-size: var(--harmony-font-size-body-s);
               font-style: italic;
               cursor: default;
               
@@ -1513,12 +1513,12 @@ onMounted(() => {
             .item-badge {
               font-size: 10px;
               padding: 2px 6px;
-              border-radius: var(--radius-sm);
+              border-radius: var(--harmony-corner-radius-level4);
               margin-left: auto;
               
               &.readonly {
-                background: var(--color-text-disabled);
-                color: var(--color-text-tertiary);
+                background: var(--harmony-font-fourth);
+                color: var(--harmony-font-tertiary);
               }
             }
             
@@ -1528,31 +1528,31 @@ onMounted(() => {
               height: 20px;
               border: none;
               background: transparent;
-              color: var(--color-success);
+              color: var(--harmony-confirm);
               cursor: pointer;
               display: flex;
               align-items: center;
               justify-content: center;
-              border-radius: var(--radius-sm);
+              border-radius: var(--harmony-corner-radius-level4);
               transition: all 0.2s ease;
               margin-left: auto;
               
               &:hover {
-                background: var(--color-success-bg);
-                color: var(--color-success);
+                background: var(--harmony-confirm-bg);
+                color: var(--harmony-confirm);
               }
             }
             
             .item-icon {
-              font-size: var(--font-size-lg);
+              font-size: var(--harmony-font-size-body-l);
               flex-shrink: 0;
               
               &.folder-icon {
-                color: var(--color-warning);
+                color: var(--harmony-alert);
               }
               
               &.file-icon {
-                color: var(--color-primary);
+                color: var(--harmony-brand);
               }
             }
             
@@ -1569,16 +1569,16 @@ onMounted(() => {
               height: 20px;
               border: none;
               background: transparent;
-              color: var(--color-danger);
+              color: var(--harmony-warning);
               cursor: pointer;
               display: flex;
               align-items: center;
               justify-content: center;
-              border-radius: var(--radius-sm);
+              border-radius: var(--harmony-corner-radius-level4);
               transition: opacity 0.2s ease;
               
               &:hover {
-                background: var(--color-danger-bg);
+                background: var(--harmony-warning-bg);
               }
             }
           }
@@ -1586,22 +1586,22 @@ onMounted(() => {
         
         .skill-info-panel {
           padding: 16px;
-          background: var(--color-bg);
-          border-top: 1px solid var(--color-border);
+          background: var(--harmony-comp-background-primary);
+          border-top: 1px solid var(--harmony-comp-divider);
           
           h4 {
             margin: 0 0 8px;
-            font-size: var(--font-size-xs);
+            font-size: var(--harmony-font-size-body-s);
             font-weight: 600;
-            color: var(--color-text-secondary);
+            color: var(--harmony-font-secondary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
           }
           
           .info-desc {
             margin: 0 0 12px;
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
+            font-size: var(--harmony-font-size-subtitle-s);
+            color: var(--harmony-font-secondary);
             line-height: 1.5;
             display: -webkit-box;
             -webkit-line-clamp: 3;
@@ -1610,8 +1610,8 @@ onMounted(() => {
           }
           
           .info-meta {
-            font-size: var(--font-size-xs);
-            color: var(--color-text-tertiary);
+            font-size: var(--harmony-font-size-body-s);
+            color: var(--harmony-font-tertiary);
             
             span {
               display: flex;
@@ -1627,7 +1627,7 @@ onMounted(() => {
         flex: 1;
         display: flex;
         flex-direction: column;
-        background: var(--color-bg);
+        background: var(--harmony-comp-background-primary);
         
         .editor-tabs {
           display: flex;
@@ -1635,15 +1635,15 @@ onMounted(() => {
           justify-content: space-between;
           padding: 0 16px;
           height: 48px;
-          background: var(--color-bg);
-          border-bottom: 1px solid var(--color-border);
+          background: var(--harmony-comp-background-primary);
+          border-bottom: 1px solid var(--harmony-comp-divider);
           
           .editor-tab {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--color-text-primary);
-            font-size: var(--font-size-sm);
+            color: var(--harmony-font-primary);
+            font-size: var(--harmony-font-size-subtitle-s);
           }
           
           .editor-actions {
@@ -1657,46 +1657,46 @@ onMounted(() => {
               height: 30px;
               padding: 0 14px;
               border-radius: 999px;
-              font-size: var(--font-size-xs);
+              font-size: var(--harmony-font-size-body-s);
               font-weight: 500;
               border: 1px solid transparent;
               background: transparent;
-              color: var(--color-text-secondary);
+              color: var(--harmony-font-secondary);
               transition: all 0.18s ease;
 
               &--ghost {
-                border-color: var(--color-primary-bg);
-                background: var(--color-primary-bg);
-                color: var(--color-primary);
+                border-color: var(--harmony-comp-emphasize-tertiary);
+                background: var(--harmony-comp-emphasize-tertiary);
+                color: var(--harmony-brand);
 
                 &:hover {
-                  background: var(--color-primary-bg);
-                  border-color: var(--color-primary-bg);
-                  box-shadow: 0 0 0 1px var(--color-primary-bg);
+                  background: var(--harmony-comp-emphasize-tertiary);
+                  border-color: var(--harmony-comp-emphasize-tertiary);
+                  box-shadow: 0 0 0 1px var(--harmony-comp-emphasize-tertiary);
                   transform: translateY(-0.5px);
                 }
               }
 
               &--cancel {
                 background: transparent;
-                color: var(--color-text-secondary);
-                border-color: var(--color-border);
+                color: var(--harmony-font-secondary);
+                border-color: var(--harmony-comp-divider);
 
                 &:hover {
-                  background: var(--color-bg);
-                  border-color: var(--color-border);
+                  background: var(--harmony-comp-background-primary);
+                  border-color: var(--harmony-comp-divider);
                 }
               }
 
               &--primary {
-                background: var(--color-primary);
+                background: var(--harmony-brand);
                 border-color: transparent;
-                color: var(--color-bg);
-                box-shadow: 0 4px 10px var(--color-primary-bg);
+                color: var(--harmony-comp-background-primary);
+                box-shadow: 0 4px 10px var(--harmony-comp-emphasize-tertiary);
 
                 &:hover {
                   filter: brightness(1.05);
-                  box-shadow: 0 6px 14px var(--color-primary-bg);
+                  box-shadow: 0 6px 14px var(--harmony-comp-emphasize-tertiary);
                   transform: translateY(-0.5px);
                 }
 
@@ -1724,13 +1724,13 @@ onMounted(() => {
             padding: 20px;
             height: 100%;
             overflow: auto;
-            background: var(--color-bg);
+            background: var(--harmony-comp-background-primary);
             
             code {
-              font-family: var(--font-family);
-              font-size: var(--font-size-base);
+              font-family: var(--harmony-font-family);
+              font-size: var(--harmony-font-size-body-m);
               line-height: 1.6;
-              color: var(--color-text-primary);
+              color: var(--harmony-font-primary);
               white-space: pre-wrap;
               word-wrap: break-word;
             }
@@ -1743,22 +1743,22 @@ onMounted(() => {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          color: var(--color-text-secondary);
+          color: var(--harmony-font-secondary);
           
           .no-file-icon {
-            color: var(--color-border);
+            color: var(--harmony-comp-divider);
             margin-bottom: 16px;
           }
           
           h3 {
             margin: 0 0 8px;
-            font-size: var(--font-size-xl);
-            color: var(--color-text-primary);
+            font-size: var(--harmony-font-size-title-s);
+            color: var(--harmony-font-primary);
           }
           
           p {
             margin: 0;
-            font-size: var(--font-size-base);
+            font-size: var(--harmony-font-size-body-m);
           }
         }
       }
@@ -1771,7 +1771,7 @@ onMounted(() => {
 .skill-page {
   padding: 32px;
   min-height: 100vh;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   
   // 页面头部
   .page-header {
@@ -1779,11 +1779,11 @@ onMounted(() => {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    background: var(--color-bg);
-    padding: var(--spacing-2xl) var(--spacing-2xl);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 6px 24px var(--shadow-sm);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-background-primary);
+    padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+    border-radius: var(--harmony-corner-radius-level8);
+    box-shadow: 0 6px 24px var(--harmony-shadow-sm);
+    border: 1px solid var(--harmony-comp-divider);
     
     .header-title {
       display: flex;
@@ -1797,9 +1797,9 @@ onMounted(() => {
       
       h2 {
         margin: 0;
-        font-size: var(--font-size-2xl);
+        font-size: var(--harmony-font-size-title-m);
         font-weight: 600;
-        background: var(--color-primary);
+        background: var(--harmony-brand);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -1814,22 +1814,22 @@ onMounted(() => {
 
   // 列表容器
   .skill-container {
-    background: var(--color-bg);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-background-primary);
+    border-radius: var(--harmony-corner-radius-level8);
+    border: 1px solid var(--harmony-comp-divider);
     overflow: hidden;
-    box-shadow: 0 4px 6px -1px var(--shadow-xs);
+    box-shadow: 0 4px 6px -1px var(--harmony-shadow-xs);
     
     // 列表头部
     .list-header {
       display: flex;
       align-items: center;
-      padding: var(--spacing-lg) var(--spacing-2xl);
-      background: var(--color-bg);
-      border-bottom: 1px solid var(--color-border);
-      font-size: var(--font-size-xs);
+      padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
+      background: var(--harmony-comp-background-primary);
+      border-bottom: 1px solid var(--harmony-comp-divider);
+      font-size: var(--harmony-font-size-body-s);
       font-weight: 600;
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       
@@ -1845,8 +1845,8 @@ onMounted(() => {
       .skill-row {
         display: flex;
         align-items: center;
-        padding: var(--spacing-lg) var(--spacing-2xl);
-        border-bottom: 1px solid var(--color-border);
+        padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
+        border-bottom: 1px solid var(--harmony-comp-divider);
         cursor: pointer;
         transition: all 0.2s ease;
         
@@ -1855,11 +1855,11 @@ onMounted(() => {
         }
         
         &:hover {
-          background: var(--color-bg);
+          background: var(--harmony-comp-background-primary);
           
           .col-name .skill-info .skill-avatar {
             transform: scale(1.05);
-            box-shadow: 0 0 0 3px var(--color-primary-bg);
+            box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
           }
           
           .col-actions .action-btn {
@@ -1878,12 +1878,12 @@ onMounted(() => {
             .skill-avatar {
               width: 40px;
               height: 40px;
-              background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
-              border-radius: var(--radius-md);
+              background: linear-gradient(135deg, var(--harmony-comp-emphasize-tertiary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
+              border-radius: var(--harmony-corner-radius-level6);
               display: flex;
               align-items: center;
               justify-content: center;
-              border: 1px solid var(--color-primary-bg);
+              border: 1px solid var(--harmony-comp-emphasize-tertiary);
               transition: all 0.2s ease;
               flex-shrink: 0;
               
@@ -1894,9 +1894,9 @@ onMounted(() => {
             }
             
             .skill-name {
-              font-size: var(--font-size-lg);
+              font-size: var(--harmony-font-size-body-l);
               font-weight: 600;
-              color: var(--color-text-primary);
+              color: var(--harmony-font-primary);
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -1910,8 +1910,8 @@ onMounted(() => {
           padding-right: 24px;
           
           .skill-desc {
-            font-size: var(--font-size-base);
-            color: var(--color-text-secondary);
+            font-size: var(--harmony-font-size-body-m);
+            color: var(--harmony-font-secondary);
             line-height: 1.5;
             display: -webkit-box;
             -webkit-line-clamp: 1;
@@ -1929,10 +1929,10 @@ onMounted(() => {
             align-items: center;
             gap: 6px;
             padding: 4px 12px;
-            background: var(--color-primary-bg);
-            color: var(--color-primary);
-            border-radius: var(--radius-full);
-            font-size: var(--font-size-sm);
+            background: var(--harmony-comp-emphasize-tertiary);
+            color: var(--harmony-brand);
+            border-radius: var(--harmony-corner-radius-level18);
+            font-size: var(--harmony-font-size-subtitle-s);
             font-weight: 500;
           }
         }
@@ -1941,8 +1941,8 @@ onMounted(() => {
           flex: 0 0 120px;
           
           .time-text {
-            font-size: var(--font-size-sm);
-            color: var(--color-text-tertiary);
+            font-size: var(--harmony-font-size-subtitle-s);
+            color: var(--harmony-font-tertiary);
           }
         }
         
@@ -1956,35 +1956,35 @@ onMounted(() => {
             width: 32px;
             height: 32px;
             border: 1px solid transparent;
-            border-radius: var(--radius-md);
+            border-radius: var(--harmony-corner-radius-level6);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
-            font-size: var(--font-size-base);
+            font-size: var(--harmony-font-size-body-m);
             opacity: 0.5;
             
             &.view-btn {
-              background: var(--color-bg);
-              color: var(--color-text-secondary);
+              background: var(--harmony-comp-background-primary);
+              color: var(--harmony-font-secondary);
               
               &:hover {
-                background: var(--color-primary-bg);
-                color: var(--color-primary);
-                border-color: var(--color-primary-bg);
+                background: var(--harmony-comp-emphasize-tertiary);
+                color: var(--harmony-brand);
+                border-color: var(--harmony-comp-emphasize-tertiary);
                 opacity: 1;
               }
             }
             
             &.delete-btn {
-              background: var(--color-bg)1f2;
-              color: var(--color-danger);
+              background: var(--harmony-comp-background-primary)1f2;
+              color: var(--harmony-warning);
               
               &:hover {
-                background: var(--color-danger-bg);
-                color: var(--color-danger);
-                border-color: var(--color-danger-bg);
+                background: var(--harmony-warning-bg);
+                color: var(--harmony-warning);
+                border-color: var(--harmony-warning-bg);
                 opacity: 1;
               }
             }
@@ -2010,8 +2010,8 @@ onMounted(() => {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: var(--color-bg);
-          border-radius: var(--radius-full);
+          background: var(--harmony-comp-background-primary);
+          border-radius: var(--harmony-corner-radius-level18);
           
           .empty-icon {
             width: 44px;
@@ -2026,23 +2026,23 @@ onMounted(() => {
         
         h3 {
           margin: 0 0 8px;
-          font-size: var(--font-size-xl);
+          font-size: var(--harmony-font-size-title-s);
           font-weight: 600;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
         }
         
         p {
           margin: 0 0 24px;
-          font-size: var(--font-size-base);
-          color: var(--color-text-secondary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-font-secondary);
           max-width: 360px;
         }
         
         .empty-btn {
           height: 40px;
           padding: 0 24px;
-          border-radius: var(--radius-md);
-          font-size: var(--font-size-base);
+          border-radius: var(--harmony-corner-radius-level6);
+          font-size: var(--harmony-font-size-body-m);
           font-weight: 600;
         }
       }

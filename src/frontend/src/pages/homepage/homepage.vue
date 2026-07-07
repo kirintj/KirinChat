@@ -86,7 +86,7 @@ const handleExampleClick = (_: any, index: number) => {
   justify-content: center;
   gap: 24px;
   padding: 0 24px;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
 }
 
 /* Logo */
@@ -101,12 +101,9 @@ const handleExampleClick = (_: any, index: number) => {
   }
 
   .brand-name {
-    font-size: var(--font-size-xl);
-    font-weight: 600;
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: var(--harmony-font-size-title-s);
+    font-weight: 700;
+    color: var(--harmony-font-primary);
     margin: 0;
   }
 }
@@ -117,14 +114,14 @@ const handleExampleClick = (_: any, index: number) => {
   max-width: 680px;
 
   .search-box {
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level8);
     padding: 16px;
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--harmony-shadow-card);
 
     &:focus-within {
-      border-color: var(--color-primary);
+      border-color: var(--harmony-brand);
     }
   }
 
@@ -134,15 +131,15 @@ const handleExampleClick = (_: any, index: number) => {
     border: none;
     background: transparent;
     padding: 8px;
-    font-size: var(--font-size-base);
+    font-size: var(--harmony-font-size-body-m);
     line-height: 1.6;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
     outline: none;
     resize: none;
     font-family: inherit;
 
     &::placeholder {
-      color: var(--color-text-tertiary);
+      color: var(--harmony-font-tertiary);
     }
   }
 
@@ -154,18 +151,18 @@ const handleExampleClick = (_: any, index: number) => {
     .send-btn {
       width: 36px;
       height: 36px;
-      background: var(--color-primary);
+      background: var(--harmony-brand);
       color: white;
       border: none;
       border-radius: 50%;
-      font-size: var(--font-size-base);
+      font-size: var(--harmony-font-size-body-m);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
 
       &:hover {
-        background: var(--color-primary-hover);
+        background: var(--harmony-interactive-hover);
       }
     }
   }
@@ -183,16 +180,16 @@ const handleExampleClick = (_: any, index: number) => {
   }
 
   .example-card {
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level8);
     padding: 16px;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      border-color: var(--color-primary);
-      box-shadow: var(--shadow-card);
+      border-color: var(--harmony-brand);
+      box-shadow: var(--harmony-shadow-card);
     }
   }
 
@@ -204,23 +201,23 @@ const handleExampleClick = (_: any, index: number) => {
   }
 
   .card-title {
-    font-size: var(--font-size-base);
+    font-size: var(--harmony-font-size-body-m);
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
     margin: 0;
   }
 
   .card-tag {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-tertiary);
-    background: var(--color-bg-secondary);
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-tertiary);
+    background: var(--harmony-comp-background-secondary);
     padding: 2px 8px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--harmony-corner-radius-level4);
   }
 
   .card-desc {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
     line-height: 1.5;
     margin: 0;
   }
@@ -233,7 +230,7 @@ const handleExampleClick = (_: any, index: number) => {
   }
 
   .logo-section .brand-name {
-    font-size: var(--font-size-2xl);
+    font-size: var(--harmony-font-size-title-m);
   }
 
   .examples-section .examples-grid {

@@ -100,7 +100,7 @@ function handleConfirm() {
 .config-form { display: flex; flex-direction: column; gap: 16px; padding: 8px 0; }
 .form-item {
   display: flex; flex-direction: column; gap: 6px;
-  label { font-size: 13px; font-weight: 500; color: var(--color-text-primary, #333); }
+  label { font-size: 13px; font-weight: 500; color: var(--harmony-font-primary); }
 }
 .phase-checks { display: flex; gap: 16px; flex-wrap: wrap; }
 .phase-check { display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer; input { cursor: pointer; } }

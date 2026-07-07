@@ -11,6 +11,7 @@ const router = useRouter()
 const interviewStore = useInterviewStore()
 const report = ref<EvaluationReport | null>(null)
 const loading = ref(false)
+const downloadLoading = ref(false)
 
 const scoreColor = computed(() => {
   if (!report.value) return '#999'
@@ -38,9 +39,13 @@ const categoryEntries = computed(() => {
 const radarChartRef = ref<HTMLElement | null>(null)
 let radarChart: echarts.ECharts | null = null
 
+// 是否有足够分类展示雷达图（至少 2 个分类才有意义）
+const hasEnoughCategories = computed(() => categoryEntries.value.length >= 2)
+
 // 初始化雷达图
 const initRadarChart = () => {
   if (!radarChartRef.value || !report.value?.category_scores) return
+  if (!hasEnoughCategories.value) return
   const scores = report.value.category_scores
   const indicator = Object.keys(scores).map(name => ({ name, max: 100 }))
   const values = Object.values(scores)
@@ -117,25 +122,33 @@ const goBack = () => {
   router.push('/interview')
 }
 
-const downloadPDF = () => {
-  if (!report.value) return
-  const token = localStorage.getItem('token') || ''
-  const url = `/api/v1/interview/evaluation/${report.value.id}/pdf`
-  fetch(url, {
-    headers: { Authorization: `Bearer ${token}` },
-  })
-    .then(res => res.blob())
-    .then(blob => {
-      const blobUrl = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = blobUrl
-      a.download = `evaluation_${report.value!.id}.pdf`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(blobUrl)
+const downloadPDF = async () => {
+  if (!report.value || downloadLoading.value) return
+  downloadLoading.value = true
+  try {
+    const token = localStorage.getItem('token') || ''
+    const url = `/api/v1/interview/evaluation/${report.value.id}/pdf`
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
     })
-    .catch(() => HMessage.error('PDF 下载失败'))
+    if (!res.ok) {
+      HMessage.error(`PDF 下载失败 (${res.status})`)
+      return
+    }
+    const blob = await res.blob()
+    const blobUrl = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = blobUrl
+    a.download = `evaluation_${report.value.id}.pdf`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(blobUrl)
+  } catch {
+    HMessage.error('PDF 下载失败')
+  } finally {
+    downloadLoading.value = false
+  }
 }
 
 const goToQuestionDetail = (questionId: string) => {
@@ -207,7 +220,7 @@ onUnmounted(() => {
       </div>
 
       <!-- 雷达图 -->
-      <div v-if="categoryEntries.length > 0" class="section">
+      <div v-if="hasEnoughCategories" class="section">
         <h3 class="section-title">能力雷达图</h3>
         <div ref="radarChartRef" class="radar-chart"></div>
       </div>
@@ -271,7 +284,7 @@ onUnmounted(() => {
 
       <!-- Actions -->
       <div class="report-actions">
-        <HButton type="secondary" size="large" @click="downloadPDF">
+        <HButton type="secondary" size="large" :loading="downloadLoading" @click="downloadPDF">
           下载 PDF
         </HButton>
         <HButton type="primary" size="large" @click="startNewInterview">
@@ -303,7 +316,7 @@ onUnmounted(() => {
 .loading-state {
   text-align: center;
   padding: 80px 0;
-  color: var(--color-text-secondary);
+  color: var(--harmony-font-secondary);
 }
 
 .empty-state {
@@ -320,7 +333,7 @@ onUnmounted(() => {
   }
 
   .empty-text {
-    color: var(--color-text-tertiary);
+    color: var(--harmony-font-tertiary);
   }
 }
 
@@ -334,7 +347,7 @@ onUnmounted(() => {
   .back-btn {
     background: none;
     border: none;
-    color: var(--color-primary);
+    color: var(--harmony-brand);
     cursor: pointer;
     font-size: 14px;
     font-family: inherit;
@@ -349,7 +362,7 @@ onUnmounted(() => {
   .report-title {
     font-size: 24px;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
     margin: 0;
   }
 }
@@ -360,8 +373,8 @@ onUnmounted(() => {
   align-items: center;
   gap: 24px;
   padding: 32px;
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-lg);
+  background: var(--harmony-comp-background-secondary);
+  border-radius: var(--harmony-corner-radius-level8);
   margin-bottom: 32px;
 
   .score-circle {
@@ -383,7 +396,7 @@ onUnmounted(() => {
 
     .score-max {
       font-size: 12px;
-      color: var(--color-text-tertiary);
+      color: var(--harmony-font-tertiary);
     }
   }
 
@@ -396,7 +409,7 @@ onUnmounted(() => {
 
     .score-skill {
       font-size: 14px;
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
     }
   }
 }
@@ -408,7 +421,7 @@ onUnmounted(() => {
   .section-title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
     margin: 0 0 16px;
   }
 }
@@ -429,18 +442,18 @@ onUnmounted(() => {
     .category-name {
       font-size: 13px;
       font-weight: 500;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
     }
 
     .category-score {
       font-size: 13px;
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
     }
   }
 
   .category-bar {
     height: 8px;
-    background: var(--color-bg-secondary);
+    background: var(--harmony-comp-background-secondary);
     border-radius: 4px;
     overflow: hidden;
 
@@ -462,10 +475,10 @@ onUnmounted(() => {
 .summary-text {
   font-size: 14px;
   line-height: 1.8;
-  color: var(--color-text-secondary);
-  background: var(--color-bg-secondary);
+  color: var(--harmony-font-secondary);
+  background: var(--harmony-comp-background-secondary);
   padding: 16px 20px;
-  border-radius: var(--radius-md);
+  border-radius: var(--harmony-corner-radius-level6);
   white-space: pre-wrap;
 }
 
@@ -482,13 +495,13 @@ onUnmounted(() => {
   font-size: 13px;
 
   &.tag-strength {
-    background: var(--color-success-bg);
-    color: var(--color-success);
+    background: var(--harmony-confirm-bg);
+    color: var(--harmony-confirm);
   }
 
   &.tag-improve {
-    background: var(--color-warning-bg);
-    color: var(--color-warning);
+    background: var(--harmony-alert-bg);
+    color: var(--harmony-alert);
   }
 }
 
@@ -504,13 +517,13 @@ onUnmounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-md);
+  background: var(--harmony-comp-background-secondary);
+  border-radius: var(--harmony-corner-radius-level6);
   cursor: pointer;
-  transition: background var(--duration-fast) var(--easing);
+  transition: background var(--harmony-duration-fast) var(--harmony-motion-standard);
 
   &:hover {
-    background: var(--color-primary-bg);
+    background: var(--harmony-comp-emphasize-tertiary);
   }
 
   .question-left {
@@ -523,13 +536,13 @@ onUnmounted(() => {
     .question-index {
       font-size: 12px;
       font-weight: 600;
-      color: var(--color-primary);
+      color: var(--harmony-brand);
       flex-shrink: 0;
     }
 
     .question-text {
       font-size: 14px;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -549,13 +562,13 @@ onUnmounted(() => {
       border-radius: 10px;
 
       &.score-high {
-        background: var(--color-success-bg);
-        color: var(--color-success);
+        background: var(--harmony-confirm-bg);
+        color: var(--harmony-confirm);
       }
 
       &.score-mid {
-        background: var(--color-warning-bg);
-        color: var(--color-warning);
+        background: var(--harmony-alert-bg);
+        color: var(--harmony-alert);
       }
 
       &.score-low {
@@ -566,7 +579,7 @@ onUnmounted(() => {
 
     .question-arrow {
       font-size: 14px;
-      color: var(--color-text-tertiary);
+      color: var(--harmony-font-tertiary);
     }
   }
 }
@@ -577,6 +590,6 @@ onUnmounted(() => {
   gap: 12px;
   margin-top: 32px;
   padding-top: 24px;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--harmony-comp-divider);
 }
 </style>

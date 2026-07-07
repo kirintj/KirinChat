@@ -338,7 +338,7 @@ const clearSearch = () => {
 
   .demo-header {
     text-align: center;
-    color: var(--color-on-primary);
+    color: var(--harmony-font-on-primary);
     margin-bottom: 20px;
 
     h1 {
@@ -360,13 +360,13 @@ const clearSearch = () => {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 16px;
     backdrop-filter: blur(10px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--harmony-shadow-dialog);
     overflow: hidden;
 
     .sidebar {
       width: 300px;
-      background: var(--color-bg-secondary);
-      border-right: 1px solid var(--color-border);
+      background: var(--harmony-comp-background-secondary);
+      border-right: 1px solid var(--harmony-comp-divider);
       display: flex;
       flex-direction: column;
 
@@ -389,7 +389,7 @@ const clearSearch = () => {
 
       .search-section {
         padding: 16px;
-        border-bottom: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--harmony-comp-divider);
       }
 
       .list-header {
@@ -401,12 +401,12 @@ const clearSearch = () => {
         .title {
           font-size: 14px;
           font-weight: 600;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
         }
 
         .count {
           font-size: 12px;
-          color: var(--color-text-secondary);
+          color: var(--harmony-font-secondary);
         }
       }
 
@@ -421,7 +421,7 @@ const clearSearch = () => {
           align-items: center;
           justify-content: center;
           height: 200px;
-          color: var(--color-text-tertiary);
+          color: var(--harmony-font-tertiary);
 
           .empty-icon {
             font-size: 48px;
@@ -435,13 +435,13 @@ const clearSearch = () => {
 
           .empty-hint {
             font-size: 12px;
-            color: var(--color-text-disabled);
+            color: var(--harmony-font-fourth);
           }
         }
 
         .dialog-card {
-          background: var(--color-bg);
-          border: 1px solid var(--color-border);
+          background: var(--harmony-comp-background-primary);
+          border: 1px solid var(--harmony-comp-divider);
           border-radius: 12px;
           padding: 16px;
           margin-bottom: 8px;
@@ -449,14 +449,14 @@ const clearSearch = () => {
           transition: all 0.3s ease;
 
           &:hover {
-            border-color: var(--color-primary);
-            box-shadow: var(--shadow-md);
+            border-color: var(--harmony-brand);
+            box-shadow: var(--harmony-shadow-md);
             transform: translateY(-2px);
           }
 
           &.active {
-            border-color: var(--color-primary);
-            background-color: var(--color-primary-bg);
+            border-color: var(--harmony-brand);
+            background-color: var(--harmony-comp-emphasize-tertiary);
           }
 
           .card-main {
@@ -490,7 +490,7 @@ const clearSearch = () => {
                 .title {
                   font-size: 14px;
                   font-weight: 600;
-                  color: var(--color-text-primary);
+                  color: var(--harmony-font-primary);
                   margin-bottom: 4px;
                   overflow: hidden;
                   text-overflow: ellipsis;
@@ -499,7 +499,7 @@ const clearSearch = () => {
 
                 .subtitle {
                   font-size: 12px;
-                  color: var(--color-text-secondary);
+                  color: var(--harmony-font-secondary);
                 }
               }
             }
@@ -512,7 +512,7 @@ const clearSearch = () => {
 
               .time {
                 font-size: 11px;
-                color: var(--color-text-tertiary);
+                color: var(--harmony-font-tertiary);
               }
 
               .actions {
@@ -547,7 +547,7 @@ const clearSearch = () => {
         align-items: center;
         justify-content: center;
         text-align: center;
-        color: var(--color-text-secondary);
+        color: var(--harmony-font-secondary);
 
         .welcome-icon {
           margin-bottom: 24px;
@@ -556,7 +556,7 @@ const clearSearch = () => {
         h2 {
           font-size: 1.5rem;
           margin: 0 0 12px 0;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
         }
 
         p {
@@ -572,12 +572,12 @@ const clearSearch = () => {
 
         .chat-header {
           padding: 20px;
-          border-bottom: 1px solid var(--color-border);
-          background: var(--color-bg-secondary);
+          border-bottom: 1px solid var(--harmony-comp-divider);
+          background: var(--harmony-comp-background-secondary);
 
           h3 {
             margin: 0;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
           }
         }
 
@@ -591,8 +591,8 @@ const clearSearch = () => {
             margin-bottom: 12px;
 
             &.system {
-              background: var(--color-bg-tertiary);
-              color: var(--color-text-secondary);
+              background: var(--harmony-comp-background-tertiary);
+              color: var(--harmony-font-secondary);
             }
           }
         }
@@ -616,19 +616,19 @@ const clearSearch = () => {
       .title {
         font-size: 16px;
         font-weight: 600;
-        color: var(--color-text-primary);
+        color: var(--harmony-font-primary);
       }
 
       .count {
         font-size: 14px;
-        color: var(--color-text-secondary);
+        color: var(--harmony-font-secondary);
       }
     }
 
     .empty-state {
       text-align: center;
       padding: 40px 20px;
-      color: var(--color-text-tertiary);
+      color: var(--harmony-font-tertiary);
 
       .empty-icon {
         font-size: 48px;
@@ -655,12 +655,12 @@ const clearSearch = () => {
         transition: all 0.2s ease;
 
         &:hover {
-          background: var(--color-bg-secondary);
+          background: var(--harmony-comp-background-secondary);
         }
 
         &.active {
-          border-color: var(--color-primary);
-          background: var(--color-primary-bg);
+          border-color: var(--harmony-brand);
+          background: var(--harmony-comp-emphasize-tertiary);
         }
 
         .agent-avatar {
@@ -682,13 +682,13 @@ const clearSearch = () => {
           .agent-name {
             font-size: 14px;
             font-weight: 600;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
             margin-bottom: 4px;
           }
 
           .agent-description {
             font-size: 12px;
-            color: var(--color-text-secondary);
+            color: var(--harmony-font-secondary);
           }
         }
       }

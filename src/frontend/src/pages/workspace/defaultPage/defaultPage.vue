@@ -9,7 +9,6 @@ import { getVisibleLLMsAPI, type LLMResponse } from '../../../apis/llm'
 import { useUserStore } from '../../../store/user'
 
 const userStore = useUserStore()
-
 const router = useRouter()
 const route = useRoute()
 const inputMessage = ref('')
@@ -28,46 +27,41 @@ const webSearchEnabled = ref(false)
 const toolDropdownRef = ref<HTMLElement | null>(null)
 const mcpDropdownRef = ref<HTMLElement | null>(null)
 const fileInputRef = ref<HTMLInputElement | null>(null)
-const currentSessionId = ref<string>('')  // 当前会话ID
-const chatConversationRef = ref<HTMLElement | null>(null)  // 聊天容器引用
-const isGenerating = ref(false)  // 是否正在生成回复
+const currentSessionId = ref<string>('')
+const chatConversationRef = ref<HTMLElement | null>(null)
+const isGenerating = ref(false)
 
-// 模型数据（来自应用中心"可见模型"）
 const modelOptions = ref<LLMResponse[]>([])
 const modelsLoading = ref(false)
-const modelsError = ref('')          // 错误提示文案
-const modelsRetryable = ref(false)   // 是否显示重试按钮
+const modelsError = ref('')
+const modelsRetryable = ref(false)
 
-// 本页对话消息（用户在上，AI在下）
 const messages = ref<Array<{ role: 'user' | 'assistant'; content: string }>>([])
 
-// 插件状态
 const pluginsError = ref('')
 const pluginsRetryable = ref(false)
 const pluginsLoading = ref(false)
 
-// 头像加载错误处理
 const handleAvatarError = (event: Event) => {
   const target = event.target as HTMLImageElement
-  if (target) {
-    target.src = '/user.svg'
-  }
+  if (target) target.src = '/user.svg'
 }
 
 const modes = [
   {
     id: 'normal',
     label: '日常模式',
-    icon: '💬'
+    icon: '💬',
+    desc: '快速问答、日常对话'
   },
   {
     id: 'lingseek',
     label: '灵寻LingSeek',
-    icon: '✨'
+    icon: '✨',
+    desc: '复杂任务规划与执行'
   }
 ]
 
-// 从接口加载模型
 const fetchModels = async () => {
   modelsLoading.value = true
   modelsError.value = ''
@@ -90,14 +84,12 @@ const fetchModels = async () => {
     const msg = e?.friendlyMessage || '获取模型失败'
     console.error(msg, e)
     modelsError.value = msg
-    // 超时 / 网络错误 → 允许重试
     modelsRetryable.value = e?.code === 'ECONNABORTED' || !e?.response
   } finally {
     modelsLoading.value = false
   }
 }
 
-// 获取可用插件
 const fetchPlugins = async () => {
   pluginsLoading.value = true
   pluginsError.value = ''
@@ -117,12 +109,10 @@ const fetchPlugins = async () => {
   }
 }
 
-// 选择模式
 const selectMode = (modeId: string) => {
   selectedMode.value = modeId
 }
 
-// 选择模型
 const selectModel = (llmId: string) => {
   const model = modelOptions.value.find(m => m.llm_id === llmId)
   if (model) {
@@ -132,7 +122,6 @@ const selectModel = (llmId: string) => {
   showModelSelector.value = false
 }
 
-// 切换工具选择
 const toggleTool = (toolId: string) => {
   const index = selectedTools.value.indexOf(toolId)
   if (index > -1) {
@@ -142,13 +131,11 @@ const toggleTool = (toolId: string) => {
   }
 }
 
-// 切换联网搜索
 const toggleWebSearch = () => {
   webSearchEnabled.value = !webSearchEnabled.value
   showSearchSelector.value = false
 }
 
-// 点击空白处关闭工具/MCP下拉
 const handleClickOutside = (e: MouseEvent) => {
   const target = e.target as Node
   if (showToolSelector.value && toolDropdownRef.value && !toolDropdownRef.value.contains(target)) {
@@ -159,12 +146,10 @@ const handleClickOutside = (e: MouseEvent) => {
   }
 }
 
-// 触发文件选择
 const triggerFileInput = () => {
   fileInputRef.value?.click()
 }
 
-// 处理文件选择
 const onFileChange = (e: Event) => {
   const input = e.target as HTMLInputElement
   const files = input.files
@@ -174,7 +159,6 @@ const onFileChange = (e: Event) => {
   if (input) input.value = ''
 }
 
-// 切换 MCP 服务器选择
 const toggleMcp = (serverId: string) => {
   const index = selectedMcpServers.value.indexOf(serverId)
   if (index > -1) {
@@ -184,13 +168,10 @@ const toggleMcp = (serverId: string) => {
   }
 }
 
-// 生成UUID（模拟Python的uuid4().hex）
 const generateSessionId = (): string => {
-  // 使用crypto.randomUUID()生成UUID，然后移除横杠
   return crypto.randomUUID().replace(/-/g, '')
 }
 
-// 自动滚动到底部
 const scrollToBottom = () => {
   if (chatConversationRef.value) {
     setTimeout(() => {
@@ -201,32 +182,20 @@ const scrollToBottom = () => {
   }
 }
 
-// 发送消息
 const handleSend = async () => {
   if (!inputMessage.value.trim()) {
     HMessage.warning('请输入消息内容')
     return
   }
-
-  // 如果正在生成回复，不允许发送新消息
   if (isGenerating.value) {
     HMessage.warning('请等待当前回复完成')
     return
   }
-  
+
   const query = inputMessage.value.trim()
-  
-  // 根据模式跳转到不同的页面
+
   if (selectedMode.value === 'lingseek') {
-    // 灵寻模式：直接跳转到任务流程图页面（三列布局）
-    console.log('跳转到灵寻任务页面')
-    console.log('query:', query)
-    console.log('tools:', selectedTools.value)
-    console.log('webSearch:', webSearchEnabled.value)
-    
-    // 立即清空输入框
     inputMessage.value = ''
-    
     router.push({
       name: 'taskGraphPage',
       query: {
@@ -237,40 +206,20 @@ const handleSend = async () => {
       }
     })
   } else {
-    // 日常模式：在本页进行对话（流式）
-    console.log('=== 日常模式发送消息 ===')
-    console.log('selectedModelId:', selectedModelId.value)
-    console.log('query:', query)
-    console.log('session_id:', currentSessionId.value)
-    
     if (!selectedModelId.value) {
       HMessage.warning('请先选择模型')
       return
     }
-
-    // 如果还没有session_id，生成一个新的
     if (!currentSessionId.value) {
       currentSessionId.value = generateSessionId()
-      console.log('生成新的 session_id:', currentSessionId.value)
     }
-
-    // 立即清空输入框，提升用户体验
     inputMessage.value = ''
-    
-    // 设置正在生成状态（转圈）
     isGenerating.value = true
-
-    // 将用户消息加入消息列表
-    console.log('将用户消息加入 messages')
     messages.value.push({ role: 'user' as const, content: query })
-    
-    // 自动滚动到底部
     scrollToBottom()
-    
-    // 预置一条AI消息用于流式累加（先添加到数组，然后通过索引更新以触发响应式）
+
     const aiMsgIndex = messages.value.length
     messages.value.push({ role: 'assistant', content: '' })
-    console.log('当前 messages 长度:', messages.value.length)
 
     try {
       const payload: WorkSpaceSimpleTask = {
@@ -278,68 +227,51 @@ const handleSend = async () => {
         model_id: selectedModelId.value,
         plugins: selectedTools.value,
         mcp_servers: selectedMcpServers.value,
-        session_id: currentSessionId.value  // 添加session_id参数
+        session_id: currentSessionId.value
       }
-      console.log('准备调用 workspaceSimpleChatStreamAPI，payload:', payload)
       await workspaceSimpleChatStreamAPI(
         payload,
         (chunk) => {
-          console.log('收到 chunk，累加到 aiMsg:', chunk)
-          // 通过索引更新以触发 Vue 的响应式
           messages.value[aiMsgIndex].content += chunk
-          // 每次收到新内容时自动滚动到底部
           scrollToBottom()
         },
         (err) => {
-          console.error('日常模式流式出错', err)
+          console.error('流式出错', err)
           HMessage.error('对话失败，请稍后重试')
-          isGenerating.value = false  // 出错时解除生成状态
+          isGenerating.value = false
         },
         () => {
-          console.log('日常模式流式结束')
-          isGenerating.value = false  // 完成时解除生成状态
+          isGenerating.value = false
         }
       )
     } catch (e) {
-      console.error('日常模式对话异常', e)
+      console.error('对话异常', e)
       HMessage.error('对话异常')
-      isGenerating.value = false  // 异常时解除生成状态
+      isGenerating.value = false
     }
   }
 }
 
-// 键盘事件处理
 const handleKeydown = (event: KeyboardEvent) => {
-  // 直接回车发送，Shift+Enter 换行
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault()
-    // 如果正在生成，不响应回车
     if (!isGenerating.value) {
       handleSend()
     }
   }
 }
 
-// 加载会话历史
 const loadSessionHistory = async (sessionId: string) => {
   try {
-    // 导入 API
     const { getWorkspaceSessionsAPI } = await import('../../../apis/workspace')
     const response = await getWorkspaceSessionsAPI()
-    
     if (response.data.status_code === 200) {
       const session = response.data.data.find((s: any) => s.session_id === sessionId)
-      
       if (session && session.contexts && Array.isArray(session.contexts)) {
-        // 将 contexts 转换为 messages 格式
         messages.value = session.contexts.map((ctx: any) => [
           { role: 'user' as const, content: ctx.query || '' },
           { role: 'assistant' as const, content: ctx.answer || '' }
-        ]).flat().filter((msg: any) => msg.content) // 过滤掉空内容
-        
-        console.log('已加载会话历史，消息数量:', messages.value.length)
-        
-        // 加载历史后滚动到底部
+        ]).flat().filter((msg: any) => msg.content)
         scrollToBottom()
       }
     }
@@ -352,20 +284,13 @@ const loadSessionHistory = async (sessionId: string) => {
 onMounted(async () => {
   fetchPlugins()
   fetchModels()
-  
-  // 检查是否有 session_id 参数，如果有则加载会话历史
   const sessionId = route.query.session_id as string
   if (sessionId) {
-    console.log('加载已有会话:', sessionId)
-    currentSessionId.value = sessionId  // 设置当前会话ID
+    currentSessionId.value = sessionId
     await loadSessionHistory(sessionId)
   } else {
-    // 如果没有session_id，生成一个新的
     currentSessionId.value = generateSessionId()
-    console.log('生成新会话ID:', currentSessionId.value)
   }
-  
-  // 懒加载 MCP 列表（用于选择）
   import('../../../apis/mcp-server').then(async ({ getMCPServersAPI }) => {
     try {
       const res = await getMCPServersAPI()
@@ -373,7 +298,7 @@ onMounted(async () => {
         mcpServers.value = res.data.data
       }
     } catch (e) {
-      console.error('加载 MCP 服务器失败', e)
+      console.error('加载MCP服务器失败', e)
     }
   })
   document.addEventListener('click', handleClickOutside)
@@ -383,22 +308,15 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
-// 监听路由参数变化
 watch(
   () => route.query.session_id,
   async (newSessionId, oldSessionId) => {
     if (newSessionId && newSessionId !== oldSessionId) {
-      console.log('检测到会话ID变化:', oldSessionId, '->', newSessionId)
-      // 更新当前会话ID
       currentSessionId.value = newSessionId as string
-      // 清空当前消息
       messages.value = []
-      // 加载新会话的历史
       await loadSessionHistory(newSessionId as string)
     } else if (!newSessionId && oldSessionId) {
-      // 如果从有session_id变为没有，生成新的session_id
       currentSessionId.value = generateSessionId()
-      console.log('生成新会话ID:', currentSessionId.value)
       messages.value = []
     }
   }
@@ -406,308 +324,221 @@ watch(
 </script>
 
 <template>
-  <div class="chat-page" :class="{ 'chat-active': messages.length > 0 }">
-    <div class="chat-container">
-      <!-- 欢迎区域（有对话时隐藏） -->
-      <div v-if="messages.length === 0" class="welcome-section">
-        <div class="avatar-wrapper">
-          <img src="../../../assets/robot.svg" alt="麒麟智聊" class="avatar" />
-        </div>
-        <h1 class="welcome-title">我是麒麟智聊助手，很高兴见到你！</h1>
-        <p class="welcome-subtitle">
-          欢迎体验麒麟灵寻LingSeek，一位懂得完成复杂任务的Agent助理~
-        </p>
-      </div>
-
-      <!-- 模式选择（有对话时隐藏） -->
-      <div v-if="messages.length === 0" class="mode-selector">
-        <button
-          v-for="mode in modes"
-          :key="mode.id"
-          :class="['mode-btn', { active: selectedMode === mode.id }]"
-          @click="selectMode(mode.id)"
-        >
-          <span class="mode-icon">{{ mode.icon }}</span>
-          <span class="mode-label">{{ mode.label }}</span>
-        </button>
-      </div>
-
-      <!-- 对话历史（有对话时显示在上方） -->
-      <div v-if="messages.length > 0" class="chat-conversation" ref="chatConversationRef">
-        <div v-for="(msg, idx) in messages" :key="idx" class="message-group">
-          <!-- User Message -->
-          <div v-if="msg.role === 'user'" class="user-message">
-            <div class="message-content">
-              <span>{{ msg.content }}</span>
-            </div>
-            <img :src="userStore.userInfo?.avatar || '/user.svg'" alt="User Avatar" class="avatar" @error="handleAvatarError" />
+  <div class="dp-root" :class="{ 'has-messages': messages.length > 0 }">
+    <div class="dp-inner">
+      <!-- ===== 欢迎区域（无对话时） ===== -->
+      <template v-if="messages.length === 0">
+        <div class="welcome-section">
+          <div class="welcome-avatar">
+            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+              <circle cx="28" cy="28" r="28" fill="var(--harmony-comp-emphasize-tertiary)"/>
+              <path d="M20 22C20 20.8954 20.8954 20 22 20H34C35.1046 20 36 20.8954 36 22V30C36 31.1046 35.1046 32 34 32H24L20 36V22Z" fill="var(--harmony-brand)" opacity="0.85"/>
+              <circle cx="24" cy="26" r="1.5" fill="white"/>
+              <circle cx="28" cy="26" r="1.5" fill="white"/>
+              <circle cx="32" cy="26" r="1.5" fill="white"/>
+            </svg>
           </div>
-          
-          <!-- AI Message -->
-          <div v-if="msg.role === 'assistant'" class="ai-message">
-            <img src="/src/assets/robot.svg" alt="AI Avatar" class="avatar" />
-            <div class="message-content">
-              <!-- 加载转圈器 - 仅在内容为空且正在生成时显示 -->
-              <div v-if="!msg.content && isGenerating && idx === messages.length - 1" class="loading-spinner-container">
-                <div class="loading-spinner"></div>
-                <span class="loading-text">AI正在思考中...</span>
+          <h1 class="welcome-title">你好，我是麒麟智聊</h1>
+          <p class="welcome-desc">选择一种模式，开始对话吧</p>
+
+          <!-- 模式选择卡片 -->
+          <div class="mode-cards">
+            <div
+              v-for="mode in modes"
+              :key="mode.id"
+              :class="['mode-card', { active: selectedMode === mode.id }]"
+              @click="selectMode(mode.id)"
+            >
+              <div class="mode-card-icon">{{ mode.icon }}</div>
+              <div class="mode-card-body">
+                <div class="mode-card-title">{{ mode.label }}</div>
+                <div class="mode-card-desc">{{ mode.desc }}</div>
               </div>
-              <!-- 实际内容 - 有内容时显示 -->
-              <MdPreview v-if="msg.content" :editorId="'workspace-ai-' + idx" :modelValue="msg.content" />
+              <div v-if="selectedMode === mode.id" class="mode-card-check">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 8L7 11L12 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
+      </template>
+
+      <!-- ===== 对话区域（有对话时） ===== -->
+      <div v-if="messages.length > 0" class="chat-area" ref="chatConversationRef">
+        <div v-for="(msg, idx) in messages" :key="idx" class="msg-row" :class="msg.role">
+          <!-- AI消息 -->
+          <template v-if="msg.role === 'assistant'">
+            <div class="msg-avatar ai">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <circle cx="9" cy="9" r="9" fill="var(--harmony-brand)"/>
+                <path d="M5.5 7C5.5 6.17157 6.17157 5.5 7 5.5H11C11.8284 5.5 12.5 6.17157 12.5 7V10C12.5 10.8284 11.8284 11.5 11 11.5H7.5L5.5 13.5V7Z" fill="white" opacity="0.9"/>
+              </svg>
+            </div>
+            <div class="msg-bubble ai">
+              <div v-if="!msg.content && isGenerating && idx === messages.length - 1" class="msg-loading">
+                <span class="dot-pulse"></span>
+              </div>
+              <MdPreview v-if="msg.content" :editorId="'dp-ai-' + idx" :modelValue="msg.content" />
+            </div>
+          </template>
+
+          <!-- 用户消息 -->
+          <template v-else>
+            <div class="msg-bubble user">{{ msg.content }}</div>
+            <div class="msg-avatar user">
+              <img
+                :src="userStore.userInfo?.avatar || '/user.svg'"
+                alt="avatar"
+                @error="handleAvatarError"
+              />
+            </div>
+          </template>
+        </div>
       </div>
 
-      <!-- 输入区域（固定在底部） -->
-      <div class="input-section" :class="{ 'input-fixed': messages.length > 0 }">
-        <div class="input-wrapper" :class="{ 'lingseek-glow': selectedMode === 'lingseek' }">
+      <!-- ===== 底部输入区 ===== -->
+      <div class="input-section" :class="{ fixed: messages.length > 0 }">
+        <div class="input-box" :class="{ 'lingseek-glow': selectedMode === 'lingseek' }">
           <textarea
             v-model="inputMessage"
-            placeholder="给麒麟智聊发消息，让麒麟智聊帮你完成任务~"
-            class="message-input"
-            rows="4"
+            placeholder="输入消息，按 Enter 发送..."
+            class="input-field"
+            rows="1"
             @keydown="handleKeydown"
+            @input="autoResize"
           ></textarea>
-          
-          <!-- 底部控制栏 -->
-          <div class="input-footer">
-            <div class="footer-left">
-              <!-- 模型选择（仅日常模式显示） -->
-              <div v-if="selectedMode === 'normal'" class="selector-dropdown">
-                <div 
-                  :class="['selector-item', { open: showModelSelector }]"
-                  @click="showModelSelector = !showModelSelector"
-                >
-                  <img src="../../../assets/model.svg" alt="模型" class="selector-icon-img" />
-                  <span class="selector-text">{{ selectedModel || (modelsLoading ? '加载中...' : '选择模型') }}</span>
-                  <span class="selector-arrow">▲</span>
-                </div>
-                
-                <!-- 模型下拉菜单 -->
-                <transition name="dropdown">
-                  <div v-if="showModelSelector" class="dropdown-menu model-menu">
-                    <div v-if="modelsLoading" class="dropdown-empty">
-                      <span class="empty-icon">⏳</span>
-                      <span class="empty-text">正在加载模型...</span>
+
+          <div class="input-actions">
+            <div class="action-group">
+              <!-- 模型选择（日常模式） -->
+              <div v-if="selectedMode === 'normal'" class="action-dropdown">
+                <button class="action-btn" @click="showModelSelector = !showModelSelector" :title="selectedModel || '选择模型'">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/>
+                    <circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.2"/>
+                  </svg>
+                  <span class="action-label">{{ selectedModel || (modelsLoading ? '...' : '模型') }}</span>
+                </button>
+                <transition name="drop-up">
+                  <div v-if="showModelSelector" class="dropdown">
+                    <div v-if="modelsLoading" class="dropdown-item disabled">加载中...</div>
+                    <div v-else-if="modelsError" class="dropdown-item error">
+                      <span>{{ modelsError }}</span>
+                      <button v-if="modelsRetryable" @click.stop="fetchModels">重试</button>
                     </div>
-                    <div v-else-if="modelsError" class="dropdown-empty dropdown-error">
-                      <span class="empty-icon">⚠️</span>
-                      <span class="empty-text">{{ modelsError }}</span>
-                      <button v-if="modelsRetryable" class="retry-btn" @click.stop="fetchModels">重新加载</button>
-                    </div>
-                    <div v-else-if="modelOptions.length === 0" class="dropdown-empty">
-                      <img src="../../../assets/model.svg" alt="模型" class="empty-icon-img" />
-                      <span class="empty-text">暂无可用模型</span>
-                    </div>
+                    <div v-else-if="modelOptions.length === 0" class="dropdown-item disabled">暂无可用模型</div>
                     <div
                       v-for="m in modelOptions"
                       :key="m.llm_id"
                       :class="['dropdown-item', { selected: selectedModelId === m.llm_id }]"
                       @click="selectModel(m.llm_id)"
-                    >
-                      <div class="item-left">
-                        <div class="item-icon-wrapper">
-                          <img src="../../../assets/model.svg" alt="模型" class="item-icon-img" />
-                        </div>
-                        <div class="item-content">
-                          <div class="item-text">{{ m.model }}</div>
-                        </div>
-                      </div>
-                      <div v-if="selectedModelId === m.llm_id" class="item-check-wrapper">
-                        <span class="item-check">✓</span>
-                      </div>
-                    </div>
+                    >{{ m.model }}</div>
                   </div>
                 </transition>
               </div>
 
-              <!-- 联网搜索（仅灵寻模式显示） -->
-              <div v-if="selectedMode === 'lingseek'" class="selector-dropdown">
-                <div 
-                  :class="['selector-item', { active: webSearchEnabled }]"
-                  @click="toggleWebSearch"
-                >
-                  <span class="selector-icon">🌐</span>
-                  <span class="selector-text">联网搜索</span>
-                  <span v-if="webSearchEnabled" class="selector-check">✓</span>
-                </div>
+              <!-- 联网搜索（灵寻模式） -->
+              <div v-if="selectedMode === 'lingseek'" class="action-dropdown">
+                <button :class="['action-btn', { active: webSearchEnabled }]" @click="toggleWebSearch">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M7 2V12M2 7H12" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
+                  </svg>
+                  <span class="action-label">联网</span>
+                </button>
               </div>
-              
-              <!-- 工具选择 -->
-              <div class="selector-dropdown" ref="toolDropdownRef">
-                <div 
-                  class="selector-item"
-                  @click="showToolSelector = !showToolSelector"
-                >
-                  <img src="../../../assets/plugin.svg" alt="工具" class="selector-icon-img" />
-                  <span class="selector-text">
-                    {{ selectedTools.length > 0 ? `已选 ${selectedTools.length} 个` : '选择工具' }}
-                  </span>
-                  <span class="selector-arrow">▲</span>
-                </div>
-                
-                <!-- 工具下拉菜单 -->
-                <transition name="dropdown">
-                  <div v-if="showToolSelector" class="dropdown-menu tool-menu">
-                    <!-- 标题 -->
-                    <div class="dropdown-header">
-                      <span class="header-title">选择工具</span>
-                      <span class="header-count">{{ plugins.length }} 个可用</span>
-                    </div>
 
-                    <!-- 工具列表 -->
+              <!-- 工具选择 -->
+              <div class="action-dropdown" ref="toolDropdownRef">
+                <button class="action-btn" @click="showToolSelector = !showToolSelector">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M3 3.5L7 2L11 3.5V6.5L7 8L3 6.5V3.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                    <path d="M3 6.5L7 8L11 6.5" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M7 8V11" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M4.5 10L7 11L9.5 10" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="action-label">{{ selectedTools.length > 0 ? `工具(${selectedTools.length})` : '工具' }}</span>
+                </button>
+                <transition name="drop-up">
+                  <div v-if="showToolSelector" class="dropdown wide">
+                    <div class="dropdown-hd">
+                      <span>选择工具</span>
+                      <span class="count">{{ plugins.length }}</span>
+                    </div>
                     <div class="dropdown-list">
-                      <div v-if="pluginsLoading" class="dropdown-empty">
-                        <span class="empty-icon">⏳</span>
-                        <span class="empty-text">正在加载工具...</span>
-                      </div>
-                      <div v-else-if="pluginsError" class="dropdown-empty dropdown-error">
-                        <span class="empty-icon">⚠️</span>
-                        <span class="empty-text">{{ pluginsError }}</span>
-                        <button v-if="pluginsRetryable" class="retry-btn" @click.stop="fetchPlugins">重新加载</button>
-                      </div>
-                      <div v-else-if="plugins.length === 0" class="dropdown-empty">
-                        <img src="../../../assets/plugin.svg" alt="工具" class="empty-icon-img" />
-                        <span class="empty-text">暂无可用工具</span>
-                      </div>
+                      <div v-if="pluginsLoading" class="dropdown-item disabled">加载中...</div>
+                      <div v-else-if="plugins.length === 0" class="dropdown-item disabled">暂无可用工具</div>
                       <div
                         v-for="plugin in plugins"
                         :key="plugin.id || plugin.tool_id"
                         :class="['dropdown-item', { selected: selectedTools.includes(plugin.id || plugin.tool_id) }]"
                         @click="toggleTool(plugin.id || plugin.tool_id)"
                       >
-                        <div class="item-left">
-                          <div class="item-icon-wrapper">
-                            <img 
-                              v-if="plugin.logo_url" 
-                              :src="plugin.logo_url" 
-                              :alt="plugin.display_name"
-                              class="item-icon-img"
-                            />
-                            <img v-else src="../../../assets/plugin.svg" alt="工具" class="item-icon-img" />
-                          </div>
-                          <div class="item-content">
-                            <div class="item-text">{{ plugin.display_name }}</div>
-                            <div class="item-desc">{{ plugin.description || '暂无描述' }}</div>
-                          </div>
-                        </div>
-                        <div 
-                          v-if="selectedTools.includes(plugin.id || plugin.tool_id)" 
-                          class="item-check-wrapper"
-                        >
-                          <span class="item-check">✓</span>
-                        </div>
+                        <span class="item-text">{{ plugin.display_name }}</span>
+                        <span v-if="selectedTools.includes(plugin.id || plugin.tool_id)" class="item-check">✓</span>
                       </div>
                     </div>
-
-                    <!-- 底部操作栏 -->
-                    <div v-if="selectedTools.length > 0" class="dropdown-footer">
-                      <button 
-                        class="clear-btn"
-                        @click.stop="selectedTools = []"
-                      >
-                        <span>清空</span>
-                      </button>
-                      <div class="selected-info">
-                        <span class="selected-count">已选 {{ selectedTools.length }} 个工具</span>
-                      </div>
+                    <div v-if="selectedTools.length > 0" class="dropdown-ft">
+                      <button class="clear-btn" @click.stop="selectedTools = []">清空</button>
+                      <span>已选 {{ selectedTools.length }}</span>
                     </div>
                   </div>
                 </transition>
               </div>
 
-              <!-- MCP 服务器选择（紧跟工具选择后） -->
-              <div class="selector-dropdown" ref="mcpDropdownRef">
-                <div 
-                  class="selector-item"
-                  @click="showMcpSelector = !showMcpSelector"
-                >
-                  <img src="../../../assets/mcp.svg" alt="MCP" class="selector-icon-img" />
-                  <span class="selector-text">
-                    {{ selectedMcpServers.length > 0 ? `已选 ${selectedMcpServers.length} 个MCP` : '选择MCP' }}
-                  </span>
-                  <span class="selector-arrow">▲</span>
-                </div>
-                
-                <!-- MCP 下拉菜单 -->
-                <transition name="dropdown">
-                  <div v-if="showMcpSelector" class="dropdown-menu tool-menu">
-                    <!-- 标题 -->
-                    <div class="dropdown-header">
-                      <span class="header-title">选择MCP服务器</span>
-                      <span class="header-count">{{ mcpServers.length }} 个可用</span>
+              <!-- MCP选择 -->
+              <div class="action-dropdown" ref="mcpDropdownRef">
+                <button class="action-btn" @click="showMcpSelector = !showMcpSelector">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M5 7H9M7 5V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                  </svg>
+                  <span class="action-label">{{ selectedMcpServers.length > 0 ? `MCP(${selectedMcpServers.length})` : 'MCP' }}</span>
+                </button>
+                <transition name="drop-up">
+                  <div v-if="showMcpSelector" class="dropdown wide">
+                    <div class="dropdown-hd">
+                      <span>选择MCP服务器</span>
+                      <span class="count">{{ mcpServers.length }}</span>
                     </div>
-
-                    <!-- 列表 -->
                     <div class="dropdown-list">
-                      <div v-if="mcpServers.length === 0" class="dropdown-empty">
-                        <img src="../../../assets/mcp.svg" alt="MCP" class="empty-icon-img" />
-                        <span class="empty-text">暂无可用MCP服务器</span>
-                      </div>
+                      <div v-if="mcpServers.length === 0" class="dropdown-item disabled">暂无可用MCP</div>
                       <div
                         v-for="mcp in mcpServers"
                         :key="mcp.mcp_server_id"
                         :class="['dropdown-item', { selected: selectedMcpServers.includes(mcp.mcp_server_id) }]"
                         @click="toggleMcp(mcp.mcp_server_id)"
                       >
-                        <div class="item-left">
-                          <div class="item-icon-wrapper">
-                            <img 
-                              v-if="mcp.logo_url" 
-                              :src="mcp.logo_url" 
-                              :alt="mcp.server_name"
-                              class="item-icon-img"
-                            />
-                            <img v-else src="../../../assets/mcp.svg" alt="MCP" class="item-icon-img" />
-                          </div>
-                          <div class="item-content">
-                            <div class="item-text">{{ mcp.server_name }}</div>
-                          </div>
-                        </div>
-                        <div 
-                          v-if="selectedMcpServers.includes(mcp.mcp_server_id)" 
-                          class="item-check-wrapper"
-                        >
-                          <span class="item-check">✓</span>
-                        </div>
+                        <span class="item-text">{{ mcp.server_name }}</span>
+                        <span v-if="selectedMcpServers.includes(mcp.mcp_server_id)" class="item-check">✓</span>
                       </div>
                     </div>
-
-                    <!-- 底部操作栏 -->
-                    <div v-if="selectedMcpServers.length > 0" class="dropdown-footer">
-                      <button 
-                        class="clear-btn"
-                        @click.stop="selectedMcpServers = []"
-                      >
-                        <span>清空</span>
-                      </button>
-                      <div class="selected-info">
-                        <span class="selected-count">已选 {{ selectedMcpServers.length }} 个MCP</span>
-                      </div>
+                    <div v-if="selectedMcpServers.length > 0" class="dropdown-ft">
+                      <button class="clear-btn" @click.stop="selectedMcpServers = []">清空</button>
+                      <span>已选 {{ selectedMcpServers.length }}</span>
                     </div>
                   </div>
                 </transition>
               </div>
             </div>
-            
-            <div class="footer-right">
-              <!-- 附件按钮 -->
-              <button class="icon-btn" title="上传附件" @click="triggerFileInput">
-                <img src="../../../assets/upload.svg" alt="上传" class="upload-icon" />
+
+            <div class="action-group">
+              <!-- 附件 -->
+              <button class="action-btn" @click="triggerFileInput" title="上传附件">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M7 4V10M4 7H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                  <rect x="2" y="2" width="10" height="10" rx="3" stroke="currentColor" stroke-width="1.2"/>
+                </svg>
               </button>
-              <input
-                type="file"
-                ref="fileInputRef"
-                class="hidden-file-input"
-                multiple
-                @change="onFileChange"
-              />
-              
-              <!-- 发送按钮 -->
-              <button class="send-btn" :class="{ 'btn-disabled': isGenerating }" :disabled="isGenerating" @click="handleSend">
-                <span v-if="!isGenerating">➤</span>
-                <span v-else class="loading-spinner"></span>
+              <input type="file" ref="fileInputRef" class="hidden" multiple @change="onFileChange" />
+
+              <!-- 发送 -->
+              <button :class="['send-btn', { disabled: isGenerating }]" :disabled="isGenerating" @click="handleSend">
+                <svg v-if="!isGenerating" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span v-else class="spinner-sm"></span>
               </button>
             </div>
           </div>
@@ -718,905 +549,513 @@ watch(
 </template>
 
 <style lang="scss" scoped>
-.chat-page {
+.dp-root {
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: flex-start;
   justify-content: center;
-  background: var(--color-bg);
-  padding: 0;
-  overflow-y: auto;
+  background: var(--harmony-comp-background-primary);
 
-  &.chat-active {
-    padding: 0;
+  &.has-messages {
+    background: var(--harmony-comp-background-secondary);
     overflow: hidden;
-    background: var(--color-bg-secondary);
   }
 }
 
-.chat-container {
-  max-width: 820px;
+.dp-inner {
   width: 100%;
+  max-width: 780px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px 20px 40px;
+  padding: 48px 24px 32px;
 
-  .chat-active & {
+  .has-messages & {
     max-width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
     padding: 0;
   }
 }
 
+/* ===== 欢迎区 ===== */
 .welcome-section {
   text-align: center;
-  margin-bottom: 40px;
-  animation: fadeInUp 0.6s ease;
+  animation: fadeUp 0.5s ease both;
+  width: 100%;
+  max-width: 460px;
 
-  .avatar-wrapper {
+  .welcome-avatar {
     margin-bottom: 20px;
     display: flex;
     justify-content: center;
-    position: relative;
-
-    .avatar {
-      width: 120px;
-      height: 120px;
-      object-fit: contain;
-      transition: all 0.3s ease;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
-
-      &:hover {
-        transform: scale(1.05);
-        filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.12));
-      }
-    }
   }
 
   .welcome-title {
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-text-secondary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin: 0 0 12px 0;
-    letter-spacing: -0.5px;
+    color: var(--harmony-font-primary);
+    margin: 0 0 6px;
+    letter-spacing: -0.3px;
   }
 
-  .welcome-subtitle {
-    font-size: 15px;
-    color: var(--color-text-secondary);
-    margin: 0;
-    line-height: 1.7;
-    max-width: 500px;
-    margin: 0 auto;
+  .welcome-desc {
+    font-size: var(--harmony-font-size-body-m);
+    color: var(--harmony-font-tertiary);
+    margin: 0 0 32px;
   }
 }
 
-.mode-selector {
+/* ===== 模式卡片 ===== */
+.mode-cards {
   display: flex;
-  gap: 14px;
-  margin-bottom: 36px;
-  animation: fadeInUp 0.6s ease 0.1s both;
+  gap: 12px;
+  width: 100%;
 
-  .mode-btn {
+  .mode-card {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 24px;
-    border: 2px solid var(--color-border);
-    border-radius: 24px;
-    background: var(--color-bg);
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-base);
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level8);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-
-    .mode-icon {
-      font-size: 18px;
-      transition: transform 0.3s ease;
-    }
-
-    .mode-label {
-      font-weight: 600;
-    }
+    transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
+    background: var(--harmony-comp-background-primary);
+    text-align: left;
 
     &:hover {
-      border-color: var(--color-primary);
-      background: var(--color-primary-bg);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-
-      .mode-icon {
-        transform: scale(1.1);
-      }
+      border-color: var(--harmony-brand);
+      background: var(--harmony-comp-emphasize-tertiary);
     }
 
     &.active {
-      border-color: var(--color-primary);
-      background: var(--color-primary-bg);
-      color: var(--color-primary);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-      transform: translateY(-2px);
+      border-color: var(--harmony-brand);
+      background: var(--harmony-comp-emphasize-tertiary);
+    }
 
-      .mode-icon {
-        transform: scale(1.15);
+    .mode-card-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--harmony-comp-background-secondary);
+      border-radius: var(--harmony-corner-radius-level4);
+      border: 1px solid var(--harmony-comp-divider);
+    }
+
+    .mode-card-body {
+      flex: 1;
+      min-width: 0;
+
+      .mode-card-title {
+        font-size: var(--harmony-font-size-subtitle-s);
+        font-weight: 600;
+        color: var(--harmony-font-primary);
+        margin-bottom: 2px;
       }
+
+      .mode-card-desc {
+        font-size: var(--harmony-font-size-body-s);
+        color: var(--harmony-font-tertiary);
+      }
+    }
+
+    .mode-card-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--harmony-brand);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
   }
 }
 
-// 动画
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+/* ===== 对话区域 ===== */
+.chat-area {
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+  padding: 20px 24px;
+  scroll-behavior: smooth;
+}
+
+.msg-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  &.user {
+    justify-content: flex-end;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  &.assistant {
+    justify-content: flex-start;
   }
 }
 
-@keyframes rotate {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
+.msg-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--harmony-comp-divider);
+
+  &.ai {
+    border: none;
   }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
+
+  &.user img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
-@keyframes bounce {
-  0%, 80%, 100% {
-    transform: scale(0) translateY(0);
-    opacity: 0.5;
+.msg-bubble {
+  max-width: 68%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: var(--harmony-font-size-subtitle-s);
+  line-height: 1.6;
+  word-break: break-word;
+
+  &.user {
+    background: var(--harmony-brand);
+    color: white;
+    border-bottom-right-radius: 4px;
   }
-  40% {
-    transform: scale(1.2) translateY(-8px);
-    opacity: 1;
+
+  &.ai {
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-bottom-left-radius: 4px;
+
+    :deep(.md-editor-preview-wrapper) {
+      background: transparent !important;
+    }
   }
 }
 
-// 灵寻模式输入框外发光“呼吸”动画（淡蓝色，颜色不变，仅强弱变化）
-@keyframes lingseek-breath {
-  0%, 100% {
-    box-shadow:
-      0 0 0 2px rgba(102, 126, 234, 0.12),
-      0 0 24px 10px rgba(102, 126, 234, 0.14);
-  }
-  50% {
-    box-shadow:
-      0 0 0 3px rgba(102, 126, 234, 0.22),
-      0 0 44px 18px rgba(102, 126, 234, 0.22);
-  }
-}
-
-@keyframes lingseek-breath-strong {
-  0%, 100% {
-    box-shadow:
-      0 0 0 3px rgba(102, 126, 234, 0.20),
-      0 0 36px 14px rgba(102, 126, 234, 0.24);
-  }
-  50% {
-    box-shadow:
-      0 0 0 4px rgba(102, 126, 234, 0.30),
-      0 0 60px 24px rgba(102, 126, 234, 0.30);
+.msg-loading {
+  padding: 4px 0;
+  
+  .dot-pulse {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--harmony-font-tertiary);
+    animation: pulse 1.4s infinite ease-in-out both;
   }
 }
 
-// 移除彩虹动画（不再需要）
+@keyframes pulse {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
 
+/* ===== 输入区 ===== */
 .input-section {
   width: 100%;
-  max-width: 800px;
-  animation: fadeInUp 0.6s ease 0.2s both;
+  max-width: 680px;
+  padding: 16px 0;
+  animation: fadeUp 0.5s ease 0.15s both;
 
-  &.input-fixed {
+  &.fixed {
     max-width: 100%;
-    padding: 10px 20px 20px 20px;
-    background: var(--color-bg-secondary);
+    padding: 8px 24px 16px;
+    background: var(--harmony-comp-background-secondary);
     animation: none;
-
-    .input-wrapper {
-      max-width: 900px;
-      margin: 0 auto;
-    }
   }
 
-  .input-wrapper {
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 20px;
-    padding: 16px 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    position: relative;
-    z-index: 1;
-
-    &.lingseek-glow {
-      border-color: rgba(102, 126, 234, 0.35);
-      box-shadow:
-        0 0 0 2px rgba(102, 126, 234, 0.12),
-        0 0 16px 6px rgba(102, 126, 234, 0.14);
-      animation: lingseek-breath 2.8s ease-in-out infinite;
-
-      &:focus-within {
-        border-color: rgba(102, 126, 234, 0.55);
-        animation: lingseek-breath-strong 2.2s ease-in-out infinite;
-        transform: translateY(-2px);
-      }
-    }
+  .input-box {
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: 16px;
+    padding: 10px 14px;
+    transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
+    box-shadow: var(--harmony-shadow-sm);
 
     &:focus-within {
-      border-color: var(--color-primary);
-      box-shadow: 0 6px 24px rgba(59, 130, 246, 0.15);
-      transform: translateY(-2px);
+      border-color: var(--harmony-brand);
+      box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
     }
 
-    .message-input {
+    &.lingseek-glow {
+      border-color: rgba(102, 126, 234, 0.3);
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.08);
+    }
+
+    .input-field {
       width: 100%;
       border: none;
       background: transparent;
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--color-text-primary);
+      font-size: var(--harmony-font-size-subtitle-s);
+      line-height: 1.5;
+      color: var(--harmony-font-primary);
       resize: none;
       outline: none;
       font-family: inherit;
-      min-height: 45px;
-      margin-bottom: 12px;
+      min-height: 24px;
+      max-height: 120px;
 
       &::placeholder {
-        color: var(--color-text-tertiary);
+        color: var(--harmony-font-tertiary);
       }
     }
 
-    .input-footer {
+    .input-actions {
       display: flex;
       justify-content: space-between;
       align-items: center;
-
-      .footer-left {
-        display: flex;
-        gap: 10px;
-
-          .selector-dropdown {
-          position: relative;
-
-          .selector-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 14px;
-            background: var(--color-bg-secondary);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            color: var(--color-text-secondary);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
-
-            .selector-icon {
-              font-size: var(--font-size-lg);
-            }
-
-            .selector-icon-img {
-              width: 20px;
-              height: 20px;
-              object-fit: contain;
-              display: inline-block;
-            }
-
-            .selector-text {
-              font-weight: 500;
-            }
-
-            .selector-arrow {
-              font-size: 10px;
-              opacity: 0.5;
-              transition: transform 0.2s ease;
-            }
-
-            &.open {
-              .selector-arrow {
-                transform: rotate(180deg);
-              }
-            }
-
-            .selector-check {
-              font-size: var(--font-size-base);
-              color: var(--color-primary);
-              font-weight: 600;
-            }
-
-            &:hover {
-              border-color: var(--color-primary);
-              background: var(--color-primary-bg);
-              color: var(--color-primary);
-            }
-
-            &.active {
-              background: var(--color-primary-bg);
-              border-color: var(--color-primary);
-              color: var(--color-primary);
-              box-shadow: 0 2px 6px rgba(51, 112, 255, 0.15);
-            }
-
-            &:active {
-              transform: scale(0.98);
-            }
-          }
-
-          .dropdown-menu {
-            position: absolute;
-            bottom: calc(100% + 8px);
-            left: 0;
-            min-width: 200px;
-            background: var(--color-bg);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            max-height: 320px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-
-            &.tool-menu {
-              min-width: 360px;
-              max-height: 450px;
-            }
-
-            // 模型下拉尺寸与工具列表保持一致
-            &.model-menu {
-              min-width: 180px;
-              max-height: 450px;
-
-              .dropdown-item {
-                .item-content {
-                  .item-text {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                  }
-                }
-              }
-            }
-
-            .dropdown-header {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              padding: 12px 16px;
-              background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-hover) 100%);
-              border-bottom: 1px solid var(--color-border);
-
-              .header-title {
-                font-size: var(--font-size-base);
-                font-weight: 600;
-                color: var(--color-text-primary);
-              }
-
-              .header-count {
-                font-size: var(--font-size-xs);
-                color: var(--color-text-secondary);
-                background: var(--color-bg);
-                padding: 2px 8px;
-                border-radius: 10px;
-                border: 1px solid var(--color-border);
-              }
-            }
-
-            .dropdown-list {
-              flex: 1;
-              overflow-y: auto;
-              padding: 8px;
-
-              &::-webkit-scrollbar {
-                width: 8px;
-              }
-
-              &::-webkit-scrollbar-track {
-                background: transparent;
-              }
-
-              &::-webkit-scrollbar-thumb {
-                background: var(--color-border);
-                border-radius: 4px;
-
-                &:hover {
-                  background: var(--color-border);
-                }
-              }
-            }
-
-            .dropdown-empty {
-              padding: 48px 20px;
-              text-align: center;
-              color: var(--color-text-tertiary);
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              gap: 12px;
-
-              .empty-icon {
-                font-size: 48px;
-                opacity: 0.3;
-              }
-
-              .empty-icon-img {
-                width: 48px;
-                height: 48px;
-                opacity: 0.35;
-                object-fit: contain;
-              }
-
-              .empty-text {
-                font-size: var(--font-size-base);
-                color: var(--color-text-secondary);
-              }
-
-              &.dropdown-error {
-                gap: 10px;
-
-                .empty-text {
-                  color: var(--color-danger, #e74c3c);
-                  font-size: var(--font-size-sm, 12px);
-                }
-
-                .retry-btn {
-                  padding: 4px 16px;
-                  border: 1px solid var(--color-primary, #409eff);
-                  border-radius: 4px;
-                  background: transparent;
-                  color: var(--color-primary, #409eff);
-                  font-size: var(--font-size-sm, 12px);
-                  cursor: pointer;
-                  transition: all 0.2s;
-
-                  &:hover {
-                    background: var(--color-primary, #409eff);
-                    color: #fff;
-                  }
-                }
-              }
-            }
-
-            .dropdown-item {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              gap: 12px;
-              padding: 14px 12px;
-              border-radius: 10px;
-              cursor: pointer;
-              transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-              margin-bottom: 4px;
-              border: 2px solid transparent;
-              background: var(--color-bg-tertiary);
-
-              .item-left {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                flex: 1;
-                min-width: 0;
-              }
-
-              .item-icon-wrapper {
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-border) 100%);
-                border-radius: 10px;
-                flex-shrink: 0;
-                transition: all 0.3s ease;
-                overflow: hidden;
-
-                .item-icon-img {
-                  width: 100%;
-                  height: 100%;
-                  object-fit: cover;
-                }
-
-                .item-icon {
-                  font-size: 20px;
-                }
-              }
-
-              .item-content {
-                flex: 1;
-                min-width: 0;
-
-                .item-text {
-                  font-size: 15px;
-                  font-weight: 600;
-                  color: var(--color-text-primary);
-                  margin-bottom: 4px;
-                  line-height: 1.3;
-                }
-
-                .item-desc {
-                  font-size: var(--font-size-xs);
-                  color: var(--color-text-secondary);
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  display: -webkit-box;
-                  -webkit-line-clamp: 2;
-                  line-clamp: 2;
-                  -webkit-box-orient: vertical;
-                  line-height: 1.5;
-                }
-              }
-
-              .item-check-wrapper {
-                width: 28px;
-                height: 28px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%);
-                border-radius: 50%;
-                flex-shrink: 0;
-                box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-
-                .item-check {
-                  font-size: var(--font-size-lg);
-                  color: var(--color-bg);
-                  font-weight: 700;
-                }
-              }
-
-              &:hover {
-                background: var(--color-bg-secondary);
-                transform: translateX(2px);
-                border-color: var(--color-border);
-
-                .item-icon-wrapper {
-                  background: var(--color-border);
-                  transform: scale(1.05);
-                }
-              }
-
-              &.selected {
-                background: var(--color-primary-bg);
-                border-color: var(--color-primary);
-                box-shadow: 0 2px 8px rgba(102, 126, 234, 0.12);
-
-                .item-icon-wrapper {
-                  background: linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%);
-                  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-                  
-                  .item-icon-img {
-                    filter: brightness(1.2);
-                  }
-
-                  .item-icon {
-                    filter: brightness(0) invert(1);
-                  }
-                }
-
-                .item-text {
-                  color: var(--color-primary);
-                }
-              }
-
-              &:active {
-                transform: scale(0.98) translateX(2px);
-              }
-            }
-
-            .dropdown-footer {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              padding: 12px 16px;
-              border-top: 2px solid var(--color-border);
-              background: var(--color-bg-secondary);
-
-              .clear-btn {
-                padding: 8px 16px;
-                background: var(--color-bg);
-                border: 1px solid var(--color-border);
-                border-radius: var(--radius-sm);
-                font-size: 13px;
-                color: var(--color-text-secondary);
-                cursor: pointer;
-                transition: all 0.25s ease;
-                font-weight: 500;
-                display: flex;
-                align-items: center;
-                gap: 6px;
-
-                &:hover {
-                  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-                  border-color: #ef4444;
-                  color: #dc2626;
-                  transform: translateY(-1px);
-                  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
-                }
-
-                &:active {
-                  transform: translateY(0);
-                }
-              }
-
-              .selected-info {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-
-                .selected-count {
-                  font-size: 13px;
-                  color: var(--color-primary);
-                  font-weight: 600;
-                  padding: 4px 12px;
-                  background: var(--color-primary-bg);
-                  border-radius: var(--radius-lg);
-                  border: 1px solid var(--color-primary);
-                }
-              }
-            }
-          }
-        }
-      }
-
-      .footer-right {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-
-        .icon-btn {
-          width: 36px;
-          height: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: var(--color-bg-secondary);
-          border: 1px solid var(--color-border);
-          border-radius: var(--radius-sm);
-          cursor: pointer;
-          transition: all 0.2s ease;
-          font-size: 18px;
-
-          &:hover {
-            border-color: var(--color-primary);
-            background: var(--color-primary-bg);
-            transform: translateY(-1px);
-          }
-
-          &:active {
-            transform: translateY(0);
-          }
-        }
-
-        .hidden-file-input {
-          display: none;
-        }
-
-        .upload-icon {
-          width: 18px;
-          height: 18px;
-          object-fit: contain;
-          display: block;
-        }
-
-        .send-btn {
-          width: 36px;
-          height: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-          border: none;
-          border-radius: var(--radius-sm);
-          color: var(--color-bg);
-          cursor: pointer;
-          transition: all 0.2s ease;
-          font-size: var(--font-size-lg);
-          box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
-
-          &:hover:not(.btn-disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
-          }
-
-          &:active:not(.btn-disabled) {
-            transform: translateY(0);
-          }
-
-          &.btn-disabled {
-            background: linear-gradient(135deg, var(--color-text-tertiary) 0%, var(--color-text-secondary) 100%);
-            cursor: not-allowed;
-            opacity: 0.6;
-          }
-
-          .loading-spinner {
-            animation: spin 1s linear infinite;
-          }
-        }
-
-        @keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      }
-    }
-  }
-}
-
-.chat-conversation {
-  flex: 1;
-  padding: 0;
-  overflow-y: auto;
-  width: 100%;
-  background: var(--color-bg-secondary);
-  scroll-behavior: smooth;  // 平滑滚动
-  
-  .message-group {
-    margin-bottom: 20px;
-    padding: 0 20px;
-    
-    &:first-child {
-      padding-top: 20px;
-    }
-  }
-
-  .ai-message {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 15px;
-      flex-shrink: 0;
-      border: 1px solid var(--color-border);
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--harmony-comp-divider);
     }
 
-    .message-content {
-      background-color: var(--color-bg);
-      border-radius: 18px;
-      padding: 12px 18px;
-      max-width: 70%;
-      color: var(--color-text-primary);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      word-break: break-word;
-
-      // 加载转圈器样式
-      .loading-spinner-container {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 4px 0;
-        color: var(--color-text-secondary);
-        font-size: var(--font-size-base);
-
-        .loading-spinner {
-          width: 16px;
-          height: 16px;
-          border: 2px solid var(--color-border);
-          border-top: 2px solid transparent;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-        }
-
-        .loading-text {
-          font-weight: 500;
-          color: var(--color-text-tertiary);
-        }
-      }
-    }
-  }
-
-  .user-message {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-left: 12px;
-      flex-shrink: 0;
-      border: 1px solid var(--color-border);
-    }
-
-    .message-content {
+    .action-group {
       display: flex;
       align-items: center;
-      background: linear-gradient(135deg, #6e8efb, #a777e3);
-      color: var(--color-bg);
-      border-radius: 18px;
-      padding: 12px 18px;
-      max-width: 70%;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      gap: 4px;
     }
   }
 }
 
-// 下拉菜单动画（向上展开）
-.dropdown-enter-active,
-.dropdown-leave-active {
-  transition: all 0.2s ease;
-}
+/* ===== 操作按钮 ===== */
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--harmony-corner-radius-level4);
+  background: transparent;
+  color: var(--harmony-font-tertiary);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
+  white-space: nowrap;
+  font-family: inherit;
 
-.dropdown-enter-from {
-  opacity: 0;
-  transform: translateY(8px);
-}
-
-.dropdown-leave-to {
-  opacity: 0;
-  transform: translateY(4px);
-}
-
-// Override MdPreview background
-:deep(.md-editor-preview-wrapper) {
-    background-color: transparent !important;
-}
-
-@media (max-width: 768px) {
-  .chat-page {
-    padding: 40px 16px 20px;
+  &:hover {
+    background: var(--harmony-comp-background-secondary);
+    color: var(--harmony-font-secondary);
+    border-color: var(--harmony-comp-divider);
   }
 
-  .welcome-section {
-    margin-bottom: 32px;
+  &.active {
+    background: var(--harmony-comp-emphasize-tertiary);
+    color: var(--harmony-brand);
+    border-color: var(--harmony-brand);
+  }
 
-    .avatar-wrapper {
-      .avatar {
-        width: 80px;
-        height: 80px;
+  .action-label {
+    font-weight: 500;
+  }
+}
+
+/* ===== 下拉菜单 ===== */
+.action-dropdown {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  min-width: 140px;
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level6);
+  box-shadow: var(--harmony-shadow-md);
+  z-index: 100;
+  max-height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &.wide {
+    min-width: 240px;
+  }
+
+  .dropdown-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
+    font-weight: 600;
+    border-bottom: 1px solid var(--harmony-comp-divider);
+
+    .count {
+      font-weight: 400;
+      color: var(--harmony-font-tertiary);
+      font-size: 11px;
+    }
+  }
+
+  .dropdown-list {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .dropdown-item {
+    padding: 8px 12px;
+    font-size: var(--harmony-font-size-body-s);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background var(--harmony-duration-fast) var(--harmony-motion-standard);
+
+    &:hover {
+      background: var(--harmony-comp-background-secondary);
+    }
+
+    &.selected {
+      color: var(--harmony-brand);
+      font-weight: 500;
+    }
+
+    &.disabled {
+      color: var(--harmony-font-tertiary);
+      cursor: default;
+    }
+
+    &.error {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      color: var(--harmony-warning);
+
+      button {
+        font-size: 11px;
+        padding: 2px 10px;
+        border: 1px solid var(--harmony-brand);
+        border-radius: var(--harmony-corner-radius-level4);
+        background: transparent;
+        color: var(--harmony-brand);
+        cursor: pointer;
       }
     }
 
-    .welcome-title {
-      font-size: 26px;
+    .item-text {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .welcome-subtitle {
-      font-size: var(--font-size-base);
-    }
-  }
-
-  .mode-selector {
-    margin-bottom: 28px;
-    
-    .mode-btn {
-      padding: 10px 18px;
-      font-size: 13px;
+    .item-check {
+      color: var(--harmony-brand);
+      font-weight: 600;
+      margin-left: 8px;
     }
   }
 
-  .input-section {
-    .input-wrapper {
-      padding: 18px;
+  .dropdown-ft {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+    border-top: 1px solid var(--harmony-comp-divider);
+    font-size: 11px;
+    color: var(--harmony-font-tertiary);
 
-      .input-footer {
-        .footer-left {
-          flex-wrap: wrap;
-        }
+    .clear-btn {
+      border: none;
+      background: transparent;
+      color: var(--harmony-warning);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 2px 6px;
+
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
+}
+
+/* 下拉动画（向上） */
+.drop-up-enter-active,
+.drop-up-leave-active {
+  transition: all 0.15s ease;
+}
+.drop-up-enter-from,
+.drop-up-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* ===== 发送按钮 ===== */
+.send-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--harmony-corner-radius-level4);
+  background: var(--harmony-brand);
+  color: white;
+  cursor: pointer;
+  transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
+
+  &:hover:not(.disabled) {
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  }
+
+  &.disabled {
+    background: var(--harmony-comp-divider);
+    color: var(--harmony-font-tertiary);
+    cursor: not-allowed;
+  }
+}
+
+.spinner-sm {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.hidden {
+  display: none;
+}
+
+/* ===== 动画 ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
-
+<script lang="ts">
+// 自动调整textarea高度
+function autoResize(e) {
+  const el = e.target
+  el.style.height = 'auto'
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px'
+}
+</script>

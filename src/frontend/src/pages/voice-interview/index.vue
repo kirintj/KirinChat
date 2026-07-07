@@ -132,7 +132,7 @@ onUnmounted(() => { wsClient.value?.disconnect(); store.reset() })
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  border-bottom: 1px solid var(--color-border, #e5e5e5);
+  border-bottom: 1px solid var(--harmony-comp-divider);
 
   h2 {
     margin: 0;

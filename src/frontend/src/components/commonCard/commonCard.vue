@@ -33,7 +33,7 @@ defineProps<Props>()
   flex-direction: column;
   justify-content: space-between;
   height: 150px;
-  background-color: var(--color-bg-secondary);
+  background-color: var(--harmony-comp-background-secondary);
   border-radius: 10px;
   padding: 5px 10px;
   margin-right: 15px;

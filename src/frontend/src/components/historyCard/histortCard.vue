@@ -118,8 +118,8 @@ $transition-default: all 0.3s ease;
 
 .history-card {
   position: relative;
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
+  background-color: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
   border-radius: $border-radius-lg;
   padding: $card-padding;
   cursor: pointer;
@@ -127,8 +127,8 @@ $transition-default: all 0.3s ease;
   margin-bottom: $spacing-sm;
 
   &:hover {
-    border-color: var(--color-primary);
-    box-shadow: var(--shadow-md);
+    border-color: var(--harmony-brand);
+    box-shadow: var(--harmony-shadow-md);
     transform: translateY(-2px);
   }
 
@@ -151,7 +151,7 @@ $transition-default: all 0.3s ease;
         height: 40px;
         border-radius: $border-radius-md;
         overflow: hidden;
-        background-color: var(--color-bg-tertiary);
+        background-color: var(--harmony-comp-background-tertiary);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -170,7 +170,7 @@ $transition-default: all 0.3s ease;
         .title {
           font-size: 14px;
           font-weight: 600;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
           margin-bottom: 4px;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -179,7 +179,7 @@ $transition-default: all 0.3s ease;
 
         .subtitle {
           font-size: 12px;
-          color: var(--color-text-secondary);
+          color: var(--harmony-font-secondary);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -196,7 +196,7 @@ $transition-default: all 0.3s ease;
 
       .time {
         font-size: 11px;
-        color: var(--color-text-tertiary);
+        color: var(--harmony-font-tertiary);
         white-space: nowrap;
       }
 
@@ -205,7 +205,7 @@ $transition-default: all 0.3s ease;
         transition: opacity 0.2s ease;
 
         .delete-btn {
-          color: var(--color-text-tertiary);
+          color: var(--harmony-font-tertiary);
           font-size: 18px;
           font-weight: bold;
           cursor: pointer;
@@ -222,8 +222,8 @@ $transition-default: all 0.3s ease;
 
           &:hover {
             transform: scale(1.2);
-            color: var(--color-danger);
-            background-color: var(--color-danger-bg);
+            color: var(--harmony-warning);
+            background-color: var(--harmony-warning-bg);
           }
         }
       }
@@ -233,12 +233,12 @@ $transition-default: all 0.3s ease;
 
 /* 激活状态 */
 .history-card.active {
-  border-color: var(--color-primary);
-  background-color: var(--color-primary-bg);
-  box-shadow: 0 0 0 1px var(--color-primary);
+  border-color: var(--harmony-brand);
+  background-color: var(--harmony-comp-emphasize-tertiary);
+  box-shadow: 0 0 0 1px var(--harmony-brand);
 
   .card-left .content .title {
-    color: var(--color-primary);
+    color: var(--harmony-brand);
   }
 }
 

@@ -367,8 +367,8 @@ defineExpose({ open, close })
     justify-content: space-between;
     align-items: center;
     padding: 20px 24px;
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-bg);
+    border-bottom: 1px solid var(--harmony-comp-divider);
+    background: var(--harmony-comp-background-primary);
 
     .header-left {
       display: flex;
@@ -382,7 +382,7 @@ defineExpose({ open, close })
       .header-title {
         font-size: 18px;
         font-weight: 600;
-        color: var(--color-text-primary);
+        color: var(--harmony-font-primary);
       }
     }
 
@@ -400,8 +400,8 @@ defineExpose({ open, close })
     .left-panel {
       width: 25%;
       min-width: 300px;
-      background-color: var(--color-bg-tertiary);
-      border-right: 1px solid var(--color-border);
+      background-color: var(--harmony-comp-background-tertiary);
+      border-right: 1px solid var(--harmony-comp-divider);
       overflow-y: auto;
       flex-shrink: 0;
       padding: 32px 24px;
@@ -410,7 +410,7 @@ defineExpose({ open, close })
         font-size: 16px;
         font-weight: 600;
         margin-bottom: 16px;
-        color: var(--color-text-primary);
+        color: var(--harmony-font-primary);
       }
 
       .prompt-textarea {
@@ -420,15 +420,15 @@ defineExpose({ open, close })
         line-height: 1.5;
         border-radius: 6px;
         padding: 12px;
-        border: 1px solid var(--color-border);
-        background: var(--color-bg);
-        color: var(--color-text-primary);
+        border: 1px solid var(--harmony-comp-divider);
+        background: var(--harmony-comp-background-primary);
+        color: var(--harmony-font-primary);
         resize: vertical;
         box-sizing: border-box;
 
         &:focus {
           outline: none;
-          border-color: var(--color-primary);
+          border-color: var(--harmony-brand);
         }
       }
     }
@@ -436,8 +436,8 @@ defineExpose({ open, close })
     .middle-panel {
       width: 35%;
       min-width: 400px;
-      background-color: var(--color-bg);
-      border-right: 1px solid var(--color-border);
+      background-color: var(--harmony-comp-background-primary);
+      border-right: 1px solid var(--harmony-comp-divider);
       overflow-y: auto;
       flex-shrink: 0;
       padding: 32px 24px;
@@ -445,9 +445,9 @@ defineExpose({ open, close })
       .config-sections {
         .config-section {
           margin-bottom: 16px;
-          border: 1px solid var(--color-border);
+          border: 1px solid var(--harmony-comp-divider);
           border-radius: 8px;
-          background-color: var(--color-bg-tertiary);
+          background-color: var(--harmony-comp-background-tertiary);
 
           .section-header {
             display: flex;
@@ -458,10 +458,10 @@ defineExpose({ open, close })
             user-select: none;
             font-size: 15px;
             font-weight: 500;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
 
             &:hover {
-              background-color: var(--color-bg-hover);
+              background-color: var(--harmony-interactive-hover);
             }
 
             .collapse-arrow {
@@ -476,8 +476,8 @@ defineExpose({ open, close })
 
           .section-content {
             padding: 16px;
-            background-color: var(--color-bg);
-            border-top: 1px solid var(--color-border);
+            background-color: var(--harmony-comp-background-primary);
+            border-top: 1px solid var(--harmony-comp-divider);
           }
         }
       }
@@ -486,7 +486,7 @@ defineExpose({ open, close })
     .right-panel {
       width: 40%;
       min-width: 400px;
-      background-color: var(--color-bg-tertiary);
+      background-color: var(--harmony-comp-background-tertiary);
       overflow-y: auto;
       flex-shrink: 0;
       padding: 32px 24px;
@@ -501,12 +501,12 @@ defineExpose({ open, close })
           margin-bottom: 20px;
 
           .status-text {
-            color: var(--color-success);
+            color: var(--harmony-confirm);
             font-size: 12px;
-            border: 1px dashed var(--color-success);
+            border: 1px dashed var(--harmony-confirm);
             padding: 4px 12px;
             border-radius: 4px;
-            background-color: var(--color-success-bg);
+            background-color: var(--harmony-confirm-bg);
           }
         }
 
@@ -526,7 +526,7 @@ defineExpose({ open, close })
               display: flex;
               align-items: center;
               justify-content: center;
-              background-color: var(--color-bg-tertiary);
+              background-color: var(--harmony-comp-background-tertiary);
 
               img {
                 width: 100%;
@@ -537,14 +537,14 @@ defineExpose({ open, close })
 
             .message-content {
               flex: 1;
-              background-color: var(--color-bg);
+              background-color: var(--harmony-comp-background-primary);
               padding: 12px;
               border-radius: 8px;
-              box-shadow: var(--shadow-sm);
+              box-shadow: var(--harmony-shadow-sm);
 
               p {
                 margin: 0;
-                color: var(--color-text-primary);
+                color: var(--harmony-font-primary);
                 font-size: 14px;
                 line-height: 1.5;
               }
@@ -558,23 +558,23 @@ defineExpose({ open, close })
           h4 {
             margin: 0 0 12px 0;
             font-size: 14px;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
           }
 
           .question-list {
             .question-item {
               padding: 8px 12px;
-              background-color: var(--color-bg-hover);
+              background-color: var(--harmony-interactive-hover);
               border-radius: 6px;
               margin-bottom: 8px;
               font-size: 13px;
-              color: var(--color-text-secondary);
+              color: var(--harmony-font-secondary);
               cursor: pointer;
               transition: all 0.3s;
 
               &:hover {
-                background-color: var(--color-primary-bg);
-                color: var(--color-primary);
+                background-color: var(--harmony-comp-emphasize-tertiary);
+                color: var(--harmony-brand);
               }
             }
           }
@@ -584,13 +584,13 @@ defineExpose({ open, close })
           .input-wrapper {
             display: flex;
             align-items: center;
-            background-color: var(--color-bg);
+            background-color: var(--harmony-comp-background-primary);
             border-radius: 8px;
             padding: 12px;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--harmony-shadow-sm);
 
             .input-icon {
-              color: var(--color-text-tertiary);
+              color: var(--harmony-font-tertiary);
               margin-right: 8px;
             }
 
@@ -599,11 +599,11 @@ defineExpose({ open, close })
               border: none;
               outline: none;
               font-size: 14px;
-              color: var(--color-text-primary);
+              color: var(--harmony-font-primary);
               background: transparent;
 
               &::placeholder {
-                color: var(--color-text-disabled);
+                color: var(--harmony-font-fourth);
               }
             }
 
@@ -617,7 +617,7 @@ defineExpose({ open, close })
             margin-top: 8px;
 
             span {
-              color: var(--color-text-tertiary);
+              color: var(--harmony-font-tertiary);
               font-size: 12px;
             }
           }

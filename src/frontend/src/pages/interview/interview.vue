@@ -162,14 +162,14 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   display: flex;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
 }
 
 .sidebar {
   height: 100%;
   width: 280px;
-  background: var(--color-bg);
-  border-right: 1px solid var(--color-border);
+  background: var(--harmony-comp-background-primary);
+  border-right: 1px solid var(--harmony-comp-divider);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -214,10 +214,10 @@ onMounted(() => {
     .create-btn {
       width: 100%;
       height: 44px;
-      border-radius: var(--radius-sm);
-      background: var(--color-bg);
-      color: var(--color-primary);
-      border: 1px solid var(--color-border);
+      border-radius: var(--harmony-corner-radius-level4);
+      background: var(--harmony-comp-background-primary);
+      color: var(--harmony-brand);
+      border: 1px solid var(--harmony-comp-divider);
       cursor: pointer;
       font-size: 14px;
       font-weight: 500;
@@ -226,11 +226,11 @@ onMounted(() => {
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all var(--duration-fast) var(--easing);
+      transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
       &:hover {
-        border-color: var(--color-primary);
-        background: var(--color-primary-bg);
+        border-color: var(--harmony-brand);
+        background: var(--harmony-comp-emphasize-tertiary);
       }
     }
   }
@@ -254,8 +254,8 @@ onMounted(() => {
       }
 
       .empty-text {
-        font-size: var(--font-size-base);
-        color: var(--color-text-tertiary);
+        font-size: var(--harmony-font-size-body-m);
+        color: var(--harmony-font-tertiary);
       }
     }
 
@@ -265,16 +265,16 @@ onMounted(() => {
       gap: 10px;
       padding: 12px;
       margin-bottom: 4px;
-      background: var(--color-bg);
+      background: var(--harmony-comp-background-primary);
       border: 1px solid transparent;
-      border-radius: var(--radius-md);
+      border-radius: var(--harmony-corner-radius-level6);
       cursor: pointer;
-      transition: all var(--duration-fast) var(--easing);
+      transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
       position: relative;
 
       &:hover {
-        background: var(--color-bg-secondary);
-        border-color: var(--color-border);
+        background: var(--harmony-comp-background-secondary);
+        border-color: var(--harmony-comp-divider);
 
         .delete-btn {
           opacity: 1;
@@ -282,8 +282,8 @@ onMounted(() => {
       }
 
       &.active {
-        background: var(--color-primary-bg);
-        border-color: var(--color-primary);
+        background: var(--harmony-comp-emphasize-tertiary);
+        border-color: var(--harmony-brand);
       }
 
       .session-icon {
@@ -292,8 +292,8 @@ onMounted(() => {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--color-primary-bg);
-        border-radius: var(--radius-sm);
+        background: var(--harmony-comp-emphasize-tertiary);
+        border-radius: var(--harmony-corner-radius-level4);
         flex-shrink: 0;
         font-size: 14px;
       }
@@ -303,9 +303,9 @@ onMounted(() => {
         min-width: 0;
 
         .session-title {
-          font-size: var(--font-size-base);
+          font-size: var(--harmony-font-size-body-m);
           font-weight: 500;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -324,23 +324,23 @@ onMounted(() => {
           }
 
           .status-done {
-            background: var(--color-success-bg, #e8f5e9);
-            color: var(--color-success, #4caf50);
+            background: var(--harmony-confirm-bg);
+            color: var(--harmony-confirm);
           }
 
           .status-active {
-            background: var(--color-primary-bg);
-            color: var(--color-primary);
+            background: var(--harmony-comp-emphasize-tertiary);
+            color: var(--harmony-brand);
           }
 
           .status-default {
-            background: var(--color-bg-secondary);
-            color: var(--color-text-tertiary);
+            background: var(--harmony-comp-background-secondary);
+            color: var(--harmony-font-tertiary);
           }
 
           .session-progress {
-            font-size: var(--font-size-xs);
-            color: var(--color-text-tertiary);
+            font-size: var(--harmony-font-size-body-s);
+            color: var(--harmony-font-tertiary);
           }
         }
       }
@@ -352,22 +352,22 @@ onMounted(() => {
         width: 22px;
         height: 22px;
         padding: 0;
-        background: var(--color-bg);
-        border: 1px solid var(--color-border);
+        background: var(--harmony-comp-background-primary);
+        border: 1px solid var(--harmony-comp-divider);
         cursor: pointer;
-        border-radius: var(--radius-sm);
+        border-radius: var(--harmony-corner-radius-level4);
         font-size: 14px;
         opacity: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--color-text-secondary);
-        transition: all var(--duration-fast) var(--easing);
+        color: var(--harmony-font-secondary);
+        transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
         &:hover {
-          background: var(--color-danger-bg);
-          color: var(--color-danger);
-          border-color: var(--color-danger);
+          background: var(--harmony-warning-bg);
+          color: var(--harmony-warning);
+          border-color: var(--harmony-warning);
         }
       }
     }
@@ -378,7 +378,7 @@ onMounted(() => {
   flex: 1;
   min-width: 0;
   min-height: 0;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   overflow: hidden;
 }
 </style>

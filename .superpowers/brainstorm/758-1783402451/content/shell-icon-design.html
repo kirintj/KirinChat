@@ -1,0 +1,127 @@
+<h2>响应式页面壳层 + HMSymbol 图标系统</h2>
+<p class="subtitle">标准页面骨架 · 桌面/移动端自适应 · HMSymbol 字体图标</p>
+
+<div class="section">
+  <h3>标准页面壳层结构</h3>
+  <div class="split">
+    <div class="mockup">
+      <div class="mockup-header">移动端 (<768px)</div>
+      <div class="mockup-body" style="padding: 0; background: #000; border-radius: 12px; overflow: hidden; width: 240px; margin: 0 auto;">
+        <div style="background: #1a1a2e; color: white; padding: 6px 12px; font-size: 8px; display: flex; justify-content: space-between; align-items: center;">
+          <span>9:41</span>
+          <span style="display: flex; gap: 4px;">
+            <span style="font-family: HMSymbol;">&#xe900;</span>
+            <span style="font-family: HMSymbol;">&#xe901;</span>
+          </span>
+        </div>
+        <div style="background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); color: white; padding: 10px 12px; font-size: 12px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.1);">
+          KirinChat
+          <div style="font-size: 7px; font-weight: normal; opacity: 0.6; margin-top: 2px;">Titlebar (big variant)</div>
+        </div>
+        <div style="height: 180px; background: #ffffff; padding: 8px; font-size: 8px; color: #333;">
+          <div style="background: #f5f5f5; border-radius: 8px; padding: 8px; margin-bottom: 6px;">Chat content area</div>
+          <div style="background: #f5f5f5; border-radius: 8px; padding: 8px; margin-bottom: 6px;">Scrollable .layout-content</div>
+          <div style="background: #f5f5f5; border-radius: 8px; padding: 8px;">Z: content(auto)</div>
+        </div>
+        <div style="background: rgba(255,255,255,0.6); backdrop-filter: blur(80px) saturate(1.8); padding: 8px 0 12px; display: flex; justify-content: space-around; font-size: 7px; color: #333; border-top: 1px solid rgba(0,0,0,0.05);">
+          <div style="text-align: center; color: #0a59f7;">
+            <div style="font-size: 14px;">&#xea38;</div>Chat
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 14px;">&#xea39;</div>Agent
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 14px;">&#xea3a;</div>Work
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 14px;">&#xea3b;</div>More
+          </div>
+          <div style="position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: #333; border-radius: 2px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">桌面端 (>=768px)</div>
+      <div class="mockup-body" style="padding: 0; background: #f5f5f5; border-radius: 8px; overflow: hidden;">
+        <div style="display: flex; height: 280px;">
+          <div style="width: 60px; background: #1a1a2e; color: white; padding: 12px 0; display: flex; flex-direction: column; align-items: center; gap: 16px; font-size: 7px;">
+            <div style="width: 32px; height: 32px; background: #0a59f7; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px;">K</div>
+            <div style="color: #0a59f7; text-align: center;"><div style="font-size: 12px;">&#xea38;</div>Chat</div>
+            <div style="text-align: center; opacity: 0.6;"><div style="font-size: 12px;">&#xea39;</div>Agent</div>
+            <div style="text-align: center; opacity: 0.6;"><div style="font-size: 12px;">&#xea3a;</div>Work</div>
+            <div style="text-align: center; opacity: 0.6;"><div style="font-size: 12px;">&#xea3b;</div>More</div>
+          </div>
+          <div style="flex: 1; background: #ffffff; padding: 12px; font-size: 8px; color: #333;">
+            <div style="font-weight: bold; font-size: 12px; color: #1a1a2e; margin-bottom: 8px;">Titlebar (normal variant)</div>
+            <div style="background: #f5f5f5; border-radius: 8px; padding: 8px; margin-bottom: 6px;">Chat content area</div>
+            <div style="background: #f5f5f5; border-radius: 8px; padding: 8px; margin-bottom: 6px;">自适应宽度</div>
+            <div style="background: #f5f5f5; border-radius: 8px; padding: 8px;">无 BottomTab，侧边栏导航</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Z 轴层级规范</h3>
+  <div style="font-size: 12px; background: #f8f9fa; border-radius: 8px; padding: 16px;">
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr style="background: #e8f0fe;">
+        <td style="padding: 6px 12px; border: 1px solid #dadce0; font-weight: bold;">组件</td>
+        <td style="padding: 6px 12px; border: 1px solid #dadce0; font-weight: bold;">z-index</td>
+        <td style="padding: 6px 12px; border: 1px solid #dadce0; font-weight: bold;">说明</td>
+      </tr>
+      <tr><td style="padding: 5px 12px; border: 1px solid #e8eaed;">HBottomTab</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">100</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">最高层级，浮动底栏</td></tr>
+      <tr><td style="padding: 5px 12px; border: 1px solid #e8eaed;">HSearch</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">30</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">浮动搜索栏</td></tr>
+      <tr><td style="padding: 5px 12px; border: 1px solid #e8eaed;">HTitlebar</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">10</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">浮动标题栏</td></tr>
+      <tr><td style="padding: 5px 12px; border: 1px solid #e8eaed;">.layout-content</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">auto</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">内容区默认层级</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h3>HMSymbol 图标系统</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 14px;">
+      <div style="font-weight: bold; color: #1a73e8; font-size: 13px; margin-bottom: 8px;">字体引入</div>
+      <div style="font-family: monospace; font-size: 10px; background: #1a1a2e; color: #e8eaed; padding: 10px; border-radius: 6px; line-height: 1.5;">
+        @font-face {<br>
+        &nbsp;&nbsp;font-family: 'HMSymbol';<br>
+        &nbsp;&nbsp;src: url('HMSymbolVF_1.ttf');<br>
+        }
+      </div>
+      <div style="font-size: 10px; color: #5f6368; margin-top: 8px;">
+        来源：hmos-design-visual-mobile-master/assets/
+      </div>
+    </div>
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 14px;">
+      <div style="font-weight: bold; color: #1a73e8; font-size: 13px; margin-bottom: 8px;">HIcon 组件升级</div>
+      <div style="font-size: 11px; color: #5f6368; line-height: 1.6;">
+        现有 HIcon 组件扩展为双模式：<br>
+        <code>name</code> 属性 → HMSymbol Unicode 字符<br>
+        <code>svg</code> 属性 → 保留 SVG 降级路径<br>
+        <br>
+        壳层组件强制使用 HMSymbol<br>
+        业务组件可选 HMSymbol 或 SVG
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>响应式断点策略</h3>
+  <div style="font-size: 12px; background: #f8f9fa; border-radius: 8px; padding: 16px;">
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr style="background: #e8f0fe;">
+        <td style="padding: 6px 12px; border: 1px solid #dadce0; font-weight: bold;">断点</td>
+        <td style="padding: 6px 12px; border: 1px solid #dadce0; font-weight: bold;">布局</td>
+        <td style="padding: 6px 12px; border: 1px solid #dadce0; font-weight: bold;">导航</td>
+        <td style="padding: 6px 12px; border: 1px solid #dadce0; font-weight: bold;">Titlebar</td>
+      </tr>
+      <tr><td style="padding: 5px 12px; border: 1px solid #e8eaed;">< 768px</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">360px 画布居中</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">HBottomTab 浮底</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">big</td></tr>
+      <tr><td style="padding: 5px 12px; border: 1px solid #e8eaed;">768-1200px</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">自适应宽度</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">侧边栏折叠</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">normal</td></tr>
+      <tr><td style="padding: 5px 12px; border: 1px solid #e8eaed;">>= 1200px</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">自适应宽度</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">侧边栏展开</td><td style="padding: 5px 12px; border: 1px solid #e8eaed;">normal</td></tr>
+    </table>
+  </div>
+</div>

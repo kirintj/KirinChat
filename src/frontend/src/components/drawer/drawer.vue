@@ -168,7 +168,7 @@ defineExpose({
 
     .search-section {
       padding: 20px 24px 16px;
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--harmony-comp-divider);
     }
 
     .agents-section {
@@ -185,12 +185,12 @@ defineExpose({
         .title {
           font-size: 16px;
           font-weight: 600;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
         }
 
         .count {
           font-size: 14px;
-          color: var(--color-text-secondary);
+          color: var(--harmony-font-secondary);
         }
       }
 
@@ -204,7 +204,7 @@ defineExpose({
         align-items: center;
         justify-content: center;
         height: 200px;
-        color: var(--color-text-tertiary);
+        color: var(--harmony-font-tertiary);
 
         .empty-icon {
           font-size: 48px;
@@ -218,7 +218,7 @@ defineExpose({
 
         .empty-hint {
           font-size: 12px;
-          color: var(--color-text-disabled);
+          color: var(--harmony-font-fourth);
         }
       }
 
@@ -235,12 +235,12 @@ defineExpose({
 
           &:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--harmony-shadow-md);
           }
 
           &.active {
-            border-color: var(--color-primary);
-            background-color: var(--color-primary-bg);
+            border-color: var(--harmony-brand);
+            background-color: var(--harmony-comp-emphasize-tertiary);
           }
         }
       }
@@ -248,7 +248,7 @@ defineExpose({
 
     .actions-section {
       padding: 20px 24px;
-      border-top: 1px solid var(--color-border);
+      border-top: 1px solid var(--harmony-comp-divider);
       display: flex;
       gap: 12px;
 

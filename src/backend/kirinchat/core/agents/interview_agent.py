@@ -17,6 +17,9 @@ _DIFFICULTY_MAP = {
     "HARD": "高级难度，考察综合分析能力、架构设计和边界场景",
 }
 
+# 去重 prompt 中最多包含的历史题目数，防止 token 溢出
+_MAX_DEDUP_TOPICS = 10
+
 # Category priority order (lower = higher priority)
 _PRIORITY_ORDER = {
     "ALWAYS_ONE": 0,
@@ -452,11 +455,15 @@ class InterviewAgent:
         if not existing_topics:
             return ""
 
-        topics_text = "\n".join(f"  - {t}" for t in existing_topics)
+        # 只取最近 N 条，防止 token 膨胀
+        limited = existing_topics[-_MAX_DEDUP_TOPICS:]
+        topics_text = "\n".join(f"  - {t}" for t in limited)
+        skip_count = len(existing_topics) - _MAX_DEDUP_TOPICS
+        summary = f"\n  （以及其他 {skip_count} 道历史题目）" if skip_count > 0 else ""
         return f"""
 
 # 已出过的题目（请避免重复）
-{topics_text}"""
+{topics_text}{summary}"""
 
     # ------------------------------------------------------------------
     # Standard agent interface (duck-typing compatibility)

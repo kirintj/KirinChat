@@ -22,6 +22,6 @@ provide('h-form', {
 .h-form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--harmony-padding-level10);
 }
 </style>

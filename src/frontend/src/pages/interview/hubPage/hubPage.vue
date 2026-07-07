@@ -43,29 +43,36 @@ interface SkillStat {
   avgScore: number
 }
 
-// 技能统计：按 skill_id 聚合面试次数
-// 注意：当前 InterviewSession 接口不含 total_score 字段，分数暂显示为 0
-// 后续扩展后端 history 接口返回 total_score 后，只需修改此处映射逻辑即可
+// 技能统计：按 skill_id 聚合面试次数和平均分
 const skillStats = computed<SkillStat[]>(() => {
   const evaluated = sessions.value.filter(s => s.status === 'EVALUATED' || s.status === 'COMPLETED')
-  const grouped: Record<string, number> = {}
+  const grouped: Record<string, { count: number; totalScore: number }> = {}
 
   for (const s of evaluated) {
-    grouped[s.skill_id] = (grouped[s.skill_id] || 0) + 1
+    if (!grouped[s.skill_id]) {
+      grouped[s.skill_id] = { count: 0, totalScore: 0 }
+    }
+    grouped[s.skill_id].count += 1
+    if (s.total_score != null) {
+      grouped[s.skill_id].totalScore += s.total_score
+    }
   }
 
-  return Object.entries(grouped).map(([skillId, count]) => ({
+  return Object.entries(grouped).map(([skillId, stats]) => ({
     skillName: skillMap.value[skillId] || skillId,
-    count,
-    avgScore: 0, // InterviewSession 不含 total_score，暂显示为 0
+    count: stats.count,
+    avgScore: stats.totalScore > 0 ? Math.round(stats.totalScore / stats.count * 10) / 10 : 0,
   })).sort((a, b) => b.count - a.count)  // 按面试次数降序排列
 })
 
 // 总面试次数
 const totalCount = computed(() => skillStats.value.reduce((sum, s) => sum + s.count, 0))
-// 总体平均分（当前因缺少 total_score 暂为 0）
+// 总体平均分
 const overallAvg = computed(() => {
-  return 0
+  const scored = sessions.value.filter(s => s.total_score != null)
+  if (scored.length === 0) return 0
+  const sum = scored.reduce((acc, s) => acc + (s.total_score ?? 0), 0)
+  return Math.round(sum / scored.length * 10) / 10
 })
 
 // --- 工具函数 ---
@@ -168,7 +175,7 @@ onMounted(() => {
               v-for="session in recentInterviews"
               :key="session.id"
               :skill-name="getSkillName(session.skill_id)"
-              :score="0"
+              :score="session.total_score ?? 0"
               :time-label="'已完成'"
               @click="router.push({ path: '/interview/report', query: { sessionId: session.id } })"
             />
@@ -275,7 +282,7 @@ onMounted(() => {
 
 .view-all-link {
   font-size: 13px;
-  color: var(--color-primary, #6366f1);
+  color: var(--harmony-brand);
   text-decoration: none;
   font-weight: 400;
 

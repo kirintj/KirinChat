@@ -85,7 +85,7 @@ class InterviewSessionDetailResp(BaseModel):
 
 class InterviewCompleteResp(BaseModel):
     """完成面试响应"""
-    evaluation_id: str = Field(..., description="评估报告ID")
+    evaluation_id: str = Field(default="", description="评估报告ID（异步评估时为空）")
     status: str = Field(..., description="评估状态")
 
 

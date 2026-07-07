@@ -7,6 +7,7 @@ import {
   submitAnswerStreamAPI,
   completeInterviewAPI,
   getEvaluationReportAPI,
+  getEvaluationBySessionAPI,
 } from '../../apis/interview'
 import type { EvaluationReport } from '../../apis/interview'
 
@@ -155,12 +156,26 @@ export const useInterviewStore = defineStore('interview', () => {
           },
           onDone(result) {
             if (result.is_completed) {
-              status.value = 'COMPLETED'
               currentQuestion.value = null
               messages.value.push({
                 role: 'interviewer',
                 content: '面试已结束！正在为你生成评估报告...',
               })
+              // 自动触发评估（异步，含轮询等待）
+              loading.value = true
+              completeInterviewAPI({ session_id: sessionId.value })
+                .then(() => pollEvaluationReport(sessionId.value))
+                .then((evalId) => {
+                  if (evalId) evaluationId.value = evalId
+                  status.value = 'COMPLETED'
+                  loading.value = false
+                  resolve(true)
+                })
+                .catch(() => {
+                  status.value = 'COMPLETED'
+                  loading.value = false
+                  resolve(false)
+                })
             } else if (result.next_question) {
               // 更新 currentQuestion
               currentQuestion.value = {
@@ -172,9 +187,12 @@ export const useInterviewStore = defineStore('interview', () => {
               }
               // 更新进度（只有 MAIN 类型才计数）
               progress.value.current += 1
+              loading.value = false
+              resolve(true)
+            } else {
+              loading.value = false
+              resolve(true)
             }
-            loading.value = false
-            resolve(true)
           },
           onError() {
             loading.value = false
@@ -191,13 +209,50 @@ export const useInterviewStore = defineStore('interview', () => {
     try {
       const res = await completeInterviewAPI({ session_id: sessionId.value })
       if (res.data.status_code === 200 && res.data.data) {
-        evaluationId.value = res.data.data.evaluation_id
         status.value = 'COMPLETED'
-        return res.data.data.evaluation_id
+
+        // 后端已改为异步评估，evaluation_id 可能为空
+        // 轮询等待评估报告生成完成
+        const evalId = await pollEvaluationReport(sessionId.value)
+        if (evalId) {
+          evaluationId.value = evalId
+          return evalId
+        }
+        return null
       }
       return null
     } finally {
       loading.value = false
+    }
+  }
+
+  // --- 防止并发评估轮询的锁 ---
+  let _pollingLock = false
+
+  async function pollEvaluationReport(sid: string): Promise<string | null> {
+    // 防止并发启动多个轮询
+    if (_pollingLock) return null
+    _pollingLock = true
+    try {
+      const maxAttempts = 30
+      let interval = 2000
+      for (let i = 0; i < maxAttempts; i++) {
+        try {
+          const res = await getEvaluationBySessionAPI(sid)
+          if (res.data.status_code === 200 && res.data.data) {
+            return res.data.data.id
+          }
+        } catch {
+          // 评估尚未完成，继续轮询
+        }
+        // 指数退避 + jitter（最大 10 秒）
+        const jitter = Math.floor(Math.random() * 1000)
+        await new Promise(resolve => setTimeout(resolve, interval + jitter))
+        interval = Math.min(interval * 1.5, 10000)
+      }
+      return null
+    } finally {
+      _pollingLock = false
     }
   }
 

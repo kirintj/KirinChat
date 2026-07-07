@@ -112,29 +112,29 @@ function getStatusText(status: string) {
   display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
   h2 { margin: 0; font-size: 20px; }
   .upload-btn {
-    padding: 8px 20px; border-radius: var(--radius-sm);
-    background: var(--color-primary); color: var(--color-bg); border: none; cursor: pointer;
+    padding: 8px 20px; border-radius: var(--harmony-corner-radius-level4);
+    background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border: none; cursor: pointer;
     &:disabled { opacity: 0.6; cursor: not-allowed; }
   }
 }
 .resume-list { display: flex; flex-direction: column; gap: 12px; }
 .resume-card {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px; background: var(--color-bg); border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border); cursor: pointer; transition: border-color 0.2s;
-  &:hover { border-color: var(--color-primary); }
+  padding: 16px; background: var(--harmony-comp-background-primary); border-radius: var(--harmony-corner-radius-level4);
+  border: 1px solid var(--harmony-comp-divider); cursor: pointer; transition: border-color 0.2s;
+  &:hover { border-color: var(--harmony-brand); }
   .card-info { display: flex; align-items: center; gap: 12px; .filename { font-weight: 500; } }
-  .card-meta { display: flex; gap: 16px; color: var(--color-text-tertiary); font-size: 13px; .score { color: var(--color-primary); font-weight: 500; } }
+  .card-meta { display: flex; gap: 16px; color: var(--harmony-font-tertiary); font-size: 13px; .score { color: var(--harmony-brand); font-weight: 500; } }
   .delete-btn {
-    padding: 4px 12px; border: 1px solid var(--color-danger); color: var(--color-danger);
-    background: transparent; border-radius: var(--radius-sm); cursor: pointer;
-    &:hover { background: var(--color-danger); color: var(--color-bg); }
+    padding: 4px 12px; border: 1px solid var(--harmony-warning); color: var(--harmony-warning);
+    background: transparent; border-radius: var(--harmony-corner-radius-level4); cursor: pointer;
+    &:hover { background: var(--harmony-warning); color: var(--harmony-comp-background-primary); }
   }
 }
-.status-tag { padding: 2px 8px; border-radius: 4px; font-size: var(--font-size-xs); }
-.status-done { background: var(--color-success-bg); color: var(--color-success); }
-.status-active { background: var(--color-info-bg); color: var(--color-info); }
-.status-failed { background: var(--color-danger-bg); color: var(--color-danger); }
-.status-pending { background: var(--color-bg-secondary); color: var(--color-text-tertiary); }
-.loading, .empty { text-align: center; padding: 60px; color: var(--color-text-tertiary); }
+.status-tag { padding: 2px 8px; border-radius: 4px; font-size: var(--harmony-font-size-body-s); }
+.status-done { background: var(--harmony-confirm-bg); color: var(--harmony-confirm); }
+.status-active { background: var(--harmony-comp-emphasize-tertiary); color: var(--harmony-brand); }
+.status-failed { background: var(--harmony-warning-bg); color: var(--harmony-warning); }
+.status-pending { background: var(--harmony-comp-background-secondary); color: var(--harmony-font-tertiary); }
+.loading, .empty { text-align: center; padding: 60px; color: var(--harmony-font-tertiary); }
 </style>

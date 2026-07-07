@@ -459,7 +459,7 @@ const handleCustomUpload = async (event: Event) => {
   width: 24px;
   height: 24px;
   border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--color-primary);
+  border-top-color: var(--harmony-brand);
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;
 }
@@ -471,22 +471,22 @@ const handleCustomUpload = async (event: Event) => {
 .description-textarea {
   width: 100%;
   padding: 12px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-base);
-  font-family: var(--font-family);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level4);
+  font-size: var(--harmony-font-size-body-m);
+  font-family: var(--harmony-font-family);
   resize: vertical;
   box-sizing: border-box;
   transition: border-color 0.2s;
   &:focus {
     outline: none;
-    border-color: var(--color-primary);
+    border-color: var(--harmony-brand);
   }
 }
 
 .profile-page {
   padding: 24px;
-  background-color: var(--color-bg-secondary);
+  background-color: var(--harmony-comp-background-secondary);
   min-height: 100vh;
 
   .profile-header {
@@ -499,13 +499,13 @@ const handleCustomUpload = async (event: Event) => {
       margin: 0 0 8px 0;
       font-size: 28px;
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
     }
 
     p {
       margin: 0;
-      color: var(--color-text-secondary);
-      font-size: var(--font-size-lg);
+      color: var(--harmony-font-secondary);
+      font-size: var(--harmony-font-size-body-l);
     }
   }
 
@@ -513,8 +513,8 @@ const handleCustomUpload = async (event: Event) => {
     max-width: 800px;
 
     .profile-card {
-      background: var(--color-bg);
-      border-radius: var(--radius-lg);
+      background: var(--harmony-comp-background-primary);
+      border-radius: var(--harmony-corner-radius-level8);
       padding: 32px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
@@ -523,7 +523,7 @@ const handleCustomUpload = async (event: Event) => {
         align-items: center;
         margin-bottom: 32px;
         padding-bottom: 24px;
-        border-bottom: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--harmony-comp-divider);
 
         .avatar-container {
           margin-right: 24px;
@@ -539,7 +539,7 @@ const handleCustomUpload = async (event: Event) => {
               height: 100%;
               border-radius: 50%;
               object-fit: cover;
-              border: 4px solid var(--color-info);
+              border: 4px solid var(--harmony-brand);
             }
 
             .avatar-overlay {
@@ -555,7 +555,7 @@ const handleCustomUpload = async (event: Event) => {
               justify-content: center;
               opacity: 0;
               transition: opacity 0.3s ease;
-              color: var(--color-bg);
+              color: var(--harmony-comp-background-primary);
               font-size: 24px;
 
               &:hover {
@@ -570,13 +570,13 @@ const handleCustomUpload = async (event: Event) => {
             margin: 0 0 8px 0;
             font-size: 24px;
             font-weight: 600;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
           }
 
           .user-id {
             margin: 0;
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-base);
+            color: var(--harmony-font-secondary);
+            font-size: var(--harmony-font-size-body-m);
           }
         }
       }
@@ -592,20 +592,20 @@ const handleCustomUpload = async (event: Event) => {
             margin: 0;
             font-size: 18px;
             font-weight: 600;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
           }
         }
 
         .description-display {
           p {
             margin: 0;
-            font-size: var(--font-size-lg);
+            font-size: var(--harmony-font-size-body-l);
             line-height: 1.6;
-            color: var(--color-text-secondary);
-            background: var(--color-bg-secondary);
+            color: var(--harmony-font-secondary);
+            background: var(--harmony-comp-background-secondary);
             padding: 16px;
-            border-radius: var(--radius-sm);
-            border-left: 4px solid var(--color-info);
+            border-radius: var(--harmony-corner-radius-level4);
+            border-left: 4px solid var(--harmony-brand);
           }
         }
 
@@ -630,8 +630,8 @@ const handleCustomUpload = async (event: Event) => {
 
     h4 {
       margin-bottom: 12px;
-      font-size: var(--font-size-lg);
-      color: var(--color-text-primary);
+      font-size: var(--harmony-font-size-body-l);
+      color: var(--harmony-font-primary);
     }
 
     .selected-avatar {
@@ -640,7 +640,7 @@ const handleCustomUpload = async (event: Event) => {
         height: 80px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid var(--color-info);
+        border: 3px solid var(--harmony-brand);
       }
     }
   }
@@ -650,8 +650,8 @@ const handleCustomUpload = async (event: Event) => {
 
     h4 {
       margin-bottom: 16px;
-      font-size: var(--font-size-lg);
-      color: var(--color-text-primary);
+      font-size: var(--harmony-font-size-body-l);
+      color: var(--harmony-font-primary);
     }
 
     .avatar-grid {
@@ -672,12 +672,12 @@ const handleCustomUpload = async (event: Event) => {
         position: relative;
 
         &:hover:not(.active) {
-          border-color: var(--color-info);
+          border-color: var(--harmony-brand);
           transform: scale(1.05);
         }
 
         &.active {
-          border-color: var(--color-info);
+          border-color: var(--harmony-brand);
           box-shadow: 0 0 0 2px rgba(116, 185, 255, 0.3);
           transform: scale(1.02);
         }
@@ -700,14 +700,14 @@ const handleCustomUpload = async (event: Event) => {
   .upload-section {
     h4 {
       margin-bottom: 12px;
-      font-size: var(--font-size-lg);
-      color: var(--color-text-primary);
+      font-size: var(--harmony-font-size-body-l);
+      color: var(--harmony-font-primary);
     }
 
     .upload-tip {
       margin-top: 8px;
-      font-size: var(--font-size-xs);
-      color: var(--color-text-secondary);
+      font-size: var(--harmony-font-size-body-s);
+      color: var(--harmony-font-secondary);
     }
   }
 }
@@ -727,8 +727,8 @@ const handleCustomUpload = async (event: Event) => {
 }
 
 .custom-dialog {
-  background-color: var(--color-bg);
-  border-radius: var(--radius-sm);
+  background-color: var(--harmony-comp-background-primary);
+  border-radius: var(--harmony-corner-radius-level4);
   width: 700px;
   max-width: 95%;
   max-height: 90vh;
@@ -738,7 +738,7 @@ const handleCustomUpload = async (event: Event) => {
 
 .custom-dialog-header {
   padding: 20px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--harmony-comp-divider);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -747,7 +747,7 @@ const handleCustomUpload = async (event: Event) => {
     margin: 0;
     font-size: 18px;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
   }
 
   .close-button {
@@ -755,10 +755,10 @@ const handleCustomUpload = async (event: Event) => {
     background: none;
     font-size: 24px;
     cursor: pointer;
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
 
     &:hover {
-      color: var(--color-primary);
+      color: var(--harmony-brand);
     }
   }
 }
@@ -774,8 +774,8 @@ const handleCustomUpload = async (event: Event) => {
 
     h4 {
       margin: 0 0 12px 0;
-      font-size: var(--font-size-lg);
-      color: var(--color-text-primary);
+      font-size: var(--harmony-font-size-body-l);
+      color: var(--harmony-font-primary);
     }
 
     .selected-avatar {
@@ -784,7 +784,7 @@ const handleCustomUpload = async (event: Event) => {
         height: 100px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid var(--color-info);
+        border: 3px solid var(--harmony-brand);
       }
     }
   }
@@ -797,8 +797,8 @@ const handleCustomUpload = async (event: Event) => {
 
       h4 {
         margin: 0 0 12px 0;
-        font-size: var(--font-size-lg);
-        color: var(--color-text-primary);
+        font-size: var(--harmony-font-size-body-l);
+        color: var(--harmony-font-primary);
       }
 
       .avatar-grid {
@@ -816,12 +816,12 @@ const handleCustomUpload = async (event: Event) => {
           transition: all 0.2s ease;
 
           &:hover:not(.active) {
-            border-color: var(--color-info);
+            border-color: var(--harmony-brand);
             transform: scale(1.05);
           }
 
           &.active {
-            border-color: var(--color-info);
+            border-color: var(--harmony-brand);
             box-shadow: 0 0 0 2px rgba(116, 185, 255, 0.3);
           }
 
@@ -837,30 +837,30 @@ const handleCustomUpload = async (event: Event) => {
     .upload-section {
       h4 {
         margin: 0 0 12px 0;
-        font-size: var(--font-size-lg);
-        color: var(--color-text-primary);
+        font-size: var(--harmony-font-size-body-l);
+        color: var(--harmony-font-primary);
       }
 
       .upload-area {
         .upload-button {
           display: inline-block;
           padding: 10px 20px;
-          background-color: var(--color-primary);
-          color: var(--color-bg);
+          background-color: var(--harmony-brand);
+          color: var(--harmony-comp-background-primary);
           border-radius: 4px;
           cursor: pointer;
           transition: background-color 0.3s;
 
           &:hover {
-            background-color: var(--color-primary);
+            background-color: var(--harmony-brand);
             opacity: 0.85;
           }
         }
 
         .upload-tip {
           margin-top: 8px;
-          font-size: var(--font-size-xs);
-          color: var(--color-text-secondary);
+          font-size: var(--harmony-font-size-body-s);
+          color: var(--harmony-font-secondary);
         }
       }
     }
@@ -870,11 +870,11 @@ const handleCustomUpload = async (event: Event) => {
 .custom-dialog-footer {
   padding: 15px 20px;
   text-align: right;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--harmony-comp-divider);
 
   button {
     padding: 10px 20px;
-    font-size: var(--font-size-base);
+    font-size: var(--harmony-font-size-body-m);
     border-radius: 4px;
     cursor: pointer;
     margin-left: 10px;
@@ -882,21 +882,21 @@ const handleCustomUpload = async (event: Event) => {
   }
 
   .cancel-button {
-    border: 1px solid var(--color-border);
-    background-color: var(--color-bg);
-    color: var(--color-text-secondary);
+    border: 1px solid var(--harmony-comp-divider);
+    background-color: var(--harmony-comp-background-primary);
+    color: var(--harmony-font-secondary);
 
     &:hover {
-      color: var(--color-primary);
-      border-color: var(--color-primary);
-      background-color: var(--color-primary-bg);
+      color: var(--harmony-brand);
+      border-color: var(--harmony-brand);
+      background-color: var(--harmony-comp-emphasize-tertiary);
     }
   }
 
   .confirm-button {
-    border: 1px solid var(--color-primary);
-    background-color: var(--color-primary);
-    color: var(--color-bg);
+    border: 1px solid var(--harmony-brand);
+    background-color: var(--harmony-brand);
+    color: var(--harmony-comp-background-primary);
 
     &:hover {
       opacity: 0.85;

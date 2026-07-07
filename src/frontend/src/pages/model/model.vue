@@ -600,18 +600,18 @@ onMounted(() => {
 .model-page {
   padding: 32px;
   min-height: 100vh;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    background: var(--color-bg);
-    padding: var(--spacing-2xl) var(--spacing-2xl);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 6px 24px var(--shadow-sm);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-background-primary);
+    padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+    border-radius: var(--harmony-corner-radius-level8);
+    box-shadow: 0 6px 24px var(--harmony-shadow-sm);
+    border: 1px solid var(--harmony-comp-divider);
     
     .header-title {
       display: flex;
@@ -625,9 +625,9 @@ onMounted(() => {
       
       h2 {
         margin: 0;
-        font-size: var(--font-size-2xl);
+        font-size: var(--harmony-font-size-title-m);
         font-weight: 600;
-        background: var(--color-primary);
+        background: var(--harmony-brand);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -648,9 +648,9 @@ onMounted(() => {
         gap: 12px;
 
         .h-button {
-          border-radius: var(--radius-md);
+          border-radius: var(--harmony-corner-radius-level6);
           padding: 12px 20px;
-          font-size: var(--font-size-base);
+          font-size: var(--harmony-font-size-body-m);
           font-weight: 500;
           transition: all 0.3s;
           
@@ -660,20 +660,20 @@ onMounted(() => {
           
           &.refresh-btn {
             &:hover {
-              background-color: var(--color-success);
-              border-color: var(--color-success);
+              background-color: var(--harmony-confirm);
+              border-color: var(--harmony-confirm);
               color: white;
             }
           }
           
           &.add-btn {
-            background: var(--color-primary);
+            background: var(--harmony-brand);
             border: none;
-            box-shadow: 0 4px 12px var(--color-primary-bg);
+            box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
             
             &:hover {
-              background: var(--color-primary);
-              box-shadow: 0 6px 16px var(--color-primary-bg);
+              background: var(--harmony-brand);
+              box-shadow: 0 6px 16px var(--harmony-comp-emphasize-tertiary);
             }
           }
         }
@@ -683,23 +683,23 @@ onMounted(() => {
   
   // 列表容器
   .model-container {
-    background: var(--color-bg);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-background-primary);
+    border-radius: var(--harmony-corner-radius-level8);
+    border: 1px solid var(--harmony-comp-divider);
     overflow: hidden;
-    box-shadow: 0 4px 6px -1px var(--shadow-xs);
+    box-shadow: 0 4px 6px -1px var(--harmony-shadow-xs);
     min-height: 300px;
 
     // 列表头部
     .list-header {
       display: flex;
       align-items: center;
-      padding: var(--spacing-lg) var(--spacing-2xl);
-      background: var(--color-bg);
-      border-bottom: 1px solid var(--color-border);
-      font-size: var(--font-size-xs);
+      padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
+      background: var(--harmony-comp-background-primary);
+      border-bottom: 1px solid var(--harmony-comp-divider);
+      font-size: var(--harmony-font-size-body-s);
       font-weight: 600;
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
       text-transform: uppercase;
       letter-spacing: 0.5px;
 
@@ -715,8 +715,8 @@ onMounted(() => {
       .model-row {
         display: flex;
         align-items: center;
-        padding: var(--spacing-lg) var(--spacing-2xl);
-        border-bottom: 1px solid var(--color-border);
+        padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
+        border-bottom: 1px solid var(--harmony-comp-divider);
         transition: all 0.2s ease;
 
         &:last-child {
@@ -724,11 +724,11 @@ onMounted(() => {
         }
 
         &:hover {
-          background: var(--color-bg);
+          background: var(--harmony-comp-background-primary);
 
           .col-name .name-info .provider-avatar {
             transform: scale(1.05);
-            box-shadow: 0 0 0 3px var(--color-primary-bg);
+            box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
           }
 
           .col-actions .action-btn {
@@ -747,31 +747,31 @@ onMounted(() => {
             .provider-avatar {
               width: 36px;
               height: 36px;
-              border-radius: var(--radius-md);
+              border-radius: var(--harmony-corner-radius-level6);
               display: flex;
               align-items: center;
               justify-content: center;
               flex-shrink: 0;
               transition: all 0.2s ease;
               color: white;
-              font-size: var(--font-size-lg);
+              font-size: var(--harmony-font-size-body-l);
               font-weight: 700;
 
               &.llm {
-                background: var(--color-primary);
+                background: var(--harmony-brand);
               }
               &.embedding {
-                background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success) 100%);
+                background: linear-gradient(135deg, var(--harmony-confirm) 0%, var(--harmony-confirm) 100%);
               }
               &.rerank {
-                background: linear-gradient(135deg, var(--color-warning) 0%, var(--color-warning) 100%);
+                background: linear-gradient(135deg, var(--harmony-alert) 0%, var(--harmony-alert) 100%);
               }
             }
 
             .model-name {
-              font-size: var(--font-size-lg);
+              font-size: var(--harmony-font-size-body-l);
               font-weight: 600;
-              color: var(--color-text-primary);
+              color: var(--harmony-font-primary);
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -780,10 +780,10 @@ onMounted(() => {
             .official-tag {
               font-size: 11px;
               font-weight: 600;
-              color: var(--color-warning);
-              background: var(--color-warning-bg);
-              border: 1px solid var(--color-warning-bg);
-              border-radius: var(--radius-full);
+              color: var(--harmony-alert);
+              background: var(--harmony-alert-bg);
+              border: 1px solid var(--harmony-alert-bg);
+              border-radius: var(--harmony-corner-radius-level18);
               padding: 2px 8px;
               flex-shrink: 0;
             }
@@ -795,9 +795,9 @@ onMounted(() => {
           padding-right: 8px;
 
           .provider-name {
-            font-size: var(--font-size-base);
+            font-size: var(--harmony-font-size-body-m);
             font-weight: 500;
-            color: var(--color-text-secondary);
+            color: var(--harmony-font-secondary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -814,21 +814,21 @@ onMounted(() => {
             align-items: center;
             gap: 4px;
             padding: 4px 10px;
-            border-radius: var(--radius-full);
-            font-size: var(--font-size-sm);
+            border-radius: var(--harmony-corner-radius-level18);
+            font-size: var(--harmony-font-size-subtitle-s);
             font-weight: 500;
 
             &.llm {
-              background: var(--color-primary-bg);
-              color: var(--color-primary);
+              background: var(--harmony-comp-emphasize-tertiary);
+              color: var(--harmony-brand);
             }
             &.embedding {
-              background: var(--color-success-bg);
-              color: var(--color-success);
+              background: var(--harmony-confirm-bg);
+              color: var(--harmony-confirm);
             }
             &.rerank {
-              background: var(--color-warning-bg);
-              color: var(--color-warning);
+              background: var(--harmony-alert-bg);
+              color: var(--harmony-alert);
             }
           }
         }
@@ -840,9 +840,9 @@ onMounted(() => {
           padding-right: 16px;
 
           .url-text {
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
-            font-family: var(--font-family);
+            font-size: var(--harmony-font-size-subtitle-s);
+            color: var(--harmony-font-secondary);
+            font-family: var(--harmony-font-family);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -860,7 +860,7 @@ onMounted(() => {
             width: 32px;
             height: 32px;
             border: 1px solid transparent;
-            border-radius: var(--radius-md);
+            border-radius: var(--harmony-corner-radius-level6);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -870,25 +870,25 @@ onMounted(() => {
             background: transparent;
 
             span {
-              font-size: var(--font-size-lg);
+              font-size: var(--harmony-font-size-body-l);
             }
 
             &.edit-btn {
-              color: var(--color-primary);
+              color: var(--harmony-brand);
 
               &:hover:not(.disabled) {
-                background: var(--color-primary-bg);
-                border-color: var(--color-primary-bg);
+                background: var(--harmony-comp-emphasize-tertiary);
+                border-color: var(--harmony-comp-emphasize-tertiary);
                 opacity: 1;
               }
             }
 
             &.delete-btn {
-              color: var(--color-danger);
+              color: var(--harmony-warning);
 
               &:hover:not(.disabled) {
-                background: var(--color-danger-bg);
-                border-color: var(--color-danger-bg);
+                background: var(--harmony-warning-bg);
+                border-color: var(--harmony-warning-bg);
                 opacity: 1;
               }
             }
@@ -917,29 +917,29 @@ onMounted(() => {
       }
 
       h3 {
-        font-size: var(--font-size-xl);
+        font-size: var(--harmony-font-size-title-s);
         font-weight: 600;
-        color: var(--color-text-secondary);
+        color: var(--harmony-font-secondary);
         margin-bottom: 8px;
       }
 
       p {
-        font-size: var(--font-size-base);
-        color: var(--color-text-tertiary);
+        font-size: var(--harmony-font-size-body-m);
+        color: var(--harmony-font-tertiary);
         margin-bottom: 24px;
       }
 
       .h-button {
-        border-radius: var(--radius-md);
-        background: var(--color-primary);
+        border-radius: var(--harmony-corner-radius-level6);
+        background: var(--harmony-brand);
         border: none;
-        box-shadow: 0 4px 12px var(--color-primary-bg);
+        box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
         transition: all 0.3s;
 
         &:hover {
           transform: translateY(-2px);
-          box-shadow: 0 6px 16px var(--color-primary-bg);
-          background: var(--color-primary);
+          box-shadow: 0 6px 16px var(--harmony-comp-emphasize-tertiary);
+          background: var(--harmony-brand);
         }
       }
     }
@@ -950,7 +950,7 @@ onMounted(() => {
 .loading-overlay {
   position: absolute;
   inset: 0;
-  background: var(--color-overlay);
+  background: var(--harmony-comp-background-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -961,9 +961,9 @@ onMounted(() => {
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid var(--color-bg-overlay);
-  border-top-color: var(--color-primary, var(--color-primary));
-  border-radius: var(--radius-full);
+  border: 3px solid var(--harmony-comp-background-secondary);
+  border-top-color: var(--harmony-brand));
+  border-radius: var(--harmony-corner-radius-level18);
   animation: h-spin 0.6s linear infinite;
 }
 
@@ -1028,7 +1028,7 @@ onMounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--color-overlay);
+  background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -1063,17 +1063,17 @@ onMounted(() => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: var(--color-bg);
-  border-radius: var(--radius-full);
+  background: var(--harmony-comp-background-primary);
+  border-radius: var(--harmony-corner-radius-level18);
   box-shadow: 
-    0 20px 60px var(--shadow-lg),
-    0 8px 32px var(--shadow-md);
+    0 20px 60px var(--harmony-shadow-dialog),
+    0 8px 32px var(--harmony-shadow-md);
   width: 92%;
   max-width: 500px;
   max-height: 88vh;
   overflow: hidden;
   animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 1px solid var(--color-bg-overlay);
+  border: 1px solid var(--harmony-comp-background-secondary);
 }
 
 
@@ -1083,7 +1083,7 @@ onMounted(() => {
   padding: 36px;
   max-height: 65vh;
   overflow-y: auto;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
 }
 
 .form-row {
@@ -1102,19 +1102,19 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
-  font-size: var(--font-size-lg);
+  font-size: var(--harmony-font-size-body-l);
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--harmony-font-primary);
 }
 
 .label-text {
-  color: var(--color-text-primary);
+  color: var(--harmony-font-primary);
 }
 
 .required-mark {
-  color: var(--color-danger);
+  color: var(--harmony-warning);
   font-weight: 700;
-  font-size: var(--font-size-lg);
+  font-size: var(--harmony-font-size-body-l);
 }
 
 .input-wrapper,
@@ -1137,43 +1137,43 @@ onMounted(() => {
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: var(--color-text-tertiary);
+  color: var(--harmony-font-tertiary);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: color 0.2s ease;
 
   span {
-    font-size: var(--font-size-xl);
+    font-size: var(--harmony-font-size-title-s);
   }
 
   &:hover {
-    color: var(--color-primary);
+    color: var(--harmony-brand);
   }
 }
 
 .form-input {
   width: 100%;
   padding: 16px 20px;
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  font-size: var(--font-size-lg);
+  border: 2px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8);
+  font-size: var(--harmony-font-size-body-l);
   font-weight: 500;
-  color: var(--color-text-primary);
-  background: var(--color-bg);
+  color: var(--harmony-font-primary);
+  background: var(--harmony-comp-background-primary);
   transition: all 0.3s ease;
   box-sizing: border-box;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px var(--color-primary-bg);
+  border-color: var(--harmony-brand);
+  box-shadow: 0 0 0 4px var(--harmony-comp-emphasize-tertiary);
   transform: translateY(-1px);
 }
 
 .form-input::placeholder {
-  color: var(--color-text-tertiary);
+  color: var(--harmony-font-tertiary);
   font-weight: 400;
 }
 
@@ -1181,8 +1181,8 @@ onMounted(() => {
   position: absolute;
   right: 16px;
   bottom: -24px;
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
+  font-size: var(--harmony-font-size-body-s);
+  color: var(--harmony-font-secondary);
   font-weight: 500;
 }
 
@@ -1192,8 +1192,8 @@ onMounted(() => {
   justify-content: flex-end;
   gap: 16px;
   padding: 20px 36px;
-  background: var(--color-bg);
-  border-top: 1px solid var(--color-border);
+  background: var(--harmony-comp-background-primary);
+  border-top: 1px solid var(--harmony-comp-divider);
 }
 
 .dialog-btn {
@@ -1202,8 +1202,8 @@ onMounted(() => {
   gap: 10px;
   padding: 14px 28px;
   border: none;
-  border-radius: var(--radius-lg);
-  font-size: var(--font-size-lg);
+  border-radius: var(--harmony-corner-radius-level8);
+  font-size: var(--harmony-font-size-body-l);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -1220,7 +1220,7 @@ onMounted(() => {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, var(--color-bg-overlay), transparent);
+  background: linear-gradient(90deg, transparent, var(--harmony-comp-background-secondary), transparent);
   transition: left 0.5s ease;
 }
 
@@ -1229,39 +1229,39 @@ onMounted(() => {
 }
 
 .cancel-btn {
-  background: var(--color-bg);
-  color: var(--color-text-secondary);
-  border: 2px solid var(--color-border);
+  background: var(--harmony-comp-background-primary);
+  color: var(--harmony-font-secondary);
+  border: 2px solid var(--harmony-comp-divider);
 }
 
 .cancel-btn:hover {
-  background: var(--color-border);
-  color: var(--color-text-secondary);
+  background: var(--harmony-comp-divider);
+  color: var(--harmony-font-secondary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px var(--shadow-md);
+  box-shadow: 0 8px 20px var(--harmony-shadow-md);
 }
 
 .confirm-btn {
-  background: var(--color-bg);
-  color: var(--color-text-secondary);
-  border: 2px solid var(--color-border);
+  background: var(--harmony-comp-background-primary);
+  color: var(--harmony-font-secondary);
+  border: 2px solid var(--harmony-comp-divider);
 }
 
 .confirm-btn:hover:not(.disabled) {
-  background: var(--color-border);
-  color: var(--color-text-secondary);
+  background: var(--harmony-comp-divider);
+  color: var(--harmony-font-secondary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px var(--shadow-md);
+  box-shadow: 0 8px 20px var(--harmony-shadow-md);
 }
 
 .confirm-btn.disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  background: var(--color-text-tertiary);
+  background: var(--harmony-font-tertiary);
 }
 
 .btn-icon {
-  font-size: var(--font-size-lg);
+  font-size: var(--harmony-font-size-body-l);
   display: flex;
   align-items: center;
 }
@@ -1316,14 +1316,14 @@ onMounted(() => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: var(--color-bg);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 8px 32px var(--shadow-md);
+  background: var(--harmony-comp-background-primary);
+  border-radius: var(--harmony-corner-radius-level8);
+  box-shadow: 0 8px 32px var(--harmony-shadow-md);
   width: 90%;
   max-width: 400px;
   overflow: hidden;
   animation: slideIn 0.3s ease-out;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--harmony-comp-divider);
 }
 
 .delete-dialog-body {
@@ -1332,12 +1332,12 @@ onMounted(() => {
   
   p {
     margin: 0;
-    font-size: var(--font-size-lg);
-    color: var(--color-text-primary);
+    font-size: var(--harmony-font-size-body-l);
+    color: var(--harmony-font-primary);
     line-height: 1.5;
     
     strong {
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
       font-weight: 600;
     }
   }
@@ -1353,33 +1353,33 @@ onMounted(() => {
   flex: 1;
   padding: 12px 20px;
   border: none;
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-base);
+  border-radius: var(--harmony-corner-radius-level6);
+  font-size: var(--harmony-font-size-body-m);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .delete-dialog-btn.cancel-btn {
-  background: var(--color-bg);
-  color: var(--color-text-secondary);
-  border: 1px solid var(--color-border);
+  background: var(--harmony-comp-background-primary);
+  color: var(--harmony-font-secondary);
+  border: 1px solid var(--harmony-comp-divider);
 }
 
 .delete-dialog-btn.cancel-btn:hover:not(:disabled) {
-  background: var(--color-bg);
-  color: var(--color-text-primary);
+  background: var(--harmony-comp-background-primary);
+  color: var(--harmony-font-primary);
 }
 
 .delete-dialog-btn.confirm-btn {
-  background: var(--color-primary);
+  background: var(--harmony-brand);
   color: white;
-  border: 1px solid var(--color-primary);
+  border: 1px solid var(--harmony-brand);
 }
 
 .delete-dialog-btn.confirm-btn:hover:not(:disabled) {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  background: var(--harmony-brand);
+  border-color: var(--harmony-brand);
 }
 
 .delete-dialog-btn:disabled {
@@ -1398,7 +1398,7 @@ onMounted(() => {
     padding: 24px 20px 20px;
     
     p {
-      font-size: var(--font-size-lg);
+      font-size: var(--harmony-font-size-body-l);
     }
   }
   

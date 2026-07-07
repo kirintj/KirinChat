@@ -771,7 +771,12 @@ const saveUserConfig = async () => {
                     :disabled="!row.params || row.params.length === 0"
                     style="border-radius:20px;"
                   >
-                    🔧 {{ row.params?.length || 0 }} 个工具
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:-2px;margin-right:4px;">
+                      <rect x="1.5" y="2.5" width="11" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+                      <circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.1"/>
+                      <line x1="1.5" y1="5.5" x2="12.5" y2="5.5" stroke="currentColor" stroke-width="1.1"/>
+                    </svg>
+                    {{ row.params?.length || 0 }} 个工具
                   </HButton>
                 </div>
               </td>
@@ -821,7 +826,12 @@ const saveUserConfig = async () => {
                     @click="handleDelete(row)"
                     title="删除"
                   >
-                    🗑️ 删除
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:-2px;margin-right:4px;">
+                      <path d="M2 4H12L10.5 12H3.5L2 4Z" stroke="currentColor" stroke-width="1.2"/>
+                      <line x1="5" y1="4" x2="5" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                      <line x1="9" y1="4" x2="9" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                    删除
                   </HButton>
                   <HButton
                     v-else
@@ -830,7 +840,12 @@ const saveUserConfig = async () => {
                     disabled
                     :title="`${row.server_name} MCP Server 为官方所有，不能删除`"
                   >
-                    🗑️ 删除
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:-2px;margin-right:4px;">
+                      <path d="M2 4H12L10.5 12H3.5L2 4Z" stroke="currentColor" stroke-width="1.2"/>
+                      <line x1="5" y1="4" x2="5" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                      <line x1="9" y1="4" x2="9" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                    删除
                   </HButton>
                 </div>
               </td>
@@ -1365,20 +1380,20 @@ const saveUserConfig = async () => {
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  background-color: var(--color-overlay);
+  background-color: var(--harmony-comp-background-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 99999 !important;
-  backdrop-filter: blur(4px);
+  /* removed backdrop-filter */
   pointer-events: auto;
   overflow: hidden;
 }
 
 .modal-dialog {
-  background: var(--color-bg);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 20px 40px var(--shadow-md);
+  background: var(--harmony-comp-background-primary);
+  border-radius: var(--harmony-corner-radius-level8);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
   width: 90%;
   max-width: 600px;
   max-height: 90vh;
@@ -1399,15 +1414,15 @@ const saveUserConfig = async () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-2xl) var(--spacing-2xl);
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-bg);
+  padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+  border-bottom: 1px solid var(--harmony-comp-divider);
+  background: var(--harmony-comp-background-primary);
   
   h3 {
     margin: 0;
-    font-size: var(--font-size-xl);
+    font-size: var(--harmony-font-size-title-s);
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
   }
   
   .close-btn {
@@ -1415,17 +1430,17 @@ const saveUserConfig = async () => {
     height: 28px;
     border: none;
     background: none;
-    color: var(--color-text-tertiary);
+    color: var(--harmony-font-tertiary);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-sm);
+    border-radius: var(--harmony-corner-radius-level4);
     transition: all 0.2s ease;
     
     &:hover {
-      background: var(--color-bg);
-      color: var(--color-text-secondary);
+      background: var(--harmony-comp-background-primary);
+      color: var(--harmony-font-secondary);
     }
   }
 }
@@ -1434,7 +1449,7 @@ const saveUserConfig = async () => {
   padding: 24px;
   overflow: hidden;
   flex: 1;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   
   &.tools-content {
     overflow-y: auto;
@@ -1443,19 +1458,19 @@ const saveUserConfig = async () => {
 }
 
 .modal-footer {
-  padding: var(--spacing-lg) var(--spacing-2xl);
-  border-top: 1px solid var(--color-border);
+  padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
+  border-top: 1px solid var(--harmony-comp-divider);
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
 }
 
 // 删除对话框样式
 .delete-dialog {
   .delete-header {
-    background: linear-gradient(135deg, var(--color-danger-bg) 0%, var(--color-danger-bg) 100%);
-    border-bottom-color: var(--color-danger-bg);
+    background: var(--harmony-warning-bg);
+    border-bottom-color: var(--harmony-warning-bg);
     position: relative;
     padding-left: 60px;
     
@@ -1467,7 +1482,7 @@ const saveUserConfig = async () => {
     }
     
     h3 {
-      color: var(--color-danger);
+      color: var(--harmony-warning);
     }
   }
   
@@ -1477,24 +1492,24 @@ const saveUserConfig = async () => {
   
   .delete-warning {
     .warning-text {
-      font-size: var(--font-size-lg);
-      color: var(--color-text-primary);
+      font-size: var(--harmony-font-size-body-l);
+      color: var(--harmony-font-primary);
       margin: 0 0 20px 0;
       line-height: 1.6;
       
       .server-name-highlight {
-        color: var(--color-danger);
+        color: var(--harmony-warning);
         font-weight: 600;
         padding: 2px 6px;
-        background: var(--color-danger-bg);
-        border-radius: var(--radius-sm);
+        background: var(--harmony-warning-bg);
+        border-radius: var(--harmony-corner-radius-level4);
       }
     }
     
     .warning-details {
-      background: var(--color-danger-bg);
-      border: 1px solid var(--color-danger-bg);
-      border-radius: var(--radius-md);
+      background: var(--harmony-warning-bg);
+      border: 1px solid var(--harmony-warning-bg);
+      border-radius: var(--harmony-corner-radius-level6);
       padding: 16px;
       
       .detail-item {
@@ -1513,8 +1528,8 @@ const saveUserConfig = async () => {
         }
         
         span {
-          font-size: var(--font-size-base);
-          color: var(--color-text-secondary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-font-secondary);
           line-height: 1.5;
         }
       }
@@ -1522,15 +1537,15 @@ const saveUserConfig = async () => {
   }
   
   .delete-footer {
-    background: var(--color-bg);
+    background: var(--harmony-comp-background-primary);
     
     .btn-danger {
-      background: var(--color-danger);
+      background: var(--harmony-warning);
       color: white;
       border: none;
       padding: 10px 20px;
-      border-radius: var(--radius-sm);
-      font-size: var(--font-size-base);
+      border-radius: var(--harmony-corner-radius-level4);
+      font-size: var(--harmony-font-size-body-m);
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -1539,9 +1554,9 @@ const saveUserConfig = async () => {
       gap: 6px;
       
       &:hover:not(:disabled) {
-        background: var(--color-danger);
+        background: var(--harmony-warning);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px var(--color-danger-bg);
+        box-shadow: var(--harmony-shadow-sm);
       }
       
       &:active:not(:disabled) {
@@ -1556,9 +1571,9 @@ const saveUserConfig = async () => {
       .loading-spinner {
         width: 14px;
         height: 14px;
-        border: 2px solid var(--color-bg-overlay);
+        border: 2px solid var(--harmony-comp-background-secondary);
         border-top-color: white;
-        border-radius: var(--radius-full);
+        border-radius: var(--harmony-corner-radius-level18);
         animation: spin 0.6s linear infinite;
       }
     }
@@ -1579,35 +1594,35 @@ const saveUserConfig = async () => {
     align-items: center;
     gap: 16px;
     padding: 20px;
-    background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
-    border: 1px solid var(--color-primary-bg);
-    border-radius: var(--radius-lg);
+    background: var(--harmony-comp-emphasize-tertiary);
+    border: 1px solid var(--harmony-comp-emphasize-tertiary);
+    border-radius: var(--harmony-corner-radius-level8);
     margin-bottom: 24px;
     
     .wizard-icon {
       flex-shrink: 0;
       width: 48px;
       height: 48px;
-      background: var(--color-bg);
-      border-radius: var(--radius-lg);
+      background: var(--harmony-comp-background-primary);
+      border-radius: var(--harmony-corner-radius-level8);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px var(--color-primary-bg);
+      box-shadow: 0 2px 8px var(--harmony-comp-emphasize-tertiary);
     }
     
     .wizard-text {
       h4 {
         margin: 0 0 6px 0;
-        font-size: var(--font-size-xl);
+        font-size: var(--harmony-font-size-title-s);
         font-weight: 600;
-        color: var(--color-text-primary);
+        color: var(--harmony-font-primary);
       }
       
       p {
         margin: 0;
-        font-size: var(--font-size-base);
-        color: var(--color-text-secondary);
+        font-size: var(--harmony-font-size-body-m);
+        color: var(--harmony-font-secondary);
         line-height: 1.5;
       }
     }
@@ -1616,12 +1631,12 @@ const saveUserConfig = async () => {
 
 .mcp-form {
   .form-section {
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level8);
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 8px var(--shadow-xs);
+    box-shadow: 0 2px 8px var(--harmony-shadow-xs);
     
     .section-title {
       display: flex;
@@ -1629,13 +1644,13 @@ const saveUserConfig = async () => {
       gap: 8px;
       margin-bottom: 20px;
       padding-bottom: 12px;
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--harmony-comp-divider);
       font-weight: 600;
-      color: var(--color-text-primary);
-      font-size: var(--font-size-lg);
+      color: var(--harmony-font-primary);
+      font-size: var(--harmony-font-size-body-l);
       
       .required-mark {
-        color: var(--color-danger);
+        color: var(--harmony-warning);
         margin-left: 4px;
       }
     }
@@ -1674,12 +1689,12 @@ const saveUserConfig = async () => {
       align-items: center;
       gap: 8px;
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
       margin-bottom: 12px;
-      font-size: var(--font-size-base);
+      font-size: var(--harmony-font-size-body-m);
       
       .required-mark {
-        color: var(--color-danger);
+        color: var(--harmony-warning);
         margin-left: 2px;
       }
       
@@ -1690,44 +1705,44 @@ const saveUserConfig = async () => {
     
     input, select, textarea {
       width: 100%;
-      padding: var(--spacing-md) var(--spacing-lg);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
-      font-size: var(--font-size-base);
+      padding: var(--harmony-padding-level8) var(--harmony-padding-level10);
+      border: 1px solid var(--harmony-comp-divider);
+      border-radius: var(--harmony-corner-radius-level4);
+      font-size: var(--harmony-font-size-body-m);
       transition: all 0.2s ease;
-      background: var(--color-bg);
+      background: var(--harmony-comp-background-primary);
       box-sizing: border-box;
-      font-family: var(--font-family);
+      font-family: var(--harmony-font-family);
       
       &:focus {
         outline: none;
-        border-color: var(--color-primary);
-        box-shadow: 0 0 0 2px var(--color-primary-bg);
+        border-color: var(--harmony-brand);
+        box-shadow: 0 0 0 2px var(--harmony-comp-emphasize-tertiary);
       }
       
       &:hover {
-        border-color: var(--color-text-tertiary);
+        border-color: var(--harmony-font-tertiary);
       }
       
       &.error {
-        border-color: var(--color-danger);
-        background-color: var(--color-danger-bg);
+        border-color: var(--harmony-warning);
+        background-color: var(--harmony-warning-bg);
       }
       
       &::placeholder {
-        color: var(--color-text-tertiary);
-        font-size: var(--font-size-sm);
+        color: var(--harmony-font-tertiary);
+        font-size: var(--harmony-font-size-subtitle-s);
       }
       
       &:disabled,
       &[readonly] {
-        background-color: var(--color-bg);
-        border-color: var(--color-border);
-        color: var(--color-text-tertiary);
+        background-color: var(--harmony-comp-background-primary);
+        border-color: var(--harmony-comp-divider);
+        color: var(--harmony-font-tertiary);
         cursor: not-allowed;
         
         &::placeholder {
-          color: var(--color-text-tertiary);
+          color: var(--harmony-font-tertiary);
         }
       }
     }
@@ -1735,9 +1750,9 @@ const saveUserConfig = async () => {
     textarea {
       resize: vertical;
       min-height: 100px;
-      font-family: var(--font-family);
+      font-family: var(--harmony-font-family);
       line-height: 1.6;
-      font-size: var(--font-size-lg);
+      font-size: var(--harmony-font-size-body-l);
     }
     
     select {
@@ -1752,8 +1767,8 @@ const saveUserConfig = async () => {
     
     .error-text {
       display: block;
-      color: var(--color-danger);
-      font-size: var(--font-size-xs);
+      color: var(--harmony-warning);
+      font-size: var(--harmony-font-size-body-s);
       margin-top: 6px;
       font-weight: 500;
     }
@@ -1762,14 +1777,14 @@ const saveUserConfig = async () => {
       display: flex;
       align-items: flex-start;
       gap: 6px;
-      font-size: var(--font-size-xs);
-      color: var(--color-text-tertiary);
+      font-size: var(--harmony-font-size-body-s);
+      color: var(--harmony-font-tertiary);
       margin-top: 8px;
       line-height: 1.5;
       padding: 8px 12px;
-      background: var(--color-bg);
-      border-radius: var(--radius-sm);
-      border-left: 3px solid var(--color-primary);
+      background: var(--harmony-comp-background-primary);
+      border-radius: var(--harmony-corner-radius-level4);
+      border-left: 3px solid var(--harmony-brand);
       
       svg {
         flex-shrink: 0;
@@ -1781,14 +1796,14 @@ const saveUserConfig = async () => {
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      font-size: var(--font-size-xs);
-      color: var(--color-text-tertiary);
+      font-size: var(--harmony-font-size-body-s);
+      color: var(--harmony-font-tertiary);
       margin-top: 8px;
       line-height: 1.5;
       padding: 8px 12px;
-      background: var(--color-bg);
-      border-radius: var(--radius-sm);
-      border-left: 3px solid var(--color-success);
+      background: var(--harmony-comp-background-primary);
+      border-radius: var(--harmony-corner-radius-level4);
+      border-left: 3px solid var(--harmony-confirm);
       
       svg {
         flex-shrink: 0;
@@ -1806,14 +1821,14 @@ const saveUserConfig = async () => {
         display: flex;
         align-items: center;
         gap: 4px;
-        background: var(--color-bg);
+        background: var(--harmony-comp-background-primary);
         padding: 4px 8px;
-        border-radius: var(--radius-sm);
+        border-radius: var(--harmony-corner-radius-level4);
         font-size: 11px;
-        color: var(--color-text-tertiary);
+        color: var(--harmony-font-tertiary);
         font-weight: 500;
-        border: 1px solid var(--color-border);
-        backdrop-filter: blur(4px);
+        border: 1px solid var(--harmony-comp-divider);
+        /* removed backdrop-filter */
       }
     }
     
@@ -1822,19 +1837,19 @@ const saveUserConfig = async () => {
       margin-left: 20px;
       width: 100px;
       height: 100px;
-      border: 2px solid var(--color-primary);
-      border-radius: var(--radius-md);
+      border: 2px solid var(--harmony-brand);
+      border-radius: var(--harmony-corner-radius-level6);
       cursor: pointer;
       position: relative;
       overflow: hidden;
       transition: all 0.3s ease;
-      background: var(--color-primary-bg);
+      background: var(--harmony-comp-emphasize-tertiary);
       display: block;
       box-sizing: border-box;
 
       &:hover {
-        background: var(--color-primary);
-        border-color: var(--color-primary);
+        background: var(--harmony-brand);
+        border-color: var(--harmony-brand);
 
         .logo-upload-placeholder {
           svg path {
@@ -1849,7 +1864,7 @@ const saveUserConfig = async () => {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--color-primary);
+        color: var(--harmony-brand);
         transition: all 0.3s ease;
         background: transparent;
 
@@ -1859,15 +1874,15 @@ const saveUserConfig = async () => {
           display: block;
 
           path {
-            stroke: var(--color-primary) !important;
+            stroke: var(--harmony-brand) !important;
             stroke-width: 2.5;
           }
         }
 
         &.uploading {
           .uploading-text {
-            font-size: var(--font-size-xs);
-            color: var(--color-primary);
+            font-size: var(--harmony-font-size-body-s);
+            color: var(--harmony-brand);
             font-weight: 500;
           }
         }
@@ -1885,7 +1900,7 @@ const saveUserConfig = async () => {
         width: 100%;
         height: 100%;
         position: relative;
-        border-radius: var(--radius-md);
+        border-radius: var(--harmony-corner-radius-level6);
         overflow: hidden;
         display: flex;
         align-items: center;
@@ -1895,7 +1910,7 @@ const saveUserConfig = async () => {
           width: 50px;
           height: 50px;
           object-fit: cover;
-          border-radius: var(--radius-sm);
+          border-radius: var(--harmony-corner-radius-level4);
         }
         
         .logo-overlay {
@@ -1904,7 +1919,7 @@ const saveUserConfig = async () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: var(--color-overlay);
+          background: var(--harmony-comp-background-secondary);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1923,8 +1938,8 @@ const saveUserConfig = async () => {
 // 按钮样式
 .btn {
   padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-base);
+  border-radius: var(--harmony-corner-radius-level4);
+  font-size: var(--harmony-font-size-body-m);
   font-weight: 500;
   cursor: pointer;
   border: 1px solid transparent;
@@ -1941,30 +1956,30 @@ const saveUserConfig = async () => {
   }
   
   &.btn-cancel {
-    background: var(--color-bg);
-    border-color: var(--color-border);
-    color: var(--color-text-secondary);
+    background: var(--harmony-comp-background-primary);
+    border-color: var(--harmony-comp-divider);
+    color: var(--harmony-font-secondary);
     
     &:hover:not(:disabled) {
-      color: var(--color-primary);
-      border-color: var(--color-primary-bg);
-      background-color: var(--color-primary-bg);
+      color: var(--harmony-brand);
+      border-color: var(--harmony-comp-emphasize-tertiary);
+      background-color: var(--harmony-comp-emphasize-tertiary);
     }
   }
   
   &.btn-primary {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    color: var(--color-bg);
+    background: var(--harmony-brand);
+    border-color: var(--harmony-brand);
+    color: var(--harmony-comp-background-primary);
     
     &:hover:not(:disabled) {
-      background: var(--color-primary);
-      border-color: var(--color-primary);
+      background: var(--harmony-brand);
+      border-color: var(--harmony-brand);
     }
     
     &:active:not(:disabled) {
-      background: var(--color-primary);
-      border-color: var(--color-primary);
+      background: var(--harmony-brand);
+      border-color: var(--harmony-brand);
     }
   }
 }
@@ -1973,8 +1988,8 @@ const saveUserConfig = async () => {
   display: inline-block;
   width: 16px;
   height: 16px;
-  border: 2px solid var(--color-bg-overlay);
-  border-radius: var(--radius-full);
+  border: 2px solid var(--harmony-comp-background-secondary);
+  border-radius: var(--harmony-corner-radius-level18);
   border-top-color: white;
   animation: spin 1s ease-in-out infinite;
   margin-right: 8px;
@@ -1988,7 +2003,7 @@ const saveUserConfig = async () => {
 
 // 工具详情样式
 .tools-content {
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   
   .no-tools {
     text-align: center;
@@ -2002,14 +2017,14 @@ const saveUserConfig = async () => {
     .empty-text {
       h3 {
         margin: 0 0 8px 0;
-        font-size: var(--font-size-xl);
+        font-size: var(--harmony-font-size-title-s);
         font-weight: 600;
-        color: var(--color-text-tertiary);
+        color: var(--harmony-font-tertiary);
       }
       
       p {
-        color: var(--color-text-tertiary);
-        font-size: var(--font-size-base);
+        color: var(--harmony-font-tertiary);
+        font-size: var(--harmony-font-size-body-m);
         margin: 0;
         line-height: 1.5;
       }
@@ -2021,20 +2036,20 @@ const saveUserConfig = async () => {
       margin-bottom: 24px;
       
       .stat-card {
-        background: var(--color-bg);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
+        background: var(--harmony-comp-background-primary);
+        border: 1px solid var(--harmony-comp-divider);
+        border-radius: var(--harmony-corner-radius-level8);
         padding: 20px;
         display: flex;
         align-items: center;
         gap: 16px;
-        box-shadow: 0 2px 8px var(--shadow-xs);
+        box-shadow: 0 2px 8px var(--harmony-shadow-xs);
         
         .stat-icon {
           width: 48px;
           height: 48px;
-          background: var(--color-primary-bg);
-          border-radius: var(--radius-lg);
+          background: var(--harmony-comp-emphasize-tertiary);
+          border-radius: var(--harmony-corner-radius-level8);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -2046,15 +2061,15 @@ const saveUserConfig = async () => {
           gap: 4px;
           
           .stat-number {
-            font-size: var(--font-size-2xl);
+            font-size: var(--harmony-font-size-title-m);
             font-weight: 700;
-            color: var(--color-primary);
+            color: var(--harmony-brand);
             line-height: 1;
           }
           
           .stat-label {
-            font-size: var(--font-size-base);
-            color: var(--color-text-secondary);
+            font-size: var(--harmony-font-size-body-m);
+            color: var(--harmony-font-secondary);
             font-weight: 500;
           }
         }
@@ -2063,22 +2078,22 @@ const saveUserConfig = async () => {
     
     .tools-list {
       .tool-item {
-        background: var(--color-bg);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
+        background: var(--harmony-comp-background-primary);
+        border: 1px solid var(--harmony-comp-divider);
+        border-radius: var(--harmony-corner-radius-level8);
         margin-bottom: 12px;
         overflow: hidden;
         transition: all 0.2s ease;
         cursor: pointer;
         
         &:hover {
-          border-color: var(--color-primary);
-          box-shadow: 0 2px 12px var(--color-primary-bg);
+          border-color: var(--harmony-brand);
+          box-shadow: var(--harmony-shadow-sm);
         }
         
         &.expanded {
-          border-color: var(--color-primary);
-          box-shadow: 0 4px 16px var(--color-primary-bg);
+          border-color: var(--harmony-brand);
+          box-shadow: var(--harmony-shadow-sm);
           
           .tool-expand-icon svg {
             transform: rotate(180deg);
@@ -2089,7 +2104,7 @@ const saveUserConfig = async () => {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: var(--spacing-2xl) var(--spacing-2xl);
+          padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
           
           .tool-info {
             display: flex;
@@ -2100,8 +2115,8 @@ const saveUserConfig = async () => {
             .tool-icon {
               width: 40px;
               height: 40px;
-              background: var(--color-primary-bg);
-              border-radius: var(--radius-md);
+              background: var(--harmony-comp-emphasize-tertiary);
+              border-radius: var(--harmony-corner-radius-level6);
               display: flex;
               align-items: center;
               justify-content: center;
@@ -2113,15 +2128,15 @@ const saveUserConfig = async () => {
               
               .tool-name {
                 margin: 0 0 6px 0;
-                font-size: var(--font-size-lg);
+                font-size: var(--harmony-font-size-body-l);
                 font-weight: 600;
-                color: var(--color-text-primary);
+                color: var(--harmony-font-primary);
               }
               
               .tool-description {
                 margin: 0;
-                color: var(--color-text-secondary);
-                font-size: var(--font-size-base);
+                color: var(--harmony-font-secondary);
+                font-size: var(--harmony-font-size-body-m);
                 line-height: 1.5;
               }
             }
@@ -2129,7 +2144,7 @@ const saveUserConfig = async () => {
           
           .tool-expand-icon {
             flex-shrink: 0;
-            color: var(--color-text-tertiary);
+            color: var(--harmony-font-tertiary);
             transition: all 0.3s ease;
             
             svg {
@@ -2139,13 +2154,13 @@ const saveUserConfig = async () => {
         }
         
         .tool-details {
-          border-top: 1px solid var(--color-border);
+          border-top: 1px solid var(--harmony-comp-divider);
           padding: 0 24px 20px 24px;
           
           .tool-schema {
-            background: var(--color-bg);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
+            background: var(--harmony-comp-background-primary);
+            border: 1px solid var(--harmony-comp-divider);
+            border-radius: var(--harmony-corner-radius-level6);
             padding: 20px;
             margin-top: 20px;
             
@@ -2155,10 +2170,10 @@ const saveUserConfig = async () => {
               gap: 8px;
               margin-bottom: 16px;
               padding-bottom: 12px;
-              border-bottom: 1px solid var(--color-border);
+              border-bottom: 1px solid var(--harmony-comp-divider);
               font-weight: 600;
-              color: var(--color-text-primary);
-              font-size: var(--font-size-base);
+              color: var(--harmony-font-primary);
+              font-size: var(--harmony-font-size-body-m);
             }
             
             .schema-content {
@@ -2173,18 +2188,18 @@ const saveUserConfig = async () => {
                   
                   .meta-label {
                     font-weight: 500;
-                    color: var(--color-text-secondary);
+                    color: var(--harmony-font-secondary);
                     min-width: 60px;
                   }
                   
                   .meta-value {
-                    color: var(--color-text-primary);
+                    color: var(--harmony-font-primary);
                     
                     &.type {
-                      background: var(--color-bg);
+                      background: var(--harmony-comp-background-primary);
                       padding: 2px 8px;
-                      border-radius: var(--radius-sm);
-                      font-size: var(--font-size-xs);
+                      border-radius: var(--harmony-corner-radius-level4);
+                      font-size: var(--harmony-font-size-body-s);
                       font-weight: 500;
                     }
                   }
@@ -2200,8 +2215,8 @@ const saveUserConfig = async () => {
                   gap: 6px;
                   margin-bottom: 12px;
                   font-weight: 600;
-                  color: var(--color-danger);
-                  font-size: var(--font-size-base);
+                  color: var(--harmony-warning);
+                  font-size: var(--harmony-font-size-body-m);
                 }
                 
                 .required-params {
@@ -2210,12 +2225,12 @@ const saveUserConfig = async () => {
                   gap: 8px;
                   
                   .required-param {
-                    background: var(--color-danger-bg);
-                    color: var(--color-danger);
-                    border: 1px solid var(--color-danger-bg);
+                    background: var(--harmony-warning-bg);
+                    color: var(--harmony-warning);
+                    border: 1px solid var(--harmony-warning-bg);
                     padding: 4px 8px;
-                    border-radius: var(--radius-sm);
-                    font-size: var(--font-size-xs);
+                    border-radius: var(--harmony-corner-radius-level4);
+                    font-size: var(--harmony-font-size-body-s);
                     font-weight: 500;
                   }
                 }
@@ -2228,8 +2243,8 @@ const saveUserConfig = async () => {
                   gap: 6px;
                   margin-bottom: 12px;
                   font-weight: 600;
-                  color: var(--color-success);
-                  font-size: var(--font-size-base);
+                  color: var(--harmony-confirm);
+                  font-size: var(--harmony-font-size-body-m);
                 }
                 
                 .properties-grid {
@@ -2237,9 +2252,9 @@ const saveUserConfig = async () => {
                   gap: 12px;
                   
                   .property-card {
-                    background: var(--color-bg);
-                    border: 1px solid var(--color-border);
-                    border-radius: var(--radius-sm);
+                    background: var(--harmony-comp-background-primary);
+                    border: 1px solid var(--harmony-comp-divider);
+                    border-radius: var(--harmony-corner-radius-level4);
                     padding: 16px;
                     
                     .property-header {
@@ -2250,24 +2265,24 @@ const saveUserConfig = async () => {
                       
                       .property-name {
                         font-weight: 600;
-                        color: var(--color-text-primary);
-                        font-size: var(--font-size-base);
+                        color: var(--harmony-font-primary);
+                        font-size: var(--harmony-font-size-body-m);
                       }
                       
                       .property-type {
-                        background: var(--color-primary-bg);
-                        color: var(--color-primary);
+                        background: var(--harmony-comp-emphasize-tertiary);
+                        color: var(--harmony-brand);
                         padding: 2px 8px;
-                        border-radius: var(--radius-sm);
-                        font-size: var(--font-size-xs);
+                        border-radius: var(--harmony-corner-radius-level4);
+                        font-size: var(--harmony-font-size-body-s);
                         font-weight: 500;
                       }
                     }
                     
                     .property-body {
                       .property-desc {
-                        color: var(--color-text-secondary);
-                        font-size: var(--font-size-sm);
+                        color: var(--harmony-font-secondary);
+                        font-size: var(--harmony-font-size-subtitle-s);
                         line-height: 1.5;
                         margin: 0 0 8px 0;
                       }
@@ -2278,17 +2293,17 @@ const saveUserConfig = async () => {
                         gap: 6px;
                         
                         .default-label {
-                          font-size: var(--font-size-xs);
-                          color: var(--color-text-tertiary);
+                          font-size: var(--harmony-font-size-body-s);
+                          color: var(--harmony-font-tertiary);
                         }
                         
                         .default-value {
-                          background: var(--color-bg);
-                          color: var(--color-text-primary);
+                          background: var(--harmony-comp-background-primary);
+                          color: var(--harmony-font-primary);
                           padding: 2px 6px;
                           border-radius: 3px;
-                          font-size: var(--font-size-xs);
-                          font-family: var(--font-family);
+                          font-size: var(--harmony-font-size-body-s);
+                          font-family: var(--harmony-font-family);
                         }
                       }
                     }
@@ -2320,18 +2335,18 @@ const saveUserConfig = async () => {
 .mcp-server-page {
   padding: 32px;
   min-height: 100vh;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    background: var(--color-bg);
-    padding: var(--spacing-2xl) var(--spacing-2xl);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 6px 24px var(--shadow-sm);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-background-primary);
+    padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+    border-radius: var(--harmony-corner-radius-level8);
+    box-shadow: var(--harmony-shadow-xs);
+    border: 1px solid var(--harmony-comp-divider);
     
     .header-title {
       display: flex;
@@ -2345,9 +2360,9 @@ const saveUserConfig = async () => {
       
       h2 {
         margin: 0;
-        font-size: var(--font-size-2xl);
+        font-size: var(--harmony-font-size-title-m);
         font-weight: 600;
-        background: var(--color-primary);
+        background: var(--harmony-brand);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -2358,13 +2373,13 @@ const saveUserConfig = async () => {
       .h-button {
         font-weight: 600;
         letter-spacing: 0.025em;
-        border-radius: var(--radius-lg);
-        padding: var(--spacing-md) var(--spacing-2xl);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: var(--harmony-corner-radius-level8);
+        padding: var(--harmony-padding-level8) var(--harmony-padding-level16);
+        transition: all 0.2s ease;
         
         &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px var(--color-primary-bg);
+          transform: translateY(-1px);
+          box-shadow: var(--harmony-shadow-sm);
         }
       }
     }
@@ -2372,30 +2387,30 @@ const saveUserConfig = async () => {
   
   .server-list {
     min-height: 400px;
-    background: var(--color-bg);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 20px var(--shadow-sm);
-    border: 1px solid var(--color-bg-overlay);
+    background: var(--harmony-comp-background-primary);
+    border-radius: var(--harmony-corner-radius-level8);
+    box-shadow: var(--harmony-shadow-xs);
+    border: 1px solid var(--harmony-comp-divider);
     overflow: auto;
     
     :deep(.server-table-wrapper) {
-      border-radius: var(--radius-lg);
+      border-radius: var(--harmony-corner-radius-level8);
       overflow: hidden;
     }
 
     .server-table {
       width: 100%;
       border-collapse: collapse;
-      font-family: var(--font-family);
+      font-family: var(--harmony-font-family);
 
       thead {
         th {
-          background: var(--color-bg);
-          color: var(--color-text-primary);
+          background: var(--harmony-comp-background-primary);
+          color: var(--harmony-font-primary);
           font-weight: 700;
-          font-size: var(--font-size-sm);
+          font-size: var(--harmony-font-size-subtitle-s);
           padding: 18px 12px;
-          border-bottom: 2px solid var(--color-border);
+          border-bottom: 2px solid var(--harmony-comp-divider);
           letter-spacing: 0.025em;
           text-transform: uppercase;
         }
@@ -2406,18 +2421,18 @@ const saveUserConfig = async () => {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
           &:hover {
-            background: var(--color-bg);
+            background: var(--harmony-comp-background-primary);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px var(--shadow-xs);
+            box-shadow: 0 4px 12px var(--harmony-shadow-xs);
           }
 
           td {
             padding: 20px 12px;
-            border-bottom: 1px solid var(--color-border);
-            font-size: var(--font-size-base);
+            border-bottom: 1px solid var(--harmony-comp-divider);
+            font-size: var(--harmony-font-size-body-m);
             font-weight: 500;
-            color: var(--color-text-primary);
-            font-family: var(--font-family);
+            color: var(--harmony-font-primary);
+            font-family: var(--harmony-font-family);
             line-height: 1.5;
           }
         }
@@ -2427,9 +2442,9 @@ const saveUserConfig = async () => {
     .server-avatar {
       width: 40px;
       height: 40px;
-      border-radius: var(--radius-md);
+      border-radius: var(--harmony-corner-radius-level6);
       overflow: hidden;
-      border: 1px solid var(--color-border);
+      border: 1px solid var(--harmony-comp-divider);
       margin: 0 auto;
       
       img {
@@ -2448,13 +2463,13 @@ const saveUserConfig = async () => {
       
       .name {
         font-weight: 600;
-        color: var(--color-text-primary);
-        font-size: var(--font-size-lg);
+        color: var(--harmony-font-primary);
+        font-size: var(--harmony-font-size-body-l);
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-family: var(--font-family);
+        font-family: var(--harmony-font-family);
         letter-spacing: -0.01em;
       }
       
@@ -2462,7 +2477,7 @@ const saveUserConfig = async () => {
         opacity: 0.8;
         
         .name {
-          color: var(--color-text-secondary);
+          color: var(--harmony-font-secondary);
           font-weight: 500;
         }
       }
@@ -2483,8 +2498,8 @@ const saveUserConfig = async () => {
       .h-tag {
         font-weight: 600;
         letter-spacing: 0.025em;
-        border-radius: var(--radius-md);
-        font-family: var(--font-family);
+        border-radius: var(--harmony-corner-radius-level6);
+        font-family: var(--harmony-font-family);
       }
       
       .clickable-tag {
@@ -2495,9 +2510,9 @@ const saveUserConfig = async () => {
         
         &:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 20px var(--color-warning-bg);
-          background: linear-gradient(135deg, var(--color-warning) 0%, var(--color-warning) 100%);
-          border-color: var(--color-warning);
+          box-shadow: 0 8px 20px var(--harmony-alert-bg);
+          background: linear-gradient(135deg, var(--harmony-alert) 0%, var(--harmony-alert) 100%);
+          border-color: var(--harmony-alert);
           color: white;
         }
         
@@ -2505,10 +2520,17 @@ const saveUserConfig = async () => {
           transform: translateY(0);
         }
         
-        &::after {
-          content: '⚙️';
-          margin-left: 6px;
-          font-size: 11px;
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          margin-right: 6px;
+          background: currentColor;
+          -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 0C7.4 0 6.9 0.4 6.7 1L6.3 2.3C5.8 2.5 5.3 2.8 4.9 3.1L3.7 2.5C3.1 2.2 2.4 2.5 2.2 3.1L1.1 5.1C0.9 5.7 1.1 6.4 1.7 6.7L2.9 7.3C2.8 7.8 2.8 8.2 2.9 8.7L1.7 9.3C1.1 9.6 0.9 10.3 1.1 10.9L2.2 12.9C2.4 13.5 3.1 13.8 3.7 13.5L4.9 12.9C5.3 13.2 5.8 13.5 6.3 13.7L6.7 15C6.9 15.6 7.4 16 8 16C8.6 16 9.1 15.6 9.3 15L9.7 13.7C10.2 13.5 10.7 13.2 11.1 12.9L12.3 13.5C12.9 13.8 13.6 13.5 13.8 12.9L14.9 10.9C15.1 10.3 14.9 9.6 14.3 9.3L13.1 8.7C13.2 8.2 13.2 7.8 13.1 7.3L14.3 6.7C14.9 6.4 15.1 5.7 14.9 5.1L13.8 3.1C13.6 2.5 12.9 2.2 12.3 2.5L11.1 3.1C10.7 2.8 10.2 2.5 9.7 2.3L9.3 1C9.1 0.4 8.6 0 8 0Z' fill='%23000'/%3E%3C/svg%3E") no-repeat center/contain;
+          -webkit-mask-size: contain;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 0C7.4 0 6.9 0.4 6.7 1L6.3 2.3C5.8 2.5 5.3 2.8 4.9 3.1L3.7 2.5C3.1 2.2 2.4 2.5 2.2 3.1L1.1 5.1C0.9 5.7 1.1 6.4 1.7 6.7L2.9 7.3C2.8 7.8 2.8 8.2 2.9 8.7L1.7 9.3C1.1 9.6 0.9 10.3 1.1 10.9L2.2 12.9C2.4 13.5 3.1 13.8 3.7 13.5L4.9 12.9C5.3 13.2 5.8 13.5 6.3 13.7L6.7 15C6.9 15.6 7.4 16 8 16C8.6 16 9.1 15.6 9.3 15L9.7 13.7C10.2 13.5 10.7 13.2 11.1 12.9L12.3 13.5C12.9 13.8 13.6 13.5 13.8 12.9L14.9 10.9C15.1 10.3 14.9 9.6 14.3 9.3L13.1 8.7C13.2 8.2 13.2 7.8 13.1 7.3L14.3 6.7C14.9 6.4 15.1 5.7 14.9 5.1L13.8 3.1C13.6 2.5 12.9 2.2 12.3 2.5L11.1 3.1C10.7 2.8 10.2 2.5 9.7 2.3L9.3 1C9.1 0.4 8.6 0 8 0Z' fill='%23000'/%3E%3C/svg%3E") no-repeat center/contain;
+          mask-size: contain;
         }
       }
     }
@@ -2518,35 +2540,35 @@ const saveUserConfig = async () => {
       justify-content: center;
       
       .h-tag {
-        font-size: var(--font-size-xs);
+        font-size: var(--harmony-font-size-body-s);
         padding: 6px 12px;
         font-weight: 600;
         letter-spacing: 0.025em;
-        border-radius: var(--radius-md);
+        border-radius: var(--harmony-corner-radius-level6);
       }
     }
     
     .tools-count {
       .h-button {
-        font-size: var(--font-size-xs);
+        font-size: var(--harmony-font-size-body-s);
         padding: 8px 14px;
         font-weight: 600;
         letter-spacing: 0.025em;
-        border-radius: var(--radius-md);
+        border-radius: var(--harmony-corner-radius-level6);
         transition: all 0.3s ease;
 
         &:hover {
           transform: translateY(-1px);
-          box-shadow: 0 4px 12px var(--color-primary-bg);
+          box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
         }
       }
     }
     
     .create-time {
-      font-size: var(--font-size-sm);
-      color: var(--color-text-secondary);
+      font-size: var(--harmony-font-size-subtitle-s);
+      color: var(--harmony-font-secondary);
       font-weight: 500;
-      font-family: var(--font-family);
+      font-family: var(--harmony-font-family);
     }
     
     .action-buttons {
@@ -2557,9 +2579,9 @@ const saveUserConfig = async () => {
       
       .h-button {
         padding: 8px 16px;
-        font-size: var(--font-size-sm);
+        font-size: var(--harmony-font-size-subtitle-s);
         font-weight: 600;
-        border-radius: var(--radius-md);
+        border-radius: var(--harmony-corner-radius-level6);
         transition: all 0.3s ease;
 
         &:hover {
@@ -2574,10 +2596,10 @@ const saveUserConfig = async () => {
 
       p {
         margin-top: 24px;
-        font-size: var(--font-size-lg);
-        color: var(--color-text-secondary);
+        font-size: var(--harmony-font-size-body-l);
+        color: var(--harmony-font-secondary);
         font-weight: 500;
-        font-family: var(--font-family);
+        font-family: var(--harmony-font-family);
         letter-spacing: -0.01em;
       }
     }
@@ -2604,9 +2626,9 @@ const saveUserConfig = async () => {
       margin-bottom: 24px;
       
       .info-card {
-        background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
-        border: 1px solid var(--color-primary-bg);
-        border-radius: var(--radius-lg);
+        background: linear-gradient(135deg, var(--harmony-comp-emphasize-tertiary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
+        border: 1px solid var(--harmony-comp-emphasize-tertiary);
+        border-radius: var(--harmony-corner-radius-level8);
         padding: 16px;
         display: flex;
         align-items: flex-start;
@@ -2616,8 +2638,8 @@ const saveUserConfig = async () => {
           flex-shrink: 0;
           width: 40px;
           height: 40px;
-          background: var(--color-primary-bg);
-          border-radius: var(--radius-full);
+          background: var(--harmony-comp-emphasize-tertiary);
+          border-radius: var(--harmony-corner-radius-level18);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -2628,15 +2650,15 @@ const saveUserConfig = async () => {
           
           h4 {
             margin: 0 0 6px 0;
-            font-size: var(--font-size-lg);
+            font-size: var(--harmony-font-size-body-l);
             font-weight: 600;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
           }
           
           p {
             margin: 0;
-            font-size: var(--font-size-base);
-            color: var(--color-text-secondary);
+            font-size: var(--harmony-font-size-body-m);
+            color: var(--harmony-font-secondary);
             line-height: 1.6;
           }
         }
@@ -2649,7 +2671,7 @@ const saveUserConfig = async () => {
     
     .json-indicator {
       span {
-        color: var(--color-warning);
+        color: var(--harmony-alert);
         font-weight: 500;
       }
     }
@@ -2667,11 +2689,11 @@ const saveUserConfig = async () => {
     
     .config-server-name {
       font-weight: 700;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
     }
     
     .config-title {
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
       font-weight: 500;
     }
     
@@ -2680,7 +2702,7 @@ const saveUserConfig = async () => {
       display: inline-block;
       width: 4px;
       height: 18px;
-      background: var(--color-primary);
+      background: var(--harmony-brand);
       border-radius: 2px;
       margin-right: 8px;
     }
@@ -2690,9 +2712,9 @@ const saveUserConfig = async () => {
     margin-bottom: 20px;
     
     .info-card {
-      background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-primary-bg) 100%);
-      border: 1px solid var(--color-primary-bg);
-      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--harmony-comp-emphasize-tertiary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
+      border: 1px solid var(--harmony-comp-emphasize-tertiary);
+      border-radius: var(--harmony-corner-radius-level8);
       padding: 16px;
       display: flex;
       align-items: flex-start;
@@ -2702,8 +2724,8 @@ const saveUserConfig = async () => {
         flex-shrink: 0;
         width: 40px;
         height: 40px;
-        background: var(--color-primary-bg);
-        border-radius: var(--radius-full);
+        background: var(--harmony-comp-emphasize-tertiary);
+        border-radius: var(--harmony-corner-radius-level18);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -2714,15 +2736,15 @@ const saveUserConfig = async () => {
         
         h4 {
           margin: 0 0 6px 0;
-          font-size: var(--font-size-lg);
+          font-size: var(--harmony-font-size-body-l);
           font-weight: 600;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
         }
         
         p {
           margin: 0;
-          font-size: var(--font-size-base);
-          color: var(--color-text-secondary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-font-secondary);
           line-height: 1.6;
         }
       }
@@ -2734,8 +2756,8 @@ const saveUserConfig = async () => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
     border-bottom: none;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -2746,18 +2768,18 @@ const saveUserConfig = async () => {
       align-items: center;
       gap: 6px;
       border: none;
-      background: var(--color-bg);
-      color: var(--color-text-secondary);
+      background: var(--harmony-comp-background-primary);
+      color: var(--harmony-font-secondary);
       padding: 6px 12px;
-      border-radius: var(--radius-sm);
-      font-size: var(--font-size-sm);
+      border-radius: var(--harmony-corner-radius-level4);
+      font-size: var(--harmony-font-size-subtitle-s);
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
       
       &:hover {
-        background: var(--color-border);
-        color: var(--color-text-primary);
+        background: var(--harmony-comp-divider);
+        color: var(--harmony-font-primary);
       }
       
       svg {
@@ -2770,18 +2792,18 @@ const saveUserConfig = async () => {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: var(--font-size-sm);
+      font-size: var(--harmony-font-size-subtitle-s);
       padding: 6px 12px;
-      border-radius: var(--radius-sm);
+      border-radius: var(--harmony-corner-radius-level4);
       
       &.is-valid {
-        background: var(--color-success-bg);
-        color: var(--color-success);
+        background: var(--harmony-confirm-bg);
+        color: var(--harmony-confirm);
       }
       
       &.is-invalid {
-        background: var(--color-danger-bg);
-        color: var(--color-danger);
+        background: var(--harmony-warning-bg);
+        color: var(--harmony-warning);
       }
     }
   }
@@ -2789,7 +2811,7 @@ const saveUserConfig = async () => {
   // 编辑器容器
   .editor-container {
     height: 300px;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--harmony-comp-divider);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     overflow: hidden;
@@ -2803,9 +2825,9 @@ const saveUserConfig = async () => {
   // 帮助说明
   .config-help {
     margin-top: 24px;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level6);
     overflow: hidden;
     
     .help-title {
@@ -2813,12 +2835,12 @@ const saveUserConfig = async () => {
       align-items: center;
       gap: 8px;
       margin: 0;
-      padding: var(--spacing-md) var(--spacing-lg);
-      background: var(--color-bg);
-      color: var(--color-text-primary);
-      font-size: var(--font-size-base);
+      padding: var(--harmony-padding-level8) var(--harmony-padding-level10);
+      background: var(--harmony-comp-background-primary);
+      color: var(--harmony-font-primary);
+      font-size: var(--harmony-font-size-body-m);
       font-weight: 600;
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--harmony-comp-divider);
     }
     
     .help-content {
@@ -2833,15 +2855,15 @@ const saveUserConfig = async () => {
         
         h5 {
           margin: 0 0 8px 0;
-          font-size: var(--font-size-base);
-          color: var(--color-text-primary);
+          font-size: var(--harmony-font-size-body-m);
+          color: var(--harmony-font-primary);
           font-weight: 600;
         }
         
         p {
           margin: 0 0 8px 0;
-          font-size: var(--font-size-sm);
-          color: var(--color-text-secondary);
+          font-size: var(--harmony-font-size-subtitle-s);
+          color: var(--harmony-font-secondary);
           line-height: 1.5;
         }
         
@@ -2850,17 +2872,17 @@ const saveUserConfig = async () => {
           padding-left: 20px;
           
           li {
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
+            font-size: var(--harmony-font-size-subtitle-s);
+            color: var(--harmony-font-secondary);
             margin-bottom: 4px;
             
             code {
-              background: var(--color-border);
+              background: var(--harmony-comp-divider);
               padding: 2px 4px;
-              border-radius: var(--radius-sm);
-              color: var(--color-text-primary);
-              font-family: var(--font-family);
-              font-size: var(--font-size-xs);
+              border-radius: var(--harmony-corner-radius-level4);
+              color: var(--harmony-font-primary);
+              font-family: var(--harmony-font-family);
+              font-size: var(--harmony-font-size-body-s);
             }
           }
         }
@@ -2878,14 +2900,14 @@ const saveUserConfig = async () => {
             gap: 8px;
             
             .key {
-              background: var(--color-border);
+              background: var(--harmony-comp-divider);
               padding: 2px 6px;
-              border-radius: var(--radius-sm);
-              color: var(--color-text-secondary);
-              font-family: var(--font-family);
-              font-size: var(--font-size-xs);
-              border: 1px solid var(--color-border);
-              box-shadow: 0 1px 2px var(--shadow-xs);
+              border-radius: var(--harmony-corner-radius-level4);
+              color: var(--harmony-font-secondary);
+              font-family: var(--harmony-font-family);
+              font-size: var(--harmony-font-size-body-s);
+              border: 1px solid var(--harmony-comp-divider);
+              box-shadow: 0 1px 2px var(--harmony-shadow-xs);
             }
           }
         }
@@ -2938,8 +2960,8 @@ const saveUserConfig = async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--color-primary-bg);
-    border-radius: var(--radius-full);
+    background: var(--harmony-comp-emphasize-tertiary);
+    border-radius: var(--harmony-corner-radius-level18);
     margin-bottom: 20px;
     
     .empty-icon-symbol {
@@ -2948,21 +2970,21 @@ const saveUserConfig = async () => {
   }
   
   h3 {
-    font-size: var(--font-size-xl);
-    color: var(--color-text-primary);
+    font-size: var(--harmony-font-size-title-s);
+    color: var(--harmony-font-primary);
     margin: 0 0 16px;
   }
   
   p {
     margin: 0 0 20px;
-    font-size: var(--font-size-lg);
-    color: var(--color-text-tertiary);
+    font-size: var(--harmony-font-size-body-l);
+    color: var(--harmony-font-tertiary);
     max-width: 300px;
   }
   
   .create-btn {
-    padding: var(--spacing-md) var(--spacing-2xl);
-    font-size: var(--font-size-lg);
+    padding: var(--harmony-padding-level8) var(--harmony-padding-level16);
+    font-size: var(--harmony-font-size-body-l);
   }
 }
 </style>
@@ -2973,16 +2995,16 @@ const saveUserConfig = async () => {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-2xl) var(--spacing-2xl);
-  background: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
+  padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+  background: var(--harmony-comp-background-primary);
+  border-bottom: 1px solid var(--harmony-comp-divider);
   
   .header-title {
     display: flex;
@@ -2996,9 +3018,9 @@ const saveUserConfig = async () => {
     
     h2 {
       margin: 0;
-      font-size: var(--font-size-xl);
+      font-size: var(--harmony-font-size-title-s);
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
     }
   }
   
@@ -3019,7 +3041,7 @@ const saveUserConfig = async () => {
     align-items: center;
     justify-content: center;
     height: 100%;
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
     
     .empty-icon {
       font-size: 64px;
@@ -3032,13 +3054,13 @@ const saveUserConfig = async () => {
     }
     
     h3 {
-      font-size: var(--font-size-xl);
+      font-size: var(--harmony-font-size-title-s);
       margin: 0 0 8px 0;
       font-weight: 500;
     }
     
     p {
-      font-size: var(--font-size-base);
+      font-size: var(--harmony-font-size-body-m);
       margin: 0 0 24px 0;
       opacity: 0.7;
     }
@@ -3048,12 +3070,12 @@ const saveUserConfig = async () => {
 .server-avatar {
   width: 48px;
   height: 48px;
-  border-radius: var(--radius-md);
+  border-radius: var(--harmony-corner-radius-level6);
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-bg-tertiary);
+  background: var(--harmony-comp-background-tertiary);
   
   img {
     width: 100%;
@@ -3073,7 +3095,7 @@ const saveUserConfig = async () => {
   
   &.official-server {
     .name {
-      color: var(--color-warning);
+      color: var(--harmony-alert);
     }
   }
 }
@@ -3091,8 +3113,8 @@ const saveUserConfig = async () => {
 }
 
 .create-time {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
+  font-size: var(--harmony-font-size-subtitle-s);
+  color: var(--harmony-font-secondary);
 }
 
 .action-buttons {

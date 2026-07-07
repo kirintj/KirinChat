@@ -362,7 +362,7 @@ onMounted(() => {
 .model-editor-page {
   padding: 24px;
   height: 100%;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   min-height: 100vh;
   
   .page-header {
@@ -370,11 +370,11 @@ onMounted(() => {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 32px;
-    background: var(--color-bg);
-    padding: var(--spacing-2xl) var(--spacing-2xl);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 20px var(--shadow-sm);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-background-primary);
+    padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+    border-radius: var(--harmony-corner-radius-level8);
+    box-shadow: 0 4px 20px var(--harmony-shadow-sm);
+    border: 1px solid var(--harmony-comp-divider);
 
           .header-left {
         display: flex;
@@ -385,23 +385,23 @@ onMounted(() => {
           display: flex;
           align-items: center;
           gap: 12px;
-          font-size: var(--font-size-lg);
-          color: var(--color-text-tertiary);
+          font-size: var(--harmony-font-size-body-l);
+          color: var(--harmony-font-tertiary);
           
           .breadcrumb-item {
             transition: all 0.3s ease;
             padding: 8px 12px;
-            border-radius: var(--radius-md);
+            border-radius: var(--harmony-corner-radius-level6);
             cursor: default;
             
             &.clickable {
               cursor: pointer;
-              color: var(--color-text-secondary);
+              color: var(--harmony-font-secondary);
               font-weight: 500;
               
               &:hover {
-                color: var(--color-primary);
-                background: var(--color-primary-bg);
+                color: var(--harmony-brand);
+                background: var(--harmony-comp-emphasize-tertiary);
                 transform: translateY(-1px);
               }
               
@@ -411,14 +411,14 @@ onMounted(() => {
             }
             
             &.active {
-              color: var(--color-primary);
+              color: var(--harmony-brand);
               font-weight: 600;
-              background: var(--color-primary-bg);
+              background: var(--harmony-comp-emphasize-tertiary);
             }
           }
           
           .breadcrumb-separator {
-            color: var(--color-border);
+            color: var(--harmony-comp-divider);
             font-weight: 500;
           }
         }
@@ -432,19 +432,19 @@ onMounted(() => {
       .title-icon {
         width: 48px;
         height: 48px;
-        background: var(--color-primary);
-        border-radius: var(--radius-lg);
+        background: var(--harmony-brand);
+        border-radius: var(--harmony-corner-radius-level8);
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 8px 20px var(--color-primary-bg);
+        box-shadow: 0 8px 20px var(--harmony-comp-emphasize-tertiary);
       }
       
       h2 {
         margin: 0;
-        font-size: var(--font-size-2xl);
+        font-size: var(--harmony-font-size-title-m);
         font-weight: 700;
-        background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-text-secondary) 100%);
+        background: linear-gradient(135deg, var(--harmony-font-primary) 0%, var(--harmony-font-secondary) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -454,11 +454,11 @@ onMounted(() => {
   
   .edit-form-section {
     .form-container {
-      background: var(--color-bg);
-      border-radius: var(--radius-full);
+      background: var(--harmony-comp-background-primary);
+      border-radius: var(--harmony-corner-radius-level18);
       padding: 32px;
-      box-shadow: 0 8px 32px var(--shadow-sm);
-      border: 1px solid var(--color-border);
+      box-shadow: 0 8px 32px var(--harmony-shadow-sm);
+      border: 1px solid var(--harmony-comp-divider);
       
       .form-header {
         display: flex;
@@ -466,25 +466,25 @@ onMounted(() => {
         gap: 20px;
         margin-bottom: 32px;
         padding-bottom: 24px;
-        border-bottom: 2px solid var(--color-bg);
+        border-bottom: 2px solid var(--harmony-comp-background-primary);
         
         .form-icon {
           width: 56px;
           height: 56px;
-          background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success) 100%);
-          border-radius: var(--radius-lg);
+          background: linear-gradient(135deg, var(--harmony-confirm) 0%, var(--harmony-confirm) 100%);
+          border-radius: var(--harmony-corner-radius-level8);
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 8px 20px var(--color-success-bg);
+          box-shadow: 0 8px 20px var(--harmony-confirm-bg);
         }
         
                   .form-title {
             h3 {
               margin: 0 0 12px 0;
-              font-size: var(--font-size-2xl);
+              font-size: var(--harmony-font-size-title-m);
               font-weight: 800;
-              background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-text-secondary) 100%);
+              background: linear-gradient(135deg, var(--harmony-font-primary) 0%, var(--harmony-font-secondary) 100%);
               -webkit-background-clip: text;
               -webkit-text-fill-color: transparent;
               background-clip: text;
@@ -493,8 +493,8 @@ onMounted(() => {
             
             p {
               margin: 0;
-              font-size: var(--font-size-lg);
-              color: var(--color-text-secondary);
+              font-size: var(--harmony-font-size-body-l);
+              color: var(--harmony-font-secondary);
               line-height: 1.6;
               font-weight: 500;
             }
@@ -506,12 +506,12 @@ onMounted(() => {
           margin-bottom: 32px;
           
           .section-title {
-            font-size: var(--font-size-xl);
+            font-size: var(--harmony-font-size-title-s);
             font-weight: 600;
-            color: var(--color-text-primary);
+            color: var(--harmony-font-primary);
             margin: 0 0 20px 0;
             padding-bottom: 12px;
-            border-bottom: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--harmony-comp-divider);
             position: relative;
             
             &::before {
@@ -521,7 +521,7 @@ onMounted(() => {
               left: 0;
               width: 40px;
               height: 2px;
-              background: var(--color-primary);
+              background: var(--harmony-brand);
               border-radius: 1px;
             }
           }
@@ -544,37 +544,37 @@ onMounted(() => {
           .form-input,
           .form-select {
             .h-input {
-              background: var(--color-bg);
-              border: 2px solid var(--color-border);
-              border-radius: var(--radius-lg);
+              background: var(--harmony-comp-background-primary);
+              border: 2px solid var(--harmony-comp-divider);
+              border-radius: var(--harmony-corner-radius-level8);
               padding: 16px 20px;
               transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-              box-shadow: 0 2px 8px var(--shadow-xs);
+              box-shadow: 0 2px 8px var(--harmony-shadow-xs);
               position: relative;
               overflow: hidden;
 
               &:hover {
-                border-color: var(--color-border);
-                background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-border) 100%);
-                box-shadow: 0 4px 12px var(--shadow-sm);
+                border-color: var(--harmony-comp-divider);
+                background: linear-gradient(135deg, var(--harmony-comp-background-primary) 0%, var(--harmony-comp-divider) 100%);
+                box-shadow: 0 4px 12px var(--harmony-shadow-sm);
                 transform: translateY(-1px);
               }
 
               &.h-input--focused {
-                border-color: var(--color-primary);
-                background: var(--color-bg);
-                box-shadow: 0 0 0 4px var(--color-primary-bg), 0 8px 24px var(--shadow-md);
+                border-color: var(--harmony-brand);
+                background: var(--harmony-comp-background-primary);
+                box-shadow: 0 0 0 4px var(--harmony-comp-emphasize-tertiary), 0 8px 24px var(--harmony-shadow-md);
                 transform: translateY(-2px);
               }
             }
 
             .h-input__inner {
-              font-size: var(--font-size-lg);
-              color: var(--color-text-primary);
+              font-size: var(--harmony-font-size-body-l);
+              color: var(--harmony-font-primary);
               font-weight: 500;
 
               &::placeholder {
-                color: var(--color-text-tertiary);
+                color: var(--harmony-font-tertiary);
                 font-weight: 400;
               }
             }
@@ -582,13 +582,13 @@ onMounted(() => {
 
           .h-form-item__label {
             font-weight: 700;
-            color: var(--color-text-primary);
-            font-size: var(--font-size-lg);
+            color: var(--harmony-font-primary);
+            font-size: var(--harmony-font-size-body-l);
             position: relative;
             
             &::before {
               content: '*';
-              color: var(--color-danger);
+              color: var(--harmony-warning);
               margin-right: 4px;
               font-weight: 800;
             }
@@ -602,13 +602,13 @@ onMounted(() => {
           gap: 20px;
           margin-top: 40px;
           padding-top: 32px;
-          border-top: 2px solid var(--color-bg);
+          border-top: 2px solid var(--harmony-comp-background-primary);
           
           .action-btn {
             padding: 16px 32px;
-            border-radius: var(--radius-lg);
+            border-radius: var(--harmony-corner-radius-level8);
             font-weight: 700;
-            font-size: var(--font-size-lg);
+            font-size: var(--harmony-font-size-body-l);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid transparent;
             min-width: 140px;
@@ -622,7 +622,7 @@ onMounted(() => {
               left: -100%;
               width: 100%;
               height: 100%;
-              background: linear-gradient(90deg, transparent, var(--color-bg-overlay), transparent);
+              background: linear-gradient(90deg, transparent, var(--harmony-comp-background-secondary), transparent);
               transition: left 0.5s ease;
             }
             
@@ -640,25 +640,25 @@ onMounted(() => {
             }
             
             &.cancel-btn {
-              background: var(--color-bg);
-              border-color: var(--color-border);
-              color: var(--color-text-secondary);
+              background: var(--harmony-comp-background-primary);
+              border-color: var(--harmony-comp-divider);
+              color: var(--harmony-font-secondary);
               
               &:hover {
-                border-color: var(--color-border);
-                background: var(--color-bg);
-                color: var(--color-text-secondary);
+                border-color: var(--harmony-comp-divider);
+                background: var(--harmony-comp-background-primary);
+                color: var(--harmony-font-secondary);
               }
             }
             
             &.primary-btn {
-              background: var(--color-primary);
+              background: var(--harmony-brand);
               border-color: transparent;
               color: white;
               
               &:hover {
-                background: var(--color-primary);
-                box-shadow: 0 12px 28px var(--color-primary-bg);
+                background: var(--harmony-brand);
+                box-shadow: 0 12px 28px var(--harmony-comp-emphasize-tertiary);
               }
             }
           }
@@ -674,28 +674,28 @@ onMounted(() => {
     justify-content: center;
     height: 100%;
     text-align: center;
-    background: var(--color-bg);
-    border-radius: var(--radius-full);
+    background: var(--harmony-comp-background-primary);
+    border-radius: var(--harmony-corner-radius-level18);
     padding: 80px 40px;
-    box-shadow: 0 8px 32px var(--shadow-sm);
+    box-shadow: 0 8px 32px var(--harmony-shadow-sm);
     
     .empty-icon {
       font-size: 80px;
-      color: var(--color-border);
+      color: var(--harmony-comp-divider);
       margin-bottom: 24px;
     }
     
     h3 {
       margin: 0 0 12px 0;
-      font-size: var(--font-size-2xl);
+      font-size: var(--harmony-font-size-title-m);
       font-weight: 600;
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
     }
     
     p {
       margin: 0 0 32px 0;
-      color: var(--color-text-secondary);
-      font-size: var(--font-size-lg);
+      color: var(--harmony-font-secondary);
+      font-size: var(--harmony-font-size-body-l);
     }
   }
 }
@@ -714,7 +714,7 @@ onMounted(() => {
          justify-content: center;
          
          .breadcrumb {
-           font-size: var(--font-size-base);
+           font-size: var(--harmony-font-size-body-m);
            
            .breadcrumb-item {
              padding: 6px 10px;

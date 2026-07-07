@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { HButton, HInput, HMessage } from '@/components/ui'
 import {
@@ -11,28 +11,51 @@ const router = useRouter()
 const selectedSession = ref('')
 const sessions = ref<any[]>([])
 const loading = ref(false)
+const searchQuery = ref('')
 
 // 格式化时间
 const formatTime = (timeStr: string) => {
   try {
     if (!timeStr) return '未知时间'
-
     const date = new Date(timeStr)
-    if (isNaN(date.getTime())) {
-      return '未知时间'
-    }
-
+    if (isNaN(date.getTime())) return '未知时间'
     const now = new Date()
     const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60)
-
     if (diffInHours < 1) return '刚刚'
     if (diffInHours < 24) return `${Math.floor(diffInHours)}小时前`
     if (diffInHours < 24 * 7) return `${Math.floor(diffInHours / 24)}天前`
     return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
-  } catch (error) {
+  } catch {
     return '未知时间'
   }
 }
+
+// 获取Agent图标
+const getAgentIcon = (agent: string) => {
+  const map: Record<string, string> = {
+    simple: '💬',
+    lingseek: '✨', 
+  }
+  return map[agent] || '🤖'
+}
+
+// 获取Agent标签
+const getAgentLabel = (agent: string) => {
+  const map: Record<string, string> = {
+    simple: '日常模式',
+    lingseek: '灵寻LingSeek',
+  }
+  return map[agent] || '未知'
+}
+
+// 过滤后的会话
+const filteredSessions = computed(() => {
+  if (!searchQuery.value.trim()) return sessions.value
+  const q = searchQuery.value.toLowerCase()
+  return sessions.value.filter(s => 
+    s.title.toLowerCase().includes(q)
+  )
+})
 
 // 获取会话列表
 const fetchSessions = async () => {
@@ -44,10 +67,9 @@ const fetchSessions = async () => {
         sessionId: session.session_id || session.id,
         title: session.title || '未命名会话',
         createTime: session.create_time || session.created_at || new Date().toISOString(),
-        agent: session.agent || 'lingseek', // 保存agent类型，默认为lingseek
-        contexts: session.contexts || [] // 保存上下文
+        agent: session.agent || 'lingseek',
+        contexts: session.contexts || []
       }))
-      console.log('工作区会话列表:', sessions.value)
     } else {
       HMessage.error('获取会话列表失败')
     }
@@ -62,13 +84,11 @@ const fetchSessions = async () => {
 // 删除会话
 const deleteSession = async (sessionId: string, event: Event) => {
   event.stopPropagation()
-
   try {
     const response = await deleteWorkspaceSessionAPI(sessionId)
     if (response.data.status_code === 200) {
-      HMessage.success('会话删除成功')
+      HMessage.success('会话已删除')
       await fetchSessions()
-
       if (selectedSession.value === sessionId) {
         selectedSession.value = ''
         router.push('/workspace')
@@ -82,38 +102,28 @@ const deleteSession = async (sessionId: string, event: Event) => {
   }
 }
 
-// 选择会话 - 根据agent类型跳转到不同页面
+// 选择会话
 const selectSession = (sessionId: string) => {
   selectedSession.value = sessionId
-
-  // 找到对应的会话
   const session = sessions.value.find(s => s.sessionId === sessionId)
+  if (!session) return
 
-  if (!session) {
-    console.error('未找到会话:', sessionId)
-    return
-  }
-
-  console.log('选择会话:', sessionId, '类型:', session.agent)
-
-  // 根据agent类型判断跳转页面
   if (session.agent === 'simple') {
-    // 日常模式，跳转到日常对话页面，并传递session_id
     router.push({
       name: 'workspaceDefaultPage',
-      query: {
-        session_id: sessionId
-      }
+      query: { session_id: sessionId }
     })
   } else {
-    // lingseek模式，跳转到三列布局页面
     router.push({
       name: 'taskGraphPage',
-      query: {
-        session_id: sessionId
-      }
+      query: { session_id: sessionId }
     })
   }
+}
+
+// 创建新会话
+const createNewSession = () => {
+  router.push('/workspace')
 }
 
 onMounted(async () => {
@@ -122,252 +132,398 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="workspace-container">
-    <div class="sidebar">
-      <div class="create-section">
-        <button @click="router.push('/homepage')" class="create-btn">
-          <img src="../../assets/application-center.svg" width="18" height="18" />
-          <span>应用中心</span>
+  <div class="workspace-root">
+    <!-- 左侧面板 -->
+    <aside class="sidebar-panel">
+      <!-- 顶部操作区 -->
+      <div class="sidebar-header">
+        <div class="header-top">
+          <h2 class="panel-title">会话列表</h2>
+          <span class="session-count">{{ sessions.length }}</span>
+        </div>
+        <button class="new-session-btn" @click="createNewSession">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span>新建会话</span>
         </button>
       </div>
 
+      <!-- 搜索 -->
+      <div class="search-box">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M9.5 9.5L13 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="搜索会话..."
+          class="search-input"
+        />
+      </div>
+
+      <!-- 会话列表 -->
       <div class="session-list">
-        <div v-if="loading" class="loading-state">
-          <div class="loading-icon">⏳</div>
-          <div class="loading-text">正在加载会话列表...</div>
+        <!-- 加载态 -->
+        <div v-if="loading" class="state-box">
+          <div class="spinner"></div>
+          <p class="state-text">加载中...</p>
         </div>
 
-        <div v-else-if="sessions.length === 0" class="empty-state">
-          <img src="../../assets/workspace-session.svg" alt="暂无会话" class="empty-icon-img" />
-          <div class="empty-text">暂无会话记录</div>
+        <!-- 搜索无结果 -->
+        <div v-else-if="searchQuery && filteredSessions.length === 0" class="state-box">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+            <circle cx="11" cy="11" r="7"/>
+            <path d="M16.5 16.5L21 21" stroke-linecap="round"/>
+          </svg>
+          <p class="state-text">未找到匹配会话</p>
         </div>
 
+        <!-- 空态 -->
+        <div v-else-if="sessions.length === 0" class="state-box">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <path d="M9 12H15M12 9V15" stroke-linecap="round"/>
+          </svg>
+          <p class="state-text">暂无会话记录</p>
+          <p class="state-hint">点击上方按钮创建新会话</p>
+        </div>
+
+        <!-- 会话卡片列表 -->
         <div
-          v-for="session in sessions"
+          v-for="session in filteredSessions"
           :key="session.sessionId"
           :class="['session-card', { active: selectedSession === session.sessionId }]"
           @click="selectSession(session.sessionId)"
         >
-          <div class="session-icon">
-            <img src="../../assets/workspace-session.svg" width="18" height="18" />
+          <div class="card-avatar" :class="session.agent">
+            <span>{{ getAgentIcon(session.agent) }}</span>
           </div>
-          <div class="session-info">
-            <div class="session-title">{{ session.title }}</div>
-            <div class="session-time">{{ formatTime(session.createTime) }}</div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <span class="card-title">{{ session.title }}</span>
+              <span class="card-badge" :class="session.agent">{{ getAgentLabel(session.agent) }}</span>
+            </div>
+            <div class="card-time">{{ formatTime(session.createTime) }}</div>
           </div>
-          <button class="delete-btn" @click="deleteSession(session.sessionId, $event)" title="删除会话">×</button>
+          <button class="card-delete" @click="deleteSession(session.sessionId, $event)" title="删除会话">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </button>
         </div>
       </div>
-    </div>
+    </aside>
 
-    <div class="content">
+    <!-- 右侧内容区 -->
+    <main class="content-area">
       <router-view />
-    </div>
+    </main>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.workspace-container {
+.workspace-root {
   width: 100%;
   height: 100%;
   display: flex;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-secondary);
 }
 
-.sidebar {
-  height: 100%;
+/* ===== 左侧面板 ===== */
+.sidebar-panel {
   width: 280px;
-  background: var(--color-bg);
-  border-right: 1px solid var(--color-border);
+  min-width: 280px;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  background: var(--harmony-comp-background-primary);
+  border-right: 1px solid var(--harmony-comp-divider);
+}
+
+/* 顶部 */
+.sidebar-header {
+  padding: 16px 16px 0;
   flex-shrink: 0;
 
-  .create-section {
-    padding: 16px;
-    flex-shrink: 0;
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
 
-    .create-btn {
-      width: 100%;
-      height: 44px;
-      border-radius: var(--radius-sm);
-      background: var(--color-bg);
-      color: var(--color-primary);
-      border: 1px solid var(--color-border);
-      cursor: pointer;
-      font-size: 14px;
+    .panel-title {
+      font-size: var(--harmony-font-size-body-l);
+      font-weight: 600;
+      color: var(--harmony-font-primary);
+      margin: 0;
+    }
+
+    .session-count {
+      font-size: var(--harmony-font-size-body-s);
+      color: var(--harmony-font-tertiary);
+      background: var(--harmony-comp-background-secondary);
+      padding: 2px 8px;
+      border-radius: 999px;
       font-weight: 500;
-      font-family: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all var(--duration-fast) var(--easing);
-
-      &:hover {
-        border-color: var(--color-primary);
-        background: var(--color-primary-bg);
-      }
     }
   }
 
-  .session-list {
-    flex: 1;
-    padding: 0 8px 8px;
-    overflow-y: auto;
+  .new-session-btn {
+    width: 100%;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px dashed var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level6);
+    background: var(--harmony-comp-background-primary);
+    color: var(--harmony-font-secondary);
+    font-size: var(--harmony-font-size-subtitle-s);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
+    font-family: inherit;
 
-    .loading-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 200px;
-
-      .loading-icon {
-        font-size: 32px;
-        margin-bottom: 12px;
-        animation: spin 1s linear infinite;
-      }
-
-      .loading-text {
-        font-size: var(--font-size-sm);
-        color: var(--color-text-secondary);
-      }
-    }
-
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 200px;
-
-      .empty-icon-img {
-        width: 48px;
-        height: 48px;
-        margin-bottom: 12px;
-        opacity: 0.4;
-      }
-
-      .empty-text {
-        font-size: var(--font-size-base);
-        color: var(--color-text-tertiary);
-      }
-    }
-
-    .session-card {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px;
-      margin-bottom: 4px;
-      background: var(--color-bg);
-      border: 1px solid transparent;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all var(--duration-fast) var(--easing);
-      position: relative;
-
-      &:hover {
-        background: var(--color-bg-secondary);
-        border-color: var(--color-border);
-
-        .delete-btn {
-          opacity: 1;
-        }
-      }
-
-      &.active {
-        background: var(--color-primary-bg);
-        border-color: var(--color-primary);
-      }
-
-      .session-icon {
-        width: 28px;
-        height: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--color-primary-bg);
-        border-radius: var(--radius-sm);
-        flex-shrink: 0;
-      }
-
-      .session-info {
-        flex: 1;
-        min-width: 0;
-
-        .session-title {
-          font-size: var(--font-size-base);
-          font-weight: 500;
-          color: var(--color-text-primary);
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          margin-bottom: 2px;
-        }
-
-        .session-time {
-          font-size: var(--font-size-xs);
-          color: var(--color-text-tertiary);
-        }
-      }
-
-      .delete-btn {
-        position: absolute;
-        top: 6px;
-        right: 6px;
-        width: 22px;
-        height: 22px;
-        padding: 0;
-        background: var(--color-bg);
-        border: 1px solid var(--color-border);
-        cursor: pointer;
-        border-radius: var(--radius-sm);
-        transition: all var(--duration-fast) var(--easing);
-        font-size: 14px;
-        opacity: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--color-text-secondary);
-
-        &:hover {
-          background: var(--color-danger-bg);
-          color: var(--color-danger);
-          border-color: var(--color-danger);
-        }
-      }
+    &:hover {
+      border-color: var(--harmony-brand);
+      color: var(--harmony-brand);
+      background: var(--harmony-comp-emphasize-tertiary);
+      border-style: solid;
     }
   }
 }
 
-.content {
+/* 搜索 */
+.search-box {
+  position: relative;
+  margin: 12px 16px;
+  flex-shrink: 0;
+
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--harmony-font-tertiary);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    height: 34px;
+    padding: 0 10px 0 32px;
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level4);
+    background: var(--harmony-comp-background-secondary);
+    color: var(--harmony-font-primary);
+    font-size: var(--harmony-font-size-subtitle-s);
+    outline: none;
+    transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
+    font-family: inherit;
+
+    &::placeholder {
+      color: var(--harmony-font-tertiary);
+    }
+
+    &:focus {
+      border-color: var(--harmony-brand);
+      background: var(--harmony-comp-background-primary);
+    }
+  }
+}
+
+/* 会话列表容器 */
+.session-list {
   flex: 1;
-  min-width: 0;
-  min-height: 0;
-  background: var(--color-bg);
-  overflow: hidden;
+  overflow-y: auto;
+  padding: 0 8px 8px;
+}
+
+/* 通用状态 */
+.state-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  text-align: center;
+  gap: 8px;
+
+  .state-text {
+    font-size: var(--harmony-font-size-subtitle-s);
+    color: var(--harmony-font-tertiary);
+    margin: 0;
+  }
+
+  .state-hint {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-fourth);
+    margin: 0;
+  }
+}
+
+/* 加载旋转 */
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--harmony-comp-divider);
+  border-top-color: var(--harmony-brand);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
+/* ===== 会话卡片 ===== */
+.session-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  margin-bottom: 4px;
+  border-radius: var(--harmony-corner-radius-level6);
+  cursor: pointer;
+  transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
+  position: relative;
+  border: 1px solid transparent;
+
+  &:hover {
+    background: var(--harmony-comp-background-secondary);
+    border-color: var(--harmony-comp-divider);
+
+    .card-delete {
+      opacity: 1;
+    }
+  }
+
+  &.active {
+    background: var(--harmony-comp-emphasize-tertiary);
+    border-color: var(--harmony-brand);
+  }
+
+  .card-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--harmony-corner-radius-level4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    background: var(--harmony-comp-background-secondary);
+    border: 1px solid var(--harmony-comp-divider);
+
+    &.simple {
+      background: #eef2ff;
+      border-color: #c7d2fe;
+    }
+
+    &.lingseek {
+      background: #fef3c7;
+      border-color: #fde68a;
+    }
+  }
+
+  .card-body {
+    flex: 1;
+    min-width: 0;
+
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 2px;
+
+      .card-title {
+        font-size: var(--harmony-font-size-subtitle-s);
+        font-weight: 500;
+        color: var(--harmony-font-primary);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .card-badge {
+        font-size: 10px;
+        padding: 1px 6px;
+        border-radius: 999px;
+        font-weight: 500;
+        flex-shrink: 0;
+        line-height: 1.4;
+
+        &.simple {
+          background: #eef2ff;
+          color: #4f46e5;
+        }
+
+        &.lingseek {
+          background: #fef3c7;
+          color: #d97706;
+        }
+      }
+    }
+
+    .card-time {
+      font-size: var(--harmony-font-size-body-s);
+      color: var(--harmony-font-tertiary);
+    }
+  }
+
+  .card-delete {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level4);
+    background: var(--harmony-comp-background-primary);
+    color: var(--harmony-font-tertiary);
+    cursor: pointer;
+    opacity: 0;
+    transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
+
+    &:hover {
+      background: var(--harmony-warning-bg);
+      color: var(--harmony-warning);
+      border-color: var(--harmony-warning);
+    }
+  }
+}
+
+/* ===== 右侧内容区 ===== */
+.content-area {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--harmony-comp-background-secondary);
+}
+
+/* 响应式 */
 @media (max-width: 768px) {
-  .sidebar {
+  .sidebar-panel {
     width: 240px;
+    min-width: 240px;
   }
 }
 
 @media (max-width: 480px) {
-  .workspace-container {
+  .workspace-root {
     flex-direction: column;
   }
-
-  .sidebar {
+  .sidebar-panel {
     width: 100%;
+    min-width: 0;
     height: auto;
     max-height: 240px;
   }

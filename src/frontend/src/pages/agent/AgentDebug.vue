@@ -104,13 +104,13 @@ const testAPI = async () => {
   .debug-section {
     margin-bottom: 30px;
     padding: 20px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level4);
+    background: var(--harmony-comp-background-primary);
 
     h3 {
       margin-top: 0;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
     }
 
     .debug-scroll-area {
@@ -119,12 +119,12 @@ const testAPI = async () => {
     }
 
     .debug-log {
-      background: var(--color-text-primary);
-      color: var(--color-success);
+      background: var(--harmony-font-primary);
+      color: var(--harmony-confirm);
       padding: 15px;
       border-radius: 4px;
-      font-family: var(--font-family);
-      font-size: var(--font-size-xs);
+      font-family: var(--harmony-font-family);
+      font-size: var(--harmony-font-size-body-s);
       white-space: pre-wrap;
       word-wrap: break-word;
     }

@@ -432,9 +432,24 @@ watch(
               <div v-if="item.eventInfo && item.eventInfo.length" class="event-info-list">
                 <div v-for="(event, evIdx) in item.eventInfo" :key="evIdx" class="event-info-row" :class="event.status">
                   <div class="event-info-header" @click="toggleEventInfo(event)">
-                    <span v-if="event.status === 'START'" class="rotating">⏳</span>
-                    <span v-else-if="event.status === 'END'" class="success-icon">✅</span>
-                    <span v-else-if="event.status === 'ERROR'" class="error-icon">❌</span>
+                    <span v-if="event.status === 'START'" class="rotating">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5" opacity="0.25"/>
+                        <path d="M7 1.5C10.0376 1.5 12.5 3.96243 12.5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </span>
+                    <span v-else-if="event.status === 'END'" class="success-icon">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M4.5 7L6.5 9L9.5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                    <span v-else-if="event.status === 'ERROR'" class="error-icon">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M5 5L9 9M9 5L5 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                      </svg>
+                    </span>
                     <span class="event-info-title">{{ event.event_type }}</span>
                     <span class="event-info-status">
                       {{ event.status === 'START' ? '进行中' : event.status === 'END' ? '已完成' : '失败' }}
@@ -449,7 +464,12 @@ watch(
 
               <!-- Loading Indicator - 只在没有活跃事件时显示 -->
               <div v-if="!item.aiMessage.content && !sendQuestion && index === historyChatStore.chatArr.length - 1 && !hasActiveEvents" class="loading-spinner">
-                  <span class="is-loading">⏳</span>
+                  <span class="is-loading">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" opacity="0.25"/>
+                      <path d="M8 2C11.3137 2 14 4.68629 14 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </span>
               </div>
               <template v-else>
                 <div v-if="item.aiMessage.type === 'knowledge'" style="color: #409eff;">
@@ -480,7 +500,9 @@ watch(
         @change="handleNativeFileUpload"
       />
       <HButton type="secondary" class="action-btn" :class="{ 'file-uploaded': fileUrl }" @click="triggerFileUpload" :disabled="!!fileUrl">
-        📎
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8.5 4.5L4 9C3.16667 9.83333 3.16667 11.1667 4 12C4.83333 12.8333 6.16667 12.8333 7 12L11.5 7.5C12.8333 6.16667 12.8333 4.16667 11.5 2.83333C10.1667 1.5 8.16667 1.5 6.83333 2.83333L2.33333 7.33333" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </HButton>
       <div class="input-wrapper">
         <!-- 已上传文件显示 -->
@@ -523,7 +545,7 @@ watch(
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: var(--color-bg-secondary);
+  background-color: var(--harmony-comp-background-secondary);
 }
 
 .chat-conversation {
@@ -552,16 +574,16 @@ watch(
       border-radius: 50%;
       margin-right: 15px;
       flex-shrink: 0;
-      border: 1px solid var(--color-border);
+      border: 1px solid var(--harmony-comp-divider);
     }
 
     .message-content {
-      background-color: var(--color-bg);
+      background-color: var(--harmony-comp-background-primary);
       border-radius: 18px;
       padding: 12px 18px;
       max-width: 70%;
-      color: var(--color-text-primary);
-      box-shadow: var(--shadow-card);
+      color: var(--harmony-font-primary);
+      box-shadow: var(--harmony-shadow-card);
       word-break: break-word;
     }
   }
@@ -577,18 +599,18 @@ watch(
       border-radius: 50%;
       margin-left: 12px;
       flex-shrink: 0;
-      border: 1px solid var(--color-border);
+      border: 1px solid var(--harmony-comp-divider);
     }
 
     .message-content {
       display: flex;
       align-items: center;
-      background: var(--color-primary);
-      color: var(--color-bg);
+      background: var(--harmony-brand);
+      color: var(--harmony-comp-background-primary);
       border-radius: 18px;
       padding: 12px 18px;
       max-width: 70%;
-      box-shadow: var(--shadow-card);
+      box-shadow: var(--harmony-shadow-card);
     }
   }
 }
@@ -602,24 +624,24 @@ watch(
   margin-bottom: 8px;
   border-radius: 8px;
   padding: 8px 12px;
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
   cursor: pointer;
   transition: background 0.3s ease;
   display: flex;
   flex-direction: column;
   
   &.START {
-    border-left: 4px solid var(--color-primary);
+    border-left: 4px solid var(--harmony-brand);
     background: rgba(64, 158, 255, 0.06);
   }
 
   &.END {
-    border-left: 4px solid var(--color-success);
+    border-left: 4px solid var(--harmony-confirm);
     background: rgba(103, 194, 58, 0.06);
   }
 
   &.ERROR {
-    border-left: 4px solid var(--color-danger);
+    border-left: 4px solid var(--harmony-warning);
     background: rgba(245, 108, 108, 0.06);
   }
   
@@ -636,63 +658,76 @@ watch(
 .event-info-title { 
   margin-left: 8px; 
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--harmony-font-primary);
 }
 
 .event-info-status {
   margin-left: 8px;
-  font-size: var(--font-size-xs);
+  font-size: var(--harmony-font-size-body-s);
   padding: 2px 6px;
   border-radius: 10px;
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
 
   .START & {
     background: rgba(64, 158, 255, 0.1);
-    color: var(--color-primary);
+    color: var(--harmony-brand);
   }
 
   .END & {
     background: rgba(103, 194, 58, 0.1);
-    color: var(--color-success);
+    color: var(--harmony-confirm);
   }
 
   .ERROR & {
     background: rgba(245, 108, 108, 0.1);
-    color: var(--color-danger);
+    color: var(--harmony-warning);
   }
 }
 
 .event-info-toggle {
   margin-left: auto;
-  color: var(--color-text-tertiary);
-  font-size: var(--font-size-xs);
+  color: var(--harmony-font-tertiary);
+  font-size: var(--harmony-font-size-body-s);
 
   &:hover {
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
   }
 }
 
 .event-info-message {
   margin-top: 8px;
-  color: var(--color-text-primary);
+  color: var(--harmony-font-primary);
   padding: 8px;
   background: rgba(255, 255, 255, 0.7);
   border-radius: 4px;
-  font-size: var(--font-size-base);
+  font-size: var(--harmony-font-size-body-m);
   line-height: 1.5;
 }
 
 .rotating { 
+  display: inline-flex;
+  align-items: center;
   animation: spin 1.2s linear infinite;
-  color: var(--color-primary);
+  color: var(--harmony-brand);
 }
 
 .success-icon {
-  color: var(--color-success);
+  display: inline-flex;
+  align-items: center;
+  color: var(--harmony-confirm);
 }
 
 .error-icon {
-  color: var(--color-danger);
+  display: inline-flex;
+  align-items: center;
+  color: var(--harmony-warning);
+}
+
+.is-loading {
+  display: inline-flex;
+  align-items: center;
+  animation: spin 1.2s linear infinite;
+  color: var(--harmony-font-tertiary);
 }
 
 @keyframes spin { 
@@ -705,33 +740,33 @@ watch(
   justify-content: center;
   align-items: center;
   min-height: 28px;
-  color: var(--color-primary);
+  color: var(--harmony-brand);
 }
 
 .input-area {
   display: flex;
   align-items: flex-end;
   padding: 15px 20px;
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-bg);
-  box-shadow: var(--shadow-card);
+  border-top: 1px solid var(--harmony-comp-divider);
+  background-color: var(--harmony-comp-background-primary);
+  box-shadow: var(--harmony-shadow-card);
 
   .action-btn {
     margin-right: 10px;
-    background-color: var(--color-bg-secondary);
+    background-color: var(--harmony-comp-background-secondary);
     border: none;
     width: 48px;
     height: 48px;
     font-size: 24px;
     transition: all 0.3s ease;
     &:hover {
-      background-color: var(--color-border);
+      background-color: var(--harmony-comp-divider);
     }
     &.file-uploaded {
-      background-color: var(--color-success);
-      color: var(--color-bg);
+      background-color: var(--harmony-confirm);
+      color: var(--harmony-comp-background-primary);
       &:hover {
-        background-color: var(--color-success);
+        background-color: var(--harmony-confirm);
       }
     }
     &:disabled {
@@ -753,12 +788,12 @@ watch(
     align-items: center;
     gap: 8px;
     padding: 6px 10px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(236, 245, 255, 0.95) 100%);
-    border: 1px solid var(--color-border);
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
     border-radius: 16px;
     font-size: 12px;
     z-index: 10;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 
     .file-avatar {
       width: 22px;
@@ -780,7 +815,7 @@ watch(
     }
 
     .file-name {
-      color: var(--color-primary);
+      color: var(--harmony-brand);
       text-decoration: none;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -806,12 +841,12 @@ watch(
   .message-textarea {
     width: 100%;
     border-radius: 20px;
-    background-color: var(--color-bg-secondary);
+    background-color: var(--harmony-comp-background-secondary);
     box-shadow: none;
     border: 1px solid transparent;
     padding: 12px 18px;
-    font-family: var(--font-family);
-    font-size: var(--font-size-base);
+    font-family: var(--harmony-font-family);
+    font-size: var(--harmony-font-size-body-m);
     resize: none;
     overflow-y: auto;
     max-height: 120px;
@@ -819,24 +854,24 @@ watch(
     outline: none;
     transition: border-color 0.2s;
     &:focus {
-      border-color: var(--color-primary);
+      border-color: var(--harmony-brand);
     }
   }
 
   .send-btn {
     margin-left: 10px;
-    background-color: var(--color-primary);
+    background-color: var(--harmony-brand);
     border: none;
     width: 48px;
     height: 48px;
     font-size: 24px;
     &:hover {
-      background-color: var(--color-primary-hover);
+      background-color: var(--harmony-interactive-hover);
     }
     &.pause-mode {
-      background-color: var(--color-danger);
+      background-color: var(--harmony-warning);
       &:hover {
-        background-color: var(--color-danger);
+        background-color: var(--harmony-warning);
       }
     }
   }

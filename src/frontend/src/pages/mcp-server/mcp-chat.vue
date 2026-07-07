@@ -123,7 +123,7 @@
                             :rows="3"
                             placeholder="请输入修改意见（留空则直接取消）"
                             class="interrupt-feedback-input"
-                            style="width:100%;padding:10px;border:1px solid var(--color-border);border-radius:var(--radius-md);font-family:inherit;font-size:14px;resize:vertical;background:var(--color-bg-tertiary);color:var(--color-text-primary);"
+                            style="width:100%;padding:10px;border:1px solid var(--harmony-comp-divider);border-radius:var(--harmony-corner-radius-level6);font-family:inherit;font-size:14px;resize:vertical;background:var(--harmony-comp-background-tertiary);color:var(--harmony-font-primary);"
                           ></textarea>
                           <div class="interrupt-feedback-buttons">
                             <HButton type="secondary" @click="showRejectInput = false; rejectFeedback = ''">取消</HButton>
@@ -151,7 +151,7 @@
               @keydown="handleKeyDown"
               :disabled="isStreaming"
               class="chat-input"
-              style="width:100%;min-height:80px;max-height:200px;padding:14px 56px 14px 16px;border-radius:12px;font-size:15px;line-height:1.6;resize:none;border:1px solid var(--color-border);background:var(--color-bg-secondary);box-shadow:0 2px 8px rgba(0,0,0,0.06);font-family:inherit;color:var(--color-text-primary);"
+              style="width:100%;min-height:80px;max-height:200px;padding:14px 56px 14px 16px;border-radius:12px;font-size:15px;line-height:1.6;resize:none;border:1px solid var(--harmony-comp-divider);background:var(--harmony-comp-background-secondary);box-shadow:0 2px 8px rgba(0,0,0,0.06);font-family:inherit;color:var(--harmony-font-primary);"
             ></textarea>
             <HButton
               type="primary"
@@ -549,7 +549,7 @@ onMounted(() => {
 .mcp-chat-container {
   display: flex;
   height: 100%;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   overflow: hidden;
 }
 
@@ -557,7 +557,7 @@ onMounted(() => {
 .sidebar-overlay {
   position: fixed;
   inset: 0;
-  background: var(--shadow-lg);
+  background: var(--harmony-shadow-dialog);
   z-index: 100;
   display: flex;
 }
@@ -565,22 +565,22 @@ onMounted(() => {
 .sidebar {
   width: 280px;
   height: 100%;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 0 24px var(--shadow-md);
+  box-shadow: 4px 0 24px var(--harmony-shadow-md);
 
   .sidebar-header {
     padding: 16px;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--harmony-comp-divider);
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     .sidebar-title {
-      font-size: var(--font-size-lg);
+      font-size: var(--harmony-font-size-body-l);
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
     }
   }
 
@@ -592,22 +592,22 @@ onMounted(() => {
     .empty-tasks {
       text-align: center;
       padding: 20px;
-      color: var(--color-text-secondary);
-      font-size: var(--font-size-base);
+      color: var(--harmony-font-secondary);
+      font-size: var(--harmony-font-size-body-m);
     }
 
     .task-item {
       padding: 12px;
       margin-bottom: 4px;
       background: transparent;
-      border-radius: var(--radius-md);
+      border-radius: var(--harmony-corner-radius-level6);
       cursor: pointer;
       transition: all 0.2s;
       border: 1px solid transparent;
       position: relative;
 
       &:hover {
-        background: var(--color-bg-tertiary);
+        background: var(--harmony-comp-background-tertiary);
 
         .task-item-actions {
           opacity: 1;
@@ -615,8 +615,8 @@ onMounted(() => {
       }
 
       &.active {
-        background: var(--color-bg-secondary);
-        border-color: var(--color-primary);
+        background: var(--harmony-comp-background-secondary);
+        border-color: var(--harmony-brand);
       }
 
       .task-item-header {
@@ -626,20 +626,20 @@ onMounted(() => {
         margin-bottom: 6px;
 
         .task-item-title {
-          font-size: var(--font-size-base);
+          font-size: var(--harmony-font-size-body-m);
           font-weight: 500;
-          color: var(--color-text-primary);
+          color: var(--harmony-font-primary);
         }
 
         .task-item-time {
           font-size: 11px;
-          color: var(--color-text-secondary);
+          color: var(--harmony-font-secondary);
         }
       }
 
       .task-item-preview {
-        font-size: var(--font-size-xs);
-        color: var(--color-text-secondary);
+        font-size: var(--harmony-font-size-body-s);
+        color: var(--harmony-font-secondary);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -676,14 +676,14 @@ onMounted(() => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   position: relative;
 
   .chat-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--spacing-lg) var(--spacing-2xl);
+    padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
     background: transparent;
     border-bottom: none;
 
@@ -698,9 +698,9 @@ onMounted(() => {
       }
 
       .toolbar-title {
-        font-size: var(--font-size-xl);
+        font-size: var(--harmony-font-size-title-s);
         font-weight: 600;
-        background: var(--color-primary);
+        background: var(--harmony-brand);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -725,7 +725,7 @@ onMounted(() => {
       align-items: center;
       justify-content: center;
       height: 100%;
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
       
       .empty-state-icon {
         font-size: 64px;
@@ -734,13 +734,13 @@ onMounted(() => {
       }
       
       .empty-state-text {
-        font-size: var(--font-size-xl);
+        font-size: var(--harmony-font-size-title-s);
         margin-bottom: 8px;
         font-weight: 500;
       }
       
       .empty-state-hint {
-        font-size: var(--font-size-base);
+        font-size: var(--harmony-font-size-body-m);
         opacity: 0.7;
       }
     }
@@ -777,10 +777,10 @@ onMounted(() => {
       }
       
       .message-content {
-        padding: var(--spacing-md) var(--spacing-lg);
-        border-radius: var(--radius-lg);
+        padding: var(--harmony-padding-level8) var(--harmony-padding-level10);
+        border-radius: var(--harmony-corner-radius-level8);
         line-height: 1.5;
-        font-size: var(--font-size-lg);
+        font-size: var(--harmony-font-size-body-l);
         word-wrap: break-word;
         overflow-wrap: break-word;
         word-break: break-word;
@@ -788,14 +788,14 @@ onMounted(() => {
       }
       
       &.user .message-content {
-        background: var(--color-primary);
+        background: var(--harmony-brand);
         color: white;
         border-bottom-right-radius: 4px;
       }
       
       &.assistant .message-content {
-        background: var(--color-bg-tertiary);
-        color: var(--color-text-primary);
+        background: var(--harmony-comp-background-tertiary);
+        color: var(--harmony-font-primary);
         border-bottom-left-radius: 4px;
       }
     }
@@ -806,7 +806,7 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     min-height: 28px;
-    color: var(--color-primary);
+    color: var(--harmony-brand);
   }
   
   .chat-input-wrapper {
@@ -814,7 +814,7 @@ onMounted(() => {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: var(--spacing-lg) var(--spacing-2xl) 24px;
+    padding: var(--harmony-padding-level10) var(--harmony-padding-level16) 24px;
     background: transparent;
     border-top: none;
     
@@ -827,8 +827,8 @@ onMounted(() => {
 
         .chat-input {
           &:focus {
-            border-color: var(--color-primary);
-            box-shadow: 0 2px 12px var(--color-primary-bg);
+            border-color: var(--harmony-brand);
+            box-shadow: 0 2px 12px var(--harmony-comp-emphasize-tertiary);
           }
         }
 
@@ -837,7 +837,7 @@ onMounted(() => {
 
           &:not(:disabled):hover {
             transform: translateY(-50%) scale(1.08);
-            box-shadow: 0 4px 10px var(--color-primary-bg);
+            box-shadow: 0 4px 10px var(--harmony-comp-emphasize-tertiary);
           }
         }
       }
@@ -849,23 +849,23 @@ onMounted(() => {
 :deep(.event-item) {
   margin: 0 0 4px 0;
   padding: 8px 12px;
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
+  border-radius: var(--harmony-corner-radius-level6);
+  font-size: var(--harmony-font-size-subtitle-s);
   border-left: 3px solid;
   
   &.START {
-    background: var(--color-primary-bg);
-    border-left-color: var(--color-primary);
+    background: var(--harmony-comp-emphasize-tertiary);
+    border-left-color: var(--harmony-brand);
   }
   
   &.END {
-    background: var(--color-success-bg);
-    border-left-color: var(--color-success);
+    background: var(--harmony-confirm-bg);
+    border-left-color: var(--harmony-confirm);
   }
   
   &.ERROR {
-    background: var(--color-danger-bg);
-    border-left-color: var(--color-danger);
+    background: var(--harmony-warning-bg);
+    border-left-color: var(--harmony-warning);
   }
   
   .event-header {
@@ -879,21 +879,21 @@ onMounted(() => {
   .event-icon {
     width: 16px;
     height: 16px;
-    border-radius: var(--radius-full);
+    border-radius: var(--harmony-corner-radius-level18);
     flex-shrink: 0;
   }
   
   &.START .event-icon {
-    background: var(--color-primary);
+    background: var(--harmony-brand);
     animation: pulse 1.5s ease-in-out infinite;
   }
   
   &.END .event-icon {
-    background: var(--color-success);
+    background: var(--harmony-confirm);
   }
   
   &.ERROR .event-icon {
-    background: var(--color-danger);
+    background: var(--harmony-warning);
   }
   
   .event-title {
@@ -902,45 +902,45 @@ onMounted(() => {
   }
   
   &.START .event-title {
-    color: var(--color-primary);
+    color: var(--harmony-brand);
   }
   
   &.END .event-title {
-    color: var(--color-success);
+    color: var(--harmony-confirm);
   }
   
   &.ERROR .event-title {
-    color: var(--color-danger);
+    color: var(--harmony-warning);
   }
   
   .event-status {
     font-size: 11px;
     padding: 2px 8px;
-    border-radius: var(--radius-md);
+    border-radius: var(--harmony-corner-radius-level6);
     font-weight: 500;
   }
   
   &.START .event-status {
-    background: var(--color-primary-bg);
-    color: var(--color-primary);
+    background: var(--harmony-comp-emphasize-tertiary);
+    color: var(--harmony-brand);
   }
   
   &.END .event-status {
-    background: var(--color-success-bg);
-    color: var(--color-success);
+    background: var(--harmony-confirm-bg);
+    color: var(--harmony-confirm);
   }
   
   &.ERROR .event-status {
-    background: var(--color-danger-bg);
-    color: var(--color-danger);
+    background: var(--harmony-warning-bg);
+    color: var(--harmony-warning);
   }
   
   .event-message {
     margin-top: 8px;
     padding: 8px;
-    background: var(--color-bg-overlay);
-    border-radius: var(--radius-sm);
-    font-size: var(--font-size-xs);
+    background: var(--harmony-comp-background-secondary);
+    border-radius: var(--harmony-corner-radius-level4);
+    font-size: var(--harmony-font-size-body-s);
     line-height: 1.5;
   }
 }
@@ -955,7 +955,7 @@ onMounted(() => {
 .interrupt-feedback {
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid var(--color-primary-bg);
+  border-top: 1px solid var(--harmony-comp-emphasize-tertiary);
   
   .interrupt-feedback-input {
     margin-bottom: 10px;
@@ -969,8 +969,8 @@ onMounted(() => {
 }
 
 .processed-hint {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
+  font-size: var(--harmony-font-size-body-s);
+  color: var(--harmony-font-secondary);
   margin-top: 8px;
 }
 
@@ -978,22 +978,22 @@ onMounted(() => {
 :deep(.interrupt-container) {
   margin: 8px 0;
   padding: 16px;
-  background: var(--color-primary-bg);
-  border: 1px solid var(--color-primary-bg);
-  border-radius: var(--radius-lg);
+  background: var(--harmony-comp-emphasize-tertiary);
+  border: 1px solid var(--harmony-comp-emphasize-tertiary);
+  border-radius: var(--harmony-corner-radius-level8);
   
   &.processed {
     opacity: 0.6;
   }
   
   .interrupt-description {
-    font-size: var(--font-size-base);
+    font-size: var(--harmony-font-size-body-m);
     line-height: 1.5;
     margin-bottom: 12px;
     
     p { margin: 0 0 8px 0; &:last-child { margin-bottom: 0; } }
-    code { background: var(--color-border); padding: 2px 5px; border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-sm); }
-    pre { background: var(--shadow-lg); padding: 12px; border-radius: var(--radius-md); overflow-x: auto; margin: 8px 0; code { background: none; padding: 0; } }
+    code { background: var(--harmony-comp-divider); padding: 2px 5px; border-radius: var(--harmony-corner-radius-level4); font-family: var(--harmony-font-family); font-size: var(--harmony-font-size-subtitle-s); }
+    pre { background: var(--harmony-shadow-dialog); padding: 12px; border-radius: var(--harmony-corner-radius-level6); overflow-x: auto; margin: 8px 0; code { background: none; padding: 0; } }
   }
 }
 
@@ -1022,17 +1022,17 @@ onMounted(() => {
   }
   
   code {
-    background: var(--color-border);
+    background: var(--harmony-comp-divider);
     padding: 2px 5px;
-    border-radius: var(--radius-sm);
-    font-family: var(--font-family);
-    font-size: var(--font-size-sm);
+    border-radius: var(--harmony-corner-radius-level4);
+    font-family: var(--harmony-font-family);
+    font-size: var(--harmony-font-size-subtitle-s);
   }
   
   pre {
-    background: var(--shadow-lg);
+    background: var(--harmony-shadow-dialog);
     padding: 12px;
-    border-radius: var(--radius-md);
+    border-radius: var(--harmony-corner-radius-level6);
     overflow-x: auto;
     margin: 8px 0;
     
@@ -1043,10 +1043,10 @@ onMounted(() => {
   }
   
   blockquote {
-    border-left: 3px solid var(--color-border);
+    border-left: 3px solid var(--harmony-comp-divider);
     padding-left: 12px;
     margin: 8px 0;
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
   }
   
   table {
@@ -1055,7 +1055,7 @@ onMounted(() => {
     margin: 8px 0;
     
     th, td {
-      border: 1px solid var(--color-border);
+      border: 1px solid var(--harmony-comp-divider);
       padding: 6px 10px;
       text-align: center;
     }
@@ -1066,13 +1066,13 @@ onMounted(() => {
   }
   
   a {
-    color: var(--color-primary);
+    color: var(--harmony-brand);
     text-decoration: underline;
   }
   
   hr {
     border: none;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--harmony-comp-divider);
     margin: 10px 0;
   }
 }

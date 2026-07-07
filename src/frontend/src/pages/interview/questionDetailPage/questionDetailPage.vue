@@ -121,7 +121,7 @@ onMounted(async () => {
 .loading-state {
   text-align: center;
   padding: 80px 0;
-  color: var(--color-text-secondary);
+  color: var(--harmony-font-secondary);
 }
 
 .empty-state {
@@ -138,7 +138,7 @@ onMounted(async () => {
   }
 
   .empty-text {
-    color: var(--color-text-tertiary);
+    color: var(--harmony-font-tertiary);
   }
 }
 
@@ -152,7 +152,7 @@ onMounted(async () => {
   .back-btn {
     background: none;
     border: none;
-    color: var(--color-primary);
+    color: var(--harmony-brand);
     cursor: pointer;
     font-size: 14px;
     font-family: inherit;
@@ -167,13 +167,13 @@ onMounted(async () => {
   .detail-title {
     font-size: 24px;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
     margin: 0 0 8px;
   }
 
   .detail-skill {
     font-size: 14px;
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
   }
 }
 
@@ -183,7 +183,7 @@ onMounted(async () => {
   .section-label {
     font-size: 14px;
     font-weight: 600;
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
     margin: 0 0 8px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -192,10 +192,10 @@ onMounted(async () => {
   .section-body {
     font-size: 15px;
     line-height: 1.8;
-    color: var(--color-text-primary);
-    background: var(--color-bg-secondary);
+    color: var(--harmony-font-primary);
+    background: var(--harmony-comp-background-secondary);
     padding: 16px 20px;
-    border-radius: var(--radius-md);
+    border-radius: var(--harmony-corner-radius-level6);
     white-space: pre-wrap;
   }
 }
@@ -225,7 +225,7 @@ onMounted(async () => {
 }
 
 .reference-text {
-  border-left: 3px solid var(--color-primary);
+  border-left: 3px solid var(--harmony-brand);
   :deep(p) {
     margin: 0 0 8px;
     &:last-child { margin-bottom: 0; }
@@ -235,6 +235,6 @@ onMounted(async () => {
 .detail-actions {
   margin-top: 32px;
   padding-top: 24px;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--harmony-comp-divider);
 }
 </style>

@@ -99,22 +99,22 @@ function togglePassword() {
   position: relative;
   display: flex;
   align-items: center;
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(8px);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--harmony-comp-divider);
   border-radius: 20px;
-  transition: all var(--duration-fast) var(--easing);
+  transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 .h-input:hover:not(.h-input--disabled) {
-  border-color: var(--color-border-hover);
+  border-color: var(--harmony-interactive-hover);
 }
 .h-input--focused {
-  border-color: var(--color-border-focus);
-  outline: 2px solid var(--color-focus-ring);
+  border-color: var(--harmony-interactive-focus);
+  outline: 2px solid var(--harmony-interactive-focus);
   outline-offset: -1px;
 }
 .h-input--error {
-  border-color: var(--color-error);
+  border-color: var(--harmony-warning);
 }
 .h-input--disabled {
   opacity: 0.5;
@@ -133,14 +133,14 @@ function togglePassword() {
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
-  transition: opacity var(--duration-fast) var(--easing);
+  transition: opacity var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 .h-input:hover .h-input__overlay {
   opacity: 1;
-  background: var(--color-bg-hover);
+  background: var(--harmony-interactive-hover);
 }
 .h-input:active .h-input__overlay {
-  background: var(--color-bg-active);
+  background: var(--harmony-interactive-pressed);
 }
 
 .h-input__inner {
@@ -148,13 +148,13 @@ function togglePassword() {
   border: none;
   outline: none;
   background: transparent;
-  color: var(--color-text-primary);
-  font-size: var(--font-size-base);
-  font-family: var(--font-family);
+  color: var(--harmony-font-primary);
+  font-size: var(--harmony-font-size-body-m);
+  font-family: var(--harmony-font-family);
   min-width: 0;
 }
 .h-input__inner::placeholder {
-  color: var(--color-text-tertiary);
+  color: var(--harmony-font-tertiary);
 }
 .h-input__inner:disabled {
   cursor: not-allowed;
@@ -165,7 +165,7 @@ function togglePassword() {
   display: flex;
   align-items: center;
   gap: 4px;
-  color: var(--color-text-tertiary);
+  color: var(--harmony-font-tertiary);
 }
 .h-input__clear,
 .h-input__toggle {
@@ -174,14 +174,14 @@ function togglePassword() {
   padding: 2px;
 }
 .h-input__clear:hover {
-  color: var(--color-text-primary);
+  color: var(--harmony-font-primary);
 }
 
 .h-input__error {
   position: absolute;
   bottom: -20px;
   left: 0;
-  font-size: var(--font-size-xs);
-  color: var(--color-error);
+  font-size: var(--harmony-font-size-body-s);
+  color: var(--harmony-warning);
 }
 </style>

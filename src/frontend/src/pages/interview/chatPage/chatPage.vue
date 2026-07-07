@@ -66,6 +66,13 @@ watch(() => interviewStore.currentQuestion, () => {
   nextTick(restoreDraft)
 })
 
+// 自动完成场景：最后一个问题回答后，store 自动触发评估，完成后跳转报告页
+watch(() => interviewStore.evaluationId, (newId) => {
+  if (newId && interviewStore.isCompleted) {
+    router.replace({ path: '/interview/report', query: { evaluationId: newId } })
+  }
+})
+
 // --- 答题计时器：当前题目耗时 + 总面试时长 ---
 const questionSeconds = ref(0)
 const totalSeconds = ref(0)
@@ -141,7 +148,8 @@ const endInterview = async () => {
   if (evalId) {
     router.push({ path: '/interview/report', query: { evaluationId: evalId } })
   } else {
-    HMessage.error('结束面试失败')
+    HMessage.error('评估报告生成超时，可在历史记录中查看')
+    router.push('/interview')
   }
 }
 
@@ -186,6 +194,13 @@ onMounted(async () => {
           interviewStore.messages = restoredMessages
           interviewStore.currentQuestion = restoredQuestion
           interviewStore.progress = session.progress
+
+          // 根据 session 创建时间恢复总计时
+          if (session.create_time) {
+            const created = new Date(session.create_time)
+            const now = new Date()
+            totalSeconds.value = Math.floor((now.getTime() - created.getTime()) / 1000)
+          }
         }
       } catch { /* ignore */ }
     }
@@ -243,7 +258,6 @@ onUnmounted(() => {
         <!-- Candidate (user) message -->
         <div v-else class="message-row user">
           <div class="bubble user-bubble">{{ msg.content }}</div>
-          <div class="avatar user-avatar">👤</div>
         </div>
       </div>
 
@@ -272,9 +286,11 @@ onUnmounted(() => {
           type="text"
           size="small"
           class="end-btn"
+          :loading="isTyping"
+          :disabled="isTyping"
           @click="endInterview"
         >
-          结束面试
+          {{ isTyping ? '生成评估中...' : '结束面试' }}
         </HButton>
         <HButton
           type="primary"
@@ -301,13 +317,13 @@ onUnmounted(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
 }
 
 // Progress
 .progress-bar-container {
   padding: 12px 24px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--harmony-comp-divider);
   flex-shrink: 0;
 
   .progress-info {
@@ -318,31 +334,31 @@ onUnmounted(() => {
     .progress-label {
       font-size: 13px;
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
     }
 
     .progress-skill {
       font-size: 12px;
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
     }
 
     .timer-display {
       margin-left: 12px;
       font-size: 12px;
-      color: var(--color-text-tertiary, #9ca3af);
+      color: var(--harmony-font-tertiary);
       font-variant-numeric: tabular-nums; // 等宽数字，避免计时跳动导致布局偏移
     }
   }
 
   .progress-track {
     height: 4px;
-    background: var(--color-bg-secondary);
+    background: var(--harmony-comp-background-secondary);
     border-radius: 2px;
     overflow: hidden;
 
     .progress-fill {
       height: 100%;
-      background: var(--color-primary);
+      background: var(--harmony-brand);
       border-radius: 2px;
       transition: width 0.3s ease;
     }
@@ -392,11 +408,11 @@ onUnmounted(() => {
   flex-shrink: 0;
 
   &.ai-avatar {
-    background: var(--color-primary-bg);
+    background: var(--harmony-comp-emphasize-tertiary);
   }
 
   &.user-avatar {
-    background: var(--color-bg-secondary);
+    background: var(--harmony-comp-background-secondary);
   }
 }
 
@@ -408,14 +424,14 @@ onUnmounted(() => {
   word-break: break-word;
 
   &.ai-bubble {
-    background: var(--color-bg-secondary);
-    color: var(--color-text-primary);
+    background: var(--harmony-comp-background-secondary);
+    color: var(--harmony-font-primary);
     border-top-left-radius: 4px;
   }
 
   &.user-bubble {
-    background: linear-gradient(135deg, var(--color-info), var(--color-primary));
-    color: var(--color-bg);
+    background: var(--harmony-comp-emphasize-tertiary);
+    color: var(--harmony-font-primary);
     border-top-right-radius: 4px;
   }
 }
@@ -430,7 +446,7 @@ onUnmounted(() => {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--color-text-tertiary);
+    background: var(--harmony-font-tertiary);
     animation: typingBounce 1.4s infinite ease-in-out both;
 
     &:nth-child(1) { animation-delay: 0s; }
@@ -447,29 +463,29 @@ onUnmounted(() => {
 // Input area
 .input-area {
   flex-shrink: 0;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--harmony-comp-divider);
   padding: 16px 24px;
 }
 
 .answer-input {
   width: 100%;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level6);
   padding: 12px 16px;
   font-size: 14px;
   font-family: inherit;
   resize: none;
-  background: var(--color-bg);
-  color: var(--color-text-primary);
+  background: var(--harmony-comp-background-primary);
+  color: var(--harmony-font-primary);
   outline: none;
-  transition: border-color var(--duration-fast) var(--easing);
+  transition: border-color var(--harmony-duration-fast) var(--harmony-motion-standard);
 
   &:focus {
-    border-color: var(--color-primary);
+    border-color: var(--harmony-brand);
   }
 
   &::placeholder {
-    color: var(--color-text-tertiary);
+    color: var(--harmony-font-tertiary);
   }
 }
 
@@ -480,7 +496,7 @@ onUnmounted(() => {
   margin-top: 8px;
 
   .end-btn {
-    color: var(--color-danger) !important;
+    color: var(--harmony-warning) !important;
   }
 }
 
@@ -488,12 +504,12 @@ onUnmounted(() => {
 .completed-bar {
   flex-shrink: 0;
   padding: 16px 24px;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--harmony-comp-divider);
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 14px;
-  color: var(--color-text-secondary);
+  color: var(--harmony-font-secondary);
 }
 
 // Markdown rendering inside AI bubbles
@@ -520,7 +536,7 @@ onUnmounted(() => {
     background: rgba(128, 128, 128, 0.15);
     padding: 2px 5px;
     border-radius: 4px;
-    font-family: var(--font-family);
+    font-family: var(--harmony-font-family);
     font-size: 13px;
   }
 

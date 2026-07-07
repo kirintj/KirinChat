@@ -28,11 +28,11 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
 .h-dropdown { position: relative; display: inline-flex; }
 .h-dropdown__menu {
   position: absolute; top: 100%; right: 0; margin-top: 4px; min-width: 140px;
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(20px) saturate(1.2);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--harmony-shadow-dialog);
   z-index: var(--z-dropdown); overflow: hidden;
 }
 </style>

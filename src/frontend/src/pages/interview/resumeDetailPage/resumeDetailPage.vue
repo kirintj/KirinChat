@@ -118,38 +118,38 @@ function goBack() {
   display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
   h2 { margin: 0; font-size: 18px; flex: 1; }
   .back-btn, .pdf-btn {
-    padding: 6px 16px; border-radius: var(--radius-sm);
-    border: 1px solid var(--color-border); background: var(--color-bg);
+    padding: 6px 16px; border-radius: var(--harmony-corner-radius-level4);
+    border: 1px solid var(--harmony-comp-divider); background: var(--harmony-comp-background-primary);
     cursor: pointer; font-size: 13px;
   }
-  .pdf-btn { background: var(--color-primary); color: var(--color-bg); border: none; }
+  .pdf-btn { background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border: none; }
 }
 .score-section {
   text-align: center; margin-bottom: 32px;
   .score-circle {
     display: inline-flex; align-items: center; justify-content: center;
     width: 100px; height: 100px; border-radius: 50%;
-    background: var(--color-primary); color: var(--color-bg); font-size: 32px; font-weight: bold;
+    background: var(--harmony-brand); color: var(--harmony-comp-background-primary); font-size: 32px; font-weight: bold;
   }
-  .score-label { display: block; margin-top: 8px; color: var(--color-text-tertiary); }
+  .score-label { display: block; margin-top: 8px; color: var(--harmony-font-tertiary); }
 }
 .info-section, .skills-section, .suggestions-section {
-  margin-bottom: 24px; padding: 16px; background: var(--color-bg); border-radius: var(--radius-sm);
+  margin-bottom: 24px; padding: 16px; background: var(--harmony-comp-background-primary); border-radius: var(--harmony-corner-radius-level4);
   h3 { margin: 0 0 12px; font-size: 16px; }
-  p { margin: 0; line-height: 1.6; color: var(--color-text-secondary); }
+  p { margin: 0; line-height: 1.6; color: var(--harmony-font-secondary); }
   ul { margin: 0; padding-left: 20px; li { margin-bottom: 4px; line-height: 1.6; } }
 }
 .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .tags {
   display: flex; flex-wrap: wrap; gap: 8px;
-  .tag { padding: 4px 12px; background: var(--color-primary); color: var(--color-bg); border-radius: 4px; font-size: 13px; }
+  .tag { padding: 4px 12px; background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border-radius: 4px; font-size: 13px; }
 }
-.analyzing, .error, .loading { text-align: center; padding: 60px; color: var(--color-text-tertiary); }
+.analyzing, .error, .loading { text-align: center; padding: 60px; color: var(--harmony-font-tertiary); }
 .analyzing { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.error { color: var(--color-danger); }
+.error { color: var(--harmony-warning); }
 .spinner {
-  width: 24px; height: 24px; border: 3px solid var(--color-bg-secondary);
-  border-top-color: var(--color-primary); border-radius: 50%;
+  width: 24px; height: 24px; border: 3px solid var(--harmony-comp-background-secondary);
+  border-top-color: var(--harmony-brand); border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }

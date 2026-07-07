@@ -1,0 +1,92 @@
+<h2>Design Token 体系设计</h2>
+<p class="subtitle">从间接映射迁移到直接引用鸿蒙原生 Token</p>
+
+<div class="section">
+  <h3>现状分析</h3>
+  <div class="mockup">
+    <div class="mockup-header">当前 Token 架构 (3 层间接)</div>
+    <div class="mockup-body" style="padding: 16px; font-family: monospace; font-size: 12px; line-height: 1.8;">
+      <div style="background: #fef7e0; border-left: 4px solid #fbbc04; padding: 8px 12px; margin-bottom: 8px;">
+        <strong>Layer 1: harmony-tokens.css</strong> (549 行, 已从参考项目复制)<br>
+        <code>--harmony-brand, --harmony-font-primary, --harmony-comp-*</code>
+      </div>
+      <div style="text-align: center; color: #5f6368; margin: 4px 0;">↓ @import</div>
+      <div style="background: #e8f0fe; border-left: 4px solid #4285f4; padding: 8px 12px; margin-bottom: 8px;">
+        <strong>Layer 2: style.css (业务映射层)</strong> (272 行)<br>
+        <code>--color-primary: var(--harmony-brand)</code><br>
+        <code>--radius-md: var(--harmony-corner-radius-level6)</code><br>
+        <code>--font-size-base: var(--harmony-font-size-body-m)</code>
+      </div>
+      <div style="text-align: center; color: #5f6368; margin: 4px 0;">↓ 引用</div>
+      <div style="background: #e6f4ea; border-left: 4px solid #34a853; padding: 8px 12px;">
+        <strong>Layer 3: 组件 CSS</strong><br>
+        <code>color: var(--color-text-primary)</code> → 间接指向 <code>--harmony-font-primary</code>
+      </div>
+      <div style="margin-top: 12px; padding: 8px; background: #fce8e6; border-radius: 6px; font-size: 11px;">
+        <strong style="color: #d93025;">问题：</strong>业务别名层 (--color-*, --radius-*) 增加维护成本，且与参考规范不同名，不利于对照验证
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>目标架构</h3>
+  <div class="mockup">
+    <div class="mockup-header">重构后 Token 架构 (2 层直接)</div>
+    <div class="mockup-body" style="padding: 16px; font-family: monospace; font-size: 12px; line-height: 1.8;">
+      <div style="background: #fef7e0; border-left: 4px solid #fbbc04; padding: 8px 12px; margin-bottom: 8px;">
+        <strong>Layer 1: 鸿蒙原生 Token</strong> (来自参考项目，直接复制)<br>
+        <code>harmony-tokens.css</code> — 色彩/字体/交互态/组件色<br>
+        <code>mobile-scale.css</code> — 间距/圆角/控件高度<br>
+        <code>glass-mixins.css</code> — 液态玻璃效果 mixin <span style="color: #1e8e3e;">[新增]</span>
+      </div>
+      <div style="text-align: center; color: #5f6368; margin: 4px 0;">↓ 直接引用</div>
+      <div style="background: #e6f4ea; border-left: 4px solid #34a853; padding: 8px 12px;">
+        <strong>Layer 2: 组件 CSS</strong><br>
+        <code>color: var(--harmony-font-primary)</code> — 直接使用鸿蒙 token 名<br>
+        <code>padding: var(--harmony-padding-level8)</code> — 无中间层<br>
+        <code>background: var(--harmony-comp-background-secondary)</code> — 组件色直接引用
+      </div>
+      <div style="margin-top: 12px; padding: 8px; background: #e6f4ea; border-radius: 6px; font-size: 11px;">
+        <strong style="color: #1e8e3e;">改进：</strong>消除业务别名层，组件直接使用鸿蒙 token 名，与参考模板一一对应
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Token 迁移映射表（关键项）</h3>
+  <div style="font-size: 12px;">
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr style="background: #f8f9fa;">
+        <td style="padding: 8px; border: 1px solid #e8eaed; font-weight: bold;">现有业务变量</td>
+        <td style="padding: 8px; border: 1px solid #e8eaed; font-weight: bold;">→ 鸿蒙原生 Token</td>
+        <td style="padding: 8px; border: 1px solid #e8eaed; font-weight: bold;">动作</td>
+      </tr>
+      <tr><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--color-primary</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--harmony-brand</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed; color: #d93025;">删除别名</td></tr>
+      <tr><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--color-text-primary</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--harmony-font-primary</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed; color: #d93025;">删除别名</td></tr>
+      <tr><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--color-border</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--harmony-comp-divider</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed; color: #d93025;">删除别名</td></tr>
+      <tr><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--radius-md</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--harmony-corner-radius-level6</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed; color: #d93025;">删除别名</td></tr>
+      <tr><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--spacing-md</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--harmony-padding-level8</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed; color: #d93025;">删除别名</td></tr>
+      <tr><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--font-size-base</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--harmony-font-size-body-m</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed; color: #d93025;">删除别名</td></tr>
+      <tr style="background: #fef7e0;"><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>--color-bg (白色强制)</code></td><td style="padding: 6px 8px; border: 1px solid #e8eaed;"><code>#ffffff</code> 保留</td><td style="padding: 6px 8px; border: 1px solid #e8eaed; color: #e37400;">业务约束保留</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h3>新增: glass-mixins.css</h3>
+  <div class="mockup">
+    <div class="mockup-header">液态玻璃效果 Token</div>
+    <div class="mockup-body" style="padding: 16px; font-family: monospace; font-size: 11px; line-height: 1.6; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+      <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(20px) saturate(1.8); -webkit-backdrop-filter: blur(20px) saturate(1.8); border-radius: 12px; padding: 12px; color: white; border: 1px solid rgba(255,255,255,0.2);">
+        <code style="color: #ffd700;">--glass-blur: blur(20px)</code><br>
+        <code style="color: #ffd700;">--glass-saturate: saturate(1.8)</code><br>
+        <code style="color: #ffd700;">--glass-bg: rgba(255,255,255,0.15)</code><br>
+        <code style="color: #ffd700;">--glass-border: 1px solid rgba(255,255,255,0.2)</code><br>
+        <code style="color: #ffd700;">--glass-mix-blend: plus-lighter</code><br>
+        <span style="font-size: 10px; opacity: 0.7;">用于 titlebar、bottomtab、dialog 等浮层组件</span>
+      </div>
+    </div>
+  </div>
+</div>

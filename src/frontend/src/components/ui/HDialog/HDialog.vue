@@ -44,33 +44,33 @@ function close() {
 <style scoped>
 .h-dialog-overlay {
   position: fixed; inset: 0;
-  background: var(--color-overlay);
+  background: var(--harmony-comp-background-secondary);
   display: flex; align-items: center; justify-content: center;
   z-index: var(--z-dialog);
 }
 .h-dialog {
   width: 100%;
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(20px) saturate(1.2);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level16);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--harmony-shadow-dialog);
   overflow: hidden;
 }
 .h-dialog__header {
   display: flex; justify-content: space-between; align-items: center;
   padding: 20px 24px 12px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--harmony-comp-divider);
 }
-.h-dialog__title { font-size: var(--font-size-xl); font-weight: 600; color: var(--color-text-primary); }
+.h-dialog__title { font-size: var(--harmony-font-size-title-s); font-weight: 600; color: var(--harmony-font-primary); }
 .h-dialog__close {
-  cursor: pointer; color: var(--color-text-tertiary); font-size: 16px; padding: 4px;
-  position: relative; overflow: hidden; border-radius: var(--radius-sm);
+  cursor: pointer; color: var(--harmony-font-tertiary); font-size: 16px; padding: 4px;
+  position: relative; overflow: hidden; border-radius: var(--harmony-corner-radius-level4);
 }
-.h-dialog__close:hover { color: var(--color-text-primary); background: var(--color-bg-hover); }
-.h-dialog__close:active { background: var(--color-bg-active); }
-.h-dialog__body { padding: 16px 24px; color: var(--color-text-secondary); }
+.h-dialog__close:hover { color: var(--harmony-font-primary); background: var(--harmony-interactive-hover); }
+.h-dialog__close:active { background: var(--harmony-interactive-pressed); }
+.h-dialog__body { padding: 16px 24px; color: var(--harmony-font-secondary); }
 .h-dialog__footer { display: flex; justify-content: flex-end; gap: 12px; padding: 16px 24px 20px; }
-.h-dialog-enter-active, .h-dialog-leave-active { transition: opacity var(--duration-normal) var(--easing); }
+.h-dialog-enter-active, .h-dialog-leave-active { transition: opacity var(--harmony-duration-normal) var(--harmony-motion-standard); }
 .h-dialog-enter-from, .h-dialog-leave-to { opacity: 0; }
 </style>

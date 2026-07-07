@@ -21,7 +21,7 @@
     display: flex;
     font-size: 25px;
     justify-content: center;
-    color: var(--color-text-tertiary);
+    color: var(--harmony-font-tertiary);
   }
 }
 </style>

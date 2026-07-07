@@ -78,8 +78,10 @@ class InterviewSessionDao:
         difficulty: str = None,
         page: int = 1,
         page_size: int = 20,
+        sort_by: str = "create_time",
+        sort_order: str = "desc",
     ):
-        """一次性查询 session + total_score（LEFT JOIN evaluation_report），支持筛选和分页。
+        """一次性查询 session + total_score（LEFT JOIN evaluation_report），支持筛选、排序和分页。
 
         返回 (rows, total) 其中 rows 是 (InterviewSessionTable, total_score) 元组列表。
         注意：keyword 筛选和 skill_name 需要在 Python 层处理（因为 skill 来自文件系统），
@@ -109,11 +111,24 @@ class InterviewSessionDao:
 
             # keyword 无法在 DB 层筛选（skill_name 来自文件系统），跳过
 
-            # 计算总数
+            # 计算总数（去掉排序与分页，仅基于筛选条件）
             count_query = select(func.count()).select_from(
                 base_query.subquery()
             )
             total = session.exec(count_query).one()
+
+            # 应用排序（在分页之前，确保全局一致）
+            reverse = sort_order.lower() == "desc"
+            if sort_by == "total_score":
+                # total_score 可能为 NULL（未评估），NULLS LAST
+                score_col = EvaluationReportTable.total_score
+                ordered = score_col.desc().nullslast() if reverse else score_col.asc().nullslast()
+                base_query = base_query.order_by(ordered)
+            else:
+                # 默认按 create_time 排序
+                time_col = InterviewSessionTable.create_time
+                ordered = time_col.desc() if reverse else time_col.asc()
+                base_query = base_query.order_by(ordered)
 
             # 分页查询
             offset = (max(1, page) - 1) * max(1, page_size)

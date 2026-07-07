@@ -350,7 +350,7 @@ onMounted(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg);
+  background: var(--harmony-comp-background-primary);
   overflow-y: auto;
 }
 
@@ -358,7 +358,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   padding: 16px 24px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--harmony-comp-divider);
   flex-shrink: 0;
 
   .back-btn {
@@ -367,23 +367,23 @@ onMounted(() => {
     gap: 4px;
     background: none;
     border: none;
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
     cursor: pointer;
     font-size: 14px;
     padding: 4px 8px;
-    border-radius: var(--radius-sm);
-    transition: all var(--duration-fast) var(--easing);
+    border-radius: var(--harmony-corner-radius-level4);
+    transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
     &:hover {
-      color: var(--color-primary);
-      background: var(--color-primary-bg);
+      color: var(--harmony-brand);
+      background: var(--harmony-comp-emphasize-tertiary);
     }
   }
 
   .page-title {
     font-size: 18px;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
     margin: 0;
     flex: 1;
     text-align: center;
@@ -398,7 +398,7 @@ onMounted(() => {
   display: flex;
   gap: 12px;
   padding: 12px 24px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--harmony-comp-divider);
   flex-shrink: 0;
 
   .search-box {
@@ -406,38 +406,38 @@ onMounted(() => {
 
     input {
       width: 100%;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
+      border: 1px solid var(--harmony-comp-divider);
+      border-radius: var(--harmony-corner-radius-level6);
       padding: 8px 12px;
       font-size: 13px;
-      background: var(--color-bg);
-      color: var(--color-text-primary);
+      background: var(--harmony-comp-background-primary);
+      color: var(--harmony-font-primary);
       outline: none;
-      transition: border-color var(--duration-fast) var(--easing);
+      transition: border-color var(--harmony-duration-fast) var(--harmony-motion-standard);
 
       &:focus {
-        border-color: var(--color-primary);
+        border-color: var(--harmony-brand);
       }
 
       &::placeholder {
-        color: var(--color-text-tertiary);
+        color: var(--harmony-font-tertiary);
       }
     }
   }
 
   .filter-select {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level6);
     padding: 8px 12px;
     font-size: 13px;
-    background: var(--color-bg);
-    color: var(--color-text-primary);
+    background: var(--harmony-comp-background-primary);
+    color: var(--harmony-font-primary);
     outline: none;
     cursor: pointer;
     min-width: 100px;
 
     &:focus {
-      border-color: var(--color-primary);
+      border-color: var(--harmony-brand);
     }
   }
 }
@@ -446,7 +446,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   padding: 0 24px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--harmony-comp-divider);
   flex-shrink: 0;
 
   .tab-btn {
@@ -454,18 +454,18 @@ onMounted(() => {
     background: none;
     border: none;
     border-bottom: 2px solid transparent;
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
     font-size: 14px;
     cursor: pointer;
-    transition: all var(--duration-fast) var(--easing);
+    transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
     &:hover {
-      color: var(--color-primary);
+      color: var(--harmony-brand);
     }
 
     &.active {
-      color: var(--color-primary);
-      border-bottom-color: var(--color-primary);
+      color: var(--harmony-brand);
+      border-bottom-color: var(--harmony-brand);
       font-weight: 600;
     }
   }
@@ -477,23 +477,23 @@ onMounted(() => {
 
     .sort-btn {
       background: none;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
+      border: 1px solid var(--harmony-comp-divider);
+      border-radius: var(--harmony-corner-radius-level4);
       padding: 4px 10px;
       font-size: 12px;
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
       cursor: pointer;
-      transition: all var(--duration-fast) var(--easing);
+      transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
       &:hover {
-        border-color: var(--color-primary);
-        color: var(--color-primary);
+        border-color: var(--harmony-brand);
+        color: var(--harmony-brand);
       }
 
       &.active {
-        border-color: var(--color-primary);
-        color: var(--color-primary);
-        background: var(--color-primary-bg);
+        border-color: var(--harmony-brand);
+        color: var(--harmony-brand);
+        background: var(--harmony-comp-emphasize-tertiary);
       }
     }
   }
@@ -507,7 +507,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   padding: 48px 24px;
-  color: var(--color-text-tertiary);
+  color: var(--harmony-font-tertiary);
   font-size: 14px;
   gap: 16px;
 }
@@ -522,11 +522,11 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  border-bottom: 1px solid var(--color-border);
-  transition: background var(--duration-fast) var(--easing);
+  border-bottom: 1px solid var(--harmony-comp-divider);
+  transition: background var(--harmony-duration-fast) var(--harmony-motion-standard);
 
   &:hover {
-    background: var(--color-bg-secondary);
+    background: var(--harmony-comp-background-secondary);
   }
 }
 
@@ -543,7 +543,7 @@ onMounted(() => {
     .skill-name {
       font-size: 15px;
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
     }
 
     .difficulty-tag {
@@ -573,7 +573,7 @@ onMounted(() => {
     display: flex;
     gap: 12px;
     font-size: 12px;
-    color: var(--color-text-tertiary);
+    color: var(--harmony-font-tertiary);
 
     .status-text {
       font-weight: 500;
@@ -589,7 +589,7 @@ onMounted(() => {
   .score-display {
     font-size: 20px;
     font-weight: 700;
-    color: var(--color-primary);
+    color: var(--harmony-brand);
     min-width: 50px;
     text-align: right;
   }
@@ -600,7 +600,7 @@ onMounted(() => {
     align-items: center;
 
     .delete-btn {
-      color: var(--color-danger) !important;
+      color: var(--harmony-warning) !important;
     }
   }
 }
@@ -611,7 +611,7 @@ onMounted(() => {
   justify-content: center;
   gap: 4px;
   padding: 16px 24px;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--harmony-comp-divider);
   flex-shrink: 0;
 
   .page-btn {
@@ -620,22 +620,22 @@ onMounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg);
-    color: var(--color-text-secondary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level4);
+    background: var(--harmony-comp-background-primary);
+    color: var(--harmony-font-secondary);
     font-size: 13px;
     cursor: pointer;
-    transition: all var(--duration-fast) var(--easing);
+    transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
     &:hover:not(:disabled) {
-      border-color: var(--color-primary);
-      color: var(--color-primary);
+      border-color: var(--harmony-brand);
+      color: var(--harmony-brand);
     }
 
     &.active {
-      background: var(--color-primary);
-      border-color: var(--color-primary);
+      background: var(--harmony-brand);
+      border-color: var(--harmony-brand);
       color: #fff;
     }
 
@@ -648,7 +648,7 @@ onMounted(() => {
   .page-info {
     margin-left: 12px;
     font-size: 12px;
-    color: var(--color-text-tertiary);
+    color: var(--harmony-font-tertiary);
   }
 }
 </style>

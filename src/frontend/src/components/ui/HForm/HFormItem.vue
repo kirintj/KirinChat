@@ -19,6 +19,6 @@ defineProps<Props>()
 
 <style scoped>
 .h-form-item { display: flex; flex-direction: column; gap: 6px; }
-.h-form-item__label { font-size: var(--font-size-base); font-weight: 500; color: var(--color-text-primary); }
-.h-form-item__error { font-size: var(--font-size-xs); color: var(--color-error); margin-top: 4px; }
+.h-form-item__label { font-size: var(--harmony-font-size-body-m); font-weight: 500; color: var(--harmony-font-primary); }
+.h-form-item__error { font-size: var(--harmony-font-size-body-s); color: var(--harmony-warning); margin-top: 4px; }
 </style>

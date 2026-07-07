@@ -59,14 +59,14 @@ const icons: Record<string, string> = {
   gap: 8px;
   padding: 10px 20px;
   border-radius: var(--harmony-corner-radius-level10);
-  background: var(--color-bg-secondary);
+  background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(20px) saturate(1.2);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-lg);
-  font-size: var(--font-size-base);
-  color: var(--color-text-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  box-shadow: var(--harmony-shadow-dialog);
+  font-size: var(--harmony-font-size-body-m);
+  color: var(--harmony-font-primary);
   opacity: 0;
-  transition: all var(--duration-normal) var(--easing);
+  transition: all var(--harmony-duration-normal) var(--harmony-motion-standard);
   z-index: var(--z-toast);
   cursor: pointer;
 }
@@ -83,11 +83,11 @@ const icons: Record<string, string> = {
   justify-content: center;
   font-size: 12px;
   font-weight: 700;
-  color: var(--color-on-primary);
+  color: var(--harmony-font-on-primary);
   flex-shrink: 0;
 }
-.h-message--success .h-message__icon { background: var(--color-success); }
-.h-message--error .h-message__icon { background: var(--color-error); }
-.h-message--warning .h-message__icon { background: var(--color-warning); color: var(--color-text-primary); }
-.h-message--info .h-message__icon { background: var(--color-primary); }
+.h-message--success .h-message__icon { background: var(--harmony-confirm); }
+.h-message--error .h-message__icon { background: var(--harmony-warning); }
+.h-message--warning .h-message__icon { background: var(--harmony-alert); color: var(--harmony-font-primary); }
+.h-message--info .h-message__icon { background: var(--harmony-brand); }
 </style>

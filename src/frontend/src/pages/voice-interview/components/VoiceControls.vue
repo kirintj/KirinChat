@@ -42,17 +42,17 @@ const nextPhases: Record<string, string> = { INTRO: 'TECH', TECH: 'PROJECT', PRO
 </template>
 
 <style lang="scss" scoped>
-.voice-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px; border-top: 1px solid var(--color-border, #e5e5e5); }
-.phase-indicator { font-size: 14px; font-weight: 600; color: var(--color-primary); }
+.voice-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px; border-top: 1px solid var(--harmony-comp-divider); }
+.phase-indicator { font-size: 14px; font-weight: 600; color: var(--harmony-brand); }
 .buttons { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 .ctrl-btn {
-  padding: 8px 20px; border-radius: 20px; border: 1px solid var(--color-border, #ddd); background: white; cursor: pointer; font-size: 13px; transition: all 0.2s;
-  &:hover:not(:disabled) { background: var(--color-bg-secondary, #f5f5f5); }
+  padding: 8px 20px; border-radius: 20px; border: 1px solid var(--harmony-comp-divider); background: white; cursor: pointer; font-size: 13px; transition: all 0.2s;
+  &:hover:not(:disabled) { background: var(--harmony-comp-background-secondary); }
   &:disabled { opacity: 0.5; cursor: not-allowed; }
   &.record.active { background: #e74c3c; color: white; border-color: #e74c3c; }
-  &.submit { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+  &.submit { background: var(--harmony-brand); color: white; border-color: var(--harmony-brand); }
   &.end { border-color: #e74c3c; color: #e74c3c; }
 }
 .phase-nav { margin-top: 4px; }
-.phase-btn { padding: 6px 16px; border-radius: 16px; border: 1px dashed var(--color-primary); background: transparent; color: var(--color-primary); cursor: pointer; font-size: 12px; }
+.phase-btn { padding: 6px 16px; border-radius: 16px; border: 1px dashed var(--harmony-brand); background: transparent; color: var(--harmony-brand); cursor: pointer; font-size: 12px; }
 </style>

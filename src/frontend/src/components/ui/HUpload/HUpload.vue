@@ -48,11 +48,11 @@ function onDrop(event: DragEvent) {
 </template>
 
 <style scoped>
-.h-upload__dropzone { border: 2px dashed var(--color-border); border-radius: var(--radius-md); padding: 32px; text-align: center; cursor: pointer; transition: border-color var(--duration-fast) var(--easing), background var(--duration-fast) var(--easing); color: var(--color-text-tertiary); }
-.h-upload__dropzone:hover { border-color: var(--color-primary); background: var(--color-bg-hover); }
-.h-upload__tip em { color: var(--color-primary); font-style: normal; cursor: pointer; }
+.h-upload__dropzone { border: 2px dashed var(--harmony-comp-divider); border-radius: var(--harmony-corner-radius-level6); padding: 32px; text-align: center; cursor: pointer; transition: border-color var(--harmony-duration-fast) var(--harmony-motion-standard), background var(--harmony-duration-fast) var(--harmony-motion-standard); color: var(--harmony-font-tertiary); }
+.h-upload__dropzone:hover { border-color: var(--harmony-brand); background: var(--harmony-interactive-hover); }
+.h-upload__tip em { color: var(--harmony-brand); font-style: normal; cursor: pointer; }
 .h-upload__list { margin-top: 8px; }
-.h-upload__file { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--color-bg-tertiary); border-radius: var(--radius-sm); margin-top: 4px; font-size: var(--font-size-sm); color: var(--color-text-primary); }
-.h-upload__remove { cursor: pointer; color: var(--color-text-tertiary); }
-.h-upload__remove:hover { color: var(--color-danger); }
+.h-upload__file { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--harmony-comp-background-tertiary); border-radius: var(--harmony-corner-radius-level4); margin-top: 4px; font-size: var(--harmony-font-size-subtitle-s); color: var(--harmony-font-primary); }
+.h-upload__remove { cursor: pointer; color: var(--harmony-font-tertiary); }
+.h-upload__remove:hover { color: var(--harmony-warning); }
 </style>

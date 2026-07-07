@@ -107,7 +107,7 @@ defineExpose({ playChunk, playFullAudio, stop, isPlaying })
 .audio-player { display: flex; align-items: center; gap: 8px; }
 .playing-indicator { display: flex; gap: 4px; align-items: flex-end; height: 20px; }
 .dot {
-  width: 4px; height: 4px; border-radius: 50%; background: var(--color-primary);
+  width: 4px; height: 4px; border-radius: 50%; background: var(--harmony-brand);
   animation: bounce 0.6s infinite alternate;
   &:nth-child(2) { animation-delay: 0.2s; }
   &:nth-child(3) { animation-delay: 0.4s; }

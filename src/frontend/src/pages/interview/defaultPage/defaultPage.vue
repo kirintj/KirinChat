@@ -193,13 +193,13 @@ onMounted(() => {
   .page-title {
     font-size: 24px;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
     margin: 0 0 8px;
   }
 
   .page-subtitle {
     font-size: 14px;
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
     margin: 0;
   }
 }
@@ -207,7 +207,7 @@ onMounted(() => {
 .loading-state {
   text-align: center;
   padding: 60px 0;
-  color: var(--color-text-secondary);
+  color: var(--harmony-font-secondary);
 }
 
 .empty-state {
@@ -220,7 +220,7 @@ onMounted(() => {
   }
 
   .empty-text {
-    color: var(--color-text-tertiary);
+    color: var(--harmony-font-tertiary);
   }
 }
 
@@ -234,15 +234,15 @@ onMounted(() => {
   display: flex;
   gap: 16px;
   padding: 20px;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level6);
   cursor: pointer;
-  transition: all var(--duration-fast) var(--easing);
+  transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
   &:hover {
-    border-color: var(--color-primary);
-    box-shadow: var(--shadow-card);
+    border-color: var(--harmony-brand);
+    box-shadow: var(--harmony-shadow-card);
     transform: translateY(-2px);
   }
 
@@ -253,8 +253,8 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     font-size: 28px;
-    background: var(--color-primary-bg);
-    border-radius: var(--radius-md);
+    background: var(--harmony-comp-emphasize-tertiary);
+    border-radius: var(--harmony-corner-radius-level6);
     flex-shrink: 0;
   }
 
@@ -265,13 +265,13 @@ onMounted(() => {
     .skill-name {
       font-size: 16px;
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
       margin-bottom: 4px;
     }
 
     .skill-desc {
       font-size: 13px;
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
       margin-bottom: 8px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -287,8 +287,8 @@ onMounted(() => {
       .category-tag {
         font-size: 11px;
         padding: 2px 8px;
-        background: var(--color-bg-secondary);
-        color: var(--color-text-secondary);
+        background: var(--harmony-comp-background-secondary);
+        color: var(--harmony-font-secondary);
         border-radius: 4px;
       }
     }
@@ -303,7 +303,7 @@ onMounted(() => {
 .back-btn {
   background: none;
   border: none;
-  color: var(--color-primary);
+  color: var(--harmony-brand);
   cursor: pointer;
   font-size: 14px;
   font-family: inherit;
@@ -321,7 +321,7 @@ onMounted(() => {
   align-items: center;
   margin-bottom: 32px;
   padding-bottom: 24px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--harmony-comp-divider);
 
   .config-icon {
     width: 64px;
@@ -330,21 +330,21 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     font-size: 36px;
-    background: var(--color-primary-bg);
-    border-radius: var(--radius-lg);
+    background: var(--harmony-comp-emphasize-tertiary);
+    border-radius: var(--harmony-corner-radius-level8);
     flex-shrink: 0;
   }
 
   .config-title {
     font-size: 22px;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
     margin: 0 0 4px;
   }
 
   .config-desc {
     font-size: 14px;
-    color: var(--color-text-secondary);
+    color: var(--harmony-font-secondary);
     margin: 0;
   }
 }
@@ -355,7 +355,7 @@ onMounted(() => {
   .section-label {
     font-size: 14px;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: var(--harmony-font-primary);
     margin-bottom: 12px;
   }
 }
@@ -367,31 +367,31 @@ onMounted(() => {
   .diff-option {
     flex: 1;
     padding: 16px;
-    background: var(--color-bg);
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-md);
+    background: var(--harmony-comp-background-primary);
+    border: 2px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level6);
     cursor: pointer;
-    transition: all var(--duration-fast) var(--easing);
+    transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
     &:hover {
-      border-color: var(--color-primary);
+      border-color: var(--harmony-brand);
     }
 
     &.active {
-      border-color: var(--color-primary);
-      background: var(--color-primary-bg);
+      border-color: var(--harmony-brand);
+      background: var(--harmony-comp-emphasize-tertiary);
     }
 
     .diff-label {
       font-size: 15px;
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--harmony-font-primary);
       margin-bottom: 4px;
     }
 
     .diff-desc {
       font-size: 12px;
-      color: var(--color-text-secondary);
+      color: var(--harmony-font-secondary);
     }
   }
 }
@@ -402,23 +402,23 @@ onMounted(() => {
 
   .count-option {
     padding: 10px 24px;
-    background: var(--color-bg);
-    border: 2px solid var(--color-border);
-    border-radius: var(--radius-md);
+    background: var(--harmony-comp-background-primary);
+    border: 2px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level6);
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
-    color: var(--color-text-primary);
-    transition: all var(--duration-fast) var(--easing);
+    color: var(--harmony-font-primary);
+    transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
     &:hover {
-      border-color: var(--color-primary);
+      border-color: var(--harmony-brand);
     }
 
     &.active {
-      border-color: var(--color-primary);
-      background: var(--color-primary-bg);
-      color: var(--color-primary);
+      border-color: var(--harmony-brand);
+      background: var(--harmony-comp-emphasize-tertiary);
+      color: var(--harmony-brand);
     }
   }
 }
@@ -430,29 +430,29 @@ onMounted(() => {
 
 .alternative-entry {
   margin-top: 24px; text-align: center;
-  .divider { color: var(--color-text-tertiary); margin-bottom: 16px; }
+  .divider { color: var(--harmony-font-tertiary); margin-bottom: 16px; }
   .entry-buttons { display: flex; gap: 16px; justify-content: center; }
   .entry-btn {
-    padding: 12px 24px; border-radius: var(--radius-sm);
-    border: 1px dashed var(--color-border); background: var(--color-bg);
+    padding: 12px 24px; border-radius: var(--harmony-corner-radius-level4);
+    border: 1px dashed var(--harmony-comp-divider); background: var(--harmony-comp-background-primary);
     cursor: pointer; font-size: 14px; transition: all 0.2s;
-    &:hover { border-color: var(--color-primary); color: var(--color-primary); }
+    &:hover { border-color: var(--harmony-brand); color: var(--harmony-brand); }
 
     &.voice-btn {
       display: flex;
       align-items: center;
       gap: 12px;
-      border: 1px solid var(--color-primary);
-      background: var(--color-primary-bg);
+      border: 1px solid var(--harmony-brand);
+      background: var(--harmony-comp-emphasize-tertiary);
       border-style: solid;
       padding: 14px 24px;
       .btn-icon { font-size: 24px; flex-shrink: 0; }
       .btn-text { display: flex; flex-direction: column; text-align: left; }
-      .btn-title { font-weight: 600; font-size: 15px; color: var(--color-text-primary); }
-      .btn-desc { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+      .btn-title { font-weight: 600; font-size: 15px; color: var(--harmony-font-primary); }
+      .btn-desc { font-size: 12px; color: var(--harmony-font-secondary); margin-top: 2px; }
       &:hover {
-        border-color: var(--color-primary-hover, var(--color-primary));
-        box-shadow: var(--shadow-card);
+        border-color: var(--harmony-interactive-hover));
+        box-shadow: var(--harmony-shadow-card);
         transform: translateY(-1px);
         color: inherit;
       }

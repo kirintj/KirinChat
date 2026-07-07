@@ -133,31 +133,31 @@ const testFileUpload = async (event: Event) => {
 .test-section {
   margin-bottom: 30px;
   padding: 20px;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--harmony-comp-divider);
   border-radius: 8px;
 }
 
 .test-section h3 {
   margin-bottom: 15px;
-  color: var(--color-text-primary);
+  color: var(--harmony-font-primary);
 }
 
 .chat-log {
   max-height: 300px;
   overflow-y: auto;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--harmony-comp-divider);
   padding: 10px;
-  background-color: var(--color-bg-secondary);
+  background-color: var(--harmony-comp-background-secondary);
 }
 
 .message {
   margin-bottom: 10px;
   padding: 8px;
-  background-color: var(--color-bg);
+  background-color: var(--harmony-comp-background-primary);
   border-radius: 4px;
 }
 
 .message strong {
-  color: var(--color-primary);
+  color: var(--harmony-brand);
 }
 </style> 
