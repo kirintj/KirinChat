@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { HMessage } from '@/components/ui'
 import { getInterviewHistoryAPI, deleteInterviewSessionAPI } from '../../apis/interview'
 import type { InterviewSession } from '../../apis/interview'
 import { useInterviewStore } from '../../store/interview'
 
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 const router = useRouter()
 const interviewStore = useInterviewStore()
 const sessions = ref<InterviewSession[]>([])
@@ -96,7 +97,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="interview-container">
+  <!-- Desktop: sidebar + content layout -->
+  <div v-if="!isMobile" class="interview-container">
     <div class="sidebar">
       <div class="hub-nav">
         <!-- 面试中心导航按钮，点击跳转到面试中心仪表盘页面 -->
@@ -153,6 +155,35 @@ onMounted(() => {
 
     <div class="content">
       <router-view />
+    </div>
+  </div>
+
+  <!-- Mobile: hmos mobile-list -->
+  <div v-else class="interview-mobile">
+    <!-- Create button -->
+    <div class="im-header">
+      <button class="im-create-btn" @click="startNewInterview">+ 新建面试</button>
+    </div>
+
+    <!-- Session list -->
+    <div class="im-list" v-if="sessions.length > 0">
+      <div
+        v-for="session in sessions"
+        :key="session.id"
+        class="im-item"
+        @click="selectSession(session)"
+      >
+        <div class="im-item__icon">📋</div>
+        <div class="im-item__content">
+          <h3 class="im-item__name">{{ session.skill_name || session.skill_id || '面试会话' }}</h3>
+          <p class="im-item__time">{{ formatTime(session.create_time || '') }}</p>
+        </div>
+        <button class="im-item__delete" @click.stop="deleteSession(session.id, $event)">×</button>
+      </div>
+    </div>
+
+    <div v-else class="im-empty">
+      <p>暂无面试记录</p>
     </div>
   </div>
 </template>
@@ -380,5 +411,118 @@ onMounted(() => {
   min-height: 0;
   background: var(--harmony-comp-background-primary);
   overflow: hidden;
+}
+
+/* ==================== MOBILE: hmos mobile-list ==================== */
+.interview-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-section-gap-mobile, 16px);
+  padding-top: var(--harmony-padding-level8, 16px);
+}
+
+.im-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.im-create-btn {
+  height: var(--harmony-control-height-40, 40px);
+  padding: 0 var(--harmony-padding-level8, 16px);
+  background: var(--harmony-brand);
+  color: white;
+  border: none;
+  border-radius: var(--harmony-corner-radius-level6, 12px);
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.im-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-card-gap-mobile, 12px);
+}
+
+.im-item {
+  display: flex;
+  align-items: center;
+  gap: var(--harmony-padding-level6, 12px);
+  padding: var(--harmony-padding-level6, 12px);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:active {
+    background: var(--harmony-interactive-pressed);
+  }
+
+  &__icon {
+    width: var(--harmony-control-height-40, 40px);
+    height: var(--harmony-control-height-40, 40px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--harmony-comp-background-secondary);
+    border-radius: var(--harmony-corner-radius-level6, 12px);
+    flex-shrink: 0;
+    font-size: 20px;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: var(--harmony-font-size-body-m);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+    margin: 0 0 var(--harmony-padding-level1, 2px) 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__time {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-tertiary);
+    margin: 0;
+  }
+
+  &__delete {
+    width: var(--harmony-control-height-36, 36px);
+    height: var(--harmony-control-height-36, 36px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: var(--harmony-corner-radius-level4, 8px);
+    color: var(--harmony-font-tertiary);
+    font-size: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &:active {
+      background: var(--harmony-interactive-pressed);
+      color: var(--harmony-warning);
+    }
+  }
+}
+
+.im-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+
+  p {
+    font-size: var(--harmony-font-size-body-m);
+    color: var(--harmony-font-tertiary);
+    margin: 0;
+  }
 }
 </style>
