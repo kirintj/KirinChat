@@ -20,7 +20,7 @@
 
 ### 1.1 方案选择
 
-采用 **HAppShell 中心化改造** 方案：扩展现有 HAppShell 组件，在模板中通过 `v-if="isMobile"` 切换桌面端和移动端两套布局。
+采用 **HAppShell 中心化改造** 方案：扩展现有 HAppShell 组件，在模板中通过 `v-if="isMobile"` 切换桌面端和移动端两套布局。断点为 `768px`（沿用现有 HAppShell 的 BREAKPOINT 常量）。
 
 ### 1.2 文件改动清单
 
@@ -175,9 +175,27 @@ MCP、知识库、工具、Skill、面试、模型、数据看板
 - **HBottomTab**：固定底部，z-index: 100，毛玻璃 pill bar，内容通过 padding-bottom 预留安全区
 - **内容区**：flex: 1，可滚动，从 titlebar 背后滚过形成渐变模糊效果
 
-### 3.3 二级入口
+### 3.3 Titlebar 动态标题
 
-bottomtab 4 个核心 tab 之外的 7 个功能，通过 titlebar 右侧"更多"图标按钮打开 HDrawer 抽屉，抽屉内展示网格入口。
+移动端 titlebar 标题根据当前 bottomtab 活跃 tab 动态更新：
+
+| Tab | Titlebar 标题 | Variant |
+|-----|--------------|---------|
+| 工作台 | 工作台 | normal |
+| 探索 | 探索 | big |
+| 会话 | 会话 | normal |
+| 智能体 | 智能体 | normal |
+
+通过 `useNavigation` composable 提供 `getTitleByRoute(route)` 方法，index.vue 根据当前路由计算 titlebar title。
+
+### 3.4 二级入口 Drawer
+
+bottomtab 4 个核心 tab 之外的 7 个功能，通过 titlebar 右侧"更多"图标按钮打开 HDrawer 抽屉：
+
+- **触发**：titlebar actions 插槽中放置"更多"图标按钮
+- **Drawer 内容**：2 列网格布局，每个入口为图标 + 文字的卡片
+- **入口列表**：MCP、知识库、工具、Skill、面试、模型、数据看板
+- **点击行为**：跳转到对应路由，自动关闭 drawer
 
 ---
 
