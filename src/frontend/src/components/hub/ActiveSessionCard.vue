@@ -1,15 +1,13 @@
 <script setup lang="ts">
-// 进行中的面试卡片：展示技能名称和答题进度，点击继续面试
+import { HCardView } from '@/components/ui'
+
 defineProps<{
-  skillName: string                    // 技能方向的中文名称
-  progress: { current: number; total: number }  // 已答/总题数
+  skillName: string
+  progress: { current: number; total: number }
 }>()
 
-const emit = defineEmits<{
-  click: []  // 点击跳转到对应面试的聊天页
-}>()
+const emit = defineEmits<{ click: [] }>()
 
-// 计算进度百分比，用于进度条宽度
 const progressPercent = (current: number, total: number) => {
   if (total === 0) return 0
   return Math.round((current / total) * 100)
@@ -17,13 +15,14 @@ const progressPercent = (current: number, total: number) => {
 </script>
 
 <template>
-  <div class="active-session-card" @click="emit('click')">
-    <div class="card-header">
-      <span class="skill-name">{{ skillName }}</span>
-      <span class="status-badge">进行中</span>
-    </div>
+  <HCardView size="medium" clickable @click="emit('click')">
+    <template #header>
+      <div class="card-header">
+        <span class="skill-name">{{ skillName }}</span>
+        <span class="status-badge">进行中</span>
+      </div>
+    </template>
     <div class="progress-section">
-      <!-- 进度条：通过内联样式动态设置填充宽度 -->
       <div class="progress-bar">
         <div
           class="progress-fill"
@@ -32,30 +31,14 @@ const progressPercent = (current: number, total: number) => {
       </div>
       <span class="progress-text">{{ progress.current }}/{{ progress.total }} 题</span>
     </div>
-  </div>
+  </HCardView>
 </template>
 
 <style lang="scss" scoped>
-.active-session-card {
-  padding: 16px;
-  border-radius: var(--harmony-corner-radius-level5);
-  border: 1px solid var(--border-color, var(--harmony-comp-divider));
-  background: var(--bg-primary, #ffffff);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 200px;  // 保证卡片在水平滚动中有最小宽度
-
-  &:hover {
-    border-color: var(--primary-color, var(--harmony-brand));
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  }
-}
-
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
 }
 
 .skill-name {
@@ -66,36 +49,36 @@ const progressPercent = (current: number, total: number) => {
 
 .status-badge {
   font-size: var(--harmony-font-size-caption-l);
-  padding: 2px 8px;
+  padding: var(--harmony-padding-level1) var(--harmony-padding-level4);
   border-radius: var(--harmony-corner-radius-level5);
-  background: var(--primary-light, var(--harmony-comp-emphasize-tertiary));
-  color: var(--primary-color, var(--harmony-brand));
+  background: var(--harmony-comp-emphasize-tertiary);
+  color: var(--harmony-brand);
 }
 
 .progress-section {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--harmony-padding-level5);
 }
 
 .progress-bar {
   flex: 1;
-  height: 6px;
+  height: var(--harmony-padding-level3);
   border-radius: var(--harmony-corner-radius-level2);
-  background: var(--bg-secondary, var(--harmony-comp-background-tertiary));
+  background: var(--harmony-comp-background-tertiary);
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
   border-radius: var(--harmony-corner-radius-level2);
-  background: var(--primary-color, var(--harmony-brand));
-  transition: width 0.3s ease;  // 平滑过渡，避免进度突变
+  background: var(--harmony-brand);
+  transition: width var(--harmony-duration-normal) var(--harmony-motion-standard);
 }
 
 .progress-text {
   font-size: var(--harmony-font-size-body-s);
   color: var(--harmony-font-secondary);
-  white-space: nowrap;  // 防止"X/Y 题"文字换行
+  white-space: nowrap;
 }
 </style>

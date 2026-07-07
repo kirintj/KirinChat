@@ -272,7 +272,7 @@ onMounted(() => {
 
 .section-link {
   font-size: var(--harmony-font-size-subtitle-s);
-  color: var(--primary-color, var(--harmony-brand));
+  color: var(--harmony-brand);
   cursor: pointer;
 
   &:hover {
@@ -318,7 +318,7 @@ onMounted(() => {
   text-align: center;
   padding: 32px 16px;
   border-radius: var(--harmony-corner-radius-level5);
-  border: 1px dashed var(--border-color, var(--harmony-comp-divider));
+  border: 1px dashed var(--harmony-comp-divider);
 }
 
 .empty-text {
@@ -330,14 +330,14 @@ onMounted(() => {
 .empty-btn {
   padding: 8px 20px;
   border-radius: var(--harmony-corner-radius-level4);
-  border: 1px solid var(--primary-color, var(--harmony-brand));
+  border: 1px solid var(--harmony-brand);
   background: transparent;
-  color: var(--primary-color, var(--harmony-brand));
+  color: var(--harmony-brand);
   font-size: var(--harmony-font-size-subtitle-s);
   cursor: pointer;
 
   &:hover {
-    background: var(--primary-light, var(--harmony-comp-emphasize-tertiary));
+    background: var(--harmony-comp-emphasize-tertiary);
   }
 }
 

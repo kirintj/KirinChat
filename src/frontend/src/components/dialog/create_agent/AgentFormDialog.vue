@@ -309,7 +309,7 @@ defineExpose({ open, close })
           <div class="dialog-header">
             <div class="header-left">
               <svg class="header-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25Z" fill="#409eff"/>
+                <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25Z" fill="currentColor" style="color: var(--harmony-brand)"/>
               </svg>
               <span class="header-title">{{ isEditing ? "编辑助手" : "助手配置" }}</span>
             </div>
@@ -330,7 +330,7 @@ defineExpose({ open, close })
                   <div class="assistant-avatar">
                     <img v-if="formData.logo_url" :src="formData.logo_url" alt="头像" />
                     <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 2L13.09 8.26L19 7L18.74 13.74L24 12L17.74 16.74L19 19L13.74 18.26L12 22L10.26 16.74L5 17L5.26 10.26L2 12L8.26 7.26L7 5L12.26 5.74L12 2Z" fill="#409eff"/>
+                      <path d="M12 2L13.09 8.26L19 7L18.74 13.74L24 12L17.74 16.74L19 19L13.74 18.26L12 22L10.26 16.74L5 17L5.26 10.26L2 12L8.26 7.26L7 5L12.26 5.74L12 2Z" fill="currentColor" style="color: var(--harmony-brand)"/>
                     </svg>
                   </div>
                   <div class="assistant-info">
@@ -390,7 +390,7 @@ defineExpose({ open, close })
                           <img v-else-if="formData.logo_url" :src="formData.logo_url" alt="头像" />
                           <div v-else class="upload-placeholder">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M12 5v14M5 12h14" stroke="#ddd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M12 5v14M5 12h14" stroke="var(--harmony-comp-divider)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             <span>点击上传头像</span>
                           </div>
@@ -446,7 +446,7 @@ defineExpose({ open, close })
                     </svg>
                     <span>知识库</span>
                     <svg class="add-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 2L13.09 8.26L19 7L18.74 13.74L24 12L17.74 16.74L19 19L13.74 18.26L12 22L10.26 16.74L5 17L5.26 10.26L2 12L8.26 7.26L7 5L12.26 5.74L12 2Z" fill="#409eff"/>
+                      <path d="M12 2L13.09 8.26L19 7L18.74 13.74L24 12L17.74 16.74L19 19L13.74 18.26L12 22L10.26 16.74L5 17L5.26 10.26L2 12L8.26 7.26L7 5L12.26 5.74L12 2Z" fill="currentColor" style="color: var(--harmony-brand)"/>
                     </svg>
                   </div>
                   <div v-show="collapseItems.knowledgeBase" class="section-content">
@@ -476,7 +476,7 @@ defineExpose({ open, close })
                     </svg>
                     <span>工具</span>
                     <svg class="add-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 2L13.09 8.26L19 7L18.74 13.74L24 12L17.74 16.74L19 19L13.74 18.26L12 22L10.26 16.74L5 17L5.26 10.26L2 12L8.26 7.26L7 5L12.26 5.74L12 2Z" fill="#409eff"/>
+                      <path d="M12 2L13.09 8.26L19 7L18.74 13.74L24 12L17.74 16.74L19 19L13.74 18.26L12 22L10.26 16.74L5 17L5.26 10.26L2 12L8.26 7.26L7 5L12.26 5.74L12 2Z" fill="currentColor" style="color: var(--harmony-brand)"/>
                     </svg>
                   </div>
                   <div v-show="collapseItems.tools" class="section-content">
@@ -506,7 +506,7 @@ defineExpose({ open, close })
                     </svg>
                     <span>技能</span>
                     <svg class="add-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 2L13.09 8.26L19 7L18.74 13.74L24 12L17.74 16.74L19 19L13.74 18.26L12 22L10.26 16.74L5 17L5.26 10.26L2 12L8.26 7.26L7 5L12.26 5.74L12 2Z" fill="#409eff"/>
+                      <path d="M12 2L13.09 8.26L19 7L18.74 13.74L24 12L17.74 16.74L19 19L13.74 18.26L12 22L10.26 16.74L5 17L5.26 10.26L2 12L8.26 7.26L7 5L12.26 5.74L12 2Z" fill="currentColor" style="color: var(--harmony-brand)"/>
                     </svg>
                   </div>
                   <div v-show="collapseItems.skills" class="section-content">
