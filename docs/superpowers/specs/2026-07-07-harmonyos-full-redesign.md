@@ -215,15 +215,16 @@ src/frontend/src/
 | HButton | 对齐参考规范：5 类型 × 2 尺寸 × 6 状态 = 60 变体，液态玻璃填充 |
 | HChipsTab | 对齐参考规范：胶囊标签栏，3 变体（替代现有 HTabs 的胶囊模式，HTabs 保留用于标准标签页） |
 
-### 保留升级组件
+### 全面重构组件
 
 HDialog、HDrawer、HDropdown/DropdownItem、HForm/FormItem、HInput、HSelect/HOption、HTabs/TabPane、HTooltip、HUpload、HAvatar、HSkeleton、HMessage/HMessageBox、HScrollbar、HTable、HTag
 
-升级内容：
-- 所有 `--color-*` / `--radius-*` / `--spacing-*` 引用替换为 `--harmony-*` 原生 token
-- 添加五态交互层（hover / pressed / focus / active / select）使用 `::before` / `::after` 伪元素
-- 浮层组件添加液态玻璃效果
-- 数值基线对齐 `component.json` 中的 `numeric_baseline`
+重构内容（与新建/重构组件统一标准）：
+- 对齐参考规范数值基线（`component.json` 中的 `numeric_baseline`）
+- 五态交互层（hover / pressed / focus / active / select）使用 `::before` / `::after` 伪元素
+- 浮层组件（HDialog、HDrawer、HDropdown、HTooltip）添加液态玻璃效果
+- 所有 token 引用统一为 `--harmony-*` 原生 token
+- 样式结构与新建组件保持一致的代码规范
 
 ### HIcon 双模式扩展
 
@@ -317,7 +318,7 @@ HDialog、HDrawer、HDropdown/DropdownItem、HForm/FormItem、HInput、HSelect/H
 
 1. 新建 HSearch、HSwitch、HToolbar、HList、HDivider、HCardView（按参考模板）
 2. 重构 HButton、HChipsTab（对齐参考规范数值基线 + 交互态）
-3. 保留升级 HDialog、HDrawer、HDropdown 等 13 个组件（Token 直引 + 交互态 + 液态玻璃）
+3. 全面重构 HDialog、HDrawer、HDropdown 等 15 个组件（统一标准：数值基线 + 五态交互 + 液态玻璃 + Token 直引）
 4. HIcon 双模式扩展（HMSymbol + SVG 降级）
 5. 注册新组件到 UI 插件（main.ts 中 app.use(UI)）
 
