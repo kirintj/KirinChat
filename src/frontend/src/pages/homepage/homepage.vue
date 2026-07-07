@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 const searchQuery = ref('')
 
 const isMac = computed(() => {
@@ -35,14 +36,13 @@ const handleExampleClick = (_: any, index: number) => {
 </script>
 
 <template>
-  <div class="homepage">
-    <!-- Logo -->
+  <!-- ==================== DESKTOP ==================== -->
+  <div v-if="!isMobile" class="homepage">
     <div class="logo-section">
       <img src="../../assets/mars-agent.svg" alt="Mars Agent" class="logo" />
       <h1 class="brand-name">Mars Agent</h1>
     </div>
 
-    <!-- 搜索框 -->
     <div class="search-section">
       <div class="search-box">
         <textarea
@@ -57,7 +57,6 @@ const handleExampleClick = (_: any, index: number) => {
       </div>
     </div>
 
-    <!-- 案例 -->
     <div class="examples-section">
       <div class="examples-grid">
         <div
@@ -75,9 +74,47 @@ const handleExampleClick = (_: any, index: number) => {
       </div>
     </div>
   </div>
+
+  <!-- ==================== MOBILE: hmos mobile-card ==================== -->
+  <div v-else class="homepage-mobile">
+    <!-- Search (first scrollable content item, overlaps titlebar) -->
+    <section class="hm-search">
+      <div class="hm-search__box">
+        <textarea
+          v-model="searchQuery"
+          placeholder="Mars Agent会完成你的任务并输出结果。"
+          class="hm-search__input"
+          @keydown="handleKeydown"
+        ></textarea>
+        <button class="hm-search__btn" @click="handleSearch">➤</button>
+      </div>
+    </section>
+
+    <!-- Section: examples -->
+    <section class="hm-section">
+      <header class="hm-section__header">
+        <h2 class="hm-section__title">推荐案例</h2>
+      </header>
+      <div class="hm-grid-2col">
+        <div
+          v-for="(example, index) in examples"
+          :key="index"
+          class="hm-card"
+          @click="handleExampleClick(example, index)"
+        >
+          <div class="hm-card__header">
+            <h3 class="hm-card__title">{{ example.title }}</h3>
+            <span class="hm-card__tag">{{ example.category }}</span>
+          </div>
+          <p class="hm-card__desc">{{ example.description }}</p>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <style lang="scss" scoped>
+/* ==================== DESKTOP ==================== */
 .homepage {
   height: 100%;
   display: flex;
@@ -89,7 +126,6 @@ const handleExampleClick = (_: any, index: number) => {
   background: transparent;
 }
 
-/* Logo */
 .logo-section {
   display: flex;
   align-items: center;
@@ -108,7 +144,6 @@ const handleExampleClick = (_: any, index: number) => {
   }
 }
 
-/* 搜索框 */
 .search-section {
   width: 100%;
   max-width: 500px;
@@ -167,7 +202,6 @@ const handleExampleClick = (_: any, index: number) => {
   }
 }
 
-/* 案例 */
 .examples-section {
   width: 100%;
   max-width: 560px;
@@ -226,20 +260,144 @@ const handleExampleClick = (_: any, index: number) => {
   }
 }
 
-/* 移动端适配 */
-@media (max-width: 768px) {
-  .homepage {
-    justify-content: flex-start;
-    padding-top: 16px;
-    gap: 16px;
+/* ==================== MOBILE: hmos mobile-card ==================== */
+.homepage-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-section-gap-mobile, 16px);
+  padding-top: var(--harmony-padding-level8, 16px);
+}
+
+/* Search bar — first scrollable content item */
+.hm-search {
+  position: relative;
+  z-index: 30;
+
+  &__box {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--harmony-padding-level4, 8px);
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level8, 16px);
+    padding: var(--harmony-padding-level6, 12px);
+    transition: border-color 0.15s ease;
+
+    &:focus-within {
+      border-color: var(--harmony-brand);
+    }
   }
 
-  .search-section {
-    max-width: 100%;
+  &__input {
+    flex: 1;
+    min-height: 40px;
+    border: none;
+    background: transparent;
+    padding: var(--harmony-padding-level2, 4px);
+    font-size: var(--harmony-font-size-body-m);
+    line-height: 1.5;
+    color: var(--harmony-font-primary);
+    resize: none;
+    font-family: inherit;
+
+    &::placeholder {
+      color: var(--harmony-font-tertiary);
+    }
   }
 
-  .examples-section {
-    max-width: 100%;
+  &__btn {
+    width: var(--harmony-control-height-36, 36px);
+    height: var(--harmony-control-height-36, 36px);
+    flex-shrink: 0;
+    background: var(--harmony-brand);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: var(--harmony-font-size-body-m);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Section with header */
+.hm-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-padding-level6, 12px);
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: var(--harmony-font-size-body-l, 16px);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+    margin: 0;
+  }
+}
+
+/* 2-column card grid (156px + 16px gap + 156px = 328px) */
+.hm-grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--harmony-card-gap-mobile, 12px);
+}
+
+/* Card */
+.hm-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-padding-level4, 8px);
+  padding: var(--harmony-padding-level8, 16px);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:active {
+    background: var(--harmony-interactive-pressed);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--harmony-padding-level4, 8px);
+  }
+
+  &__title {
+    font-size: var(--harmony-font-size-body-m);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__tag {
+    flex-shrink: 0;
+    font-size: var(--harmony-font-size-caption-l, 12px);
+    color: var(--harmony-font-tertiary);
+    background: var(--harmony-comp-background-secondary);
+    padding: var(--harmony-padding-level1, 2px) var(--harmony-padding-level4, 8px);
+    border-radius: var(--harmony-corner-radius-level4, 8px);
+  }
+
+  &__desc {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 </style>
