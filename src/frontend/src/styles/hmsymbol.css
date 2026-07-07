@@ -1,0 +1,20 @@
+/*
+ * HMSymbol 图标字体引入
+ * 来源: hmos-design-visual-mobile-master/assets/
+ */
+
+@font-face {
+  font-family: 'HMSymbol';
+  src: url('../assets/HMSymbolVF_1.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HMOSColorEmoji';
+  src: url('../assets/HMOSColorEmojiFlags.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

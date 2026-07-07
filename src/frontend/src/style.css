@@ -2,6 +2,7 @@
 @import './styles/harmony-tokens.css';
 @import './styles/mobile-scale.css';
 @import './styles/glass-mixins.css';
+@import './styles/hmsymbol.css';
 @import './styles/harmony-editor-overrides.css';
 
 /* ========== 鸿蒙动效系统 ========== */
