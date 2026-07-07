@@ -20,7 +20,7 @@ onUnmounted(() => window.removeEventListener('resize', onResize))
 
 <style scoped>
 .h-app-shell {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   display: flex;
   overflow: hidden;

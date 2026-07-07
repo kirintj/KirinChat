@@ -16,7 +16,7 @@ withDefaults(defineProps<Props>(), {
 
 <style scoped>
 .harmony-aibottombar {
-  width: 360px;
+  width: 100%;
   height: 28px;
   display: flex;
   align-items: center;

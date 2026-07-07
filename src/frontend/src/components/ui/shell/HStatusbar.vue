@@ -28,7 +28,7 @@ const currentTime = computed(() => {
 
 <style scoped>
 .harmony-statusbar {
-  width: 360px;
+  width: 100%;
   height: 36px;
   padding: 8px 24px;
   display: flex;

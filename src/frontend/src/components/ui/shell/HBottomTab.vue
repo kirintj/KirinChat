@@ -54,7 +54,7 @@ const barWidth = computed(() => {
 
 <style scoped>
 .harmony-bottomtab {
-  width: 360px;
+  width: 100%;
   height: 100px;
   display: flex;
   flex-direction: column;

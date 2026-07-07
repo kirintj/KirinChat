@@ -49,7 +49,7 @@ const emit = defineEmits<{ back: [] }>()
 <style scoped>
 .harmony-titlebar {
   position: relative;
-  width: 360px;
+  width: 100%;
   overflow: hidden;
   flex-shrink: 0;
   z-index: 10;
