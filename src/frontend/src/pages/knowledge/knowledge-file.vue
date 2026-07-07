@@ -1618,7 +1618,7 @@ onUnmounted(() => {
   width: 24px;
   height: 24px;
   border: 3px solid var(--harmony-comp-background-secondary);
-  border-top-color: var(--harmony-brand));
+  border-top-color: var(--harmony-brand);
   border-radius: var(--harmony-corner-radius-level18);
   animation: h-spin 0.6s linear infinite;
 }

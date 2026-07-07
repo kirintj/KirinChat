@@ -248,7 +248,7 @@ const goToLogin = () => {
       height: 160px;
       top: 200px;
       left: 50px;
-      background: linear-gradient(180deg, #6b9eff, var(--harmony-brand));
+      background: linear-gradient(180deg, #6b9eff, var(--harmony-brand);
       border-radius: 40px;
       box-shadow: 0 10px 30px rgba(79, 129, 255, 0.3);
       animation: floatUp 6s ease-in-out infinite;
@@ -260,7 +260,7 @@ const goToLogin = () => {
       height: 60px;
       top: 120px;
       right: 80px;
-      background: radial-gradient(circle at 30% 30%, #8bb6ff, var(--harmony-brand));
+      background: radial-gradient(circle at 30% 30%, #8bb6ff, var(--harmony-brand);
       border-radius: 50%;
       box-shadow: 0 8px 25px rgba(79, 129, 255, 0.4);
       animation: floatDown 8s ease-in-out infinite;

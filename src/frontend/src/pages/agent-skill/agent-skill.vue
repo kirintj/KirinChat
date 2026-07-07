@@ -1152,15 +1152,15 @@ onMounted(() => {
           line-height: 1.5;
           border-radius: var(--harmony-corner-radius-level6);
           padding: 12px;
-          border: 1px solid var(--harmony-comp-divider));
-          background: var(--harmony-comp-background-secondary));
-          color: var(--harmony-font-primary));
+          border: 1px solid var(--harmony-comp-divider);
+          background: var(--harmony-comp-background-secondary);
+          color: var(--harmony-font-primary);
           resize: vertical;
           box-sizing: border-box;
 
           &:focus {
             outline: none;
-            border-color: var(--harmony-brand));
+            border-color: var(--harmony-brand);
           }
         }
       }

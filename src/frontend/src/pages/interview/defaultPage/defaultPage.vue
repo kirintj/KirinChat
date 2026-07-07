@@ -451,7 +451,7 @@ onMounted(() => {
       .btn-title { font-weight: 600; font-size: 15px; color: var(--harmony-font-primary); }
       .btn-desc { font-size: 12px; color: var(--harmony-font-secondary); margin-top: 2px; }
       &:hover {
-        border-color: var(--harmony-interactive-hover));
+        border-color: var(--harmony-interactive-hover);
         box-shadow: var(--harmony-shadow-card);
         transform: translateY(-1px);
         color: inherit;
