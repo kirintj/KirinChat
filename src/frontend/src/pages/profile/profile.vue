@@ -459,7 +459,7 @@ const handleCustomUpload = async (event: Event) => {
   width: 24px;
   height: 24px;
   border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--harmony-brand));
+  border-top-color: var(--harmony-brand);
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;
 }
@@ -480,7 +480,7 @@ const handleCustomUpload = async (event: Event) => {
   transition: border-color 0.2s;
   &:focus {
     outline: none;
-    border-color: var(--harmony-brand));
+    border-color: var(--harmony-brand);
   }
 }
 
@@ -539,7 +539,7 @@ const handleCustomUpload = async (event: Event) => {
               height: 100%;
               border-radius: 50%;
               object-fit: cover;
-              border: 4px solid var(--harmony-brand));
+              border: 4px solid var(--harmony-brand);
             }
 
             .avatar-overlay {
@@ -605,7 +605,7 @@ const handleCustomUpload = async (event: Event) => {
             background: var(--harmony-comp-background-secondary);
             padding: 16px;
             border-radius: var(--harmony-corner-radius-level4);
-            border-left: 4px solid var(--harmony-brand));
+            border-left: 4px solid var(--harmony-brand);
           }
         }
 
@@ -640,7 +640,7 @@ const handleCustomUpload = async (event: Event) => {
         height: 80px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid var(--harmony-brand));
+        border: 3px solid var(--harmony-brand);
       }
     }
   }
@@ -672,12 +672,12 @@ const handleCustomUpload = async (event: Event) => {
         position: relative;
 
         &:hover:not(.active) {
-          border-color: var(--harmony-brand));
+          border-color: var(--harmony-brand);
           transform: scale(1.05);
         }
 
         &.active {
-          border-color: var(--harmony-brand));
+          border-color: var(--harmony-brand);
           box-shadow: 0 0 0 2px rgba(116, 185, 255, 0.3);
           transform: scale(1.02);
         }
@@ -758,7 +758,7 @@ const handleCustomUpload = async (event: Event) => {
     color: var(--harmony-font-secondary);
 
     &:hover {
-      color: var(--harmony-brand));
+      color: var(--harmony-brand);
     }
   }
 }
@@ -784,7 +784,7 @@ const handleCustomUpload = async (event: Event) => {
         height: 100px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid var(--harmony-brand));
+        border: 3px solid var(--harmony-brand);
       }
     }
   }
@@ -816,12 +816,12 @@ const handleCustomUpload = async (event: Event) => {
           transition: all 0.2s ease;
 
           &:hover:not(.active) {
-            border-color: var(--harmony-brand));
+            border-color: var(--harmony-brand);
             transform: scale(1.05);
           }
 
           &.active {
-            border-color: var(--harmony-brand));
+            border-color: var(--harmony-brand);
             box-shadow: 0 0 0 2px rgba(116, 185, 255, 0.3);
           }
 
@@ -845,14 +845,14 @@ const handleCustomUpload = async (event: Event) => {
         .upload-button {
           display: inline-block;
           padding: 10px 20px;
-          background-color: var(--harmony-brand));
+          background-color: var(--harmony-brand);
           color: var(--harmony-comp-background-primary);
           border-radius: 4px;
           cursor: pointer;
           transition: background-color 0.3s;
 
           &:hover {
-            background-color: var(--harmony-brand));
+            background-color: var(--harmony-brand);
             opacity: 0.85;
           }
         }
@@ -887,15 +887,15 @@ const handleCustomUpload = async (event: Event) => {
     color: var(--harmony-font-secondary);
 
     &:hover {
-      color: var(--harmony-brand));
-      border-color: var(--harmony-brand));
+      color: var(--harmony-brand);
+      border-color: var(--harmony-brand);
       background-color: var(--harmony-comp-emphasize-tertiary);
     }
   }
 
   .confirm-button {
-    border: 1px solid var(--harmony-brand));
-    background-color: var(--harmony-brand));
+    border: 1px solid var(--harmony-brand);
+    background-color: var(--harmony-brand);
     color: var(--harmony-comp-background-primary);
 
     &:hover {

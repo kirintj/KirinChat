@@ -428,7 +428,7 @@ defineExpose({ open, close })
 
         &:focus {
           outline: none;
-          border-color: var(--harmony-brand));
+          border-color: var(--harmony-brand);
         }
       }
     }
@@ -574,7 +574,7 @@ defineExpose({ open, close })
 
               &:hover {
                 background-color: var(--harmony-comp-emphasize-tertiary);
-                color: var(--harmony-brand));
+                color: var(--harmony-brand);
               }
             }
           }

@@ -721,7 +721,7 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   background: var(--harmony-comp-emphasize-tertiary);
-  color: var(--harmony-brand));
+  color: var(--harmony-brand);
   border-radius: var(--harmony-corner-radius-level6);
   flex-shrink: 0;
 }
@@ -759,8 +759,8 @@ onMounted(async () => {
   font-family: inherit;
 
   &:hover:not(:disabled) {
-    border-color: var(--harmony-brand));
-    color: var(--harmony-brand));
+    border-color: var(--harmony-brand);
+    color: var(--harmony-brand);
   }
 
   &:disabled {
@@ -774,7 +774,7 @@ onMounted(async () => {
   align-items: center;
   gap: 6px;
   padding: 9px 18px;
-  background: var(--harmony-brand));
+  background: var(--harmony-brand);
   border: none;
   color: white;
   border-radius: var(--harmony-corner-radius-level6);
@@ -907,7 +907,7 @@ onMounted(async () => {
   height: 20px;
   padding: 0 6px;
   background: var(--harmony-comp-emphasize-tertiary);
-  color: var(--harmony-brand));
+  color: var(--harmony-brand);
   border-radius: 10px;
   font-size: 11px;
   font-weight: 600;
@@ -949,9 +949,9 @@ onMounted(async () => {
   flex-shrink: 0;
 
   &:hover {
-    border-color: var(--harmony-brand));
+    border-color: var(--harmony-brand);
     background: var(--harmony-comp-emphasize-tertiary);
-    color: var(--harmony-brand));
+    color: var(--harmony-brand);
   }
 
   .avatar-preview {
@@ -1067,7 +1067,7 @@ onMounted(async () => {
 
   &:focus {
     outline: none;
-    border-color: var(--harmony-brand));
+    border-color: var(--harmony-brand);
     background: var(--harmony-comp-background-primary);
     box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
   }
@@ -1098,7 +1098,7 @@ onMounted(async () => {
 
   &:focus {
     outline: none;
-    border-color: var(--harmony-brand));
+    border-color: var(--harmony-brand);
     background: var(--harmony-comp-background-primary);
     box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
   }
@@ -1173,7 +1173,7 @@ onMounted(async () => {
   margin-top: 2px;
 
   &.active {
-    background: var(--harmony-brand));
+    background: var(--harmony-brand);
 
     .switch-thumb {
       transform: translateX(18px);

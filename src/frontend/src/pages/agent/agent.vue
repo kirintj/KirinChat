@@ -389,7 +389,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background: var(--harmony-comp-emphasize-tertiary);
-  color: var(--harmony-brand));
+  color: var(--harmony-brand);
   border-radius: var(--harmony-corner-radius-level6);
   flex-shrink: 0;
 }
@@ -430,7 +430,7 @@ onMounted(() => {
   transition: all 0.15s ease;
 
   &:focus-within {
-    border-color: var(--harmony-brand));
+    border-color: var(--harmony-brand);
     background: var(--harmony-comp-background-primary);
     box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
   }
@@ -493,8 +493,8 @@ onMounted(() => {
   font-family: inherit;
 
   &:hover:not(:disabled) {
-    border-color: var(--harmony-brand));
-    color: var(--harmony-brand));
+    border-color: var(--harmony-brand);
+    color: var(--harmony-brand);
     background: var(--harmony-comp-emphasize-tertiary);
   }
 
@@ -514,7 +514,7 @@ onMounted(() => {
   gap: 6px;
   height: 38px;
   padding: 0 14px;
-  background: var(--harmony-brand));
+  background: var(--harmony-brand);
   border: none;
   color: white;
   border-radius: var(--harmony-corner-radius-level6);
@@ -593,7 +593,7 @@ onMounted(() => {
   overflow: hidden;
 
   &:hover {
-    border-color: var(--harmony-brand));
+    border-color: var(--harmony-brand);
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 
@@ -620,7 +620,7 @@ onMounted(() => {
 
     .agent-avatar {
       background: var(--harmony-comp-emphasize-tertiary);
-      color: var(--harmony-brand));
+      color: var(--harmony-brand);
     }
   }
 }
@@ -634,7 +634,7 @@ onMounted(() => {
   gap: 4px;
   padding: 4px 8px;
   background: var(--harmony-comp-emphasize-tertiary);
-  color: var(--harmony-brand));
+  color: var(--harmony-brand);
   border-radius: var(--harmony-corner-radius-level4);
   font-size: 11px;
   font-weight: 500;

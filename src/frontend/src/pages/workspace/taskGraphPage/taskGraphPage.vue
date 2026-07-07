@@ -1096,7 +1096,7 @@ const getNodeColor = (status: string) => {
   --border: var(--harmony-comp-divider);
   --text: var(--harmony-font-primary);
   --muted: var(--harmony-font-secondary);
-  --primary: var(--harmony-brand));
+  --primary: var(--harmony-brand);
   --success: var(--harmony-confirm);
   --warning: var(--harmony-alert);
   --pending: var(--harmony-comp-divider);
@@ -1223,8 +1223,8 @@ const getNodeColor = (status: string) => {
       transition: all 0.15s ease;
 
       &.active {
-        background: var(--harmony-brand));
-        border-color: var(--harmony-brand));
+        background: var(--harmony-brand);
+        border-color: var(--harmony-brand);
         color: var(--harmony-comp-background-primary);
       }
     }
@@ -1427,7 +1427,7 @@ const getNodeColor = (status: string) => {
 
         .edge-path {
           fill: none;
-          stroke: var(--harmony-brand));
+          stroke: var(--harmony-brand);
           stroke-width: 1.5;
           opacity: 0.6;
           transition: opacity 0.2s ease;
@@ -1767,7 +1767,7 @@ const getNodeColor = (status: string) => {
 
         &:focus {
           outline: none;
-          border-color: var(--harmony-brand));
+          border-color: var(--harmony-brand);
         }
         &::placeholder {
           color: var(--harmony-font-tertiary);

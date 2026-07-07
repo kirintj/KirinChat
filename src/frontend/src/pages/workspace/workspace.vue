@@ -288,8 +288,8 @@ onMounted(async () => {
     font-family: inherit;
 
     &:hover {
-      border-color: var(--harmony-brand));
-      color: var(--harmony-brand));
+      border-color: var(--harmony-brand);
+      color: var(--harmony-brand);
       background: var(--harmony-comp-emphasize-tertiary);
       border-style: solid;
     }
@@ -329,7 +329,7 @@ onMounted(async () => {
     }
 
     &:focus {
-      border-color: var(--harmony-brand));
+      border-color: var(--harmony-brand);
       background: var(--harmony-comp-background-primary);
     }
   }
@@ -370,7 +370,7 @@ onMounted(async () => {
   width: 24px;
   height: 24px;
   border: 2px solid var(--harmony-comp-divider);
-  border-top-color: var(--harmony-brand));
+  border-top-color: var(--harmony-brand);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
@@ -403,7 +403,7 @@ onMounted(async () => {
 
   &.active {
     background: var(--harmony-comp-emphasize-tertiary);
-    border-color: var(--harmony-brand));
+    border-color: var(--harmony-brand);
   }
 
   .card-avatar {

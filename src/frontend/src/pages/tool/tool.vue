@@ -1326,7 +1326,7 @@ onMounted(() => {
         margin: 0;
         font-size: var(--harmony-font-size-title-m);
         font-weight: 600;
-        background: var(--harmony-brand));
+        background: var(--harmony-brand);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -1381,14 +1381,14 @@ onMounted(() => {
         border: none;
 
         &.h-tabs__item--active {
-          color: var(--harmony-brand));
+          color: var(--harmony-brand);
           font-weight: 600;
           border-bottom: 3px solid;
           border-image: linear-gradient(90deg, var(--harmony-brand), var(--harmony-brand)) 1;
         }
 
         &:hover {
-          color: var(--harmony-brand));
+          color: var(--harmony-brand);
           background: var(--harmony-comp-emphasize-tertiary);
         }
       }
@@ -1458,7 +1458,7 @@ onMounted(() => {
         }
         
         .tool-name {
-          color: var(--harmony-brand));
+          color: var(--harmony-brand);
         }
       }
       
@@ -1524,13 +1524,13 @@ onMounted(() => {
           
           &.system {
             background: var(--harmony-comp-emphasize-tertiary);
-            color: var(--harmony-brand));
+            color: var(--harmony-brand);
             border: 1px solid var(--harmony-comp-emphasize-tertiary);
           }
           
           &.custom {
             background: var(--harmony-comp-emphasize-tertiary);
-            color: var(--harmony-brand));
+            color: var(--harmony-brand);
             border: 1px solid var(--harmony-comp-emphasize-tertiary);
           }
           
@@ -1566,7 +1566,7 @@ onMounted(() => {
           opacity: 1;
           
           &.edit-btn {
-            background: var(--harmony-brand));
+            background: var(--harmony-brand);
             color: white;
             
             &:hover {
@@ -1630,7 +1630,7 @@ onMounted(() => {
         content: '';
         position: absolute;
         inset: -3px;
-        background: var(--harmony-brand));
+        background: var(--harmony-brand);
         border-radius: var(--harmony-corner-radius-level18);
         opacity: 0.15;
         z-index: -1;
@@ -1919,7 +1919,7 @@ onMounted(() => {
 }
 
 .logo-preview:hover {
-  border-color: var(--harmony-brand));
+  border-color: var(--harmony-brand);
   background-color: var(--harmony-comp-emphasize-tertiary);
 }
 
@@ -1929,7 +1929,7 @@ onMounted(() => {
 }
 
 .dark .logo-preview:hover {
-  border-color: var(--harmony-brand));
+  border-color: var(--harmony-brand);
   background-color: rgb(23, 37, 84);
 }
 
@@ -1991,7 +1991,7 @@ onMounted(() => {
   width: 32px;
   height: 32px;
   border: 3px solid var(--harmony-comp-divider);
-  border-top-color: var(--harmony-brand));
+  border-top-color: var(--harmony-brand);
   border-radius: var(--harmony-corner-radius-level18);
   animation: spin 0.8s linear infinite;
 }
@@ -2047,7 +2047,7 @@ onMounted(() => {
 
 .drawer-input:focus {
   outline: none;
-  border-color: var(--harmony-brand));
+  border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
 
@@ -2062,7 +2062,7 @@ onMounted(() => {
 }
 
 .dark .drawer-input:focus {
-  border-color: var(--harmony-brand));
+  border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
 
@@ -2088,7 +2088,7 @@ onMounted(() => {
 
 .drawer-textarea:focus {
   outline: none;
-  border-color: var(--harmony-brand));
+  border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
 
@@ -2103,7 +2103,7 @@ onMounted(() => {
 }
 
 .dark .drawer-textarea:focus {
-  border-color: var(--harmony-brand));
+  border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
 
@@ -2131,7 +2131,7 @@ onMounted(() => {
 
 .drawer-code-textarea:focus {
   outline: none;
-  border-color: var(--harmony-brand));
+  border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
 
@@ -2146,7 +2146,7 @@ onMounted(() => {
 }
 
 .dark .drawer-code-textarea:focus {
-  border-color: var(--harmony-brand));
+  border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
 
@@ -2202,7 +2202,7 @@ onMounted(() => {
 
 .drawer-select:focus {
   outline: none;
-  border-color: var(--harmony-brand));
+  border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
 
@@ -2217,7 +2217,7 @@ onMounted(() => {
 }
 
 .dark .drawer-select:focus {
-  border-color: var(--harmony-brand));
+  border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
 
@@ -2238,7 +2238,7 @@ onMounted(() => {
 
 .drawer-select-small:focus {
   outline: none;
-  border-color: var(--harmony-brand));
+  border-color: var(--harmony-brand);
 }
 
 .drawer-select-small:hover {
@@ -2360,7 +2360,7 @@ onMounted(() => {
   font-weight: 600;
   border-radius: 0.375rem;
   background-color: var(--harmony-comp-emphasize-tertiary);
-  color: var(--harmony-brand));
+  color: var(--harmony-brand);
   letter-spacing: 0.025em;
 }
 
@@ -2428,13 +2428,13 @@ onMounted(() => {
 
 .drawer-footer-button-save {
   border: none;
-  background: var(--harmony-brand));
+  background: var(--harmony-brand);
   box-shadow: 0 2px 8px var(--harmony-comp-emphasize-tertiary);
   color: var(--harmony-comp-background-primary);
 }
 
 .drawer-footer-button-save:hover {
-  background: var(--harmony-brand));
+  background: var(--harmony-brand);
   box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
   transform: translateY(-1px);
 }
@@ -2466,7 +2466,7 @@ onMounted(() => {
 
 .drawer-close:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--harmony-brand));
+  box-shadow: 0 0 0 2px var(--harmony-brand);
 }
 
 .drawer-close-icon {

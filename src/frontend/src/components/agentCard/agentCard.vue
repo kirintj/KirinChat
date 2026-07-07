@@ -238,7 +238,7 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       .stat-value {
         font-size: 10px;
         font-weight: 600;
-        color: var(--harmony-brand));
+        color: var(--harmony-brand);
         background: var(--harmony-comp-emphasize-tertiary);
         padding: 1px 4px;
         border-radius: 4px;
@@ -327,7 +327,7 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .agent-name {
-          color: var(--harmony-brand));
+          color: var(--harmony-brand);
         }
       }
 

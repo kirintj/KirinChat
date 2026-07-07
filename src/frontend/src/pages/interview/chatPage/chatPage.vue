@@ -358,7 +358,7 @@ onUnmounted(() => {
 
     .progress-fill {
       height: 100%;
-      background: var(--harmony-brand));
+      background: var(--harmony-brand);
       border-radius: 2px;
       transition: width 0.3s ease;
     }
@@ -481,7 +481,7 @@ onUnmounted(() => {
   transition: border-color var(--harmony-duration-fast) var(--harmony-motion-standard);
 
   &:focus {
-    border-color: var(--harmony-brand));
+    border-color: var(--harmony-brand);
   }
 
   &::placeholder {

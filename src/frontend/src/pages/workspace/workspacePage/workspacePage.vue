@@ -678,7 +678,7 @@ const handleStartTask = () => {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--harmony-brand));
+        background: var(--harmony-brand);
         color: var(--harmony-comp-background-primary);
         border-radius: 10px;
 
@@ -757,7 +757,7 @@ const handleStartTask = () => {
           .conversation-number {
             font-size: var(--harmony-font-size-body-s);
             font-weight: 700;
-            color: var(--harmony-brand));
+            color: var(--harmony-brand);
             background: var(--harmony-comp-emphasize-tertiary);
             padding: 3px 10px;
             border-radius: 999px;
@@ -885,7 +885,7 @@ const handleStartTask = () => {
               }
 
               blockquote {
-                border-left: 4px solid var(--harmony-brand));
+                border-left: 4px solid var(--harmony-brand);
                 padding-left: 14px;
                 margin: 10px 0;
                 color: var(--harmony-font-secondary);
@@ -916,7 +916,7 @@ const handleStartTask = () => {
               background: var(--harmony-comp-emphasize-tertiary);
             }
             .message-body {
-              border-left: 3px solid var(--harmony-brand));
+              border-left: 3px solid var(--harmony-brand);
             }
           }
 
@@ -958,7 +958,7 @@ const handleStartTask = () => {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--harmony-brand));
+        background: var(--harmony-brand);
         color: var(--harmony-comp-background-primary);
         border-radius: 8px;
 
@@ -987,19 +987,19 @@ const handleStartTask = () => {
         padding: 5px 12px;
         background: var(--harmony-comp-emphasize-tertiary);
         border-radius: 999px;
-        border: 1px solid var(--harmony-brand));
+        border: 1px solid var(--harmony-brand);
 
         .loading-dot {
           width: 7px;
           height: 7px;
-          background: var(--harmony-brand));
+          background: var(--harmony-brand);
           border-radius: 50%;
           animation: pulse 1.5s ease-in-out infinite;
         }
 
         .loading-text {
           font-size: var(--harmony-font-size-body-s);
-          color: var(--harmony-brand));
+          color: var(--harmony-brand);
           font-weight: 500;
         }
       }
@@ -1036,7 +1036,7 @@ const handleStartTask = () => {
     transition: border-color 0.2s ease;
 
     &:focus-within {
-      border-color: var(--harmony-brand));
+      border-color: var(--harmony-brand);
     }
 
     .editor-content {
@@ -1163,7 +1163,7 @@ const handleStartTask = () => {
           }
 
           :deep(blockquote) {
-            border-left: 4px solid var(--harmony-brand));
+            border-left: 4px solid var(--harmony-brand);
             padding-left: 12px;
             margin: 2px 0;
             color: var(--harmony-font-secondary);
@@ -1180,7 +1180,7 @@ const handleStartTask = () => {
             th { background: var(--harmony-comp-background-secondary); font-weight: 600; }
           }
 
-          :deep(a) { color: var(--harmony-brand)); text-decoration: none; &:hover { text-decoration: underline; } }
+          :deep(a) { color: var(--harmony-brand); text-decoration: none; &:hover { text-decoration: underline; } }
           :deep(hr) { border: none; border-top: 1px solid var(--harmony-comp-divider); margin: 6px 0; }
           :deep(.placeholder) { color: var(--harmony-font-tertiary); font-style: italic; }
         }
@@ -1231,7 +1231,7 @@ const handleStartTask = () => {
     }
 
     .start-btn {
-      background: var(--harmony-brand));
+      background: var(--harmony-brand);
       color: var(--harmony-comp-background-primary);
 
       &:not(:disabled):hover {
@@ -1331,7 +1331,7 @@ const handleStartTask = () => {
       box-sizing: border-box;
 
       &:focus {
-        border-color: var(--harmony-brand));
+        border-color: var(--harmony-brand);
       }
 
       &::placeholder {
@@ -1379,7 +1379,7 @@ const handleStartTask = () => {
   }
 
   .confirm-btn {
-    background: var(--harmony-brand));
+    background: var(--harmony-brand);
     color: var(--harmony-comp-background-primary);
 
     &:hover {

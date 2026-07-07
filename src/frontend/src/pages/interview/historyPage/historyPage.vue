@@ -375,7 +375,7 @@ onMounted(() => {
     transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
     &:hover {
-      color: var(--harmony-brand));
+      color: var(--harmony-brand);
       background: var(--harmony-comp-emphasize-tertiary);
     }
   }
@@ -416,7 +416,7 @@ onMounted(() => {
       transition: border-color var(--harmony-duration-fast) var(--harmony-motion-standard);
 
       &:focus {
-        border-color: var(--harmony-brand));
+        border-color: var(--harmony-brand);
       }
 
       &::placeholder {
@@ -437,7 +437,7 @@ onMounted(() => {
     min-width: 100px;
 
     &:focus {
-      border-color: var(--harmony-brand));
+      border-color: var(--harmony-brand);
     }
   }
 }
@@ -460,12 +460,12 @@ onMounted(() => {
     transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
     &:hover {
-      color: var(--harmony-brand));
+      color: var(--harmony-brand);
     }
 
     &.active {
-      color: var(--harmony-brand));
-      border-bottom-color: var(--harmony-brand));
+      color: var(--harmony-brand);
+      border-bottom-color: var(--harmony-brand);
       font-weight: 600;
     }
   }
@@ -486,13 +486,13 @@ onMounted(() => {
       transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
       &:hover {
-        border-color: var(--harmony-brand));
-        color: var(--harmony-brand));
+        border-color: var(--harmony-brand);
+        color: var(--harmony-brand);
       }
 
       &.active {
-        border-color: var(--harmony-brand));
-        color: var(--harmony-brand));
+        border-color: var(--harmony-brand);
+        color: var(--harmony-brand);
         background: var(--harmony-comp-emphasize-tertiary);
       }
     }
@@ -589,7 +589,7 @@ onMounted(() => {
   .score-display {
     font-size: 20px;
     font-weight: 700;
-    color: var(--harmony-brand));
+    color: var(--harmony-brand);
     min-width: 50px;
     text-align: right;
   }
@@ -629,13 +629,13 @@ onMounted(() => {
     transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
     &:hover:not(:disabled) {
-      border-color: var(--harmony-brand));
-      color: var(--harmony-brand));
+      border-color: var(--harmony-brand);
+      color: var(--harmony-brand);
     }
 
     &.active {
-      background: var(--harmony-brand));
-      border-color: var(--harmony-brand));
+      background: var(--harmony-brand);
+      border-color: var(--harmony-brand);
       color: #fff;
     }
 

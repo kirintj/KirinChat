@@ -335,11 +335,11 @@ const goToLogin = () => {
             box-shadow: none;
 
             &:hover {
-              border-color: var(--harmony-brand));
+              border-color: var(--harmony-brand);
             }
 
             &.is-focus {
-              border-color: var(--harmony-brand));
+              border-color: var(--harmony-brand);
               box-shadow: 0 0 0 3px rgba(79, 129, 255, 0.1);
             }
           }
@@ -369,7 +369,7 @@ const goToLogin = () => {
           font-family: var(--harmony-font-family);
 
           a {
-            color: var(--harmony-brand));
+            color: var(--harmony-brand);
             text-decoration: none;
             margin-left: 6px;
             font-weight: 500;
@@ -424,7 +424,7 @@ const goToLogin = () => {
         padding: 4px 10px;
         border-radius: 999px;
         background: var(--harmony-comp-emphasize-tertiary);
-        color: var(--harmony-brand));
+        color: var(--harmony-brand);
         border: 1px solid rgba(10, 89, 247, 0.25);
         font-weight: 600;
         letter-spacing: 0.3px;

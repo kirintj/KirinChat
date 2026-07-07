@@ -241,7 +241,7 @@ onMounted(() => {
   transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
   &:hover {
-    border-color: var(--harmony-brand));
+    border-color: var(--harmony-brand);
     box-shadow: var(--harmony-shadow-card);
     transform: translateY(-2px);
   }
@@ -303,7 +303,7 @@ onMounted(() => {
 .back-btn {
   background: none;
   border: none;
-  color: var(--harmony-brand));
+  color: var(--harmony-brand);
   cursor: pointer;
   font-size: 14px;
   font-family: inherit;
@@ -374,11 +374,11 @@ onMounted(() => {
     transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
     &:hover {
-      border-color: var(--harmony-brand));
+      border-color: var(--harmony-brand);
     }
 
     &.active {
-      border-color: var(--harmony-brand));
+      border-color: var(--harmony-brand);
       background: var(--harmony-comp-emphasize-tertiary);
     }
 
@@ -412,13 +412,13 @@ onMounted(() => {
     transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
     &:hover {
-      border-color: var(--harmony-brand));
+      border-color: var(--harmony-brand);
     }
 
     &.active {
-      border-color: var(--harmony-brand));
+      border-color: var(--harmony-brand);
       background: var(--harmony-comp-emphasize-tertiary);
-      color: var(--harmony-brand));
+      color: var(--harmony-brand);
     }
   }
 }
@@ -436,13 +436,13 @@ onMounted(() => {
     padding: 12px 24px; border-radius: var(--harmony-corner-radius-level4);
     border: 1px dashed var(--harmony-comp-divider); background: var(--harmony-comp-background-primary);
     cursor: pointer; font-size: 14px; transition: all 0.2s;
-    &:hover { border-color: var(--harmony-brand)); color: var(--harmony-brand)); }
+    &:hover { border-color: var(--harmony-brand); color: var(--harmony-brand); }
 
     &.voice-btn {
       display: flex;
       align-items: center;
       gap: 12px;
-      border: 1px solid var(--harmony-brand));
+      border: 1px solid var(--harmony-brand);
       background: var(--harmony-comp-emphasize-tertiary);
       border-style: solid;
       padding: 14px 24px;

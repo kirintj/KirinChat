@@ -282,7 +282,7 @@ onMounted(() => {
 
 .view-all-link {
   font-size: 13px;
-  color: var(--harmony-brand));
+  color: var(--harmony-brand);
   text-decoration: none;
   font-weight: 400;
 

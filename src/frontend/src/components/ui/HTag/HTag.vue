@@ -29,7 +29,7 @@ defineEmits<{ close: [] }>()
 }
 .h-tag:hover .h-tag__overlay { opacity: 1; background: var(--harmony-interactive-hover); }
 .h-tag--default { background: var(--harmony-comp-background-tertiary); color: var(--harmony-font-secondary); border: 1px solid var(--harmony-comp-divider); }
-.h-tag--primary { background: var(--harmony-comp-emphasize-tertiary); color: var(--harmony-brand)); }
+.h-tag--primary { background: var(--harmony-comp-emphasize-tertiary); color: var(--harmony-brand); }
 .h-tag--success { background: var(--harmony-confirm-bg); color: var(--harmony-confirm); }
 .h-tag--warning { background: var(--harmony-alert-bg); color: var(--harmony-alert); }
 .h-tag--danger { background: var(--harmony-warning-bg); color: var(--harmony-warning); }

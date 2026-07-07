@@ -616,7 +616,7 @@ onMounted(() => {
 
       &.active {
         background: var(--harmony-comp-background-secondary);
-        border-color: var(--harmony-brand));
+        border-color: var(--harmony-brand);
       }
 
       .task-item-header {
@@ -700,7 +700,7 @@ onMounted(() => {
       .toolbar-title {
         font-size: var(--harmony-font-size-title-s);
         font-weight: 600;
-        background: var(--harmony-brand));
+        background: var(--harmony-brand);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -788,7 +788,7 @@ onMounted(() => {
       }
       
       &.user .message-content {
-        background: var(--harmony-brand));
+        background: var(--harmony-brand);
         color: white;
         border-bottom-right-radius: 4px;
       }
@@ -806,7 +806,7 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     min-height: 28px;
-    color: var(--harmony-brand));
+    color: var(--harmony-brand);
   }
   
   .chat-input-wrapper {
@@ -827,7 +827,7 @@ onMounted(() => {
 
         .chat-input {
           &:focus {
-            border-color: var(--harmony-brand));
+            border-color: var(--harmony-brand);
             box-shadow: 0 2px 12px var(--harmony-comp-emphasize-tertiary);
           }
         }
@@ -855,7 +855,7 @@ onMounted(() => {
   
   &.START {
     background: var(--harmony-comp-emphasize-tertiary);
-    border-left-color: var(--harmony-brand));
+    border-left-color: var(--harmony-brand);
   }
   
   &.END {
@@ -884,7 +884,7 @@ onMounted(() => {
   }
   
   &.START .event-icon {
-    background: var(--harmony-brand));
+    background: var(--harmony-brand);
     animation: pulse 1.5s ease-in-out infinite;
   }
   
@@ -902,7 +902,7 @@ onMounted(() => {
   }
   
   &.START .event-title {
-    color: var(--harmony-brand));
+    color: var(--harmony-brand);
   }
   
   &.END .event-title {
@@ -922,7 +922,7 @@ onMounted(() => {
   
   &.START .event-status {
     background: var(--harmony-comp-emphasize-tertiary);
-    color: var(--harmony-brand));
+    color: var(--harmony-brand);
   }
   
   &.END .event-status {
@@ -1066,7 +1066,7 @@ onMounted(() => {
   }
   
   a {
-    color: var(--harmony-brand));
+    color: var(--harmony-brand);
     text-decoration: underline;
   }
   

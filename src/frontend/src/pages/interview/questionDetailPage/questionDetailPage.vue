@@ -152,7 +152,7 @@ onMounted(async () => {
   .back-btn {
     background: none;
     border: none;
-    color: var(--harmony-brand));
+    color: var(--harmony-brand);
     cursor: pointer;
     font-size: 14px;
     font-family: inherit;
@@ -225,7 +225,7 @@ onMounted(async () => {
 }
 
 .reference-text {
-  border-left: 3px solid var(--harmony-brand));
+  border-left: 3px solid var(--harmony-brand);
   :deep(p) {
     margin: 0 0 8px;
     &:last-child { margin-bottom: 0; }

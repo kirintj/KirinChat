@@ -39,5 +39,5 @@ provide('h-tabs', {
 }
 .h-tabs__item:hover .h-tabs__item-overlay { opacity: 1; background: var(--harmony-interactive-hover); }
 .h-tabs__item:hover { color: var(--harmony-font-primary); }
-.h-tabs__item--active { color: var(--harmony-brand)); border-bottom-color: var(--harmony-brand)); font-weight: 500; }
+.h-tabs__item--active { color: var(--harmony-brand); border-bottom-color: var(--harmony-brand); font-weight: 500; }
 </style>

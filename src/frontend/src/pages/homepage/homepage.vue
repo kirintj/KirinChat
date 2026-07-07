@@ -121,7 +121,7 @@ const handleExampleClick = (_: any, index: number) => {
     box-shadow: var(--harmony-shadow-card);
 
     &:focus-within {
-      border-color: var(--harmony-brand));
+      border-color: var(--harmony-brand);
     }
   }
 
@@ -151,7 +151,7 @@ const handleExampleClick = (_: any, index: number) => {
     .send-btn {
       width: 36px;
       height: 36px;
-      background: var(--harmony-brand));
+      background: var(--harmony-brand);
       color: white;
       border: none;
       border-radius: 50%;
@@ -188,7 +188,7 @@ const handleExampleClick = (_: any, index: number) => {
     transition: all 0.2s ease;
 
     &:hover {
-      border-color: var(--harmony-brand));
+      border-color: var(--harmony-brand);
       box-shadow: var(--harmony-shadow-card);
     }
   }
