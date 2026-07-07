@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, computed, watch, inject } from 'vue'
 import { HButton, HTabs, HTabPane, HTooltip, HMessage } from '@/components/ui'
 import pluginIcon from '../../assets/plugin.svg'
 import { 
@@ -13,6 +13,8 @@ import {
   type ToolResponse 
 } from '../../apis/tool'
 import { useUserStore } from '../../store/user'
+
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 
 // 工具类型定义
 interface Tool extends ToolResponse {
@@ -657,7 +659,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="tool-page">
+  <!-- Desktop -->
+  <div v-if="!isMobile" class="tool-page">
     <!-- 页面头部 -->
     <div class="page-header">
       <div class="header-title">
@@ -1292,6 +1295,49 @@ onMounted(() => {
         </div>
       </div>
     </transition>
+  </div>
+
+  <!-- Mobile: hmos mobile-list -->
+  <div v-else class="tool-mobile">
+    <div class="tm-header">
+      <button class="tm-create-btn" @click="showCreateDrawer = true">+ 添加工具</button>
+    </div>
+
+    <div class="tm-list" v-if="tools.length > 0">
+      <div v-for="tool in tools" :key="tool.tool_id" class="tm-item">
+        <div class="tm-item__icon">
+          <img
+            :src="tool.logo_url || '/src/assets/tool/default.png'"
+            :alt="tool.display_name"
+            @error="(e) => { const target = e.target as HTMLImageElement; target.src = '/src/assets/tool/default.png' }"
+            style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"
+          />
+        </div>
+        <div class="tm-item__content">
+          <h3 class="tm-item__name">
+            {{ tool.display_name }}
+            <span v-if="tool.user_id === '0'" class="tm-official-tag">系统</span>
+          </h3>
+          <p class="tm-item__desc">{{ tool.description }}</p>
+        </div>
+        <div class="tm-item__actions">
+          <button
+            v-if="isToolEditable(tool)"
+            class="tm-action"
+            @click="openEditDrawer(tool)"
+            title="编辑"
+          >&#9998;</button>
+          <button
+            v-if="isOwnTool(tool)"
+            class="tm-action tm-action--danger"
+            @click="handleDeleteTool(tool)"
+            title="删除"
+          >&#128465;</button>
+        </div>
+      </div>
+    </div>
+
+    <div v-else-if="!loading" class="tm-empty"><p>暂无工具</p></div>
   </div>
 </template>
 
@@ -2645,5 +2691,126 @@ onMounted(() => {
 
 .delete-modal-button-confirm:active {
   transform: translateY(0);
+}
+
+/* ==================== MOBILE: hmos mobile-list ==================== */
+.tool-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-section-gap-mobile, 16px);
+  padding-top: var(--harmony-padding-level8, 16px);
+}
+
+.tm-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tm-create-btn {
+  height: var(--harmony-control-height-40, 40px);
+  padding: 0 var(--harmony-padding-level8, 16px);
+  background: var(--harmony-brand);
+  color: white;
+  border: none;
+  border-radius: var(--harmony-corner-radius-level6, 12px);
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.tm-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-card-gap-mobile, 12px);
+}
+
+.tm-item {
+  display: flex;
+  align-items: center;
+  gap: var(--harmony-padding-level6, 12px);
+  padding: var(--harmony-padding-level6, 12px);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+  transition: background 0.15s ease;
+
+  &__icon {
+    width: var(--harmony-control-height-40, 40px);
+    height: var(--harmony-control-height-40, 40px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--harmony-comp-background-secondary);
+    border-radius: var(--harmony-corner-radius-level6, 12px);
+    flex-shrink: 0;
+    font-size: 20px;
+    overflow: hidden;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: var(--harmony-font-size-body-m);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+    margin: 0 0 var(--harmony-padding-level1, 2px) 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__desc {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--harmony-padding-level2, 4px);
+    flex-shrink: 0;
+  }
+}
+
+.tm-official-tag {
+  font-size: var(--harmony-font-size-caption-l, 11px);
+  padding: 1px 6px;
+  background: var(--harmony-comp-emphasize-tertiary);
+  color: var(--harmony-brand);
+  border-radius: var(--harmony-corner-radius-level4, 8px);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.tm-action {
+  width: var(--harmony-control-height-36, 36px);
+  height: var(--harmony-control-height-36, 36px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--harmony-comp-background-secondary);
+  border: none;
+  border-radius: var(--harmony-corner-radius-level4, 8px);
+  cursor: pointer;
+  font-size: 16px;
+  &:active { background: var(--harmony-interactive-pressed); }
+  &--danger:active { background: rgba(232, 64, 38, 0.1); }
+}
+
+.tm-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  p { font-size: var(--harmony-font-size-body-m); color: var(--harmony-font-tertiary); margin: 0; }
 }
 </style>
