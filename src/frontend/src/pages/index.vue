@@ -36,12 +36,19 @@ const goCurrent = (key: string) => {
 }
 
 /* ---- mobile bottom tab ---- */
-const bottomTabItems = coreTabs.map(t => ({ key: t.key, label: t.label, icon: t.icon }))
+const bottomTabItems = [
+  ...coreTabs.map(t => ({ key: t.key, label: t.label, icon: t.icon })),
+  { key: '__more__', label: '更多', icon: 'set' },
+]
 const currentTabKey = computed(() => {
   const match = coreTabs.find(t => route.path.startsWith(t.route))
-  return match?.key ?? 'workspace'
+  return match?.key ?? ''
 })
 const onTabChange = (key: string) => {
+  if (key === '__more__') {
+    showMoreDrawer.value = true
+    return
+  }
   const item = coreTabs.find(t => t.key === key)
   if (item) router.push(item.route)
 }
@@ -185,20 +192,14 @@ onMounted(async () => {
         <HTitlebar
           :variant="mobileTitleVariant"
           :title="mobileTitle"
-        >
-          <template #actions>
-            <div class="more-btn" @click="showMoreDrawer = true">
-              <HIcon name="Menu" :size="22" />
-            </div>
-          </template>
-        </HTitlebar>
+        />
 
         <div class="mobile-content">
           <router-view />
         </div>
 
         <HBottomTab
-          variant="4"
+          variant="5"
           :items="bottomTabItems"
           :active-key="currentTabKey"
           @update:active-key="onTabChange"
@@ -391,26 +392,26 @@ onMounted(async () => {
   width: 100%;
   background: var(--harmony-comp-background-primary);
 
-  .more-btn {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    cursor: pointer;
-    color: var(--harmony-font-primary);
-    transition: background 0.15s ease;
-
-    &:active {
-      background: var(--harmony-interactive-pressed);
-    }
-  }
-
   .mobile-content {
     flex: 1;
     overflow-y: auto;
     padding-bottom: 100px; /* room for bottom tab */
+
+    /* 全局适配子页面移动端 */
+    :deep(> *) {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      box-sizing: border-box;
+    }
+
+    :deep(.el-table),
+    :deep(.h-table),
+    :deep(table) {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
   }
 }
 
