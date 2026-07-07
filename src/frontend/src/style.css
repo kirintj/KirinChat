@@ -1,141 +1,21 @@
 /* ========== HarmonyOS Design Token 导入 ========== */
 @import './styles/harmony-tokens.css';
 @import './styles/mobile-scale.css';
+@import './styles/glass-mixins.css';
+@import './styles/harmony-editor-overrides.css';
 
-/* ========== KirinChat 主题变量 → HarmonyOS 映射 ========== */
-
-/* 亮色模式（默认） */
-:root,
-[data-theme="light"] {
-  /* 背景层 — 业务要求全部白色，不跟随 HarmonyOS 灰色背景 */
-  --color-bg:           #ffffff;
-  --color-bg-secondary: #ffffff;
-  --color-bg-tertiary:  #ffffff;
-  --color-bg-overlay:   rgba(255, 255, 255, 0.8);
-  --color-bg-hover:     var(--harmony-interactive-hover);
-  --color-bg-active:    var(--harmony-interactive-pressed);
-
-  /* 主色 → HarmonyOS brand */
-  --color-primary:       var(--harmony-brand);
-  --color-primary-hover: var(--harmony-interactive-hover);
-  --color-primary-active:var(--harmony-interactive-pressed);
-  --color-primary-bg:    var(--harmony-comp-emphasize-tertiary);
-  --color-on-primary:    var(--harmony-font-on-primary);
-
-  /* 文字 → HarmonyOS font 层级 */
-  --color-text-primary:   var(--harmony-font-primary);
-  --color-text-secondary: var(--harmony-font-secondary);
-  --color-text-tertiary:  var(--harmony-font-tertiary);
-  --color-text-disabled:  var(--harmony-font-fourth);
-
-  /* 边框 → HarmonyOS divider */
-  --color-border:          var(--harmony-comp-divider);
-  --color-border-hover:    var(--harmony-interactive-hover);
-  --color-border-focus:    var(--harmony-interactive-focus);
-  --color-border-secondary:var(--harmony-comp-divider);
-
-  /* 焦点环 → HarmonyOS interactive focus */
-  --color-focus-ring: var(--harmony-interactive-focus);
-
-  /* 交互态 → HarmonyOS interactive */
-  --color-overlay: var(--harmony-comp-background-secondary);
-
-  /* 功能色 → HarmonyOS 语义色 */
-  --color-success:     var(--harmony-confirm);
-  --color-success-bg:  rgba(100, 187, 92, 0.12);
-  --color-warning:     var(--harmony-alert);
-  --color-warning-bg:  rgba(237, 111, 33, 0.12);
-  --color-danger:      var(--harmony-warning);
-  --color-danger-bg:   rgba(232, 64, 38, 0.12);
-  --color-error:       var(--harmony-warning);
-  --color-error-bg:    rgba(232, 64, 38, 0.12);
-
-  /* 阴影 */
-  --shadow-xs:         0 1px 2px rgba(0,0,0,0.02);
-  --shadow-sm:         0 1px 3px rgba(0,0,0,0.04);
-  --shadow-md:         0 4px 12px rgba(0,0,0,0.06);
-  --shadow-lg:         0 8px 24px rgba(0,0,0,0.08);
-  --shadow-card:       0 2px 8px rgba(0,0,0,0.06);
-  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.08);
-  --shadow-glow:       0 0 0 transparent;
-}
-
-/* 暗色模式 */
-[data-theme="dark"] {
-  --color-bg:           #ffffff;
-  --color-bg-secondary: #ffffff;
-  --color-bg-tertiary:  #ffffff;
-  --color-bg-overlay:   rgba(255, 255, 255, 0.8);
-  --color-bg-hover:     var(--harmony-interactive-hover);
-  --color-bg-active:    var(--harmony-interactive-pressed);
-
-  --color-primary:       var(--harmony-brand);
-  --color-primary-hover: var(--harmony-interactive-hover);
-  --color-primary-active:var(--harmony-interactive-pressed);
-  --color-primary-bg:    var(--harmony-comp-emphasize-tertiary);
-  --color-on-primary:    var(--harmony-font-on-primary);
-
-  --color-text-primary:   var(--harmony-font-primary);
-  --color-text-secondary: var(--harmony-font-secondary);
-  --color-text-tertiary:  var(--harmony-font-tertiary);
-  --color-text-disabled:  var(--harmony-font-fourth);
-
-  --color-border:          var(--harmony-comp-divider);
-  --color-border-hover:    var(--harmony-interactive-hover);
-  --color-border-focus:    var(--harmony-interactive-focus);
-  --color-border-secondary:var(--harmony-comp-divider);
-
-  --color-focus-ring: var(--harmony-interactive-focus);
-  --color-overlay:    var(--harmony-comp-background-secondary);
-
-  --color-success:     var(--harmony-confirm);
-  --color-success-bg:  rgba(91, 168, 84, 0.12);
-  --color-warning:     var(--harmony-alert);
-  --color-warning-bg:  rgba(219, 107, 66, 0.12);
-  --color-danger:      var(--harmony-warning);
-  --color-danger-bg:   rgba(217, 72, 56, 0.12);
-  --color-error:       var(--harmony-warning);
-  --color-error-bg:    rgba(217, 72, 56, 0.12);
-
-  --shadow-xs:         0 1px 2px rgba(0,0,0,0.04);
-  --shadow-sm:         0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md:         0 4px 12px rgba(0,0,0,0.1);
-  --shadow-lg:         0 8px 24px rgba(0,0,0,0.14);
-  --shadow-card:       0 2px 8px rgba(0,0,0,0.08);
-  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.12);
-  --shadow-glow:       0 0 20px rgba(49,122,247,0.1);
-}
-
-/* ========== 共用 Tokens（映射 HarmonyOS mobile-scale） ========== */
+/* ========== 鸿蒙动效系统 ========== */
 :root {
-  /* 圆角 → HarmonyOS corner-radius */
-  --radius-sm:   var(--harmony-corner-radius-level4);
-  --radius-md:   var(--harmony-corner-radius-level6);
-  --radius-lg:   var(--harmony-corner-radius-level8);
-  --radius-full: var(--harmony-corner-radius-level18);
+  --harmony-motion-standard: cubic-bezier(0.2, 0, 0.4, 1);
+  --harmony-motion-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --harmony-motion-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --harmony-motion-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  /* 间距 → HarmonyOS padding */
-  --spacing-xs:  var(--harmony-padding-level4);
-  --spacing-sm:  var(--harmony-padding-level6);
-  --spacing-md:  var(--harmony-padding-level8);
-  --spacing-lg:  var(--harmony-padding-level10);
-  --spacing-xl:  var(--harmony-padding-level12);
-  --spacing-2xl: var(--harmony-padding-level16);
-
-  /* 动效 */
-  --duration-fast:   150ms;
-  --duration-normal: 200ms;
-  --duration-slow:   300ms;
-  --easing:          cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* 字体 → HarmonyOS 字阶 */
-  --font-family: 'HarmonyOS Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-size-xs:   var(--harmony-font-size-body-s);
-  --font-size-sm:   var(--harmony-font-size-subtitle-s);
-  --font-size-base: var(--harmony-font-size-body-m);
-  --font-size-lg:   var(--harmony-font-size-body-l);
-  --font-size-xl:   var(--harmony-font-size-title-s);
-  --font-size-2xl:  var(--harmony-font-size-title-m);
+  --harmony-duration-immediate: 100ms;
+  --harmony-duration-fast: 150ms;
+  --harmony-duration-normal: 200ms;
+  --harmony-duration-slow: 300ms;
+  --harmony-duration-extra: 500ms;
 
   /* 层级 */
   --z-dropdown:  100;
@@ -144,39 +24,90 @@
   --z-loading:   400;
 }
 
+/* 标准入场动效 */
+@keyframes harmony-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes harmony-slide-up {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes harmony-slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes harmony-scale-in {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes harmony-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes h-spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ========== 全局重置 ========== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: var(--font-family);
+  font-family: 'HarmonyOS Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
-  transition: background-color var(--duration-normal) var(--easing),
-              color var(--duration-normal) var(--easing);
+  background-color: var(--harmony-comp-background-primary);
+  color: var(--harmony-font-primary);
+  transition: background-color var(--harmony-duration-normal) var(--harmony-motion-standard),
+              color var(--harmony-duration-normal) var(--harmony-motion-standard);
 }
 
 html {
-  transition: background-color var(--duration-normal) var(--easing);
+  transition: background-color var(--harmony-duration-normal) var(--harmony-motion-standard);
 }
 
-/* Markdown 编辑器透明背景适配 */
-.md-editor {
-  background-color: transparent !important;
+/* ========== 全局可访问性 ========== */
+
+/* 文本选中色 */
+::selection {
+  background-color: var(--harmony-comp-emphasize-tertiary);
+  color: var(--harmony-font-primary);
 }
 
-.md-editor-preview-wrapper {
-  padding: 0 !important;
+/* 焦点指示器 */
+:focus-visible {
+  outline: 2px solid var(--harmony-interactive-focus);
+  outline-offset: 2px;
 }
 
-/* HLoading directive styles */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* 动效降级 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========== HLoading directive styles ========== */
 .h-loading-overlay {
   position: absolute;
   inset: 0;
-  background: var(--color-bg-overlay);
+  background: var(--harmony-comp-background-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -186,16 +117,13 @@ html {
 .h-loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid var(--color-border);
-  border-top-color: var(--color-primary);
+  border: 3px solid var(--harmony-comp-divider);
+  border-top-color: var(--harmony-brand);
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;
 }
-@keyframes h-spin {
-  to { transform: rotate(360deg); }
-}
 
-/* 全局滚动条样式 */
+/* ========== 全局滚动条样式 ========== */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -206,16 +134,22 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 3px;
+  background: var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level2);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-disabled);
+  background: var(--harmony-font-fourth);
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: var(--color-primary);
+  background: var(--harmony-brand);
+}
+
+/* Firefox scrollbar fallback */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--harmony-comp-divider) transparent;
 }
 
 /* ========== 全局过渡动画（Vue Transition） ========== */
@@ -223,8 +157,8 @@ html {
 /* Dialog 弹窗 */
 .h-dialog-enter-active,
 .h-dialog-leave-active {
-  transition: opacity var(--duration-normal) var(--easing),
-              transform var(--duration-normal) var(--easing);
+  transition: opacity var(--harmony-duration-normal) var(--harmony-motion-standard),
+              transform var(--harmony-duration-normal) var(--harmony-motion-standard);
 }
 .h-dialog-enter-from,
 .h-dialog-leave-to {
@@ -235,7 +169,7 @@ html {
 /* Drawer 抽屉 */
 .h-drawer-enter-active,
 .h-drawer-leave-active {
-  transition: transform var(--duration-slow) var(--easing);
+  transition: transform var(--harmony-duration-slow) var(--harmony-motion-standard);
 }
 .h-drawer-enter-from,
 .h-drawer-leave-to {
@@ -249,8 +183,8 @@ html {
 /* Tooltip 提示 */
 .h-tooltip-enter-active,
 .h-tooltip-leave-active {
-  transition: opacity var(--duration-fast) var(--easing),
-              transform var(--duration-fast) var(--easing);
+  transition: opacity var(--harmony-duration-fast) var(--harmony-motion-standard),
+              transform var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 .h-tooltip-enter-from,
 .h-tooltip-leave-to {
@@ -261,11 +195,19 @@ html {
 /* Dropdown 下拉 */
 .h-dropdown-enter-active,
 .h-dropdown-leave-active {
-  transition: opacity var(--duration-fast) var(--easing),
-              transform var(--duration-fast) var(--easing);
+  transition: opacity var(--harmony-duration-fast) var(--harmony-motion-standard),
+              transform var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 .h-dropdown-enter-from,
 .h-dropdown-leave-to {
   opacity: 0;
   transform: translateY(-4px);
+}
+
+/* 页面过渡 */
+.harmony-page-enter-active {
+  animation: harmony-fade-in var(--harmony-duration-normal) var(--harmony-motion-decelerate);
+}
+.harmony-page-leave-active {
+  animation: harmony-fade-in var(--harmony-duration-fast) var(--harmony-motion-accelerate) reverse;
 }

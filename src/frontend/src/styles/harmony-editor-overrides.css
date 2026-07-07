@@ -1,0 +1,46 @@
+/*
+ * HarmonyOS 第三方编辑器样式覆盖
+ * Monaco Editor / ECharts / MdEditor
+ */
+
+/* ========== Monaco Editor ========== */
+.monaco-editor {
+  border-radius: var(--harmony-corner-radius-level8) !important;
+}
+
+.monaco-editor .margin,
+.monaco-editor-background {
+  background-color: var(--harmony-comp-background-primary) !important;
+}
+
+.monaco-editor .line-numbers {
+  color: var(--harmony-font-tertiary) !important;
+}
+
+/* ========== MdEditor (md-editor-v3) ========== */
+.md-editor {
+  background-color: transparent !important;
+}
+
+.md-editor-preview-wrapper {
+  padding: 0 !important;
+}
+
+.md-editor-toolbar {
+  background-color: var(--harmony-comp-background-secondary) !important;
+  border-color: var(--harmony-comp-divider) !important;
+  border-radius: var(--harmony-corner-radius-level8) var(--harmony-corner-radius-level8) 0 0;
+}
+
+.md-editor-toolbar-item:hover {
+  background-color: var(--harmony-interactive-hover) !important;
+}
+
+.md-editor-content {
+  color: var(--harmony-font-primary) !important;
+}
+
+/* ========== ECharts ========== */
+.echarts-container {
+  border-radius: var(--harmony-corner-radius-level8);
+}

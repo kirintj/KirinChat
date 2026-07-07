@@ -1,0 +1,43 @@
+/*
+ * HarmonyOS Liquid Glass & Overlay & Shadow Tokens
+ * 用于浮层组件（titlebar、bottomtab、dialog、drawer、message）
+ */
+
+:root {
+  /* 液态玻璃效果 */
+  --glass-blur: blur(20px);
+  --glass-saturate: saturate(1.8);
+  --glass-bg-light: rgba(255, 255, 255, 0.15);
+  --glass-bg-dark: rgba(0, 0, 0, 0.15);
+  --glass-border-light: 1px solid rgba(255, 255, 255, 0.2);
+  --glass-border-dark: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-mix-blend: plus-lighter;
+  --glass-box-shadow: 0 4px 48px rgba(0, 0, 0, 0.08),
+                      0 4px 8px rgba(0, 0, 0, 0.25);
+
+  /* 遮罩层 */
+  --harmony-overlay-light: rgba(0, 0, 0, 0.4);
+  --harmony-overlay-heavy: rgba(0, 0, 0, 0.6);
+
+  /* 阴影体系 */
+  --harmony-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --harmony-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --harmony-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --harmony-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --harmony-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --harmony-shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --harmony-shadow-dialog: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] {
+  --harmony-overlay-light: rgba(0, 0, 0, 0.5);
+  --harmony-overlay-heavy: rgba(0, 0, 0, 0.7);
+
+  --harmony-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --harmony-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --harmony-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --harmony-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.14);
+  --harmony-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --harmony-shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --harmony-shadow-dialog: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
