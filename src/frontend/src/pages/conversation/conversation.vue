@@ -1527,7 +1527,4 @@ const closeCreateDialog = () => {
 }
     transform: translateY(0);
   }
-  50% {
-    transform: translateY(-10px);
-  }
 </style>

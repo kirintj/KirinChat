@@ -803,9 +803,6 @@ onMounted(() => {
   20% {
     opacity: 1;
   }
-  100% {
-    opacity: 0.2;
-  }
 
 .thinking-segment {
   background-color: var(--harmony-comp-background-primary);
