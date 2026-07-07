@@ -423,79 +423,207 @@ Monaco Editor、Vditor、ECharts、MdEditor 的样式覆盖：
 
 ## 实施分期
 
-### Phase 1: 基础设施
+> 6 个阶段，按依赖关系排序。每阶段产出可独立验证，前一阶段未完成不得进入下一阶段。
 
-1. 用参考项目的 `harmony-tokens.css` 替换现有文件
-2. 用参考项目的 `mobile-scale.css` 替换现有文件
-3. 新增 `glass-mixins.css`（液态玻璃效果 token）
-4. 新增 `hmsymbol.css`（HMSymbol 字体引入）
-5. 部署字体文件到 `assets/`（HMSymbolVF_1.ttf、HMOSColorEmojiCompat.ttf）
-6. 删除 `style.css` 中的业务变量映射，精简为全局重置 + transition 动画
-7. 全局搜索替换：所有 `--color-*` / `--radius-*` / `--spacing-*` / `--font-size-*` 引用替换为对应 `--harmony-*` token
-8. 新增鸿蒙标准动效系统（`--harmony-motion-*`、`--harmony-duration-*`、标准 keyframes）
-9. 新增 `harmony-editor-overrides.css`（第三方库样式覆盖）
+### Phase 1: Design Token 基础层
 
-### Phase 2: 壳层组件 + 统一布局
+**目标**：建立完整的鸿蒙设计 token 体系，消除所有间接映射。
 
-1. 实现 HStatusbar（从 statusbar-tem.html 提取，部署 PNG 图标资源）
-2. 实现 HTitlebar（4 种变体，渐隐背板 + backdrop-filter）
-3. 实现 HBottomTab（6 种变体，液态玻璃胶囊 + home indicator）
-4. 实现 HAIBottomBar（AI 底部指示栏）
-5. 实现 HAppShell（根容器组件，管理响应式断点状态）
-6. 抽取 HSidebar 为共享组件（从各页面提取侧边栏逻辑）
-7. 更新 App.vue 统一路由布局（响应式条件渲染）
-8. 评估 28 个 SVG 图标到 HMSymbol 的映射，可映射的替换为字体引用
+**前置条件**：无
 
-### Phase 3: UI 组件库
+**任务清单**：
 
-1. 新建 HSearch、HSwitch、HToolbar、HList、HDivider、HCardView（按参考模板）
-2. 重构 HButton、HChipsTab（对齐参考规范数值基线 + 交互态）
-3. 全面重构 HDialog、HDrawer、HDropdown 等 15 个组件（统一标准：数值基线 + 五态交互 + 液态玻璃 + Token 直引）
-4. HIcon 双模式扩展（HMSymbol + SVG 降级）
-5. 注册新组件到 UI 插件（main.ts 中 app.use(UI)）
+| # | 任务 | 涉及文件 | 验收标准 |
+|---|---|---|---|
+| 1.1 | 用参考项目替换 `harmony-tokens.css` | `styles/harmony-tokens.css` | 与参考项目文件 diff 为空 |
+| 1.2 | 用参考项目替换 `mobile-scale.css` | `styles/mobile-scale.css` | 与参考项目文件 diff 为空 |
+| 1.3 | 新增 `glass-mixins.css` | `styles/glass-mixins.css` 新建 | 包含 blur/saturate/bg/border/shadow 变量 |
+| 1.4 | 新增鸿蒙动效 token | `style.css` | 包含 `--harmony-motion-*` 和 `--harmony-duration-*` |
+| 1.5 | 新增标准 keyframes | `style.css` | 包含 harmony-fade-in / slide-up / slide-in-right / scale-in / pulse |
+| 1.6 | 删除 `style.css` 业务别名 | `style.css` | 无 `--color-*` / `--radius-*` / `--spacing-*` / `--font-size-*` 定义 |
+| 1.7 | 全局替换业务变量引用 | 全部 .vue + .css 文件 | `grep -r "var(--color-\|var(--radius-\|var(--spacing-\|var(--font-size-" src/` 返回 0 结果 |
+| 1.8 | 新增 `harmony-editor-overrides.css` | `styles/harmony-editor-overrides.css` 新建 | Monaco/ECharts/Vditor/MdEditor 主题色 + 字体 + 圆角对齐 token |
 
-### Phase 4: 页面与业务组件迁移
+**风险**：1.7 全局替换影响范围大，需逐文件验证不破坏功能。
 
-**业务组件迁移（与页面同步进行）：**
+---
 
-| 业务组件 | 适配方式 |
-|---|---|
-| agentCard.vue | 样式对齐 HCardView，token 直引 |
-| commonCard.vue | 样式对齐 HCardView，token 直引 |
-| histortCard.vue | 列表项样式对齐 HList |
-| hub/QuickEntryCard.vue | 对齐 HCardView |
-| hub/ActiveSessionCard.vue | 对齐 HCardView |
-| hub/RecentInterviewItem.vue | 对齐 HList 列表项 |
-| hub/SkillStatCard.vue | 对齐 HCardView |
-| dialog/AgentFormDialog.vue | 对齐 HDialog 标准（液态玻璃 + 交互态） |
-| drawer/drawer.vue | 对齐 HDrawer 标准（液态玻璃 + 交互态） |
+### Phase 2: HMSymbol 图标系统
 
-**页面迁移批次：**
+**目标**：完成图标字体引入和 HIcon 组件扩展，为壳层组件和后续迁移做准备。
 
-**批次 A（核心页面）：**
-- conversation/chatPage
-- workspace（defaultPage + workspacePage + taskGraphPage）
-- homepage
+**前置条件**：Phase 1 完成
 
-**批次 B（功能页面）：**
-- agent（agent.vue + agent-editor.vue）
-- knowledge（knowledge-file.vue）
-- mcp-server
-- model
+**任务清单**：
 
-**批次 C（扩展页面）：**
-- interview（hubPage + chatPage + reportPage）
-- voice-interview
-- dashboard、profile、configuration、tool、agent-skill、mars、construct
+| # | 任务 | 涉及文件 | 验收标准 |
+|---|---|---|---|
+| 2.1 | 部署 HMSymbol 字体文件 | `assets/HMSymbolVF_1.ttf`、`assets/HMOSColorEmojiCompat.ttf` 新增 | 文件存在且可加载 |
+| 2.2 | 新增 `hmsymbol.css` | `styles/hmsymbol.css` 新建 | @font-face 声明正确，浏览器可渲染 HMSymbol 字符 |
+| 2.3 | HIcon 组件双模式扩展 | `components/ui/HIcon.vue` | 支持 `name`（HMSymbol Unicode）和 `svg`（降级）两种模式 |
+| 2.4 | 评估 28 个 SVG 到 HMSymbol 映射 | `assets/*.svg` | 产出映射表：可替换 / 不可替换（保留 SVG 统一风格） |
+| 2.5 | 可映射图标替换为 HMSymbol | 相关 .vue 文件 | 替换后的图标通过 HIcon 组件渲染，视觉无差异 |
+| 2.6 | 不可映射图标风格统一 | 相关 .svg 文件 | 圆角、线宽、尺寸对齐鸿蒙规范 |
 
-每个页面迁移步骤：
+**风险**：2.4 映射评估需逐个比对 HMSymbol 字符集，部分图标可能无对应字符。
+
+---
+
+### Phase 3: 壳层组件 + 统一路由布局
+
+**目标**：实现 4 个壳层组件 + HAppShell + HSidebar，建立统一页面骨架。
+
+**前置条件**：Phase 1（Token）、Phase 2（HMSymbol）完成
+
+**任务清单**：
+
+| # | 任务 | 涉及文件 | 验收标准 |
+|---|---|---|---|
+| 3.1 | 部署 statusbar PNG 图标资源 | `assets/statusbar-*.png` 新增（8 个文件） | light/dark 各 4 个图标文件存在 |
+| 3.2 | 实现 HStatusbar | `components/ui/shell/HStatusbar.vue` 新建 | 4 个 `<i>` 元素，position: absolute，数值与模板一致 |
+| 3.3 | 实现 HTitlebar | `components/ui/shell/HTitlebar.vue` 新建 | 4 种变体（big/normal/secondary/drawer），渐隐背板 + backdrop-filter |
+| 3.4 | 实现 HBottomTab | `components/ui/shell/HBottomTab.vue` 新建 | 6 种变体（2/3/4/5 tab + 1bar + multibar），液态玻璃胶囊 |
+| 3.5 | 实现 HAIBottomBar | `components/ui/shell/HAIBottomBar.vue` 新建 | 360×28px，home indicator 112×5px |
+| 3.6 | 实现 HAppShell | `components/ui/shell/HAppShell.vue` 新建 | 管理响应式断点状态，提供 isMobile 计算属性 |
+| 3.7 | 抽取 HSidebar 为共享组件 | 从各页面提取侧边栏逻辑，统一到 `components/ui/shell/HSidebar.vue` | 桌面端固定左侧，响应式折叠/展开 |
+| 3.8 | 重构 App.vue | `App.vue` | 统一壳层组装：移动端 BottomTab / 桌面端 Sidebar，不再依赖各页面自建导航 |
+| 3.9 | 注册壳层组件到 UI 插件 | `components/ui/index.ts` | HStatusbar/HTitlebar/HBottomTab/HAIBottomBar/HAppShell/HSidebar 全局可用 |
+
+**风险**：3.7 HSidebar 抽取涉及多页面改动，需逐页验证侧边栏功能不丢失。3.8 App.vue 重构后需全页面回归测试。
+
+---
+
+### Phase 4: UI 组件库重构
+
+**目标**：新建 7 个参考组件 + 重构全部 17 个现有组件，统一为鸿蒙规范。
+
+**前置条件**：Phase 1（Token）、Phase 2（HMSymbol）、Phase 3（壳层）完成
+
+**任务清单**：
+
+| # | 任务 | 涉及文件 | 验收标准 |
+|---|---|---|---|
+| **新建组件** | | | |
+| 4.1 | 实现 HSearch | `components/ui/HSearch.vue` 新建 | off/on 模式 × 10 状态，数值基线与 search-tem.html 一致 |
+| 4.2 | 实现 HSwitch | `components/ui/HSwitch.vue` 新建 | on/off × 5 状态 |
+| 4.3 | 实现 HToolbar | `components/ui/HToolbar.vue` 新建 | 浮动工具栏，5 变体 |
+| 4.4 | 实现 HList | `components/ui/HList.vue` 新建 | 鸿蒙标准列表项 |
+| 4.5 | 实现 HDivider | `components/ui/HDivider.vue` 新建 | 分割线 |
+| 4.6 | 实现 HCardView | `components/ui/HCardView.vue` 新建 | 5 尺寸（max/larger/medium/small/mini） |
+| 4.7 | 实现 HChipsTab | `components/ui/HChipsTab.vue` 新建 | 胶囊标签栏，3 变体 |
+| **重构现有组件** | | | |
+| 4.8 | 重构 HButton | `components/ui/HButton.vue` | 5 类型 × 2 尺寸 × 6 状态，液态玻璃填充，数值基线对齐 |
+| 4.9 | 重构 HDialog | `components/ui/HDialog.vue` | 液态玻璃背景 + 五态交互 + Token 直引 |
+| 4.10 | 重构 HDrawer | `components/ui/HDrawer.vue` | 液态玻璃 + 鸿蒙动效曲线 + 五态交互 |
+| 4.11 | 重构 HDropdown/DropdownItem | `components/ui/HDropdown.vue`、`DropdownItem.vue` | 液态玻璃 + 五态交互 |
+| 4.12 | 重构 HForm/FormItem | `components/ui/HForm.vue`、`FormItem.vue` | Token 直引 + 五态交互 |
+| 4.13 | 重构 HInput | `components/ui/HInput.vue` | Token 直引 + 五态交互 |
+| 4.14 | 重构 HSelect/HOption | `components/ui/HSelect.vue`、`HOption.vue` | 液态玻璃 + 五态交互 |
+| 4.15 | 重构 HTabs/TabPane | `components/ui/HTabs.vue`、`TabPane.vue` | Token 直引 + 五态交互 |
+| 4.16 | 重构 HTooltip | `components/ui/HTooltip.vue` | 液态玻璃 + Token 直引 |
+| 4.17 | 重构 HUpload | `components/ui/HUpload.vue` | Token 直引 + 五态交互 |
+| 4.18 | 重构 HAvatar | `components/ui/HAvatar.vue` | Token 直引 |
+| 4.19 | 重构 HSkeleton | `components/ui/HSkeleton.vue` | 鸿蒙标准 pulse 动效 |
+| 4.20 | 重构 HMessage/HMessageBox | `components/ui/HMessage.vue`、`HMessageBox.vue` | 液态玻璃 + 鸿蒙动效 |
+| 4.21 | 重构 HScrollbar | `components/ui/HScrollbar.vue` | Token 直引 |
+| 4.22 | 重构 HTable | `components/ui/HTable.vue` | Token 直引 + HDivider 分割线 |
+| 4.23 | 重构 HTag | `components/ui/HTag.vue` | Token 直引 + 五态交互 |
+| **注册** | | | |
+| 4.24 | 注册新组件到 UI 插件 | `components/ui/index.ts` | HSearch/HSwitch/HToolbar/HList/HDivider/HCardView/HChipsTab 全局可用 |
+
+**验收方式**：每个组件完成后，运行 Storybook（如有）或独立页面验证所有变体和状态。
+
+---
+
+### Phase 5: 业务组件 + 动效清理
+
+**目标**：业务组件对齐 UI 组件库标准，清理分散的自定义动效。
+
+**前置条件**：Phase 4（UI 组件库）完成
+
+**任务清单**：
+
+| # | 任务 | 涉及文件 | 验收标准 |
+|---|---|---|---|
+| **业务组件重构** | | | |
+| 5.1 | 重构 agentCard.vue | `components/agentCard/agentCard.vue` | 对齐 HCardView，Token 直引 |
+| 5.2 | 重构 commonCard.vue | `components/commonCard/commonCard.vue` | 对齐 HCardView，Token 直引 |
+| 5.3 | 重构 histortCard.vue | `components/historyCard/histortCard.vue` | 对齐 HList 列表项 |
+| 5.4 | 重构 hub/QuickEntryCard.vue | `components/hub/QuickEntryCard.vue` | 对齐 HCardView |
+| 5.5 | 重构 hub/ActiveSessionCard.vue | `components/hub/ActiveSessionCard.vue` | 对齐 HCardView |
+| 5.6 | 重构 hub/RecentInterviewItem.vue | `components/hub/RecentInterviewItem.vue` | 对齐 HList 列表项 |
+| 5.7 | 重构 hub/SkillStatCard.vue | `components/hub/SkillStatCard.vue` | 对齐 HCardView |
+| 5.8 | 重构 dialog/AgentFormDialog.vue | `components/dialog/create_agent/AgentFormDialog.vue` | 对齐 HDialog 标准 |
+| 5.9 | 重构 drawer/drawer.vue | `components/drawer/drawer.vue` | 对齐 HDrawer 标准 |
+| **动效清理** | | | |
+| 5.10 | 清理自定义 keyframes | 30+ 处分散在各 .vue 文件中的 keyframes | 替换为 `harmony-*` 标准动效，`grep -r "@keyframes" src/` 仅返回标准动效 |
+| 5.11 | 统一 transition 曲线 | 各 .vue 文件中的 transition/animation 属性 | 使用 `var(--harmony-motion-*)` 和 `var(--harmony-duration-*)` |
+
+---
+
+### Phase 6: 页面迁移 + 硬编码清理
+
+**目标**：20+ 页面逐步迁移到鸿蒙组件库，清理全部硬编码样式。
+
+**前置条件**：Phase 3（壳层布局）、Phase 4（UI 组件库）、Phase 5（业务组件）完成
+
+**每页迁移步骤**（严格执行）：
+
 1. 替换业务变量为 `--harmony-*` 原生 token
-2. 替换自定义样式为鸿蒙组件
-3. 接入壳层组件（选择合适的 titlebar 变体）
-4. 清理硬编码颜色、圆角、内联样式，替换为 token
-5. 替换自定义 keyframes 为鸿蒙标准动效
-6. 图标统一通过 `<HIcon>` 组件调用
-7. 响应式验证（桌面 + 移动端）
+2. 替换自定义样式为鸿蒙组件（HCardView、HList、HButton 等）
+3. 接入壳层组件（选择合适的 HTitlebar 变体）
+4. 清理硬编码颜色 → 对应 `--harmony-*` 语义色 token
+5. 清理硬编码圆角 → 对应 `--harmony-corner-radius-level*` token
+6. 清理内联 `style=""` → 迁移到 `<style scoped>` 中使用 token
+7. 替换自定义 keyframes 为鸿蒙标准动效
+8. 图标统一通过 `<HIcon>` 组件调用
+9. 第三方库样式引用 `harmony-editor-overrides.css`
+10. 响应式验证（桌面端 + 移动端）
+
+**迁移完成后自检**：
+- `grep -rn "#[0-9a-fA-F]\{3,8\}" <page-file>` 返回 0 结果（无硬编码颜色）
+- `grep -rn "border-radius: [0-9]" <page-file>` 返回 0 结果（无硬编码圆角）
+- `grep -rn 'style="' <page-file>` 返回 0 结果（无内联样式）
+
+**批次 A — 核心页面**（优先级最高，影响全局体验）：
+
+| 页面 | 涉及文件 | 预估工作量 |
+|---|---|---|
+| conversation/chatPage | `pages/conversation/chatPage/chatPage.vue`、`conversation.vue` | 高（最复杂页面，含 SSE 流式） |
+| workspace | `pages/workspace/workspace.vue`、`defaultPage.vue`、`workspacePage.vue`、`taskGraphPage.vue` | 高（4 个子页面） |
+| homepage | `pages/homepage/homepage.vue` | 中 |
+
+**批次 B — 功能页面**：
+
+| 页面 | 涉及文件 | 预估工作量 |
+|---|---|---|
+| agent | `pages/agent/agent.vue`、`agent-editor.vue` | 高（含 Monaco Editor） |
+| knowledge | `pages/knowledge/knowledge-file.vue` | 中 |
+| mcp-server | `pages/mcp-server/mcp-server.vue` | 中 |
+| model | `pages/model/` 目录 | 中 |
+
+**批次 C — 扩展页面**：
+
+| 页面 | 涉及文件 | 预估工作量 |
+|---|---|---|
+| interview | `pages/interview/hubPage.vue`、`chatPage.vue`、`reportPage.vue` | 高（3 个子页面） |
+| voice-interview | `pages/voice-interview/` 目录 | 中（含 AudioPlayer/Recorder） |
+| dashboard | `pages/dashboard/dashboard.vue` | 中（含 ECharts） |
+| profile | `pages/profile/` 目录 | 低 |
+| configuration | `pages/configuration/` 目录 | 低 |
+| tool | `pages/tool/tool.vue` | 低 |
+| agent-skill | `pages/agent-skill/` 目录 | 中 |
+| mars | `pages/mars/` 目录 | 低 |
+| construct | `pages/construct/` 目录 | 低 |
+
+**批次 D — 面试模块子页面**：
+
+| 页面 | 涉及文件 | 预估工作量 |
+|---|---|---|
+| interview/learning | `pages/interview/learningPage.vue` | 中 |
+| interview/resume | `pages/interview/resumePage.vue` | 中 |
+| interview/history | `pages/interview/historyPage.vue` | 中 |
+| interview/JD解析 | `pages/interview/jdPage.vue` | 中 |
 
 ## 参考项目关键路径
 
