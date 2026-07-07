@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { HButton, HInput, HMessage } from '@/components/ui'
 import {
@@ -8,6 +8,7 @@ import {
 } from '../../apis/workspace'
 
 const router = useRouter()
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 const selectedSession = ref('')
 const sessions = ref<any[]>([])
 const loading = ref(false)
@@ -132,7 +133,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="workspace-root">
+  <!-- Desktop -->
+  <div v-if="!isMobile" class="workspace-root">
     <!-- 左侧面板 -->
     <aside class="sidebar-panel">
       <!-- 顶部操作区 -->
@@ -220,6 +222,38 @@ onMounted(async () => {
     <main class="content-area">
       <router-view />
     </main>
+  </div>
+
+  <!-- Mobile -->
+  <div v-else class="workspace-mobile">
+    <div class="wm-header">
+      <button class="wm-create-btn" @click="createNewSession">+ 新建会话</button>
+    </div>
+
+    <div class="wm-list" v-if="filteredSessions.length > 0">
+      <div
+        v-for="session in filteredSessions"
+        :key="session.sessionId"
+        class="wm-item"
+        @click="selectSession(session.sessionId)"
+      >
+        <div class="wm-item__icon">{{ getAgentIcon(session.agent) }}</div>
+        <div class="wm-item__content">
+          <h3 class="wm-item__name">{{ session.title }}</h3>
+          <p class="wm-item__time">{{ formatTime(session.createTime) }}</p>
+        </div>
+        <span class="wm-item__badge" :class="session.agent">{{ getAgentLabel(session.agent) }}</span>
+      </div>
+    </div>
+
+    <div v-else-if="loading" class="wm-empty">
+      <div class="spinner"></div>
+      <p>加载中...</p>
+    </div>
+
+    <div v-else class="wm-empty">
+      <p>暂无会话记录</p>
+    </div>
   </div>
 </template>
 
@@ -523,6 +557,135 @@ onMounted(async () => {
     min-width: 0;
     height: auto;
     max-height: 240px;
+  }
+}
+
+/* ===== Mobile hmos list ===== */
+.workspace-mobile {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--harmony-comp-background-primary);
+}
+
+.wm-header {
+  display: flex;
+  padding: 16px 0 12px;
+
+  .wm-create-btn {
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level6);
+    background: var(--harmony-comp-background-secondary);
+    color: var(--harmony-font-secondary);
+    font-size: var(--harmony-font-size-body-l);
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
+
+    &:active {
+      background: var(--harmony-comp-emphasize-tertiary);
+      border-color: var(--harmony-brand);
+      color: var(--harmony-brand);
+    }
+  }
+}
+
+.wm-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wm-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  border-bottom: 1px solid var(--harmony-comp-divider);
+  transition: background var(--harmony-duration-fast) var(--harmony-motion-standard);
+
+  &:active {
+    background: var(--harmony-comp-emphasize-tertiary);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--harmony-corner-radius-level6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: var(--harmony-comp-background-secondary);
+    flex-shrink: 0;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: var(--harmony-font-size-body-l);
+    font-weight: 500;
+    color: var(--harmony-font-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__time {
+    margin: 4px 0 0;
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-tertiary);
+  }
+
+  &__badge {
+    font-size: var(--harmony-font-size-caption-m);
+    padding: 2px 8px;
+    border-radius: var(--harmony-corner-radius-level18);
+    font-weight: 500;
+    flex-shrink: 0;
+
+    &.simple {
+      background: var(--harmony-comp-emphasize-tertiary);
+      color: var(--harmony-brand);
+    }
+
+    &.lingseek {
+      background: var(--harmony-alert-bg);
+      color: var(--harmony-alert);
+    }
+  }
+}
+
+.wm-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 12px;
+
+  p {
+    margin: 0;
+    font-size: var(--harmony-font-size-body-l);
+    color: var(--harmony-font-tertiary);
   }
 }
 </style>
