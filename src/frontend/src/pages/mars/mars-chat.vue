@@ -104,12 +104,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, computed, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, nextTick, computed, onMounted, onBeforeUnmount, watch, inject } from 'vue'
 import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
 import { fetchEventSource } from '@microsoft/fetch-event-source'
 import { HMessage } from '@/components/ui'
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
+
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 
 // 响应式数据
 const route = useRoute()
@@ -1133,18 +1135,18 @@ onMounted(() => {
   .mars-output-page {
     padding: 0;
   }
-  
+
   .mars-content {
-    padding: 16px;
-    
+    padding: var(--harmony-padding-level8, 16px);
+
     .mars-chat-message {
-      gap: 10px;
-      
+      gap: var(--harmony-padding-level6, 12px);
+
       .mars-ai-avatar {
-        width: 36px;
-        height: 36px;
+        width: var(--harmony-control-height-36, 36px);
+        height: var(--harmony-control-height-36, 36px);
         padding: 5px;
-        
+
         .avatar-img {
           width: 26px;
           height: 26px;
@@ -1152,30 +1154,30 @@ onMounted(() => {
       }
     }
   }
-  
+
   .mars-error-state,
   .mars-empty-state {
-    padding: 40px 20px;
-    
+    padding: var(--harmony-padding-level10, 20px);
+
          .mars-chat-message {
        .mars-ai-avatar {
-         width: 36px;
-         height: 36px;
-         
+         width: var(--harmony-control-height-36, 36px);
+         height: var(--harmony-control-height-36, 36px);
+
          .avatar-img {
-           width: 36px;
-           height: 36px;
+           width: var(--harmony-control-height-36, 36px);
+           height: var(--harmony-control-height-36, 36px);
          }
        }
      }
   }
-  
+
     .mars-content {
     .mars-chat-message {
       .mars-loading-dialog {
         padding: var(--harmony-padding-level8) var(--harmony-padding-level10);
         min-width: 100px;
-        
+
         .mars-loading-spinner {
           width: 16px;
           height: 16px;
@@ -1183,11 +1185,11 @@ onMounted(() => {
         }
       }
     }
-    
+
     /*
     .mars-generating {
       padding: 10px 12px;
-      
+
       .mars-generating-indicator {
         .mars-generating-spinner {
           width: 16px;
