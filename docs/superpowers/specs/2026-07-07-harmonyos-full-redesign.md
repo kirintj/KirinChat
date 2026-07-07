@@ -399,7 +399,279 @@ HDialog、HDrawer、HDropdown/DropdownItem、HForm/FormItem、HInput、HSelect/H
 | `border-radius: 999px` | `var(--harmony-corner-radius-level18)` |
 | 内联 `style=""` | 迁移到 `<style scoped>` 中使用 token |
 
-所有硬编码样式在 Phase 4 页面迁移时同步清理，每个页面迁移完成前必须通过 `grep` 检查无残留硬编码值。
+所有硬编码样式在 Phase 6 页面迁移时同步清理，每个页面迁移完成前必须通过 `grep` 检查无残留硬编码值。
+
+## Shadow Token 体系
+
+### 现状
+
+`style.css` 中的 `--shadow-*` 系列全部使用硬编码 rgba 值（如 `0 4px 12px rgba(0,0,0,0.06)`），未映射到鸿蒙 token。
+
+### 目标方案
+
+在 `harmony-tokens.css` 中补充阴影 token，或在 `glass-mixins.css` 中定义语义化阴影：
+
+```css
+:root {
+  --harmony-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --harmony-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --harmony-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --harmony-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --harmony-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --harmony-shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --harmony-shadow-dialog: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] {
+  --harmony-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --harmony-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --harmony-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --harmony-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.14);
+  --harmony-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --harmony-shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --harmony-shadow-dialog: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+```
+
+删除 `style.css` 中的 `--shadow-*` 定义，所有引用替换为 `--harmony-shadow-*`。
+
+## Overlay/遮罩 Token 化
+
+### 现状
+
+- HMessageBox overlay 硬编码 `rgba(0,0,0,0.5)`，暗色模式不适配
+- HDialog、HDrawer 各自实现遮罩样式，不统一
+
+### 目标方案
+
+在 `glass-mixins.css` 中统一定义遮罩 token：
+
+```css
+:root {
+  --harmony-overlay-light: rgba(0, 0, 0, 0.4);
+  --harmony-overlay-heavy: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] {
+  --harmony-overlay-light: rgba(0, 0, 0, 0.5);
+  --harmony-overlay-heavy: rgba(0, 0, 0, 0.7);
+}
+```
+
+HMessageBox、HDialog、HDrawer 统一引用 `--harmony-overlay-*` token。
+
+## 全局可访问性与降级
+
+### ::selection 文本选中色
+
+```css
+::selection {
+  background-color: var(--harmony-comp-emphasize-tertiary);
+  color: var(--harmony-font-primary);
+}
+```
+
+### ::focus 焦点指示器
+
+删除所有业务页面中的 `outline: none`，统一使用鸿蒙焦点样式：
+
+```css
+:focus-visible {
+  outline: 2px solid var(--harmony-interactive-focus);
+  outline-offset: 2px;
+}
+
+/* 禁用默认 outline 的元素必须提供替代焦点指示 */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+```
+
+### prefers-reduced-motion 动效降级
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```
+
+## 响应式断点统一
+
+### 现状
+
+15 个页面文件使用 7+ 种断点值（480/600/768/900/1100/1199/1200/1400px），无统一变量。
+
+### 目标方案
+
+在 `style.css` 中定义统一断点变量：
+
+```css
+:root {
+  --bp-mobile: 480px;
+  --bp-tablet: 768px;
+  --bp-desktop: 1200px;
+  --bp-wide: 1400px;
+}
+```
+
+各页面媒体查询统一使用：
+- `@media (max-width: var(--bp-mobile))` — 移动端
+- `@media (max-width: var(--bp-tablet))` — 平板
+- `@media (min-width: var(--bp-desktop))` — 桌面端
+- `@media (min-width: var(--bp-wide))` — 宽屏
+
+注意：CSS 自定义属性不能直接用在 `@media` 中，需使用 SCSS mixin 或 PostCSS 插件：
+```scss
+@mixin mobile { @media (max-width: 767px) { @content; } }
+@mixin tablet { @media (max-width: 1199px) { @content; } }
+@mixin desktop { @media (min-width: 1200px) { @content; } }
+@mixin wide { @media (min-width: 1400px) { @content; } }
+```
+
+各页面全部替换为上述 mixin，删除零散断点值。
+
+## 页面过渡动画
+
+### 现状
+
+router-view 无 `<Transition>` 包裹，页面切换无动效。
+
+### 目标方案
+
+在 App.vue 的 `<router-view>` 外添加鸿蒙标准页面过渡：
+
+```vue
+<router-view v-slot="{ Component, route }">
+  <Transition name="harmony-page" mode="out-in">
+    <component :is="Component" :key="route.path" />
+  </Transition>
+</router-view>
+```
+
+```css
+.harmony-page-enter-active {
+  animation: harmony-fade-in var(--harmony-duration-normal) var(--harmony-motion-decelerate);
+}
+.harmony-page-leave-active {
+  animation: harmony-fade-in var(--harmony-duration-fast) var(--harmony-motion-accelerate) reverse;
+}
+```
+
+## Dialog/Popup 样式统一
+
+### 现状
+
+agent、knowledge-file、mcp-server、tool、conversation 等页面各自实现 overlay + card + footer 弹窗样式，未复用 HDialog 组件。
+
+### 目标方案
+
+1. Phase 4 中 HDialog 组件全面重构后，所有页面的自定义弹窗替换为 `<HDialog>` 组件
+2. 删除各页面中重复的 overlay/card/footer 样式
+3. 特殊尺寸需求通过 HDialog 的 `width` 和 `custom-class` prop 满足
+
+## Empty 状态统一
+
+### 现状
+
+drawer.vue 使用 emoji 🤖 作为 empty 状态，各页面 empty 样式不统一。
+
+### 目标方案
+
+新增 `HEmpty` 组件：
+
+```vue
+<!-- components/ui/HEmpty.vue -->
+<template>
+  <div class="h-empty">
+    <HIcon :name="icon" class="h-empty__icon" />
+    <p class="h-empty__text">{{ text }}</p>
+    <slot name="action" />
+  </div>
+</template>
+```
+
+所有页面的 empty 状态统一使用 `<HEmpty>`，图标使用 HMSymbol 字体字符。
+
+## CSS 体量瘦身
+
+### 现状
+
+- mcp-server.vue：1900 行 CSS（2 个 style 块，23 处内联 style）
+- tool.vue：1370 行（大量 `.dark` 前缀手动适配）
+- conversation.vue：1020 行（5 个 @keyframes，dialog 样式冗长）
+- knowledge-file.vue：800 行（4 个 @keyframes）
+
+### 瘦身策略
+
+1. **提取公共样式到 SCSS mixin**：dialog overlay、card hover、loading spinner 等跨页面重复模式
+2. **删除 `.dark` 前缀手动适配**：全部走 `[data-theme="dark"]` token 机制，tool.vue 重点清理
+3. **合并重复 style 块**：mcp-server.vue 的 2 个 style 块合并为 1 个 scoped 块
+4. **删除内联 style=""**：23 处 mcp-server 内联样式迁移到 `<style scoped>`
+
+## non-scoped 样式清理
+
+### 现状
+
+4 处 non-scoped 样式存在泄漏风险：
+- `AgentFormDialog.vue` — 第二段 non-scoped style
+- `agent-skill.vue` — 第二段 non-scoped style
+- `mcp-server.vue` — 第二段 non-scoped style
+- `notFound.vue` — `<style>` 无 scoped
+
+### 清理规则
+
+1. 检查每处 non-scoped 样式是否有跨组件影响的意图
+2. 如有跨组件需求，迁移到 `style.css` 全局样式中
+3. 如无跨组件需求，添加 `scoped` 属性
+4. 清理完成后 `grep -rn '<style' src/ | grep -v scoped` 返回 0 结果
+
+## hubPage 命名空间修正
+
+### 现状
+
+`interview/hubPage.vue` 使用 `var(--text-primary, #1f2937)` 等非标准命名空间，存在两套 token 体系。
+
+### 目标方案
+
+全部替换为标准 `--harmony-*` 命名空间：
+- `var(--text-primary, #1f2937)` → `var(--harmony-font-primary)`
+- `var(--text-secondary, ...)` → `var(--harmony-font-secondary)`
+- 其他非标准变量逐一替换
+
+## 第三方库主题适配
+
+### ECharts
+
+```ts
+// composables/useEChartsTheme.ts
+const getEChartsTheme = () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+  return {
+    color: [/* 从 --harmony-* token 提取 */],
+    backgroundColor: 'transparent',
+    textStyle: { color: isDark ? 'rgba(255,255,255,0.87)' : 'rgba(0,0,0,0.87)' },
+    // ...
+  }
+}
+```
+
+### Monaco Editor
+
+```css
+/* harmony-editor-overrides.css */
+.monaco-editor {
+  --vscode-editor-background: var(--harmony-comp-background-primary) !important;
+  --vscode-editor-foreground: var(--harmony-font-primary) !important;
+  border-radius: var(--harmony-corner-radius-level8);
+}
+```
 
 ## 图标迁移 HMSymbol
 
@@ -427,7 +699,7 @@ Monaco Editor、Vditor、ECharts、MdEditor 的样式覆盖：
 
 ### Phase 1: Design Token 基础层
 
-**目标**：建立完整的鸿蒙设计 token 体系，消除所有间接映射。
+**目标**：建立完整的鸿蒙设计 token 体系，消除所有间接映射和硬编码值。
 
 **前置条件**：无
 
@@ -437,14 +709,17 @@ Monaco Editor、Vditor、ECharts、MdEditor 的样式覆盖：
 |---|---|---|---|
 | 1.1 | 用参考项目替换 `harmony-tokens.css` | `styles/harmony-tokens.css` | 与参考项目文件 diff 为空 |
 | 1.2 | 用参考项目替换 `mobile-scale.css` | `styles/mobile-scale.css` | 与参考项目文件 diff 为空 |
-| 1.3 | 新增 `glass-mixins.css` | `styles/glass-mixins.css` 新建 | 包含 blur/saturate/bg/border/shadow 变量 |
+| 1.3 | 新增 `glass-mixins.css`（液态玻璃 + overlay + shadow token） | `styles/glass-mixins.css` 新建 | 包含 blur/saturate/bg/border/shadow/overlay 变量，light/dark 双模式 |
 | 1.4 | 新增鸿蒙动效 token | `style.css` | 包含 `--harmony-motion-*` 和 `--harmony-duration-*` |
 | 1.5 | 新增标准 keyframes | `style.css` | 包含 harmony-fade-in / slide-up / slide-in-right / scale-in / pulse |
-| 1.6 | 删除 `style.css` 业务别名 | `style.css` | 无 `--color-*` / `--radius-*` / `--spacing-*` / `--font-size-*` 定义 |
-| 1.7 | 全局替换业务变量引用 | 全部 .vue + .css 文件 | `grep -r "var(--color-\|var(--radius-\|var(--spacing-\|var(--font-size-" src/` 返回 0 结果 |
-| 1.8 | 新增 `harmony-editor-overrides.css` | `styles/harmony-editor-overrides.css` 新建 | Monaco/ECharts/Vditor/MdEditor 主题色 + 字体 + 圆角对齐 token |
+| 1.6 | 新增响应式断点 mixin | `styles/breakpoints.scss` 新建 | 包含 mobile / tablet / desktop / wide 四个 mixin |
+| 1.7 | 新增全局可访问性样式 | `style.css` | 包含 `::selection`、`:focus-visible`、`prefers-reduced-motion` |
+| 1.8 | 删除 `style.css` 业务别名和 shadow 硬编码 | `style.css` | 无 `--color-*` / `--radius-*` / `--spacing-*` / `--font-size-*` / `--shadow-*` 定义 |
+| 1.9 | 全局替换业务变量引用 | 全部 .vue + .css 文件 | `grep -r "var(--color-\|var(--radius-\|var(--spacing-\|var(--font-size-" src/` 返回 0 结果 |
+| 1.10 | 全局替换硬编码阴影为 token | 全部 .vue 文件 | 所有 `box-shadow: rgba(...)` 替换为 `var(--harmony-shadow-*)` |
+| 1.11 | 新增 `harmony-editor-overrides.css` | `styles/harmony-editor-overrides.css` 新建 | Monaco/ECharts/MdEditor 主题色 + 字体 + 圆角对齐 token |
 
-**风险**：1.7 全局替换影响范围大，需逐文件验证不破坏功能。
+**风险**：1.9 和 1.10 全局替换影响范围大，需逐文件验证不破坏功能。
 
 ---
 
@@ -469,9 +744,9 @@ Monaco Editor、Vditor、ECharts、MdEditor 的样式覆盖：
 
 ---
 
-### Phase 3: 壳层组件 + 统一路由布局
+### Phase 3: 壳层组件 + 统一路由布局 + 页面过渡
 
-**目标**：实现 4 个壳层组件 + HAppShell + HSidebar，建立统一页面骨架。
+**目标**：实现 4 个壳层组件 + HAppShell + HSidebar + HEmpty，建立统一页面骨架和过渡动效。
 
 **前置条件**：Phase 1（Token）、Phase 2（HMSymbol）完成
 
@@ -485,17 +760,18 @@ Monaco Editor、Vditor、ECharts、MdEditor 的样式覆盖：
 | 3.4 | 实现 HBottomTab | `components/ui/shell/HBottomTab.vue` 新建 | 6 种变体（2/3/4/5 tab + 1bar + multibar），液态玻璃胶囊 |
 | 3.5 | 实现 HAIBottomBar | `components/ui/shell/HAIBottomBar.vue` 新建 | 360×28px，home indicator 112×5px |
 | 3.6 | 实现 HAppShell | `components/ui/shell/HAppShell.vue` 新建 | 管理响应式断点状态，提供 isMobile 计算属性 |
-| 3.7 | 抽取 HSidebar 为共享组件 | 从各页面提取侧边栏逻辑，统一到 `components/ui/shell/HSidebar.vue` | 桌面端固定左侧，响应式折叠/展开 |
-| 3.8 | 重构 App.vue | `App.vue` | 统一壳层组装：移动端 BottomTab / 桌面端 Sidebar，不再依赖各页面自建导航 |
-| 3.9 | 注册壳层组件到 UI 插件 | `components/ui/index.ts` | HStatusbar/HTitlebar/HBottomTab/HAIBottomBar/HAppShell/HSidebar 全局可用 |
+| 3.7 | 实现 HEmpty | `components/ui/HEmpty.vue` 新建 | HMSymbol 图标 + 文本 + action 插槽 |
+| 3.8 | 抽取 HSidebar 为共享组件 | 从各页面提取侧边栏逻辑，统一到 `components/ui/shell/HSidebar.vue` | 桌面端固定左侧，响应式折叠/展开 |
+| 3.9 | 重构 App.vue 统一布局 + 页面过渡 | `App.vue` | 统一壳层组装 + `<Transition name="harmony-page">` 包裹 router-view |
+| 3.10 | 注册壳层组件到 UI 插件 | `components/ui/index.ts` | 全部壳层 + HEmpty 全局可用 |
 
-**风险**：3.7 HSidebar 抽取涉及多页面改动，需逐页验证侧边栏功能不丢失。3.8 App.vue 重构后需全页面回归测试。
+**风险**：3.8 HSidebar 抽取涉及多页面改动，需逐页验证侧边栏功能不丢失。3.9 App.vue 重构后需全页面回归测试。
 
 ---
 
 ### Phase 4: UI 组件库重构
 
-**目标**：新建 7 个参考组件 + 重构全部 17 个现有组件，统一为鸿蒙规范。
+**目标**：新建 8 个参考组件 + 重构全部 17 个现有组件，统一为鸿蒙规范。
 
 **前置条件**：Phase 1（Token）、Phase 2（HMSymbol）、Phase 3（壳层）完成
 
@@ -513,10 +789,10 @@ Monaco Editor、Vditor、ECharts、MdEditor 的样式覆盖：
 | 4.7 | 实现 HChipsTab | `components/ui/HChipsTab.vue` 新建 | 胶囊标签栏，3 变体 |
 | **重构现有组件** | | | |
 | 4.8 | 重构 HButton | `components/ui/HButton.vue` | 5 类型 × 2 尺寸 × 6 状态，液态玻璃填充，数值基线对齐 |
-| 4.9 | 重构 HDialog | `components/ui/HDialog.vue` | 液态玻璃背景 + 五态交互 + Token 直引 |
+| 4.9 | 重构 HDialog | `components/ui/HDialog.vue` | 液态玻璃 + 五态交互 + Token 直引 + 宽度/padding 对齐鸿蒙数值基线 |
 | 4.10 | 重构 HDrawer | `components/ui/HDrawer.vue` | 液态玻璃 + 鸿蒙动效曲线 + 五态交互 |
 | 4.11 | 重构 HDropdown/DropdownItem | `components/ui/HDropdown.vue`、`DropdownItem.vue` | 液态玻璃 + 五态交互 |
-| 4.12 | 重构 HForm/FormItem | `components/ui/HForm.vue`、`FormItem.vue` | Token 直引 + 五态交互 |
+| 4.12 | 重构 HForm/FormItem | `components/ui/HForm.vue`、`FormItem.vue` | Token 直引 + 五态交互 + aria-invalid 关联 |
 | 4.13 | 重构 HInput | `components/ui/HInput.vue` | Token 直引 + 五态交互 |
 | 4.14 | 重构 HSelect/HOption | `components/ui/HSelect.vue`、`HOption.vue` | 液态玻璃 + 五态交互 |
 | 4.15 | 重构 HTabs/TabPane | `components/ui/HTabs.vue`、`TabPane.vue` | Token 直引 + 五态交互 |
@@ -524,20 +800,18 @@ Monaco Editor、Vditor、ECharts、MdEditor 的样式覆盖：
 | 4.17 | 重构 HUpload | `components/ui/HUpload.vue` | Token 直引 + 五态交互 |
 | 4.18 | 重构 HAvatar | `components/ui/HAvatar.vue` | Token 直引 |
 | 4.19 | 重构 HSkeleton | `components/ui/HSkeleton.vue` | 鸿蒙标准 pulse 动效 |
-| 4.20 | 重构 HMessage/HMessageBox | `components/ui/HMessage.vue`、`HMessageBox.vue` | 液态玻璃 + 鸿蒙动效 |
-| 4.21 | 重构 HScrollbar | `components/ui/HScrollbar.vue` | Token 直引 |
+| 4.20 | 重构 HMessage/HMessageBox | `components/ui/HMessage.vue`、`HMessageBox.vue` | 液态玻璃 + 鸿蒙动效 + overlay 改用 `--harmony-overlay-*` token |
+| 4.21 | 重构 HScrollbar | `components/ui/HScrollbar.vue` | Token 直引 + Firefox fallback |
 | 4.22 | 重构 HTable | `components/ui/HTable.vue` | Token 直引 + HDivider 分割线 |
 | 4.23 | 重构 HTag | `components/ui/HTag.vue` | Token 直引 + 五态交互 |
 | **注册** | | | |
-| 4.24 | 注册新组件到 UI 插件 | `components/ui/index.ts` | HSearch/HSwitch/HToolbar/HList/HDivider/HCardView/HChipsTab 全局可用 |
-
-**验收方式**：每个组件完成后，运行 Storybook（如有）或独立页面验证所有变体和状态。
+| 4.24 | 注册新组件到 UI 插件 | `components/ui/index.ts` | HSearch/HSwitch/HToolbar/HList/HDivider/HCardView/HChipsTab/HEmpty 全局可用 |
 
 ---
 
-### Phase 5: 业务组件 + 动效清理
+### Phase 5: 业务组件 + 代码质量清理
 
-**目标**：业务组件对齐 UI 组件库标准，清理分散的自定义动效。
+**目标**：业务组件对齐 UI 组件库标准，清理动效、non-scoped 样式、命名空间、可访问性问题。
 
 **前置条件**：Phase 4（UI 组件库）完成
 
@@ -553,77 +827,94 @@ Monaco Editor、Vditor、ECharts、MdEditor 的样式覆盖：
 | 5.5 | 重构 hub/ActiveSessionCard.vue | `components/hub/ActiveSessionCard.vue` | 对齐 HCardView |
 | 5.6 | 重构 hub/RecentInterviewItem.vue | `components/hub/RecentInterviewItem.vue` | 对齐 HList 列表项 |
 | 5.7 | 重构 hub/SkillStatCard.vue | `components/hub/SkillStatCard.vue` | 对齐 HCardView |
-| 5.8 | 重构 dialog/AgentFormDialog.vue | `components/dialog/create_agent/AgentFormDialog.vue` | 对齐 HDialog 标准 |
-| 5.9 | 重构 drawer/drawer.vue | `components/drawer/drawer.vue` | 对齐 HDrawer 标准 |
-| **动效清理** | | | |
-| 5.10 | 清理自定义 keyframes | 30+ 处分散在各 .vue 文件中的 keyframes | 替换为 `harmony-*` 标准动效，`grep -r "@keyframes" src/` 仅返回标准动效 |
+| 5.8 | 重构 dialog/AgentFormDialog.vue | `components/dialog/create_agent/AgentFormDialog.vue` | 对齐 HDialog 标准 + scoped 样式 |
+| 5.9 | 重构 drawer/drawer.vue | `components/drawer/drawer.vue` | 对齐 HDrawer 标准 + empty 状态改用 HEmpty |
+| **动效 + 代码质量清理** | | | |
+| 5.10 | 清理自定义 keyframes | 30+ 处分散在各 .vue 文件中的 keyframes | 替换为 `harmony-*` 标准动效 |
 | 5.11 | 统一 transition 曲线 | 各 .vue 文件中的 transition/animation 属性 | 使用 `var(--harmony-motion-*)` 和 `var(--harmony-duration-*)` |
+| 5.12 | 修复 non-scoped 样式 | AgentFormDialog、agent-skill、mcp-server、notFound | `grep -rn '<style' src/ | grep -v scoped` 返回 0 结果 |
+| 5.13 | 修复 hubPage 命名空间 | `pages/interview/hubPage/hubPage.vue` | 所有 `var(--text-*)` 替换为 `var(--harmony-font-*)` |
+| 5.14 | 修复 focus 可访问性 | 10+ 业务页面 | 删除无替代的 `outline: none`，统一使用 `:focus-visible` |
+| 5.15 | ECharts 暗色主题适配 | `composables/useEChartsTheme.ts` 新建 | ECharts 主题从鸿蒙 token 提取，light/dark 自动切换 |
+| 5.16 | Monaco Editor 样式覆盖 | `harmony-editor-overrides.css` | 编辑器背景/前景色/圆角对齐鸿蒙 token |
 
 ---
 
-### Phase 6: 页面迁移 + 硬编码清理
+### Phase 6: 页面迁移 + CSS 瘦身 + 硬编码清理
 
-**目标**：20+ 页面逐步迁移到鸿蒙组件库，清理全部硬编码样式。
+**目标**：20+ 页面逐步迁移到鸿蒙组件库，清理全部硬编码样式，CSS 瘦身到合理体量。
 
 **前置条件**：Phase 3（壳层布局）、Phase 4（UI 组件库）、Phase 5（业务组件）完成
 
-**每页迁移步骤**（严格执行）：
+**每页迁移步骤**（严格执行，共 16 步）：
 
 1. 替换业务变量为 `--harmony-*` 原生 token
-2. 替换自定义样式为鸿蒙组件（HCardView、HList、HButton 等）
+2. 替换自定义样式为鸿蒙组件（HCardView、HList、HButton、HDialog、HEmpty 等）
 3. 接入壳层组件（选择合适的 HTitlebar 变体）
 4. 清理硬编码颜色 → 对应 `--harmony-*` 语义色 token
 5. 清理硬编码圆角 → 对应 `--harmony-corner-radius-level*` token
-6. 清理内联 `style=""` → 迁移到 `<style scoped>` 中使用 token
-7. 替换自定义 keyframes 为鸿蒙标准动效
-8. 图标统一通过 `<HIcon>` 组件调用
-9. 第三方库样式引用 `harmony-editor-overrides.css`
-10. 响应式验证（桌面端 + 移动端）
+6. 清理硬编码阴影 → 对应 `--harmony-shadow-*` token
+7. 清理内联 `style=""` → 迁移到 `<style scoped>` 中使用 token
+8. 替换自定义 keyframes 为鸿蒙标准动效
+9. 替换硬编码 transition 为 `var(--harmony-motion-*)` + `var(--harmony-duration-*)`
+10. 图标统一通过 `<HIcon>` 组件调用
+11. 第三方库样式引用 `harmony-editor-overrides.css`
+12. 自定义弹窗替换为 `<HDialog>` 组件，删除重复 overlay/card/footer 样式
+13. 自定义 empty 状态替换为 `<HEmpty>` 组件
+14. 响应式断点替换为 SCSS mixin（`+mobile` / `+tablet` / `+desktop`）
+15. CSS 体量审查：合并重复 style 块、删除 `.dark` 前缀手动适配
+16. 响应式验证（桌面端 + 移动端）
 
-**迁移完成后自检**：
-- `grep -rn "#[0-9a-fA-F]\{3,8\}" <page-file>` 返回 0 结果（无硬编码颜色）
-- `grep -rn "border-radius: [0-9]" <page-file>` 返回 0 结果（无硬编码圆角）
-- `grep -rn 'style="' <page-file>` 返回 0 结果（无内联样式）
+**迁移完成后自检**（每个页面）：
+- `grep -rn "#[0-9a-fA-F]\{3,8\}" <page-file>` → 0 结果（无硬编码颜色）
+- `grep -rn "border-radius: [0-9]" <page-file>` → 0 结果（无硬编码圆角）
+- `grep -rn 'style="' <page-file>` → 0 结果（无内联样式）
+- `grep -rn "box-shadow: rgba" <page-file>` → 0 结果（无硬编码阴影）
+- `grep -rn "0\.[1-9]s\|[0-9]s ease" <page-file>` → 0 结果（无硬编码 transition）
+- `grep -rn "outline: none" <page-file>` → 0 结果（无阻断焦点的 outline:none）
 
 **批次 A — 核心页面**（优先级最高，影响全局体验）：
 
-| 页面 | 涉及文件 | 预估工作量 |
-|---|---|---|
-| conversation/chatPage | `pages/conversation/chatPage/chatPage.vue`、`conversation.vue` | 高（最复杂页面，含 SSE 流式） |
-| workspace | `pages/workspace/workspace.vue`、`defaultPage.vue`、`workspacePage.vue`、`taskGraphPage.vue` | 高（4 个子页面） |
-| homepage | `pages/homepage/homepage.vue` | 中 |
+| 页面 | 涉及文件 | CSS行数 | 特殊注意 |
+|---|---|---|---|
+| conversation/chatPage | `chatPage.vue`、`conversation.vue` | 340+1020 | 最复杂页面，含 SSE 流式、5 个 @keyframes、18px 硬编码圆角 |
+| workspace | `workspace.vue`、`defaultPage.vue`、`workspacePage.vue`、`taskGraphPage.vue` | 290 | 4 个子页面，scrollbar-width:none 需处理 |
+| homepage | `homepage.vue` | 160 | 已基本使用 token，工作量小 |
 
 **批次 B — 功能页面**：
 
-| 页面 | 涉及文件 | 预估工作量 |
-|---|---|---|
-| agent | `pages/agent/agent.vue`、`agent-editor.vue` | 高（含 Monaco Editor） |
-| knowledge | `pages/knowledge/knowledge-file.vue` | 中 |
-| mcp-server | `pages/mcp-server/mcp-server.vue` | 中 |
-| model | `pages/model/` 目录 | 中 |
+| 页面 | 涉及文件 | CSS行数 | 特殊注意 |
+|---|---|---|---|
+| agent | `agent.vue`、`agent-editor.vue` | 570+560 | 3+1 @keyframes、5 处非 token box-shadow、Monaco Editor |
+| knowledge | `knowledge-file.vue` | 800 | 4 个 @keyframes，虽用 token 但体量需瘦身 |
+| mcp-server | `mcp-server.vue` | 1900 | 重灾区：2 个 style 块、23 处内联 style、需合并+瘦身 |
+| model | `model/` 目录 | — | 含 model-editor.vue |
 
 **批次 C — 扩展页面**：
 
-| 页面 | 涉及文件 | 预估工作量 |
-|---|---|---|
-| interview | `pages/interview/hubPage.vue`、`chatPage.vue`、`reportPage.vue` | 高（3 个子页面） |
-| voice-interview | `pages/voice-interview/` 目录 | 中（含 AudioPlayer/Recorder） |
-| dashboard | `pages/dashboard/dashboard.vue` | 中（含 ECharts） |
-| profile | `pages/profile/` 目录 | 低 |
-| configuration | `pages/configuration/` 目录 | 低 |
-| tool | `pages/tool/tool.vue` | 低 |
-| agent-skill | `pages/agent-skill/` 目录 | 中 |
-| mars | `pages/mars/` 目录 | 低 |
-| construct | `pages/construct/` 目录 | 低 |
+| 页面 | 涉及文件 | CSS行数 | 特殊注意 |
+|---|---|---|---|
+| interview/hubPage | `hubPage.vue` | 170 | 命名空间修正（`--text-*` → `--harmony-font-*`）、10 处 var fallback 色值 |
+| interview/chatPage | `chatPage.vue` | 250 | 18px 硬编码圆角、typingBounce keyframe |
+| interview/reportPage | `reportPage.vue` | 290 | 7 处硬编码 font-size、评分颜色 `#4caf50/#ff9800/#f44336` |
+| voice-interview | `voice-interview/` 目录 | — | 含 AudioPlayer/Recorder |
+| dashboard | `dashboard.vue` | 220 | ECharts 暗色主题适配、5 处内联 style |
+| tool | `tool.vue` | 1370 | 重灾区：大量 `.dark` 前缀手动适配暗色模式需全部删除 |
+| agent-skill | `agent-skill/` 目录 | — | non-scoped 样式块需清理 |
+| profile | `profile/` 目录 | — | |
+| configuration | `configuration/` 目录 | — | |
+| mars | `mars/` 目录 | — | |
+| construct | `construct/` 目录 | — | |
+| notFound | `notFound.vue` | — | non-scoped 样式需修复 |
 
 **批次 D — 面试模块子页面**：
 
 | 页面 | 涉及文件 | 预估工作量 |
 |---|---|---|
-| interview/learning | `pages/interview/learningPage.vue` | 中 |
-| interview/resume | `pages/interview/resumePage.vue` | 中 |
-| interview/history | `pages/interview/historyPage.vue` | 中 |
-| interview/JD解析 | `pages/interview/jdPage.vue` | 中 |
+| interview/learning | `learningPage.vue` | 中 |
+| interview/resume | `resumePage.vue` | 中 |
+| interview/history | `historyPage.vue` | 中 |
+| interview/JD解析 | `jdPage.vue` | 中 |
 
 ## 参考项目关键路径
 
