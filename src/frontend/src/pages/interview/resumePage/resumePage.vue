@@ -110,7 +110,7 @@ function getStatusText(status: string) {
 .resume-page { padding: 24px; }
 .page-header {
   display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
-  h2 { margin: 0; font-size: 20px; }
+  h2 { margin: 0; font-size: var(--harmony-font-size-title-s); }
   .upload-btn {
     padding: 8px 20px; border-radius: var(--harmony-corner-radius-level4);
     background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border: none; cursor: pointer;
@@ -124,7 +124,7 @@ function getStatusText(status: string) {
   border: 1px solid var(--harmony-comp-divider); cursor: pointer; transition: border-color 0.2s;
   &:hover { border-color: var(--harmony-brand); }
   .card-info { display: flex; align-items: center; gap: 12px; .filename { font-weight: 500; } }
-  .card-meta { display: flex; gap: 16px; color: var(--harmony-font-tertiary); font-size: 13px; .score { color: var(--harmony-brand); font-weight: 500; } }
+  .card-meta { display: flex; gap: 16px; color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-subtitle-s); .score { color: var(--harmony-brand); font-weight: 500; } }
   .delete-btn {
     padding: 4px 12px; border: 1px solid var(--harmony-warning); color: var(--harmony-warning);
     background: transparent; border-radius: var(--harmony-corner-radius-level4); cursor: pointer;

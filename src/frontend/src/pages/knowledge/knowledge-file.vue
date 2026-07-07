@@ -991,7 +991,7 @@ onUnmounted(() => {
             
             .separator-icon {
               color: var(--harmony-font-tertiary);
-              font-size: 10px;
+              font-size: var(--harmony-font-size-caption-m);
             }
           }
         }
@@ -1048,7 +1048,7 @@ onUnmounted(() => {
             }
             
             .stat-label {
-              font-size: 11px;
+              font-size: var(--harmony-font-size-caption-l);
               color: var(--harmony-font-tertiary);
               font-weight: 500;
             }
@@ -1317,12 +1317,12 @@ onUnmounted(() => {
             color: white;
             padding: 2px 8px;
             border-radius: var(--harmony-corner-radius-level6);
-            font-size: 11px;
+            font-size: var(--harmony-font-size-caption-l);
             font-weight: 600;
             width: fit-content;
             
             .badge-icon {
-              font-size: 10px;
+              font-size: var(--harmony-font-size-caption-m);
             }
           }
         }
@@ -1519,7 +1519,7 @@ onUnmounted(() => {
         margin: 0 0 12px 0;
         
         .title-icon {
-          font-size: 22px;
+          font-size: var(--harmony-font-size-title-s);
         }
       }
       

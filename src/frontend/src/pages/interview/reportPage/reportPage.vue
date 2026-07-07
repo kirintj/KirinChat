@@ -349,7 +349,7 @@ onUnmounted(() => {
     border: none;
     color: var(--harmony-brand);
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--harmony-font-size-body-m);
     font-family: inherit;
     padding: 0;
     margin-bottom: 16px;
@@ -360,7 +360,7 @@ onUnmounted(() => {
   }
 
   .report-title {
-    font-size: 24px;
+    font-size: var(--harmony-font-size-title-m);
     font-weight: 600;
     color: var(--harmony-font-primary);
     margin: 0;
@@ -389,26 +389,26 @@ onUnmounted(() => {
     flex-shrink: 0;
 
     .score-number {
-      font-size: 36px;
+      font-size: var(--harmony-font-size-display-s);
       font-weight: 700;
       line-height: 1;
     }
 
     .score-max {
-      font-size: 12px;
+      font-size: var(--harmony-font-size-body-s);
       color: var(--harmony-font-tertiary);
     }
   }
 
   .score-meta {
     .score-label {
-      font-size: 20px;
+      font-size: var(--harmony-font-size-title-s);
       font-weight: 600;
       margin-bottom: 4px;
     }
 
     .score-skill {
-      font-size: 14px;
+      font-size: var(--harmony-font-size-body-m);
       color: var(--harmony-font-secondary);
     }
   }
@@ -419,7 +419,7 @@ onUnmounted(() => {
   margin-bottom: 28px;
 
   .section-title {
-    font-size: 16px;
+    font-size: var(--harmony-font-size-body-l);
     font-weight: 600;
     color: var(--harmony-font-primary);
     margin: 0 0 16px;
@@ -440,13 +440,13 @@ onUnmounted(() => {
     margin-bottom: 4px;
 
     .category-name {
-      font-size: 13px;
+      font-size: var(--harmony-font-size-subtitle-s);
       font-weight: 500;
       color: var(--harmony-font-primary);
     }
 
     .category-score {
-      font-size: 13px;
+      font-size: var(--harmony-font-size-subtitle-s);
       color: var(--harmony-font-secondary);
     }
   }
@@ -473,7 +473,7 @@ onUnmounted(() => {
 
 // Summary
 .summary-text {
-  font-size: 14px;
+  font-size: var(--harmony-font-size-body-m);
   line-height: 1.8;
   color: var(--harmony-font-secondary);
   background: var(--harmony-comp-background-secondary);
@@ -492,7 +492,7 @@ onUnmounted(() => {
 .tag {
   padding: 6px 14px;
   border-radius: var(--harmony-corner-radius-level10);
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
 
   &.tag-strength {
     background: var(--harmony-confirm-bg);
@@ -534,14 +534,14 @@ onUnmounted(() => {
     min-width: 0;
 
     .question-index {
-      font-size: 12px;
+      font-size: var(--harmony-font-size-body-s);
       font-weight: 600;
       color: var(--harmony-brand);
       flex-shrink: 0;
     }
 
     .question-text {
-      font-size: 14px;
+      font-size: var(--harmony-font-size-body-m);
       color: var(--harmony-font-primary);
       overflow: hidden;
       text-overflow: ellipsis;
@@ -556,7 +556,7 @@ onUnmounted(() => {
     flex-shrink: 0;
 
     .question-score-badge {
-      font-size: 12px;
+      font-size: var(--harmony-font-size-body-s);
       font-weight: 600;
       padding: 2px 8px;
       border-radius: var(--harmony-corner-radius-level5);
@@ -578,7 +578,7 @@ onUnmounted(() => {
     }
 
     .question-arrow {
-      font-size: 14px;
+      font-size: var(--harmony-font-size-body-m);
       color: var(--harmony-font-tertiary);
     }
   }

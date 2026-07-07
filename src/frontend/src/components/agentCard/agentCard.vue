@@ -175,7 +175,7 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .agent-name {
-      font-size: 15px;
+      font-size: var(--harmony-font-size-subtitle-m);
       font-weight: 600;
       color: var(--harmony-font-primary);
       font-family: var(--harmony-font-family);
@@ -192,7 +192,7 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
-    font-size: 12px;
+    font-size: var(--harmony-font-size-body-s);
     font-weight: 400;
     line-height: 1.4;
     color: var(--harmony-font-secondary);
@@ -224,7 +224,7 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .stat-icon {
-        font-size: 12px;
+        font-size: var(--harmony-font-size-body-s);
         line-height: 1;
       }
 
@@ -236,7 +236,7 @@ $transition-default: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .stat-value {
-        font-size: 10px;
+        font-size: var(--harmony-font-size-caption-m);
         font-weight: 600;
         color: var(--harmony-brand);
         background: var(--harmony-comp-emphasize-tertiary);

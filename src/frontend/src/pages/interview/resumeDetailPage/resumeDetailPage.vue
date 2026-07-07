@@ -116,11 +116,11 @@ function goBack() {
 .resume-detail { padding: 24px; }
 .detail-header {
   display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
-  h2 { margin: 0; font-size: 18px; flex: 1; }
+  h2 { margin: 0; font-size: var(--harmony-font-size-subtitle-l); flex: 1; }
   .back-btn, .pdf-btn {
     padding: 6px 16px; border-radius: var(--harmony-corner-radius-level4);
     border: 1px solid var(--harmony-comp-divider); background: var(--harmony-comp-background-primary);
-    cursor: pointer; font-size: 13px;
+    cursor: pointer; font-size: var(--harmony-font-size-subtitle-s);
   }
   .pdf-btn { background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border: none; }
 }
@@ -129,20 +129,20 @@ function goBack() {
   .score-circle {
     display: inline-flex; align-items: center; justify-content: center;
     width: 100px; height: 100px; border-radius: 50%;
-    background: var(--harmony-brand); color: var(--harmony-comp-background-primary); font-size: 32px; font-weight: bold;
+    background: var(--harmony-brand); color: var(--harmony-comp-background-primary); font-size: var(--harmony-font-size-title-l); font-weight: bold;
   }
   .score-label { display: block; margin-top: 8px; color: var(--harmony-font-tertiary); }
 }
 .info-section, .skills-section, .suggestions-section {
   margin-bottom: 24px; padding: 16px; background: var(--harmony-comp-background-primary); border-radius: var(--harmony-corner-radius-level4);
-  h3 { margin: 0 0 12px; font-size: 16px; }
+  h3 { margin: 0 0 12px; font-size: var(--harmony-font-size-body-l); }
   p { margin: 0; line-height: 1.6; color: var(--harmony-font-secondary); }
   ul { margin: 0; padding-left: 20px; li { margin-bottom: 4px; line-height: 1.6; } }
 }
 .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .tags {
   display: flex; flex-wrap: wrap; gap: 8px;
-  .tag { padding: 4px 12px; background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border-radius: var(--harmony-corner-radius-level2); font-size: 13px; }
+  .tag { padding: 4px 12px; background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border-radius: var(--harmony-corner-radius-level2); font-size: var(--harmony-font-size-subtitle-s); }
 }
 .analyzing, .error, .loading { text-align: center; padding: 60px; color: var(--harmony-font-tertiary); }
 .analyzing { display: flex; flex-direction: column; align-items: center; gap: 12px; }

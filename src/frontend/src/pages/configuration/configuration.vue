@@ -53,7 +53,7 @@ const cancel = ()=>{
     margin: 20px;
     width: 100%;
     height: 80%;
-    font-size: 20px !important;
+    font-size: var(--harmony-font-size-title-s) !important;
   }
   .button {
     display: flex;

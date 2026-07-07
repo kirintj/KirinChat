@@ -40,12 +40,12 @@ watch(() => [props.messages.length, props.aiText, props.userText], () => {
 .subtitle-panel { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .message { display: flex; &.ai { justify-content: flex-start; } &.user { justify-content: flex-end; } }
 .bubble {
-  max-width: 70%; padding: 10px 14px; border-radius: var(--harmony-corner-radius-level6); line-height: 1.5; font-size: 14px;
+  max-width: 70%; padding: 10px 14px; border-radius: var(--harmony-corner-radius-level6); line-height: 1.5; font-size: var(--harmony-font-size-body-m);
   .ai & { background: var(--harmony-comp-background-secondary); border-bottom-left-radius: 4px; }
   .user & { background: var(--harmony-brand); color: white; border-bottom-right-radius: 4px; }
 }
 .cursor { animation: harmony-pulse 0.8s infinite; margin-left: 2px; }
 
 .dots { margin-left: 4px; }
-.status { text-align: center; color: var(--harmony-font-secondary); font-size: 12px; }
+.status { text-align: center; color: var(--harmony-font-secondary); font-size: var(--harmony-font-size-body-s); }
 </style>

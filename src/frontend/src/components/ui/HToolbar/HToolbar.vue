@@ -84,7 +84,7 @@ const emit = defineEmits<{ click: [key: string] }>()
 }
 
 .h-toolbar__label {
-  font-size: 10px;
+  font-size: var(--harmony-font-size-caption-m);
   font-weight: 500;
   line-height: 14px;
 }

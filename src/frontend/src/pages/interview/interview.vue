@@ -190,7 +190,7 @@ onMounted(() => {
     background: var(--bg-secondary, var(--harmony-comp-background-tertiary));
     color: var(--harmony-font-primary);
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--harmony-font-size-body-m);
     font-family: inherit;
     transition: all 0.2s ease;
 
@@ -219,7 +219,7 @@ onMounted(() => {
       color: var(--harmony-brand);
       border: 1px solid var(--harmony-comp-divider);
       cursor: pointer;
-      font-size: 14px;
+      font-size: var(--harmony-font-size-body-m);
       font-weight: 500;
       font-family: inherit;
       display: flex;
@@ -248,7 +248,7 @@ onMounted(() => {
       height: 200px;
 
       .empty-icon {
-        font-size: 32px;
+        font-size: var(--harmony-font-size-title-l);
         margin-bottom: 12px;
         opacity: 0.4;
       }
@@ -295,7 +295,7 @@ onMounted(() => {
         background: var(--harmony-comp-emphasize-tertiary);
         border-radius: var(--harmony-corner-radius-level4);
         flex-shrink: 0;
-        font-size: 14px;
+        font-size: var(--harmony-font-size-body-m);
       }
 
       .session-info {
@@ -318,7 +318,7 @@ onMounted(() => {
           gap: 8px;
 
           .status-tag {
-            font-size: 11px;
+            font-size: var(--harmony-font-size-caption-l);
             padding: 1px 6px;
             border-radius: var(--harmony-corner-radius-level2);
           }
@@ -356,7 +356,7 @@ onMounted(() => {
         border: 1px solid var(--harmony-comp-divider);
         cursor: pointer;
         border-radius: var(--harmony-corner-radius-level4);
-        font-size: 14px;
+        font-size: var(--harmony-font-size-body-m);
         opacity: 0;
         display: flex;
         align-items: center;

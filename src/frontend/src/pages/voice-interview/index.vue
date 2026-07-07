@@ -136,12 +136,12 @@ onUnmounted(() => { wsClient.value?.disconnect(); store.reset() })
 
   h2 {
     margin: 0;
-    font-size: 18px;
+    font-size: var(--harmony-font-size-subtitle-l);
   }
 }
 
 .status-tag {
-  font-size: 12px;
+  font-size: var(--harmony-font-size-body-s);
   padding: 2px 10px;
   border-radius: var(--harmony-corner-radius-level5);
 

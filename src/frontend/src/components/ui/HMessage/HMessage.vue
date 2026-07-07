@@ -81,7 +81,7 @@ const icons: Record<string, string> = {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: var(--harmony-font-size-body-s);
   font-weight: 700;
   color: var(--harmony-font-on-primary);
   flex-shrink: 0;

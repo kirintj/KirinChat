@@ -65,18 +65,18 @@ const scoreColor = (score: number) => {
 }
 
 .item-skill {
-  font-size: 14px;
+  font-size: var(--harmony-font-size-body-m);
   font-weight: 500;
   color: var(--harmony-font-primary);
 }
 
 .item-time {
-  font-size: 12px;
+  font-size: var(--harmony-font-size-body-s);
   color: var(--harmony-font-tertiary);
 }
 
 .item-score {
-  font-size: 16px;
+  font-size: var(--harmony-font-size-body-l);
   font-weight: 700;
 }
 </style>

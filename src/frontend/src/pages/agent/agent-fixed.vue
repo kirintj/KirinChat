@@ -348,7 +348,7 @@ onMounted(() => {
 
     h2 {
       margin: 0;
-      font-size: 24px;
+      font-size: var(--harmony-font-size-title-m);
       font-weight: 600;
       color: var(--harmony-font-primary);
     }
@@ -416,7 +416,7 @@ onMounted(() => {
         
         .agent-info {
           .agent-name {
-            font-size: 20px;
+            font-size: var(--harmony-font-size-title-s);
             font-weight: 600;
             color: var(--harmony-font-primary);
             margin: 0 0 8px 0;
@@ -427,7 +427,7 @@ onMounted(() => {
           
           .agent-description {
             color: var(--harmony-font-secondary);
-            font-size: 14px;
+            font-size: var(--harmony-font-size-body-m);
             line-height: 1.6;
             margin: 0 0 16px 0;
             display: -webkit-box;
@@ -454,7 +454,7 @@ onMounted(() => {
               border-radius: var(--harmony-corner-radius-level3);
               
               .meta-icon {
-                font-size: 14px;
+                font-size: var(--harmony-font-size-body-m);
               }
             }
           }

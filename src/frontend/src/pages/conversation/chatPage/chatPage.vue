@@ -751,7 +751,7 @@ watch(
     border: none;
     width: 48px;
     height: 48px;
-    font-size: 24px;
+    font-size: var(--harmony-font-size-title-m);
     transition: all 0.3s ease;
     &:hover {
       background-color: var(--harmony-comp-divider);
@@ -785,7 +785,7 @@ watch(
     background: var(--harmony-comp-background-primary);
     border: 1px solid var(--harmony-comp-divider);
     border-radius: var(--harmony-corner-radius-level8);
-    font-size: 12px;
+    font-size: var(--harmony-font-size-body-s);
     z-index: 10;
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 
@@ -823,7 +823,7 @@ watch(
       width: 20px;
       height: 20px;
       min-height: 20px;
-      font-size: 12px;
+      font-size: var(--harmony-font-size-body-s);
       margin-left: 4px;
 
       &:hover {
@@ -857,7 +857,7 @@ watch(
     border: none;
     width: 48px;
     height: 48px;
-    font-size: 24px;
+    font-size: var(--harmony-font-size-title-m);
     &:hover {
       background-color: var(--harmony-interactive-hover);
     }

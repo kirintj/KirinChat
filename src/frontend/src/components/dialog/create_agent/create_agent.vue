@@ -376,11 +376,11 @@ defineExpose({ open, close })
       gap: 8px;
 
       .header-icon {
-        font-size: 20px;
+        font-size: var(--harmony-font-size-title-s);
       }
 
       .header-title {
-        font-size: 18px;
+        font-size: var(--harmony-font-size-subtitle-l);
         font-weight: 600;
         color: var(--harmony-font-primary);
       }
@@ -407,7 +407,7 @@ defineExpose({ open, close })
       padding: 32px 24px;
 
       h4 {
-        font-size: 16px;
+        font-size: var(--harmony-font-size-body-l);
         font-weight: 600;
         margin-bottom: 16px;
         color: var(--harmony-font-primary);
@@ -416,7 +416,7 @@ defineExpose({ open, close })
       .prompt-textarea {
         width: 100%;
         font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-        font-size: 14px;
+        font-size: var(--harmony-font-size-body-m);
         line-height: 1.5;
         border-radius: var(--harmony-corner-radius-level3);
         padding: 12px;
@@ -455,7 +455,7 @@ defineExpose({ open, close })
             padding: 12px 16px;
             cursor: pointer;
             user-select: none;
-            font-size: 15px;
+            font-size: var(--harmony-font-size-subtitle-m);
             font-weight: 500;
             color: var(--harmony-font-primary);
 
@@ -464,7 +464,7 @@ defineExpose({ open, close })
             }
 
             .collapse-arrow {
-              font-size: 12px;
+              font-size: var(--harmony-font-size-body-s);
             }
 
             span {
@@ -501,7 +501,7 @@ defineExpose({ open, close })
 
           .status-text {
             color: var(--harmony-confirm);
-            font-size: 12px;
+            font-size: var(--harmony-font-size-body-s);
             border: 1px dashed var(--harmony-confirm);
             padding: 4px 12px;
             border-radius: var(--harmony-corner-radius-level2);
@@ -544,7 +544,7 @@ defineExpose({ open, close })
               p {
                 margin: 0;
                 color: var(--harmony-font-primary);
-                font-size: 14px;
+                font-size: var(--harmony-font-size-body-m);
                 line-height: 1.5;
               }
             }
@@ -556,7 +556,7 @@ defineExpose({ open, close })
 
           h4 {
             margin: 0 0 12px 0;
-            font-size: 14px;
+            font-size: var(--harmony-font-size-body-m);
             color: var(--harmony-font-primary);
           }
 
@@ -566,7 +566,7 @@ defineExpose({ open, close })
               background-color: var(--harmony-interactive-hover);
               border-radius: var(--harmony-corner-radius-level3);
               margin-bottom: 8px;
-              font-size: 13px;
+              font-size: var(--harmony-font-size-subtitle-s);
               color: var(--harmony-font-secondary);
               cursor: pointer;
               transition: all 0.3s;
@@ -596,7 +596,7 @@ defineExpose({ open, close })
             .chat-input-field {
               flex: 1;
               border: none;
-              font-size: 14px;
+              font-size: var(--harmony-font-size-body-m);
               color: var(--harmony-font-primary);
               background: transparent;
 
@@ -616,7 +616,7 @@ defineExpose({ open, close })
 
             span {
               color: var(--harmony-font-tertiary);
-              font-size: 12px;
+              font-size: var(--harmony-font-size-body-s);
             }
           }
         }

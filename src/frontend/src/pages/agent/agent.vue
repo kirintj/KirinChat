@@ -396,14 +396,14 @@ onMounted(() => {
 
 .header-text {
   .header-title {
-    font-size: 20px;
+    font-size: var(--harmony-font-size-title-s);
     font-weight: 600;
     color: var(--harmony-font-primary);
     margin: 0 0 2px 0;
     letter-spacing: -0.2px;
   }
   .header-desc {
-    font-size: 13px;
+    font-size: var(--harmony-font-size-subtitle-s);
     color: var(--harmony-font-tertiary);
     margin: 0;
   }
@@ -445,7 +445,7 @@ onMounted(() => {
     flex: 1;
     border: none;
     background: transparent;
-    font-size: 13px;
+    font-size: var(--harmony-font-size-subtitle-s);
     color: var(--harmony-font-primary);
     font-family: inherit;
 
@@ -517,7 +517,7 @@ onMounted(() => {
   border: none;
   color: white;
   border-radius: var(--harmony-corner-radius-level6);
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -539,7 +539,7 @@ onMounted(() => {
   border: 1px solid var(--harmony-comp-divider);
   color: var(--harmony-font-primary);
   border-radius: var(--harmony-corner-radius-level6);
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -556,7 +556,7 @@ onMounted(() => {
   border: 1px solid var(--harmony-warning);
   color: white;
   border-radius: var(--harmony-corner-radius-level6);
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -635,7 +635,7 @@ onMounted(() => {
   background: var(--harmony-comp-emphasize-tertiary);
   color: var(--harmony-brand);
   border-radius: var(--harmony-corner-radius-level4);
-  font-size: 11px;
+  font-size: var(--harmony-font-size-caption-l);
   font-weight: 500;
 }
 
@@ -694,7 +694,7 @@ onMounted(() => {
   min-width: 0;
 
   .agent-name {
-    font-size: 15px;
+    font-size: var(--harmony-font-size-subtitle-m);
     font-weight: 600;
     color: var(--harmony-font-primary);
     margin: 0 0 4px 0;
@@ -705,7 +705,7 @@ onMounted(() => {
   }
 
   .agent-desc {
-    font-size: 12px;
+    font-size: var(--harmony-font-size-body-s);
     color: var(--harmony-font-tertiary);
     margin: 0;
     line-height: 1.5;
@@ -731,7 +731,7 @@ onMounted(() => {
     background: var(--harmony-comp-background-secondary);
     border-radius: var(--harmony-corner-radius-level4);
     color: var(--harmony-font-secondary);
-    font-size: 11px;
+    font-size: var(--harmony-font-size-caption-l);
     font-weight: 500;
 
     svg {
@@ -743,7 +743,7 @@ onMounted(() => {
 .card-hover-tip {
   margin-top: 10px;
   text-align: center;
-  font-size: 11px;
+  font-size: var(--harmony-font-size-caption-l);
   color: var(--harmony-font-tertiary);
   opacity: 0;
   transform: translateY(4px);
@@ -780,7 +780,7 @@ onMounted(() => {
   }
 
   p {
-    font-size: 13px;
+    font-size: var(--harmony-font-size-subtitle-s);
     color: var(--harmony-font-tertiary);
     margin: 0 0 20px 0;
   }
@@ -839,7 +839,7 @@ onMounted(() => {
 }
 
 .dialog-body {
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   color: var(--harmony-font-secondary);
   margin: 0 0 20px 0;
   line-height: 1.6;
@@ -901,7 +901,7 @@ onMounted(() => {
   }
 
   .header-text .header-title {
-    font-size: 18px;
+    font-size: var(--harmony-font-size-subtitle-l);
   }
 
   .btn-primary span {

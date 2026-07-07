@@ -1454,7 +1454,7 @@ const getNodeColor = (status: string) => {
           }
 
           .node-icon {
-            font-size: 14px;
+            font-size: var(--harmony-font-size-body-m);
             pointer-events: none;
           }
         }
@@ -1604,7 +1604,7 @@ const getNodeColor = (status: string) => {
         background: none;
         border: none;
         color: var(--muted);
-        font-size: 20px;
+        font-size: var(--harmony-font-size-title-s);
         cursor: pointer;
         width: 28px;
         height: 28px;
@@ -1724,7 +1724,7 @@ const getNodeColor = (status: string) => {
         background: none;
         border: none;
         color: var(--muted);
-        font-size: 20px;
+        font-size: var(--harmony-font-size-title-s);
         cursor: pointer;
         width: 28px;
         height: 28px;

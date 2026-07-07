@@ -1291,7 +1291,7 @@ const handleStartTask = () => {
     justify-content: center;
     cursor: pointer;
     color: var(--harmony-font-secondary);
-    font-size: 18px;
+    font-size: var(--harmony-font-size-subtitle-l);
     transition: background 0.15s ease;
 
     &:hover {

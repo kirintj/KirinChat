@@ -628,7 +628,7 @@ onMounted(() => {
         }
 
         .task-item-time {
-          font-size: 11px;
+          font-size: var(--harmony-font-size-caption-l);
           color: var(--harmony-font-secondary);
         }
       }
@@ -910,7 +910,7 @@ onMounted(() => {
   }
   
   .event-status {
-    font-size: 11px;
+    font-size: var(--harmony-font-size-caption-l);
     padding: 2px 8px;
     border-radius: var(--harmony-corner-radius-level6);
     font-weight: 500;

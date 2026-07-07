@@ -116,7 +116,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
 .h-select__placeholder { color: var(--harmony-font-tertiary); }
 .h-select__arrow, .h-select__clear {
   position: relative; z-index: 1;
-  color: var(--harmony-font-tertiary); font-size: 12px;
+  color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-body-s);
 }
 .h-select__clear:hover { color: var(--harmony-font-primary); }
 .h-select__dropdown {

@@ -145,7 +145,7 @@ onMounted(async () => {
           }
 
           span {
-            font-size: 18px;
+            font-size: var(--harmony-font-size-subtitle-l);
             font-weight: 600;
             color: var(--harmony-comp-background-primary);
             font-family: var(--harmony-font-family);
@@ -204,7 +204,7 @@ onMounted(async () => {
         
         .top {
           span {
-            font-size: 20px;
+            font-size: var(--harmony-font-size-title-s);
           }
           
           img {
@@ -214,7 +214,7 @@ onMounted(async () => {
         }
         
         .middle {
-          font-size: 14px;
+          font-size: var(--harmony-font-size-body-m);
         }
       }
     }

@@ -154,7 +154,7 @@ onMounted(async () => {
     border: none;
     color: var(--harmony-brand);
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--harmony-font-size-body-m);
     font-family: inherit;
     padding: 0;
     margin-bottom: 16px;
@@ -165,14 +165,14 @@ onMounted(async () => {
   }
 
   .detail-title {
-    font-size: 24px;
+    font-size: var(--harmony-font-size-title-m);
     font-weight: 600;
     color: var(--harmony-font-primary);
     margin: 0 0 8px;
   }
 
   .detail-skill {
-    font-size: 14px;
+    font-size: var(--harmony-font-size-body-m);
     color: var(--harmony-font-secondary);
   }
 }
@@ -181,7 +181,7 @@ onMounted(async () => {
   margin-bottom: 24px;
 
   .section-label {
-    font-size: 14px;
+    font-size: var(--harmony-font-size-body-m);
     font-weight: 600;
     color: var(--harmony-font-secondary);
     margin: 0 0 8px;
@@ -190,7 +190,7 @@ onMounted(async () => {
   }
 
   .section-body {
-    font-size: 15px;
+    font-size: var(--harmony-font-size-subtitle-m);
     line-height: 1.8;
     color: var(--harmony-font-primary);
     background: var(--harmony-comp-background-secondary);
@@ -209,7 +209,7 @@ onMounted(async () => {
   }
 
   .score-badge {
-    font-size: 14px;
+    font-size: var(--harmony-font-size-body-m);
     font-weight: 700;
     color: white;
     padding: 4px 12px;

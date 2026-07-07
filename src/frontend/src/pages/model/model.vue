@@ -778,7 +778,7 @@ onMounted(() => {
             }
 
             .official-tag {
-              font-size: 11px;
+              font-size: var(--harmony-font-size-caption-l);
               font-weight: 600;
               color: var(--harmony-alert);
               background: var(--harmony-alert-bg);

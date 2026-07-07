@@ -48,7 +48,7 @@ const currentTime = computed(() => {
 }
 
 .harmony-statusbar__time {
-  font-size: 15px;
+  font-size: var(--harmony-font-size-subtitle-m);
   font-weight: 500;
   line-height: 20px;
 }

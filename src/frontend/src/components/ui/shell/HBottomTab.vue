@@ -127,7 +127,7 @@ const barWidth = computed(() => {
   min-width: 16px;
   height: 16px;
   padding: 0 4px;
-  font-size: 10px;
+  font-size: var(--harmony-font-size-caption-m);
   line-height: 16px;
   text-align: center;
   color: #fff;
@@ -136,7 +136,7 @@ const barWidth = computed(() => {
 }
 
 .harmony-bottomtab__label {
-  font-size: 10px;
+  font-size: var(--harmony-font-size-caption-m);
   font-weight: 500;
   color: var(--harmony-font-secondary);
   line-height: 14px;

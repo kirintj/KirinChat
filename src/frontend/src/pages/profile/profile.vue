@@ -493,7 +493,7 @@ const handleCustomUpload = async (event: Event) => {
 
     h2 {
       margin: 0 0 8px 0;
-      font-size: 28px;
+      font-size: var(--harmony-font-size-title-m);
       font-weight: 600;
       color: var(--harmony-font-primary);
     }
@@ -552,7 +552,7 @@ const handleCustomUpload = async (event: Event) => {
               opacity: 0;
               transition: opacity 0.3s ease;
               color: var(--harmony-comp-background-primary);
-              font-size: 24px;
+              font-size: var(--harmony-font-size-title-m);
 
               &:hover {
                 opacity: 1;
@@ -564,7 +564,7 @@ const handleCustomUpload = async (event: Event) => {
         .user-basic-info {
           h3 {
             margin: 0 0 8px 0;
-            font-size: 24px;
+            font-size: var(--harmony-font-size-title-m);
             font-weight: 600;
             color: var(--harmony-font-primary);
           }
@@ -586,7 +586,7 @@ const handleCustomUpload = async (event: Event) => {
 
           h4 {
             margin: 0;
-            font-size: 18px;
+            font-size: var(--harmony-font-size-subtitle-l);
             font-weight: 600;
             color: var(--harmony-font-primary);
           }
@@ -741,7 +741,7 @@ const handleCustomUpload = async (event: Event) => {
 
   h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: var(--harmony-font-size-subtitle-l);
     font-weight: 600;
     color: var(--harmony-font-primary);
   }
@@ -749,7 +749,7 @@ const handleCustomUpload = async (event: Event) => {
   .close-button {
     border: none;
     background: none;
-    font-size: 24px;
+    font-size: var(--harmony-font-size-title-m);
     cursor: pointer;
     color: var(--harmony-font-secondary);
 

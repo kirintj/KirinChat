@@ -71,13 +71,13 @@ function goBack() {
 .jd-page { padding: 24px; }
 .page-header {
   display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
-  h2 { margin: 0; font-size: 20px; }
+  h2 { margin: 0; font-size: var(--harmony-font-size-title-s); }
   .back-btn { padding: 6px 16px; border-radius: var(--harmony-corner-radius-level4); border: 1px solid var(--harmony-comp-divider); background: var(--harmony-comp-background-primary); cursor: pointer; }
 }
 .input-section {
   textarea {
     width: 100%; padding: 12px; border: 1px solid var(--harmony-comp-divider);
-    border-radius: var(--harmony-corner-radius-level4); resize: vertical; font-size: 14px; font-family: inherit;
+    border-radius: var(--harmony-corner-radius-level4); resize: vertical; font-size: var(--harmony-font-size-body-m); font-family: inherit;
   }
   .parse-btn {
     margin-top: 12px; padding: 10px 24px; background: var(--harmony-brand);
@@ -99,11 +99,11 @@ function goBack() {
 .categories-section { margin-bottom: 20px; h4 { margin: 0 0 12px; } }
 .category-tags {
   display: flex; flex-wrap: wrap; gap: 8px;
-  .cat-tag { padding: 4px 12px; background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border-radius: var(--harmony-corner-radius-level2); font-size: 13px; }
+  .cat-tag { padding: 4px 12px; background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border-radius: var(--harmony-corner-radius-level2); font-size: var(--harmony-font-size-subtitle-s); }
 }
 .start-btn {
   padding: 12px 32px; background: var(--harmony-confirm); color: var(--harmony-comp-background-primary); border: none;
-  border-radius: var(--harmony-corner-radius-level4); font-size: 16px; cursor: pointer;
+  border-radius: var(--harmony-corner-radius-level4); font-size: var(--harmony-font-size-body-l); cursor: pointer;
   &:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 </style>

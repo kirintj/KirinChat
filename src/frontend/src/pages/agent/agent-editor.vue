@@ -728,14 +728,14 @@ onMounted(async () => {
 
 .header-text {
   .header-title {
-    font-size: 18px;
+    font-size: var(--harmony-font-size-subtitle-l);
     font-weight: 600;
     color: var(--harmony-font-primary);
     margin: 0;
     letter-spacing: -0.2px;
   }
   .header-desc {
-    font-size: 12px;
+    font-size: var(--harmony-font-size-body-s);
     color: var(--harmony-font-tertiary);
     margin: 2px 0 0 0;
   }
@@ -752,7 +752,7 @@ onMounted(async () => {
   border: 1px solid var(--harmony-comp-divider);
   color: var(--harmony-font-secondary);
   border-radius: var(--harmony-corner-radius-level6);
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -778,7 +778,7 @@ onMounted(async () => {
   border: none;
   color: white;
   border-radius: var(--harmony-corner-radius-level6);
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -862,13 +862,13 @@ onMounted(async () => {
   border-bottom: 1px solid var(--harmony-comp-divider);
 
   .card-title {
-    font-size: 14px;
+    font-size: var(--harmony-font-size-body-m);
     font-weight: 600;
     color: var(--harmony-font-primary);
   }
 
   .card-subtitle {
-    font-size: 12px;
+    font-size: var(--harmony-font-size-body-s);
     color: var(--harmony-font-tertiary);
     margin-left: auto;
   }
@@ -907,7 +907,7 @@ onMounted(async () => {
   background: var(--harmony-comp-emphasize-tertiary);
   color: var(--harmony-brand);
   border-radius: var(--harmony-corner-radius-level5);
-  font-size: 11px;
+  font-size: var(--harmony-font-size-caption-l);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -970,7 +970,7 @@ onMounted(async () => {
     }
 
     span {
-      font-size: 11px;
+      font-size: var(--harmony-font-size-caption-l);
       font-weight: 500;
     }
   }
@@ -987,12 +987,12 @@ onMounted(async () => {
 }
 
 .avatar-hint {
-  font-size: 12px;
+  font-size: var(--harmony-font-size-body-s);
   color: var(--harmony-font-tertiary);
 }
 
 .avatar-remove {
-  font-size: 12px;
+  font-size: var(--harmony-font-size-body-s);
   color: var(--harmony-warning);
   background: none;
   border: none;
@@ -1014,7 +1014,7 @@ onMounted(async () => {
 }
 
 .form-label {
-  font-size: 12px;
+  font-size: var(--harmony-font-size-body-s);
   font-weight: 500;
   color: var(--harmony-font-secondary);
 
@@ -1031,7 +1031,7 @@ onMounted(async () => {
     border: 1px solid var(--harmony-comp-divider) !important;
     background: var(--harmony-comp-background-secondary) !important;
     padding: 0 14px !important;
-    font-size: 13px !important;
+    font-size: var(--harmony-font-size-subtitle-s) !important;
     transition: all 0.15s ease !important;
   }
 
@@ -1052,7 +1052,7 @@ onMounted(async () => {
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level6);
   background: var(--harmony-comp-background-secondary);
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   color: var(--harmony-font-primary);
   font-family: inherit;
   line-height: 1.6;
@@ -1082,7 +1082,7 @@ onMounted(async () => {
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level6);
   background: var(--harmony-comp-background-secondary);
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   color: var(--harmony-font-primary);
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   line-height: 1.7;
@@ -1112,7 +1112,7 @@ onMounted(async () => {
 }
 
 .prompt-count {
-  font-size: 11px;
+  font-size: var(--harmony-font-size-caption-l);
   color: var(--harmony-font-tertiary);
 }
 
@@ -1128,7 +1128,7 @@ onMounted(async () => {
     border: 1px solid var(--harmony-comp-divider) !important;
     background: var(--harmony-comp-background-secondary) !important;
     padding: 4px 14px !important;
-    font-size: 13px !important;
+    font-size: var(--harmony-font-size-subtitle-s) !important;
   }
 
   :deep(.h-select__input:hover) {
@@ -1144,7 +1144,7 @@ onMounted(async () => {
 
 .option-hint {
   margin: 8px 0 0 0 !important;
-  font-size: 11px;
+  font-size: var(--harmony-font-size-caption-l);
   color: var(--harmony-font-tertiary);
 }
 
@@ -1196,13 +1196,13 @@ onMounted(async () => {
 }
 
 .memory-status {
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   font-weight: 500;
   color: var(--harmony-font-primary);
 }
 
 .memory-desc {
-  font-size: 12px;
+  font-size: var(--harmony-font-size-body-s);
   color: var(--harmony-font-tertiary);
   line-height: 1.5;
 }

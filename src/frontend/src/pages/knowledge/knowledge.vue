@@ -898,7 +898,7 @@ onMounted(() => {
   
   .char-count {
     position: absolute;
-    font-size: 11px;
+    font-size: var(--harmony-font-size-caption-l);
     color: var(--harmony-font-tertiary);
     background: var(--harmony-comp-background-primary);
     padding: 2px 4px;

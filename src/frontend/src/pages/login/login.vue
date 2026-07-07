@@ -268,7 +268,7 @@ const goToRegister = () => {
           color: white;
           padding: 12px 24px;
           border-radius: var(--harmony-corner-radius-level4);
-          font-size: 20px;
+          font-size: var(--harmony-font-size-title-s);
           font-weight: 700;
           letter-spacing: 2px;
           font-family: var(--harmony-font-family);
@@ -278,7 +278,7 @@ const goToRegister = () => {
 
       .subtitle {
         color: var(--harmony-font-secondary);
-        font-size: 16px;
+        font-size: var(--harmony-font-size-body-l);
         margin: 0;
         line-height: 1.6;
         font-weight: 400;
@@ -292,7 +292,7 @@ const goToRegister = () => {
 
         .form-label {
           display: block;
-          font-size: 16px;
+          font-size: var(--harmony-font-size-body-l);
           font-weight: 600;
           color: var(--harmony-font-primary);
           margin-bottom: 10px;
@@ -320,13 +320,13 @@ const goToRegister = () => {
 
           :deep(.el-input__inner) {
             color: var(--harmony-font-primary);
-            font-size: 16px;
+            font-size: var(--harmony-font-size-body-l);
             font-family: var(--harmony-font-family);
             font-weight: 400;
 
             &::placeholder {
               color: var(--harmony-font-tertiary);
-              font-size: 15px;
+              font-size: var(--harmony-font-size-subtitle-m);
             }
           }
         }
@@ -338,7 +338,7 @@ const goToRegister = () => {
         margin-bottom: 24px;
 
         .register-link {
-          font-size: 15px;
+          font-size: var(--harmony-font-size-subtitle-m);
           color: var(--harmony-font-secondary);
           font-family: var(--harmony-font-family);
 
@@ -363,7 +363,7 @@ const goToRegister = () => {
         background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
         border: none;
         border-radius: var(--harmony-corner-radius-level5);
-        font-size: 18px;
+        font-size: var(--harmony-font-size-subtitle-l);
         font-weight: 600;
         font-family: var(--harmony-font-family);
         letter-spacing: 1px;
@@ -386,7 +386,7 @@ const goToRegister = () => {
       align-items: center;
       margin-top: 36px;
       color: var(--harmony-font-tertiary);
-      font-size: 13px;
+      font-size: var(--harmony-font-size-subtitle-s);
       font-family: var(--harmony-font-family);
       font-weight: 400;
       border-top: 1px solid var(--harmony-comp-divider);

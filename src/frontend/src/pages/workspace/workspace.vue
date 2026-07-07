@@ -410,7 +410,7 @@ onMounted(async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: var(--harmony-font-size-body-l);
     flex-shrink: 0;
     background: var(--harmony-comp-background-secondary);
     border: 1px solid var(--harmony-comp-divider);
@@ -446,7 +446,7 @@ onMounted(async () => {
       }
 
       .card-badge {
-        font-size: 10px;
+        font-size: var(--harmony-font-size-caption-m);
         padding: 1px 6px;
         border-radius: var(--harmony-corner-radius-level18);
         font-weight: 500;

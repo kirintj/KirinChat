@@ -235,7 +235,7 @@ onMounted(() => {
 }
 
 .hub-title {
-  font-size: 22px;
+  font-size: var(--harmony-font-size-title-s);
   font-weight: 700;
   color: var(--harmony-font-primary);
   margin: 0;
@@ -245,7 +245,7 @@ onMounted(() => {
   text-align: center;
   padding: 48px 0;
   color: var(--harmony-font-secondary);
-  font-size: 14px;
+  font-size: var(--harmony-font-size-body-m);
 }
 
 .hub-section {
@@ -260,7 +260,7 @@ onMounted(() => {
 }
 
 .section-title {
-  font-size: 16px;
+  font-size: var(--harmony-font-size-body-l);
   font-weight: 600;
   color: var(--harmony-font-primary);
   margin: 0 0 14px 0;
@@ -271,7 +271,7 @@ onMounted(() => {
 }
 
 .section-link {
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   color: var(--primary-color, var(--harmony-brand));
   cursor: pointer;
 
@@ -281,7 +281,7 @@ onMounted(() => {
 }
 
 .view-all-link {
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   color: var(--harmony-brand);
   text-decoration: none;
   font-weight: 400;
@@ -322,7 +322,7 @@ onMounted(() => {
 }
 
 .empty-text {
-  font-size: 14px;
+  font-size: var(--harmony-font-size-body-m);
   color: var(--harmony-font-tertiary);
   margin: 0 0 12px 0;
 }
@@ -333,7 +333,7 @@ onMounted(() => {
   border: 1px solid var(--primary-color, var(--harmony-brand));
   background: transparent;
   color: var(--primary-color, var(--harmony-brand));
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   cursor: pointer;
 
   &:hover {
@@ -357,13 +357,13 @@ onMounted(() => {
 }
 
 .stat-value {
-  font-size: 24px;
+  font-size: var(--harmony-font-size-title-m);
   font-weight: 700;
   color: var(--harmony-font-primary);
 }
 
 .stat-label {
-  font-size: 12px;
+  font-size: var(--harmony-font-size-body-s);
   color: var(--harmony-font-tertiary);
 }
 

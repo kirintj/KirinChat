@@ -635,7 +635,7 @@ watch(
     }
 
     .mode-card-icon {
-      font-size: 24px;
+      font-size: var(--harmony-font-size-title-m);
       flex-shrink: 0;
       width: 40px;
       height: 40px;
@@ -841,7 +841,7 @@ watch(
   border-radius: var(--harmony-corner-radius-level4);
   background: transparent;
   color: var(--harmony-font-tertiary);
-  font-size: 11px;
+  font-size: var(--harmony-font-size-caption-l);
   cursor: pointer;
   transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
   white-space: nowrap;
@@ -901,7 +901,7 @@ watch(
     .count {
       font-weight: 400;
       color: var(--harmony-font-tertiary);
-      font-size: 11px;
+      font-size: var(--harmony-font-size-caption-l);
     }
   }
 
@@ -940,7 +940,7 @@ watch(
       color: var(--harmony-warning);
 
       button {
-        font-size: 11px;
+        font-size: var(--harmony-font-size-caption-l);
         padding: 2px 10px;
         border: 1px solid var(--harmony-brand);
         border-radius: var(--harmony-corner-radius-level4);
@@ -971,14 +971,14 @@ watch(
     align-items: center;
     padding: 6px 12px;
     border-top: 1px solid var(--harmony-comp-divider);
-    font-size: 11px;
+    font-size: var(--harmony-font-size-caption-l);
     color: var(--harmony-font-tertiary);
 
     .clear-btn {
       border: none;
       background: transparent;
       color: var(--harmony-warning);
-      font-size: 11px;
+      font-size: var(--harmony-font-size-caption-l);
       cursor: pointer;
       padding: 2px 6px;
 

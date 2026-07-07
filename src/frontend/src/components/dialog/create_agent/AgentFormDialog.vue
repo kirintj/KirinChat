@@ -590,7 +590,7 @@ defineExpose({ open, close })
       }
 
       .header-title {
-        font-size: 18px;
+        font-size: var(--harmony-font-size-subtitle-l);
         font-weight: 600;
       }
     }
@@ -636,14 +636,14 @@ defineExpose({ open, close })
 
             h3 {
               margin: 0 0 8px 0;
-              font-size: 18px;
+              font-size: var(--harmony-font-size-subtitle-l);
               color: var(--harmony-font-primary);
             }
 
             p {
               margin: 0;
               color: var(--harmony-font-secondary);
-              font-size: 14px;
+              font-size: var(--harmony-font-size-body-m);
             }
           }
         }
@@ -654,7 +654,7 @@ defineExpose({ open, close })
 
             h4 {
               margin: 0 0 12px 0;
-              font-size: 16px;
+              font-size: var(--harmony-font-size-body-l);
               color: var(--harmony-font-primary);
               font-weight: 600;
             }
@@ -663,7 +663,7 @@ defineExpose({ open, close })
               margin: 0 0 8px 0;
               color: var(--harmony-font-secondary);
               line-height: 1.6;
-              font-size: 14px;
+              font-size: var(--harmony-font-size-body-m);
             }
           }
         }
@@ -764,7 +764,7 @@ defineExpose({ open, close })
             }
 
             span {
-              font-size: 12px;
+              font-size: var(--harmony-font-size-body-s);
               color: var(--harmony-brand);
             }
           }
@@ -776,7 +776,7 @@ defineExpose({ open, close })
             gap: 6px;
 
             span {
-              font-size: 12px;
+              font-size: var(--harmony-font-size-body-s);
               color: var(--harmony-font-tertiary);
             }
           }
@@ -790,7 +790,7 @@ defineExpose({ open, close })
 
         h4 {
           margin: 0 0 16px 0;
-          font-size: 16px;
+          font-size: var(--harmony-font-size-body-l);
           color: var(--harmony-font-primary);
         }
 
@@ -800,7 +800,7 @@ defineExpose({ open, close })
             background-color: var(--harmony-interactive-hover);
             border-radius: var(--harmony-corner-radius-level4);
             margin-bottom: 8px;
-            font-size: 14px;
+            font-size: var(--harmony-font-size-body-m);
             color: var(--harmony-font-secondary);
             cursor: pointer;
             transition: all 0.3s;

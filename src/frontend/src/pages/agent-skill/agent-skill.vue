@@ -1407,7 +1407,7 @@ onMounted(() => {
           justify-content: space-between;
           padding: var(--harmony-padding-level8) var(--harmony-padding-level10);
           color: var(--harmony-font-secondary);
-          font-size: 11px;
+          font-size: var(--harmony-font-size-caption-l);
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.5px;
@@ -1496,7 +1496,7 @@ onMounted(() => {
             }
             
             .item-badge {
-              font-size: 10px;
+              font-size: var(--harmony-font-size-caption-m);
               padding: 2px 6px;
               border-radius: var(--harmony-corner-radius-level4);
               margin-left: auto;

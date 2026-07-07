@@ -399,13 +399,13 @@ const clearSearch = () => {
         gap: 4px;
 
         .title {
-          font-size: 14px;
+          font-size: var(--harmony-font-size-body-m);
           font-weight: 600;
           color: var(--harmony-font-primary);
         }
 
         .count {
-          font-size: 12px;
+          font-size: var(--harmony-font-size-body-s);
           color: var(--harmony-font-secondary);
         }
       }
@@ -429,12 +429,12 @@ const clearSearch = () => {
           }
 
           .empty-text {
-            font-size: 14px;
+            font-size: var(--harmony-font-size-body-m);
             margin-bottom: 8px;
           }
 
           .empty-hint {
-            font-size: 12px;
+            font-size: var(--harmony-font-size-body-s);
             color: var(--harmony-font-fourth);
           }
         }
@@ -488,7 +488,7 @@ const clearSearch = () => {
                 flex: 1;
 
                 .title {
-                  font-size: 14px;
+                  font-size: var(--harmony-font-size-body-m);
                   font-weight: 600;
                   color: var(--harmony-font-primary);
                   margin-bottom: 4px;
@@ -498,7 +498,7 @@ const clearSearch = () => {
                 }
 
                 .subtitle {
-                  font-size: 12px;
+                  font-size: var(--harmony-font-size-body-s);
                   color: var(--harmony-font-secondary);
                 }
               }
@@ -511,7 +511,7 @@ const clearSearch = () => {
               gap: 8px;
 
               .time {
-                font-size: 11px;
+                font-size: var(--harmony-font-size-caption-l);
                 color: var(--harmony-font-tertiary);
               }
 
@@ -614,13 +614,13 @@ const clearSearch = () => {
       margin-bottom: 16px;
 
       .title {
-        font-size: 16px;
+        font-size: var(--harmony-font-size-body-l);
         font-weight: 600;
         color: var(--harmony-font-primary);
       }
 
       .count {
-        font-size: 14px;
+        font-size: var(--harmony-font-size-body-m);
         color: var(--harmony-font-secondary);
       }
     }
@@ -636,7 +636,7 @@ const clearSearch = () => {
       }
 
       .empty-text {
-        font-size: 14px;
+        font-size: var(--harmony-font-size-body-m);
       }
     }
 
@@ -680,14 +680,14 @@ const clearSearch = () => {
           flex: 1;
 
           .agent-name {
-            font-size: 14px;
+            font-size: var(--harmony-font-size-body-m);
             font-weight: 600;
             color: var(--harmony-font-primary);
             margin-bottom: 4px;
           }
 
           .agent-description {
-            font-size: 12px;
+            font-size: var(--harmony-font-size-body-s);
             color: var(--harmony-font-secondary);
           }
         }

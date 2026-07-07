@@ -62,18 +62,18 @@ const emit = defineEmits<{
 }
 
 .card-icon {
-  font-size: 32px;
+  font-size: var(--harmony-font-size-title-l);
   line-height: 1;
 }
 
 .card-title {
-  font-size: 15px;
+  font-size: var(--harmony-font-size-subtitle-m);
   font-weight: 600;
   color: var(--harmony-font-primary);
 }
 
 .card-desc {
-  font-size: 12px;
+  font-size: var(--harmony-font-size-body-s);
   color: var(--harmony-font-secondary);
   line-height: 1.4;
 }

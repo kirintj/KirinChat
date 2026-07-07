@@ -59,13 +59,13 @@ const progressPercent = (current: number, total: number) => {
 }
 
 .skill-name {
-  font-size: 14px;
+  font-size: var(--harmony-font-size-body-m);
   font-weight: 600;
   color: var(--harmony-font-primary);
 }
 
 .status-badge {
-  font-size: 11px;
+  font-size: var(--harmony-font-size-caption-l);
   padding: 2px 8px;
   border-radius: var(--harmony-corner-radius-level5);
   background: var(--primary-light, var(--harmony-comp-emphasize-tertiary));
@@ -94,7 +94,7 @@ const progressPercent = (current: number, total: number) => {
 }
 
 .progress-text {
-  font-size: 12px;
+  font-size: var(--harmony-font-size-body-s);
   color: var(--harmony-font-secondary);
   white-space: nowrap;  // 防止"X/Y 题"文字换行
 }

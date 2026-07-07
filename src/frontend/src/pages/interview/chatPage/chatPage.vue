@@ -332,19 +332,19 @@ onUnmounted(() => {
     margin-bottom: 6px;
 
     .progress-label {
-      font-size: 13px;
+      font-size: var(--harmony-font-size-subtitle-s);
       font-weight: 600;
       color: var(--harmony-font-primary);
     }
 
     .progress-skill {
-      font-size: 12px;
+      font-size: var(--harmony-font-size-body-s);
       color: var(--harmony-font-secondary);
     }
 
     .timer-display {
       margin-left: 12px;
-      font-size: 12px;
+      font-size: var(--harmony-font-size-body-s);
       color: var(--harmony-font-tertiary);
       font-variant-numeric: tabular-nums; // 等宽数字，避免计时跳动导致布局偏移
     }
@@ -404,7 +404,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: var(--harmony-font-size-subtitle-l);
   flex-shrink: 0;
 
   &.ai-avatar {
@@ -419,7 +419,7 @@ onUnmounted(() => {
 .bubble {
   padding: 12px 16px;
   border-radius: var(--harmony-corner-radius-level9);
-  font-size: 14px;
+  font-size: var(--harmony-font-size-body-m);
   line-height: 1.6;
   word-break: break-word;
 
@@ -471,7 +471,7 @@ onUnmounted(() => {
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level6);
   padding: 12px 16px;
-  font-size: 14px;
+  font-size: var(--harmony-font-size-body-m);
   font-family: inherit;
   resize: none;
   background: var(--harmony-comp-background-primary);
@@ -506,7 +506,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: var(--harmony-font-size-body-m);
   color: var(--harmony-font-secondary);
 }
 
@@ -520,7 +520,7 @@ onUnmounted(() => {
   h1, h2, h3, h4 {
     margin: 10px 0 6px 0;
     font-weight: 600;
-    font-size: 15px;
+    font-size: var(--harmony-font-size-subtitle-m);
   }
 
   ul, ol {
@@ -535,7 +535,7 @@ onUnmounted(() => {
     padding: 2px 5px;
     border-radius: var(--harmony-corner-radius-level2);
     font-family: var(--harmony-font-family);
-    font-size: 13px;
+    font-size: var(--harmony-font-size-subtitle-s);
   }
 
   pre {

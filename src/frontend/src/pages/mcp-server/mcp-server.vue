@@ -1819,7 +1819,7 @@ const saveUserConfig = async () => {
         background: var(--harmony-comp-background-primary);
         padding: 4px 8px;
         border-radius: var(--harmony-corner-radius-level4);
-        font-size: 11px;
+        font-size: var(--harmony-font-size-caption-l);
         color: var(--harmony-font-tertiary);
         font-weight: 500;
         border: 1px solid var(--harmony-comp-divider);
@@ -2477,7 +2477,7 @@ const saveUserConfig = async () => {
       .official-tag {
         margin-top: 2px;
         font-weight: 600;
-        font-size: 11px;
+        font-size: var(--harmony-font-size-caption-l);
         letter-spacing: 0.025em;
       }
     }

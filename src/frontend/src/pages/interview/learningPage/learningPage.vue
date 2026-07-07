@@ -204,12 +204,12 @@ onMounted(fetchPath)
 }
 
 .stat-value {
-  font-size: 28px;
+  font-size: var(--harmony-font-size-title-m);
   font-weight: 700;
 }
 
 .stat-label {
-  font-size: 13px;
+  font-size: var(--harmony-font-size-subtitle-s);
   color: var(--harmony-font-tertiary);
 }
 
@@ -250,7 +250,7 @@ onMounted(fetchPath)
 }
 
 .cat-score {
-  font-size: 32px;
+  font-size: var(--harmony-font-size-title-l);
   font-weight: 700;
   margin: 8px 0;
 }

@@ -169,7 +169,7 @@ function togglePassword() {
 .h-input__clear,
 .h-input__toggle {
   cursor: pointer;
-  font-size: 12px;
+  font-size: var(--harmony-font-size-body-s);
   padding: 2px;
 }
 .h-input__clear:hover {

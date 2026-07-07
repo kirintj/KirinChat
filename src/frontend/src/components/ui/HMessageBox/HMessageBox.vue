@@ -106,7 +106,7 @@ function handleCancel() {
 .h-messagebox__close {
   cursor: pointer;
   color: var(--harmony-font-tertiary);
-  font-size: 14px;
+  font-size: var(--harmony-font-size-body-m);
 }
 .h-messagebox__close:hover { color: var(--harmony-font-primary); }
 .h-messagebox__body {

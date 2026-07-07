@@ -44,7 +44,7 @@ defineProps<Props>()
 
     .card-header {
       display: flex;
-      font-size: 18px;
+      font-size: var(--harmony-font-size-subtitle-l);
       align-items: center;
       font-weight: 600;
       margin-bottom: 15px;
@@ -61,7 +61,7 @@ defineProps<Props>()
     }
 
     .card-description {
-      font-size: 16px;
+      font-size: var(--harmony-font-size-body-l);
       font-weight: 500;
       overflow: hidden;
       text-overflow: ellipsis;

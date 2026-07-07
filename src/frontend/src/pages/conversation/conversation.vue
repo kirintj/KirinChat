@@ -590,7 +590,7 @@ const closeCreateDialog = () => {
           gap: 8px;
 
           .icon {
-            font-size: 18px;
+            font-size: var(--harmony-font-size-subtitle-l);
             font-weight: bold;
           }
         }
@@ -805,7 +805,7 @@ const closeCreateDialog = () => {
           position: absolute;
           bottom: 8px;
           right: 16px;
-          font-size: 11px;
+          font-size: var(--harmony-font-size-caption-l);
           color: var(--harmony-font-tertiary);
         }
       }
@@ -1173,7 +1173,7 @@ const closeCreateDialog = () => {
           }
 
           .title {
-            font-size: 18px;
+            font-size: var(--harmony-font-size-subtitle-l);
             font-weight: 700;
             color: var(--harmony-font-primary);
             letter-spacing: -0.01em;
@@ -1386,7 +1386,7 @@ const closeCreateDialog = () => {
             }
 
             .agent-description {
-              font-size: 13px;
+              font-size: var(--harmony-font-size-subtitle-s);
               color: var(--harmony-font-secondary);
               line-height: 1.5;
               display: -webkit-box;

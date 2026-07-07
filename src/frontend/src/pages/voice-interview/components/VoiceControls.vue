@@ -43,10 +43,10 @@ const nextPhases: Record<string, string> = { INTRO: 'TECH', TECH: 'PROJECT', PRO
 
 <style lang="scss" scoped>
 .voice-controls { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px; border-top: 1px solid var(--harmony-comp-divider); }
-.phase-indicator { font-size: 14px; font-weight: 600; color: var(--harmony-brand); }
+.phase-indicator { font-size: var(--harmony-font-size-body-m); font-weight: 600; color: var(--harmony-brand); }
 .buttons { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 .ctrl-btn {
-  padding: 8px 20px; border-radius: var(--harmony-corner-radius-level10); border: 1px solid var(--harmony-comp-divider); background: white; cursor: pointer; font-size: 13px; transition: all 0.2s;
+  padding: 8px 20px; border-radius: var(--harmony-corner-radius-level10); border: 1px solid var(--harmony-comp-divider); background: white; cursor: pointer; font-size: var(--harmony-font-size-subtitle-s); transition: all 0.2s;
   &:hover:not(:disabled) { background: var(--harmony-comp-background-secondary); }
   &:disabled { opacity: 0.5; cursor: not-allowed; }
   &.record.active { background: var(--harmony-warning); color: white; border-color: var(--harmony-warning); }
@@ -54,5 +54,5 @@ const nextPhases: Record<string, string> = { INTRO: 'TECH', TECH: 'PROJECT', PRO
   &.end { border-color: var(--harmony-warning); color: var(--harmony-warning); }
 }
 .phase-nav { margin-top: 4px; }
-.phase-btn { padding: 6px 16px; border-radius: var(--harmony-corner-radius-level8); border: 1px dashed var(--harmony-brand); background: transparent; color: var(--harmony-brand); cursor: pointer; font-size: 12px; }
+.phase-btn { padding: 6px 16px; border-radius: var(--harmony-corner-radius-level8); border: 1px dashed var(--harmony-brand); background: transparent; color: var(--harmony-brand); cursor: pointer; font-size: var(--harmony-font-size-body-s); }
 </style>

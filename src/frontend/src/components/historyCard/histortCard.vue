@@ -168,7 +168,7 @@ $transition-default: all 0.3s ease;
         min-width: 0;
 
         .title {
-          font-size: 14px;
+          font-size: var(--harmony-font-size-body-m);
           font-weight: 600;
           color: var(--harmony-font-primary);
           margin-bottom: 4px;
@@ -178,7 +178,7 @@ $transition-default: all 0.3s ease;
         }
 
         .subtitle {
-          font-size: 12px;
+          font-size: var(--harmony-font-size-body-s);
           color: var(--harmony-font-secondary);
           overflow: hidden;
           text-overflow: ellipsis;
@@ -195,7 +195,7 @@ $transition-default: all 0.3s ease;
       flex-shrink: 0;
 
       .time {
-        font-size: 11px;
+        font-size: var(--harmony-font-size-caption-l);
         color: var(--harmony-font-tertiary);
         white-space: nowrap;
       }
@@ -206,7 +206,7 @@ $transition-default: all 0.3s ease;
 
         .delete-btn {
           color: var(--harmony-font-tertiary);
-          font-size: 18px;
+          font-size: var(--harmony-font-size-subtitle-l);
           font-weight: bold;
           cursor: pointer;
           width: 20px;
@@ -258,17 +258,17 @@ $transition-default: all 0.3s ease;
 
         .content {
           .title {
-            font-size: 13px;
+            font-size: var(--harmony-font-size-subtitle-s);
           }
 
           .subtitle {
-            font-size: 11px;
+            font-size: var(--harmony-font-size-caption-l);
           }
         }
       }
 
       .card-right .time {
-        font-size: 10px;
+        font-size: var(--harmony-font-size-caption-m);
       }
     }
   }

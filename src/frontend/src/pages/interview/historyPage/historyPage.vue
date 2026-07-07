@@ -369,7 +369,7 @@ onMounted(() => {
     border: none;
     color: var(--harmony-font-secondary);
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--harmony-font-size-body-m);
     padding: 4px 8px;
     border-radius: var(--harmony-corner-radius-level4);
     transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
@@ -381,7 +381,7 @@ onMounted(() => {
   }
 
   .page-title {
-    font-size: 18px;
+    font-size: var(--harmony-font-size-subtitle-l);
     font-weight: 600;
     color: var(--harmony-font-primary);
     margin: 0;
@@ -409,7 +409,7 @@ onMounted(() => {
       border: 1px solid var(--harmony-comp-divider);
       border-radius: var(--harmony-corner-radius-level6);
       padding: 8px 12px;
-      font-size: 13px;
+      font-size: var(--harmony-font-size-subtitle-s);
       background: var(--harmony-comp-background-primary);
       color: var(--harmony-font-primary);
       transition: border-color var(--harmony-duration-fast) var(--harmony-motion-standard);
@@ -428,7 +428,7 @@ onMounted(() => {
     border: 1px solid var(--harmony-comp-divider);
     border-radius: var(--harmony-corner-radius-level6);
     padding: 8px 12px;
-    font-size: 13px;
+    font-size: var(--harmony-font-size-subtitle-s);
     background: var(--harmony-comp-background-primary);
     color: var(--harmony-font-primary);
     cursor: pointer;
@@ -453,7 +453,7 @@ onMounted(() => {
     border: none;
     border-bottom: 2px solid transparent;
     color: var(--harmony-font-secondary);
-    font-size: 14px;
+    font-size: var(--harmony-font-size-body-m);
     cursor: pointer;
     transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
@@ -478,7 +478,7 @@ onMounted(() => {
       border: 1px solid var(--harmony-comp-divider);
       border-radius: var(--harmony-corner-radius-level4);
       padding: 4px 10px;
-      font-size: 12px;
+      font-size: var(--harmony-font-size-body-s);
       color: var(--harmony-font-secondary);
       cursor: pointer;
       transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
@@ -506,7 +506,7 @@ onMounted(() => {
   justify-content: center;
   padding: 48px 24px;
   color: var(--harmony-font-tertiary);
-  font-size: 14px;
+  font-size: var(--harmony-font-size-body-m);
   gap: 16px;
 }
 
@@ -539,13 +539,13 @@ onMounted(() => {
     gap: 8px;
 
     .skill-name {
-      font-size: 15px;
+      font-size: var(--harmony-font-size-subtitle-m);
       font-weight: 600;
       color: var(--harmony-font-primary);
     }
 
     .difficulty-tag {
-      font-size: 11px;
+      font-size: var(--harmony-font-size-caption-l);
       padding: 2px 8px;
       border-radius: var(--harmony-corner-radius-level5);
       font-weight: 500;
@@ -570,7 +570,7 @@ onMounted(() => {
   .session-meta {
     display: flex;
     gap: 12px;
-    font-size: 12px;
+    font-size: var(--harmony-font-size-body-s);
     color: var(--harmony-font-tertiary);
 
     .status-text {
@@ -585,7 +585,7 @@ onMounted(() => {
   gap: 16px;
 
   .score-display {
-    font-size: 20px;
+    font-size: var(--harmony-font-size-title-s);
     font-weight: 700;
     color: var(--harmony-brand);
     min-width: 50px;
@@ -622,7 +622,7 @@ onMounted(() => {
     border-radius: var(--harmony-corner-radius-level4);
     background: var(--harmony-comp-background-primary);
     color: var(--harmony-font-secondary);
-    font-size: 13px;
+    font-size: var(--harmony-font-size-subtitle-s);
     cursor: pointer;
     transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
@@ -645,7 +645,7 @@ onMounted(() => {
 
   .page-info {
     margin-left: 12px;
-    font-size: 12px;
+    font-size: var(--harmony-font-size-body-s);
     color: var(--harmony-font-tertiary);
   }
 }

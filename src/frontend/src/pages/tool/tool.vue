@@ -1707,7 +1707,7 @@ onMounted(() => {
         }
         
         h2 {
-          font-size: 22px;
+          font-size: var(--harmony-font-size-title-s);
         }
       }
       
