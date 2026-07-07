@@ -47,7 +47,7 @@ const isSelected = computed(() => select?.modelValue.value === props.value)
 }
 .h-option--selected {
   background: var(--harmony-interactive-select);
-  color: var(--harmony-brand);
+  color: var(--harmony-brand));
   font-weight: 500;
 }
 </style>

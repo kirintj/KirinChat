@@ -325,7 +325,7 @@ onMounted(() => {
   width: 24px;
   height: 24px;
   border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--harmony-brand);
+  border-top-color: var(--harmony-brand));
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;
 }

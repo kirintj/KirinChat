@@ -127,7 +127,7 @@ $transition-default: all 0.3s ease;
   margin-bottom: $spacing-sm;
 
   &:hover {
-    border-color: var(--harmony-brand);
+    border-color: var(--harmony-brand));
     box-shadow: var(--harmony-shadow-md);
     transform: translateY(-2px);
   }
@@ -233,12 +233,12 @@ $transition-default: all 0.3s ease;
 
 /* 激活状态 */
 .history-card.active {
-  border-color: var(--harmony-brand);
+  border-color: var(--harmony-brand));
   background-color: var(--harmony-comp-emphasize-tertiary);
-  box-shadow: 0 0 0 1px var(--harmony-brand);
+  box-shadow: 0 0 0 1px var(--harmony-brand));
 
   .card-left .content .title {
-    color: var(--harmony-brand);
+    color: var(--harmony-brand));
   }
 }
 

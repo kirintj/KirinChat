@@ -150,8 +150,8 @@ onMounted(fetchPath)
 
 .back-btn {
   background: none;
-  border: 1px solid var(--harmony-brand);
-  color: var(--harmony-brand);
+  border: 1px solid var(--harmony-brand));
+  color: var(--harmony-brand));
   padding: 6px 16px;
   border-radius: var(--harmony-corner-radius-level4);
   cursor: pointer;
@@ -165,7 +165,7 @@ onMounted(fetchPath)
 }
 
 .primary-btn {
-  background: var(--harmony-brand);
+  background: var(--harmony-brand));
   color: var(--harmony-comp-background-primary);
   border: none;
   padding: 8px 24px;
@@ -221,7 +221,7 @@ onMounted(fetchPath)
 }
 
 .level-badge.excellent { background: var(--harmony-confirm); }
-.level-badge.intermediate { background: var(--harmony-brand); }
+.level-badge.intermediate { background: var(--harmony-brand)); }
 .level-badge.beginner { background: var(--harmony-alert); }
 .level-badge.needs_work { background: var(--harmony-warning); }
 

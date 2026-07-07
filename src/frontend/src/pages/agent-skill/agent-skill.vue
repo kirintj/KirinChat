@@ -1016,13 +1016,13 @@ onMounted(() => {
 
       &:hover {
         border-color: var(--harmony-font-tertiary);
-        color: var(--harmony-brand);
+        color: var(--harmony-brand));
       }
     }
 
     .btn-primary {
-      background: var(--harmony-brand);
-      border-color: var(--harmony-brand);
+      background: var(--harmony-brand));
+      border-color: var(--harmony-brand));
       color: var(--harmony-comp-background-primary);
 
       &:hover {
@@ -1139,7 +1139,7 @@ onMounted(() => {
         p {
           margin: 0;
           font-size: var(--harmony-font-size-body-m);
-          color: var(--harmony-brand);
+          color: var(--harmony-brand));
           line-height: 1.6;
         }
       }
@@ -1160,7 +1160,7 @@ onMounted(() => {
 
           &:focus {
             outline: none;
-            border-color: var(--harmony-brand);
+            border-color: var(--harmony-brand));
           }
         }
       }
@@ -1217,7 +1217,7 @@ onMounted(() => {
         align-items: center;
         justify-content: center;
         box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
-        color: var(--harmony-brand);
+        color: var(--harmony-brand));
         font-size: var(--harmony-font-size-title-m);
       }
       
@@ -1273,11 +1273,11 @@ onMounted(() => {
         border: 1px solid var(--harmony-comp-emphasize-tertiary);
         border-radius: var(--harmony-corner-radius-level6);
         margin-bottom: 20px;
-        color: var(--harmony-brand);
+        color: var(--harmony-brand));
         font-size: var(--harmony-font-size-body-m);
 
         strong {
-          color: var(--harmony-brand);
+          color: var(--harmony-brand));
           font-weight: 600;
         }
       }
@@ -1369,7 +1369,7 @@ onMounted(() => {
           height: 100%;
           padding: 0 16px;
           background: var(--harmony-comp-background-primary);
-          border-top: 2px solid var(--harmony-brand);
+          border-top: 2px solid var(--harmony-brand));
           color: var(--harmony-font-primary);
           font-size: var(--harmony-font-size-subtitle-s);
           
@@ -1474,7 +1474,7 @@ onMounted(() => {
                 top: 0;
                 bottom: 0;
                 width: 2px;
-                background: var(--harmony-brand);
+                background: var(--harmony-brand));
               }
             }
             
@@ -1552,7 +1552,7 @@ onMounted(() => {
               }
               
               &.file-icon {
-                color: var(--harmony-brand);
+                color: var(--harmony-brand));
               }
             }
             
@@ -1667,7 +1667,7 @@ onMounted(() => {
               &--ghost {
                 border-color: var(--harmony-comp-emphasize-tertiary);
                 background: var(--harmony-comp-emphasize-tertiary);
-                color: var(--harmony-brand);
+                color: var(--harmony-brand));
 
                 &:hover {
                   background: var(--harmony-comp-emphasize-tertiary);
@@ -1689,7 +1689,7 @@ onMounted(() => {
               }
 
               &--primary {
-                background: var(--harmony-brand);
+                background: var(--harmony-brand));
                 border-color: transparent;
                 color: var(--harmony-comp-background-primary);
                 box-shadow: 0 4px 10px var(--harmony-comp-emphasize-tertiary);
@@ -1799,7 +1799,7 @@ onMounted(() => {
         margin: 0;
         font-size: var(--harmony-font-size-title-m);
         font-weight: 600;
-        background: var(--harmony-brand);
+        background: var(--harmony-brand));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -1930,7 +1930,7 @@ onMounted(() => {
             gap: 6px;
             padding: 4px 12px;
             background: var(--harmony-comp-emphasize-tertiary);
-            color: var(--harmony-brand);
+            color: var(--harmony-brand));
             border-radius: var(--harmony-corner-radius-level18);
             font-size: var(--harmony-font-size-subtitle-s);
             font-weight: 500;
@@ -1971,7 +1971,7 @@ onMounted(() => {
               
               &:hover {
                 background: var(--harmony-comp-emphasize-tertiary);
-                color: var(--harmony-brand);
+                color: var(--harmony-brand));
                 border-color: var(--harmony-comp-emphasize-tertiary);
                 opacity: 1;
               }

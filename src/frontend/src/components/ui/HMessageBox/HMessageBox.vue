@@ -143,7 +143,7 @@ function handleCancel() {
   color: var(--harmony-font-primary);
 }
 .h-messagebox__btn--confirm {
-  background: var(--harmony-brand);
+  background: var(--harmony-brand));
   color: var(--harmony-font-on-primary);
 }
 .h-messagebox__btn--confirm:hover {

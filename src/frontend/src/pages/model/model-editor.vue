@@ -400,7 +400,7 @@ onMounted(() => {
               font-weight: 500;
               
               &:hover {
-                color: var(--harmony-brand);
+                color: var(--harmony-brand));
                 background: var(--harmony-comp-emphasize-tertiary);
                 transform: translateY(-1px);
               }
@@ -411,7 +411,7 @@ onMounted(() => {
             }
             
             &.active {
-              color: var(--harmony-brand);
+              color: var(--harmony-brand));
               font-weight: 600;
               background: var(--harmony-comp-emphasize-tertiary);
             }
@@ -432,7 +432,7 @@ onMounted(() => {
       .title-icon {
         width: 48px;
         height: 48px;
-        background: var(--harmony-brand);
+        background: var(--harmony-brand));
         border-radius: var(--harmony-corner-radius-level8);
         display: flex;
         align-items: center;
@@ -521,7 +521,7 @@ onMounted(() => {
               left: 0;
               width: 40px;
               height: 2px;
-              background: var(--harmony-brand);
+              background: var(--harmony-brand));
               border-radius: 1px;
             }
           }
@@ -561,7 +561,7 @@ onMounted(() => {
               }
 
               &.h-input--focused {
-                border-color: var(--harmony-brand);
+                border-color: var(--harmony-brand));
                 background: var(--harmony-comp-background-primary);
                 box-shadow: 0 0 0 4px var(--harmony-comp-emphasize-tertiary), 0 8px 24px var(--harmony-shadow-md);
                 transform: translateY(-2px);
@@ -652,12 +652,12 @@ onMounted(() => {
             }
             
             &.primary-btn {
-              background: var(--harmony-brand);
+              background: var(--harmony-brand));
               border-color: transparent;
               color: white;
               
               &:hover {
-                background: var(--harmony-brand);
+                background: var(--harmony-brand));
                 box-shadow: 0 12px 28px var(--harmony-comp-emphasize-tertiary);
               }
             }

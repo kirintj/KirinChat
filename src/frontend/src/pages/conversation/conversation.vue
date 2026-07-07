@@ -567,7 +567,7 @@ const closeCreateDialog = () => {
         border-radius: var(--harmony-corner-radius-level6);
         font-weight: 500;
         transition: all 0.3s ease;
-        background: var(--harmony-brand);
+        background: var(--harmony-brand));
         color: var(--harmony-comp-background-primary);
         border: none;
         cursor: pointer;
@@ -625,7 +625,7 @@ const closeCreateDialog = () => {
 
           &:focus {
             outline: none;
-            border-color: var(--harmony-brand);
+            border-color: var(--harmony-brand));
             background: var(--harmony-comp-background-primary);
             box-shadow: 0 0 0 2px var(--harmony-shadow-xs);
           }
@@ -666,13 +666,13 @@ const closeCreateDialog = () => {
         align-items: center;
         justify-content: center;
         height: 200px;
-        color: var(--harmony-brand);
+        color: var(--harmony-brand));
 
         .loading-icon {
           width: 32px;
           height: 32px;
           margin-bottom: 14px;
-          color: var(--harmony-brand);
+          color: var(--harmony-brand));
           animation: spin 0.8s linear infinite;
 
           svg {
@@ -723,13 +723,13 @@ const closeCreateDialog = () => {
         position: relative;
 
         &:hover {
-          border-color: var(--harmony-brand);
+          border-color: var(--harmony-brand));
           box-shadow: var(--harmony-shadow-card-hover);
           transform: translateY(-2px);
         }
 
         &.active {
-          border-color: var(--harmony-brand);
+          border-color: var(--harmony-brand));
           background-color: var(--harmony-comp-background-secondary);
         }
 
@@ -786,8 +786,8 @@ const closeCreateDialog = () => {
 
           &:hover {
             background: var(--harmony-comp-background-secondary);
-            color: var(--harmony-brand);
-            border-color: var(--harmony-brand);
+            color: var(--harmony-brand));
+            border-color: var(--harmony-brand));
             opacity: 1;
           }
 
@@ -838,7 +838,7 @@ const closeCreateDialog = () => {
 
         .icon {
           font-size: 48px;
-          color: var(--harmony-brand);
+          color: var(--harmony-brand));
         }
       }
 
@@ -957,7 +957,7 @@ const closeCreateDialog = () => {
         }
 
         &.active {
-          border-color: var(--harmony-brand);
+          border-color: var(--harmony-brand));
           background: var(--harmony-comp-background-secondary);
         }
 
@@ -1128,7 +1128,7 @@ const closeCreateDialog = () => {
 
           &:focus {
             outline: none;
-            border-color: var(--harmony-brand);
+            border-color: var(--harmony-brand));
             background: var(--harmony-comp-background-primary);
             box-shadow: 0 0 0 4px var(--harmony-shadow-xs);
           }
@@ -1205,7 +1205,7 @@ const closeCreateDialog = () => {
           margin-bottom: 24px;
 
           .spinner {
-            color: var(--harmony-brand);
+            color: var(--harmony-brand));
             animation: spin 1s linear infinite;
           }
         }
@@ -1293,7 +1293,7 @@ const closeCreateDialog = () => {
           }
 
           &:hover {
-            border-color: var(--harmony-brand);
+            border-color: var(--harmony-brand));
             transform: translateY(-6px) scale(1.02);
             box-shadow: var(--harmony-shadow-card-hover);
 
@@ -1303,7 +1303,7 @@ const closeCreateDialog = () => {
           }
 
           &.active {
-            border-color: var(--harmony-brand);
+            border-color: var(--harmony-brand));
             background: var(--harmony-comp-background-secondary);
             box-shadow: var(--harmony-shadow-card-hover);
             transform: translateY(-6px) scale(1.02);
@@ -1313,7 +1313,7 @@ const closeCreateDialog = () => {
             }
 
             .agent-avatar {
-              border-color: var(--harmony-brand);
+              border-color: var(--harmony-brand));
               box-shadow: var(--harmony-shadow-card-hover);
             }
 
@@ -1363,7 +1363,7 @@ const closeCreateDialog = () => {
               align-items: center;
               justify-content: center;
               box-shadow: var(--harmony-shadow-card);
-              border: 2px solid var(--harmony-brand);
+              border: 2px solid var(--harmony-brand));
               animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
           }
@@ -1469,7 +1469,7 @@ const closeCreateDialog = () => {
       padding: 10px 18px;
       border: none;
       border-radius: var(--harmony-corner-radius-level6);
-      background: var(--harmony-brand);
+      background: var(--harmony-brand));
       color: var(--harmony-comp-background-primary);
       cursor: pointer;
       font-size: var(--harmony-font-size-subtitle-s);

@@ -89,7 +89,7 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     height: 160px;
-    background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-brand);
+    background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-brand));
     border-radius: var(--harmony-corner-radius-level10);
     border: 2px solid transparent;
     box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2);
@@ -116,7 +116,7 @@ onMounted(async () => {
       left: -2px;
       right: -2px;
       bottom: -2px;
-      background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-brand), var(--harmony-brand);
+      background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-brand), var(--harmony-brand));
       border-radius: 22px;
       z-index: -1;
       opacity: 0;

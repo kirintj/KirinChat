@@ -347,7 +347,7 @@ onUnmounted(() => {
   .back-btn {
     background: none;
     border: none;
-    color: var(--harmony-brand);
+    color: var(--harmony-brand));
     cursor: pointer;
     font-size: 14px;
     font-family: inherit;
@@ -536,7 +536,7 @@ onUnmounted(() => {
     .question-index {
       font-size: 12px;
       font-weight: 600;
-      color: var(--harmony-brand);
+      color: var(--harmony-brand));
       flex-shrink: 0;
     }
 

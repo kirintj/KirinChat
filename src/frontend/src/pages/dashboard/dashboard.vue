@@ -566,7 +566,7 @@ onBeforeUnmount(() => {
     padding: 2px 8px;
     border-radius: 999px;
     background: var(--harmony-comp-emphasize-tertiary);
-    color: var(--harmony-brand);
+    color: var(--harmony-brand));
     border: 1px solid var(--harmony-comp-divider);
   }
   .sub {
@@ -658,7 +658,7 @@ onBeforeUnmount(() => {
   width: 24px;
   height: 24px;
   border: 3px solid var(--harmony-comp-background-secondary);
-  border-top-color: var(--harmony-brand);
+  border-top-color: var(--harmony-brand));
   border-radius: var(--harmony-corner-radius-level18);
   animation: h-spin 0.6s linear infinite;
 }
@@ -712,7 +712,7 @@ onBeforeUnmount(() => {
     align-items: center;
     justify-content: center;
     background: var(--harmony-comp-emphasize-tertiary);
-    color: var(--harmony-brand);
+    color: var(--harmony-brand));
     font-weight: 800;
     box-shadow: inset 0 0 0 1px var(--harmony-comp-divider);
   }

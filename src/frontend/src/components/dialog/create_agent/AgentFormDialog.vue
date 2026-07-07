@@ -586,7 +586,7 @@ defineExpose({ open, close })
       gap: 8px;
 
       .header-icon {
-        color: var(--harmony-brand);
+        color: var(--harmony-brand));
       }
 
       .header-title {
@@ -701,11 +701,11 @@ defineExpose({ open, close })
 
             .add-icon {
               margin-left: auto;
-              color: var(--harmony-brand);
+              color: var(--harmony-brand));
               cursor: pointer;
 
               &:hover {
-                color: var(--harmony-brand);
+                color: var(--harmony-brand));
               }
             }
           }
@@ -731,13 +731,13 @@ defineExpose({ open, close })
           position: relative;
 
           &:hover:not(.uploading) {
-            border-color: var(--harmony-brand);
+            border-color: var(--harmony-brand));
             background: var(--harmony-comp-emphasize-tertiary);
           }
 
           &.uploading {
             cursor: not-allowed;
-            border-color: var(--harmony-brand);
+            border-color: var(--harmony-brand));
             background: var(--harmony-comp-emphasize-tertiary);
           }
 
@@ -758,14 +758,14 @@ defineExpose({ open, close })
               width: 20px;
               height: 20px;
               border: 2px solid var(--harmony-comp-background-tertiary);
-              border-top: 2px solid var(--harmony-brand);
+              border-top: 2px solid var(--harmony-brand));
               border-radius: 50%;
               animation: spin 1s linear infinite;
             }
 
             span {
               font-size: 12px;
-              color: var(--harmony-brand);
+              color: var(--harmony-brand));
             }
           }
 
@@ -812,7 +812,7 @@ defineExpose({ open, close })
 
             &:hover {
               background-color: var(--harmony-comp-emphasize-tertiary);
-              color: var(--harmony-brand);
+              color: var(--harmony-brand));
             }
           }
         }

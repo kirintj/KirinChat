@@ -92,7 +92,7 @@ onMounted(async () => {
           }
           
           &.is-focus {
-            box-shadow: 0 0 0 2px var(--harmony-brand);
+            box-shadow: 0 0 0 2px var(--harmony-brand));
           }
         }
 
@@ -100,7 +100,7 @@ onMounted(async () => {
           .el-button {
             border-radius: 0 12px 12px 0;
             border: none;
-            background: var(--harmony-brand);
+            background: var(--harmony-brand));
 
             &:hover {
               background: var(--harmony-interactive-hover);

@@ -239,7 +239,7 @@ defineExpose({
           }
 
           &.active {
-            border-color: var(--harmony-brand);
+            border-color: var(--harmony-brand));
             background-color: var(--harmony-comp-emphasize-tertiary);
           }
         }

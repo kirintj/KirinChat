@@ -449,13 +449,13 @@ const clearSearch = () => {
           transition: all 0.3s ease;
 
           &:hover {
-            border-color: var(--harmony-brand);
+            border-color: var(--harmony-brand));
             box-shadow: var(--harmony-shadow-md);
             transform: translateY(-2px);
           }
 
           &.active {
-            border-color: var(--harmony-brand);
+            border-color: var(--harmony-brand));
             background-color: var(--harmony-comp-emphasize-tertiary);
           }
 
@@ -659,7 +659,7 @@ const clearSearch = () => {
         }
 
         &.active {
-          border-color: var(--harmony-brand);
+          border-color: var(--harmony-brand));
           background: var(--harmony-comp-emphasize-tertiary);
         }
 

@@ -89,5 +89,5 @@ const icons: Record<string, string> = {
 .h-message--success .h-message__icon { background: var(--harmony-confirm); }
 .h-message--error .h-message__icon { background: var(--harmony-warning); }
 .h-message--warning .h-message__icon { background: var(--harmony-alert); color: var(--harmony-font-primary); }
-.h-message--info .h-message__icon { background: var(--harmony-brand); }
+.h-message--info .h-message__icon { background: var(--harmony-brand)); }
 </style>

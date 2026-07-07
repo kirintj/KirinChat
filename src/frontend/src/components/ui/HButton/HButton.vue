@@ -113,7 +113,7 @@ defineEmits<{
 
 /* Primary */
 .h-button--primary {
-  background: var(--harmony-brand);
+  background: var(--harmony-brand));
   color: var(--harmony-font-on-primary);
   backdrop-filter: blur(30px) saturate(1.2);
 }
@@ -121,14 +121,14 @@ defineEmits<{
 /* Secondary */
 .h-button--secondary {
   background: var(--harmony-comp-emphasize-tertiary);
-  color: var(--harmony-brand);
+  color: var(--harmony-brand));
   backdrop-filter: blur(8px);
 }
 
 /* Text */
 .h-button--text {
   background: transparent;
-  color: var(--harmony-brand);
+  color: var(--harmony-brand));
 }
 
 /* Danger */

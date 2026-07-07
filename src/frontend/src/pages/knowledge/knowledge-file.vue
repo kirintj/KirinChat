@@ -975,12 +975,12 @@ onUnmounted(() => {
               
               &:hover {
                 background: var(--harmony-comp-divider);
-                color: var(--harmony-brand);
+                color: var(--harmony-brand));
               }
             }
             
             &.current {
-              color: var(--harmony-brand);
+              color: var(--harmony-brand));
               font-weight: 600;
               background: var(--harmony-comp-emphasize-tertiary);
             }
@@ -1059,7 +1059,7 @@ onUnmounted(() => {
               background: var(--harmony-comp-emphasize-tertiary);
             }
             .stat-number {
-              color: var(--harmony-brand);
+              color: var(--harmony-brand));
             }
           }
           
@@ -1098,7 +1098,7 @@ onUnmounted(() => {
             .sync-dot {
               width: 4px;
               height: 4px;
-              background: var(--harmony-brand);
+              background: var(--harmony-brand));
               border-radius: var(--harmony-corner-radius-level18);
               animation: syncWave 1.5s infinite ease-in-out;
               
@@ -1110,7 +1110,7 @@ onUnmounted(() => {
           
           .sync-text {
             font-size: var(--harmony-font-size-body-s);
-            color: var(--harmony-brand);
+            color: var(--harmony-brand));
             font-weight: 500;
           }
         }
@@ -1121,7 +1121,7 @@ onUnmounted(() => {
             align-items: center;
             gap: 8px;
             padding: 10px 20px;
-            background: var(--harmony-brand);
+            background: var(--harmony-brand));
             border: none;
             border-radius: var(--harmony-corner-radius-level6);
             color: white;
@@ -1131,7 +1131,7 @@ onUnmounted(() => {
             font-size: var(--harmony-font-size-body-m);
             
             &:hover {
-              background: var(--harmony-brand);
+              background: var(--harmony-brand));
             }
             
             .btn-icon-wrapper {
@@ -1164,7 +1164,7 @@ onUnmounted(() => {
             }
             
             &.uploading {
-              background: var(--harmony-brand);
+              background: var(--harmony-brand));
               cursor: not-allowed;
             }
           }
@@ -1222,7 +1222,7 @@ onUnmounted(() => {
           
           &.temp-file {
             background: var(--harmony-comp-emphasize-tertiary);
-            border-left: 3px solid var(--harmony-brand);
+            border-left: 3px solid var(--harmony-brand));
           }
         }
         
@@ -1277,7 +1277,7 @@ onUnmounted(() => {
             left: 0;
             right: 0;
             bottom: 0;
-            background: var(--harmony-brand);
+            background: var(--harmony-brand));
             border-radius: var(--harmony-corner-radius-level6);
             display: flex;
             align-items: center;
@@ -1313,7 +1313,7 @@ onUnmounted(() => {
             display: flex;
             align-items: center;
             gap: 4px;
-            background: var(--harmony-brand);
+            background: var(--harmony-brand));
             color: white;
             padding: 2px 8px;
             border-radius: var(--harmony-corner-radius-level6);
@@ -1332,7 +1332,7 @@ onUnmounted(() => {
         display: inline-block;
         padding: 4px 10px;
         background: var(--harmony-comp-emphasize-tertiary);
-        color: var(--harmony-brand);
+        color: var(--harmony-brand));
         border-radius: var(--harmony-corner-radius-level8);
         font-size: var(--harmony-font-size-body-s);
         font-weight: 600;
@@ -1440,7 +1440,7 @@ onUnmounted(() => {
           gap: 4px;
           padding: 6px 12px;
           background: var(--harmony-comp-emphasize-tertiary);
-          color: var(--harmony-brand);
+          color: var(--harmony-brand));
           border-radius: var(--harmony-corner-radius-level6);
           font-size: var(--harmony-font-size-body-s);
           font-weight: 600;
@@ -1618,7 +1618,7 @@ onUnmounted(() => {
   width: 24px;
   height: 24px;
   border: 3px solid var(--harmony-comp-background-secondary);
-  border-top-color: var(--harmony-brand);
+  border-top-color: var(--harmony-brand));
   border-radius: var(--harmony-corner-radius-level18);
   animation: h-spin 0.6s linear infinite;
 }

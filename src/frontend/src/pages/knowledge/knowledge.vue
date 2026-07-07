@@ -539,7 +539,7 @@ onMounted(() => {
         margin: 0;
         font-size: var(--harmony-font-size-title-m);
         font-weight: 600;
-        background: var(--harmony-brand);
+        background: var(--harmony-brand));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -668,7 +668,7 @@ onMounted(() => {
             border-radius: var(--harmony-corner-radius-level6);
             font-size: var(--harmony-font-size-subtitle-s);
             font-weight: 600;
-            color: var(--harmony-brand);
+            color: var(--harmony-brand));
           }
         }
         
@@ -715,8 +715,8 @@ onMounted(() => {
             }
             
             &.view-btn:hover {
-              background: var(--harmony-brand);
-              border-color: var(--harmony-brand);
+              background: var(--harmony-brand));
+              border-color: var(--harmony-brand));
               color: white;
             }
             
@@ -754,7 +754,7 @@ onMounted(() => {
   width: 24px;
   height: 24px;
   border: 3px solid var(--harmony-comp-background-secondary);
-  border-top-color: var(--harmony-brand);
+  border-top-color: var(--harmony-brand));
   border-radius: var(--harmony-corner-radius-level18);
   animation: h-spin 0.6s linear infinite;
 }
@@ -842,7 +842,7 @@ onMounted(() => {
       
       &:focus {
         outline: none;
-        border-color: var(--harmony-brand);
+        border-color: var(--harmony-brand));
       }
       
       &::placeholder {
@@ -883,13 +883,13 @@ onMounted(() => {
   }
   
   .primary-btn {
-    background: var(--harmony-brand);
+    background: var(--harmony-brand));
     color: white;
-    border-color: var(--harmony-brand);
+    border-color: var(--harmony-brand));
     
     &:hover:not(:disabled) {
-      background: var(--harmony-brand);
-      border-color: var(--harmony-brand);
+      background: var(--harmony-brand));
+      border-color: var(--harmony-brand));
     }
   }
 }

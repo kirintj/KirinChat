@@ -11,7 +11,7 @@ withDefaults(defineProps<Props>(), { size: 40, shape: 'circle' })
 </template>
 
 <style scoped>
-.h-avatar { display: inline-flex; align-items: center; justify-content: center; background: var(--harmony-comp-emphasize-tertiary); color: var(--harmony-brand); overflow: hidden; flex-shrink: 0; }
+.h-avatar { display: inline-flex; align-items: center; justify-content: center; background: var(--harmony-comp-emphasize-tertiary); color: var(--harmony-brand)); overflow: hidden; flex-shrink: 0; }
 .h-avatar--circle { border-radius: 50%; }
 .h-avatar--square { border-radius: var(--harmony-corner-radius-level8); }
 .h-avatar__img { width: 100%; height: 100%; object-fit: cover; }

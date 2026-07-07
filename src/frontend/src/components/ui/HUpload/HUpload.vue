@@ -49,8 +49,8 @@ function onDrop(event: DragEvent) {
 
 <style scoped>
 .h-upload__dropzone { border: 2px dashed var(--harmony-comp-divider); border-radius: var(--harmony-corner-radius-level6); padding: 32px; text-align: center; cursor: pointer; transition: border-color var(--harmony-duration-fast) var(--harmony-motion-standard), background var(--harmony-duration-fast) var(--harmony-motion-standard); color: var(--harmony-font-tertiary); }
-.h-upload__dropzone:hover { border-color: var(--harmony-brand); background: var(--harmony-interactive-hover); }
-.h-upload__tip em { color: var(--harmony-brand); font-style: normal; cursor: pointer; }
+.h-upload__dropzone:hover { border-color: var(--harmony-brand)); background: var(--harmony-interactive-hover); }
+.h-upload__tip em { color: var(--harmony-brand)); font-style: normal; cursor: pointer; }
 .h-upload__list { margin-top: 8px; }
 .h-upload__file { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--harmony-comp-background-tertiary); border-radius: var(--harmony-corner-radius-level4); margin-top: 4px; font-size: var(--harmony-font-size-subtitle-s); color: var(--harmony-font-primary); }
 .h-upload__remove { cursor: pointer; color: var(--harmony-font-tertiary); }

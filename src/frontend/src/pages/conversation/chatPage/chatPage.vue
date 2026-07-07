@@ -605,7 +605,7 @@ watch(
     .message-content {
       display: flex;
       align-items: center;
-      background: var(--harmony-brand);
+      background: var(--harmony-brand));
       color: var(--harmony-comp-background-primary);
       border-radius: 18px;
       padding: 12px 18px;
@@ -631,7 +631,7 @@ watch(
   flex-direction: column;
   
   &.START {
-    border-left: 4px solid var(--harmony-brand);
+    border-left: 4px solid var(--harmony-brand));
     background: rgba(64, 158, 255, 0.06);
   }
 
@@ -670,7 +670,7 @@ watch(
 
   .START & {
     background: rgba(64, 158, 255, 0.1);
-    color: var(--harmony-brand);
+    color: var(--harmony-brand));
   }
 
   .END & {
@@ -708,7 +708,7 @@ watch(
   display: inline-flex;
   align-items: center;
   animation: spin 1.2s linear infinite;
-  color: var(--harmony-brand);
+  color: var(--harmony-brand));
 }
 
 .success-icon {
@@ -740,7 +740,7 @@ watch(
   justify-content: center;
   align-items: center;
   min-height: 28px;
-  color: var(--harmony-brand);
+  color: var(--harmony-brand));
 }
 
 .input-area {
@@ -815,7 +815,7 @@ watch(
     }
 
     .file-name {
-      color: var(--harmony-brand);
+      color: var(--harmony-brand));
       text-decoration: none;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -854,13 +854,13 @@ watch(
     outline: none;
     transition: border-color 0.2s;
     &:focus {
-      border-color: var(--harmony-brand);
+      border-color: var(--harmony-brand));
     }
   }
 
   .send-btn {
     margin-left: 10px;
-    background-color: var(--harmony-brand);
+    background-color: var(--harmony-brand));
     border: none;
     width: 48px;
     height: 48px;

@@ -627,7 +627,7 @@ onMounted(() => {
         margin: 0;
         font-size: var(--harmony-font-size-title-m);
         font-weight: 600;
-        background: var(--harmony-brand);
+        background: var(--harmony-brand));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -667,12 +667,12 @@ onMounted(() => {
           }
           
           &.add-btn {
-            background: var(--harmony-brand);
+            background: var(--harmony-brand));
             border: none;
             box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
             
             &:hover {
-              background: var(--harmony-brand);
+              background: var(--harmony-brand));
               box-shadow: 0 6px 16px var(--harmony-comp-emphasize-tertiary);
             }
           }
@@ -758,7 +758,7 @@ onMounted(() => {
               font-weight: 700;
 
               &.llm {
-                background: var(--harmony-brand);
+                background: var(--harmony-brand));
               }
               &.embedding {
                 background: linear-gradient(135deg, var(--harmony-confirm) 0%, var(--harmony-confirm) 100%);
@@ -820,7 +820,7 @@ onMounted(() => {
 
             &.llm {
               background: var(--harmony-comp-emphasize-tertiary);
-              color: var(--harmony-brand);
+              color: var(--harmony-brand));
             }
             &.embedding {
               background: var(--harmony-confirm-bg);
@@ -874,7 +874,7 @@ onMounted(() => {
             }
 
             &.edit-btn {
-              color: var(--harmony-brand);
+              color: var(--harmony-brand));
 
               &:hover:not(.disabled) {
                 background: var(--harmony-comp-emphasize-tertiary);
@@ -931,7 +931,7 @@ onMounted(() => {
 
       .h-button {
         border-radius: var(--harmony-corner-radius-level6);
-        background: var(--harmony-brand);
+        background: var(--harmony-brand));
         border: none;
         box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
         transition: all 0.3s;
@@ -939,7 +939,7 @@ onMounted(() => {
         &:hover {
           transform: translateY(-2px);
           box-shadow: 0 6px 16px var(--harmony-comp-emphasize-tertiary);
-          background: var(--harmony-brand);
+          background: var(--harmony-brand));
         }
       }
     }
@@ -962,7 +962,7 @@ onMounted(() => {
   width: 24px;
   height: 24px;
   border: 3px solid var(--harmony-comp-background-secondary);
-  border-top-color: var(--harmony-brand);
+  border-top-color: var(--harmony-brand));
   border-radius: var(--harmony-corner-radius-level18);
   animation: h-spin 0.6s linear infinite;
 }
@@ -1148,7 +1148,7 @@ onMounted(() => {
   }
 
   &:hover {
-    color: var(--harmony-brand);
+    color: var(--harmony-brand));
   }
 }
 
@@ -1167,7 +1167,7 @@ onMounted(() => {
 
 .form-input:focus {
   outline: none;
-  border-color: var(--harmony-brand);
+  border-color: var(--harmony-brand));
   box-shadow: 0 0 0 4px var(--harmony-comp-emphasize-tertiary);
   transform: translateY(-1px);
 }
@@ -1372,14 +1372,14 @@ onMounted(() => {
 }
 
 .delete-dialog-btn.confirm-btn {
-  background: var(--harmony-brand);
+  background: var(--harmony-brand));
   color: white;
-  border: 1px solid var(--harmony-brand);
+  border: 1px solid var(--harmony-brand));
 }
 
 .delete-dialog-btn.confirm-btn:hover:not(:disabled) {
-  background: var(--harmony-brand);
-  border-color: var(--harmony-brand);
+  background: var(--harmony-brand));
+  border-color: var(--harmony-brand));
 }
 
 .delete-dialog-btn:disabled {

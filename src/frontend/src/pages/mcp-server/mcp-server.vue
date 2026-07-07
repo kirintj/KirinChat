@@ -1716,7 +1716,7 @@ const saveUserConfig = async () => {
       
       &:focus {
         outline: none;
-        border-color: var(--harmony-brand);
+        border-color: var(--harmony-brand));
         box-shadow: 0 0 0 2px var(--harmony-comp-emphasize-tertiary);
       }
       
@@ -1784,7 +1784,7 @@ const saveUserConfig = async () => {
       padding: 8px 12px;
       background: var(--harmony-comp-background-primary);
       border-radius: var(--harmony-corner-radius-level4);
-      border-left: 3px solid var(--harmony-brand);
+      border-left: 3px solid var(--harmony-brand));
       
       svg {
         flex-shrink: 0;
@@ -1837,7 +1837,7 @@ const saveUserConfig = async () => {
       margin-left: 20px;
       width: 100px;
       height: 100px;
-      border: 2px solid var(--harmony-brand);
+      border: 2px solid var(--harmony-brand));
       border-radius: var(--harmony-corner-radius-level6);
       cursor: pointer;
       position: relative;
@@ -1848,8 +1848,8 @@ const saveUserConfig = async () => {
       box-sizing: border-box;
 
       &:hover {
-        background: var(--harmony-brand);
-        border-color: var(--harmony-brand);
+        background: var(--harmony-brand));
+        border-color: var(--harmony-brand));
 
         .logo-upload-placeholder {
           svg path {
@@ -1864,7 +1864,7 @@ const saveUserConfig = async () => {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--harmony-brand);
+        color: var(--harmony-brand));
         transition: all 0.3s ease;
         background: transparent;
 
@@ -1882,7 +1882,7 @@ const saveUserConfig = async () => {
         &.uploading {
           .uploading-text {
             font-size: var(--harmony-font-size-body-s);
-            color: var(--harmony-brand);
+            color: var(--harmony-brand));
             font-weight: 500;
           }
         }
@@ -1961,25 +1961,25 @@ const saveUserConfig = async () => {
     color: var(--harmony-font-secondary);
     
     &:hover:not(:disabled) {
-      color: var(--harmony-brand);
+      color: var(--harmony-brand));
       border-color: var(--harmony-comp-emphasize-tertiary);
       background-color: var(--harmony-comp-emphasize-tertiary);
     }
   }
   
   &.btn-primary {
-    background: var(--harmony-brand);
-    border-color: var(--harmony-brand);
+    background: var(--harmony-brand));
+    border-color: var(--harmony-brand));
     color: var(--harmony-comp-background-primary);
     
     &:hover:not(:disabled) {
-      background: var(--harmony-brand);
-      border-color: var(--harmony-brand);
+      background: var(--harmony-brand));
+      border-color: var(--harmony-brand));
     }
     
     &:active:not(:disabled) {
-      background: var(--harmony-brand);
-      border-color: var(--harmony-brand);
+      background: var(--harmony-brand));
+      border-color: var(--harmony-brand));
     }
   }
 }
@@ -2063,7 +2063,7 @@ const saveUserConfig = async () => {
           .stat-number {
             font-size: var(--harmony-font-size-title-m);
             font-weight: 700;
-            color: var(--harmony-brand);
+            color: var(--harmony-brand));
             line-height: 1;
           }
           
@@ -2087,12 +2087,12 @@ const saveUserConfig = async () => {
         cursor: pointer;
         
         &:hover {
-          border-color: var(--harmony-brand);
+          border-color: var(--harmony-brand));
           box-shadow: var(--harmony-shadow-sm);
         }
         
         &.expanded {
-          border-color: var(--harmony-brand);
+          border-color: var(--harmony-brand));
           box-shadow: var(--harmony-shadow-sm);
           
           .tool-expand-icon svg {
@@ -2271,7 +2271,7 @@ const saveUserConfig = async () => {
                       
                       .property-type {
                         background: var(--harmony-comp-emphasize-tertiary);
-                        color: var(--harmony-brand);
+                        color: var(--harmony-brand));
                         padding: 2px 8px;
                         border-radius: var(--harmony-corner-radius-level4);
                         font-size: var(--harmony-font-size-body-s);
@@ -2362,7 +2362,7 @@ const saveUserConfig = async () => {
         margin: 0;
         font-size: var(--harmony-font-size-title-m);
         font-weight: 600;
-        background: var(--harmony-brand);
+        background: var(--harmony-brand));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -2702,7 +2702,7 @@ const saveUserConfig = async () => {
       display: inline-block;
       width: 4px;
       height: 18px;
-      background: var(--harmony-brand);
+      background: var(--harmony-brand));
       border-radius: 2px;
       margin-right: 8px;
     }

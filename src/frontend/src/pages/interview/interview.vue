@@ -216,7 +216,7 @@ onMounted(() => {
       height: 44px;
       border-radius: var(--harmony-corner-radius-level4);
       background: var(--harmony-comp-background-primary);
-      color: var(--harmony-brand);
+      color: var(--harmony-brand));
       border: 1px solid var(--harmony-comp-divider);
       cursor: pointer;
       font-size: 14px;
@@ -229,7 +229,7 @@ onMounted(() => {
       transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
       &:hover {
-        border-color: var(--harmony-brand);
+        border-color: var(--harmony-brand));
         background: var(--harmony-comp-emphasize-tertiary);
       }
     }
@@ -283,7 +283,7 @@ onMounted(() => {
 
       &.active {
         background: var(--harmony-comp-emphasize-tertiary);
-        border-color: var(--harmony-brand);
+        border-color: var(--harmony-brand));
       }
 
       .session-icon {
@@ -330,7 +330,7 @@ onMounted(() => {
 
           .status-active {
             background: var(--harmony-comp-emphasize-tertiary);
-            color: var(--harmony-brand);
+            color: var(--harmony-brand));
           }
 
           .status-default {

@@ -158,6 +158,6 @@ const testFileUpload = async (event: Event) => {
 }
 
 .message strong {
-  color: var(--harmony-brand);
+  color: var(--harmony-brand));
 }
 </style> 

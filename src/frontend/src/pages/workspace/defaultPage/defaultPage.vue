@@ -625,12 +625,12 @@ watch(
     text-align: left;
 
     &:hover {
-      border-color: var(--harmony-brand);
+      border-color: var(--harmony-brand));
       background: var(--harmony-comp-emphasize-tertiary);
     }
 
     &.active {
-      border-color: var(--harmony-brand);
+      border-color: var(--harmony-brand));
       background: var(--harmony-comp-emphasize-tertiary);
     }
 
@@ -668,7 +668,7 @@ watch(
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: var(--harmony-brand);
+      background: var(--harmony-brand));
       color: white;
       display: flex;
       align-items: center;
@@ -733,7 +733,7 @@ watch(
   word-break: break-word;
 
   &.user {
-    background: var(--harmony-brand);
+    background: var(--harmony-brand));
     color: white;
     border-bottom-right-radius: 4px;
   }
@@ -790,7 +790,7 @@ watch(
     box-shadow: var(--harmony-shadow-sm);
 
     &:focus-within {
-      border-color: var(--harmony-brand);
+      border-color: var(--harmony-brand));
       box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
     }
 
@@ -858,8 +858,8 @@ watch(
 
   &.active {
     background: var(--harmony-comp-emphasize-tertiary);
-    color: var(--harmony-brand);
-    border-color: var(--harmony-brand);
+    color: var(--harmony-brand));
+    border-color: var(--harmony-brand));
   }
 
   .action-label {
@@ -927,7 +927,7 @@ watch(
     }
 
     &.selected {
-      color: var(--harmony-brand);
+      color: var(--harmony-brand));
       font-weight: 500;
     }
 
@@ -945,10 +945,10 @@ watch(
       button {
         font-size: 11px;
         padding: 2px 10px;
-        border: 1px solid var(--harmony-brand);
+        border: 1px solid var(--harmony-brand));
         border-radius: var(--harmony-corner-radius-level4);
         background: transparent;
-        color: var(--harmony-brand);
+        color: var(--harmony-brand));
         cursor: pointer;
       }
     }
@@ -962,7 +962,7 @@ watch(
     }
 
     .item-check {
-      color: var(--harmony-brand);
+      color: var(--harmony-brand));
       font-weight: 600;
       margin-left: 8px;
     }
@@ -1012,7 +1012,7 @@ watch(
   justify-content: center;
   border: none;
   border-radius: var(--harmony-corner-radius-level4);
-  background: var(--harmony-brand);
+  background: var(--harmony-brand));
   color: white;
   cursor: pointer;
   transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);

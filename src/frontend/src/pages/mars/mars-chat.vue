@@ -702,7 +702,7 @@ onMounted(() => {
     
     &:first-child {
       font-weight: 600;
-      color: var(--harmony-brand);
+      color: var(--harmony-brand));
     }
     
     &:last-child {
@@ -743,11 +743,11 @@ onMounted(() => {
   }
   
   &.confirm-btn {
-    background: var(--harmony-brand);
+    background: var(--harmony-brand));
     color: white;
     
     &:hover {
-      background: var(--harmony-brand);
+      background: var(--harmony-brand));
       transform: translateY(-2px);
       box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
     }
@@ -974,7 +974,7 @@ onMounted(() => {
   }
   
   .mars-retry-btn {
-    background: var(--harmony-brand);
+    background: var(--harmony-brand));
     color: white;
     border: none;
     padding: var(--harmony-padding-level8) var(--harmony-padding-level16);
@@ -984,7 +984,7 @@ onMounted(() => {
     transition: all 0.2s ease;
     
     &:hover {
-      background: var(--harmony-brand);
+      background: var(--harmony-brand));
       transform: translateY(-2px);
       box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
     }
@@ -1028,7 +1028,7 @@ onMounted(() => {
   }
   
   .mars-back-btn {
-    background: var(--harmony-brand);
+    background: var(--harmony-brand));
     color: white;
     border: none;
     padding: var(--harmony-padding-level8) var(--harmony-padding-level16);
@@ -1038,7 +1038,7 @@ onMounted(() => {
     transition: all 0.2s ease;
     
     &:hover {
-      background: var(--harmony-brand);
+      background: var(--harmony-brand));
       transform: translateY(-2px);
       box-shadow: 0 4px 12px var(--harmony-comp-emphasize-tertiary);
     }
@@ -1110,7 +1110,7 @@ onMounted(() => {
     
     // 引用块样式
     blockquote {
-      border-left: 4px solid var(--harmony-brand);
+      border-left: 4px solid var(--harmony-brand));
       padding-left: 16px;
       margin: 8px 0;
       color: var(--harmony-font-secondary);

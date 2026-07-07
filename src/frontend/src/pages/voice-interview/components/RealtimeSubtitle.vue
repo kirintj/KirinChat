@@ -42,7 +42,7 @@ watch(() => [props.messages.length, props.aiText, props.userText], () => {
 .bubble {
   max-width: 70%; padding: 10px 14px; border-radius: 12px; line-height: 1.5; font-size: 14px;
   .ai & { background: var(--harmony-comp-background-secondary); border-bottom-left-radius: 4px; }
-  .user & { background: var(--harmony-brand); color: white; border-bottom-right-radius: 4px; }
+  .user & { background: var(--harmony-brand)); color: white; border-bottom-right-radius: 4px; }
 }
 .cursor { animation: blink 0.8s infinite; margin-left: 2px; }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
