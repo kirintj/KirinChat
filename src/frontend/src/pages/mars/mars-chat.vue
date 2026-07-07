@@ -666,14 +666,10 @@ onMounted(() => {
   width: 90%;
   max-height: 80vh;
   overflow: hidden;
-  animation: modalSlideIn 0.3s ease-out;
+  animation: harmony-slide-in-right 0.3s ease-out;
 }
 
-@keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-30px) scale(0.95);
-  }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -929,7 +925,7 @@ onMounted(() => {
         border: 2px solid var(--harmony-comp-divider);
         border-top: 2px solid var(--harmony-font-secondary);
         border-radius: var(--harmony-corner-radius-level18);
-        animation: spin 1s linear infinite;
+        animation: h-spin 1s linear infinite;
       }
     }
   }
@@ -1138,13 +1134,11 @@ onMounted(() => {
 
 
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
+
   50% { opacity: 0.5; }
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
+
   100% { transform: rotate(360deg); }
 }
 

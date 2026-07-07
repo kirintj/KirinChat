@@ -624,7 +624,6 @@ const closeCreateDialog = () => {
           transition: all 0.2s ease;
 
           &:focus {
-            outline: none;
             border-color: var(--harmony-brand);
             background: var(--harmony-comp-background-primary);
             box-shadow: 0 0 0 2px var(--harmony-shadow-xs);
@@ -673,7 +672,7 @@ const closeCreateDialog = () => {
           height: 32px;
           margin-bottom: 14px;
           color: var(--harmony-brand);
-          animation: spin 0.8s linear infinite;
+          animation: h-spin 0.8s linear infinite;
 
           svg {
             width: 100%;
@@ -782,7 +781,6 @@ const closeCreateDialog = () => {
           justify-content: center;
           user-select: none;
           pointer-events: auto;
-          outline: none;
 
           &:hover {
             background: var(--harmony-comp-background-secondary);
@@ -1058,7 +1056,7 @@ const closeCreateDialog = () => {
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  animation: fadeIn 0.2s ease;
+  animation: harmony-fade-in 0.2s ease;
 }
 
 .create-dialog {
@@ -1070,7 +1068,7 @@ const closeCreateDialog = () => {
   max-height: 675px;
   overflow: hidden;
   box-shadow: var(--harmony-shadow-card-hover);
-  animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: harmony-slide-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   display: flex;
   flex-direction: column;
 
@@ -1127,7 +1125,6 @@ const closeCreateDialog = () => {
           font-weight: 500;
 
           &:focus {
-            outline: none;
             border-color: var(--harmony-brand);
             background: var(--harmony-comp-background-primary);
             box-shadow: 0 0 0 4px var(--harmony-shadow-xs);
@@ -1206,7 +1203,7 @@ const closeCreateDialog = () => {
 
           .spinner {
             color: var(--harmony-brand);
-            animation: spin 1s linear infinite;
+            animation: h-spin 1s linear infinite;
           }
         }
 
@@ -1364,7 +1361,7 @@ const closeCreateDialog = () => {
               justify-content: center;
               box-shadow: var(--harmony-shadow-card);
               border: 2px solid var(--harmony-brand);
-              animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+              animation: harmony-scale-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
           }
 
@@ -1510,40 +1507,26 @@ const closeCreateDialog = () => {
 }
 
 // 动画
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
+
   to {
     opacity: 1;
   }
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95) translateY(-20px);
-  }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
   }
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
+
   to {
     transform: rotate(360deg);
   }
 }
 
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0);
-  }
+
   to {
     opacity: 1;
     transform: scale(1);

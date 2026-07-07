@@ -707,7 +707,7 @@ watch(
 .rotating { 
   display: inline-flex;
   align-items: center;
-  animation: spin 1.2s linear infinite;
+  animation: h-spin 1.2s linear infinite;
   color: var(--harmony-brand);
 }
 
@@ -726,12 +726,11 @@ watch(
 .is-loading {
   display: inline-flex;
   align-items: center;
-  animation: spin 1.2s linear infinite;
+  animation: h-spin 1.2s linear infinite;
   color: var(--harmony-font-tertiary);
 }
 
-@keyframes spin { 
-  from { transform: rotate(0deg); } 
+ 
   to { transform: rotate(360deg); } 
 }
 
@@ -851,7 +850,6 @@ watch(
     overflow-y: auto;
     max-height: 120px;
     box-sizing: border-box;
-    outline: none;
     transition: border-color 0.2s;
     &:focus {
       border-color: var(--harmony-brand);

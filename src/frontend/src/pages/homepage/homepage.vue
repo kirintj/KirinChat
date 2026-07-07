@@ -134,7 +134,6 @@ const handleExampleClick = (_: any, index: number) => {
     font-size: var(--harmony-font-size-body-m);
     line-height: 1.6;
     color: var(--harmony-font-primary);
-    outline: none;
     resize: none;
     font-family: inherit;
 

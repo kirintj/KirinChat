@@ -110,7 +110,6 @@ const onKeydown = (e: KeyboardEvent) => {
 .h-search__input {
   flex: 1;
   border: none;
-  outline: none;
   background: transparent;
   font-size: var(--harmony-font-size-body-m);
   color: var(--harmony-font-primary);

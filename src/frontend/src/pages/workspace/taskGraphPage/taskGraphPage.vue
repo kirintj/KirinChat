@@ -1187,7 +1187,7 @@ const getNodeColor = (status: string) => {
           height: 8px;
           border-radius: 50%;
           background: var(--harmony-alert);
-          animation: pulse 1.5s ease-in-out infinite;
+          animation: harmony-pulse 1.5s ease-in-out infinite;
         }
       }
 
@@ -1387,7 +1387,7 @@ const getNodeColor = (status: string) => {
 
           &.executing {
             background: var(--warning);
-            animation: pulse 1.5s ease-in-out infinite;
+            animation: harmony-pulse 1.5s ease-in-out infinite;
           }
 
           &.completed {
@@ -1575,7 +1575,7 @@ const getNodeColor = (status: string) => {
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  animation: fadeIn 0.2s ease;
+  animation: harmony-fade-in 0.2s ease;
 
   .modal-content {
     background: var(--harmony-comp-background-primary);
@@ -1585,7 +1585,7 @@ const getNodeColor = (status: string) => {
     max-height: 80vh;
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    animation: slideUp 0.2s ease;
+    animation: harmony-slide-up 0.2s ease;
 
     .modal-header {
       display: flex;
@@ -1696,7 +1696,7 @@ const getNodeColor = (status: string) => {
   align-items: center;
   justify-content: center;
   z-index: 10000;
-  animation: fadeIn 0.2s ease;
+  animation: harmony-fade-in 0.2s ease;
 
   .feedback-modal {
     background: var(--harmony-comp-background-primary);
@@ -1704,7 +1704,7 @@ const getNodeColor = (status: string) => {
     width: 90%;
     max-width: 600px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    animation: slideUp 0.2s ease;
+    animation: harmony-slide-up 0.2s ease;
     overflow: hidden;
 
     .modal-header {
@@ -1766,7 +1766,6 @@ const getNodeColor = (status: string) => {
         display: block;
 
         &:focus {
-          outline: none;
           border-color: var(--harmony-brand);
         }
         &::placeholder {
@@ -1823,18 +1822,15 @@ const getNodeColor = (status: string) => {
 }
 
 /* 动画 */
-@keyframes fadeIn {
-  from { opacity: 0; }
+
   to { opacity: 1; }
 }
 
-@keyframes slideUp {
-  from { transform: translateY(12px); opacity: 0; }
+
   to { transform: translateY(0); opacity: 1; }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
+
   50% { opacity: 0.5; }
 }
 

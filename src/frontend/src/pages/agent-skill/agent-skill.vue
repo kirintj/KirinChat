@@ -907,7 +907,7 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 // 全局弹窗样式
 .modal-overlay {
   position: fixed;
@@ -918,11 +918,10 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   z-index: 99999;
-  animation: fadeIn 0.2s ease;
+  animation: harmony-fade-in 0.2s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
+
   to { opacity: 1; }
 }
 
@@ -937,7 +936,7 @@ onMounted(() => {
     border-radius: var(--harmony-corner-radius-level8);
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
     overflow: hidden;
-    animation: slideUp 0.22s ease;
+    animation: harmony-slide-up 0.22s ease;
     border: 1px solid var(--harmony-shadow-sm);
   }
 
@@ -1049,7 +1048,7 @@ onMounted(() => {
     width: 90%;
     max-width: 520px;
     box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2);
-    animation: slideUp 0.3s ease;
+    animation: harmony-slide-up 0.3s ease;
     overflow: hidden;
     
     .dialog-header {
@@ -1158,7 +1157,6 @@ onMounted(() => {
           box-sizing: border-box;
 
           &:focus {
-            outline: none;
             border-color: var(--harmony-brand);
           }
         }
@@ -1174,11 +1172,7 @@ onMounted(() => {
   }
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1195,7 +1189,7 @@ onMounted(() => {
     width: 90%;
     max-width: 480px;
     box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
-    animation: slideUp 0.3s ease;
+    animation: harmony-slide-up 0.3s ease;
     overflow: hidden;
     
     .dialog-header {
@@ -1344,7 +1338,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    animation: slideUp 0.3s ease;
+    animation: harmony-slide-up 0.3s ease;
     
     // IDE 头部
     .ide-header {
@@ -2050,22 +2044,14 @@ onMounted(() => {
 }
 
 // 动画
-@keyframes cardAppear {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-@keyframes ringPulse {
-  0% {
-    transform: scale(0.5);
-    opacity: 0.6;
-  }
+
   100% {
     transform: scale(1);
     opacity: 0;

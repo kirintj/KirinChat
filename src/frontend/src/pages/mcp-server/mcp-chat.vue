@@ -885,7 +885,7 @@ onMounted(() => {
   
   &.START .event-icon {
     background: var(--harmony-brand);
-    animation: pulse 1.5s ease-in-out infinite;
+    animation: harmony-pulse 1.5s ease-in-out infinite;
   }
   
   &.END .event-icon {

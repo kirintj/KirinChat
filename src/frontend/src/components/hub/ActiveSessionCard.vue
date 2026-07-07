@@ -61,7 +61,7 @@ const progressPercent = (current: number, total: number) => {
 .skill-name {
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-primary, #1f2937);
+  color: var(--harmony-font-primary);
 }
 
 .status-badge {
@@ -95,7 +95,7 @@ const progressPercent = (current: number, total: number) => {
 
 .progress-text {
   font-size: 12px;
-  color: var(--text-secondary, #6b7280);
+  color: var(--harmony-font-secondary);
   white-space: nowrap;  // 防止"X/Y 题"文字换行
 }
 </style>

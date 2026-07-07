@@ -146,7 +146,6 @@ function togglePassword() {
 .h-input__inner {
   flex: 1;
   border: none;
-  outline: none;
   background: transparent;
   color: var(--harmony-font-primary);
   font-size: var(--harmony-font-size-body-m);

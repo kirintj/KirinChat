@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .notFound{
   height: calc(100vh);
   display: flex;

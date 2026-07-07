@@ -1035,23 +1035,16 @@ onMounted(() => {
   justify-content: center;
   z-index: 9999;
   padding: 20px;
-  animation: fadeIn 0.3s ease-out;
+  animation: harmony-fade-in 0.3s ease-out;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
+
   to {
     opacity: 1;
   }
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.9) translateY(20px);
-  }
+
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1) translateY(0);
@@ -1072,7 +1065,7 @@ onMounted(() => {
   max-width: 500px;
   max-height: 88vh;
   overflow: hidden;
-  animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: harmony-slide-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   border: 1px solid var(--harmony-comp-background-secondary);
 }
 
@@ -1166,7 +1159,6 @@ onMounted(() => {
 }
 
 .form-input:focus {
-  outline: none;
   border-color: var(--harmony-brand);
   box-shadow: 0 0 0 4px var(--harmony-comp-emphasize-tertiary);
   transform: translateY(-1px);
@@ -1267,13 +1259,10 @@ onMounted(() => {
 }
 
 .btn-icon.loading {
-  animation: spin 1s linear infinite;
+  animation: h-spin 1s linear infinite;
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
+
   to {
     transform: rotate(360deg);
   }
@@ -1322,7 +1311,7 @@ onMounted(() => {
   width: 90%;
   max-width: 400px;
   overflow: hidden;
-  animation: slideIn 0.3s ease-out;
+  animation: harmony-slide-up 0.3s ease-out;
   border: 1px solid var(--harmony-comp-divider);
 }
 

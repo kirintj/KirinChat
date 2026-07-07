@@ -412,7 +412,6 @@ onMounted(() => {
       font-size: 13px;
       background: var(--harmony-comp-background-primary);
       color: var(--harmony-font-primary);
-      outline: none;
       transition: border-color var(--harmony-duration-fast) var(--harmony-motion-standard);
 
       &:focus {
@@ -432,7 +431,6 @@ onMounted(() => {
     font-size: 13px;
     background: var(--harmony-comp-background-primary);
     color: var(--harmony-font-primary);
-    outline: none;
     cursor: pointer;
     min-width: 100px;
 

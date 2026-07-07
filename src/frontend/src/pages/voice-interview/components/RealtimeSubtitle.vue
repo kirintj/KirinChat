@@ -44,8 +44,8 @@ watch(() => [props.messages.length, props.aiText, props.userText], () => {
   .ai & { background: var(--harmony-comp-background-secondary); border-bottom-left-radius: 4px; }
   .user & { background: var(--harmony-brand); color: white; border-bottom-right-radius: 4px; }
 }
-.cursor { animation: blink 0.8s infinite; margin-left: 2px; }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.cursor { animation: harmony-pulse 0.8s infinite; margin-left: 2px; }
+ 50% { opacity: 0; } }
 .dots { margin-left: 4px; }
 .status { text-align: center; color: var(--harmony-font-secondary); font-size: 12px; }
 </style>

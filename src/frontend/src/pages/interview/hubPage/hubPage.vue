@@ -237,14 +237,14 @@ onMounted(() => {
 .hub-title {
   font-size: 22px;
   font-weight: 700;
-  color: var(--text-primary, #1f2937);
+  color: var(--harmony-font-primary);
   margin: 0;
 }
 
 .loading-state {
   text-align: center;
   padding: 48px 0;
-  color: var(--text-secondary, #6b7280);
+  color: var(--harmony-font-secondary);
   font-size: 14px;
 }
 
@@ -262,7 +262,7 @@ onMounted(() => {
 .section-title {
   font-size: 16px;
   font-weight: 600;
-  color: var(--text-primary, #1f2937);
+  color: var(--harmony-font-primary);
   margin: 0 0 14px 0;
 
   .section-header & {
@@ -323,7 +323,7 @@ onMounted(() => {
 
 .empty-text {
   font-size: 14px;
-  color: var(--text-tertiary, #9ca3af);
+  color: var(--harmony-font-tertiary);
   margin: 0 0 12px 0;
 }
 
@@ -359,12 +359,12 @@ onMounted(() => {
 .stat-value {
   font-size: 24px;
   font-weight: 700;
-  color: var(--text-primary, #1f2937);
+  color: var(--harmony-font-primary);
 }
 
 .stat-label {
   font-size: 12px;
-  color: var(--text-tertiary, #9ca3af);
+  color: var(--harmony-font-tertiary);
 }
 
 // 响应式：平板端快捷入口改为 2 列，底部堆叠

@@ -994,7 +994,7 @@ const handleStartTask = () => {
           height: 7px;
           background: var(--harmony-brand);
           border-radius: 50%;
-          animation: pulse 1.5s ease-in-out infinite;
+          animation: harmony-pulse 1.5s ease-in-out infinite;
         }
 
         .loading-text {
@@ -1065,7 +1065,6 @@ const handleStartTask = () => {
           flex: 1;
           width: 100%;
           border: none;
-          outline: none;
           resize: none;
           padding: 14px;
           font-family: var(--harmony-font-family);
@@ -1253,7 +1252,7 @@ const handleStartTask = () => {
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  animation: fadeIn 0.2s ease;
+  animation: harmony-fade-in 0.2s ease;
 }
 
 .feedback-modal {
@@ -1262,7 +1261,7 @@ const handleStartTask = () => {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
   width: 420px;
   max-width: 90vw;
-  animation: slideUp 0.2s ease;
+  animation: harmony-slide-up 0.2s ease;
   overflow: hidden;
 }
 
@@ -1327,7 +1326,6 @@ const handleStartTask = () => {
       color: var(--harmony-font-primary);
       background: var(--harmony-comp-background-primary);
       resize: none;
-      outline: none;
       box-sizing: border-box;
 
       &:focus {
@@ -1389,18 +1387,15 @@ const handleStartTask = () => {
 }
 
 /* 动画 */
-@keyframes fadeIn {
-  from { opacity: 0; }
+
   to { opacity: 1; }
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(12px); }
+
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
+
   50% { opacity: 0.5; }
 }
 

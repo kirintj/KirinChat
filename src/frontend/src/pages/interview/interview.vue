@@ -188,7 +188,7 @@ onMounted(() => {
     border: 1px solid var(--border-color, #e5e7eb);
     border-radius: 8px;
     background: var(--bg-secondary, #f9fafb);
-    color: var(--text-primary, #1f2937);
+    color: var(--harmony-font-primary);
     cursor: pointer;
     font-size: 14px;
     font-family: inherit;

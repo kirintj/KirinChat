@@ -798,11 +798,10 @@ onMounted(async () => {
 }
 
 .spinner-sm {
-  animation: spin 1s linear infinite;
+  animation: h-spin 1s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+
 }
 
 /* ============ 主内容区 ============ */
@@ -1066,7 +1065,6 @@ onMounted(async () => {
   }
 
   &:focus {
-    outline: none;
     border-color: var(--harmony-brand);
     background: var(--harmony-comp-background-primary);
     box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
@@ -1097,7 +1095,6 @@ onMounted(async () => {
   }
 
   &:focus {
-    outline: none;
     border-color: var(--harmony-brand);
     background: var(--harmony-comp-background-primary);
     box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);

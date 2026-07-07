@@ -1993,13 +1993,10 @@ onMounted(() => {
   border: 3px solid var(--harmony-comp-divider);
   border-top-color: var(--harmony-brand);
   border-radius: var(--harmony-corner-radius-level18);
-  animation: spin 0.8s linear infinite;
+  animation: h-spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+
 }
 
 .logo-hint {
@@ -2038,7 +2035,6 @@ onMounted(() => {
   color: var(--harmony-font-primary);
   box-shadow: 0 1px 2px 0 var(--harmony-shadow-xs);
   transition: all 0.2s;
-  outline: none;
 }
 
 .drawer-input::placeholder {
@@ -2046,7 +2042,6 @@ onMounted(() => {
 }
 
 .drawer-input:focus {
-  outline: none;
   border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
@@ -2077,7 +2072,6 @@ onMounted(() => {
   color: var(--harmony-font-primary);
   box-shadow: 0 1px 2px 0 var(--harmony-shadow-xs);
   transition: all 0.2s;
-  outline: none;
   resize: vertical;
   line-height: 1.5;
 }
@@ -2087,7 +2081,6 @@ onMounted(() => {
 }
 
 .drawer-textarea:focus {
-  outline: none;
   border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
@@ -2120,7 +2113,6 @@ onMounted(() => {
   font-family: var(--harmony-font-family);
   box-shadow: 0 1px 2px 0 var(--harmony-shadow-xs);
   transition: all 0.2s;
-  outline: none;
   resize: vertical;
   line-height: 1.6;
 }
@@ -2130,7 +2122,6 @@ onMounted(() => {
 }
 
 .drawer-code-textarea:focus {
-  outline: none;
   border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
@@ -2195,13 +2186,11 @@ onMounted(() => {
   font-size: var(--harmony-font-size-body-m);
   box-shadow: 0 1px 2px 0 var(--harmony-shadow-xs);
   cursor: pointer;
-  outline: none;
   transition: all 0.2s;
   color: var(--harmony-font-primary);
 }
 
 .drawer-select:focus {
-  outline: none;
   border-color: var(--harmony-brand);
   box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
 }
@@ -2231,13 +2220,11 @@ onMounted(() => {
   font-size: var(--harmony-font-size-body-s);
   box-shadow: 0 1px 2px 0 var(--harmony-shadow-xs);
   cursor: pointer;
-  outline: none;
   transition: all 0.2s;
   color: var(--harmony-font-primary);
 }
 
 .drawer-select-small:focus {
-  outline: none;
   border-color: var(--harmony-brand);
 }
 
@@ -2465,7 +2452,6 @@ onMounted(() => {
 }
 
 .drawer-close:focus {
-  outline: none;
   box-shadow: 0 0 0 2px var(--harmony-brand);
 }
 

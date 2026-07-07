@@ -1149,7 +1149,7 @@ onUnmounted(() => {
                 border: 2px solid var(--harmony-comp-background-secondary);
                 border-top: 2px solid white;
                 border-radius: var(--harmony-corner-radius-level18);
-                animation: spin 1s linear infinite;
+                animation: h-spin 1s linear infinite;
               }
             }
             
@@ -1289,7 +1289,7 @@ onUnmounted(() => {
               border: 2px solid white;
               border-top: 2px solid transparent;
               border-radius: var(--harmony-corner-radius-level18);
-              animation: spin 1s linear infinite;
+              animation: h-spin 1s linear infinite;
             }
           }
         }
@@ -1568,10 +1568,7 @@ onUnmounted(() => {
   }
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
+
   to {
     transform: rotate(360deg);
   }

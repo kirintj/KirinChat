@@ -580,7 +580,7 @@ watch(
 /* ===== 欢迎区 ===== */
 .welcome-section {
   text-align: center;
-  animation: fadeUp 0.5s ease both;
+  animation: harmony-slide-up 0.5s ease both;
   width: 100%;
   max-width: 460px;
 
@@ -758,12 +758,11 @@ watch(
     height: 6px;
     border-radius: 50%;
     background: var(--harmony-font-tertiary);
-    animation: pulse 1.4s infinite ease-in-out both;
+    animation: harmony-pulse 1.4s infinite ease-in-out both;
   }
 }
 
-@keyframes pulse {
-  0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+
   40% { transform: scale(1); opacity: 1; }
 }
 
@@ -772,7 +771,7 @@ watch(
   width: 100%;
   max-width: 680px;
   padding: 16px 0;
-  animation: fadeUp 0.5s ease 0.15s both;
+  animation: harmony-slide-up 0.5s ease 0.15s both;
 
   &.fixed {
     max-width: 100%;
@@ -807,7 +806,6 @@ watch(
       line-height: 1.5;
       color: var(--harmony-font-primary);
       resize: none;
-      outline: none;
       font-family: inherit;
       min-height: 24px;
       max-height: 120px;
@@ -1034,11 +1032,10 @@ watch(
   border: 2px solid rgba(255,255,255,0.3);
   border-top-color: white;
   border-radius: 50%;
-  animation: spin 0.6s linear infinite;
+  animation: h-spin 0.6s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+
 }
 
 .hidden {
@@ -1046,8 +1043,7 @@ watch(
 }
 
 /* ===== 动画 ===== */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
+
   to { opacity: 1; transform: translateY(0); }
 }
 </style>

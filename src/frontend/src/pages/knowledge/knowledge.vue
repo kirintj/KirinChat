@@ -840,7 +840,6 @@ onMounted(() => {
       transition: border-color 0.2s;
       
       &:focus {
-        outline: none;
         border-color: var(--harmony-brand);
       }
       

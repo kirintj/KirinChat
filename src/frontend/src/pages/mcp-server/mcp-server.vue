@@ -1370,7 +1370,7 @@ const saveUserConfig = async () => {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 // 弹窗样式 - 移除scoped，因为使用了Teleport
 .modal-overlay {
   position: fixed;
@@ -1574,16 +1574,13 @@ const saveUserConfig = async () => {
         border: 2px solid var(--harmony-comp-background-secondary);
         border-top-color: white;
         border-radius: var(--harmony-corner-radius-level18);
-        animation: spin 0.6s linear infinite;
+        animation: h-spin 0.6s linear infinite;
       }
     }
   }
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+
 }
 
 // 表单样式
@@ -1715,7 +1712,6 @@ const saveUserConfig = async () => {
       font-family: var(--harmony-font-family);
       
       &:focus {
-        outline: none;
         border-color: var(--harmony-brand);
         box-shadow: 0 0 0 2px var(--harmony-comp-emphasize-tertiary);
       }
@@ -1991,12 +1987,11 @@ const saveUserConfig = async () => {
   border: 2px solid var(--harmony-comp-background-secondary);
   border-radius: var(--harmony-corner-radius-level18);
   border-top-color: white;
-  animation: spin 1s ease-in-out infinite;
+  animation: h-spin 1s ease-in-out infinite;
   margin-right: 8px;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+
 }
 
 // 页面样式已移至底部scoped样式中，避免重复

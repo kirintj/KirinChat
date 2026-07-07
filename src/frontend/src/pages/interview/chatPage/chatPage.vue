@@ -477,7 +477,6 @@ onUnmounted(() => {
   resize: none;
   background: var(--harmony-comp-background-primary);
   color: var(--harmony-font-primary);
-  outline: none;
   transition: border-color var(--harmony-duration-fast) var(--harmony-motion-standard);
 
   &:focus {

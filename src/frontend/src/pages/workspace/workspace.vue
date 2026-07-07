@@ -320,7 +320,6 @@ onMounted(async () => {
     background: var(--harmony-comp-background-secondary);
     color: var(--harmony-font-primary);
     font-size: var(--harmony-font-size-subtitle-s);
-    outline: none;
     transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
     font-family: inherit;
 
@@ -372,11 +371,10 @@ onMounted(async () => {
   border: 2px solid var(--harmony-comp-divider);
   border-top-color: var(--harmony-brand);
   border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+  animation: h-spin 0.7s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+
 }
 
 /* ===== 会话卡片 ===== */

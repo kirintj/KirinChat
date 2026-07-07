@@ -445,7 +445,6 @@ onMounted(() => {
     flex: 1;
     border: none;
     background: transparent;
-    outline: none;
     font-size: 13px;
     color: var(--harmony-font-primary);
     font-family: inherit;
@@ -504,7 +503,7 @@ onMounted(() => {
   }
 
   .spinning {
-    animation: spin 1s linear infinite;
+    animation: h-spin 1s linear infinite;
   }
 }
 
@@ -803,7 +802,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  animation: fadeIn 0.15s ease;
+  animation: harmony-fade-in 0.15s ease;
 }
 
 .dialog-card {
@@ -814,7 +813,7 @@ onMounted(() => {
   border-radius: var(--harmony-corner-radius-level8);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   text-align: center;
-  animation: scaleIn 0.15s ease;
+  animation: harmony-scale-in 0.15s ease;
 }
 
 .dialog-icon {
@@ -862,22 +861,19 @@ onMounted(() => {
 }
 
 /* ===== 动画 ===== */
-@keyframes spin {
-  to { transform: rotate(360deg); }
+
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
+
   to { opacity: 1; }
 }
 
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.96); }
+
   to { opacity: 1; transform: scale(1); }
 }
 
 .spinner-sm {
-  animation: spin 1s linear infinite;
+  animation: h-spin 1s linear infinite;
 }
 
 /* ===== 响应式 ===== */

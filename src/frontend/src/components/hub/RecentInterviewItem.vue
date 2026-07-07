@@ -67,12 +67,12 @@ const scoreColor = (score: number) => {
 .item-skill {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-primary, #1f2937);
+  color: var(--harmony-font-primary);
 }
 
 .item-time {
   font-size: 12px;
-  color: var(--text-tertiary, #9ca3af);
+  color: var(--harmony-font-tertiary);
 }
 
 .item-score {

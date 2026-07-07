@@ -563,7 +563,7 @@ defineExpose({ open, close })
   </Teleport>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 // 自定义遮罩层样式
 #custom-dialog-overlay {
   z-index: 999999 !important;
@@ -760,7 +760,7 @@ defineExpose({ open, close })
               border: 2px solid var(--harmony-comp-background-tertiary);
               border-top: 2px solid var(--harmony-brand);
               border-radius: 50%;
-              animation: spin 1s linear infinite;
+              animation: h-spin 1s linear infinite;
             }
 
             span {
@@ -783,8 +783,7 @@ defineExpose({ open, close })
         }
       }
 
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
+      
         100% { transform: rotate(360deg); }
       }
 

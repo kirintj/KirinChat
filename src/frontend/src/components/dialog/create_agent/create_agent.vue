@@ -427,7 +427,6 @@ defineExpose({ open, close })
         box-sizing: border-box;
 
         &:focus {
-          outline: none;
           border-color: var(--harmony-brand);
         }
       }
@@ -597,7 +596,6 @@ defineExpose({ open, close })
             .chat-input-field {
               flex: 1;
               border: none;
-              outline: none;
               font-size: 14px;
               color: var(--harmony-font-primary);
               background: transparent;

@@ -479,7 +479,6 @@ const handleCustomUpload = async (event: Event) => {
   box-sizing: border-box;
   transition: border-color 0.2s;
   &:focus {
-    outline: none;
     border-color: var(--harmony-brand);
   }
 }

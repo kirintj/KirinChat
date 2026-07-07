@@ -150,7 +150,7 @@ function goBack() {
 .spinner {
   width: 24px; height: 24px; border: 3px solid var(--harmony-comp-background-secondary);
   border-top-color: var(--harmony-brand); border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: h-spin 0.8s linear infinite;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+/* spin removed: use h-spin from style.css */ }
 </style>

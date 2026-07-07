@@ -406,7 +406,7 @@ watch(
     box-shadow: var(--harmony-shadow-md);
     z-index: var(--z-dropdown);
     overflow: hidden;
-    animation: fadeSlideIn var(--harmony-duration-fast) var(--harmony-motion-standard);
+    animation: harmony-slide-up var(--harmony-duration-fast) var(--harmony-motion-standard);
   }
 
   .user-dropdown-item {
@@ -426,8 +426,7 @@ watch(
   }
 }
 
-@keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(-4px); }
+
   to { opacity: 1; transform: translateY(0); }
 }
 </style>

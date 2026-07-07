@@ -57,12 +57,12 @@ const barColor = (score: number) => {
 .stat-name {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-primary, #1f2937);
+  color: var(--harmony-font-primary);
 }
 
 .stat-count {
   font-size: 12px;
-  color: var(--text-tertiary, #9ca3af);
+  color: var(--harmony-font-tertiary);
 }
 
 .stat-bar-section {

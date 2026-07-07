@@ -69,12 +69,12 @@ const emit = defineEmits<{
 .card-title {
   font-size: 15px;
   font-weight: 600;
-  color: var(--text-primary, #1f2937);
+  color: var(--harmony-font-primary);
 }
 
 .card-desc {
   font-size: 12px;
-  color: var(--text-secondary, #6b7280);
+  color: var(--harmony-font-secondary);
   line-height: 1.4;
 }
 </style>
