@@ -665,6 +665,7 @@ onBeforeUnmount(() => {
 
 @keyframes h-spin {
 
+}
 .kpi-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -770,6 +771,5 @@ onBeforeUnmount(() => {
   .charts-container {
     grid-template-columns: 1fr;
   }
-}
 }
 </style>

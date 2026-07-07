@@ -457,6 +457,7 @@ onUnmounted(() => {
 
 @keyframes typingBounce {
   0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+}
 
 // Input area
 .input-area {
@@ -552,6 +553,5 @@ onUnmounted(() => {
 
   strong { font-weight: 600; }
   em { font-style: italic; }
-}
 }
 </style>

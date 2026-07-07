@@ -332,6 +332,7 @@ onMounted(() => {
 
 @keyframes h-spin {
 
+}
 .agent-page {
   padding: 24px;
   height: 100vh;
@@ -529,6 +530,5 @@ onMounted(() => {
       grid-template-columns: 1fr;
     }
   }
-}
 }
 </style> 

@@ -797,6 +797,7 @@ onMounted(() => {
 
 @keyframes typing-blink {
   0% {
+}
     opacity: 0.2;
   }
   20% {
@@ -805,7 +806,6 @@ onMounted(() => {
   100% {
     opacity: 0.2;
   }
-}
 
 .thinking-segment {
   background-color: var(--harmony-comp-background-primary);
@@ -1202,6 +1202,4 @@ onMounted(() => {
       }
     }
     */
-  }
-}
 </style> 

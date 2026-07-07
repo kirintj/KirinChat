@@ -466,6 +466,7 @@ const handleCustomUpload = async (event: Event) => {
 
 @keyframes h-spin {
 
+}
 .description-textarea {
   width: 100%;
   padding: 12px;
@@ -904,6 +905,5 @@ const handleCustomUpload = async (event: Event) => {
       cursor: not-allowed;
     }
   }
-}
 }
 </style> 

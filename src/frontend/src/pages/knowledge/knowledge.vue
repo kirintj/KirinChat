@@ -758,6 +758,7 @@ onMounted(() => {
 
 @keyframes h-spin {
 
+}
 /* 原生对话框样式 */
 .dialog-overlay {
   position: fixed;
@@ -1042,6 +1043,5 @@ onMounted(() => {
       background: var(--harmony-warning);
     }
   }
-}
 }
 </style> 

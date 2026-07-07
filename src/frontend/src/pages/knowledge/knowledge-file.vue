@@ -1573,6 +1573,7 @@ onUnmounted(() => {
 
 @keyframes float {
   0% {
+}
     transform: translateY(0px);
     opacity: 0.6;
   }
@@ -1584,10 +1585,10 @@ onUnmounted(() => {
     transform: translateY(0px);
     opacity: 0.6;
   }
-}
 
 @keyframes syncWave {
   0%, 80%, 100% {
+}
     transform: scale(0.8);
     opacity: 0.5;
   }
@@ -1595,7 +1596,6 @@ onUnmounted(() => {
     transform: scale(1);
     opacity: 1;
   }
-}
 
 .loading-overlay {
   position: absolute;
@@ -1689,6 +1689,4 @@ onUnmounted(() => {
         }
       }
     }
-  }
-}
 </style> 
