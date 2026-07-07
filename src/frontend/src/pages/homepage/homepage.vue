@@ -86,7 +86,7 @@ const handleExampleClick = (_: any, index: number) => {
   justify-content: center;
   gap: 24px;
   padding: 0 24px;
-  background: var(--harmony-comp-background-primary);
+  background: transparent;
 }
 
 /* Logo */
@@ -111,14 +111,14 @@ const handleExampleClick = (_: any, index: number) => {
 /* 搜索框 */
 .search-section {
   width: 100%;
-  max-width: 680px;
+  max-width: 500px;
 
   .search-box {
-    background: var(--harmony-comp-background-primary);
-    border: 1px solid var(--harmony-comp-divider);
-    border-radius: var(--harmony-corner-radius-level8);
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
     padding: 16px;
-    box-shadow: var(--harmony-shadow-card);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 
     &:focus-within {
       border-color: var(--harmony-brand);
@@ -161,7 +161,7 @@ const handleExampleClick = (_: any, index: number) => {
       justify-content: center;
 
       &:hover {
-        background: var(--harmony-interactive-hover);
+        opacity: 0.9;
       }
     }
   }
@@ -170,25 +170,29 @@ const handleExampleClick = (_: any, index: number) => {
 /* 案例 */
 .examples-section {
   width: 100%;
-  max-width: 900px;
+  max-width: 560px;
 
   .examples-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
   .example-card {
-    background: var(--harmony-comp-background-primary);
-    border: 1px solid var(--harmony-comp-divider);
-    border-radius: var(--harmony-corner-radius-level8);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
     padding: 16px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
 
     &:hover {
       border-color: var(--harmony-brand);
-      box-shadow: var(--harmony-shadow-card);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    &:active {
+      background: var(--harmony-interactive-pressed);
     }
   }
 
@@ -209,9 +213,9 @@ const handleExampleClick = (_: any, index: number) => {
   .card-tag {
     font-size: var(--harmony-font-size-body-s);
     color: var(--harmony-font-tertiary);
-    background: var(--harmony-comp-background-secondary);
+    background: rgba(0, 0, 0, 0.05);
     padding: 2px 8px;
-    border-radius: var(--harmony-corner-radius-level4);
+    border-radius: 8px;
   }
 
   .card-desc {
@@ -222,18 +226,20 @@ const handleExampleClick = (_: any, index: number) => {
   }
 }
 
-/* 响应式 */
+/* 移动端适配 */
 @media (max-width: 768px) {
   .homepage {
-    padding: 0 16px;
+    justify-content: flex-start;
+    padding-top: 16px;
+    gap: 16px;
   }
 
-  .logo-section .brand-name {
-    font-size: var(--harmony-font-size-title-m);
+  .search-section {
+    max-width: 100%;
   }
 
-  .examples-section .examples-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .examples-section {
+    max-width: 100%;
   }
 }
 </style>
