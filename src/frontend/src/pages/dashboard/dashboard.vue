@@ -664,8 +664,6 @@ onBeforeUnmount(() => {
 }
 
 @keyframes h-spin {
-  to { transform: rotate(360deg); }
-}
 
 .kpi-container {
   display: grid;
@@ -774,4 +772,3 @@ onBeforeUnmount(() => {
   }
 }
 </style>
-

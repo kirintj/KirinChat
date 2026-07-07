@@ -167,7 +167,6 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { ref, onMounted, nextTick, computed } from 'vue'
 import { HButton, HAvatar, HMessage } from '@/components/ui'
@@ -261,7 +260,6 @@ const loadTaskList = async () => {
     loadingTasks.value = false
   }
 }
-
 
 // 创建新任务
 const createNewTask = async () => {
@@ -462,7 +460,6 @@ const handleReject = async () => {
   }
 }
 
-
 // 发送消息
 const sendMessage = async () => {
   const query = messageInput.value.trim()
@@ -543,7 +540,6 @@ onMounted(() => {
   loadTaskList()
 })
 </script>
-
 
 <style lang="scss" scoped>
 .mcp-chat-container {
@@ -1077,4 +1073,3 @@ onMounted(() => {
   }
 }
 </style>
-

@@ -783,10 +783,6 @@ defineExpose({ open, close })
         }
       }
 
-      
-        100% { transform: rotate(360deg); }
-      }
-
       .recommended-questions {
         margin-top: 24px;
         padding-top: 24px;

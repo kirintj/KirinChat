@@ -862,16 +862,6 @@ onMounted(() => {
 
 /* ===== 动画 ===== */
 
-}
-
-
-  to { opacity: 1; }
-}
-
-
-  to { opacity: 1; transform: scale(1); }
-}
-
 .spinner-sm {
   animation: h-spin 1s linear infinite;
 }

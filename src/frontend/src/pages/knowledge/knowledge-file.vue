@@ -1569,10 +1569,7 @@ onUnmounted(() => {
 }
 
 
-  to {
-    transform: rotate(360deg);
-  }
-}
+
 
 @keyframes float {
   0% {

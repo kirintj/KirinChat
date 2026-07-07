@@ -670,11 +670,7 @@ onMounted(() => {
 }
 
 
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
+
 
 .leave-modal-header {
   padding: var(--harmony-padding-level16) var(--harmony-padding-level16) 16px;
@@ -1135,12 +1131,7 @@ onMounted(() => {
 
 
 
-  50% { opacity: 0.5; }
-}
 
-
-  100% { transform: rotate(360deg); }
-}
 
 // 删除输入相关样式，现在只是输出页面
 

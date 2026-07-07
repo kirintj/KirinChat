@@ -922,8 +922,6 @@ onMounted(() => {
 }
 
 
-  to { opacity: 1; }
-}
 
 // 手写确认弹窗样式（Element MessageBox 观感）
 .confirm-modal {
@@ -1172,12 +1170,6 @@ onMounted(() => {
   }
 }
 
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 // 添加文件弹窗样式
 .add-file-modal {

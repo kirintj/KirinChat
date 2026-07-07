@@ -128,7 +128,6 @@ const feedbackText = ref('')
 const isHistoryMode = ref(false)
 const historyContexts = ref<HistoryContext[]>([])
 
-
 // 保存任务参数
 const taskParams = ref({
   query: '',
@@ -407,7 +406,6 @@ const handleStartTask = () => {
   console.log('✅ 已同步指导手册到任务参数，长度:', taskParams.value.guide_prompt.length)
   startTask()
 }
-
 
 // 初始化
 onMounted(async () => {
@@ -1823,19 +1821,7 @@ const getNodeColor = (status: string) => {
 
 /* 动画 */
 
-  to { opacity: 1; }
-}
-
-
-  to { transform: translateY(0); opacity: 1; }
-}
-
-
-  50% { opacity: 0.5; }
-}
-
 @keyframes typingBounce {
   0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
-  40% { transform: scale(1.1); opacity: 1; }
-}
+
 </style>

@@ -1997,7 +1997,6 @@ onMounted(() => {
 }
 
 
-}
 
 .logo-hint {
   margin: 0;

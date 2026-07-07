@@ -1039,17 +1039,8 @@ onMounted(() => {
 }
 
 
-  to {
-    opacity: 1;
-  }
-}
 
 
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1) translateY(0);
-  }
-}
 
 .dialog-container {
   position: fixed;
@@ -1266,7 +1257,6 @@ onMounted(() => {
   to {
     transform: rotate(360deg);
   }
-}
 
 .btn-text {
   font-weight: 600;

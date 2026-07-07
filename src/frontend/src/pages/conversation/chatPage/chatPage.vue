@@ -133,7 +133,6 @@ const triggerFileUpload = () => {
   fileInputRef.value?.click()
 }
 
-
 // Function to scroll to the bottom of the chat
 function scrollBottom() {
   nextTick(() => {
@@ -730,10 +729,6 @@ watch(
   color: var(--harmony-font-tertiary);
 }
 
- 
-  to { transform: rotate(360deg); } 
-}
-
 .loading-spinner {
   display: flex;
   justify-content: center;
@@ -874,7 +869,6 @@ watch(
     }
   }
 }
-
 
 // Override MdPreview background
 :deep(.md-editor-preview-wrapper) {

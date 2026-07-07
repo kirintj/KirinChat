@@ -439,17 +439,11 @@ const goToRegister = () => {
 }
 
 @keyframes rotateCube {
-  0% { transform: rotateX(0deg) rotateY(0deg); }
-  100% { transform: rotateX(360deg) rotateY(360deg); }
-}
 
 @keyframes floatUp {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-}
 
 @keyframes floatDown {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(10px); }
-}
+
 </style>

@@ -152,5 +152,5 @@ function goBack() {
   border-top-color: var(--harmony-brand); border-radius: 50%;
   animation: h-spin 0.8s linear infinite;
 }
-/* spin removed: use h-spin from style.css */ }
+
 </style>

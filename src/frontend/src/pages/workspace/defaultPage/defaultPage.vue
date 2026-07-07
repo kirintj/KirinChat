@@ -763,8 +763,7 @@ watch(
 }
 
 
-  40% { transform: scale(1); opacity: 1; }
-}
+
 
 /* ===== 输入区 ===== */
 .input-section {
@@ -1036,16 +1035,11 @@ watch(
 }
 
 
-}
-
 .hidden {
   display: none;
 }
 
 /* ===== 动画 ===== */
-
-  to { opacity: 1; transform: translateY(0); }
-}
 </style>
 <script lang="ts">
 // 自动调整textarea高度

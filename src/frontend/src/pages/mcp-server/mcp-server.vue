@@ -1581,7 +1581,6 @@ const saveUserConfig = async () => {
 }
 
 
-}
 
 // 表单样式
 // 配置向导样式
@@ -1991,8 +1990,6 @@ const saveUserConfig = async () => {
   margin-right: 8px;
 }
 
-
-}
 
 // 页面样式已移至底部scoped样式中，避免重复
 

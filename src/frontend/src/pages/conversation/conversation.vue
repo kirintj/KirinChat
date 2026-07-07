@@ -1508,30 +1508,19 @@ const closeCreateDialog = () => {
 
 // 动画
 
-  to {
-    opacity: 1;
-  }
-}
 
 
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
 
 
   to {
     transform: rotate(360deg);
   }
-}
 
 
   to {
     opacity: 1;
     transform: scale(1);
   }
-}
 
 @keyframes float {
   0%, 100% {

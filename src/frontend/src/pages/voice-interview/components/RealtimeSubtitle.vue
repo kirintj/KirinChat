@@ -45,7 +45,7 @@ watch(() => [props.messages.length, props.aiText, props.userText], () => {
   .user & { background: var(--harmony-brand); color: white; border-bottom-right-radius: 4px; }
 }
 .cursor { animation: harmony-pulse 0.8s infinite; margin-left: 2px; }
- 50% { opacity: 0; } }
+
 .dots { margin-left: 4px; }
 .status { text-align: center; color: var(--harmony-font-secondary); font-size: 12px; }
 </style>

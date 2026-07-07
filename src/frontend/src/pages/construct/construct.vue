@@ -6,10 +6,8 @@ import { HIcon } from '@/components/ui'
 import { Agent } from "../../type"
 import { getAgentsAPI } from "../../apis/agent"
 
-
 const router = useRouter()
 const cardList = ref<Agent[]>([])
-
 
 const openDialog = (event: string, item?: Agent) => {
   if (event === "create") {

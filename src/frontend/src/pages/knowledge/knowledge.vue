@@ -243,8 +243,6 @@ const handleEdit = async () => {
   }
 }
 
-
-
 onMounted(() => {
   fetchKnowledges()
 })
@@ -759,8 +757,6 @@ onMounted(() => {
 }
 
 @keyframes h-spin {
-  to { transform: rotate(360deg); }
-}
 
 /* 原生对话框样式 */
 .dialog-overlay {

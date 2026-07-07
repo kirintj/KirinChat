@@ -375,7 +375,6 @@ onMounted(async () => {
 }
 
 
-}
 
 /* ===== 会话卡片 ===== */
 .session-card {

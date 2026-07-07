@@ -465,8 +465,6 @@ const handleCustomUpload = async (event: Event) => {
 }
 
 @keyframes h-spin {
-  to { transform: rotate(360deg); }
-}
 
 .description-textarea {
   width: 100%;

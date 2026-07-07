@@ -13,5 +13,5 @@ withDefaults(defineProps<Props>(), { rows: 3, animated: true })
 .h-skeleton__line { height: 16px; background: var(--harmony-comp-background-tertiary); border-radius: var(--harmony-corner-radius-level4); margin-bottom: 12px; }
 .h-skeleton__line:last-child { width: 60%; }
 .h-skeleton--animated { animation: harmony-pulse 1.5s ease-in-out infinite; }
-/* skeleton-pulse removed: use harmony-pulse */ 50% { opacity: 0.4; } }
+
 </style>

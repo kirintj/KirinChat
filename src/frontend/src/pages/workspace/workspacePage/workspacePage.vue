@@ -1388,17 +1388,6 @@ const handleStartTask = () => {
 
 /* 动画 */
 
-  to { opacity: 1; }
-}
-
-
-  to { opacity: 1; transform: translateY(0); }
-}
-
-
-  50% { opacity: 0.5; }
-}
-
 /* 响应式 */
 @media (max-width: 768px) {
   .chat-container { gap: 16px; }

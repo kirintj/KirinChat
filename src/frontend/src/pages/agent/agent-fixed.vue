@@ -331,8 +331,6 @@ onMounted(() => {
 }
 
 @keyframes h-spin {
-  to { transform: rotate(360deg); }
-}
 
 .agent-page {
   padding: 24px;
