@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { HMessage, HButton, HTooltip, HIcon } from '@/components/ui'
 import {
@@ -15,6 +15,7 @@ import {
 import { KnowledgeListType } from '../../type'
 
 const router = useRouter()
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 const knowledges = ref<KnowledgeListType[]>([])
 const loading = ref(false)
 
@@ -249,7 +250,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="knowledge-page">
+  <div class="knowledge-page" v-if="!isMobile">
     <div class="page-header">
       <div class="header-title">
         <HIcon svg="knowledge" :size="24" class="title-icon" />
@@ -299,12 +300,12 @@ onMounted(() => {
           <span>操作</span>
         </div>
       </div>
-      
+
       <!-- 列表内容 -->
       <div class="knowledge-list" v-if="knowledges.length > 0">
-        <div 
-          v-for="knowledge in knowledges" 
-          :key="knowledge.id" 
+        <div
+          v-for="knowledge in knowledges"
+          :key="knowledge.id"
           class="knowledge-row"
           @click="goToFileManagement(knowledge)"
         >
@@ -350,7 +351,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      
+
       <div v-if="knowledges.length === 0 && !loading" class="empty-state">
         <div class="empty-icon">
           <HIcon svg="knowledge" :size="48" class="empty-icon-img" />
@@ -370,14 +371,14 @@ onMounted(() => {
           <h3>创建知识库</h3>
           <button class="close-btn" @click="createDialogVisible = false">×</button>
         </div>
-        
+
         <div class="dialog-body">
           <div class="form-item">
             <label>知识库名称 <span style="color: red;">*</span></label>
             <div class="input-with-count">
-              <input 
+              <input
                 v-model="createForm.knowledge_name"
-                type="text" 
+                type="text"
                 placeholder="请输入知识库名称（2-10个字符）"
                 maxlength="10"
                 :class="{ 'error': createForm.knowledge_name.length > 0 && (createForm.knowledge_name.length < 2 || createForm.knowledge_name.length > 10) }"
@@ -387,11 +388,11 @@ onMounted(() => {
               </span>
             </div>
           </div>
-          
+
           <div class="form-item">
             <label>知识库描述 <span style="color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-body-s);">(可选，10-200字符)</span></label>
             <div class="textarea-with-count">
-              <textarea 
+              <textarea
                 v-model="createForm.knowledge_desc"
                 placeholder="请输入知识库描述（可选，10-200字符）"
                 rows="4"
@@ -404,12 +405,12 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        
+
         <div class="dialog-footer">
           <button @click="createDialogVisible = false">取消</button>
-          <button 
-            class="primary-btn" 
-            :disabled="createLoading" 
+          <button
+            class="primary-btn"
+            :disabled="createLoading"
             @click="handleCreate"
           >
             {{ createLoading ? '创建中...' : '确定' }}
@@ -425,14 +426,14 @@ onMounted(() => {
           <h3>编辑知识库</h3>
           <button class="close-btn" @click="editDialogVisible = false; resetEditForm()">×</button>
         </div>
-        
+
         <div class="dialog-body">
           <div class="form-item">
             <label>知识库名称 <span style="color: red;">*</span></label>
             <div class="input-with-count">
-              <input 
+              <input
                 v-model="editForm.knowledge_name"
-                type="text" 
+                type="text"
                 placeholder="请输入知识库名称（2-10个字符）"
                 maxlength="10"
                 :class="{ 'error': editForm.knowledge_name.length > 0 && (editForm.knowledge_name.length < 2 || editForm.knowledge_name.length > 10) }"
@@ -442,11 +443,11 @@ onMounted(() => {
               </span>
             </div>
           </div>
-          
+
           <div class="form-item">
             <label>知识库描述 <span style="color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-body-s);">(可选，10-200字符)</span></label>
             <div class="textarea-with-count">
-              <textarea 
+              <textarea
                 v-model="editForm.knowledge_desc"
                 placeholder="请输入知识库描述（可选，10-200字符）"
                 rows="4"
@@ -459,12 +460,12 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        
+
         <div class="dialog-footer">
           <button @click="editDialogVisible = false; resetEditForm()">取消</button>
-          <button 
-            class="primary-btn" 
-            :disabled="editLoading" 
+          <button
+            class="primary-btn"
+            :disabled="editLoading"
             @click="handleEdit"
           >
             {{ editLoading ? '更新中...' : '确定' }}
@@ -482,18 +483,195 @@ onMounted(() => {
             确定要删除知识库 <strong>"{{ knowledgeToDelete.name }}"</strong> 吗？删除后无法恢复。
           </p>
         </div>
-        
+
         <!-- 对话框底部 -->
         <div class="delete-dialog-footer">
-          <button 
-            class="delete-dialog-btn cancel-btn" 
+          <button
+            class="delete-dialog-btn cancel-btn"
             @click="cancelDelete"
             :disabled="deleteLoading"
           >
             取消
           </button>
-          <button 
-            class="delete-dialog-btn confirm-btn" 
+          <button
+            class="delete-dialog-btn confirm-btn"
+            :disabled="deleteLoading"
+            @click="confirmDelete"
+          >
+            {{ deleteLoading ? '删除中...' : '确认删除' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div v-else class="knowledge-mobile">
+    <!-- Create button -->
+    <div class="km-header">
+      <button class="km-create-btn" @click="openCreateDialog">+ 创建知识库</button>
+    </div>
+
+    <!-- Knowledge list as cards -->
+    <div class="km-list" v-if="knowledges.length > 0">
+      <div
+        v-for="knowledge in knowledges"
+        :key="knowledge.id"
+        class="km-item"
+        @click="goToFileManagement(knowledge)"
+      >
+        <div class="km-item__icon">
+          <HIcon svg="knowledge" :size="20" />
+        </div>
+        <div class="km-item__content">
+          <h3 class="km-item__name">{{ knowledge.name }}</h3>
+          <p class="km-item__desc">{{ knowledge.description || '-' }}</p>
+        </div>
+        <div class="km-item__actions" @click.stop>
+          <button class="km-action" @click.stop="goToFileManagement(knowledge)" title="管理文件">📂</button>
+          <button class="km-action" @click.stop="openEditDialog(knowledge)" title="编辑">✏️</button>
+          <button class="km-action km-action--danger" @click.stop="handleDelete(knowledge)" title="删除">🗑️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div v-else-if="!loading" class="km-empty">
+      <HIcon svg="knowledge" :size="48" />
+      <p>暂无知识库</p>
+      <button class="km-create-btn" @click="createDialogVisible = true">创建知识库</button>
+    </div>
+
+    <!-- 创建知识库对话框 -->
+    <div v-if="createDialogVisible" class="dialog-overlay">
+      <div class="dialog-container">
+        <div class="dialog-header">
+          <h3>创建知识库</h3>
+          <button class="close-btn" @click="createDialogVisible = false">×</button>
+        </div>
+
+        <div class="dialog-body">
+          <div class="form-item">
+            <label>知识库名称 <span style="color: red;">*</span></label>
+            <div class="input-with-count">
+              <input
+                v-model="createForm.knowledge_name"
+                type="text"
+                placeholder="请输入知识库名称（2-10个字符）"
+                maxlength="10"
+                :class="{ 'error': createForm.knowledge_name.length > 0 && (createForm.knowledge_name.length < 2 || createForm.knowledge_name.length > 10) }"
+              />
+              <span class="char-count" :class="{ 'error': createForm.knowledge_name.length < 2 || createForm.knowledge_name.length > 10 }">
+                {{ createForm.knowledge_name.length }}/10
+              </span>
+            </div>
+          </div>
+
+          <div class="form-item">
+            <label>知识库描述 <span style="color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-body-s);">(可选，10-200字符)</span></label>
+            <div class="textarea-with-count">
+              <textarea
+                v-model="createForm.knowledge_desc"
+                placeholder="请输入知识库描述（可选，10-200字符）"
+                rows="4"
+                maxlength="200"
+                :class="{ 'error': createForm.knowledge_desc.length > 0 && (createForm.knowledge_desc.length < 10 || createForm.knowledge_desc.length > 200) }"
+              ></textarea>
+              <span class="char-count" :class="{ 'error': createForm.knowledge_desc.length > 0 && (createForm.knowledge_desc.length < 10 || createForm.knowledge_desc.length > 200) }">
+                {{ createForm.knowledge_desc.length }}/200
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dialog-footer">
+          <button @click="createDialogVisible = false">取消</button>
+          <button
+            class="primary-btn"
+            :disabled="createLoading"
+            @click="handleCreate"
+          >
+            {{ createLoading ? '创建中...' : '确定' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 编辑知识库对话框 -->
+    <div v-if="editDialogVisible" class="dialog-overlay">
+      <div class="dialog-container">
+        <div class="dialog-header">
+          <h3>编辑知识库</h3>
+          <button class="close-btn" @click="editDialogVisible = false; resetEditForm()">×</button>
+        </div>
+
+        <div class="dialog-body">
+          <div class="form-item">
+            <label>知识库名称 <span style="color: red;">*</span></label>
+            <div class="input-with-count">
+              <input
+                v-model="editForm.knowledge_name"
+                type="text"
+                placeholder="请输入知识库名称（2-10个字符）"
+                maxlength="10"
+                :class="{ 'error': editForm.knowledge_name.length > 0 && (editForm.knowledge_name.length < 2 || editForm.knowledge_name.length > 10) }"
+              />
+              <span class="char-count" :class="{ 'error': editForm.knowledge_name.length < 2 || editForm.knowledge_name.length > 10 }">
+                {{ editForm.knowledge_name.length }}/10
+              </span>
+            </div>
+          </div>
+
+          <div class="form-item">
+            <label>知识库描述 <span style="color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-body-s);">(可选，10-200字符)</span></label>
+            <div class="textarea-with-count">
+              <textarea
+                v-model="editForm.knowledge_desc"
+                placeholder="请输入知识库描述（可选，10-200字符）"
+                rows="4"
+                maxlength="200"
+                :class="{ 'error': editForm.knowledge_desc.length > 0 && (editForm.knowledge_desc.length < 10 || editForm.knowledge_desc.length > 200) }"
+              ></textarea>
+              <span class="char-count" :class="{ 'error': editForm.knowledge_desc.length > 0 && (editForm.knowledge_desc.length < 10 || editForm.knowledge_desc.length > 200) }">
+                {{ editForm.knowledge_desc.length }}/200
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dialog-footer">
+          <button @click="editDialogVisible = false; resetEditForm()">取消</button>
+          <button
+            class="primary-btn"
+            :disabled="editLoading"
+            @click="handleEdit"
+          >
+            {{ editLoading ? '更新中...' : '确定' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 删除确认对话框 -->
+    <div v-if="deleteDialogVisible" class="dialog-overlay" @click="cancelDelete">
+      <div class="delete-dialog-container" @click.stop>
+        <!-- 对话框主体 -->
+        <div class="delete-dialog-body">
+          <p v-if="knowledgeToDelete">
+            确定要删除知识库 <strong>"{{ knowledgeToDelete.name }}"</strong> 吗？删除后无法恢复。
+          </p>
+        </div>
+
+        <!-- 对话框底部 -->
+        <div class="delete-dialog-footer">
+          <button
+            class="delete-dialog-btn cancel-btn"
+            @click="cancelDelete"
+            :disabled="deleteLoading"
+          >
+            取消
+          </button>
+          <button
+            class="delete-dialog-btn confirm-btn"
             :disabled="deleteLoading"
             @click="confirmDelete"
           >
@@ -1036,10 +1214,135 @@ onMounted(() => {
   &.confirm-btn {
     background: var(--harmony-warning);
     color: white;
-    
+
     &:hover:not(:disabled) {
       background: var(--harmony-warning);
     }
   }
 }
-</style> 
+
+/* ==================== MOBILE: hmos mobile-list ==================== */
+.knowledge-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-section-gap-mobile, 16px);
+  padding-top: var(--harmony-padding-level8, 16px);
+}
+
+.km-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.km-create-btn {
+  height: var(--harmony-control-height-40, 40px);
+  padding: 0 var(--harmony-padding-level8, 16px);
+  background: var(--harmony-brand);
+  color: white;
+  border: none;
+  border-radius: var(--harmony-corner-radius-level6, 12px);
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.km-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--harmony-card-gap-mobile, 12px);
+}
+
+.km-item {
+  display: flex;
+  align-items: center;
+  gap: var(--harmony-padding-level6, 12px);
+  padding: var(--harmony-padding-level8, 16px);
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8, 16px);
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:active {
+    background: var(--harmony-interactive-pressed);
+  }
+
+  &__icon {
+    width: var(--harmony-control-height-40, 40px);
+    height: var(--harmony-control-height-40, 40px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--harmony-comp-emphasize-tertiary);
+    border-radius: var(--harmony-corner-radius-level6, 12px);
+    flex-shrink: 0;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: var(--harmony-font-size-body-l, 16px);
+    font-weight: 600;
+    color: var(--harmony-font-primary);
+    margin: 0 0 var(--harmony-padding-level2, 4px) 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__desc {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-secondary);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--harmony-padding-level2, 4px);
+    flex-shrink: 0;
+  }
+}
+
+.km-action {
+  width: var(--harmony-control-height-36, 36px);
+  height: var(--harmony-control-height-36, 36px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--harmony-comp-background-secondary);
+  border: none;
+  border-radius: var(--harmony-corner-radius-level4, 8px);
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.15s ease;
+
+  &:active {
+    background: var(--harmony-interactive-pressed);
+  }
+
+  &--danger:active {
+    background: rgba(232, 64, 38, 0.1);
+  }
+}
+
+.km-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  gap: var(--harmony-padding-level8, 16px);
+
+  p {
+    font-size: var(--harmony-font-size-body-m);
+    color: var(--harmony-font-tertiary);
+    margin: 0;
+  }
+}
+</style>
