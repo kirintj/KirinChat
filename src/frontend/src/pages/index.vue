@@ -247,7 +247,7 @@ onMounted(async () => {
     backdrop-filter: blur(80px);
     -webkit-backdrop-filter: blur(80px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
-    padding: 16px 10px;
+    padding: 12px 10px;
     transition: width 0.2s ease;
 
     &.collapsed {
@@ -258,7 +258,7 @@ onMounted(async () => {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 12px 8px 8px;
+      padding: 8px;
       cursor: pointer;
 
       &__name {
@@ -271,23 +271,23 @@ onMounted(async () => {
 
     .sidebar-divider {
       height: 1px;
-      margin: 8px 12px;
+      margin: 4px 12px;
       background: var(--harmony-comp-divider);
     }
 
     .sidebar-menu {
       flex: 1;
       overflow-y: auto;
-      padding: 8px 0;
+      padding: 4px 0;
 
       .menu-item {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 10px 14px;
+        gap: 8px;
+        padding: 8px 14px;
         border-radius: 14px;
         cursor: pointer;
-        margin-bottom: 2px;
+        margin-bottom: 1px;
         color: var(--harmony-font-secondary);
         font-size: var(--harmony-font-size-body-m);
         transition: all 0.15s ease;
@@ -320,14 +320,14 @@ onMounted(async () => {
     }
 
     .sidebar-user {
-      padding: 8px 4px;
+      padding: 4px;
 
       .user-dropdown {
         position: relative;
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 8px 10px;
+        padding: 6px 10px;
         border-radius: 14px;
         cursor: pointer;
         transition: background 0.15s ease;
