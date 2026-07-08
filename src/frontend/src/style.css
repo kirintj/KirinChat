@@ -5,13 +5,6 @@
 @import './styles/hmsymbol.css';
 @import './styles/harmony-editor-overrides.css';
 
-/* ========== 亮色模式背景强制白色 ========== */
-[data-theme="light"],
-:root {
-  --harmony-comp-background-secondary: rgba(255, 255, 255, 1);
-  --harmony-comp-background-tertiary: rgba(255, 255, 255, 1);
-}
-
 /* ========== 鸿蒙动效系统 ========== */
 :root {
   --harmony-motion-standard: cubic-bezier(0.2, 0, 0.4, 1);

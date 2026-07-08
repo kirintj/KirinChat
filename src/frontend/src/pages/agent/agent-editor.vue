@@ -768,7 +768,7 @@ onMounted(async () => {
   font-family: inherit;
 
   &:hover:not(:disabled) {
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 2px 8px var(--harmony-comp-emphasize-secondary);
     transform: translateY(-1px);
   }
 
@@ -825,7 +825,7 @@ onMounted(async () => {
   transition: border-color 0.15s ease;
 
   &:hover {
-    border-color: rgba(99, 102, 241, 0.3);
+    border-color: var(--harmony-comp-emphasize-secondary);
   }
 
   &.card-grow {
@@ -1019,7 +1019,7 @@ onMounted(async () => {
   }
 
   :deep(.h-input__inner:hover) {
-    border-color: rgba(99, 102, 241, 0.4) !important;
+    border-color: var(--harmony-comp-emphasize-secondary) !important;
   }
 
   :deep(.h-input__inner:focus) {
@@ -1043,7 +1043,7 @@ onMounted(async () => {
   transition: all 0.15s ease;
 
   &:hover {
-    border-color: rgba(99, 102, 241, 0.4);
+    border-color: var(--harmony-comp-emphasize-secondary);
   }
 
   &:focus {
@@ -1073,7 +1073,7 @@ onMounted(async () => {
   transition: all 0.15s ease;
 
   &:hover {
-    border-color: rgba(99, 102, 241, 0.4);
+    border-color: var(--harmony-comp-emphasize-secondary);
   }
 
   &:focus {
@@ -1101,7 +1101,8 @@ onMounted(async () => {
 
 /* ============ 配置卡中的表单 ============ */
 .form-item {
-  margin: 0 !important;
+  margin: 0;
+  // !important removed — scoped parent selector provides sufficient specificity
 }
 
 .form-select {
@@ -1115,7 +1116,7 @@ onMounted(async () => {
   }
 
   :deep(.h-select__input:hover) {
-    border-color: rgba(99, 102, 241, 0.4) !important;
+    border-color: var(--harmony-comp-emphasize-secondary) !important;
   }
 
   :deep(.h-select__input.is-focus) {
@@ -1126,9 +1127,10 @@ onMounted(async () => {
 }
 
 .option-hint {
-  margin: 8px 0 0 0 !important;
+  margin: 8px 0 0 0;
   font-size: var(--harmony-font-size-caption-l);
   color: var(--harmony-font-tertiary);
+  // !important removed — scoped parent selector provides sufficient specificity
 }
 
 /* ============ 记忆开关 ============ */
@@ -1167,7 +1169,7 @@ onMounted(async () => {
     height: 20px;
     background: white;
     border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--harmony-shadow-sm);
     transition: transform 0.2s ease;
   }
 }

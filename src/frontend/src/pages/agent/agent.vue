@@ -630,7 +630,7 @@ onMounted(() => {
       border-color: var(--harmony-font-tertiary);
       cursor: default;
       transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      box-shadow: var(--harmony-shadow-sm);
     }
 
     .agent-avatar {
@@ -809,11 +809,11 @@ onMounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--harmony-overlay-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: var(--z-dialog);
   animation: harmony-fade-in 0.15s ease;
 }
 

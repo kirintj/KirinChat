@@ -1016,7 +1016,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99999;
+  z-index: var(--z-dialog);
   animation: harmony-fade-in 0.2s ease;
 }
 
@@ -1024,17 +1024,17 @@ onMounted(() => {
 
 // 手写确认弹窗样式（Element MessageBox 观感）
 .confirm-modal {
-  z-index: 1000000 !important;
+  z-index: var(--z-dialog) !important;
 
   .confirm-dialog {
     width: 90%;
     max-width: 420px;
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--harmony-shadow-dialog);
     overflow: hidden;
     animation: harmony-slide-up 0.22s ease;
-    border: 1px solid var(--harmony-shadow-sm);
+    border: 1px solid var(--harmony-comp-divider);
   }
 
   .dialog-header {
@@ -1144,7 +1144,7 @@ onMounted(() => {
     border-radius: var(--harmony-corner-radius-level18);
     width: 90%;
     max-width: 520px;
-    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--harmony-shadow-dialog);
     animation: harmony-slide-up 0.3s ease;
     overflow: hidden;
     
@@ -1272,14 +1272,14 @@ onMounted(() => {
 
 // 添加文件弹窗样式
 .add-file-modal {
-  z-index: 999999 !important;
+  z-index: var(--z-dialog) !important;
   
   .add-file-dialog {
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8);
     width: 90%;
     max-width: 480px;
-    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--harmony-shadow-dialog);
     animation: harmony-slide-up 0.3s ease;
     overflow: hidden;
     
@@ -2321,11 +2321,11 @@ onMounted(() => {
 .dialog-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--harmony-overlay-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99999;
+  z-index: var(--z-dialog);
   animation: harmony-fade-in 0.2s ease;
 }
 
@@ -2334,7 +2334,7 @@ onMounted(() => {
   max-width: 480px;
   background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level8, 16px);
-  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--harmony-shadow-dialog);
   animation: harmony-slide-up 0.3s ease;
   overflow: hidden;
 }

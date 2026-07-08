@@ -1122,11 +1122,11 @@ const getNodeColor = (status: string) => {
   border: 1px solid var(--border);
   border-radius: var(--harmony-corner-radius-level7);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--harmony-shadow-card);
   transition: box-shadow 0.2s ease;
 
   &:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--harmony-shadow-card-hover);
   }
 
   .column-header {
@@ -1548,11 +1548,11 @@ const getNodeColor = (status: string) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--harmony-overlay-heavy);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: var(--z-dialog);
   animation: harmony-fade-in 0.2s ease;
 
   .modal-content {
@@ -1562,7 +1562,7 @@ const getNodeColor = (status: string) => {
     max-width: 700px;
     max-height: 80vh;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--harmony-shadow-dialog);
     animation: harmony-slide-up 0.2s ease;
 
     .modal-header {
@@ -1669,11 +1669,11 @@ const getNodeColor = (status: string) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--harmony-overlay-heavy);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000;
+  z-index: var(--z-dialog);
   animation: harmony-fade-in 0.2s ease;
 
   .feedback-modal {
@@ -1681,7 +1681,7 @@ const getNodeColor = (status: string) => {
     border-radius: var(--harmony-corner-radius-level7);
     width: 90%;
     max-width: 600px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--harmony-shadow-dialog);
     animation: harmony-slide-up 0.2s ease;
     overflow: hidden;
 

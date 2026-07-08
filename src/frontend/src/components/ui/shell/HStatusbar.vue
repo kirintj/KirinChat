@@ -42,11 +42,11 @@ const currentTime = computed(() => {
 }
 
 .harmony-statusbar--light {
-  color: rgba(0, 0, 0, 0.898);
+  color: var(--harmony-font-primary);
 }
 
 .harmony-statusbar--dark {
-  color: rgba(255, 255, 255, 1);
+  color: var(--harmony-font-on-primary);
 }
 
 .harmony-statusbar__time {

@@ -1,13 +1,17 @@
 /*
  * HarmonyOS 第三方编辑器样式覆盖
  * Monaco Editor / ECharts / MdEditor
+ *
+ * 使用 :root 包装增加选择器权重，减少对 !important 的依赖。
+ * 仅对第三方内联样式保留必要的 !important。
  */
 
 /* ========== Monaco Editor ========== */
-.monaco-editor {
-  border-radius: var(--harmony-corner-radius-level8) !important;
+:root .monaco-editor {
+  border-radius: var(--harmony-corner-radius-level8);
 }
 
+/* Monaco Editor uses inline styles for backgrounds — !important required */
 .monaco-editor .margin,
 .monaco-editor-background {
   background-color: var(--harmony-comp-background-primary) !important;
@@ -18,26 +22,26 @@
 }
 
 /* ========== MdEditor (md-editor-v3) ========== */
-.md-editor {
-  background-color: transparent !important;
+:root .md-editor {
+  background-color: transparent;
 }
 
-.md-editor-preview-wrapper {
-  padding: 0 !important;
+:root .md-editor-preview-wrapper {
+  padding: 0;
 }
 
-.md-editor-toolbar {
-  background-color: var(--harmony-comp-background-secondary) !important;
-  border-color: var(--harmony-comp-divider) !important;
+:root .md-editor-toolbar {
+  background-color: var(--harmony-comp-background-secondary);
+  border-color: var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8) var(--harmony-corner-radius-level8) 0 0;
 }
 
-.md-editor-toolbar-item:hover {
-  background-color: var(--harmony-interactive-hover) !important;
+:root .md-editor-toolbar-item:hover {
+  background-color: var(--harmony-interactive-hover);
 }
 
-.md-editor-content {
-  color: var(--harmony-font-primary) !important;
+:root .md-editor-content {
+  color: var(--harmony-font-primary);
 }
 
 /* ========== ECharts ========== */

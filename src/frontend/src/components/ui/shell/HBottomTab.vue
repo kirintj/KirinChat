@@ -63,7 +63,7 @@ const barWidth = computed(() => {
   justify-content: flex-end;
   flex-shrink: 0;
   position: relative;
-  z-index: 100;
+  z-index: var(--z-dropdown);
   padding-bottom: calc(8px + env(safe-area-inset-bottom));
 }
 

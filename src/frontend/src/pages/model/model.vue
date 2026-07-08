@@ -1035,7 +1035,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: var(--z-dialog);
   padding: 20px;
   animation: harmony-fade-in 0.3s ease-out;
 }

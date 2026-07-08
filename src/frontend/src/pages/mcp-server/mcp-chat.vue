@@ -553,8 +553,8 @@ onMounted(() => {
 .sidebar-overlay {
   position: fixed;
   inset: 0;
-  background: var(--harmony-shadow-dialog);
-  z-index: 100;
+  background: var(--harmony-comp-background-secondary);
+  z-index: var(--z-dropdown);
   display: flex;
 }
 

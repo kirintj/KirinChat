@@ -802,7 +802,7 @@ watch(
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level6);
   box-shadow: var(--harmony-shadow-md);
-  z-index: 100;
+  z-index: var(--z-dropdown);
   max-height: 300px;
   overflow: hidden;
   display: flex;

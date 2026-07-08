@@ -725,7 +725,7 @@ const handleStartTask = () => {
       transition: box-shadow 0.2s ease;
 
       &:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        box-shadow: var(--harmony-shadow-card);
       }
 
       &:last-child {
@@ -1241,18 +1241,18 @@ const handleStartTask = () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--harmony-overlay-heavy);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: var(--z-dialog);
   animation: harmony-fade-in 0.2s ease;
 }
 
 .feedback-modal {
   background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level7);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--harmony-shadow-dialog);
   width: 420px;
   max-width: 90vw;
   animation: harmony-slide-up 0.2s ease;

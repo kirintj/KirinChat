@@ -39,8 +39,8 @@ const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
   padding: var(--harmony-padding-level4) var(--harmony-padding-level8);
   border-radius: var(--harmony-corner-radius-level10);
   border: none;
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(0, 0, 0, 0.6);
+  background: var(--harmony-comp-background-tertiary);
+  color: var(--harmony-font-secondary);
   font-size: var(--harmony-font-size-body-l);
   cursor: pointer;
   transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
@@ -57,10 +57,10 @@ const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
 }
 
 .h-chips-tab__item--active {
-  background: #0091FF;
-  color: rgba(255, 255, 255, 1);
+  background: var(--harmony-brand);
+  color: var(--harmony-font-on-primary);
   backdrop-filter: blur(8px);
-  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.08),
-              0 4px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--harmony-shadow-lg),
+              var(--harmony-shadow-dialog);
 }
 </style>

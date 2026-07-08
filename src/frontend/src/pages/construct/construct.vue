@@ -167,7 +167,7 @@ onMounted(async () => {
     
     &:hover {
       transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 20px 60px rgba(59, 130, 246, 0.4);
+      box-shadow: 0 20px 60px var(--harmony-comp-emphasize-secondary);
       
       &::after {
         opacity: 1;

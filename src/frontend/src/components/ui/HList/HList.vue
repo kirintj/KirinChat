@@ -64,11 +64,11 @@ const emit = defineEmits<{ click: [event: MouseEvent] }>()
 }
 
 .h-list-item--clickable:hover {
-  background: rgba(0, 0, 0, 0.047);
+  background: var(--harmony-interactive-hover);
 }
 
 .h-list-item--clickable:active {
-  background: rgba(0, 0, 0, 0.098);
+  background: var(--harmony-interactive-pressed);
 }
 
 .h-list-item__prefix {

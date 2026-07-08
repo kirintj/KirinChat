@@ -90,7 +90,7 @@ const onKeydown = (e: KeyboardEvent) => {
 }
 
 .h-search__input::placeholder {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--harmony-font-tertiary);
 }
 
 .h-search--disabled {
@@ -117,7 +117,7 @@ const onKeydown = (e: KeyboardEvent) => {
 }
 
 .h-search__input::placeholder {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--harmony-font-tertiary);
 }
 
 .h-search__clear {

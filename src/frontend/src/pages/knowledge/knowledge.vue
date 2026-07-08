@@ -938,7 +938,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: var(--z-dialog);
 }
 
 .dialog-container {
@@ -1149,7 +1149,7 @@ onMounted(() => {
 .delete-dialog-container {
   background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level8);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--harmony-shadow-dialog);
   width: 400px;
   max-width: 90vw;
   overflow: hidden;

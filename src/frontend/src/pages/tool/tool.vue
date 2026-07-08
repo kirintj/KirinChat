@@ -1838,7 +1838,7 @@ onMounted(() => {
 .drawer-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: var(--z-dialog);
   background-color: var(--harmony-comp-background-secondary);
   pointer-events: auto;
 }
@@ -2535,7 +2535,7 @@ onMounted(() => {
 .delete-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 10000;
+  z-index: var(--z-dialog);
   background-color: var(--harmony-comp-background-secondary);
   /* removed backdrop-filter */
   display: flex;

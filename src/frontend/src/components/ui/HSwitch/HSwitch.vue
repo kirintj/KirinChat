@@ -31,7 +31,7 @@ const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
   height: 20px;
   border-radius: var(--harmony-corner-radius-level6);
   border: none;
-  background: rgba(0, 0, 0, 0.098);
+  background: var(--harmony-interactive-pressed);
   cursor: pointer;
   padding: 0;
   transition: background var(--harmony-duration-normal) var(--harmony-motion-standard);

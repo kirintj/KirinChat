@@ -1435,7 +1435,7 @@ const saveUserConfig = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99999 !important;
+  z-index: var(--z-dialog) !important;
   /* removed backdrop-filter */
   pointer-events: auto;
   overflow: hidden;
@@ -1444,7 +1444,7 @@ const saveUserConfig = async () => {
 .modal-dialog {
   background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level8);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  box-shadow: var(--harmony-shadow-dialog);
   width: 90%;
   max-width: 600px;
   max-height: 90vh;

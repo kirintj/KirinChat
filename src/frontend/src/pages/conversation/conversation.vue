@@ -818,14 +818,14 @@ const closeCreateDialog = () => {
           width: 32px;
           height: 32px;
           padding: 4px;
-          background: rgba(255, 255, 255, 0.9);
+          background: var(--harmony-comp-background-primary);
           border: 1px solid var(--harmony-comp-divider);
           cursor: pointer;
           border-radius: var(--harmony-corner-radius-level4);
           transition: all 0.2s ease;
           font-size: var(--harmony-font-size-body-m);
           opacity: 0;
-          z-index: 9999;
+          z-index: var(--z-dropdown);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1100,11 +1100,11 @@ const closeCreateDialog = () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--harmony-overlay-heavy);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: var(--z-dialog);
   animation: harmony-fade-in 0.2s ease;
 }
 

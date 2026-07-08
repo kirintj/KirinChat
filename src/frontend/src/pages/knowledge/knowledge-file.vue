@@ -1581,13 +1581,13 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: var(--z-dialog);
 
   .confirm-dialog-content {
     background-color: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8);
     padding: 24px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--harmony-shadow-dialog);
     text-align: center;
     width: 400px;
     max-width: 90%;
