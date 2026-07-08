@@ -45,7 +45,6 @@ declare module 'vue' {
     HMessage: typeof import('./src/components/ui/HMessage/HMessage.vue')['default']
     HMessageBox: typeof import('./src/components/ui/HMessageBox/HMessageBox.vue')['default']
     HOption: typeof import('./src/components/ui/HSelect/HOption.vue')['default']
-    HScrollbar: typeof import('./src/components/ui/HScrollbar/HScrollbar.vue')['default']
     HSelect: typeof import('./src/components/ui/HSelect/HSelect.vue')['default']
     HSkeleton: typeof import('./src/components/ui/HSkeleton/HSkeleton.vue')['default']
     HTable: typeof import('./src/components/ui/HTable/HTable.vue')['default']

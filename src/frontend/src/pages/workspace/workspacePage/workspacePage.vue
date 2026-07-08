@@ -716,10 +716,6 @@ const handleStartTask = () => {
     padding: 16px;
     background: var(--harmony-comp-background-secondary);
 
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    &::-webkit-scrollbar { display: none; }
-
     .conversation-item {
       background: var(--harmony-comp-background-primary);
       border: 1px solid var(--harmony-comp-divider);
@@ -1106,10 +1102,6 @@ const handleStartTask = () => {
           flex: 1;
           overflow-y: auto;
           padding: 14px 20px;
-
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          &::-webkit-scrollbar { display: none; }
 
           :deep(h1), :deep(h2), :deep(h3), :deep(h4), :deep(h5), :deep(h6) {
             margin-top: 6px;

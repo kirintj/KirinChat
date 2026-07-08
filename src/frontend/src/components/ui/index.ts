@@ -17,7 +17,6 @@ export { HTable } from './HTable'
 export { HUpload } from './HUpload'
 export { HDrawer } from './HDrawer'
 export { HTabs, HTabPane } from './HTabs'
-export { HScrollbar } from './HScrollbar'
 export { HAvatar } from './HAvatar'
 export { HSkeleton } from './HSkeleton'
 

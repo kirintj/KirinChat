@@ -1233,13 +1233,6 @@ const getNodeColor = (status: string) => {
     overflow-y: auto;
     overflow-x: hidden;
     background: var(--panel);
-
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 }
 
@@ -1261,12 +1254,6 @@ const getNodeColor = (status: string) => {
         flex: 1;
         overflow-y: auto;
         min-height: 0;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-
-        &::-webkit-scrollbar {
-          display: none;
-        }
       }
 
       .guide-editor {
@@ -1410,13 +1397,6 @@ const getNodeColor = (status: string) => {
       display: flex;
       justify-content: center;
       align-items: flex-start;
-
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
 
       .graph-svg {
         width: 100%;

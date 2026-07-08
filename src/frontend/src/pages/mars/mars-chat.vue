@@ -767,14 +767,6 @@ onMounted(() => {
   overflow-x: hidden; /* 隐藏水平滚动条 */
   display: flex;
   flex-direction: column;
-  
-  /* 隐藏右侧滚动条但保留滚动功能 */
-  &::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
 }
 
 .typing-dots {
@@ -1031,8 +1023,6 @@ onMounted(() => {
     }
   }
 }
-
-// 移除滚动条样式，使用上面定义的隐藏滚动条
 
 .mars-response-content {
   // Markdown预览组件的样式调整
