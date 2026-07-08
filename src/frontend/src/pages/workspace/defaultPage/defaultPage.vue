@@ -345,9 +345,7 @@ watch(
                 <div class="mode-card-desc">{{ mode.desc }}</div>
               </div>
               <div v-if="selectedMode === mode.id" class="mode-card-check">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M4 8L7 11L12 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <Icon icon="mdi:check" :width="16" :height="16" />
               </div>
             </div>
           </div>
@@ -391,10 +389,7 @@ watch(
               <!-- 模型选择（日常模式） -->
               <div v-if="selectedMode === 'normal'" class="action-dropdown">
                 <button class="action-btn" @click="showModelSelector = !showModelSelector" :title="selectedModel || '选择模型'">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/>
-                    <circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.2"/>
-                  </svg>
+                  <Icon icon="mdi:cpu-64-bit" :width="14" :height="14" />
                   <span class="action-label">{{ selectedModel || (modelsLoading ? '...' : '模型') }}</span>
                 </button>
                 <transition name="drop-up">
@@ -418,10 +413,7 @@ watch(
               <!-- 联网搜索（深思模式） -->
               <div v-if="selectedMode === 'lingseek'" class="action-dropdown">
                 <button :class="['action-btn', { active: webSearchEnabled }]" @click="toggleWebSearch">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.2"/>
-                    <path d="M7 2V12M2 7H12" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
-                  </svg>
+                  <Icon icon="mdi:earth" :width="14" :height="14" />
                   <span class="action-label">联网</span>
                 </button>
               </div>
@@ -429,12 +421,7 @@ watch(
               <!-- 工具选择 -->
               <div class="action-dropdown" ref="toolDropdownRef">
                 <button class="action-btn" @click="showToolSelector = !showToolSelector">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M3 3.5L7 2L11 3.5V6.5L7 8L3 6.5V3.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-                    <path d="M3 6.5L7 8L11 6.5" stroke="currentColor" stroke-width="1.2"/>
-                    <path d="M7 8V11" stroke="currentColor" stroke-width="1.2"/>
-                    <path d="M4.5 10L7 11L9.5 10" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-                  </svg>
+                  <Icon icon="mdi:wrench" :width="14" :height="14" />
                   <span class="action-label">{{ selectedTools.length > 0 ? `工具(${selectedTools.length})` : '工具' }}</span>
                 </button>
                 <transition name="drop-up">
@@ -467,10 +454,7 @@ watch(
               <!-- MCP选择 -->
               <div class="action-dropdown" ref="mcpDropdownRef">
                 <button class="action-btn" @click="showMcpSelector = !showMcpSelector">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/>
-                    <path d="M5 7H9M7 5V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                  </svg>
+                  <Icon icon="mdi:server-network" :width="14" :height="14" />
                   <span class="action-label">{{ selectedMcpServers.length > 0 ? `MCP(${selectedMcpServers.length})` : 'MCP' }}</span>
                 </button>
                 <transition name="drop-up">
@@ -503,18 +487,13 @@ watch(
             <div class="action-group">
               <!-- 附件 -->
               <button class="action-btn" @click="triggerFileInput" title="上传附件">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M7 4V10M4 7H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                  <rect x="2" y="2" width="10" height="10" rx="3" stroke="currentColor" stroke-width="1.2"/>
-                </svg>
+                <Icon icon="mdi:attachment" :width="14" :height="14" />
               </button>
               <input type="file" ref="fileInputRef" class="hidden" multiple @change="onFileChange" />
 
               <!-- 发送 -->
               <button :class="['send-btn', { disabled: isGenerating }]" :disabled="isGenerating" @click="handleSend">
-                <svg v-if="!isGenerating" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <Icon v-if="!isGenerating" icon="mdi:send" :width="16" :height="16" />
                 <span v-else class="spinner-sm"></span>
               </button>
             </div>

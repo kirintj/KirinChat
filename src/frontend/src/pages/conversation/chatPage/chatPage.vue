@@ -434,22 +434,13 @@ watch(
                 <div v-for="(event, evIdx) in item.eventInfo" :key="evIdx" class="event-info-row" :class="event.status">
                   <div class="event-info-header" @click="toggleEventInfo(event)">
                     <span v-if="event.status === 'START'" class="rotating">
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5" opacity="0.25"/>
-                        <path d="M7 1.5C10.0376 1.5 12.5 3.96243 12.5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                      </svg>
+                      <Icon icon="mdi:loading" :width="14" :height="14" />
                     </span>
                     <span v-else-if="event.status === 'END'" class="success-icon">
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/>
-                        <path d="M4.5 7L6.5 9L9.5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
+                      <Icon icon="mdi:check-circle" :width="14" :height="14" />
                     </span>
                     <span v-else-if="event.status === 'ERROR'" class="error-icon">
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/>
-                        <path d="M5 5L9 9M9 5L5 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                      </svg>
+                      <Icon icon="mdi:close-circle" :width="14" :height="14" />
                     </span>
                     <span class="event-info-title">{{ event.event_type }}</span>
                     <span class="event-info-status">
@@ -466,10 +457,7 @@ watch(
               <!-- Loading Indicator - 只在没有活跃事件时显示 -->
               <div v-if="!item.aiMessage.content && !sendQuestion && index === historyChatStore.chatArr.length - 1 && !hasActiveEvents" class="loading-spinner">
                   <span class="is-loading">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" opacity="0.25"/>
-                      <path d="M8 2C11.3137 2 14 4.68629 14 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
+                    <Icon icon="mdi:loading" :width="16" :height="16" />
                   </span>
               </div>
               <template v-else>
@@ -501,9 +489,7 @@ watch(
         @change="handleNativeFileUpload"
       />
       <HButton type="secondary" class="action-btn" :class="{ 'file-uploaded': fileUrl }" @click="triggerFileUpload" :disabled="!!fileUrl">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8.5 4.5L4 9C3.16667 9.83333 3.16667 11.1667 4 12C4.83333 12.8333 6.16667 12.8333 7 12L11.5 7.5C12.8333 6.16667 12.8333 4.16667 11.5 2.83333C10.1667 1.5 8.16667 1.5 6.83333 2.83333L2.33333 7.33333" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <Icon icon="mdi:upload" :width="16" :height="16" />
       </HButton>
       <div class="input-wrapper">
         <!-- 已上传文件显示 -->

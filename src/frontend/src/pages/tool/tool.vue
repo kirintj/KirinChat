@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch, inject } from 'vue'
-import { HButton, HTabs, HTabPane, HTooltip, HMessage, HIcon } from '@/components/ui'
+import { HButton, HTabs, HTabPane, HTooltip, HMessage } from '@/components/ui'
 import pluginIcon from '../../assets/plugin.svg'
 import { 
   getAllToolsAPI, 
@@ -726,16 +726,11 @@ onMounted(() => {
           </div>
           <div class="col-type">
             <span v-if="tool.user_id === '0'" class="type-badge system">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
+              <Icon icon="mdi:layers" :width="14" :height="14" />
               系统工具
             </span>
             <span v-else class="type-badge custom">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-              </svg>
+              <Icon icon="mdi:account" :width="14" :height="14" />
               自定义
             </span>
           </div>
@@ -745,36 +740,22 @@ onMounted(() => {
           <div class="col-actions" @click.stop>
             <HTooltip content="编辑" placement="top" v-if="isToolEditable(tool)">
               <button class="action-btn edit-btn" @click="openEditDrawer(tool)">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M11 2L14 5L7 12H4V9L11 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
-                  <line x1="9" y1="4" x2="12" y2="7" stroke="currentColor" stroke-width="1.3"/>
-                </svg>
+                <Icon icon="mdi:pencil" :width="16" :height="16" />
               </button>
             </HTooltip>
             <HTooltip content="系统工具不可编辑" placement="top" v-else>
               <button class="action-btn view-btn" disabled>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M11 2L14 5L7 12H4V9L11 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
-                  <line x1="9" y1="4" x2="12" y2="7" stroke="currentColor" stroke-width="1.3"/>
-                </svg>
+                <Icon icon="mdi:pencil" :width="16" :height="16" />
               </button>
             </HTooltip>
             <HTooltip content="删除" placement="top" v-if="isOwnTool(tool)">
               <button class="action-btn delete-btn" @click="handleDeleteTool(tool)">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M2 4H14L12.5 14H3.5L2 4Z" stroke="currentColor" stroke-width="1.2"/>
-                <line x1="6" y1="4" x2="6" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                <line x1="10" y1="4" x2="10" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-              </svg>
+                <Icon icon="mdi:delete" :width="16" :height="16" />
               </button>
             </HTooltip>
             <HTooltip content="系统工具不可删除" placement="top" v-else>
               <button class="action-btn view-btn" disabled>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M2 4H14L12.5 14H3.5L2 4Z" stroke="currentColor" stroke-width="1.2"/>
-                <line x1="6" y1="4" x2="6" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                <line x1="10" y1="4" x2="10" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-              </svg>
+                <Icon icon="mdi:delete" :width="16" :height="16" />
               </button>
             </HTooltip>
           </div>
@@ -838,21 +819,13 @@ onMounted(() => {
                     class="logo-image"
                   />
                   <div v-else class="logo-placeholder">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-                      <circle cx="9" cy="9" r="2"/>
-                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
-                    </svg>
+                    <Icon icon="mdi:image" :width="32" :height="32" />
                   </div>
                   <div v-if="logoUploading" class="logo-loading">
                     <div class="spinner"></div>
                   </div>
                   <div class="logo-overlay">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                      <polyline points="17 8 12 3 7 8"/>
-                      <line x1="12" x2="12" y1="3" y2="15"/>
-                    </svg>
+                    <Icon icon="mdi:upload" :width="24" :height="24" />
                     <span>点击上传</span>
                   </div>
                 </div>
@@ -1013,10 +986,7 @@ onMounted(() => {
             @click="showCreateDrawer = false"
             class="drawer-close"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="drawer-close-icon">
-              <path d="M18 6 6 18"></path>
-              <path d="m6 6 12 12"></path>
-            </svg>
+            <Icon icon="mdi:close" :width="24" :height="24" class="drawer-close-icon" />
             <span class="sr-only">Close</span>
           </button>
         </div>
@@ -1059,21 +1029,13 @@ onMounted(() => {
                     class="logo-image"
                   />
                   <div v-else class="logo-placeholder">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-                      <circle cx="9" cy="9" r="2"/>
-                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
-                    </svg>
+                    <Icon icon="mdi:image" :width="32" :height="32" />
                   </div>
                   <div v-if="editLogoUploading" class="logo-loading">
                     <div class="spinner"></div>
                   </div>
                   <div class="logo-overlay">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                      <polyline points="17 8 12 3 7 8"/>
-                      <line x1="12" x2="12" y1="3" y2="15"/>
-                    </svg>
+                    <Icon icon="mdi:upload" :width="24" :height="24" />
                     <span>点击上传</span>
                   </div>
                 </div>
@@ -1234,10 +1196,7 @@ onMounted(() => {
             @click="showEditDrawer = false"
             class="drawer-close"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="drawer-close-icon">
-              <path d="M18 6 6 18"></path>
-              <path d="m6 6 12 12"></path>
-            </svg>
+            <Icon icon="mdi:close" :width="24" :height="24" class="drawer-close-icon" />
             <span class="sr-only">Close</span>
           </button>
         </div>
@@ -1257,13 +1216,7 @@ onMounted(() => {
         >
           <!-- 图标 -->
           <div class="delete-modal-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 6h18"/>
-              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-              <line x1="10" x2="10" y1="11" y2="17"/>
-              <line x1="14" x2="14" y1="11" y2="17"/>
-            </svg>
+            <Icon icon="mdi:delete" :width="48" :height="48" />
           </div>
           
           <!-- 标题 -->
@@ -1325,13 +1278,13 @@ onMounted(() => {
             class="tm-action"
             @click="openEditDrawer(tool)"
             title="编辑"
-          ><HIcon svg="edit" :size="16" /></button>
+          ><Icon icon="mdi:pencil" :width="16" :height="16" /></button>
           <button
             v-if="isOwnTool(tool)"
             class="tm-action tm-action--danger"
             @click="handleDeleteTool(tool)"
             title="删除"
-          ><HIcon svg="delete" :size="16" /></button>
+          ><Icon icon="mdi:delete" :width="16" :height="16" /></button>
         </div>
       </div>
     </div>

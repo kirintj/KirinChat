@@ -104,10 +104,7 @@ onMounted(() => {
         <!-- 面试中心导航按钮，点击跳转到面试中心仪表盘页面 -->
         <button class="hub-btn" @click="router.push('/interview/hub')">
           <span class="hub-icon">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-            </svg>
+            <Icon icon="mdi:compass" :width="18" :height="18" />
           </span>
           <span>面试中心</span>
         </button>

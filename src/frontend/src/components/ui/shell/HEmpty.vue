@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HIcon } from '@/components/ui'
-
 interface Props {
   icon?: string
   text?: string
@@ -8,7 +6,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  icon: 'search',
+  icon: 'mdi:magnify',
   text: '暂无数据',
   description: '',
 })
@@ -16,7 +14,7 @@ withDefaults(defineProps<Props>(), {
 
 <template>
   <div class="h-empty">
-    <HIcon :name="icon" :size="48" class="h-empty__icon" />
+    <Icon :icon="icon" :width="48" :height="48" class="h-empty__icon" />
     <p class="h-empty__text">{{ text }}</p>
     <p v-if="description" class="h-empty__desc">{{ description }}</p>
     <div class="h-empty__action">

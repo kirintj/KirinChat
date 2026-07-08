@@ -772,11 +772,7 @@ const saveUserConfig = async () => {
                     :disabled="!row.params || row.params.length === 0"
                     style="border-radius:20px;"
                   >
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:-2px;margin-right:4px;">
-                      <rect x="1.5" y="2.5" width="11" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
-                      <circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.1"/>
-                      <line x1="1.5" y1="5.5" x2="12.5" y2="5.5" stroke="currentColor" stroke-width="1.1"/>
-                    </svg>
+                    <Icon icon="mdi:wrench" :width="14" :height="14" style="vertical-align:-2px;margin-right:4px;" />
                     {{ row.params?.length || 0 }} 个工具
                   </HButton>
                 </div>
@@ -827,11 +823,7 @@ const saveUserConfig = async () => {
                     @click="handleDelete(row)"
                     title="删除"
                   >
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:-2px;margin-right:4px;">
-                      <path d="M2 4H12L10.5 12H3.5L2 4Z" stroke="currentColor" stroke-width="1.2"/>
-                      <line x1="5" y1="4" x2="5" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                      <line x1="9" y1="4" x2="9" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                    </svg>
+                    <Icon icon="mdi:delete" :width="14" :height="14" style="vertical-align:-2px;margin-right:4px;" />
                     删除
                   </HButton>
                   <HButton
@@ -841,11 +833,7 @@ const saveUserConfig = async () => {
                     disabled
                     :title="`${row.server_name} MCP Server 为官方所有，不能删除`"
                   >
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="vertical-align:-2px;margin-right:4px;">
-                      <path d="M2 4H12L10.5 12H3.5L2 4Z" stroke="currentColor" stroke-width="1.2"/>
-                      <line x1="5" y1="4" x2="5" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                      <line x1="9" y1="4" x2="9" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                    </svg>
+                    <Icon icon="mdi:delete" :width="14" :height="14" style="vertical-align:-2px;margin-right:4px;" />
                     删除
                   </HButton>
                 </div>
@@ -922,21 +910,16 @@ const saveUserConfig = async () => {
           <div class="modal-header">
             <h3>{{ editingServer ? '编辑MCP服务器' : '创建MCP服务器' }}</h3>
             <button class="close-btn" @click="closeDialog">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <Icon icon="mdi:close" :width="16" :height="16" />
             </button>
           </div>
-          
+
           <div class="modal-body">
             <!-- 服务器配置向导 -->
             <div class="config-wizard">
               <div class="wizard-header">
                 <div class="wizard-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="#409eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12 12L2 7L12 2L22 7L12 12Z" stroke="#409eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  <Icon icon="mdi:cube-outline" :width="24" :height="24" style="color:#409eff;" />
                 </div>
                 <div class="wizard-text">
                   <h4>{{ editingServer ? '更新服务器配置' : '配置新的MCP服务器' }}</h4>
@@ -951,9 +934,7 @@ const saveUserConfig = async () => {
                     <!-- 服务器名称 -->
                     <div class="form-group">
                       <label for="server_name">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="currentColor" stroke-width="2"/>
-                        </svg>
+                        <Icon icon="mdi:server" :width="14" :height="14" />
                         服务器名称
                       </label>
                       <input 
@@ -969,10 +950,7 @@ const saveUserConfig = async () => {
                     <!-- Logo -->
                     <div class="form-group">
                       <label>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M4 15l4-4 4 4 4-5 4 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+                        <Icon icon="mdi:image" :width="14" :height="14" />
                         Logo
                       </label>
                       <div class="logo-upload-square" @click="$refs.logoFileInput?.click()" style="cursor:pointer;">
@@ -980,15 +958,11 @@ const saveUserConfig = async () => {
                         <div v-if="formData.logo_url" class="logo-preview-square">
                           <img :src="formData.logo_url" alt="logo 预览" />
                           <div class="logo-overlay">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <Icon icon="mdi:plus" :width="20" :height="20" style="color:white;" />
                           </div>
                         </div>
                         <div v-else class="logo-upload-placeholder" :class="{ 'uploading': uploadingLogo }">
-                          <svg v-if="!uploadingLogo" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
+                          <Icon v-if="!uploadingLogo" icon="mdi:plus" :width="32" :height="32" />
                           <span v-else class="uploading-text">上传中...</span>
                         </div>
                       </div>
@@ -998,13 +972,7 @@ const saveUserConfig = async () => {
                     <!-- 服务配置 -->
                     <div class="form-group form-group-full">
                       <label for="imported_config">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          <polyline points="10,9 9,9 8,9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                        <Icon icon="mdi:file-document" :width="14" :height="14" />
                         服务配置 <span v-if="!editingServer" class="required-mark">*</span>
                       </label>
                       <div class="textarea-wrapper">
@@ -1016,21 +984,13 @@ const saveUserConfig = async () => {
                           :class="{ 'error': formErrors.imported_config }"
                         ></textarea>
                         <div class="json-indicator">
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16 3l4 4-4 4" stroke="#909399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M8 21l-4-4 4-4" stroke="#909399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M15 14l-6-6" stroke="#909399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
+                          <Icon icon="mdi:code-brackets" :width="12" :height="12" style="color:#909399;" />
                           JSON
                         </div>
                       </div>
                       <span v-if="formErrors.imported_config" class="error-text">{{ formErrors.imported_config }}</span>
                       <span v-if="editingServer" class="help-text">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <circle cx="12" cy="12" r="10" stroke="#909399" stroke-width="2"/>
-                          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="#909399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          <line x1="12" y1="17" x2="12.01" y2="17" stroke="#909399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                        <Icon icon="mdi:information" :width="14" :height="14" style="color:#909399;" />
                         编辑模式下，如果不修改配置可以保持原样，只修改需要更新的字段
                       </span>
                     </div>
@@ -1065,18 +1025,14 @@ const saveUserConfig = async () => {
           <div class="modal-header">
             <h3>{{ selectedServerName }} - 可用工具</h3>
             <button class="close-btn" @click="closeToolsDialog">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <Icon icon="mdi:close" :width="16" :height="16" />
             </button>
           </div>
           
           <div class="modal-body tools-content">
             <div v-if="selectedServerTools.length === 0" class="no-tools">
               <div class="empty-icon">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.77 3.77z" stroke="#c0c4cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <Icon icon="mdi:wrench" :width="64" :height="64" style="color:#c0c4cc;" />
               </div>
               <div class="empty-text">
                 <h3>暂无可用工具</h3>
@@ -1088,9 +1044,7 @@ const saveUserConfig = async () => {
               <div class="tools-stats">
                 <div class="stat-card">
                   <div class="stat-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.77 3.77z" stroke="#409eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <Icon icon="mdi:wrench" :width="20" :height="20" style="color:#409eff;" />
                   </div>
                   <div class="stat-info">
                     <span class="stat-number">{{ selectedServerTools.length }}</span>
@@ -1111,9 +1065,7 @@ const saveUserConfig = async () => {
                   <div class="tool-summary">
                     <div class="tool-info">
                       <div class="tool-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.77 3.77z" stroke="#409eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                        <Icon icon="mdi:wrench" :width="18" :height="18" style="color:#409eff;" />
                       </div>
                       <div class="tool-text">
                         <h4 class="tool-name">{{ tool.name }}</h4>
@@ -1121,9 +1073,7 @@ const saveUserConfig = async () => {
                       </div>
                     </div>
                     <div class="tool-expand-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <polyline points="6 9 12 15 18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
+                      <Icon icon="mdi:chevron-down" :width="20" :height="20" />
                     </div>
                   </div>
                   
@@ -1132,10 +1082,7 @@ const saveUserConfig = async () => {
                     <div v-if="expandedToolIndex === index" class="tool-details" @click.stop>
                       <div class="tool-schema" v-if="tool.input_schema">
                         <div class="schema-header">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <polyline points="16 18 22 12 16 6" stroke="#409eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <polyline points="8 6 2 12 8 18" stroke="#409eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
+                          <Icon icon="mdi:code-brackets" :width="16" :height="16" style="color:#409eff;" />
                           <span>参数结构</span>
                         </div>
                         
@@ -1153,10 +1100,7 @@ const saveUserConfig = async () => {
                           
                           <div v-if="tool.input_schema.required?.length" class="required-section">
                             <div class="section-title">
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#f56c6c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M9 12l2 2 4-4" stroke="#f56c6c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                              </svg>
+                              <Icon icon="mdi:shield-check" :width="14" :height="14" style="color:#f56c6c;" />
                               <span>必填参数</span>
                             </div>
                             <div class="required-params">
@@ -1172,11 +1116,7 @@ const saveUserConfig = async () => {
                           
                           <div v-if="tool.input_schema.properties" class="properties-section">
                             <div class="section-title">
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="#67c23a" stroke-width="2"/>
-                                <circle cx="8.5" cy="8.5" r="1.5" stroke="#67c23a" stroke-width="2"/>
-                                <path d="M21 15l-5-5L5 21l5-5z" stroke="#67c23a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                              </svg>
+                              <Icon icon="mdi:image" :width="14" :height="14" style="color:#67c23a;" />
                               <span>参数详情</span>
                             </div>
                             <div class="properties-grid">
@@ -1225,9 +1165,7 @@ const saveUserConfig = async () => {
               <span class="config-title">个人配置</span>
             </h3>
             <button class="close-btn" @click="closeConfigDialog">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <Icon icon="mdi:close" :width="16" :height="16" />
             </button>
           </div>
           
@@ -1236,10 +1174,7 @@ const saveUserConfig = async () => {
             <div class="config-info">
               <div class="info-card">
                 <div class="info-icon">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" stroke="#409eff" stroke-width="2"/>
-                    <path d="M9 12l2 2 4-4" stroke="#409eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  <Icon icon="mdi:check-circle" :width="22" :height="22" style="color:#409eff;" />
                 </div>
                 <div class="info-text">
                   <h4>个人配置</h4>
@@ -1256,22 +1191,14 @@ const saveUserConfig = async () => {
                   @click="insertExampleConfig" 
                   title="插入示例配置"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  <Icon icon="mdi:plus" :width="16" :height="16" />
                   <span>插入示例</span>
                 </button>
               </div>
               <div class="toolbar-right">
                 <span class="validation-status" :class="{ 'is-valid': configStatus.valid, 'is-invalid': !configStatus.valid }">
-                  <svg v-if="configStatus.valid" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                  </svg>
-                  <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                    <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  <Icon v-if="configStatus.valid" icon="mdi:check-circle" :width="16" :height="16" />
+                  <Icon v-else icon="mdi:alert-circle" :width="16" :height="16" />
                   <span>{{ configStatus.valid ? 'JSON有效' : configStatus.message }}</span>
                 </span>
               </div>
@@ -1285,11 +1212,7 @@ const saveUserConfig = async () => {
             <!-- 帮助说明 -->
             <div class="config-help">
               <h4 class="help-title">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" stroke="#409eff" stroke-width="2"/>
-                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="#409eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <line x1="12" y1="17" x2="12.01" y2="17" stroke="#409eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <Icon icon="mdi:information" :width="16" :height="16" style="color:#409eff;" />
                 配置说明
               </h4>
               <div class="help-content">
@@ -1343,17 +1266,11 @@ const saveUserConfig = async () => {
         <div class="modal-dialog delete-dialog">
           <div class="modal-header delete-header">
             <div class="warning-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="#f56c6c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="rgba(245, 108, 108, 0.1)"/>
-                <line x1="12" y1="9" x2="12" y2="13" stroke="#f56c6c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <line x1="12" y1="17" x2="12.01" y2="17" stroke="#f56c6c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <Icon icon="mdi:alert" :width="24" :height="24" style="color:#f56c6c;" />
             </div>
             <h3>确认删除</h3>
             <button class="close-btn" @click="closeDeleteDialog">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <Icon icon="mdi:close" :width="16" :height="16" />
             </button>
           </div>
           
@@ -1366,27 +1283,15 @@ const saveUserConfig = async () => {
               </p>
               <div class="warning-details">
                 <div class="detail-item">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" stroke="#e6a23c" stroke-width="2"/>
-                    <path d="M12 8v4" stroke="#e6a23c" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M12 16h.01" stroke="#e6a23c" stroke-width="2" stroke-linecap="round"/>
-                  </svg>
+                  <Icon icon="mdi:alert-circle" :width="16" :height="16" style="color:#e6a23c;" />
                   <span>此操作将永久删除该服务器配置</span>
                 </div>
                 <div class="detail-item">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" stroke="#e6a23c" stroke-width="2"/>
-                    <path d="M12 8v4" stroke="#e6a23c" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M12 16h.01" stroke="#e6a23c" stroke-width="2" stroke-linecap="round"/>
-                  </svg>
+                  <Icon icon="mdi:alert-circle" :width="16" :height="16" style="color:#e6a23c;" />
                   <span>相关的工具和配置也将被移除</span>
                 </div>
                 <div class="detail-item">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" stroke="#e6a23c" stroke-width="2"/>
-                    <path d="M12 8v4" stroke="#e6a23c" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M12 16h.01" stroke="#e6a23c" stroke-width="2" stroke-linecap="round"/>
-                  </svg>
+                  <Icon icon="mdi:alert-circle" :width="16" :height="16" style="color:#e6a23c;" />
                   <span>此操作不可恢复，请谨慎操作</span>
                 </div>
               </div>
@@ -1404,12 +1309,7 @@ const saveUserConfig = async () => {
               class="btn btn-danger"
             >
               <span v-if="formLoading" class="loading-spinner"></span>
-              <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <line x1="10" y1="11" x2="10" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <line x1="14" y1="11" x2="14" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <Icon v-else icon="mdi:delete" :width="16" :height="16" />
               确认删除
             </button>
           </div>

@@ -184,13 +184,7 @@ watch(
         tabindex="-1"
         @click="onClear"
       >
-        <!-- 用 SVG 图标代替字符，更清晰且支持 hover 放大 -->
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-          <path
-            d="M6.22 6.22a.75.75 0 0 1 1.06 0L12 10.94l4.72-4.72a.75.75 0 1 1 1.06 1.06L13.06 12l4.72 4.72a.75.75 0 1 1-1.06 1.06L12 13.06l-4.72 4.72a.75.75 0 1 1-1.06-1.06L10.94 12 6.22 7.28a.75.75 0 0 1 0-1.06Z"
-            fill="currentColor"
-          />
-        </svg>
+        <Icon icon="mdi:close" :width="16" :height="16" aria-hidden="true" />
       </button>
 
       <button
@@ -202,18 +196,8 @@ watch(
         tabindex="-1"
         @click="togglePassword"
       >
-        <svg v-if="!passwordVisible" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-          <path
-            d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
-            fill="currentColor"
-          />
-        </svg>
-        <svg v-else viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-          <path
-            d="M3.22 3.22a.75.75 0 0 1 1.06 0l16.5 16.5a.75.75 0 1 1-1.06 1.06l-2.2-2.2A12.5 12.5 0 0 1 12 19C5 19 1 12 1 12a17 17 0 0 1 4.58-4.8L3.22 4.28a.75.75 0 0 1 0-1.06ZM17.4 13.16A5 5 0 0 0 10.84 6.6L8.72 4.48A12.7 12.7 0 0 1 12 4c7 0 11 7 11 7a17.4 17.4 0 0 1-3.72 4.1l-1.88-1.93ZM6.6 9.76l1.88 1.88a5 5 0 0 0 5.76 5.76l1.4 1.4A12.5 12.5 0 0 1 12 19C5 19 1 12 1 12a17.4 17.4 0 0 1 5.6-4.24Zm4.96 2.46a3 3 0 0 1 3.22 3.22l-3.22-3.22Z"
-            fill="currentColor"
-          />
-        </svg>
+        <Icon v-if="!passwordVisible" icon="mdi:eye" :width="18" :height="18" aria-hidden="true" />
+        <Icon v-else icon="mdi:eye-off" :width="18" :height="18" aria-hidden="true" />
       </button>
 
       <slot name="suffix" />

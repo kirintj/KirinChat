@@ -144,19 +144,14 @@ onMounted(async () => {
           <span class="session-count">{{ sessions.length }}</span>
         </div>
         <button class="new-session-btn" @click="createNewSession">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+          <Icon icon="mdi:plus" :width="16" :height="16" />
           <span>新建会话</span>
         </button>
       </div>
 
       <!-- 搜索 -->
       <div class="search-box">
-        <svg class="search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/>
-          <path d="M9.5 9.5L13 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        </svg>
+        <Icon class="search-icon" icon="mdi:magnify" :width="14" :height="14" />
         <input
           v-model="searchQuery"
           type="text"
@@ -175,19 +170,13 @@ onMounted(async () => {
 
         <!-- 搜索无结果 -->
         <div v-else-if="searchQuery && filteredSessions.length === 0" class="state-box">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
-            <circle cx="11" cy="11" r="7"/>
-            <path d="M16.5 16.5L21 21" stroke-linecap="round"/>
-          </svg>
+          <Icon icon="mdi:magnify" :width="36" :height="36" style="opacity: 0.3;" />
           <p class="state-text">未找到匹配会话</p>
         </div>
 
         <!-- 空态 -->
         <div v-else-if="sessions.length === 0" class="state-box">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
-            <rect x="3" y="3" width="18" height="18" rx="3"/>
-            <path d="M9 12H15M12 9V15" stroke-linecap="round"/>
-          </svg>
+          <Icon icon="mdi:plus-box-outline" :width="36" :height="36" style="opacity: 0.3;" />
           <p class="state-text">暂无会话记录</p>
           <p class="state-hint">点击上方按钮创建新会话</p>
         </div>
@@ -210,9 +199,7 @@ onMounted(async () => {
             <div class="card-time">{{ formatTime(session.createTime) }}</div>
           </div>
           <button class="card-delete" @click="deleteSession(session.sessionId, $event)" title="删除会话">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-            </svg>
+            <Icon icon="mdi:close" :width="14" :height="14" />
           </button>
         </div>
       </div>

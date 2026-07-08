@@ -375,21 +375,14 @@ const closeCreateDialog = () => {
         <!-- 加载状态 -->
         <div v-if="loading" class="loading-state">
           <div class="loading-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5" opacity="0.2"/>
-              <path d="M12 22C6.47715 22 2 17.5228 2 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
+            <Icon icon="mdi:loading" :width="24" :height="24" class="spinning" />
           </div>
           <div class="loading-text">正在加载会话列表...</div>
         </div>
         <!-- 空状态 -->
         <div v-else-if="filteredDialogs.length === 0" class="empty-state">
           <div class="empty-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M4 4H20C21.1046 4 22 4.89543 22 6V16C22 17.1046 21.1046 18 20 18H8L4 21V6C4 4.89543 4.89543 4 4 4Z" stroke="currentColor" stroke-width="1.5"/>
-              <line x1="8" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-              <line x1="8" y1="13" x2="14" y2="13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-            </svg>
+            <Icon icon="mdi:message-text" :width="24" :height="24" />
           </div>
           <div class="empty-text">
             {{ searchKeyword ? '没有找到相关会话' : '暂无会话记录' }}
@@ -469,20 +462,14 @@ const closeCreateDialog = () => {
         <!-- 智能体搜索框 -->
         <div class="search-section">
           <div class="search-wrapper">
-            <svg class="search-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
-              <path d="M12.5 12.5L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+            <Icon icon="mdi:magnify" :width="18" :height="18" class="search-icon" />
             <input
               v-model="agentSearchKeyword"
               placeholder="搜索智能体名称或描述..."
               class="search-input"
             />
             <div v-if="agentSearchKeyword" class="clear-btn" @click="agentSearchKeyword = ''">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.1"/>
-                <path d="M10 6L6 10M6 6L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
+              <Icon icon="mdi:close" :width="16" :height="16" />
             </div>
           </div>
         </div>
@@ -491,12 +478,7 @@ const closeCreateDialog = () => {
         <div class="agents-section">
           <div class="section-header">
             <div class="header-left">
-              <svg class="section-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <rect x="3" y="3" width="14" height="14" rx="3" stroke="currentColor" stroke-width="2"/>
-                <circle cx="7" cy="8" r="1.5" fill="currentColor"/>
-                <circle cx="13" cy="8" r="1.5" fill="currentColor"/>
-                <path d="M7 12C7 12 8 13.5 10 13.5C12 13.5 13 12 13 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
+              <Icon icon="mdi:robot" :width="20" :height="20" class="section-icon" />
               <span class="title">可用智能体</span>
               <span class="count">{{ filteredAgents.length }}</span>
             </div>
@@ -543,10 +525,7 @@ const closeCreateDialog = () => {
                 <div class="agent-avatar">
                   <img :src="agent.logo_url" alt="" />
                   <div v-if="selectedAgent === ((agent as any).id || agent.agent_id)" class="avatar-badge">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <circle cx="10" cy="10" r="10" fill="white"/>
-                      <path d="M6 10L9 13L14 8" stroke="#667eea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <Icon icon="mdi:check-circle" :width="20" :height="20" />
                   </div>
                 </div>
                 <div class="agent-info">
@@ -561,10 +540,7 @@ const closeCreateDialog = () => {
 
       <div class="dialog-footer">
         <div class="footer-info">
-          <svg class="info-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M8 7V11M8 5V5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+          <Icon icon="mdi:information" :width="16" :height="16" class="info-icon" />
           <span v-if="selectedAgent">
             已选择: {{ agents.find(a => (a.agent_id === selectedAgent || (a as any).id === selectedAgent))?.name || '未知' }}
           </span>
@@ -579,9 +555,7 @@ const closeCreateDialog = () => {
             :disabled="!selectedAgent"
             class="btn-confirm"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+            <Icon icon="mdi:plus" :width="16" :height="16" />
             <span>创建会话</span>
           </button>
         </div>

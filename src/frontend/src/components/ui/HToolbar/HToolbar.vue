@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HIcon } from '@/components/ui'
-
 interface ToolbarItem {
   key: string
   icon: string
@@ -30,7 +28,7 @@ const emit = defineEmits<{ click: [key: string] }>()
       :title="item.label"
       @click="emit('click', item.key)"
     >
-      <HIcon :name="item.icon" :size="24" />
+      <Icon :icon="item.icon" :width="24" :height="24" />
       <span v-if="item.label" class="h-toolbar__label">{{ item.label }}</span>
     </button>
   </div>

@@ -727,12 +727,7 @@ const getNodeColor = (status: string) => {
       <div class="column column-guide">
         <div class="column-header">
           <span class="header-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M4 2H10L14 6V16C14 16.5523 13.5523 17 13 17H4C3.44772 17 3 16.5523 3 16V3C3 2.44772 3.44772 2 4 2Z" stroke="currentColor" stroke-width="1.3"/>
-              <path d="M10 2V6H14" stroke="currentColor" stroke-width="1.3"/>
-              <line x1="6" y1="9" x2="12" y2="9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-              <line x1="6" y1="12" x2="12" y2="12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-            </svg>
+            <Icon icon="mdi:file-document" :width="18" :height="18" />
           </span>
           <h2 class="header-title">指导手册</h2>
           <!-- 编辑/预览切换 -->
@@ -779,13 +774,7 @@ const getNodeColor = (status: string) => {
                 </div>
                 <div v-else class="empty-placeholder">
                   <span class="empty-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.3"/>
-                <line x1="9" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                <line x1="9" y1="12" x2="15" y2="12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                <line x1="9" y1="16" x2="12" y2="16" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                <path d="M9 2H12C13.1046 2 14 2.89543 14 4V4H9V2Z" stroke="currentColor" stroke-width="1.3"/>
-              </svg>
+              <Icon icon="mdi:file-document-outline" :width="32" :height="32" style="opacity: 0.25;" />
             </span>
                   <p v-if="isGeneratingGuide">正在生成指导手册...</p>
                   <p v-else-if="isHistoryMode">正在加载历史数据...</p>
@@ -802,25 +791,18 @@ const getNodeColor = (status: string) => {
                 class="action-btn regenerate-btn"
               >
                 <span class="btn-icon">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M1 7C1 3.68629 3.68629 1 7 1C9.5 1 11.6424 2.54029 12.5 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                    <path d="M13 7C13 10.3137 10.3137 13 7 13C4.5 13 2.35758 11.4597 1.5 9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                    <path d="M12.5 1V4.5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M1.5 13V9.5H5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  <Icon icon="mdi:refresh" :width="14" :height="14" />
                 </span>
                 <span class="btn-text">重新生成</span>
               </button>
-              
+
               <button
                 @click="handleStartTask"
                 :disabled="isGeneratingGuide || !guidePrompt || isStreaming"
                 class="action-btn start-btn"
               >
                 <span class="btn-icon">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M3 1.5L11.5 7L3 12.5V1.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
-                  </svg>
+                  <Icon icon="mdi:play" :width="14" :height="14" />
                 </span>
                 <span class="btn-text">开始执行</span>
               </button>
@@ -833,13 +815,7 @@ const getNodeColor = (status: string) => {
       <div class="column column-graph">
         <div class="column-header">
           <span class="header-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <circle cx="5" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3"/>
-              <circle cx="13" cy="9" r="2.5" stroke="currentColor" stroke-width="1.3"/>
-              <circle cx="5" cy="13" r="2.5" stroke="currentColor" stroke-width="1.3"/>
-              <path d="M7 5H10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-              <path d="M13 9L7 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-            </svg>
+            <Icon icon="mdi:graph-outline" :width="18" :height="18" />
           </span>
           <h2 class="header-title">任务流程</h2>
           <span v-if="isStreaming" class="status-badge streaming">
@@ -960,13 +936,7 @@ const getNodeColor = (status: string) => {
 
           <div v-else class="empty-placeholder">
             <span class="empty-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <circle cx="7" cy="7" r="3.5" stroke="currentColor" stroke-width="1.3"/>
-                <circle cx="17" cy="12" r="3.5" stroke="currentColor" stroke-width="1.3"/>
-                <circle cx="7" cy="17" r="3.5" stroke="currentColor" stroke-width="1.3"/>
-                <path d="M10 7H14.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                <path d="M17 12L10 17" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-              </svg>
+              <Icon icon="mdi:graph-outline" :width="32" :height="32" style="opacity: 0.25;" />
             </span>
             <p>等待任务图生成...</p>
           </div>
@@ -977,10 +947,7 @@ const getNodeColor = (status: string) => {
       <div class="column column-result">
         <div class="column-header">
           <span class="header-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <rect x="2" y="2" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.3"/>
-              <path d="M5 9L7.5 11.5L13 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <Icon icon="mdi:check-circle" :width="18" :height="18" />
           </span>
           <h2 class="header-title">任务结果</h2>
           <span v-if="isReceivingResult" class="status-badge streaming">
@@ -1003,10 +970,7 @@ const getNodeColor = (status: string) => {
           </div>
           <div v-else class="empty-placeholder">
             <span class="empty-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.3"/>
-                <path d="M7 12L10.5 15.5L17 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <Icon icon="mdi:check-circle-outline" :width="32" :height="32" style="opacity: 0.25;" />
             </span>
             <p>等待任务结果...</p>
           </div>
@@ -1019,7 +983,7 @@ const getNodeColor = (status: string) => {
       <div class="modal-content" @click.stop>
         <div class="modal-header">
           <h3 class="modal-title">节点详情</h3>
-          <button class="modal-close" @click="closeNodeDetail">✕</button>
+          <button class="modal-close" @click="closeNodeDetail"><Icon icon="mdi:close" :width="18" :height="18" /></button>
         </div>
         <div class="modal-body">
           <div class="detail-item">
@@ -1052,7 +1016,7 @@ const getNodeColor = (status: string) => {
       <div class="feedback-modal">
         <div class="modal-header">
           <h3 class="modal-title">重新生成指导手册</h3>
-          <button @click="handleCancelRegenerate" class="modal-close">✕</button>
+          <button @click="handleCancelRegenerate" class="modal-close"><Icon icon="mdi:close" :width="18" :height="18" /></button>
         </div>
         
         <div class="modal-body">

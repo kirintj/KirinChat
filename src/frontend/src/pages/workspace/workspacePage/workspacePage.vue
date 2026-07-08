@@ -416,11 +416,7 @@ const handleStartTask = () => {
         <div class="history-header">
           <div class="header-left">
             <span class="history-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M4 4H20C21.1046 4 22 4.89543 22 6V16C22 17.1046 21.1046 18 20 18H8L4 21V6C4 4.89543 4.89543 4 4 4Z" stroke="currentColor" stroke-width="1.5"/>
-                <line x1="8" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                <line x1="8" y1="13" x2="14" y2="13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-              </svg>
+              <Icon icon="mdi:message-text" :width="20" :height="20" />
             </span>
             <h2 class="history-title">对话历史</h2>
           </div>
@@ -443,9 +439,7 @@ const handleStartTask = () => {
                 <span class="conversation-preview">{{ context.query.substring(0, 100) }}{{ context.query.length > 100 ? '...' : '' }}</span>
               </div>
               <div :class="['expand-icon', { expanded: expandedItems.has(index) }]">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M4 2L8 6L4 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <Icon icon="mdi:chevron-right" :width="12" :height="12" />
               </div>
             </div>
             
@@ -455,10 +449,7 @@ const handleStartTask = () => {
               <div class="message-block user-block">
                 <div class="message-header">
                   <span class="message-icon">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                      <circle cx="9" cy="6" r="3" stroke="currentColor" stroke-width="1.3"/>
-                      <path d="M3 16C3 13.2386 5.68629 11 9 11C12.3137 11 15 13.2386 15 16" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                    </svg>
+                    <Icon icon="mdi:account" :width="16" :height="16" />
                   </span>
                   <span class="message-title">用户提问</span>
                 </div>
@@ -474,14 +465,7 @@ const handleStartTask = () => {
               <div class="message-block ai-block">
                 <div class="message-header">
                   <span class="message-icon">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                      <rect x="2" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/>
-                      <circle cx="6" cy="10" r="1.5" fill="currentColor"/>
-                      <circle cx="12" cy="10" r="1.5" fill="currentColor"/>
-                      <path d="M9 5V2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                      <path d="M6 2H12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                      <line x1="4" y1="13" x2="14" y2="13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                    </svg>
+                    <Icon icon="mdi:robot" :width="16" :height="16" />
                   </span>
                   <span class="message-title">AI回答</span>
                 </div>
@@ -502,12 +486,7 @@ const handleStartTask = () => {
         <div class="editor-header">
           <div class="header-left">
             <span class="editor-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M4 2H11L16 7V17C16 17.5523 15.5523 18 15 18H4C3.44772 18 3 17.5523 3 17V3C3 2.44772 3.44772 2 4 2Z" stroke="currentColor" stroke-width="1.3"/>
-              <path d="M11 2V7H16" stroke="currentColor" stroke-width="1.3"/>
-              <line x1="6" y1="10" x2="13" y2="10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-              <line x1="6" y1="13" x2="13" y2="13" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-            </svg>
+            <Icon icon="mdi:file-document" :width="18" :height="18" />
           </span>
           <span class="editor-title">麒麟智聊指导手册</span>
           </div>
@@ -518,10 +497,7 @@ const handleStartTask = () => {
             </span>
             <span v-else-if="isEditable" class="editable-indicator">
               <span class="edit-icon">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M2 12L10 4L12 6L4 14L2 12Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
-                    <path d="M8 2L14 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                  </svg>
+                  <Icon icon="mdi:pencil" :width="16" :height="16" />
                 </span>
                 <span class="edit-text">可编辑</span>
             </span>
@@ -563,25 +539,18 @@ const handleStartTask = () => {
             class="action-btn regenerate-btn"
           >
             <span class="btn-icon">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M2 8C2 4.68629 4.68629 2 8 2C10.5 2 12.6424 3.54029 13.5 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                    <path d="M14 8C14 11.3137 11.3137 14 8 14C5.5 14 3.35758 12.4597 2.5 10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                    <path d="M14 2V5.5H10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M2 14V10.5H5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  <Icon icon="mdi:refresh" :width="16" :height="16" />
                 </span>
                 <span class="btn-text">重新生成</span>
           </button>
-          
+
           <button
             @click="handleStartTask"
             :disabled="isStreaming || !guidePrompt.trim()"
             class="action-btn start-btn"
           >
             <span class="btn-icon">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 2L12.5 8L3 14V2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
-                  </svg>
+                  <Icon icon="mdi:play" :width="16" :height="16" />
                 </span>
                 <span class="btn-text">开始执行</span>
           </button>
@@ -595,7 +564,7 @@ const handleStartTask = () => {
         <div class="modal-header">
           <h3 class="modal-title">重新生成指导手册</h3>
           <button @click="handleCancelRegenerate" class="close-btn">
-            <span>×</span>
+            <Icon icon="mdi:close" :width="18" :height="18" />
           </button>
         </div>
         

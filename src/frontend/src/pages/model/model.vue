@@ -533,7 +533,7 @@ onMounted(() => {
                 class="form-input api-key-input"
               />
               <span class="toggle-password" @click="showApiKey = !showApiKey">
-                <HIcon :svg="showApiKey ? 'eye' : 'eye-off'" :size="20" />
+                <Icon :icon="showApiKey ? 'mdi:eye' : 'mdi:eye-off'" :width="20" :height="20" />
               </span>
             </div>
           </div>
@@ -590,14 +590,14 @@ onMounted(() => {
         :key="model.llm_id"
         class="mm-item"
       >
-        <div class="mm-item__icon"><HIcon svg="model" :size="20" /></div>
+        <div class="mm-item__icon"><Icon icon="mdi:brain" :width="20" :height="20" /></div>
         <div class="mm-item__content">
           <h3 class="mm-item__name">{{ model.model }}</h3>
           <p class="mm-item__provider">{{ model.provider }}</p>
         </div>
         <div class="mm-item__actions">
-          <button class="mm-action" @click="openEditDialog(model)"><HIcon svg="edit" :size="16" /></button>
-          <button class="mm-action mm-action--danger" @click="deleteModel(model)"><HIcon svg="delete" :size="16" /></button>
+          <button class="mm-action" @click="openEditDialog(model)"><Icon icon="mdi:pencil" :width="16" :height="16" /></button>
+          <button class="mm-action mm-action--danger" @click="deleteModel(model)"><Icon icon="mdi:delete" :width="16" :height="16" /></button>
         </div>
       </div>
     </div>

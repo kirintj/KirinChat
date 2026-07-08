@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HIcon } from '@/components/ui'
-
 interface Props {
   variant?: 'single' | 'icondot' | 'iconsingle' | '2lines' | 'icon2lines' | '3lines'
   clickable?: boolean

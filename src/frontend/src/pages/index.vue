@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, ref, computed, onMounted } from "vue"
 import { useRouter, useRoute } from "vue-router"
-import { HMessage, HIcon, HDrawer, HStatusbar, HTitlebar, HBottomTab } from '@/components/ui'
+import { HMessage, HDrawer, HStatusbar, HTitlebar, HBottomTab } from '@/components/ui'
 import { useAgentCardStore } from "../store/agent_card"
 import { useUserStore } from "../store/user"
 import { logoutAPI, getUserInfoAPI } from "../apis/auth"
@@ -38,7 +38,7 @@ const goCurrent = (key: string) => {
 /* ---- mobile bottom tab ---- */
 const bottomTabItems = [
   ...coreTabs.map(t => ({ key: t.key, label: t.label, icon: t.icon })),
-  { key: '__more__', label: '更多', icon: 'set' },
+  { key: '__more__', label: '更多', icon: 'mdi:cog' },
 ]
 const currentTabKey = computed(() => {
   const match = coreTabs.find(t => route.path.startsWith(t.route))
@@ -141,7 +141,7 @@ onMounted(async () => {
               :title="sidebarCollapsed ? item.label : ''"
             >
               <div class="menu-icon">
-                <HIcon :svg="item.icon" :size="18" />
+                <Icon :icon="item.icon" :width="18" :height="18" />
               </div>
               <span v-if="!sidebarCollapsed" class="menu-text">{{ item.label }}</span>
             </div>
@@ -218,7 +218,7 @@ onMounted(async () => {
           class="more-grid__card"
           @click="goCurrent(item.key); showMoreDrawer = false"
         >
-          <HIcon :svg="item.icon" :size="28" />
+          <Icon :icon="item.icon" :width="28" :height="28" />
           <span class="more-grid__label">{{ item.label }}</span>
         </div>
       </div>

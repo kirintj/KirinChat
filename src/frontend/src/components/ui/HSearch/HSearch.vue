@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { HIcon } from '@/components/ui'
 
 interface Props {
   modelValue?: string
@@ -46,7 +45,7 @@ const onKeydown = (e: KeyboardEvent) => {
       'h-search--disabled': disabled,
     }"
   >
-    <HIcon name="Search" :size="16" class="h-search__icon" />
+    <Icon icon="mdi:magnify" :width="16" :height="16" class="h-search__icon" />
     <input
       v-model="inputValue"
       class="h-search__input"
@@ -61,7 +60,7 @@ const onKeydown = (e: KeyboardEvent) => {
       class="h-search__clear"
       @click="onClear"
     >
-      <HIcon name="Close" :size="14" />
+      <Icon icon="mdi:close" :width="14" :height="14" />
     </button>
   </div>
 </template>

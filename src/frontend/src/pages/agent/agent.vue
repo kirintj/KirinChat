@@ -154,10 +154,7 @@ onMounted(() => {
 
       <div class="header-right">
         <div class="search-box">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="search-icon">
-            <circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/>
-            <path d="M9.5 9.5L13 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-          </svg>
+          <Icon icon="mdi:magnify" :width="14" :height="14" class="search-icon" />
           <input
             v-model="searchKeyword"
             class="search-input"
@@ -165,25 +162,16 @@ onMounted(() => {
             @keyup.enter="searchAgents"
           />
           <button v-if="searchKeyword" class="search-clear" @click="clearSearch" title="清空">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M3 3L9 9M9 3L3 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
+            <Icon icon="mdi:close" :width="12" :height="12" />
           </button>
         </div>
 
         <button class="btn-refresh" @click="fetchAgents" :disabled="loading" title="刷新">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" :class="{ spinning: loading }">
-            <path d="M13.5 5.5H8V0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2.5 10.5H8V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M13 4.5C11.8 2.5 9.6 1.2 7 1.2C2.9 1.2 -0.3 4.5 0.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M3 11.5C4.2 13.5 6.4 14.8 9 14.8C13.1 14.8 16.3 11.5 15.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+          <Icon icon="mdi:refresh" :width="16" :height="16" :class="{ spinning: loading }" />
         </button>
 
         <button class="btn-primary" @click="createAgent">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 3V11M3 7H11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
+          <Icon icon="mdi:plus" :width="14" :height="14" />
           <span>创建智能体</span>
         </button>
       </div>
@@ -226,9 +214,7 @@ onMounted(() => {
             @click.stop="deleteAgent(agent)"
             title="删除"
           >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M2.5 3H9.5M8.5 3V10.5C8.5 10.8 8.3 11 8 11H4C3.7 11 3.5 10.8 3.5 10.5V3M4 3V2C4 1.7 4.2 1.5 4.5 1.5H7.5C7.8 1.5 8 1.7 8 2V3M5 5.5V9.5M7 5.5V9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <Icon icon="mdi:delete" :width="12" :height="12" />
           </button>
 
           <!-- 卡片主体 -->
@@ -262,32 +248,19 @@ onMounted(() => {
           <!-- 元数据 -->
           <div class="agent-meta">
             <div class="meta-item" title="工具">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M3.5 2.5L8.5 7.5L7.5 8.5L2.5 3.5L3.5 2.5Z" stroke="currentColor" stroke-width="1"/>
-                <path d="M2 4L4 2L10 8L8 10L2 4Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
-                <circle cx="9.5" cy="9.5" r="1.5" stroke="currentColor" stroke-width="1"/>
-              </svg>
+              <Icon icon="mdi:wrench" :width="12" :height="12" />
               <span>{{ getAgentMeta(agent).tools }}</span>
             </div>
             <div class="meta-item" title="知识库">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <rect x="2" y="2" width="3" height="8" rx="0.5" stroke="currentColor" stroke-width="1"/>
-                <rect x="5.5" y="2" width="3" height="8" rx="0.5" stroke="currentColor" stroke-width="1"/>
-                <path d="M9 2.5H10C10.3 2.5 10.5 2.7 10.5 3V9.5C10.5 9.8 10.3 10 10 10H9" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-              </svg>
+              <Icon icon="mdi:book-open-page-variant" :width="12" :height="12" />
               <span>{{ getAgentMeta(agent).knowledge }}</span>
             </div>
             <div class="meta-item" title="MCP">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <rect x="2" y="2" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1"/>
-                <path d="M4 6H8M6 4V8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-              </svg>
+              <Icon icon="mdi:plus-box" :width="12" :height="12" />
               <span>{{ getAgentMeta(agent).mcp }}</span>
             </div>
             <div class="meta-item" title="技能">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M6 1L7.5 4.5L11 5L8.5 7.5L9 11L6 9.5L3 11L3.5 7.5L1 5L4.5 4.5L6 1Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
-              </svg>
+              <Icon icon="mdi:star" :width="12" :height="12" />
               <span>{{ getAgentMeta(agent).skills }}</span>
             </div>
           </div>
@@ -319,9 +292,7 @@ onMounted(() => {
           查看所有智能体
         </button>
         <button v-else class="btn-primary empty-cta" @click="createAgent">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 3V11M3 7H11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
+          <Icon icon="mdi:plus" :width="14" :height="14" />
           <span>创建智能体</span>
         </button>
       </div>
@@ -331,9 +302,7 @@ onMounted(() => {
     <div v-if="showConfirmDialog" class="dialog-overlay" @click.self="cancelDelete">
       <div class="dialog-card">
         <div class="dialog-icon danger">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L13.5 8.5L20 10L14.5 11.5L12 18L9.5 11.5L4 10L10.5 8.5L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-          </svg>
+          <Icon icon="mdi:alert" :width="24" :height="24" />
         </div>
         <h3 class="dialog-title">确认删除</h3>
         <p class="dialog-body">

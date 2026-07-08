@@ -347,11 +347,7 @@ onMounted(async () => {
           <!-- 基本信息卡片 -->
           <div class="card">
             <div class="card-header">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/>
-                <circle cx="10" cy="6" r="1.5" fill="currentColor"/>
-                <path d="M4 10L8 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-              </svg>
+              <Icon icon="mdi:image" :width="16" :height="16" />
               <span class="card-title">基本信息</span>
             </div>
             <div class="card-body">
@@ -403,10 +399,7 @@ onMounted(async () => {
           <!-- 系统提示词卡片 -->
           <div class="card card-grow">
             <div class="card-header">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/>
-                <path d="M5 6H11M5 8.5H11M5 11H8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-              </svg>
+              <Icon icon="mdi:file-document" :width="16" :height="16" />
               <span class="card-title">系统提示词</span>
               <span class="card-subtitle">定义智能体的角色、能力和行为规范</span>
             </div>
@@ -429,10 +422,7 @@ onMounted(async () => {
           <div class="card config-card">
             <div class="card-header collapsible" @click="toggleCollapse('aiModel')">
               <div class="header-group">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/>
-                  <circle cx="8" cy="8" r="2" fill="currentColor"/>
-                </svg>
+                <Icon icon="mdi:circle" :width="16" :height="16" />
                 <span class="card-title">AI模型</span>
                 <HTag type="warning" size="small">核心</HTag>
               </div>
@@ -469,10 +459,7 @@ onMounted(async () => {
           <div class="card config-card">
             <div class="card-header collapsible" @click="toggleCollapse('memory')">
               <div class="header-group">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M8 2C5.5 2 3.5 4 3.5 6.5C3.5 9 8 13 8 13C8 13 12.5 9 12.5 6.5C12.5 4 10.5 2 8 2Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M8 6V9M6 7.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                </svg>
+                <Icon icon="mdi:heart" :width="16" :height="16" />
                 <span class="card-title">记忆功能</span>
                 <HTag :type="formData.enable_memory ? 'success' : 'default'" size="small">
                   {{ formData.enable_memory ? '已开启' : '已关闭' }}
@@ -510,12 +497,7 @@ onMounted(async () => {
           <div class="card config-card">
             <div class="card-header collapsible" @click="toggleCollapse('knowledge')">
               <div class="header-group">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <rect x="2" y="2" width="4" height="12" rx="1" stroke="currentColor" stroke-width="1.3"/>
-                  <rect x="6" y="2" width="4" height="12" rx="1" stroke="currentColor" stroke-width="1.3"/>
-                  <path d="M11 3H12.5C12.78 3 13 3.22 13 3.5V12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                  <path d="M11 13H12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                </svg>
+                <Icon icon="mdi:book-open-page-variant" :width="16" :height="16" />
                 <span class="card-title">知识库</span>
                 <span v-if="formData.knowledge_ids.length > 0" class="count-badge">{{ formData.knowledge_ids.length }}</span>
               </div>
@@ -554,10 +536,7 @@ onMounted(async () => {
           <div class="card config-card">
             <div class="card-header collapsible" @click="toggleCollapse('tools')">
               <div class="header-group">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M4 2L14 12L12 14L2 4L4 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
-                  <path d="M2 4L6 8M10 12L14 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                </svg>
+                <Icon icon="mdi:wrench" :width="16" :height="16" />
                 <span class="card-title">工具</span>
                 <span v-if="formData.tool_ids.length > 0" class="count-badge">{{ formData.tool_ids.length }}</span>
               </div>
@@ -596,10 +575,7 @@ onMounted(async () => {
           <div class="card config-card">
             <div class="card-header collapsible" @click="toggleCollapse('mcp')">
               <div class="header-group">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/>
-                  <path d="M5 7H11M8 4V10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                </svg>
+                <Icon icon="mdi:server" :width="16" :height="16" />
                 <span class="card-title">MCP服务</span>
                 <span v-if="formData.mcp_ids.length > 0" class="count-badge">{{ formData.mcp_ids.length }}</span>
               </div>
@@ -638,9 +614,7 @@ onMounted(async () => {
           <div class="card config-card">
             <div class="card-header collapsible" @click="toggleCollapse('skills')">
               <div class="header-group">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M8 1L9.5 5L14 5.5L10.5 8.5L11.5 13L8 11L4.5 13L5.5 8.5L2 5.5L6.5 5L8 1Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
-                </svg>
+                <Icon icon="mdi:star" :width="16" :height="16" />
                 <span class="card-title">技能</span>
                 <span v-if="formData.agent_skill_ids.length > 0" class="count-badge">{{ formData.agent_skill_ids.length }}</span>
               </div>

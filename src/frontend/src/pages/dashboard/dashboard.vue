@@ -80,10 +80,7 @@
         <div class="kpi-top">
           <div class="kpi-title">总调用次数</div>
           <div class="kpi-icon">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                <rect x="3" y="2" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/>
-                <path d="M7 8H15M7 12H13M7 16H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-              </svg>
+              <Icon icon="mdi:file-document" :width="22" :height="22" />
             </div>
         </div>
         <div class="kpi-value">{{ totalCalls.toLocaleString() }}</div>
@@ -93,10 +90,7 @@
         <div class="kpi-top">
           <div class="kpi-title">总 Token 消耗</div>
           <div class="kpi-icon">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/>
-                <path d="M7 11H15M11 7V15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-              </svg>
+              <Icon icon="mdi:plus-circle" :width="22" :height="22" />
             </div>
         </div>
         <div class="kpi-value">{{ totalTokens.toLocaleString() }}</div>

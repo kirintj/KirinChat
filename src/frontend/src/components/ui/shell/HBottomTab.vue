@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { HIcon } from '@/components/ui'
 
 interface TabItem {
   key: string
@@ -41,7 +40,7 @@ const barWidth = computed(() => {
           @click="emit('update:activeKey', item.key)"
         >
           <div class="harmony-bottomtab__icon-wrap">
-            <HIcon :svg="item.icon" :size="24" />
+            <Icon :icon="item.icon" :width="24" :height="24" />
             <span v-if="item.badge" class="harmony-bottomtab__badge">{{ item.badge }}</span>
           </div>
           <span class="harmony-bottomtab__label">{{ item.label }}</span>

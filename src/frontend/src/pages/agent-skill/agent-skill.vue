@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, inject, onMounted, computed, nextTick, reactive } from 'vue'
-import { HMessage, HButton, HTooltip, HForm, HFormItem, HInput, HSelect, HOption, HIcon } from '@/components/ui'
+import { HMessage, HButton, HTooltip, HForm, HFormItem, HInput, HSelect, HOption } from '@/components/ui'
 import * as monaco from 'monaco-editor'
 import { 
   getAgentSkillsAPI, 
@@ -514,7 +514,7 @@ onMounted(() => {
           <div class="col-name">
             <div class="skill-info">
               <div class="skill-avatar">
-                <HIcon svg="skill" :size="20" />
+                <Icon icon="mdi:lightning-bolt" :width="20" :height="20" />
               </div>
               <span class="skill-name">{{ skill.name }}</span>
             </div>
@@ -549,7 +549,7 @@ onMounted(() => {
       <div v-if="skills.length === 0 && !loading" class="empty-state">
         <div class="empty-visual">
           <div class="empty-icon-wrapper">
-            <HIcon svg="skill" :size="48" class="empty-icon" />
+            <Icon icon="mdi:lightning-bolt" :width="48" :height="48" class="empty-icon" />
           </div>
         </div>
         <div class="empty-content">
@@ -572,7 +572,7 @@ onMounted(() => {
         <div class="modal-dialog create-dialog">
           <div class="dialog-header">
             <div class="dialog-icon">
-              <HIcon svg="skill" :size="20" />
+              <Icon icon="mdi:lightning-bolt" :width="20" :height="20" />
             </div>
             <div class="dialog-title-wrapper">
               <h3>创建新 Skill</h3>
@@ -586,10 +586,7 @@ onMounted(() => {
           <div class="dialog-body">
             <div class="form-tip">
               <div class="tip-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke="#1B7CE4" stroke-width="2"/>
-                  <path d="M12 16v-4M12 8h.01" stroke="#1B7CE4" stroke-width="2" stroke-linecap="round"/>
-                </svg>
+                <Icon icon="mdi:information" :width="20" :height="20" style="color:#1B7CE4;" />
               </div>
               <p>Skill 包含一组预定义的文件和脚本，用于赋予智能体特定的专业能力</p>
             </div>
@@ -631,7 +628,7 @@ onMounted(() => {
           <div class="ide-header">
             <div class="ide-tabs">
               <div class="ide-tab active">
-                <HIcon svg="skill" :size="16" class="tab-icon" />
+                <Icon icon="mdi:lightning-bolt" :width="16" :height="16" class="tab-icon" />
                 <span class="tab-name">{{ currentSkill?.name }}</span>
               </div>
             </div>
@@ -650,10 +647,7 @@ onMounted(() => {
                 <span class="sidebar-title">资源管理器</span>
                 <HTooltip content="只能在 scripts 或 reference 目录下添加文件" placement="bottom">
                   <span class="sidebar-hint">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                      <path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
+                    <Icon icon="mdi:information" :width="14" :height="14" />
                   </span>
                 </HTooltip>
               </div>
@@ -921,7 +915,7 @@ onMounted(() => {
         @click="openDetailDialog(skill)"
       >
         <div class="sm-item__icon">
-          <HIcon svg="skill" :size="20" />
+          <Icon icon="mdi:lightning-bolt" :width="20" :height="20" />
         </div>
         <div class="sm-item__content">
           <h3 class="sm-item__name">{{ skill.name }}</h3>
@@ -935,7 +929,7 @@ onMounted(() => {
 
     <!-- Empty state -->
     <div v-else-if="!loading" class="sm-empty">
-      <HIcon svg="skill" :size="48" />
+      <Icon icon="mdi:lightning-bolt" :width="48" :height="48" />
       <p>暂无技能</p>
       <button class="sm-create-btn" @click="showCreateDialog = true">创建技能</button>
     </div>

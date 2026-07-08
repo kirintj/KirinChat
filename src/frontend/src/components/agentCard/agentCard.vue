@@ -4,7 +4,7 @@
  * 展示智能体的基本信息、统计数据和操作按钮
  */
 import { computed } from "vue"
-import { HMessage, HIcon } from '@/components/ui'
+import { HMessage } from '@/components/ui'
 import { Agent } from "../../type"
 import { deleteAgentAPI } from '../../apis/agent'
 import { showDeleteConfirm } from '../../utils/dialog'
@@ -109,10 +109,10 @@ const editAgent = () => {
       <!-- 操作按钮 -->
       <div class="card-actions">
         <button class="action-btn edit-btn" @click.stop="editAgent">
-          <HIcon svg="set" :size="24" />
+          <Icon icon="mdi:cog" :width="24" :height="24" />
         </button>
         <button class="action-btn delete-btn" @click.stop="deleteAgent">
-          <HIcon svg="delete" :size="28" />
+          <Icon icon="mdi:delete" :width="28" :height="28" />
         </button>
       </div>
     </div>

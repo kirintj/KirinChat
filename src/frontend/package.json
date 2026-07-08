@@ -10,6 +10,8 @@
     "lint": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@iconify-json/mdi": "^1.2.3",
+    "@iconify/vue": "^5.0.1",
     "@microsoft/fetch-event-source": "^2.0.1",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.8",

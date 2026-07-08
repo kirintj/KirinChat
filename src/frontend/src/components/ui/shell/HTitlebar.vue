@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { HIcon } from '@/components/ui'
-
 interface Props {
   variant?: 'big' | 'normal' | 'secondary' | 'drawer'
   title?: string
@@ -20,7 +18,7 @@ const emit = defineEmits<{ back: [] }>()
     <div class="harmony-titlebar__content">
       <!-- 返回按钮 -->
       <div v-if="showBack" class="harmony-titlebar__leading" @click="emit('back')">
-        <HIcon name="ArrowLeft" :size="20" />
+        <Icon icon="mdi:arrow-left" :width="20" :height="20" />
       </div>
 
       <!-- big 变体：大标题 -->

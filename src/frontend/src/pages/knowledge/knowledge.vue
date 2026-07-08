@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
-import { HMessage, HButton, HTooltip, HIcon } from '@/components/ui'
+import { HMessage, HButton, HTooltip } from '@/components/ui'
 import {
   getKnowledgeListAPI,
   createKnowledgeAPI,
@@ -281,21 +281,15 @@ onMounted(() => {
           <span>文件数</span>
         </div>
         <div class="col-size">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-1 6h-3v3h-2v-3h-3v-2h3V7h2v3h3v2z" fill="currentColor"/>
-          </svg>
+          <Icon icon="mdi:folder-plus" :width="14" :height="14" />
           <span>存储大小</span>
         </div>
         <div class="col-time">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z" fill="currentColor"/>
-          </svg>
+          <Icon icon="mdi:clock" :width="14" :height="14" />
           <span>创建时间</span>
         </div>
         <div class="col-actions">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="currentColor"/>
-          </svg>
+          <Icon icon="mdi:pencil" :width="14" :height="14" />
           <span>操作</span>
         </div>
       </div>
@@ -311,7 +305,7 @@ onMounted(() => {
           <div class="col-name">
             <div class="knowledge-info">
               <div class="knowledge-avatar">
-                <HIcon svg="knowledge" :size="20" />
+                <Icon icon="mdi:book-open-page-variant" :width="20" :height="20" />
               </div>
               <span class="knowledge-name">{{ knowledge.name }}</span>
             </div>
@@ -353,7 +347,7 @@ onMounted(() => {
 
       <div v-if="knowledges.length === 0 && !loading" class="empty-state">
         <div class="empty-icon">
-          <HIcon svg="knowledge" :size="48" class="empty-icon-img" />
+          <Icon icon="mdi:book-open-page-variant" :width="48" :height="48" class="empty-icon-img" />
         </div>
         <h3>暂无知识库</h3>
         <p>您可以创建知识库来存储和管理您的文档资料</p>
@@ -519,23 +513,23 @@ onMounted(() => {
         @click="goToFileManagement(knowledge)"
       >
         <div class="km-item__icon">
-          <HIcon svg="knowledge" :size="20" />
+          <Icon icon="mdi:book-open-page-variant" :width="20" :height="20" />
         </div>
         <div class="km-item__content">
           <h3 class="km-item__name">{{ knowledge.name }}</h3>
           <p class="km-item__desc">{{ knowledge.description || '-' }}</p>
         </div>
         <div class="km-item__actions" @click.stop>
-          <button class="km-action" @click.stop="goToFileManagement(knowledge)" title="管理文件"><HIcon svg="folder" :size="16" /></button>
-          <button class="km-action" @click.stop="openEditDialog(knowledge)" title="编辑"><HIcon svg="edit" :size="16" /></button>
-          <button class="km-action km-action--danger" @click.stop="handleDelete(knowledge)" title="删除"><HIcon svg="delete" :size="16" /></button>
+          <button class="km-action" @click.stop="goToFileManagement(knowledge)" title="管理文件"><Icon icon="mdi:folder" :width="16" :height="16" /></button>
+          <button class="km-action" @click.stop="openEditDialog(knowledge)" title="编辑"><Icon icon="mdi:pencil" :width="16" :height="16" /></button>
+          <button class="km-action km-action--danger" @click.stop="handleDelete(knowledge)" title="删除"><Icon icon="mdi:delete" :width="16" :height="16" /></button>
         </div>
       </div>
     </div>
 
     <!-- Empty state -->
     <div v-else-if="!loading" class="km-empty">
-      <HIcon svg="knowledge" :size="48" />
+      <Icon icon="mdi:book-open-page-variant" :width="48" :height="48" />
       <p>暂无知识库</p>
       <button class="km-create-btn" @click="createDialogVisible = true">创建知识库</button>
     </div>

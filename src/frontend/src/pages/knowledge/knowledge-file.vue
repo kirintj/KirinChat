@@ -547,28 +547,14 @@ onUnmounted(() => {
           </div>
           <div class="breadcrumb">
             <span class="breadcrumb-item clickable" @click="goBack">
-              <span class="breadcrumb-icon">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M2 4H10L13 7V14H2V4Z" stroke="currentColor" stroke-width="1.3"/>
-                  <line x1="4" y1="10" x2="10" y2="10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                </svg>
-              </span>
+              <span class="breadcrumb-icon"><Icon icon="mdi:folder" :width="16" :height="16" /></span>
               <span class="breadcrumb-text">知识库管理</span>
             </span>
             <span class="breadcrumb-separator">
-              <span class="separator-icon">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M4 2L8 6L4 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
+              <span class="separator-icon"><Icon icon="mdi:chevron-right" :width="12" :height="12" /></span>
             </span>
             <span class="breadcrumb-item clickable current" @click="refreshCurrentPage">
-              <span class="breadcrumb-icon">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M2 3H10L14 6V14H2V3Z" stroke="currentColor" stroke-width="1.3"/>
-                  <line x1="5" y1="8" x2="9" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                </svg>
-              </span>
+              <span class="breadcrumb-icon"><Icon icon="mdi:folder" :width="16" :height="16" /></span>
               <span class="breadcrumb-text">{{ knowledgeName }}</span>
             </span>
           </div>
@@ -581,13 +567,7 @@ onUnmounted(() => {
           <!-- 文件统计卡片 -->
           <div class="stat-card total">
             <div class="stat-icon-wrapper">
-              <span class="stat-icon">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <rect x="2" y="2" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/>
-                  <line x1="6" y1="10" x2="14" y2="10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                  <line x1="10" y1="6" x2="10" y2="14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-                </svg>
-              </span>
+              <span class="stat-icon"><Icon icon="mdi:file-plus" :width="20" :height="20" /></span>
             </div>
             <div class="stat-content">
               <div class="stat-number">{{ files.length }}</div>
@@ -598,10 +578,7 @@ onUnmounted(() => {
           <div class="stat-card processing">
             <div class="stat-icon-wrapper">
               <span class="stat-icon processing-icon">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
-                  <path d="M10 5V10L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <Icon icon="mdi:clock" :width="20" :height="20" />
               </span>
             </div>
             <div class="stat-content">
@@ -613,10 +590,7 @@ onUnmounted(() => {
           <div class="stat-card success">
             <div class="stat-icon-wrapper">
               <span class="stat-icon">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/>
-                <path d="M5.5 9L7.5 11L12.5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <Icon icon="mdi:check-circle" :width="18" :height="18" />
             </span>
             </div>
             <div class="stat-content">
@@ -647,10 +621,7 @@ onUnmounted(() => {
             <button class="upload-btn-custom" :class="{ 'uploading': uploading }" @click="triggerFileUpload" :disabled="uploading">
               <div class="btn-icon-wrapper">
                 <span v-if="!uploading" class="btn-icon">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <path d="M9 12V3M5 7L9 3L13 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M3 14V16H15V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  <Icon icon="mdi:upload" :width="18" :height="18" />
                 </span>
                 <div v-else class="loading-spinner"></div>
               </div>
@@ -729,10 +700,7 @@ onUnmounted(() => {
               <td class="col-size">
                 <span class="size-tag" :style="{ color: getFileSizeColor(file.file_size) }">
                   <span class="size-icon">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/>
-                    <line x1="4" y1="5" x2="10" y2="5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
-                  </svg>
+                  <Icon icon="mdi:file-document" :width="14" :height="14" />
                 </span>
                   {{ formatFileSize(file.file_size) }}
                 </span>
@@ -745,10 +713,7 @@ onUnmounted(() => {
               <td class="col-time">
                 <div class="time-info">
                   <span class="time-icon">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/>
-                    <path d="M7 4V7L9 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                  </svg>
+                  <Icon icon="mdi:clock" :width="14" :height="14" />
                 </span>
                   <span class="time-text">{{ formatTime(file.create_time) }}</span>
                 </div>
@@ -761,21 +726,12 @@ onUnmounted(() => {
                     @click="handleDelete(file)"
                     title="删除文件"
                   >
-                    <span class="btn-icon">
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <path d="M2 4H12L10.5 12H3.5L2 4Z" stroke="currentColor" stroke-width="1.2"/>
-                        <line x1="5.5" y1="4" x2="5.5" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                        <line x1="8.5" y1="4" x2="8.5" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                      </svg>
-                    </span>
+                    <span class="btn-icon"><Icon icon="mdi:delete" :width="14" :height="14" /></span>
                     <span class="btn-text">删除</span>
                   </button>
                   <div v-else class="uploading-indicator">
                     <span class="uploading-icon">
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5" opacity="0.25"/>
-                        <path d="M7 2C10.0376 2 12.5 4.46243 12.5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                      </svg>
+                      <Icon icon="mdi:loading" :width="14" :height="14" />
                     </span>
                     <span class="uploading-text">处理中</span>
                   </div>
@@ -862,12 +818,7 @@ onUnmounted(() => {
           </div>
         </div>
         <HButton type="primary" size="large" class="empty-upload-btn" @click="triggerFileUpload">
-          <span class="btn-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M9 12V3M5 7L9 3L13 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M3 14V16H15V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
+          <span class="btn-icon"><Icon icon="mdi:upload" :width="18" :height="18" /></span>
           立即上传文件
         </HButton>
       </div>
