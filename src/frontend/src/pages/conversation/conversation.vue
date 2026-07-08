@@ -601,9 +601,7 @@ const closeCreateDialog = () => {
   .sidebar {
     height: 100%;
     width: 280px;
-    background-color: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);
+    background-color: transparent;
     border-right: 1px solid var(--harmony-comp-divider);
     display: flex;
     flex-direction: column;
@@ -866,11 +864,10 @@ const closeCreateDialog = () => {
 
   .content {
     flex: 1;
-    background-color: var(--harmony-comp-background-primary);
+    background-color: transparent;
     border-radius: 0;
     margin: 0;
     box-shadow: none;
-    border-left: 1px solid var(--harmony-comp-divider);
     overflow: hidden;
 
     .welcome-content {

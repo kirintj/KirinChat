@@ -199,9 +199,7 @@ onMounted(() => {
 .sidebar {
   height: 100%;
   width: 280px;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(60px);
-  -webkit-backdrop-filter: blur(60px);
+  background: transparent;
   border-right: 1px solid var(--harmony-comp-divider);
   display: flex;
   flex-direction: column;
@@ -411,7 +409,7 @@ onMounted(() => {
   flex: 1;
   min-width: 0;
   min-height: 0;
-  background: var(--harmony-comp-background-primary);
+  background: transparent;
   overflow: hidden;
 }
 

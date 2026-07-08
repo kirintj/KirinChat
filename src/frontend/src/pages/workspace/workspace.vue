@@ -274,9 +274,7 @@ onMounted(async () => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(60px);
-  -webkit-backdrop-filter: blur(60px);
+  background: transparent;
   border-right: 1px solid var(--harmony-comp-divider);
 }
 
@@ -370,7 +368,7 @@ onMounted(async () => {
 .session-list {
   flex: 1;
   overflow-y: auto;
-  padding: 0 8px 8px;
+  padding: 0 16px 8px;
 }
 
 /* 通用状态 */
@@ -535,7 +533,7 @@ onMounted(async () => {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  background: var(--harmony-comp-background-secondary);
+  background: transparent;
 }
 
 /* 响应式 */

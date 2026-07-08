@@ -625,8 +625,6 @@ onMounted(() => {
   }
 
   &.is-official {
-    background: var(--harmony-comp-background-tertiary);
-    border-style: solid;
 
     &:hover {
       border-color: var(--harmony-font-tertiary);

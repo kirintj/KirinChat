@@ -81,7 +81,6 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
   display: flex; align-items: center; gap: 8px;
   height: 38px; padding: 0 12px;
   overflow: hidden;
-  background: var(--harmony-comp-background-tertiary);
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level10);
   cursor: pointer;
@@ -121,8 +120,6 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
 .h-select__clear:hover { color: var(--harmony-font-primary); }
 .h-select__dropdown {
   position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-  background: var(--harmony-comp-background-secondary);
-  backdrop-filter: blur(20px) saturate(1.2);
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8);
   box-shadow: var(--harmony-shadow-dialog);

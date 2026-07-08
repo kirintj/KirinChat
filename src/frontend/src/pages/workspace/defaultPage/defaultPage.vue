@@ -359,7 +359,7 @@ watch(
         <div v-for="(msg, idx) in messages" :key="idx" class="msg-row" :class="msg.role">
           <!-- AI消息 -->
           <template v-if="msg.role === 'assistant'">
-            <div class="msg-bubble ai">
+            <div class="msg-bubble">
               <div v-if="!msg.content && isGenerating && idx === messages.length - 1" class="msg-loading">
                 <span class="dot-pulse"></span>
               </div>
@@ -531,7 +531,7 @@ watch(
   height: 100%;
   display: flex;
   justify-content: center;
-  background: var(--harmony-comp-background-primary);
+  background: transparent;
 }
 
 .dp-inner {
@@ -673,14 +673,6 @@ watch(
     background: var(--harmony-brand);
     color: white;
     border-bottom-right-radius: 4px;
-  }
-
-  &.ai {
-    background: var(--harmony-comp-background-primary);
-
-    :deep(.md-editor-preview-wrapper) {
-      background: transparent !important;
-    }
   }
 }
 

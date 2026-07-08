@@ -28,7 +28,7 @@ const isSelected = computed(() => select?.modelValue.value === props.value)
   padding: 8px 12px;
   font-size: var(--harmony-font-size-body-m);
   color: var(--harmony-font-primary);
-  border-radius: var(--harmony-corner-radius-level2);
+  border-radius: var(--harmony-corner-radius-level8);
   cursor: pointer;
 }
 .h-option__overlay {
