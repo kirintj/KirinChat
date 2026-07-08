@@ -3,21 +3,21 @@
 [data-harmony-token-set="system"][data-theme="light"],
 :root[data-harmony-token-set="system"][data-theme="dark"],
 [data-harmony-token-set="system"][data-theme="dark"] {
-  --harmony-padding-level0: 0px;
-  --harmony-padding-level1: 2px;
-  --harmony-padding-level2: 4px;
-  --harmony-padding-level3: 6px;
-  --harmony-padding-level4: 8px;
-  --harmony-padding-level5: 10px;
-  --harmony-padding-level6: 12px;
-  --harmony-padding-level7: 14px;
-  --harmony-padding-level8: 16px;
-  --harmony-padding-level9: 18px;
-  --harmony-padding-level10: 20px;
-  --harmony-padding-level11: 22px;
-  --harmony-padding-level12: 24px;
-  --harmony-padding-level13: 26px;
-  --harmony-padding-level16: 32px;
+  --harmony-padding-level0: 0;
+  --harmony-padding-level1: 0.125rem;
+  --harmony-padding-level2: 0.25rem;
+  --harmony-padding-level3: 0.375rem;
+  --harmony-padding-level4: 0.5rem;
+  --harmony-padding-level5: 0.625rem;
+  --harmony-padding-level6: 0.75rem;
+  --harmony-padding-level7: 0.875rem;
+  --harmony-padding-level8: 1rem;
+  --harmony-padding-level9: 1.125rem;
+  --harmony-padding-level10: 1.25rem;
+  --harmony-padding-level11: 1.375rem;
+  --harmony-padding-level12: 1.5rem;
+  --harmony-padding-level13: 1.625rem;
+  --harmony-padding-level16: 2rem;
 
   --harmony-corner-radius-none: 0px;
   --harmony-corner-radius-level1: 2px;
@@ -36,17 +36,17 @@
   --harmony-corner-radius-level16: 32px;
   --harmony-corner-radius-level18: 36px;
 
-  --harmony-control-height-28: 28px;
-  --harmony-control-height-36: 36px;
-  --harmony-control-height-40: 40px;
-  --harmony-control-height-56: 56px;
-  --harmony-control-height-64: 64px;
-  --harmony-control-height-72: 72px;
+  --harmony-control-height-28: 1.75rem;
+  --harmony-control-height-36: 2.25rem;
+  --harmony-control-height-40: 2.5rem;
+  --harmony-control-height-56: 3.5rem;
+  --harmony-control-height-64: 4rem;
+  --harmony-control-height-72: 4.5rem;
 
   --harmony-page-canvas-width-mobile: 360px;
   --harmony-page-padding-mobile: var(--harmony-padding-level8);
-  --harmony-page-padding-mobile-top: 36px;
-  --harmony-page-padding-mobile-bottom: 28px;
+  --harmony-page-padding-mobile-top: 2.25rem;
+  --harmony-page-padding-mobile-bottom: 1.75rem;
   --harmony-page-content-width-mobile: 328px;
   --harmony-card-gap-mobile: var(--harmony-padding-level6);
   --harmony-section-gap-mobile: var(--harmony-padding-level8);

@@ -74,9 +74,11 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
+
 .agent-card {
   padding: 32px;
-  min-height: calc(100vh - 150px);
+  min-height: calc(100% - 150px);
   background: var(--harmony-comp-background-secondary);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -182,7 +184,7 @@ onMounted(async () => {
 }
 
 // 响应式设计
-@media (max-width: 1200px) {
+@include tablet-and-below {
   .agent-card {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
@@ -190,7 +192,7 @@ onMounted(async () => {
   }
 }
 
-@media (max-width: 768px) {
+@include mobile {
   .agent-card {
     grid-template-columns: 1fr;
     gap: 16px;

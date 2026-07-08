@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 /**
  * 智能体卡片组件
  * 展示智能体的基本信息、统计数据和操作按钮

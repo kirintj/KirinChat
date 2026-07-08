@@ -545,7 +545,7 @@ onMounted(() => {
 .mcp-chat-container {
   display: flex;
   height: 100%;
-  background: var(--harmony-comp-background-primary);
+  background: transparent;
   overflow: hidden;
 }
 

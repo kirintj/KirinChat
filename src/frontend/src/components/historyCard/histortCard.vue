@@ -2,7 +2,7 @@
  * 历史会话卡片组件
  * 展示会话的基本信息、时间显示和操作按钮
  */
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed } from "vue"
 import { HistoryListType } from "../../type"
 
@@ -108,6 +108,8 @@ const selectCard = () => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
+
 /* 样式变量 */
 $card-padding: 16px;
 $border-radius-lg: 12px;
@@ -243,7 +245,7 @@ $transition-default: all 0.3s ease;
 }
 
 /* 响应式设计 */
-@media (max-width: 480px) {
+@include mobile {
   .history-card {
     padding: 12px;
 

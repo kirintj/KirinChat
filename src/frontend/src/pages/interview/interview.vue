@@ -193,13 +193,15 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   display: flex;
-  background: var(--harmony-comp-background-primary);
+  background: transparent;
 }
 
 .sidebar {
   height: 100%;
   width: 280px;
-  background: var(--harmony-comp-background-primary);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(60px);
+  -webkit-backdrop-filter: blur(60px);
   border-right: 1px solid var(--harmony-comp-divider);
   display: flex;
   flex-direction: column;

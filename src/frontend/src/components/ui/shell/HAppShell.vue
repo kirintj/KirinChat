@@ -1,15 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, provide } from 'vue'
+import { provide } from 'vue'
+import { useBreakpoint } from '@/composables/useBreakpoint'
 
-const BREAKPOINT = 768
-const isMobile = ref(window.innerWidth < BREAKPOINT)
-
-const onResize = () => {
-  isMobile.value = window.innerWidth < BREAKPOINT
-}
-
-onMounted(() => window.addEventListener('resize', onResize))
-onUnmounted(() => window.removeEventListener('resize', onResize))
+const { isMobile } = useBreakpoint()
 
 provide('isMobile', isMobile)
 </script>
@@ -23,9 +16,11 @@ provide('isMobile', isMobile)
 <style scoped>
 .h-app-shell {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: var(--harmony-comp-background-primary);
 }
 

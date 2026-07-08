@@ -527,7 +527,7 @@ const handleCustomUpload = async (event: Event) => {
 .profile-page {
   padding: 24px;
   background-color: var(--harmony-comp-background-secondary);
-  min-height: 100vh;
+  min-height: 100%;
 
   .profile-header {
     margin-bottom: 32px;
@@ -968,8 +968,8 @@ const handleCustomUpload = async (event: Event) => {
   border-radius: var(--harmony-corner-radius-level8, 16px);
 
   &__avatar {
-    width: 72px;
-    height: 72px;
+    width: var(--harmony-control-height-72, 72px);
+    height: var(--harmony-control-height-72, 72px);
     border-radius: 50%;
     overflow: hidden;
     background: var(--harmony-comp-background-secondary);
@@ -1040,7 +1040,7 @@ const handleCustomUpload = async (event: Event) => {
   }
 
   &__chevron {
-    font-size: 20px;
+    font-size: var(--harmony-font-size-title-s, 20px);
     color: var(--harmony-font-tertiary);
   }
 }

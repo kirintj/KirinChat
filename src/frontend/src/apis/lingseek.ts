@@ -2,7 +2,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source'
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
-// 生成灵寻的指导提示（流式）
+// 生成深思的指导提示（流式）
 export const generateLingSeekGuidePromptAPI = async (
   data: {
     query: string
@@ -140,70 +140,7 @@ export const regenerateLingSeekGuidePromptAPI = async (
   }
 }
 
-// 生成灵寻任务列表（流式）
-export const generateLingSeekTasksAPI = async (
-  data: {
-    guide_prompt: string
-  },
-  onMessage: (data: any) => void,
-  onError?: (error: any) => void,
-  onClose?: () => void
-) => {
-  const token = localStorage.getItem('token')
-  
-  console.log('开始调用 task 接口，参数:', data)
-  
-  const ctrl = new AbortController()
-  
-  try {
-    await fetchEventSource(`${BASE_URL}/api/v1/workspace/lingseek/task`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(data),
-      signal: ctrl.signal,
-      openWhenHidden: true,
-      onmessage(event) {
-        console.log('📨 收到原始消息:', event.data)
-        if (event.data) {
-          try {
-            // 后端返回的是 JSON 格式: { "event": "...", "data": { "chunk": "..." } }
-            const parsedData = JSON.parse(event.data)
-            console.log('📦 解析后的数据:', parsedData)
-            
-            if (parsedData.data && parsedData.data.chunk) {
-              const chunk = parsedData.data.chunk
-              console.log('📝 提取的 chunk:', chunk)
-              onMessage(chunk)
-            }
-          } catch (error) {
-            console.error('❌ JSON 解析失败:', error, '原始数据:', event.data)
-            // 如果解析失败，尝试直接使用原始数据
-            onMessage(event.data)
-          }
-        }
-      },
-      onerror(err) {
-        console.error('Stream 错误:', err)
-        onError?.(err)
-        ctrl.abort()
-      },
-      onclose() {
-        console.log('Stream 关闭')
-        onClose?.()
-      }
-    })
-  } catch (error) {
-    console.error('fetchEventSource 异常:', error)
-    if (error.name !== 'AbortError') {
-      onError?.(error)
-    }
-  }
-}
-
-// 开始执行灵寻任务（流式）
+// 开始执行深思任务（流式）
 export const startLingSeekTaskAPI = async (
   data: {
     query: string

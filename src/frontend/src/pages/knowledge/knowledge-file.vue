@@ -543,12 +543,6 @@ onUnmounted(() => {
         <!-- 导航面包屑 -->
         <div class="navigation-section">
           <div class="nav-title">
-            <span class="title-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M4 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V6C2 4.89543 2.89543 4 4 4Z" stroke="currentColor" stroke-width="1.5"/>
-                  <path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </span>
             <span class="title-text">文件管理</span>
           </div>
           <div class="breadcrumb">
@@ -830,12 +824,6 @@ onUnmounted(() => {
           </div>
         </div>
         <h3 class="empty-title">
-          <span class="title-icon">
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-              <path d="M10 1H4C3.44772 1 3 1.44772 3 2V14C3 14.5523 3.44772 15 4 15H12C12.5523 15 13 14.5523 13 14V4L10 1Z" stroke="currentColor" stroke-width="1.2"/>
-              <path d="M10 1V4H13" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-            </svg>
-          </span>
           知识库暂无文件
         </h3>
         <p class="empty-description">
@@ -908,7 +896,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   background: var(--harmony-comp-background-primary);
-  min-height: 100vh;
+  min-height: 100%;
   
   .page-header {
     display: flex;
@@ -935,10 +923,6 @@ onUnmounted(() => {
           display: flex;
           align-items: center;
           gap: 10px;
-          
-          .title-icon {
-            font-size: var(--harmony-font-size-body-l);
-          }
           
           .title-text {
             font-size: var(--harmony-font-size-title-s);
@@ -1517,10 +1501,6 @@ onUnmounted(() => {
         font-weight: 600;
         color: var(--harmony-font-primary);
         margin: 0 0 12px 0;
-        
-        .title-icon {
-          font-size: var(--harmony-font-size-title-s);
-        }
       }
       
       .empty-description {

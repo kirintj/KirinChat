@@ -78,12 +78,3 @@ export function deleteKnowledgeAPI(data: KnowledgeDeleteRequest) {
     data
   })
 }
-
-// 知识库检索
-export function knowledgeRetrievalAPI(data: KnowledgeRetrievalRequest) {
-  return request<UnifiedResponse<string>>({
-    url: '/api/v1/knowledge/retrieval',
-    method: 'POST',
-    data
-  })
-} 

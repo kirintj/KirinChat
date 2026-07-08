@@ -64,7 +64,9 @@ const mobileTitleVariant = computed<'big' | 'normal'>(() =>
 
 /* ---- active menu key (by route path) ---- */
 const current = computed(() => {
-  const match = allMenuItems.find(m => route.path.startsWith(m.route))
+  const match = [...allMenuItems]
+    .sort((a, b) => b.route.length - a.route.length)
+    .find(m => route.path.startsWith(m.route))
   return match?.key || ''
 })
 
@@ -379,7 +381,9 @@ onMounted(async () => {
     flex: 1;
     overflow-y: auto;
     border-radius: 28px;
-    background: var(--harmony-comp-background-primary);
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(80px);
+    -webkit-backdrop-filter: blur(80px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
   }
 }
@@ -453,12 +457,12 @@ onMounted(async () => {
 
 .user-dropdown-menu {
   position: absolute;
-  top: 100%;
+  bottom: 100%;
   left: 0;
-  margin-top: 8px;
+  margin-bottom: 8px;
   min-width: 140px;
-  background: var(--harmony-comp-background-secondary);
-  border: 1px solid var(--harmony-comp-divider);
+  background: #ffffff;
+  
   border-radius: var(--harmony-corner-radius-level6);
   box-shadow: var(--harmony-shadow-md);
   z-index: var(--z-dropdown);

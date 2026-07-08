@@ -56,6 +56,7 @@ const barWidth = computed(() => {
 .harmony-bottomtab {
   width: 100%;
   height: 100px;
+  height: calc(100px + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,7 +64,7 @@ const barWidth = computed(() => {
   flex-shrink: 0;
   position: relative;
   z-index: 100;
-  padding-bottom: 8px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom));
 }
 
 .harmony-bottomtab__bar {

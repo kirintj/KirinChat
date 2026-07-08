@@ -22,6 +22,7 @@ export default defineConfig(({ mode }) => {
       preprocessorOptions: {
         scss: {
           api: 'modern',
+          additionalData: `@use "@/styles/breakpoints.scss" as bp;\n`,
         },
       },
     },

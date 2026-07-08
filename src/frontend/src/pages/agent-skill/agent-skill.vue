@@ -471,7 +471,6 @@ onMounted(() => {
     <!-- 页面头部 - 增强设计 -->
     <div class="page-header">
       <div class="header-title">
-        <HIcon svg="skill" :size="24" class="title-icon" />
         <h2>Agent Skill</h2>
       </div>
       <div class="header-actions">
@@ -567,9 +566,9 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- 创建 Skill 对话框 - 增强设计 -->
+    <!-- 创建 Skill 对话框 - 增强设计 (desktop only) -->
     <Teleport to="body">
-      <div v-if="showCreateDialog" class="modal-overlay create-modal" @click.self="showCreateDialog = false">
+      <div v-if="!isMobile && showCreateDialog" class="modal-overlay create-modal" @click.self="showCreateDialog = false">
         <div class="modal-dialog create-dialog">
           <div class="dialog-header">
             <div class="dialog-icon">
@@ -624,9 +623,9 @@ onMounted(() => {
       </div>
     </Teleport>
 
-    <!-- Skill 详情对话框 - 代码编辑器风格 -->
+    <!-- Skill 详情对话框 - 代码编辑器风格 (desktop only) -->
     <Teleport to="body">
-      <div v-if="showDetailDialog" class="modal-overlay detail-modal" @click.self="closeDetailDialog">
+      <div v-if="!isMobile && showDetailDialog" class="modal-overlay detail-modal" @click.self="closeDetailDialog">
         <div class="modal-dialog detail-dialog">
           <!-- IDE 风格头部 -->
           <div class="ide-header">
@@ -805,9 +804,9 @@ onMounted(() => {
       </div>
     </Teleport>
 
-    <!-- 添加文件对话框 - 使用 Teleport 确保显示在最上层 -->
+    <!-- 添加文件对话框 - 使用 Teleport 确保显示在最上层 (desktop only) -->
     <Teleport to="body">
-      <div v-if="showAddFileDialog" class="modal-overlay add-file-modal" @click.self="closeAddFileDialog">
+      <div v-if="!isMobile && showAddFileDialog" class="modal-overlay add-file-modal" @click.self="closeAddFileDialog">
         <div class="modal-dialog add-file-dialog">
           <div class="dialog-header">
             <div class="dialog-icon add-icon">
@@ -872,10 +871,10 @@ onMounted(() => {
       </div>
     </Teleport>
 
-    <!-- 手写确认弹窗（Element 风格，但不依赖 Element 组件） -->
+    <!-- 手写确认弹窗（Element 风格，但不依赖 Element 组件）(desktop only) -->
     <Teleport to="body">
       <div
-        v-if="confirmDialog.visible"
+        v-if="!isMobile && confirmDialog.visible"
         class="modal-overlay confirm-modal"
         @click.self="closeConfirmDialog(false)"
       >
@@ -950,7 +949,7 @@ onMounted(() => {
         </div>
         <div class="dialog-body">
           <div class="form-item">
-            <label>Skill 名称 <span style="color: red;">*</span></label>
+            <label>Skill 名称 <span class="sm-required">*</span></label>
             <input
               v-model="createForm.name"
               type="text"
@@ -958,7 +957,7 @@ onMounted(() => {
             />
           </div>
           <div class="form-item">
-            <label>Skill 描述 <span style="color: red;">*</span></label>
+            <label>Skill 描述 <span class="sm-required">*</span></label>
             <textarea
               v-model="createForm.description"
               placeholder="详细描述这个 Skill 的功能、适用场景和特点..."
@@ -1007,6 +1006,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
 // 全局弹窗样式
 .modal-overlay {
   position: fixed;
@@ -1437,7 +1437,6 @@ onMounted(() => {
       align-items: center;
       justify-content: space-between;
       background: var(--harmony-comp-background-primary);
-      border-bottom: 1px solid var(--harmony-comp-divider);
       height: 40px;
       padding: 0 12px;
       
@@ -1496,7 +1495,6 @@ onMounted(() => {
       .ide-sidebar {
         width: 260px;
         background: var(--harmony-comp-background-primary);
-        border-right: 1px solid var(--harmony-comp-divider);
         display: flex;
         flex-direction: column;
         
@@ -1510,7 +1508,6 @@ onMounted(() => {
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          border-bottom: 1px solid var(--harmony-comp-divider);
           
           .sidebar-hint {
             color: var(--harmony-font-tertiary);
@@ -1671,7 +1668,6 @@ onMounted(() => {
         .skill-info-panel {
           padding: 16px;
           background: var(--harmony-comp-background-primary);
-          border-top: 1px solid var(--harmony-comp-divider);
           
           h4 {
             margin: 0 0 8px;
@@ -1720,7 +1716,6 @@ onMounted(() => {
           padding: 0 16px;
           height: 48px;
           background: var(--harmony-comp-background-primary);
-          border-bottom: 1px solid var(--harmony-comp-divider);
           
           .editor-tab {
             display: flex;
@@ -1852,10 +1847,11 @@ onMounted(() => {
 </style>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
 .skill-page {
   padding: 32px;
-  min-height: 100vh;
-  background: var(--harmony-comp-background-primary);
+  min-height: 100%;
+  background: transparent;
   
   // 页面头部
   .page-header {
@@ -1867,17 +1863,11 @@ onMounted(() => {
     padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
     border-radius: var(--harmony-corner-radius-level8);
     box-shadow: 0 6px 24px var(--harmony-shadow-sm);
-    border: 1px solid var(--harmony-comp-divider);
     
     .header-title {
       display: flex;
       align-items: center;
       gap: 14px;
-      
-      .title-icon {
-        width: 36px;
-        height: 36px;
-      }
       
       h2 {
         margin: 0;
@@ -1900,7 +1890,6 @@ onMounted(() => {
   .skill-container {
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8);
-    border: 1px solid var(--harmony-comp-divider);
     overflow: hidden;
     box-shadow: 0 4px 6px -1px var(--harmony-shadow-xs);
     
@@ -1910,7 +1899,6 @@ onMounted(() => {
       align-items: center;
       padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
       background: var(--harmony-comp-background-primary);
-      border-bottom: 1px solid var(--harmony-comp-divider);
       font-size: var(--harmony-font-size-body-s);
       font-weight: 600;
       color: var(--harmony-font-secondary);
@@ -1930,7 +1918,6 @@ onMounted(() => {
         display: flex;
         align-items: center;
         padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
-        border-bottom: 1px solid var(--harmony-comp-divider);
         cursor: pointer;
         transition: all 0.2s ease;
         
@@ -2152,7 +2139,7 @@ onMounted(() => {
 }
 
 // 响应式
-@media (max-width: 768px) {
+@include mobile {
   .skill-page {
     padding: 16px;
     
@@ -2218,7 +2205,7 @@ onMounted(() => {
   height: var(--harmony-control-height-40, 40px);
   padding: 0 var(--harmony-padding-level8, 16px);
   background: var(--harmony-brand);
-  color: white;
+  color: var(--harmony-comp-common-contrary, white);
   border: none;
   border-radius: var(--harmony-corner-radius-level6, 12px);
   font-size: var(--harmony-font-size-body-m);
@@ -2238,7 +2225,6 @@ onMounted(() => {
   gap: var(--harmony-padding-level6, 12px);
   padding: var(--harmony-padding-level8, 16px);
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8, 16px);
   cursor: pointer;
   transition: background 0.15s ease;
@@ -2299,7 +2285,7 @@ onMounted(() => {
   border: none;
   border-radius: var(--harmony-corner-radius-level4, 8px);
   cursor: pointer;
-  font-size: 16px;
+  font-size: var(--harmony-font-size-body-l, 16px);
   transition: background 0.15s ease;
 
   &:active {
@@ -2307,7 +2293,7 @@ onMounted(() => {
   }
 
   &--danger:active {
-    background: rgba(232, 64, 38, 0.1);
+    background: var(--harmony-alert-bg, rgba(232, 64, 38, 0.1));
   }
 }
 
@@ -2316,7 +2302,7 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 80px 0;
+  padding: var(--harmony-padding-level16, 32px) 0;
   gap: var(--harmony-padding-level8, 16px);
 
   p {
@@ -2324,6 +2310,11 @@ onMounted(() => {
     color: var(--harmony-font-tertiary);
     margin: 0;
   }
+}
+
+.sm-required {
+  color: var(--harmony-alert, red);
+  font-weight: 700;
 }
 
 // Mobile dialog styles (shared)
@@ -2458,7 +2449,7 @@ onMounted(() => {
   .primary-btn {
     background: var(--harmony-brand);
     border-color: var(--harmony-brand);
-    color: white;
+    color: var(--harmony-comp-common-contrary, white);
 
     &:active {
       filter: brightness(0.95);
@@ -2468,7 +2459,7 @@ onMounted(() => {
   .danger-btn {
     background: var(--harmony-warning);
     border-color: var(--harmony-warning);
-    color: white;
+    color: var(--harmony-comp-common-contrary, white);
 
     &:active {
       filter: brightness(0.95);

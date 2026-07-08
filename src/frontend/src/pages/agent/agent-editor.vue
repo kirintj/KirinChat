@@ -319,12 +319,6 @@ onMounted(async () => {
     <!-- ===== 页面头部 ===== -->
     <div class="page-header">
       <div class="header-left">
-        <div class="header-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M12 2V5M12 19V22M2 12H5M19 12H22M4.93 4.93L7.05 7.05M16.95 16.95L19.07 19.07M4.93 19.07L7.05 16.95M16.95 7.05L19.07 4.93" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
         <div class="header-text">
           <h1 class="header-title">{{ isEditing ? '编辑智能体' : '创建智能体' }}</h1>
           <p class="header-desc">{{ isEditing ? '更新智能体配置信息' : '配置您的专属智能体' }}</p>
@@ -687,9 +681,10 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
 /* ============ 页面容器 ============ */
 .agent-editor {
-  min-height: 100vh;
+  min-height: 100%;
   background: var(--harmony-comp-background-secondary);
   display: flex;
   flex-direction: column;
@@ -712,18 +707,6 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 14px;
-}
-
-.header-icon {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--harmony-comp-emphasize-tertiary);
-  color: var(--harmony-brand);
-  border-radius: var(--harmony-corner-radius-level6);
-  flex-shrink: 0;
 }
 
 .header-text {
@@ -1208,7 +1191,7 @@ onMounted(async () => {
 }
 
 /* ============ 响应式 ============ */
-@media (max-width: 1100px) {
+@include tablet-and-below {
   .editor-form {
     flex-direction: column;
   }
@@ -1223,7 +1206,7 @@ onMounted(async () => {
   }
 }
 
-@media (max-width: 768px) {
+@include mobile {
   .page-header {
     padding: 16px;
     flex-wrap: wrap;

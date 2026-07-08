@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick, watch, computed } from "vue"
+import { ref, onMounted, nextTick, watch, computed, inject } from "vue"
 import { useRoute } from 'vue-router'
 import { MdPreview } from "md-editor-v3"
 import "md-editor-v3/lib/style.css"
@@ -11,6 +11,8 @@ import { HMessage, HButton } from '@/components/ui'
 // Import static assets
 import defaultUserAvatar from '../../../assets/user.svg';
 import defaultRobotAvatar from '../../../assets/robot.svg';
+
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 
 // 使用与ChatMessage接口中定义的eventInfo类型一致的接口
 interface EventInfo {
@@ -540,6 +542,8 @@ watch(
 </template>
 
 <style lang="scss" scoped>
+@use '../../../styles/breakpoints.scss' as *;
+
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -873,5 +877,89 @@ watch(
 // Override MdPreview background
 :deep(.md-editor-preview-wrapper) {
     background-color: transparent !important;
+}
+
+/* ==================== MOBILE ==================== */
+@include mobile {
+  .chat-conversation {
+    padding: 12px 0;
+
+    .chat-scroll-area {
+      padding: 8px;
+    }
+
+    .ai-message {
+      .avatar {
+        width: 32px;
+        height: 32px;
+        margin-right: 10px;
+      }
+
+      .message-content {
+        max-width: 88%;
+        padding: 10px 14px;
+        font-size: var(--harmony-font-size-body-s);
+      }
+    }
+
+    .user-message {
+      .avatar {
+        width: 32px;
+        height: 32px;
+        margin-left: 8px;
+      }
+
+      .message-content {
+        max-width: 85%;
+        padding: 10px 14px;
+        font-size: var(--harmony-font-size-body-s);
+      }
+    }
+
+    .message-group {
+      margin-bottom: 14px;
+    }
+  }
+
+  .input-area {
+    padding: 10px 12px;
+
+    .action-btn {
+      width: 40px;
+      height: 40px;
+      margin-right: 8px;
+    }
+
+    .message-textarea {
+      padding: 10px 14px;
+      font-size: var(--harmony-font-size-body-s);
+      max-height: 80px;
+    }
+
+    .send-btn {
+      width: 40px;
+      height: 40px;
+      margin-left: 8px;
+    }
+  }
+
+  .event-info-row {
+    padding: 6px 10px;
+    font-size: var(--harmony-font-size-body-s);
+  }
+
+  .event-info-message {
+    font-size: var(--harmony-font-size-body-s);
+    padding: 6px;
+  }
+
+  .uploaded-file-tag {
+    top: -24px;
+    font-size: var(--harmony-font-size-caption-l);
+
+    .file-name {
+      max-width: 120px;
+    }
+  }
 }
 </style>

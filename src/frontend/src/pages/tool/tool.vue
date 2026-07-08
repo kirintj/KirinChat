@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch, inject } from 'vue'
-import { HButton, HTabs, HTabPane, HTooltip, HMessage } from '@/components/ui'
+import { HButton, HTabs, HTabPane, HTooltip, HMessage, HIcon } from '@/components/ui'
 import pluginIcon from '../../assets/plugin.svg'
 import { 
   getAllToolsAPI, 
@@ -664,7 +664,6 @@ onMounted(() => {
     <!-- 页面头部 -->
     <div class="page-header">
       <div class="header-title">
-        <img :src="pluginIcon" alt="工具" class="title-icon" />
         <h2>工具管理</h2>
       </div>
       <div class="header-actions">
@@ -1310,7 +1309,7 @@ onMounted(() => {
             :src="tool.logo_url || '/src/assets/tool/default.png'"
             :alt="tool.display_name"
             @error="(e) => { const target = e.target as HTMLImageElement; target.src = '/src/assets/tool/default.png' }"
-            style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"
+            class="tm-item__img"
           />
         </div>
         <div class="tm-item__content">
@@ -1326,13 +1325,13 @@ onMounted(() => {
             class="tm-action"
             @click="openEditDrawer(tool)"
             title="编辑"
-          >&#9998;</button>
+          ><HIcon svg="edit" :size="16" /></button>
           <button
             v-if="isOwnTool(tool)"
             class="tm-action tm-action--danger"
             @click="handleDeleteTool(tool)"
             title="删除"
-          >&#128465;</button>
+          ><HIcon svg="delete" :size="16" /></button>
         </div>
       </div>
     </div>
@@ -1342,10 +1341,11 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
 .tool-page {
   padding: 32px;
-  min-height: 100vh;
-  background: var(--harmony-comp-background-primary);
+  min-height: 100%;
+  background: transparent;
   
   .page-header {
     display: flex;
@@ -1356,17 +1356,11 @@ onMounted(() => {
     padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
     border-radius: var(--harmony-corner-radius-level8);
     box-shadow: 0 6px 24px var(--harmony-shadow-sm);
-    border: 1px solid var(--harmony-comp-divider);
     
     .header-title {
       display: flex;
       align-items: center;
       gap: 14px;
-      
-      .title-icon {
-        width: 36px;
-        height: 36px;
-      }
       
       h2 {
         margin: 0;
@@ -1404,8 +1398,6 @@ onMounted(() => {
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8) 16px 0 0;
     box-shadow: none;
-    border: 1px solid var(--harmony-comp-divider);
-    border-bottom: none;
     overflow: hidden;
     
     .tool-tabs {
@@ -1457,8 +1449,6 @@ onMounted(() => {
   
   .tool-container {
     background: var(--harmony-comp-background-primary);
-    border: 1px solid var(--harmony-comp-divider);
-    border-top: none;
     border-radius: 0 0 16px 16px;
     overflow: hidden;
     box-shadow: 0 2px 8px var(--harmony-shadow-sm);
@@ -1726,7 +1716,7 @@ onMounted(() => {
 }
 
 // 响应式设计
-@media (max-width: 1200px) {
+@include tablet-and-below {
   .tool-page {
     .list-header,
     .tool-list .tool-row {
@@ -1736,7 +1726,7 @@ onMounted(() => {
   }
 }
 
-@media (max-width: 768px) {
+@include mobile {
   .tool-page {
     padding: 20px;
     
@@ -1747,11 +1737,6 @@ onMounted(() => {
       padding: 24px;
       
       .header-title {
-        .title-icon {
-          width: 32px;
-          height: 32px;
-        }
-        
         h2 {
           font-size: var(--harmony-font-size-title-s);
         }
@@ -1786,8 +1771,7 @@ onMounted(() => {
       border-radius: var(--harmony-corner-radius-level8);
       margin: 12px;
       background: var(--harmony-comp-background-primary);
-      border: 1px solid var(--harmony-comp-divider);
-      
+
       .col-icon {
         justify-content: center;
         
@@ -2710,7 +2694,7 @@ onMounted(() => {
   height: var(--harmony-control-height-40, 40px);
   padding: 0 var(--harmony-padding-level8, 16px);
   background: var(--harmony-brand);
-  color: white;
+  color: var(--harmony-comp-common-contrary, white);
   border: none;
   border-radius: var(--harmony-corner-radius-level6, 12px);
   font-size: var(--harmony-font-size-body-m);
@@ -2745,6 +2729,13 @@ onMounted(() => {
     flex-shrink: 0;
     font-size: 20px;
     overflow: hidden;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
   }
 
   &__content {
@@ -2801,7 +2792,7 @@ onMounted(() => {
   border: none;
   border-radius: var(--harmony-corner-radius-level4, 8px);
   cursor: pointer;
-  font-size: 16px;
+  font-size: var(--harmony-font-size-body-l, 16px);
   &:active { background: var(--harmony-interactive-pressed); }
   &--danger:active { background: rgba(232, 64, 38, 0.1); }
 }
@@ -2810,7 +2801,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 0;
+  padding: var(--harmony-padding-level16, 32px) 0;
   p { font-size: var(--harmony-font-size-body-m); color: var(--harmony-font-tertiary); margin: 0; }
 }
 </style>

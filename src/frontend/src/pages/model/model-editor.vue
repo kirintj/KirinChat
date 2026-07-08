@@ -227,9 +227,6 @@ onMounted(() => {
       </div>
       
       <div class="header-title">
-        <div class="title-icon" style="display:flex;align-items:center;justify-content:center;">
-          ⚙️
-        </div>
         <h2>编辑模型</h2>
       </div>
     </div>
@@ -238,9 +235,6 @@ onMounted(() => {
     <div v-if="currentModel" class="edit-form-section">
       <div class="form-container">
         <div class="form-header">
-          <div class="form-icon" style="display:flex;align-items:center;justify-content:center;font-size:28px;">
-            🤖
-          </div>
           <div class="form-title">
             <h3>模型配置</h3>
             <p>修改模型的基本信息和连接配置</p>
@@ -359,11 +353,12 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
 .model-editor-page {
   padding: 24px;
   height: 100%;
   background: var(--harmony-comp-background-primary);
-  min-height: 100vh;
+  min-height: 100%;
   
   .page-header {
     display: flex;
@@ -429,17 +424,6 @@ onMounted(() => {
       align-items: center;
       gap: 16px;
       
-      .title-icon {
-        width: 48px;
-        height: 48px;
-        background: var(--harmony-brand);
-        border-radius: var(--harmony-corner-radius-level8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 8px 20px var(--harmony-comp-emphasize-tertiary);
-      }
-      
       h2 {
         margin: 0;
         font-size: var(--harmony-font-size-title-m);
@@ -467,17 +451,6 @@ onMounted(() => {
         margin-bottom: 32px;
         padding-bottom: 24px;
         border-bottom: 2px solid var(--harmony-comp-background-primary);
-        
-        .form-icon {
-          width: 56px;
-          height: 56px;
-          background: linear-gradient(135deg, var(--harmony-confirm) 0%, var(--harmony-confirm) 100%);
-          border-radius: var(--harmony-corner-radius-level8);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 8px 20px var(--harmony-confirm-bg);
-        }
         
                   .form-title {
             h3 {
@@ -701,7 +674,7 @@ onMounted(() => {
 }
 
 // 响应式设计
-@media (max-width: 768px) {
+@include mobile {
   .model-editor-page {
     padding: 16px;
     

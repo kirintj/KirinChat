@@ -223,6 +223,8 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../../styles/breakpoints.scss' as *;
+
 .hub-page {
   padding: 24px 32px;
   max-width: 1100px;
@@ -368,7 +370,7 @@ onMounted(() => {
 }
 
 // 响应式：平板端快捷入口改为 2 列，底部堆叠
-@media (max-width: 1199px) {
+@include tablet-and-below {
   .quick-entry-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -379,9 +381,9 @@ onMounted(() => {
 }
 
 // 响应式：移动端快捷入口改为单列
-@media (max-width: 767px) {
+@include mobile {
   .hub-page {
-    padding: 16px;
+    padding: var(--harmony-page-padding-mobile);
   }
 
   .quick-entry-grid {

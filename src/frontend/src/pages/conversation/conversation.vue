@@ -591,15 +591,19 @@ const closeCreateDialog = () => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
+
 .conversation-main {
   display: flex;
   height: calc(100vh - 60px);
-  background-color: var(--harmony-comp-background-primary);
+  background-color: transparent;
 
   .sidebar {
     height: 100%;
     width: 280px;
-    background-color: var(--harmony-comp-background-primary);
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(60px);
+    -webkit-backdrop-filter: blur(60px);
     border-right: 1px solid var(--harmony-comp-divider);
     display: flex;
     flex-direction: column;
@@ -1063,28 +1067,28 @@ const closeCreateDialog = () => {
 }
 
 // 响应式设计
-@media (max-width: 768px) {
+@include mobile {
   .conversation-main {
     .sidebar {
       width: 240px;
     }
-    
+
     .content {
       margin: 0;
     }
   }
 }
 
-@media (max-width: 480px) {
+@include mobile {
   .conversation-main {
     flex-direction: column;
-    
+
     .sidebar {
       width: 100%;
       height: auto;
       max-height: 300px;
     }
-    
+
     .content {
       flex: 1;
       margin: 0;
@@ -1127,23 +1131,7 @@ const closeCreateDialog = () => {
     background: var(--harmony-comp-background-secondary);
     border-radius: var(--harmony-corner-radius-level12) 24px 0 0;
 
-    &::-webkit-scrollbar {
-      width: 10px;
-    }
 
-    &::-webkit-scrollbar-track {
-      background: var(--harmony-comp-background-secondary);
-      border-radius: 5px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: var(--harmony-comp-divider);
-      border-radius: 5px;
-
-      &:hover {
-        background: var(--harmony-font-tertiary);
-      }
-    }
 
     .search-section {
       margin-bottom: 28px;
@@ -1294,24 +1282,6 @@ const closeCreateDialog = () => {
         max-height: 450px;
         overflow-y: auto;
         padding: 6px;
-
-        &::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        &::-webkit-scrollbar-track {
-          background: var(--harmony-comp-background-secondary);
-          border-radius: var(--harmony-corner-radius-level2);
-        }
-
-        &::-webkit-scrollbar-thumb {
-          background: var(--harmony-comp-divider);
-          border-radius: var(--harmony-corner-radius-level2);
-
-          &:hover {
-            background: var(--harmony-font-tertiary);
-          }
-        }
 
         .agent-card {
           border: 1px solid var(--harmony-comp-divider);
@@ -1593,7 +1563,7 @@ const closeCreateDialog = () => {
   height: var(--harmony-control-height-40, 40px);
   padding: 0 var(--harmony-padding-level8, 16px);
   background: var(--harmony-brand);
-  color: white;
+  color: var(--harmony-comp-common-contrary, white);
   border: none;
   border-radius: var(--harmony-corner-radius-level6, 12px);
   font-size: var(--harmony-font-size-body-m);
@@ -1605,7 +1575,7 @@ const closeCreateDialog = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 0;
+  padding: var(--harmony-padding-level16, 32px) 0;
   font-size: var(--harmony-font-size-body-m);
   color: var(--harmony-font-tertiary);
 }
@@ -1677,7 +1647,7 @@ const closeCreateDialog = () => {
     border: none;
     border-radius: var(--harmony-corner-radius-level4, 8px);
     color: var(--harmony-font-tertiary);
-    font-size: 20px;
+    font-size: var(--harmony-font-size-title-s, 20px);
     cursor: pointer;
     flex-shrink: 0;
 

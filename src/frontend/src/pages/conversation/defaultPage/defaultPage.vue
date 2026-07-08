@@ -24,6 +24,8 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../../styles/breakpoints.scss' as *;
+
 .default-page {
   display: flex;
   flex-direction: column;
@@ -197,7 +199,7 @@ onMounted(async () => {
 }
 
 // 响应式设计
-@media (max-width: 768px) {
+@include mobile {
   .default-page {
     padding: 16px;
 
@@ -232,7 +234,7 @@ onMounted(async () => {
   }
 }
 
-@media (max-width: 480px) {
+@include mobile {
   .default-page {
     .header-section {
       .welcome-content {

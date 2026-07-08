@@ -56,7 +56,7 @@ const modes = [
   },
   {
     id: 'lingseek',
-    label: '灵寻LingSeek',
+    label: '深思模式',
     icon: '✨',
     desc: '复杂任务规划与执行'
   }
@@ -329,15 +329,6 @@ watch(
       <!-- ===== 欢迎区域（无对话时） ===== -->
       <template v-if="messages.length === 0">
         <div class="welcome-section">
-          <div class="welcome-avatar">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-              <circle cx="28" cy="28" r="28" fill="var(--harmony-comp-emphasize-tertiary)"/>
-              <path d="M20 22C20 20.8954 20.8954 20 22 20H34C35.1046 20 36 20.8954 36 22V30C36 31.1046 35.1046 32 34 32H24L20 36V22Z" fill="var(--harmony-brand)" opacity="0.85"/>
-              <circle cx="24" cy="26" r="1.5" fill="white"/>
-              <circle cx="28" cy="26" r="1.5" fill="white"/>
-              <circle cx="32" cy="26" r="1.5" fill="white"/>
-            </svg>
-          </div>
           <h1 class="welcome-title">你好，我是麒麟智聊</h1>
           <p class="welcome-desc">选择一种模式，开始对话吧</p>
 
@@ -349,7 +340,6 @@ watch(
               :class="['mode-card', { active: selectedMode === mode.id }]"
               @click="selectMode(mode.id)"
             >
-              <div class="mode-card-icon">{{ mode.icon }}</div>
               <div class="mode-card-body">
                 <div class="mode-card-title">{{ mode.label }}</div>
                 <div class="mode-card-desc">{{ mode.desc }}</div>
@@ -369,12 +359,6 @@ watch(
         <div v-for="(msg, idx) in messages" :key="idx" class="msg-row" :class="msg.role">
           <!-- AI消息 -->
           <template v-if="msg.role === 'assistant'">
-            <div class="msg-avatar ai">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <circle cx="9" cy="9" r="9" fill="var(--harmony-brand)"/>
-                <path d="M5.5 7C5.5 6.17157 6.17157 5.5 7 5.5H11C11.8284 5.5 12.5 6.17157 12.5 7V10C12.5 10.8284 11.8284 11.5 11 11.5H7.5L5.5 13.5V7Z" fill="white" opacity="0.9"/>
-              </svg>
-            </div>
             <div class="msg-bubble ai">
               <div v-if="!msg.content && isGenerating && idx === messages.length - 1" class="msg-loading">
                 <span class="dot-pulse"></span>
@@ -386,13 +370,6 @@ watch(
           <!-- 用户消息 -->
           <template v-else>
             <div class="msg-bubble user">{{ msg.content }}</div>
-            <div class="msg-avatar user">
-              <img
-                :src="userStore.userInfo?.avatar || '/user.svg'"
-                alt="avatar"
-                @error="handleAvatarError"
-              />
-            </div>
           </template>
         </div>
       </div>
@@ -438,7 +415,7 @@ watch(
                 </transition>
               </div>
 
-              <!-- 联网搜索（灵寻模式） -->
+              <!-- 联网搜索（深思模式） -->
               <div v-if="selectedMode === 'lingseek'" class="action-dropdown">
                 <button :class="['action-btn', { active: webSearchEnabled }]" @click="toggleWebSearch">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -555,11 +532,6 @@ watch(
   display: flex;
   justify-content: center;
   background: var(--harmony-comp-background-primary);
-
-  &.has-messages {
-    background: var(--harmony-comp-background-secondary);
-    overflow: hidden;
-  }
 }
 
 .dp-inner {
@@ -569,11 +541,15 @@ watch(
   flex-direction: column;
   align-items: center;
   padding: 48px 24px 32px;
+  justify-content: center;
+  min-height: 100%;
 
   .has-messages & {
     max-width: 100%;
     height: 100%;
     padding: 0;
+    justify-content: flex-start;
+    min-height: auto;
   }
 }
 
@@ -584,11 +560,6 @@ watch(
   width: 100%;
   max-width: 460px;
 
-  .welcome-avatar {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-  }
 
   .welcome-title {
     font-size: 26px;
@@ -632,19 +603,6 @@ watch(
     &.active {
       border-color: var(--harmony-brand);
       background: var(--harmony-comp-emphasize-tertiary);
-    }
-
-    .mode-card-icon {
-      font-size: var(--harmony-font-size-title-m);
-      flex-shrink: 0;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--harmony-comp-background-secondary);
-      border-radius: var(--harmony-corner-radius-level4);
-      border: 1px solid var(--harmony-comp-divider);
     }
 
     .mode-card-body {
@@ -702,30 +660,9 @@ watch(
   }
 }
 
-.msg-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid var(--harmony-comp-divider);
-
-  &.ai {
-    border: none;
-  }
-
-  &.user img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
 
 .msg-bubble {
-  max-width: 68%;
+  max-width: 70%;
   padding: 10px 14px;
   border-radius: var(--harmony-corner-radius-level8);
   font-size: var(--harmony-font-size-subtitle-s);
@@ -740,8 +677,6 @@ watch(
 
   &.ai {
     background: var(--harmony-comp-background-primary);
-    border: 1px solid var(--harmony-comp-divider);
-    border-bottom-left-radius: 4px;
 
     :deep(.md-editor-preview-wrapper) {
       background: transparent !important;
@@ -757,7 +692,7 @@ watch(
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--harmony-font-tertiary);
+    
     animation: harmony-pulse 1.4s infinite ease-in-out both;
   }
 }
@@ -775,7 +710,6 @@ watch(
   &.fixed {
     max-width: 100%;
     padding: 8px 24px 16px;
-    background: var(--harmony-comp-background-secondary);
     animation: none;
   }
 
@@ -819,8 +753,6 @@ watch(
       justify-content: space-between;
       align-items: center;
       margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid var(--harmony-comp-divider);
     }
 
     .action-group {

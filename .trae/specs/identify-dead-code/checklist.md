@@ -1,0 +1,16 @@
+- [x] 前端 4 个死页面已删除，路由无残留引用
+- [x] 前端 dialog/create_agent/ 目录已删除
+- [x] 前端 4 个死文件（mars.ts、function.ts、history_list store、useEChartsTheme）已删除（breakpoints.scss 经发现被 vite 全局注入，已恢复）
+- [x] 前端 12 个死 UI 组件保留不删除（用户决定）
+- [x] 前端 type.ts 中 4 个死类型导出已清理（AgentCreateType、AgentUpdateType、CardListType、KnowledgeFileStatus；DialogCreateType 保留因被使用）
+- [x] 前端 14 个死 API 函数导出已清理
+- [x] 前端 UploadResponse 死导出已清理（getFileExtension 保留因被 getFileType 调用）
+- [x] 后端 8 个死文件已删除
+- [x] 后端 kirinchat/test/ 目录已删除
+- [x] 后端 tools/__init__.py 中 google_search 死导入已清理
+- [x] 后端 helpers.py 中 27 个死函数已清理（435行→114行）
+- [x] 后端 constants.py、errcode/user.py、prompts/completion.py、convert.py 中死代码已清理
+- [x] 项目根目录临时文件、过时脚本、冗余配置已删除
+- [x] .claude/worktrees/ 缓存已清理
+- [x] 前端 vite build 编译通过
+- [x] 前端 vue-tsc 类型检查通过

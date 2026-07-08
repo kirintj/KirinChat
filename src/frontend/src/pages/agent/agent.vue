@@ -146,16 +146,6 @@ onMounted(() => {
     <!-- ===== 页面头部 ===== -->
     <div class="page-header">
       <div class="header-left">
-        <div class="header-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="8" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/>
-            <circle cx="9" cy="14" r="1.5" fill="currentColor"/>
-            <circle cx="15" cy="14" r="1.5" fill="currentColor"/>
-            <path d="M12 3v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <circle cx="12" cy="2.5" r="1.5" fill="currentColor"/>
-            <path d="M3 14H1.5M22.5 14H21M12 20v2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
         <div class="header-text">
           <h1 class="header-title">智能体管理</h1>
           <p class="header-desc">创建和管理您的智能体</p>
@@ -400,11 +390,12 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
 /* ===== 页面容器 ===== */
 .agent-page {
-  min-height: 100vh;
+  min-height: 100%;
   padding: 32px;
-  background: var(--harmony-comp-background-secondary);
+  background: transparent;
 }
 
 /* ===== 页面头部 ===== */
@@ -416,7 +407,6 @@ onMounted(() => {
   margin-bottom: 24px;
   padding: 20px 24px;
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8);
 }
 
@@ -424,18 +414,6 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 14px;
-}
-
-.header-icon {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--harmony-comp-emphasize-tertiary);
-  color: var(--harmony-brand);
-  border-radius: var(--harmony-corner-radius-level6);
-  flex-shrink: 0;
 }
 
 .header-text {
@@ -469,12 +447,10 @@ onMounted(() => {
   height: 38px;
   padding: 0 34px 0 34px;
   background: var(--harmony-comp-background-secondary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level6);
   transition: all 0.15s ease;
 
   &:focus-within {
-    border-color: var(--harmony-brand);
     background: var(--harmony-comp-background-primary);
     box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
   }
@@ -629,14 +605,12 @@ onMounted(() => {
   flex-direction: column;
   padding: 18px;
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8);
   cursor: pointer;
   transition: all 0.2s ease;
   overflow: hidden;
 
   &:hover {
-    border-color: var(--harmony-brand);
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 
@@ -693,7 +667,6 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   color: var(--harmony-font-tertiary);
   border-radius: var(--harmony-corner-radius-level4);
   cursor: pointer;
@@ -703,7 +676,6 @@ onMounted(() => {
 
   &:hover {
     background: var(--harmony-warning-bg);
-    border-color: var(--harmony-warning);
     color: var(--harmony-warning);
   }
 }
@@ -765,7 +737,6 @@ onMounted(() => {
   display: flex;
   gap: 6px;
   padding-top: 12px;
-  border-top: 1px solid var(--harmony-comp-divider);
 
   .meta-item {
     display: flex;
@@ -813,7 +784,6 @@ onMounted(() => {
     color: var(--harmony-font-tertiary);
     border-radius: 50%;
     margin-bottom: 20px;
-    border: 1px solid var(--harmony-comp-divider);
   }
 
   h3 {
@@ -911,7 +881,7 @@ onMounted(() => {
 }
 
 /* ===== 响应式 ===== */
-@media (max-width: 900px) {
+@include tablet-and-below {
   .agent-page {
     padding: 20px 16px;
   }
@@ -939,7 +909,7 @@ onMounted(() => {
   }
 }
 
-@media (max-width: 600px) {
+@include mobile {
   .agent-grid {
     grid-template-columns: 1fr;
   }
@@ -1018,7 +988,6 @@ onMounted(() => {
   gap: var(--harmony-padding-level4, 8px);
   padding: var(--harmony-padding-level8, 16px);
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8, 16px);
   cursor: pointer;
   transition: background 0.15s ease;
@@ -1077,7 +1046,6 @@ onMounted(() => {
     gap: var(--harmony-padding-level2, 4px);
     flex-wrap: wrap;
     padding-top: var(--harmony-padding-level4, 8px);
-    border-top: 1px solid var(--harmony-comp-divider);
   }
 }
 

@@ -708,9 +708,8 @@ const saveUserConfig = async () => {
 
 <template>
   <div class="mcp-server-page">
-    <div class="page-header">
+    <div v-if="!isMobile" class="page-header">
       <div class="header-title">
-        <img :src="mcpIcon" alt="MCP" class="title-icon" />
         <h2>MCP Server管理</h2>
       </div>
       <div class="header-actions">
@@ -881,7 +880,7 @@ const saveUserConfig = async () => {
               :src="server.logo_url || '/src/assets/robot.svg'"
               :alt="server.server_name"
               @error="handleImageError"
-              style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"
+              class="mcpm-item__img"
             />
           </div>
           <div class="mcpm-item__content">
@@ -1421,6 +1420,8 @@ const saveUserConfig = async () => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
+
 // 弹窗样式 - 移除scoped，因为使用了Teleport
 .modal-overlay {
   position: fixed;
@@ -1678,7 +1679,6 @@ const saveUserConfig = async () => {
 .mcp-form {
   .form-section {
     background: var(--harmony-comp-background-primary);
-    border: 1px solid var(--harmony-comp-divider);
     border-radius: var(--harmony-corner-radius-level8);
     padding: 20px;
     margin-bottom: 20px;
@@ -1690,7 +1690,6 @@ const saveUserConfig = async () => {
       gap: 8px;
       margin-bottom: 20px;
       padding-bottom: 12px;
-      border-bottom: 1px solid var(--harmony-comp-divider);
       font-weight: 600;
       color: var(--harmony-font-primary);
       font-size: var(--harmony-font-size-body-l);
@@ -1707,7 +1706,7 @@ const saveUserConfig = async () => {
     grid-template-columns: 1fr 1fr;
     gap: 24px;
     
-    @media (max-width: 768px) {
+    @include mobile {
       grid-template-columns: 1fr;
     }
   }
@@ -1717,7 +1716,7 @@ const saveUserConfig = async () => {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     
-    @media (max-width: 768px) {
+    @include mobile {
       grid-template-columns: 1fr;
     }
   }
@@ -1872,7 +1871,6 @@ const saveUserConfig = async () => {
         font-size: var(--harmony-font-size-caption-l);
         color: var(--harmony-font-tertiary);
         font-weight: 500;
-        border: 1px solid var(--harmony-comp-divider);
         /* removed backdrop-filter */
       }
     }
@@ -2079,7 +2077,6 @@ const saveUserConfig = async () => {
       
       .stat-card {
         background: var(--harmony-comp-background-primary);
-        border: 1px solid var(--harmony-comp-divider);
         border-radius: var(--harmony-corner-radius-level8);
         padding: 20px;
         display: flex;
@@ -2121,7 +2118,6 @@ const saveUserConfig = async () => {
     .tools-list {
       .tool-item {
         background: var(--harmony-comp-background-primary);
-        border: 1px solid var(--harmony-comp-divider);
         border-radius: var(--harmony-corner-radius-level8);
         margin-bottom: 12px;
         overflow: hidden;
@@ -2129,12 +2125,10 @@ const saveUserConfig = async () => {
         cursor: pointer;
         
         &:hover {
-          border-color: var(--harmony-brand);
           box-shadow: var(--harmony-shadow-sm);
         }
         
         &.expanded {
-          border-color: var(--harmony-brand);
           box-shadow: var(--harmony-shadow-sm);
           
           .tool-expand-icon svg {
@@ -2196,12 +2190,10 @@ const saveUserConfig = async () => {
         }
         
         .tool-details {
-          border-top: 1px solid var(--harmony-comp-divider);
           padding: 0 24px 20px 24px;
           
           .tool-schema {
             background: var(--harmony-comp-background-primary);
-            border: 1px solid var(--harmony-comp-divider);
             border-radius: var(--harmony-corner-radius-level6);
             padding: 20px;
             margin-top: 20px;
@@ -2212,7 +2204,6 @@ const saveUserConfig = async () => {
               gap: 8px;
               margin-bottom: 16px;
               padding-bottom: 12px;
-              border-bottom: 1px solid var(--harmony-comp-divider);
               font-weight: 600;
               color: var(--harmony-font-primary);
               font-size: var(--harmony-font-size-body-m);
@@ -2295,7 +2286,6 @@ const saveUserConfig = async () => {
                   
                   .property-card {
                     background: var(--harmony-comp-background-primary);
-                    border: 1px solid var(--harmony-comp-divider);
                     border-radius: var(--harmony-corner-radius-level4);
                     padding: 16px;
                     
@@ -2376,7 +2366,7 @@ const saveUserConfig = async () => {
 
 .mcp-server-page {
   padding: 32px;
-  min-height: 100vh;
+  min-height: 100%;
   background: var(--harmony-comp-background-primary);
   
   .page-header {
@@ -2388,17 +2378,11 @@ const saveUserConfig = async () => {
     padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
     border-radius: var(--harmony-corner-radius-level8);
     box-shadow: var(--harmony-shadow-xs);
-    border: 1px solid var(--harmony-comp-divider);
     
     .header-title {
       display: flex;
       align-items: center;
       gap: 14px;
-      
-      .title-icon {
-        width: 36px;
-        height: 36px;
-      }
       
       h2 {
         margin: 0;
@@ -2432,7 +2416,6 @@ const saveUserConfig = async () => {
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8);
     box-shadow: var(--harmony-shadow-xs);
-    border: 1px solid var(--harmony-comp-divider);
     overflow: auto;
     
     :deep(.server-table-wrapper) {
@@ -2486,7 +2469,6 @@ const saveUserConfig = async () => {
       height: 40px;
       border-radius: var(--harmony-corner-radius-level6);
       overflow: hidden;
-      border: 1px solid var(--harmony-comp-divider);
       margin: 0 auto;
       
       img {
@@ -2649,7 +2631,7 @@ const saveUserConfig = async () => {
 }
 
 // 响应式设计
-@media (max-width: 768px) {
+@include mobile {
   .mcp-server-page {
     padding: 16px;
     
@@ -2799,8 +2781,6 @@ const saveUserConfig = async () => {
     justify-content: space-between;
     align-items: center;
     background: var(--harmony-comp-background-primary);
-    border: 1px solid var(--harmony-comp-divider);
-    border-bottom: none;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     padding: 8px 12px;
@@ -2853,7 +2833,6 @@ const saveUserConfig = async () => {
   // 编辑器容器
   .editor-container {
     height: 300px;
-    border: 1px solid var(--harmony-comp-divider);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     overflow: hidden;
@@ -2868,7 +2847,6 @@ const saveUserConfig = async () => {
   .config-help {
     margin-top: 24px;
     background: var(--harmony-comp-background-primary);
-    border: 1px solid var(--harmony-comp-divider);
     border-radius: var(--harmony-corner-radius-level6);
     overflow: hidden;
     
@@ -2882,7 +2860,6 @@ const saveUserConfig = async () => {
       color: var(--harmony-font-primary);
       font-size: var(--harmony-font-size-body-m);
       font-weight: 600;
-      border-bottom: 1px solid var(--harmony-comp-divider);
     }
     
     .help-content {
@@ -2948,7 +2925,6 @@ const saveUserConfig = async () => {
               color: var(--harmony-font-secondary);
               font-family: var(--harmony-font-family);
               font-size: var(--harmony-font-size-body-s);
-              border: 1px solid var(--harmony-comp-divider);
               box-shadow: 0 1px 2px var(--harmony-shadow-xs);
             }
           }
@@ -2967,7 +2943,7 @@ const saveUserConfig = async () => {
   }
 }
 
-@media (max-width: 768px) {
+@include mobile {
   .config-dialog {
     .editor-container {
       height: 250px;
@@ -3036,8 +3012,9 @@ const saveUserConfig = async () => {
 .mcp-server-page {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  background: var(--harmony-comp-background-secondary);
+  min-height: 100%;
+  width: 100%;
+  background: transparent;
 }
 
 .page-header {
@@ -3046,17 +3023,11 @@ const saveUserConfig = async () => {
   align-items: center;
   padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
   background: var(--harmony-comp-background-primary);
-  border-bottom: 1px solid var(--harmony-comp-divider);
   
   .header-title {
     display: flex;
     align-items: center;
     gap: 12px;
-    
-    .title-icon {
-      width: 32px;
-      height: 32px;
-    }
     
     h2 {
       margin: 0;
@@ -3182,7 +3153,7 @@ const saveUserConfig = async () => {
   height: var(--harmony-control-height-40, 40px);
   padding: 0 var(--harmony-padding-level8, 16px);
   background: var(--harmony-brand);
-  color: white;
+  color: var(--harmony-comp-common-contrary, white);
   border: none;
   border-radius: var(--harmony-corner-radius-level6, 12px);
   font-size: var(--harmony-font-size-body-m);
@@ -3202,7 +3173,6 @@ const saveUserConfig = async () => {
   gap: var(--harmony-padding-level6, 12px);
   padding: var(--harmony-padding-level6, 12px);
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8, 16px);
   transition: background 0.15s ease;
 
@@ -3217,6 +3187,13 @@ const saveUserConfig = async () => {
     flex-shrink: 0;
     font-size: 20px;
     overflow: hidden;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
   }
 
   &__content {
@@ -3270,7 +3247,7 @@ const saveUserConfig = async () => {
   flex-shrink: 0;
 
   &.active, &.online {
-    background: rgba(100, 187, 92, 0.15);
+    background: var(--harmony-confirm-bg, rgba(100, 187, 92, 0.15));
     color: var(--harmony-confirm);
   }
   &.inactive, &.offline {
@@ -3289,7 +3266,7 @@ const saveUserConfig = async () => {
   border: none;
   border-radius: var(--harmony-corner-radius-level4, 8px);
   cursor: pointer;
-  font-size: 16px;
+  font-size: var(--harmony-font-size-body-l, 16px);
   &:active { background: var(--harmony-interactive-pressed); }
   &--danger:active { background: rgba(232, 64, 38, 0.1); }
 }
@@ -3298,7 +3275,7 @@ const saveUserConfig = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 0;
+  padding: var(--harmony-padding-level16, 32px) 0;
   p { font-size: var(--harmony-font-size-body-m); color: var(--harmony-font-tertiary); margin: 0; }
 }
 </style>

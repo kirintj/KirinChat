@@ -144,19 +144,3 @@ export function searchAgentsAPI(data: { name: string }) {
     data
   })
 }
-
-// 获取默认参数（保留原有接口）
-export function defaultParameterAPI() {
-  return request({
-    url: '/api/default/parameter',
-    method: 'GET',
-  })
-}
-
-// 获取默认代码（保留原有接口）
-export function defaultCodeAPI() {
-  return request({
-    url: '/api/default/code',
-    method: 'GET',
-  })
-}

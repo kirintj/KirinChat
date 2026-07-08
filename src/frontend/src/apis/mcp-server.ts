@@ -98,15 +98,6 @@ export const deleteMCPServerAPI = (server_id: string) => {
   })
 }
 
-// 获取MCP工具信息
-export const getMCPToolsAPI = (server_id: string) => {
-  return request<any>({
-    url: '/api/v1/mcp_tools',
-    method: 'GET',
-    data: { server_id }
-  })
-}
-
 // MCP用户配置相关接口
 export interface MCPUserConfigCreateRequest {
   mcp_server_id: string
@@ -156,15 +147,6 @@ export const updateMCPUserConfigAPI = (data: MCPUserConfigUpdateRequest) => {
     url: '/api/v1/mcp_user_config/update',
     method: 'PUT',
     data
-  })
-}
-
-// 删除用户配置
-export const deleteMCPUserConfigAPI = (config_id: string) => {
-  return request<MCPServerSingleResponse>({
-    url: '/api/v1/mcp_user_config/delete',
-    method: 'DELETE',
-    data: { config_id }
   })
 }
 

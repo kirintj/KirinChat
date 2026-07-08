@@ -84,113 +84,50 @@ const goToLogin = () => {
 </script>
 
 <template>
-  <div class="register-container">
-    <!-- 左侧3D图形区域 -->
-    <div class="left-section">
-      <div class="graphic-container">
-        <div class="cube-3d">
-          <div class="cube-face front"></div>
-          <div class="cube-face back"></div>
-          <div class="cube-face right"></div>
-          <div class="cube-face left"></div>
-          <div class="cube-face top"></div>
-          <div class="cube-face bottom"></div>
-        </div>
-        <div class="cylinder-3d"></div>
-        <div class="sphere-3d"></div>
+  <div class="auth-page">
+    <div class="card">
+      <div class="header">
+        <div class="logo"><span class="logo__text">KirinChat</span></div>
+        <p class="subtitle">创建您的账户，开始智能对话之旅</p>
       </div>
-    </div>
 
-    <!-- 右侧注册表单区域 -->
-    <div class="right-section">
-      <div class="register-form-container">
-        <!-- Logo和标题 -->
-        <div class="header">
-          <div class="logo">
-            <span class="logo-text">KirinChat</span>
-          </div>
-          <p class="subtitle">创建您的账户，开始智能对话之旅</p>
-        </div>
+      <div class="field">
+        <label class="field__label">用户名</label>
+        <HInput v-model="registerForm.user_name" placeholder="请输入用户名（最多 20 个字符）" size="large" class="field__input" @keyup.enter="handleRegister" />
+      </div>
 
-        <!-- 注册表单 -->
-        <div class="register-form">
-          <div class="form-group">
-            <label class="form-label">用户名</label>
-            <HInput
-              v-model="registerForm.user_name"
-              placeholder="请输入用户名（最多20个字符）"
-              size="large"
-              class="register-input"
-              @keyup.enter="handleRegister"
-            />
-          </div>
+      <div class="field">
+        <label class="field__label">邮箱（可选）</label>
+        <HInput v-model="registerForm.user_email" placeholder="请输入邮箱地址" size="large" class="field__input" @keyup.enter="handleRegister" />
+      </div>
 
-          <div class="form-group">
-            <label class="form-label">邮箱（可选）</label>
-            <HInput
-              v-model="registerForm.user_email"
-              placeholder="请输入邮箱地址"
-              size="large"
-              class="register-input"
-              @keyup.enter="handleRegister"
-            />
-          </div>
+      <div class="field">
+        <label class="field__label">密码</label>
+        <HInput v-model="registerForm.user_password" type="password" placeholder="请输入密码（至少 6 个字符）" size="large" class="field__input" :show-password="true" @keyup.enter="handleRegister" />
+      </div>
 
-          <div class="form-group">
-            <label class="form-label">密码</label>
-            <HInput
-              v-model="registerForm.user_password"
-              type="password"
-              placeholder="请输入密码（至少6个字符）"
-              size="large"
-              class="register-input"
-              :show-password="true"
-              @keyup.enter="handleRegister"
-            />
-          </div>
+      <div class="field">
+        <label class="field__label">确认密码</label>
+        <HInput v-model="confirmPassword" type="password" placeholder="请再次输入密码" size="large" class="field__input" :show-password="true" @keyup.enter="handleRegister" />
+      </div>
 
-          <div class="form-group">
-            <label class="form-label">确认密码</label>
-            <HInput
-              v-model="confirmPassword"
-              type="password"
-              placeholder="请再次输入密码"
-              size="large"
-              class="register-input"
-              :show-password="true"
-              @keyup.enter="handleRegister"
-            />
-          </div>
+      <div class="actions">
+        <span class="switch-link">已有账号？<a href="#" @click.prevent="goToLogin">登录</a></span>
+      </div>
 
-          <div class="form-actions">
-            <div class="login-link">
-              <span>已有账号？</span>
-              <a href="#" @click="goToLogin">登录</a>
-            </div>
-          </div>
+      <button class="primary-btn" :disabled="loading" @click="handleRegister">
+        {{ loading ? '注册中…' : '注册' }}
+      </button>
 
-          <HButton
-            type="primary"
-            size="large"
-            class="register-button"
-            :loading="loading"
-            @click="handleRegister"
-          >
-            注册
-          </HButton>
-        </div>
-
-        <!-- 底部版本信息 -->
-        <div class="footer">
-          <div class="version-badge" title="KirinChat 版本">v2.5.0</div>
-          <div class="footer-icons">
-            <a href="https://github.com/kirintj/KirinChat" target="_blank" class="icon-link" title="GitHub">
-              <img src="../../assets/github.png" alt="GitHub" class="icon-img" />
-            </a>
-            <a href="https://uawlh9wstr9.feishu.cn/wiki/QOaLwMDtBiiduWk4YtAcavEsnne" target="_blank" class="icon-link" title="帮助文档">
-              <img src="../../assets/help.png" alt="帮助文档" class="icon-img" />
-            </a>
-          </div>
+      <div class="footer">
+        <span class="version-badge">v2.5.0</span>
+        <div class="footer-icons">
+          <a href="https://github.com/kirintj/KirinChat" target="_blank" title="GitHub">
+            <img src="../../assets/github.png" alt="GitHub" />
+          </a>
+          <a href="https://uawlh9wstr9.feishu.cn/wiki/QOaLwMDtBiiduWk4YtAcavEsnne" target="_blank" title="帮助文档">
+            <img src="../../assets/help.png" alt="帮助文档" />
+          </a>
         </div>
       </div>
     </div>
@@ -198,279 +135,145 @@ const goToLogin = () => {
 </template>
 
 <style lang="scss" scoped>
-.register-container {
-  display: flex;
-  height: 100vh;
-  background: linear-gradient(135deg, var(--harmony-comp-background-tertiary) 0%, var(--harmony-comp-divider) 100%);
-}
+/* 与 login.vue 一致的卡片布局。
+   输入框样式完全交给 HInput 组件本身，页面只负责排版与主色按钮。 */
+$brand-shadow: rgba(10, 89, 247, 0.18);
 
-.left-section {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-
-  .graphic-container {
-    position: relative;
-    width: 400px;
-    height: 400px;
-    
-    .cube-3d {
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      top: 50px;
-      left: 100px;
-      transform-style: preserve-3d;
-      animation: rotateCube 10s infinite linear;
-
-      .cube-face {
-        position: absolute;
-        width: 120px;
-        height: 120px;
-        background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        
-        &.front { transform: rotateY(0deg) translateZ(60px); }
-        &.back { transform: rotateY(180deg) translateZ(60px); }
-        &.right { transform: rotateY(90deg) translateZ(60px); }
-        &.left { transform: rotateY(-90deg) translateZ(60px); }
-        &.top { transform: rotateX(90deg) translateZ(60px); }
-        &.bottom { transform: rotateX(-90deg) translateZ(60px); }
-      }
-    }
-
-    .cylinder-3d {
-      position: absolute;
-      width: 80px;
-      height: 160px;
-      top: 200px;
-      left: 50px;
-      background: linear-gradient(180deg, #6b9eff, var(--harmony-brand));
-      border-radius: 40px;
-      box-shadow: 0 10px 30px rgba(79, 129, 255, 0.3);
-      animation: floatUp 6s ease-in-out infinite;
-    }
-
-    .sphere-3d {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      top: 120px;
-      right: 80px;
-      background: radial-gradient(circle at 30% 30%, #8bb6ff, var(--harmony-brand));
-      border-radius: 50%;
-      box-shadow: 0 8px 25px rgba(79, 129, 255, 0.4);
-      animation: floatDown 8s ease-in-out infinite;
-    }
-  }
-}
-
-.right-section {
-  overflow: hidden;  // 加上这一行
-  width: 450px;
-  background: var(--harmony-comp-background-secondary);
+.auth-page {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: -2px 0 20px rgba(0, 0, 0, 0.1);
+  padding: 24px 16px;
+  background: var(--harmony-background-secondary);
+  font-family: var(--harmony-font-family);
+}
 
-  .register-form-container {
-    width: 320px;
-    padding: 20px 0;
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--harmony-background-primary);
+  border-radius: var(--harmony-corner-radius-level10);
+  box-shadow: var(--harmony-shadow-md);
+  padding: 32px 32px 24px;
+}
 
-    .header {
-      text-align: center;
-      margin-bottom: 24px;
+.header { text-align: center; margin-bottom: 20px; }
+.header .logo { margin-bottom: 12px; }
 
-      .logo {
-        margin-bottom: 16px;
+.header .logo__text {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-comp-emphasize-secondary) 160%, var(--harmony-brand));
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: var(--harmony-corner-radius-level4);
+  font-size: var(--harmony-font-size-title-s);
+  font-weight: 700;
+  letter-spacing: 2px;
+  box-shadow: 0 4px 16px $brand-shadow;
+}
 
-        .logo-text {
-          display: inline-block;
-          background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
-          color: white;
-          padding: 12px 24px;
-          border-radius: var(--harmony-corner-radius-level4);
-          font-size: var(--harmony-font-size-title-s);
-          font-weight: 700;
-          letter-spacing: 2px;
-          font-family: var(--harmony-font-family);
-          box-shadow: 0 4px 12px rgba(79, 129, 255, 0.3);
-        }
-      }
+.header .subtitle {
+  color: var(--harmony-font-secondary);
+  font-size: var(--harmony-font-size-body-l);
+  line-height: 1.6;
+  margin: 0;
+}
 
-      .subtitle {
-        color: var(--harmony-font-secondary);
-        font-size: var(--harmony-font-size-body-l);
-        margin: 0;
-        line-height: 1.6;
-        font-weight: 400;
-        font-family: var(--harmony-font-family);
-      }
+/* 字段组：只做排版，不覆盖输入框自身样式 */
+.field { margin-bottom: 12px; }
+
+.field__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 600;
+  color: var(--harmony-font-primary);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 4px 0 16px;
+}
+
+.switch-link {
+  font-size: var(--harmony-font-size-subtitle-m);
+  color: var(--harmony-font-secondary);
+}
+
+.switch-link a {
+  color: var(--harmony-brand);
+  margin-left: 6px;
+  font-weight: 500;
+  text-decoration: none;
+
+  &:hover { color: var(--harmony-interactive-pressed); text-decoration: underline; }
+}
+
+.primary-btn {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: var(--harmony-corner-radius-level5);
+  background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-interactive-pressed));
+  color: #fff;
+  font-size: var(--harmony-font-size-subtitle-l);
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform var(--harmony-duration-normal) var(--harmony-motion-standard),
+              box-shadow var(--harmony-duration-normal) var(--harmony-motion-standard);
+
+  &:hover  { transform: translateY(-1px); box-shadow: 0 8px 24px $brand-shadow; }
+  &:active { transform: translateY(0); }
+  &:disabled { opacity: 0.7; cursor: not-allowed; }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--harmony-comp-divider);
+  font-size: var(--harmony-font-size-subtitle-s);
+  color: var(--harmony-font-tertiary);
+}
+
+.footer .version-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--harmony-corner-radius-level18);
+  background: var(--harmony-comp-emphasize-tertiary);
+  color: var(--harmony-brand);
+  font-weight: 600;
+}
+
+.footer .footer-icons {
+  display: flex;
+  gap: 10px;
+
+  a {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--harmony-comp-background-secondary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level4);
+    overflow: hidden;
+
+    &:hover {
+      box-shadow: 0 6px 16px $brand-shadow;
+      border-color: rgba(10, 89, 247, 0.4);
     }
 
-    .register-form {
-      .form-group {
-        margin-bottom: 14px;
-
-        .form-label {
-          display: block;
-          font-size: var(--harmony-font-size-body-l);
-          font-weight: 600;
-          color: var(--harmony-font-primary);
-          margin-bottom: 10px;
-          font-family: var(--harmony-font-family);
-          letter-spacing: 0.5px;
-        }
-
-        .register-input {
-          :deep(.el-input__wrapper) {
-            background: var(--harmony-comp-background-tertiary);
-            border: 1px solid var(--harmony-comp-divider);
-            border-radius: var(--harmony-corner-radius-level4);
-            padding: 12px 16px;
-            box-shadow: none;
-
-            &:hover {
-              border-color: var(--harmony-brand);
-            }
-
-            &.is-focus {
-              border-color: var(--harmony-brand);
-              box-shadow: 0 0 0 3px rgba(79, 129, 255, 0.1);
-            }
-          }
-
-          :deep(.el-input__inner) {
-            color: var(--harmony-font-primary);
-            font-size: var(--harmony-font-size-body-l);
-            font-family: var(--harmony-font-family);
-            font-weight: 400;
-
-            &::placeholder {
-              color: var(--harmony-font-tertiary);
-              font-size: var(--harmony-font-size-subtitle-m);
-            }
-          }
-        }
-      }
-
-      .form-actions {
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: 24px;
-
-        .login-link {
-          font-size: var(--harmony-font-size-subtitle-m);
-          color: var(--harmony-font-secondary);
-          font-family: var(--harmony-font-family);
-
-          a {
-            color: var(--harmony-brand);
-            text-decoration: none;
-            margin-left: 6px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-
-            &:hover {
-              text-decoration: underline;
-              color: var(--harmony-interactive-pressed);
-            }
-          }
-        }
-      }
-
-      .register-button {
-        width: 100%;
-        height: 52px;
-        background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
-        border: none;
-        border-radius: var(--harmony-corner-radius-level5);
-        font-size: var(--harmony-font-size-subtitle-l);
-        font-weight: 600;
-        font-family: var(--harmony-font-family);
-        letter-spacing: 1px;
-        transition: all 0.3s ease;
-
-        &:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 8px 25px rgba(79, 129, 255, 0.3);
-        }
-
-        &:active {
-          transform: translateY(0);
-        }
-      }
-    }
-
-    .footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 20px;
-      color: var(--harmony-font-tertiary);
-      font-size: var(--harmony-font-size-subtitle-s);
-      font-family: var(--harmony-font-family);
-      font-weight: 400;
-      border-top: 1px solid var(--harmony-comp-divider);
-      padding-top: 16px;
-
-      .version-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 10px;
-        border-radius: var(--harmony-corner-radius-level18);
-        background: var(--harmony-comp-emphasize-tertiary);
-        color: var(--harmony-brand);
-        border: 1px solid rgba(10, 89, 247, 0.25);
-        font-weight: 600;
-        letter-spacing: 0.3px;
-      }
-
-      .footer-icons {
-        display: flex;
-        gap: 10px;
-
-        a {
-          width: 28px;
-          height: 28px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: var(--harmony-comp-background-secondary);
-          border: 1px solid var(--harmony-comp-divider);
-          border-radius: var(--harmony-corner-radius-level4);
-          transition: all 0.2s ease;
-          overflow: hidden;
-
-          &:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(10, 89, 247, 0.2);
-            border-color: rgba(10, 89, 247, 0.4);
-          }
-
-          .icon-img {
-            width: 18px;
-            height: 18px;
-            object-fit: contain;
-            filter: saturate(0.9) contrast(1.05);
-          }
-        }
-      }
-    }
+    img { width: 16px; height: 16px; object-fit: contain; }
   }
-}
-
-
-@keyframes floatUp {
-  0%, 100% { transform: translateY(0px); }
-
-}
-@keyframes floatDown {
-  0%, 100% { transform: translateY(0px); }
-
 }
 </style> 

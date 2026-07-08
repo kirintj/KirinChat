@@ -646,6 +646,8 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
+
 // 离开页面提醒弹窗样式
 .leave-modal-overlay {
   position: fixed;
@@ -677,7 +679,7 @@ onMounted(() => {
 .leave-modal-header {
   padding: var(--harmony-padding-level16) var(--harmony-padding-level16) 16px;
   border-bottom: 1px solid var(--harmony-comp-divider);
-  
+
   h3 {
     margin: 0;
     font-size: var(--harmony-font-size-title-s);
@@ -750,7 +752,7 @@ onMounted(() => {
 
 .mars-output-page {
   height: 100vh;
-  background: var(--harmony-comp-background-primary);
+  background: transparent;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -760,7 +762,7 @@ onMounted(() => {
 .mars-output-container {
   flex: 1;
   width: 100%;
-  background: var(--harmony-comp-background-primary);
+  background: transparent;
   overflow-y: auto; /* 只在内容超出时显示垂直滚动条 */
   overflow-x: hidden; /* 隐藏水平滚动条 */
   display: flex;
@@ -805,7 +807,6 @@ onMounted(() => {
 
 .thinking-segment {
   background-color: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8);
   margin-bottom: 16px;
   box-shadow: 0 8px 24px var(--harmony-shadow-md), 0 2px 6px var(--harmony-shadow-xs);
@@ -820,7 +821,6 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--harmony-comp-divider);
 }
 
 .collapse-icon {
@@ -856,7 +856,6 @@ onMounted(() => {
   background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level8);
   padding: 16px 20px;
-  border: 1px solid var(--harmony-comp-divider);
   box-shadow: 0 2px 8px var(--harmony-shadow-md);
   display: flex;
   align-items: center;
@@ -1049,7 +1048,6 @@ onMounted(() => {
       border-radius: var(--harmony-corner-radius-level4);
       padding: 16px;
       margin: 8px 0;
-      border: 1px solid var(--harmony-comp-divider);
       width: 100%;
       box-sizing: border-box;
       overflow-x: auto;
@@ -1131,7 +1129,7 @@ onMounted(() => {
 
 // 删除输入相关样式，现在只是输出页面
 
-@media (max-width: 768px) {
+@include mobile {
   .mars-output-page {
     padding: 0;
   }

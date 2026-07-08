@@ -44,14 +44,6 @@ export function getAllLLMsAPI() {
   })
 }
 
-// 获取个人大模型
-export function getPersonalLLMsAPI() {
-  return request<ApiResponse<Record<string, LLMResponse[]>>>({
-    url: '/api/v1/llm/personal',
-    method: 'POST'
-  })
-}
-
 // 获取可见大模型
 export function getVisibleLLMsAPI() {
   return request<ApiResponse<Record<string, LLMResponse[]>>>({

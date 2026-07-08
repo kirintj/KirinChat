@@ -345,7 +345,6 @@ onMounted(() => {
     <!-- 页面头部 -->
     <div class="page-header">
       <div class="header-title">
-        <img :src="modelIcon" alt="模型" class="title-icon" />
         <h2>模型管理</h2>
       </div>
       <div class="header-actions">
@@ -467,132 +466,109 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- 创建模型对话框 -->
-    <div v-if="createDialogVisible" class="dialog-overlay" @click="createDialogVisible = false">
-      <div class="dialog-container" @click.stop>
-        <!-- 对话框主体 -->
-        <div class="dialog-body">
-          <div class="form-row">
-            <div class="form-item">
-              <label class="form-label">
-                <span class="label-text">模型名称</span>
-                <span class="required-mark">*</span>
-              </label>
-              <div class="input-wrapper">
-                <input 
-                  v-model="createForm.model"
-                  type="text" 
-                  placeholder="例如：qwen-max"
-                  maxlength="50"
-                  class="form-input"
-                />
-              </div>
-            </div>
+  </div>
 
-            <div class="form-item">
-              <label class="form-label">
-                <span class="label-text">提供商</span>
-                <span class="required-mark">*</span>
-              </label>
-              <div class="input-wrapper">
-                <input 
-                  v-model="createForm.provider"
-                  type="text" 
-                  placeholder="例如：通义千问"
-                  maxlength="50"
-                  class="form-input"
-                />
-              </div>
+  <!-- Shared dialogs (desktop + mobile) -->
+  <!-- 创建模型对话框 -->
+  <div v-if="createDialogVisible" class="dialog-overlay" @click="createDialogVisible = false">
+    <div class="dialog-container" @click.stop>
+      <div class="dialog-body">
+        <div class="form-row">
+          <div class="form-item">
+            <label class="form-label">
+              <span class="label-text">模型名称</span>
+              <span class="required-mark">*</span>
+            </label>
+            <div class="input-wrapper">
+              <input
+                v-model="createForm.model"
+                type="text"
+                placeholder="例如：qwen-max"
+                maxlength="50"
+                class="form-input"
+              />
             </div>
-
-            <div class="form-item">
-              <label class="form-label">
-                <span class="label-text">基础URL</span>
-                <span class="required-mark">*</span>
-              </label>
-              <div class="input-wrapper">
-                <input 
-                  v-model="createForm.base_url"
-                  type="text" 
-                  placeholder="例如：https://api.openai.com/v1"
-                  maxlength="200"
-                  class="form-input"
-                />
-              </div>
+          </div>
+          <div class="form-item">
+            <label class="form-label">
+              <span class="label-text">提供商</span>
+              <span class="required-mark">*</span>
+            </label>
+            <div class="input-wrapper">
+              <input
+                v-model="createForm.provider"
+                type="text"
+                placeholder="例如：通义千问"
+                maxlength="50"
+                class="form-input"
+              />
             </div>
-
-            <div class="form-item">
-              <label class="form-label">
-                <span class="label-text">API密钥</span>
-                <span class="required-mark">*</span>
-              </label>
-              <div class="input-wrapper api-key-wrapper">
-                <input 
-                  v-model="createForm.api_key"
-                  :type="showApiKey ? 'text' : 'password'" 
-                  placeholder="请输入您的API密钥"
-                  maxlength="200"
-                  class="form-input api-key-input"
-                />
-                <span class="toggle-password" @click="showApiKey = !showApiKey">
-                  <span v-if="showApiKey">👁</span>
-                  <span v-else>🙈</span>
-                </span>
-              </div>
+          </div>
+          <div class="form-item">
+            <label class="form-label">
+              <span class="label-text">基础URL</span>
+              <span class="required-mark">*</span>
+            </label>
+            <div class="input-wrapper">
+              <input
+                v-model="createForm.base_url"
+                type="text"
+                placeholder="例如：https://api.openai.com/v1"
+                maxlength="200"
+                class="form-input"
+              />
+            </div>
+          </div>
+          <div class="form-item">
+            <label class="form-label">
+              <span class="label-text">API密钥</span>
+              <span class="required-mark">*</span>
+            </label>
+            <div class="input-wrapper api-key-wrapper">
+              <input
+                v-model="createForm.api_key"
+                :type="showApiKey ? 'text' : 'password'"
+                placeholder="请输入您的API密钥"
+                maxlength="200"
+                class="form-input api-key-input"
+              />
+              <span class="toggle-password" @click="showApiKey = !showApiKey">
+                <HIcon :svg="showApiKey ? 'eye' : 'eye-off'" :size="20" />
+              </span>
             </div>
           </div>
         </div>
-        
-        <!-- 对话框底部 -->
-        <div class="dialog-footer">
-          <button 
-            class="dialog-btn cancel-btn" 
-            @click.stop="createDialogVisible = false"
-          >
-            <span class="btn-icon">❌</span>
-            <span class="btn-text">取消</span>
-          </button>
-          <button 
-            class="dialog-btn confirm-btn" 
-            :class="{ 'disabled': !createForm.model || !createForm.api_key || !createForm.base_url || !createForm.provider }"
-            :disabled="!createForm.model || !createForm.api_key || !createForm.base_url || !createForm.provider || createLoading"
-            @click.stop="handleCreate"
-          >
-            <span v-if="createLoading" class="btn-icon loading">⏳</span>
-            <span v-else class="btn-icon">✅</span>
-            <span class="btn-text">{{ createLoading ? '创建中...' : '确定创建' }}</span>
-          </button>
-        </div>
+      </div>
+      <div class="dialog-footer">
+        <button class="dialog-btn cancel-btn" @click.stop="createDialogVisible = false">
+          <span class="btn-text">取消</span>
+        </button>
+        <button
+          class="dialog-btn confirm-btn"
+          :class="{ 'disabled': !createForm.model || !createForm.api_key || !createForm.base_url || !createForm.provider }"
+          :disabled="!createForm.model || !createForm.api_key || !createForm.base_url || !createForm.provider || createLoading"
+          @click.stop="handleCreate"
+        >
+          <span v-if="createLoading" class="btn-icon loading">&#x21BB;</span>
+          <span class="btn-text">{{ createLoading ? '创建中...' : '确定创建' }}</span>
+        </button>
       </div>
     </div>
+  </div>
 
-    <!-- 删除确认对话框 -->
-    <div v-if="deleteDialogVisible" class="dialog-overlay" @click="cancelDelete">
-      <div class="delete-dialog-container" @click.stop>
-        <!-- 对话框主体 -->
-        <div class="delete-dialog-body">
-          <p v-if="modelToDelete">
-            确定要删除模型 <strong>"{{ modelToDelete.model }}"</strong> 吗？
-          </p>
-        </div>
-        
-        <!-- 对话框底部 -->
-        <div class="delete-dialog-footer">
-          <button 
-            class="delete-dialog-btn cancel-btn" 
-            @click="cancelDelete"
-            :disabled="deleteLoading"
-          >
-            取消
-          </button>
-          <button 
-            class="delete-dialog-btn confirm-btn" 
-            :disabled="deleteLoading"
-            @click="confirmDelete"
-          >
-            {{ deleteLoading ? '删除中...' : '确认删除' }}
-          </button>
-        </div>
+  <!-- 删除确认对话框 -->
+  <div v-if="deleteDialogVisible" class="dialog-overlay" @click="cancelDelete">
+    <div class="delete-dialog-container" @click.stop>
+      <div class="delete-dialog-body">
+        <p v-if="modelToDelete">
+          确定要删除模型 <strong>"{{ modelToDelete.model }}"</strong> 吗？
+        </p>
+      </div>
+      <div class="delete-dialog-footer">
+        <button class="delete-dialog-btn cancel-btn" @click="cancelDelete" :disabled="deleteLoading">取消</button>
+        <button class="delete-dialog-btn confirm-btn" :disabled="deleteLoading" @click="confirmDelete">
+          {{ deleteLoading ? '删除中...' : '确认删除' }}
+        </button>
       </div>
     </div>
   </div>
@@ -614,14 +590,14 @@ onMounted(() => {
         :key="model.llm_id"
         class="mm-item"
       >
-        <div class="mm-item__icon">🤖</div>
+        <div class="mm-item__icon"><HIcon svg="model" :size="20" /></div>
         <div class="mm-item__content">
           <h3 class="mm-item__name">{{ model.model }}</h3>
           <p class="mm-item__provider">{{ model.provider }}</p>
         </div>
         <div class="mm-item__actions">
-          <button class="mm-action" @click="openEditDialog(model)">✏️</button>
-          <button class="mm-action mm-action--danger" @click="deleteModel(model)">🗑️</button>
+          <button class="mm-action" @click="openEditDialog(model)"><HIcon svg="edit" :size="16" /></button>
+          <button class="mm-action mm-action--danger" @click="deleteModel(model)"><HIcon svg="delete" :size="16" /></button>
         </div>
       </div>
     </div>
@@ -633,31 +609,28 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
 .model-page {
   padding: 32px;
-  min-height: 100vh;
-  background: var(--harmony-comp-background-primary);
+  min-height: 100%;
+  background: transparent;
   
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-    background: var(--harmony-comp-background-primary);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(60px);
+    -webkit-backdrop-filter: blur(60px);
     padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
     border-radius: var(--harmony-corner-radius-level8);
     box-shadow: 0 6px 24px var(--harmony-shadow-sm);
-    border: 1px solid var(--harmony-comp-divider);
     
     .header-title {
       display: flex;
       align-items: center;
       gap: 14px;
-      
-      .title-icon {
-        width: 36px;
-        height: 36px;
-      }
       
       h2 {
         margin: 0;
@@ -721,7 +694,6 @@ onMounted(() => {
   .model-container {
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8);
-    border: 1px solid var(--harmony-comp-divider);
     overflow: hidden;
     box-shadow: 0 4px 6px -1px var(--harmony-shadow-xs);
     min-height: 300px;
@@ -732,7 +704,6 @@ onMounted(() => {
       align-items: center;
       padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
       background: var(--harmony-comp-background-primary);
-      border-bottom: 1px solid var(--harmony-comp-divider);
       font-size: var(--harmony-font-size-body-s);
       font-weight: 600;
       color: var(--harmony-font-secondary);
@@ -752,11 +723,9 @@ onMounted(() => {
         display: flex;
         align-items: center;
         padding: var(--harmony-padding-level10) var(--harmony-padding-level16);
-        border-bottom: 1px solid var(--harmony-comp-divider);
         transition: all 0.2s ease;
 
         &:last-child {
-          border-bottom: none;
         }
 
         &:hover {
@@ -1005,7 +974,7 @@ onMounted(() => {
 
 
 // 响应式调整
-@media (max-width: 768px) {
+@include mobile {
   .model-page {
     padding: 20px;
 
@@ -1209,7 +1178,6 @@ onMounted(() => {
   gap: 16px;
   padding: 20px 36px;
   background: var(--harmony-comp-background-primary);
-  border-top: 1px solid var(--harmony-comp-divider);
 }
 
 .dialog-btn {
@@ -1293,7 +1261,7 @@ onMounted(() => {
 }
 
 /* 对话框响应式设计 */
-@media (max-width: 768px) {
+@include mobile {
   .dialog-container {
     width: 95%;
     margin: 10px;
@@ -1332,7 +1300,6 @@ onMounted(() => {
   max-width: 400px;
   overflow: hidden;
   animation: harmony-slide-up 0.3s ease-out;
-  border: 1px solid var(--harmony-comp-divider);
 }
 
 .delete-dialog-body {
@@ -1382,7 +1349,7 @@ onMounted(() => {
 
 .delete-dialog-btn.confirm-btn {
   background: var(--harmony-brand);
-  color: white;
+  color: var(--harmony-comp-common-contrary, white);
   border: 1px solid var(--harmony-brand);
 }
 
@@ -1397,7 +1364,7 @@ onMounted(() => {
 }
 
 /* 删除对话框响应式设计 */
-@media (max-width: 768px) {
+@include mobile {
   .delete-dialog-container {
     width: 95%;
     margin: 10px;
@@ -1451,7 +1418,7 @@ onMounted(() => {
   height: var(--harmony-control-height-40, 40px);
   padding: 0 var(--harmony-padding-level8, 16px);
   background: var(--harmony-brand);
-  color: white;
+  color: var(--harmony-comp-common-contrary, white);
   border: none;
   border-radius: var(--harmony-corner-radius-level6, 12px);
   font-size: var(--harmony-font-size-body-m);
@@ -1473,7 +1440,6 @@ onMounted(() => {
   gap: var(--harmony-padding-level6, 12px);
   padding: var(--harmony-padding-level6, 12px);
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8, 16px);
   transition: background 0.15s ease;
 
@@ -1486,7 +1452,7 @@ onMounted(() => {
     background: var(--harmony-comp-background-secondary);
     border-radius: var(--harmony-corner-radius-level6, 12px);
     flex-shrink: 0;
-    font-size: 20px;
+    font-size: var(--harmony-font-size-body-l, 16px);
   }
 
   &__content {
@@ -1527,16 +1493,16 @@ onMounted(() => {
   border: none;
   border-radius: var(--harmony-corner-radius-level4, 8px);
   cursor: pointer;
-  font-size: 16px;
+  font-size: var(--harmony-font-size-body-l, 16px);
   &:active { background: var(--harmony-interactive-pressed); }
-  &--danger:active { background: rgba(232, 64, 38, 0.1); }
+  &--danger:active { background: var(--harmony-alert-bg, rgba(232, 64, 38, 0.1)); }
 }
 
 .mm-empty {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 0;
+  padding: var(--harmony-padding-level16, 32px) 0;
   p { font-size: var(--harmony-font-size-body-m); color: var(--harmony-font-tertiary); margin: 0; }
 }
 </style>

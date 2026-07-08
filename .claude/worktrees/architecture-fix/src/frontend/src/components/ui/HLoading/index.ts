@@ -1,1 +1,0 @@
-export { vHLoading } from './directive'

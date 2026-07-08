@@ -3,44 +3,10 @@ export  interface DialogCreateType {
     agent_id: string,
     agent_type: string,
 }
+
 // searchType
 export  interface searchType {
   name:string,
-}
-
-// 保持向后兼容的旧版智能体类型
-export  interface AgentCreateType {
-    name:string,
-    description:string,
-    parameter:string,
-    code:string,
-    logo:any
-}
-
-export  interface AgentUpdateType {
-    name:string,
-    description:string,
-    parameter:string,
-    code:string,
-    logoFile:any
-}
-
-export  interface MsgLikeType {
-    userInput:string,
-    agentOutput:string,
-}
-
-// 兼容旧版本的CardListType，映射到Agent
-export interface CardListType {
-  code: string
-  createTime: string
-  description: string
-  id: string
-  isCustom: boolean
-  logo: string
-  name: string
-  parameter: string
-  type: string
 }
 
 export interface HistoryListType {
@@ -79,19 +45,12 @@ export interface KnowledgeListType {
     file_size: string // 文件总大小（已格式化）
 }
 
-// 知识库文件状态枚举
-export enum KnowledgeFileStatus {
-    FAIL = "❌失败",
-    PROCESS = "🚀进行", 
-    SUCCESS = "✅完成"
-}
-
 // 知识库文件类型定义
 export interface KnowledgeFileType {
     id: string
     file_name: string
     knowledge_id: string
-    status: KnowledgeFileStatus
+    status: string
     user_id: string
     oss_url: string
     file_size: number

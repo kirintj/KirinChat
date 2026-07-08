@@ -44,7 +44,7 @@ const getAgentIcon = (agent: string) => {
 const getAgentLabel = (agent: string) => {
   const map: Record<string, string> = {
     simple: '日常模式',
-    lingseek: '灵寻LingSeek',
+    lingseek: '深思模式',
   }
   return map[agent] || '未知'
 }
@@ -160,7 +160,7 @@ onMounted(async () => {
         <input
           v-model="searchQuery"
           type="text"
-          placeholder="搜索会话..."
+          placeholder="搜索会话"
           class="search-input"
         />
       </div>
@@ -258,11 +258,13 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
+
 .workspace-root {
   width: 100%;
   height: 100%;
   display: flex;
-  background: var(--harmony-comp-background-secondary);
+  background: transparent;
 }
 
 /* ===== 左侧面板 ===== */
@@ -272,7 +274,9 @@ onMounted(async () => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--harmony-comp-background-primary);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(60px);
+  -webkit-backdrop-filter: blur(60px);
   border-right: 1px solid var(--harmony-comp-divider);
 }
 
@@ -351,7 +355,6 @@ onMounted(async () => {
     padding: 0 10px 0 32px;
     border: 1px solid var(--harmony-comp-divider);
     border-radius: var(--harmony-corner-radius-level4);
-    background: var(--harmony-comp-background-secondary);
     color: var(--harmony-font-primary);
     font-size: var(--harmony-font-size-subtitle-s);
     transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
@@ -359,11 +362,6 @@ onMounted(async () => {
 
     &::placeholder {
       color: var(--harmony-font-tertiary);
-    }
-
-    &:focus {
-      border-color: var(--harmony-brand);
-      background: var(--harmony-comp-background-primary);
     }
   }
 }
@@ -541,14 +539,14 @@ onMounted(async () => {
 }
 
 /* 响应式 */
-@media (max-width: 768px) {
+@include mobile {
   .sidebar-panel {
     width: 240px;
     min-width: 240px;
   }
 }
 
-@media (max-width: 480px) {
+@include mobile {
   .workspace-root {
     flex-direction: column;
   }
@@ -575,7 +573,7 @@ onMounted(async () => {
 
   .wm-create-btn {
     width: 100%;
-    height: 44px;
+    height: var(--harmony-control-height-40, 40px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -601,13 +599,13 @@ onMounted(async () => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--harmony-inline-gap-tight-mobile, 4px);
 }
 
 .wm-item {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--harmony-inline-gap-mobile, 12px);
   padding: 14px 0;
   cursor: pointer;
   border-bottom: 1px solid var(--harmony-comp-divider);
@@ -622,13 +620,13 @@ onMounted(async () => {
   }
 
   &__icon {
-    width: 40px;
-    height: 40px;
+    width: var(--harmony-control-height-40, 40px);
+    height: var(--harmony-control-height-40, 40px);
     border-radius: var(--harmony-corner-radius-level6);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: var(--harmony-font-size-title-s, 20px);
     background: var(--harmony-comp-background-secondary);
     flex-shrink: 0;
   }
@@ -679,7 +677,7 @@ onMounted(async () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: var(--harmony-padding-level16, 32px) 0;
   gap: 12px;
 
   p {

@@ -669,10 +669,12 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
+@use '../../styles/breakpoints.scss' as *;
+
 .dashboard-container {
   padding: 24px;
-  background-color: var(--harmony-comp-background-primary);
-  min-height: calc(100vh - 60px);
+  background-color: transparent;
+  min-height: calc(100% - 60px);
 }
 
 .dashboard-header {
@@ -688,7 +690,6 @@ onBeforeUnmount(() => {
     border-radius: var(--harmony-corner-radius-level18);
     background: var(--harmony-comp-emphasize-tertiary);
     color: var(--harmony-brand);
-    border: 1px solid var(--harmony-comp-divider);
   }
   .sub {
     margin-top: 6px;
@@ -718,7 +719,6 @@ onBeforeUnmount(() => {
   box-shadow: var(--harmony-shadow-xs);
   margin-bottom: 28px;
   flex-wrap: wrap;
-  border: 1px solid var(--harmony-comp-divider);
 }
 
 .filter-group {
@@ -794,7 +794,6 @@ onBeforeUnmount(() => {
 
 .kpi-card {
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8);
   padding: 16px 18px;
   box-shadow: var(--harmony-shadow-xs);
@@ -886,7 +885,7 @@ onBeforeUnmount(() => {
   pointer-events: none;
 }
 
-@media (max-width: 1400px) {
+@include desktop-and-below {
   .charts-container {
     grid-template-columns: 1fr;
   }
@@ -930,7 +929,6 @@ onBeforeUnmount(() => {
   gap: var(--harmony-padding-level2, 4px);
   padding: var(--harmony-padding-level8, 16px);
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8, 16px);
 
   &__value {
@@ -956,7 +954,6 @@ onBeforeUnmount(() => {
   gap: var(--harmony-padding-level6, 12px);
   padding: var(--harmony-padding-level8, 16px);
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8, 16px);
 }
 
@@ -986,15 +983,16 @@ onBeforeUnmount(() => {
 
 .dm-chart {
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8, 16px);
   padding: var(--harmony-padding-level8, 16px);
-  min-height: 200px;
+  min-height: var(--harmony-control-height-72, 180px);
   position: relative;
 
   &__content {
     width: 100%;
-    height: 260px;
+    min-height: 200px;
+    height: 50vw;
+    max-height: 320px;
   }
 }
 </style>

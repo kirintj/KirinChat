@@ -253,7 +253,6 @@ onMounted(() => {
   <div class="knowledge-page" v-if="!isMobile">
     <div class="page-header">
       <div class="header-title">
-        <HIcon svg="knowledge" :size="24" class="title-icon" />
         <h2>知识库管理</h2>
       </div>
       <div class="header-actions">
@@ -527,9 +526,9 @@ onMounted(() => {
           <p class="km-item__desc">{{ knowledge.description || '-' }}</p>
         </div>
         <div class="km-item__actions" @click.stop>
-          <button class="km-action" @click.stop="goToFileManagement(knowledge)" title="管理文件">📂</button>
-          <button class="km-action" @click.stop="openEditDialog(knowledge)" title="编辑">✏️</button>
-          <button class="km-action km-action--danger" @click.stop="handleDelete(knowledge)" title="删除">🗑️</button>
+          <button class="km-action" @click.stop="goToFileManagement(knowledge)" title="管理文件"><HIcon svg="folder" :size="16" /></button>
+          <button class="km-action" @click.stop="openEditDialog(knowledge)" title="编辑"><HIcon svg="edit" :size="16" /></button>
+          <button class="km-action km-action--danger" @click.stop="handleDelete(knowledge)" title="删除"><HIcon svg="delete" :size="16" /></button>
         </div>
       </div>
     </div>
@@ -686,8 +685,8 @@ onMounted(() => {
 <style lang="scss" scoped>
 .knowledge-page {
   padding: 32px;
-  min-height: 100vh;
-  background: var(--harmony-comp-background-primary);
+  min-height: 100%;
+  background: transparent;
   
   .page-header {
     display: flex;
@@ -698,17 +697,11 @@ onMounted(() => {
     padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
     border-radius: var(--harmony-corner-radius-level8);
     box-shadow: 0 6px 24px var(--harmony-shadow-sm);
-    border: 1px solid var(--harmony-comp-divider);
 
     .header-title {
       display: flex;
       align-items: center;
       gap: 14px;
-      
-      .title-icon {
-        width: 36px;
-        height: 36px;
-      }
       
       h2 {
         margin: 0;
@@ -741,7 +734,6 @@ onMounted(() => {
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8);
     box-shadow: 0 6px 24px var(--harmony-shadow-sm);
-    border: 1px solid var(--harmony-comp-divider);
     overflow: hidden;
     
     .list-header {
@@ -1238,7 +1230,7 @@ onMounted(() => {
   height: var(--harmony-control-height-40, 40px);
   padding: 0 var(--harmony-padding-level8, 16px);
   background: var(--harmony-brand);
-  color: white;
+  color: var(--harmony-comp-common-contrary, white);
   border: none;
   border-radius: var(--harmony-corner-radius-level6, 12px);
   font-size: var(--harmony-font-size-body-m);
@@ -1258,7 +1250,6 @@ onMounted(() => {
   gap: var(--harmony-padding-level6, 12px);
   padding: var(--harmony-padding-level8, 16px);
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8, 16px);
   cursor: pointer;
   transition: background 0.15s ease;
@@ -1319,7 +1310,7 @@ onMounted(() => {
   border: none;
   border-radius: var(--harmony-corner-radius-level4, 8px);
   cursor: pointer;
-  font-size: 16px;
+  font-size: var(--harmony-font-size-body-m, 16px);
   transition: background 0.15s ease;
 
   &:active {
@@ -1336,7 +1327,7 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 80px 0;
+  padding: var(--harmony-padding-level16, 32px) 0;
   gap: var(--harmony-padding-level8, 16px);
 
   p {

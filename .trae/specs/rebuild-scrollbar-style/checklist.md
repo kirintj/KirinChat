@@ -1,0 +1,7 @@
+- [ ] 全局滚动条宽高为 5px，thumb 使用 rgba(0,0,0,0.12) 直接背景色，无 border/background-clip
+- [ ] 全局滚动条 hover 状态为 rgba(0,0,0,0.22)，active 状态为 rgba(0,0,0,0.35)（非品牌色）
+- [ ] 深色模式滚动条 thumb 为 rgba(255,255,255,0.1)，hover 为 0.2，active 为 0.3
+- [ ] Firefox fallback 使用 scrollbar-color 与全局一致的颜色值
+- [ ] HScrollbar 组件样式与全局一致（5px宽高、相同颜色值、4px圆角）
+- [ ] conversation.vue 中消息区域和输入区域的局部滚动条覆盖已移除，继承全局样式
+- [ ] 各页面中 scrollbar-width: none / display: none 的隐藏逻辑未被误改

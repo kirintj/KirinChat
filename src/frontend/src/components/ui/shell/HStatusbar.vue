@@ -30,7 +30,9 @@ const currentTime = computed(() => {
 .harmony-statusbar {
   width: 100%;
   height: 36px;
+  height: calc(36px + env(safe-area-inset-top));
   padding: 8px 24px;
+  padding-top: calc(8px + env(safe-area-inset-top));
   display: flex;
   align-items: center;
   justify-content: space-between;

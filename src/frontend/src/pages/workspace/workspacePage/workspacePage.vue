@@ -627,6 +627,8 @@ const handleStartTask = () => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../../styles/breakpoints.scss' as *;
+
 /* =============================
    workspacePage — 指导手册编辑器
    ============================= */
@@ -1389,7 +1391,7 @@ const handleStartTask = () => {
 /* 动画 */
 
 /* 响应式 */
-@media (max-width: 768px) {
+@include mobile {
   .chat-container { gap: 16px; }
 
   .editor-content {

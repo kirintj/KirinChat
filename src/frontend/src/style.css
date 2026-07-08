@@ -89,13 +89,9 @@ html {
   color: var(--harmony-font-primary);
 }
 
-/* 焦点指示器 */
-:focus-visible {
-  outline: 2px solid var(--harmony-interactive-focus);
-  outline-offset: 2px;
-}
-
-*:focus:not(:focus-visible) {
+/* 禁用全局焦点边框 */
+*:focus,
+*:focus-visible {
   outline: none;
 }
 
@@ -133,8 +129,9 @@ html {
 
 /* ========== 全局滚动条样式 ========== */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-track {
@@ -142,22 +139,47 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--harmony-comp-divider);
-  border-radius: var(--harmony-corner-radius-level2);
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  transition: background-color var(--harmony-duration-fast) var(--harmony-motion-standard);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--harmony-font-fourth);
+  background: rgba(0, 0, 0, 0.22);
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: var(--harmony-brand);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 /* Firefox scrollbar fallback */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--harmony-comp-divider) transparent;
+  scrollbar-color: rgba(0, 0, 0, 0.12) transparent;
+}
+
+/* ========== 深色模式下的滚动条适配 ========== */
+[data-theme="dark"] ::-webkit-scrollbar-thumb,
+[data-harmony-token-set="system"][data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+[data-harmony-token-set="system"][data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:active,
+[data-harmony-token-set="system"][data-theme="dark"] ::-webkit-scrollbar-thumb:active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] * {
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
 /* ========== 全局过渡动画（Vue Transition） ========== */

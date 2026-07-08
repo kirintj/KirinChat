@@ -1,11 +1,3 @@
-/*
- * HarmonyOS 响应式断点 SCSS Mixin
- * 统一全项目的媒体查询断点
- *
- * 使用方式：
- *   .my-component { +mobile { ... } +desktop { ... } }
- */
-
 $bp-mobile: 480px;
 $bp-tablet: 768px;
 $bp-desktop: 1200px;
@@ -31,6 +23,12 @@ $bp-wide: 1400px;
 
 @mixin desktop {
   @media (min-width: #{$bp-desktop}) {
+    @content;
+  }
+}
+
+@mixin desktop-and-below {
+  @media (max-width: #{$bp-wide - 1px}) {
     @content;
   }
 }

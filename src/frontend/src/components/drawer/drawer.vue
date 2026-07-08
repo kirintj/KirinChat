@@ -159,6 +159,8 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/breakpoints.scss' as *;
+
 .drawer {
   .drawer-content {
     height: 100%;
@@ -275,7 +277,7 @@ defineExpose({
 }
 
 // 响应式设计
-@media (max-width: 768px) {
+@include mobile {
   .drawer {
     .drawer-content {
       .search-section,

@@ -11,7 +11,7 @@ from kirinchat.utils.contexts import set_user_id_context, set_agent_name_context
 router = APIRouter(prefix="/workspace/lingseek", tags=["LingSeek"])
 
 
-@router.post("/guide_prompt", summary="生成灵寻的指导提示")
+@router.post("/guide_prompt", summary="生成深思的指导提示")
 async def generate_lingseek_guide_prompt(
     *,
     lingseek_info: LingSeekGuidePrompt,
@@ -49,7 +49,7 @@ async def rebuild_generate_lingseek_guide_prompt(
     return StreamingResponse(general_generate(), media_type="text/event-stream")
 
 
-@router.post("/task", summary="灵寻生成的任务列表")
+@router.post("/task", summary="深思生成的任务列表")
 async def generate_lingseek_tasks(
     *,
     task: LingSeekTask,
@@ -64,7 +64,7 @@ async def generate_lingseek_tasks(
     return StreamingResponse(general_generate(), media_type="text/event-stream")
 
 
-@router.post("/task_start", summary="灵寻开始执行任务")
+@router.post("/task_start", summary="深思开始执行任务")
 async def submit_lingseek_task(
     *,
     task: LingSeekTask,

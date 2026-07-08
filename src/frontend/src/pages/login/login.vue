@@ -83,89 +83,37 @@ const goToRegister = () => {
 </script>
 
 <template>
-  <div class="login-container">
-    <!-- 左侧3D图形区域 -->
-    <div class="left-section">
-      <div class="graphic-container">
-        <div class="cube-3d">
-          <div class="cube-face front"></div>
-          <div class="cube-face back"></div>
-          <div class="cube-face right"></div>
-          <div class="cube-face left"></div>
-          <div class="cube-face top"></div>
-          <div class="cube-face bottom"></div>
-        </div>
-        <div class="cylinder-3d"></div>
-        <div class="sphere-3d"></div>
+  <div class="auth-page">
+    <div class="card">
+      <div class="header">
+        <div class="logo"><span class="logo__text">KirinChat</span></div>
+        <p class="subtitle">更智能、更多元的大模型应用开发平台</p>
       </div>
-    </div>
 
-    <!-- 右侧登录表单区域 -->
-    <div class="right-section">
-      <div class="login-form-container">
-        <!-- Logo和标题 -->
-        <div class="header">
-          <div class="logo">
-            <span class="logo-text">KirinChat</span>
-          </div>
-          <p class="subtitle">更智能、更多元的大模型应用开发平台</p>
-        </div>
+      <div class="field">
+        <label class="field__label">账号</label>
+        <HInput v-model="loginForm.username" placeholder="请输入账号" size="large" class="field__input" @keyup.enter="handleLogin" />
+      </div>
 
-        <!-- 登录表单 -->
-        <div class="login-form">
-          <div class="form-group">
-            <label class="form-label">账号</label>
-            <HInput
-              v-model="loginForm.username"
-              placeholder="请输入账号"
-              size="large"
-              class="login-input"
-              @keyup.enter="handleLogin"
-            />
-          </div>
+      <div class="field">
+        <label class="field__label">密码</label>
+        <HInput v-model="loginForm.password" type="password" placeholder="请输入密码" size="large" class="field__input" :show-password="true" @keyup.enter="handleLogin" />
+      </div>
 
-          <div class="form-group">
-            <label class="form-label">密码</label>
-            <HInput
-              v-model="loginForm.password"
-              type="password"
-              placeholder="请输入密码"
-              size="large"
-              class="login-input"
-              :show-password="true"
-              @keyup.enter="handleLogin"
-            />
-          </div>
+      <div class="actions">
+        <span class="switch-link">没有账号？<a href="#" @click.prevent="goToRegister">注册</a></span>
+      </div>
 
-          <div class="form-actions">
-            <div class="register-link">
-              <span>没有账号？</span>
-              <a href="#" @click="goToRegister">注册</a>
-            </div>
-          </div>
+      <button class="primary-btn" :disabled="loading" @click="handleLogin">
+        {{ loading ? '登录中…' : '登录' }}
+      </button>
 
-          <HButton
-            type="primary"
-            size="large"
-            class="login-button"
-            :loading="loading"
-            @click="handleLogin"
-          >
-            登录
-          </HButton>
-        </div>
-
-        <!-- 底部版本信息 -->
-        <div class="footer">
-          <div class="version-badge" title="KirinChat 版本">v2.5.0</div>
-          <div class="footer-icons">
-            <a href="https://github.com/kirintj/KirinChat" target="_blank" class="icon-link" title="GitHub">
-              <img src="../../assets/github.png" alt="GitHub" class="icon-img" />
-            </a>
-            <a href="https://uawlh9wstr9.feishu.cn/wiki/QOaLwMDtBiiduWk4YtAcavEsnne" target="_blank" class="icon-link" title="帮助文档">
-              <img src="../../assets/help.png" alt="帮助文档" class="icon-img" />
-            </a>
-          </div>
+      <div class="footer">
+        <span class="version-badge">v2.5.0</span>
+        <div class="footer-icons">
+          <a href="https://github.com/kirintj/KirinChat" target="_blank" title="GitHub">
+            <img src="../../assets/github.png" alt="GitHub" />
+          </a>
         </div>
       </div>
     </div>
@@ -173,278 +121,152 @@ const goToRegister = () => {
 </template>
 
 <style lang="scss" scoped>
-.login-container {
-  display: flex;
-  height: 100vh;
-  background: linear-gradient(135deg, var(--harmony-comp-background-tertiary) 0%, var(--harmony-comp-divider) 100%);
-}
+/* 极简规则：
+   - auth-page：全屏居中（背景色用全局 token）
+   - card：卡片容器（宽度/圆角/阴影/内边距）
+   - header/logo/subtitle：头部排版
+   - .field / .field__label：字段间距 + 标签样式
+   - .primary-btn：主按钮（因为登录/注册页按钮就是主色大按钮）
+   - .actions / .switch-link / .footer：辅助文字与链接
+   - 输入框的边框/背景/hover/focus 全部由 HInput 组件自身负责，这里不二次覆盖
+*/
+$brand-shadow: rgba(10, 89, 247, 0.18);
 
-.left-section {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-
-  .graphic-container {
-    position: relative;
-    width: 400px;
-    height: 400px;
-    
-    .cube-3d {
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      top: 50px;
-      left: 100px;
-      transform-style: preserve-3d;
-      animation: rotateCube 10s infinite linear;
-
-      .cube-face {
-        position: absolute;
-        width: 120px;
-        height: 120px;
-        background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        
-        &.front { transform: rotateY(0deg) translateZ(60px); }
-        &.back { transform: rotateY(180deg) translateZ(60px); }
-        &.right { transform: rotateY(90deg) translateZ(60px); }
-        &.left { transform: rotateY(-90deg) translateZ(60px); }
-        &.top { transform: rotateX(90deg) translateZ(60px); }
-        &.bottom { transform: rotateX(-90deg) translateZ(60px); }
-      }
-    }
-
-    .cylinder-3d {
-      position: absolute;
-      width: 80px;
-      height: 160px;
-      top: 200px;
-      left: 50px;
-      background: linear-gradient(180deg, #6b9eff, var(--harmony-brand));
-      border-radius: 40px;
-      box-shadow: 0 10px 30px rgba(79, 129, 255, 0.3);
-      animation: floatUp 6s ease-in-out infinite;
-    }
-
-    .sphere-3d {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      top: 120px;
-      right: 80px;
-      background: radial-gradient(circle at 30% 30%, #8bb6ff, var(--harmony-brand));
-      border-radius: 50%;
-      box-shadow: 0 8px 25px rgba(79, 129, 255, 0.4);
-      animation: floatDown 8s ease-in-out infinite;
-    }
-  }
-}
-
-.right-section {
-  width: 450px;
-  background: var(--harmony-comp-background-secondary);
+.auth-page {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: -2px 0 20px rgba(0, 0, 0, 0.1);
+  padding: 24px 16px;
+  background: var(--harmony-background-secondary);
+  font-family: var(--harmony-font-family);
+}
 
-  .login-form-container {
-    width: 320px;
-    padding: 40px 0;
+.card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--harmony-background-primary);
+  border-radius: var(--harmony-corner-radius-level10);
+  box-shadow: var(--harmony-shadow-md);
+  padding: 40px 32px 24px;
+}
 
-    .header {
-      text-align: center;
-      margin-bottom: 40px;
+.header { text-align: center; margin-bottom: 28px; }
+.header .logo { margin-bottom: 12px; }
 
-      .logo {
-        margin-bottom: 16px;
+.header .logo__text {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-comp-emphasize-secondary) 160%, var(--harmony-brand));
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: var(--harmony-corner-radius-level4);
+  font-size: var(--harmony-font-size-title-s);
+  font-weight: 700;
+  letter-spacing: 2px;
+  box-shadow: 0 4px 16px $brand-shadow;
+}
 
-        .logo-text {
-          display: inline-block;
-          background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
-          color: white;
-          padding: 12px 24px;
-          border-radius: var(--harmony-corner-radius-level4);
-          font-size: var(--harmony-font-size-title-s);
-          font-weight: 700;
-          letter-spacing: 2px;
-          font-family: var(--harmony-font-family);
-          box-shadow: 0 4px 12px rgba(79, 129, 255, 0.3);
-        }
-      }
+.header .subtitle {
+  color: var(--harmony-font-secondary);
+  font-size: var(--harmony-font-size-body-l);
+  line-height: 1.6;
+  margin: 0;
+}
 
-      .subtitle {
-        color: var(--harmony-font-secondary);
-        font-size: var(--harmony-font-size-body-l);
-        margin: 0;
-        line-height: 1.6;
-        font-weight: 400;
-        font-family: var(--harmony-font-family);
-      }
+/* 字段组：只控制垂直间距与标签样式，输入框本体交由 HInput */
+.field { margin-bottom: 16px; }
+
+.field__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 600;
+  color: var(--harmony-font-primary);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 4px 0 20px;
+}
+
+.switch-link {
+  font-size: var(--harmony-font-size-subtitle-m);
+  color: var(--harmony-font-secondary);
+}
+
+.switch-link a {
+  color: var(--harmony-brand);
+  margin-left: 6px;
+  font-weight: 500;
+  text-decoration: none;
+
+  &:hover { color: var(--harmony-interactive-pressed); text-decoration: underline; }
+}
+
+.primary-btn {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: var(--harmony-corner-radius-level5);
+  background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-interactive-pressed));
+  color: #fff;
+  font-size: var(--harmony-font-size-subtitle-l);
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform var(--harmony-duration-normal) var(--harmony-motion-standard),
+              box-shadow var(--harmony-duration-normal) var(--harmony-motion-standard);
+
+  &:hover  { transform: translateY(-1px); box-shadow: 0 8px 24px $brand-shadow; }
+  &:active { transform: translateY(0); }
+  &:disabled { opacity: 0.7; cursor: not-allowed; }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid var(--harmony-comp-divider);
+  font-size: var(--harmony-font-size-subtitle-s);
+  color: var(--harmony-font-tertiary);
+}
+
+.footer .version-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--harmony-corner-radius-level18);
+  background: var(--harmony-comp-emphasize-tertiary);
+  color: var(--harmony-brand);
+  font-weight: 600;
+}
+
+.footer .footer-icons {
+  display: flex;
+  gap: 10px;
+
+  a {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--harmony-comp-background-secondary);
+    border: 1px solid var(--harmony-comp-divider);
+    border-radius: var(--harmony-corner-radius-level4);
+    overflow: hidden;
+
+    &:hover {
+      box-shadow: 0 6px 16px $brand-shadow;
+      border-color: rgba(10, 89, 247, 0.4);
     }
 
-    .login-form {
-      .form-group {
-        margin-bottom: 20px;
-
-        .form-label {
-          display: block;
-          font-size: var(--harmony-font-size-body-l);
-          font-weight: 600;
-          color: var(--harmony-font-primary);
-          margin-bottom: 10px;
-          font-family: var(--harmony-font-family);
-          letter-spacing: 0.5px;
-        }
-
-        .login-input {
-          :deep(.el-input__wrapper) {
-            background: var(--harmony-comp-background-tertiary);
-            border: 1px solid var(--harmony-comp-divider);
-            border-radius: var(--harmony-corner-radius-level4);
-            padding: 12px 16px;
-            box-shadow: none;
-
-            &:hover {
-              border-color: var(--harmony-brand);
-            }
-
-            &.is-focus {
-              border-color: var(--harmony-brand);
-              box-shadow: 0 0 0 3px rgba(79, 129, 255, 0.1);
-            }
-          }
-
-          :deep(.el-input__inner) {
-            color: var(--harmony-font-primary);
-            font-size: var(--harmony-font-size-body-l);
-            font-family: var(--harmony-font-family);
-            font-weight: 400;
-
-            &::placeholder {
-              color: var(--harmony-font-tertiary);
-              font-size: var(--harmony-font-size-subtitle-m);
-            }
-          }
-        }
-      }
-
-      .form-actions {
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: 24px;
-
-        .register-link {
-          font-size: var(--harmony-font-size-subtitle-m);
-          color: var(--harmony-font-secondary);
-          font-family: var(--harmony-font-family);
-
-          a {
-            color: var(--harmony-brand);
-            text-decoration: none;
-            margin-left: 6px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-
-            &:hover {
-              text-decoration: underline;
-              color: var(--harmony-interactive-pressed);
-            }
-          }
-        }
-      }
-
-      .login-button {
-        width: 100%;
-        height: 52px;
-        background: linear-gradient(45deg, var(--harmony-brand), var(--harmony-interactive-pressed));
-        border: none;
-        border-radius: var(--harmony-corner-radius-level5);
-        font-size: var(--harmony-font-size-subtitle-l);
-        font-weight: 600;
-        font-family: var(--harmony-font-family);
-        letter-spacing: 1px;
-        transition: all 0.3s ease;
-
-        &:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 8px 25px rgba(79, 129, 255, 0.3);
-        }
-
-        &:active {
-          transform: translateY(0);
-        }
-      }
-    }
-
-    .footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 36px;
-      color: var(--harmony-font-tertiary);
-      font-size: var(--harmony-font-size-subtitle-s);
-      font-family: var(--harmony-font-family);
-      font-weight: 400;
-      border-top: 1px solid var(--harmony-comp-divider);
-      padding-top: 16px;
-
-      .version-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 10px;
-        border-radius: var(--harmony-corner-radius-level18);
-        background: var(--harmony-comp-emphasize-tertiary);
-        color: var(--harmony-brand);
-        border: 1px solid rgba(10, 89, 247, 0.25);
-        font-weight: 600;
-        letter-spacing: 0.3px;
-      }
-
-      .footer-icons {
-        display: flex;
-        gap: 10px;
-
-        a {
-          width: 28px;
-          height: 28px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: var(--harmony-comp-background-secondary);
-          border: 1px solid var(--harmony-comp-divider);
-          border-radius: var(--harmony-corner-radius-level4);
-          transition: all 0.2s ease;
-          overflow: hidden;
-
-          &:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(10, 89, 247, 0.2);
-            border-color: rgba(10, 89, 247, 0.4);
-          }
-
-          .icon-img {
-            width: 18px;
-            height: 18px;
-            object-fit: contain;
-            filter: saturate(0.9) contrast(1.05);
-          }
-        }
-      }
-    }
+    img { width: 16px; height: 16px; object-fit: contain; }
   }
-}
-
-
-@keyframes floatUp {
-  0%, 100% { transform: translateY(0px); }
-
-}
-@keyframes floatDown {
-  0%, 100% { transform: translateY(0px); }
-
 }
 </style>

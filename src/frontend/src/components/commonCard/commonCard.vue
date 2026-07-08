@@ -2,7 +2,7 @@
  * 通用卡片组件
  * 展示带有图片、标题和描述的基础卡片
  */
-<script lang="ts" setup>
+<script setup lang="ts">
 interface Props {
   title: string
   detail: string
