@@ -168,7 +168,7 @@ const handleDelete = async () => {
   
   // 检查是否为官方模型
   if (currentModel.value.user_id === '0') {
-    HMessage.warning('⚠️ 官方模型不可删除')
+    HMessage.warning('官方模型不可删除')
     return
   }
   
@@ -319,14 +319,14 @@ onMounted(() => {
           <HFormItem>
             <div class="form-actions">
               <HButton type="secondary" @click="goBack" class="action-btn cancel-btn">
-                ✕ 取消
+                <Icon icon="mdi:close" :width="16" :height="16" /> 取消
               </HButton>
               <HButton
                 type="primary"
                 @click="handleUpdate"
                 class="action-btn primary-btn"
               >
-                ✓ 保存更改
+                <Icon icon="mdi:check" :width="16" :height="16" /> 保存更改
               </HButton>
             </div>
           </HFormItem>
@@ -337,7 +337,7 @@ onMounted(() => {
     <!-- 空状态 -->
     <div v-else-if="!loading" class="empty-state">
       <div class="empty-icon" style="font-size:80px;color:#cbd5e1;margin-bottom:24px;">
-        ✕
+        <Icon icon="mdi:close-circle-outline" :width="80" :height="80" />
       </div>
       <h3>未找到模型</h3>
       <p>请检查模型ID是否正确</p>
@@ -346,7 +346,7 @@ onMounted(() => {
         @click="goBack"
         size="large"
       >
-        ← 返回模型管理
+        <Icon icon="mdi:arrow-left" :width="16" :height="16" /> 返回模型管理
       </HButton>
     </div>
   </div>

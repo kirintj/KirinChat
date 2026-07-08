@@ -51,13 +51,13 @@ const modes = [
   {
     id: 'normal',
     label: '日常模式',
-    icon: '💬',
+    icon: 'mdi:message-text',
     desc: '快速问答、日常对话'
   },
   {
     id: 'lingseek',
     label: '深思模式',
-    icon: '✨',
+    icon: 'mdi:sparkles',
     desc: '复杂任务规划与执行'
   }
 ]

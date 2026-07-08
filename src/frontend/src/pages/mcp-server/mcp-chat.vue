@@ -6,7 +6,7 @@
         <div class="sidebar">
           <div class="sidebar-header">
             <div class="sidebar-title">对话历史</div>
-            <HButton type="secondary" size="small" @click="sidebarOpen = false" style="width:32px;height:32px;border-radius:50%;padding:0;">✕</HButton>
+            <HButton type="secondary" size="small" @click="sidebarOpen = false" style="width:32px;height:32px;border-radius:50%;padding:0;"><Icon icon="mdi:close" :width="14" :height="14" /></HButton>
           </div>
           <div class="task-list" v-loading="loadingTasks">
             <div v-if="!loadingTasks && tasks.length === 0" class="empty-tasks">
@@ -32,7 +32,7 @@
                   type="danger"
                   @click.stop="deleteTask(task.id)"
                   style="width:28px;height:28px;border-radius:50%;padding:0;font-size:12px;"
-                >🗑</HButton>
+                ><Icon icon="mdi:delete" :width="14" :height="14" /></HButton>
               </div>
             </div>
           </div>
@@ -47,17 +47,17 @@
         <div class="toolbar-left"></div>
         <div class="toolbar-right">
           <HButton type="secondary" @click="sidebarOpen = true" size="medium" style="border-radius:20px;font-weight:600;">
-            <span style="margin-right: 4px;">📋</span>历史会话
+            <span style="margin-right: 4px;"><Icon icon="mdi:clipboard-text" :width="16" :height="16" /></span>历史会话
           </HButton>
           <HButton type="primary" @click="createNewTask" size="medium" style="border-radius:20px;background:linear-gradient(135deg,#3b82f6 0%,#8b5cf6 100%);border:none;font-weight:600;">
-            ➕ 新建对话
+            <Icon icon="mdi:plus" :width="16" :height="16" /> 新建对话
           </HButton>
         </div>
       </div>
 
       <div class="chat-messages" ref="chatMessagesRef">
         <div v-if="!currentTaskId" class="empty-state">
-          <div class="empty-state-icon">📋</div>
+          <div class="empty-state-icon"><Icon icon="mdi:clipboard-text" :width="48" :height="48" /></div>
           <div class="empty-state-text">开始新的任务</div>
           <div class="empty-state-hint">选择或创建一个任务开始聊天</div>
         </div>
@@ -159,7 +159,7 @@
               :disabled="!messageInput.trim() || isStreaming"
               class="send-btn"
               style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;padding:0;font-size:16px;box-shadow:0 2px 6px rgba(64,158,255,0.3);"
-            >➤</HButton>
+            ><Icon icon="mdi:send" :width="16" :height="16" /></HButton>
           </div>
         </div>
       </div>

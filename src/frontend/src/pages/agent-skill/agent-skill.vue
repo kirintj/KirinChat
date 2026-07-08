@@ -480,7 +480,7 @@ onMounted(() => {
           class="refresh-btn"
           type="secondary"
         >
-          &#x21BB; 刷新
+          <Icon icon="mdi:refresh" :width="16" :height="16" /> 刷新
         </HButton>
         <HButton
           type="primary"
@@ -524,7 +524,7 @@ onMounted(() => {
           </div>
           <div class="col-files">
             <span class="file-badge">
-              &#128196; {{ getFileCount(skill) }}
+              <Icon icon="mdi:file-document" :width="14" :height="14" /> {{ getFileCount(skill) }}
             </span>
           </div>
           <div class="col-time">
@@ -533,12 +533,12 @@ onMounted(() => {
           <div class="col-actions" @click.stop>
             <HTooltip content="查看详情" placement="top">
               <button class="action-btn view-btn" @click="openDetailDialog(skill)">
-                &#128065;
+                <Icon icon="mdi:eye" :width="16" :height="16" />
               </button>
             </HTooltip>
             <HTooltip content="删除" placement="top">
               <button class="action-btn delete-btn" @click="handleDeleteSkill(skill, $event)">
-                &#128465;
+                <Icon icon="mdi:delete" :width="16" :height="16" />
               </button>
             </HTooltip>
           </div>
@@ -579,7 +579,7 @@ onMounted(() => {
               <p>为智能体添加一项新的专业技能</p>
             </div>
             <button class="close-btn" @click="showCreateDialog = false">
-              &#10005;
+              <Icon icon="mdi:close" :width="16" :height="16" />
             </button>
           </div>
 
@@ -634,7 +634,7 @@ onMounted(() => {
             </div>
             <div class="ide-actions">
               <button class="ide-btn" @click="closeDetailDialog">
-                &#10005;
+                <Icon icon="mdi:close" :width="16" :height="16" />
               </button>
             </div>
           </div>
@@ -656,7 +656,7 @@ onMounted(() => {
                 <template v-if="currentSkill?.folder">
                   <!-- 项目根目录 -->
                   <div class="explorer-item project-root">
-                    <span class="item-icon folder-icon">&#128193;</span>
+                    <span class="item-icon folder-icon"><Icon icon="mdi:folder" :width="16" :height="16" /></span>
                     <span class="item-name">{{ currentSkill.folder.name }}</span>
                   </div>
                   
@@ -670,7 +670,7 @@ onMounted(() => {
                         :class="{ active: selectedFile?.path === item.path }"
                         @click="selectFile(item as AgentSkillFile)"
                       >
-                        <span class="item-icon file-icon">&#128196;</span>
+                        <span class="item-icon file-icon"><Icon icon="mdi:file-document" :width="16" :height="16" /></span>
                         <span class="item-name">{{ item.name }}</span>
                         <span class="item-badge readonly">只读</span>
                       </div>
@@ -678,7 +678,7 @@ onMounted(() => {
                       <!-- 文件夹（scripts / reference） -->
                       <template v-else>
                         <div class="explorer-item folder-item" :class="{ 'can-add': canAddToFolder(item.name) }">
-                          <span class="item-icon folder-icon">&#128193;</span>
+                          <span class="item-icon folder-icon"><Icon icon="mdi:folder" :width="16" :height="16" /></span>
                           <span class="item-name">{{ item.name }}</span>
                           <!-- 只有 scripts 和 reference 可以添加文件 -->
                           <HTooltip v-if="canAddToFolder(item.name)" content="添加文件" placement="right">
@@ -699,14 +699,14 @@ onMounted(() => {
                           :class="{ active: selectedFile?.path === subItem.path }"
                           @click="selectFile(subItem as AgentSkillFile)"
                         >
-                          <span class="item-icon file-icon">&#128196;</span>
+                          <span class="item-icon file-icon"><Icon icon="mdi:file-document" :width="16" :height="16" /></span>
                           <span class="item-name">{{ subItem.name }}</span>
                           <button
                             v-if="canDeleteFile(subItem as AgentSkillFile, item.path)"
                             class="item-delete"
                             @click.stop="handleDeleteFile(subItem as AgentSkillFile, item.path)"
                           >
-                            &#128465;
+                            <Icon icon="mdi:delete" :width="14" :height="14" />
                           </button>
                         </div>
                         
@@ -729,7 +729,7 @@ onMounted(() => {
                 <p class="info-desc">{{ currentSkill?.description }}</p>
                 <div class="info-meta">
                   <span>
-                    &#128336; 创建于 {{ formatTime(currentSkill?.create_time) }}
+                    <Icon icon="mdi:clock" :width="14" :height="14" /> 创建于 {{ formatTime(currentSkill?.create_time) }}
                   </span>
                 </div>
               </div>
@@ -741,7 +741,7 @@ onMounted(() => {
                 <!-- 编辑器标签栏 -->
                 <div class="editor-tabs">
                   <div class="editor-tab active">
-                    &#128196;
+                    <Icon icon="mdi:file-document" :width="16" :height="16" />
                     <span>{{ selectedFile.name }}</span>
                   </div>
                   <div class="editor-actions">
@@ -752,7 +752,7 @@ onMounted(() => {
                         @click="enterEditMode"
                         type="secondary"
                       >
-                        &#9998; 编辑文件
+                        <Icon icon="mdi:pencil" :width="14" :height="14" /> 编辑文件
                       </HButton>
                     </template>
                     <template v-else>
@@ -787,7 +787,7 @@ onMounted(() => {
               <!-- 无文件选中状态 -->
               <div v-else class="no-file-state">
                 <div class="no-file-visual">
-                  <span class="no-file-icon">&#128196;</span>
+                  <span class="no-file-icon"><Icon icon="mdi:file-document" :width="48" :height="48" /></span>
                 </div>
                 <h3>选择一个文件开始编辑</h3>
                 <p>从左侧文件资源管理器中选择文件，或创建新文件</p>
@@ -804,20 +804,20 @@ onMounted(() => {
         <div class="modal-dialog add-file-dialog">
           <div class="dialog-header">
             <div class="dialog-icon add-icon">
-              &#128196;
+              <Icon icon="mdi:file-document" :width="24" :height="24" />
             </div>
             <div class="dialog-title-wrapper">
               <h3>新建文件</h3>
               <p>在 {{ addFileForm.path || '选择的目录' }} 中创建新文件</p>
             </div>
             <button class="close-btn" @click="closeAddFileDialog">
-              &#10005;
+              <Icon icon="mdi:close" :width="16" :height="16" />
             </button>
           </div>
 
           <div class="dialog-body">
             <div class="add-file-tip">
-              &#128196;
+              <Icon icon="mdi:file-document" :width="16" :height="16" />
               <span>文件只能添加到 <strong>scripts</strong> 或 <strong>reference</strong> 目录下</span>
             </div>
 
@@ -922,7 +922,7 @@ onMounted(() => {
           <p class="sm-item__desc">{{ skill.description || '-' }}</p>
         </div>
         <div class="sm-item__actions" @click.stop>
-          <button class="sm-action sm-action--danger" @click="handleDeleteSkill(skill, $event)" title="删除">🗑️</button>
+          <button class="sm-action sm-action--danger" @click="handleDeleteSkill(skill, $event)" title="删除"><Icon icon="mdi:delete" :width="16" :height="16" /></button>
         </div>
       </div>
     </div>

@@ -251,7 +251,7 @@ onUnmounted(() => {
       >
         <!-- Interviewer (AI) message -->
         <div v-if="msg.role === 'interviewer'" class="message-row ai">
-          <div class="avatar ai-avatar">🤖</div>
+          <div class="avatar ai-avatar"><Icon icon="mdi:robot" :width="20" :height="20" /></div>
           <div class="bubble ai-bubble markdown-body" v-html="renderMarkdown(msg.content)"></div>
         </div>
 
@@ -263,7 +263,7 @@ onUnmounted(() => {
 
       <!-- Typing indicator -->
       <div v-if="isTyping && interviewStore.isActive" class="message-row ai">
-        <div class="avatar ai-avatar">🤖</div>
+        <div class="avatar ai-avatar"><Icon icon="mdi:robot" :width="20" :height="20" /></div>
         <div class="bubble ai-bubble typing-indicator">
           <span class="dot"></span>
           <span class="dot"></span>

@@ -50,7 +50,7 @@ function handleCancel() {
     <div class="h-messagebox" :class="{ 'h-messagebox--visible': visible }">
       <div class="h-messagebox__header">
         <span class="h-messagebox__title">{{ title }}</span>
-        <span class="h-messagebox__close" @click="handleCancel">✕</span>
+        <span class="h-messagebox__close" @click="handleCancel"><Icon icon="mdi:close" :width="18" :height="18" /></span>
       </div>
       <div class="h-messagebox__body">
         <p>{{ message }}</p>

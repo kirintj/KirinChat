@@ -82,7 +82,7 @@ onMounted(() => {
       <div v-if="loading" class="loading-state">加载中...</div>
 
       <div v-else-if="skills.length === 0" class="empty-state">
-        <div class="empty-icon">📭</div>
+        <div class="empty-icon"><Icon icon="mdi:inbox-arrow-down" :width="48" :height="48" /></div>
         <div class="empty-text">暂无可用的面试技能</div>
       </div>
 
@@ -93,7 +93,7 @@ onMounted(() => {
           class="skill-card"
           @click="selectSkill(skill)"
         >
-          <div class="skill-icon">{{ skill.icon || '📚' }}</div>
+          <div class="skill-icon"><Icon :icon="skill.icon || 'mdi:book-open-page-variant'" :width="24" :height="24" /></div>
           <div class="skill-content">
             <div class="skill-name">{{ skill.name }}</div>
             <div class="skill-desc">{{ skill.description || '暂无描述' }}</div>
@@ -114,7 +114,7 @@ onMounted(() => {
         <div class="divider">—— 或者 ——</div>
         <div class="entry-buttons">
           <button class="entry-btn voice-btn" @click="router.push('/voice-interview')">
-            <span class="btn-icon">🎙️</span>
+            <span class="btn-icon"><Icon icon="mdi:microphone" :width="24" :height="24" /></span>
             <span class="btn-text">
               <span class="btn-title">语音面试</span>
               <span class="btn-desc">实时语音对话，模拟真实面试场景</span>
@@ -128,10 +128,10 @@ onMounted(() => {
 
     <!-- Configuration View -->
     <div v-else class="config-view">
-      <button class="back-btn" @click="goBack">← 返回</button>
+      <button class="back-btn" @click="goBack"><Icon icon="mdi:arrow-left" :width="16" :height="16" /> 返回</button>
 
       <div class="config-header">
-        <div class="config-icon">{{ selectedSkill.icon || '📚' }}</div>
+        <div class="config-icon"><Icon :icon="selectedSkill.icon || 'mdi:book-open-page-variant'" :width="36" :height="36" /></div>
         <div>
           <h2 class="config-title">{{ selectedSkill.name }}</h2>
           <p class="config-desc">{{ selectedSkill.description || '暂无描述' }}</p>

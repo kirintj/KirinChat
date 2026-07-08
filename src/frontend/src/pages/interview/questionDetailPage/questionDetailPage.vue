@@ -59,7 +59,7 @@ onMounted(async () => {
     <div v-if="loading" class="loading-state">正在加载题目详情...</div>
 
     <div v-else-if="!detail" class="empty-state">
-      <div class="empty-icon">📭</div>
+      <div class="empty-icon"><Icon icon="mdi:inbox-arrow-down" :width="48" :height="48" /></div>
       <div class="empty-text">未找到题目详情</div>
       <HButton type="primary" @click="goBack">返回报告</HButton>
     </div>
@@ -67,7 +67,7 @@ onMounted(async () => {
     <div v-else class="detail-content">
       <!-- Header -->
       <div class="detail-header">
-        <button class="back-btn" @click="goBack">← 返回报告</button>
+        <button class="back-btn" @click="goBack"><Icon icon="mdi:arrow-left" :width="16" :height="16" /> 返回报告</button>
         <h2 class="detail-title">题目详情</h2>
         <div v-if="detail.skill_name" class="detail-skill">{{ detail.skill_name }}</div>
       </div>

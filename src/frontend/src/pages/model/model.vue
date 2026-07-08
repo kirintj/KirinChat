@@ -432,7 +432,7 @@ onMounted(() => {
                 :disabled="isOfficialModel(model)"
                 :class="{ 'disabled': isOfficialModel(model) }"
               >
-                <span>✏️</span>
+                <Icon icon="mdi:pencil" :width="16" :height="16" />
               </button>
             </HTooltip>
             <HTooltip content="删除" placement="top">
@@ -442,7 +442,7 @@ onMounted(() => {
                 :disabled="isOfficialModel(model)"
                 :class="{ 'disabled': isOfficialModel(model) }"
               >
-                <span>🗑️</span>
+                <Icon icon="mdi:delete" :width="16" :height="16" />
               </button>
             </HTooltip>
           </div>
@@ -452,7 +452,7 @@ onMounted(() => {
       <!-- 空状态 -->
       <div v-if="models.length === 0 && !loading" class="empty-state">
         <div class="empty-icon">
-          <span class="empty-emoji">🤖</span>
+          <span class="empty-emoji"><Icon icon="mdi:robot" :width="56" :height="56" style="opacity:0.6;" /></span>
         </div>
         <h3>暂无模型</h3>
         <p>点击上方按钮添加您的第一个AI模型</p>
@@ -549,7 +549,7 @@ onMounted(() => {
           :disabled="!createForm.model || !createForm.api_key || !createForm.base_url || !createForm.provider || createLoading"
           @click.stop="handleCreate"
         >
-          <span v-if="createLoading" class="btn-icon loading">&#x21BB;</span>
+          <span v-if="createLoading" class="btn-icon loading"><Icon icon="mdi:refresh" :width="16" :height="16" /></span>
           <span class="btn-text">{{ createLoading ? '创建中...' : '确定创建' }}</span>
         </button>
       </div>

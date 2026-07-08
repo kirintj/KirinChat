@@ -34,10 +34,10 @@ const formatTime = (timeStr: string) => {
 // 获取Agent图标
 const getAgentIcon = (agent: string) => {
   const map: Record<string, string> = {
-    simple: '💬',
-    lingseek: '✨', 
+    simple: 'mdi:message-text',
+    lingseek: 'mdi:sparkles',
   }
-  return map[agent] || '🤖'
+  return map[agent] || 'mdi:robot'
 }
 
 // 获取Agent标签
@@ -189,7 +189,7 @@ onMounted(async () => {
           @click="selectSession(session.sessionId)"
         >
           <div class="card-avatar" :class="session.agent">
-            <span>{{ getAgentIcon(session.agent) }}</span>
+            <Icon :icon="getAgentIcon(session.agent)" :width="18" :height="18" />
           </div>
           <div class="card-body">
             <div class="card-title-row">
@@ -224,7 +224,7 @@ onMounted(async () => {
         class="wm-item"
         @click="selectSession(session.sessionId)"
       >
-        <div class="wm-item__icon">{{ getAgentIcon(session.agent) }}</div>
+        <div class="wm-item__icon"><Icon :icon="getAgentIcon(session.agent)" :width="20" :height="20" /></div>
         <div class="wm-item__content">
           <h3 class="wm-item__name">{{ session.title }}</h3>
           <p class="wm-item__time">{{ formatTime(session.createTime) }}</p>

@@ -27,7 +27,7 @@ function close() {
         <div class="h-dialog" :style="{ maxWidth: width }">
           <div class="h-dialog__header">
             <span class="h-dialog__title">{{ title }}</span>
-            <span class="h-dialog__close" @click="close">✕</span>
+            <span class="h-dialog__close" @click="close"><Icon icon="mdi:close" :width="18" :height="18" /></span>
           </div>
           <div class="h-dialog__body">
             <slot />

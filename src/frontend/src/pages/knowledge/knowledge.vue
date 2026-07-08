@@ -269,15 +269,15 @@ onMounted(() => {
       <!-- 列表头部 -->
       <div class="list-header" v-if="knowledges.length > 0">
         <div class="col-name">
-          <span>📁</span>
+          <span><Icon icon="mdi:folder" :width="14" :height="14" /></span>
           <span>名称</span>
         </div>
         <div class="col-desc">
-          <span>📄</span>
+          <span><Icon icon="mdi:file-document" :width="14" :height="14" /></span>
           <span>描述</span>
         </div>
         <div class="col-files">
-          <span>📄</span>
+          <span><Icon icon="mdi:file-document" :width="14" :height="14" /></span>
           <span>文件数</span>
         </div>
         <div class="col-size">
@@ -315,7 +315,7 @@ onMounted(() => {
           </div>
           <div class="col-files">
             <span class="file-badge">
-              <span>📄</span>
+              <Icon icon="mdi:file-document" :width="14" :height="14" />
               {{ knowledge.count }}
             </span>
           </div>
@@ -328,17 +328,17 @@ onMounted(() => {
           <div class="col-actions" @click.stop>
             <HTooltip content="管理文件" placement="top">
               <button class="action-btn view-btn" @click.stop="goToFileManagement(knowledge)">
-                <span>📂</span>
+                <Icon icon="mdi:folder-open" :width="16" :height="16" />
               </button>
             </HTooltip>
             <HTooltip content="编辑" placement="top">
               <button class="action-btn edit-btn" @click.stop="openEditDialog(knowledge)">
-                <span>✏️</span>
+                <Icon icon="mdi:pencil" :width="16" :height="16" />
               </button>
             </HTooltip>
             <HTooltip content="删除" placement="top">
               <button class="action-btn delete-btn" @click.stop="handleDelete(knowledge)">
-                <span>🗑️</span>
+                <Icon icon="mdi:delete" :width="16" :height="16" />
               </button>
             </HTooltip>
           </div>

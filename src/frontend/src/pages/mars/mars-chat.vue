@@ -7,7 +7,7 @@
           <h3>离开页面提醒</h3>
         </div>
         <div class="leave-modal-body">
-          <p>🔔 Mars Agent 不会保存您的聊天记录</p>
+          <p><Icon icon="mdi:bell" :width="16" :height="16" style="vertical-align: middle; margin-right: 4px;" /> Mars Agent 不会保存您的聊天记录</p>
           <p>离开此页面后，当前对话内容将无法找回。</p>
           <p>确定要离开吗？</p>
         </div>
@@ -47,7 +47,7 @@
               <div v-if="segment.type === 'reasoning_chunk'" class="thinking-segment">
                 <div class="thinking-header" @click="toggleCollapse(segment)">
                   深度思考
-                  <span class="collapse-icon">{{ segment.isCollapsed ? '&#x25B6;' : '&#x25BC;' }}</span>
+                  <span class="collapse-icon"><Icon icon="mdi:chevron-down" :width="16" :height="16" :style="{ transform: segment.isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease' }" /></span>
                 </div>
                 <div v-show="!segment.isCollapsed" class="thinking-content">
             <MdPreview 

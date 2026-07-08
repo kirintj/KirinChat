@@ -502,7 +502,7 @@ watch(
           </span>
           <a class="file-name" :href="fileUrl" target="_blank" rel="noopener" :title="fileName">{{ fileName }}</a>
           <HButton size="small" type="danger" @click="cancelUploadedFile" class="cancel-btn" title="移除">
-            ✕
+            <Icon icon="mdi:close" :width="14" :height="14" />
           </HButton>
         </div>
         <textarea
@@ -520,7 +520,7 @@ watch(
         :class="{ 'pause-mode': !sendQuestion }"
         :disabled="sendQuestion ? !searchInput.trim() : false"
       >
-        <span v-if="sendQuestion">➤</span>
+        <span v-if="sendQuestion"><Icon icon="mdi:send" :width="18" :height="18" /></span>
         <span v-else>⏸</span>
       </HButton>
     </div>

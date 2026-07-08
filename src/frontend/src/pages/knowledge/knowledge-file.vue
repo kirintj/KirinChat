@@ -688,7 +688,7 @@ onUnmounted(() => {
                   <div class="file-details">
                     <span class="file-name">{{ file.file_name }}</span>
                     <span v-if="isTempFile(file)" class="temp-badge">
-                      <span class="badge-icon">⬆️</span>
+                      <span class="badge-icon"><Icon icon="mdi:upload" :width="12" :height="12" /></span>
                       上传中
                     </span>
                   </div>

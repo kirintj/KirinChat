@@ -16,7 +16,7 @@ const close = () => emit('update:modelValue', false)
         >
           <div class="h-drawer__header">
             <span class="h-drawer__title">{{ title }}</span>
-            <span class="h-drawer__close" @click="close">&#10005;</span>
+            <span class="h-drawer__close" @click="close"><Icon icon="mdi:close" :width="18" :height="18" /></span>
           </div>
           <div class="h-drawer__body"><slot /></div>
         </div>

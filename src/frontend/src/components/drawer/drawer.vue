@@ -113,7 +113,7 @@ defineExpose({
           </div>
 
           <div v-else-if="filteredAgents.length === 0" class="empty-state">
-            <div class="empty-icon">🤖</div>
+            <div class="empty-icon"><Icon icon="mdi:robot" :width="48" :height="48" /></div>
             <div class="empty-text">
               {{ searchKeyword ? '没有找到相关智能体' : '暂无可用智能体' }}
             </div>

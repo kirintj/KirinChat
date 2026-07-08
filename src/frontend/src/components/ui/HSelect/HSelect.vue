@@ -65,8 +65,8 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
           </slot>
         </div>
       </slot>
-      <span class="h-select__arrow">&#9662;</span>
-      <span v-if="clearable && modelValue" class="h-select__clear" @click.stop="clear">&#10005;</span>
+      <span class="h-select__arrow"><Icon icon="mdi:chevron-down" :width="14" :height="14" /></span>
+      <span v-if="clearable && modelValue" class="h-select__clear" @click.stop="clear"><Icon icon="mdi:close" :width="14" :height="14" /></span>
     </div>
     <div v-show="open" class="h-select__dropdown" ref="dropdownRef">
       <slot />

@@ -714,7 +714,7 @@ const saveUserConfig = async () => {
       </div>
       <div class="header-actions">
         <HButton type="primary" @click="handleCreate">
-          ➕ 添加服务器
+          <Icon icon="mdi:plus" :width="16" :height="16" /> 添加服务器
         </HButton>
       </div>
     </div>
@@ -804,7 +804,7 @@ const saveUserConfig = async () => {
                     @click="handleEdit(row)"
                     title="编辑"
                   >
-                    ✏️ 编辑
+                    <Icon icon="mdi:pencil" :width="14" :height="14" /> 编辑
                   </HButton>
                   <HButton
                     v-else
@@ -813,7 +813,7 @@ const saveUserConfig = async () => {
                     disabled
                     :title="`${row.server_name} MCP Server 为官方所有，不能编辑`"
                   >
-                    ✏️ 编辑
+                    <Icon icon="mdi:pencil" :width="14" :height="14" /> 编辑
                   </HButton>
 
                   <HButton
@@ -845,12 +845,12 @@ const saveUserConfig = async () => {
 
       <div v-if="servers.length === 0 && !loading" class="empty-state">
         <div class="empty-icon">
-          <i class="empty-icon-symbol">📡</i>
+          <i class="empty-icon-symbol"><Icon icon="mdi:satellite-variant" :width="48" :height="48" /></i>
         </div>
         <h3>暂无MCP服务</h3>
         <p>添加MCP服务器以增强智能体的能力</p>
         <HButton type="primary" @click="handleCreate()" class="create-btn">
-          ➕ 添加服务器
+          <Icon icon="mdi:plus" :width="16" :height="16" /> 添加服务器
         </HButton>
       </div>
     </div>
@@ -889,13 +889,13 @@ const saveUserConfig = async () => {
               class="mcpm-action"
               @click="handleEdit(server)"
               title="编辑"
-            >&#9998;</button>
+            ><Icon icon="mdi:pencil" :width="16" :height="16" /></button>
             <button
               v-if="String(server.user_id) !== '0'"
               class="mcpm-action mcpm-action--danger"
               @click="handleDelete(server)"
               title="删除"
-            >&#128465;</button>
+            ><Icon icon="mdi:delete" :width="16" :height="16" /></button>
           </div>
         </div>
       </div>

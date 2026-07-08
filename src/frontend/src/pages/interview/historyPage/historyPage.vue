@@ -214,7 +214,7 @@ onMounted(() => {
     <!-- 顶部导航 -->
     <div class="page-header">
       <button class="back-btn" @click="goBack">
-        <span class="back-icon">&#8592;</span>
+        <Icon icon="mdi:arrow-left" :width="16" :height="16" class="back-icon" />
         <span>返回</span>
       </button>
       <h2 class="page-title">面试历史</h2>

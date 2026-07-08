@@ -2,7 +2,7 @@
   <div class="learning-page">
     <!-- Header -->
     <div class="learning-header">
-      <button class="back-btn" @click="goBack">← 返回</button>
+      <button class="back-btn" @click="goBack"><Icon icon="mdi:arrow-left" :width="16" :height="16" /> 返回</button>
       <h2>学习路径 - {{ path?.skill_name || '' }}</h2>
     </div>
 
@@ -16,7 +16,7 @@
     <template v-else>
       <!-- Overview -->
       <div class="section overview-section">
-        <h3>📊 学习概览</h3>
+        <h3><Icon icon="mdi:chart-box" :width="20" :height="20" /> 学习概览</h3>
         <div class="overview-stats">
           <div class="stat-item">
             <span class="stat-value">{{ path.total_sessions }}</span>
@@ -35,7 +35,7 @@
 
       <!-- Weak categories -->
       <div v-if="path.weak_categories.length" class="section">
-        <h3>🎯 各分类得分</h3>
+        <h3><Icon icon="mdi:target" :width="20" :height="20" /> 各分类得分</h3>
         <div class="category-grid">
           <div
             v-for="cat in path.weak_categories"
@@ -52,7 +52,7 @@
 
       <!-- Recommended resources -->
       <div v-if="Object.keys(path.resources).length" class="section">
-        <h3>📖 推荐学习资料</h3>
+        <h3><Icon icon="mdi:book-open-variant" :width="20" :height="20" /> 推荐学习资料</h3>
         <p class="section-desc">按薄弱程度排序，优先学习得分最低的分类</p>
         <div v-for="catKey in path.study_order" :key="catKey" class="resource-block">
           <div
@@ -61,7 +61,7 @@
           >
             <span class="resource-title">{{ path.resources[catKey]?.label || catKey }}</span>
             <span class="resource-score">平均 {{ path.resources[catKey]?.label ? getCategoryScore(catKey) : '-' }} 分</span>
-            <span class="expand-icon">{{ expandedResources.has(catKey) ? '▼' : '▶' }}</span>
+            <span class="expand-icon"><Icon :icon="expandedResources.has(catKey) ? 'mdi:chevron-down' : 'mdi:chevron-right'" :width="16" :height="16" /></span>
           </div>
           <div v-if="expandedResources.has(catKey)" class="resource-content">
             <pre>{{ path.resources[catKey]?.reference }}</pre>

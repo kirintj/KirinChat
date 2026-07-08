@@ -13,7 +13,7 @@ const emit = defineEmits<{ click: [] }>()
 <template>
   <HCardView size="medium" clickable @click="emit('click')">
     <div class="quick-entry-content">
-      <div class="card-icon">{{ icon }}</div>
+      <div class="card-icon"><Icon :icon="icon" :width="28" :height="28" /></div>
       <div class="card-title">{{ title }}</div>
       <div class="card-desc">{{ description }}</div>
     </div>

@@ -823,7 +823,7 @@ const getNodeColor = (status: string) => {
             <span>执行中</span>
           </span>
           <span v-else-if="showGraph" class="status-badge completed">
-            <span class="status-icon">✓</span>
+            <Icon icon="mdi:check" :width="14" :height="14" />
             <span>已完成</span>
           </span>
         </div>
@@ -908,15 +908,13 @@ const getNodeColor = (status: string) => {
                   stroke-width="2"
                 />
                 
-                <!-- 节点状态图标 -->
-                <text
-                  x="-68"
-                  y="5"
-                  class="node-icon"
-                  font-size="16"
-                >
-                  {{ node.status === 'completed' ? '✓' : node.status === 'executing' ? '⟳' : '○' }}
-                </text>
+                <foreignObject x="-68" y="-10" width="20" height="20">
+                  <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;align-items:center;justify-content:center;width:20px;height:20px;">
+                    <Icon v-if="node.status === 'completed'" icon="mdi:check" :width="16" :height="16" style="color: var(--harmony-confirm);" />
+                    <Icon v-else-if="node.status === 'executing'" icon="mdi:loading" :width="16" :height="16" style="color: var(--harmony-alert); animation: h-spin 1.2s linear infinite;" />
+                    <Icon v-else icon="mdi:circle-outline" :width="16" :height="16" style="color: var(--harmony-comp-divider);" />
+                  </div>
+                </foreignObject>
                 
                 <!-- 节点文本 -->
                 <text

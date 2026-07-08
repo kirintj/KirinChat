@@ -41,7 +41,7 @@ function onDrop(event: DragEvent) {
     <div v-if="fileList.length" class="h-upload__list">
       <div v-for="(file, i) in fileList" :key="i" class="h-upload__file">
         <span class="h-upload__filename">{{ file.name }}</span>
-        <span class="h-upload__remove" @click="remove(i)">✕</span>
+        <span class="h-upload__remove" @click="remove(i)"><Icon icon="mdi:close" :width="14" :height="14" /></span>
       </div>
     </div>
   </div>

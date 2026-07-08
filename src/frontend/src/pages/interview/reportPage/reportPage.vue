@@ -171,7 +171,7 @@ onUnmounted(() => {
     <div v-if="loading" class="loading-state">正在加载评估报告...</div>
 
     <div v-else-if="!report" class="empty-state">
-      <div class="empty-icon">📭</div>
+      <div class="empty-icon"><Icon icon="mdi:inbox-arrow-down" :width="48" :height="48" /></div>
       <div class="empty-text">未找到评估报告</div>
       <HButton type="primary" @click="goBack">返回列表</HButton>
     </div>
@@ -179,7 +179,7 @@ onUnmounted(() => {
     <div v-else class="report-content">
       <!-- Header -->
       <div class="report-header">
-        <button class="back-btn" @click="goBack">← 返回列表</button>
+        <button class="back-btn" @click="goBack"><Icon icon="mdi:arrow-left" :width="16" :height="16" /> 返回列表</button>
         <h2 class="report-title">面试评估报告</h2>
       </div>
 
@@ -233,7 +233,7 @@ onUnmounted(() => {
 
       <!-- Strengths -->
       <div v-if="report.strengths?.length" class="section">
-        <h3 class="section-title">💪 优势</h3>
+        <h3 class="section-title"><Icon icon="mdi:arm-flex" :width="20" :height="20" /> 优势</h3>
         <div class="tag-list">
           <span v-for="(s, i) in report.strengths" :key="i" class="tag tag-strength">
             {{ s }}
@@ -243,7 +243,7 @@ onUnmounted(() => {
 
       <!-- Improvements -->
       <div v-if="report.improvements?.length" class="section">
-        <h3 class="section-title">📈 改进方向</h3>
+        <h3 class="section-title"><Icon icon="mdi:chart-line" :width="20" :height="20" /> 改进方向</h3>
         <div class="tag-list">
           <span v-for="(s, i) in report.improvements" :key="i" class="tag tag-improve">
             {{ s }}
@@ -276,7 +276,7 @@ onUnmounted(() => {
               >
                 {{ q.score }}/10
               </span>
-              <span class="question-arrow">→</span>
+              <span class="question-arrow"><Icon icon="mdi:arrow-right" :width="16" :height="16" /></span>
             </div>
           </div>
         </div>

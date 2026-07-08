@@ -52,7 +52,7 @@ const handleExampleClick = (_: any, index: number) => {
           @keydown="handleKeydown"
         ></textarea>
         <div class="search-footer">
-          <button class="send-btn" @click="handleSearch">➤</button>
+          <button class="send-btn" @click="handleSearch"><Icon icon="mdi:send" :width="18" :height="18" /></button>
         </div>
       </div>
     </div>
@@ -86,7 +86,7 @@ const handleExampleClick = (_: any, index: number) => {
           class="hm-search__input"
           @keydown="handleKeydown"
         ></textarea>
-        <button class="hm-search__btn" @click="handleSearch">➤</button>
+        <button class="hm-search__btn" @click="handleSearch"><Icon icon="mdi:send" :width="18" :height="18" /></button>
       </div>
     </section>
 

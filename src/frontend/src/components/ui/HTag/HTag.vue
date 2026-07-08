@@ -11,7 +11,7 @@ defineEmits<{ close: [] }>()
   <span class="h-tag" :class="`h-tag--${type}`">
     <span class="h-tag__overlay"></span>
     <slot />
-    <span v-if="closable" class="h-tag__close" @click="$emit('close')">✕</span>
+    <span v-if="closable" class="h-tag__close" @click="$emit('close')"><Icon icon="mdi:close" :width="12" :height="12" /></span>
   </span>
 </template>
 

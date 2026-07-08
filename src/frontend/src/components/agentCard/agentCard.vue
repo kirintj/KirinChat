@@ -24,19 +24,19 @@ const emits = defineEmits<Emits>()
 // 统计项配置
 const stats = computed(() => [
   {
-    icon: '🔧',
+    icon: 'mdi:wrench',
     label: '工具',
     count: props.item.tool_ids?.length || 0,
     title: `工具数量: ${props.item.tool_ids?.length || 0}`
   },
   {
-    icon: '📚',
+    icon: 'mdi:book-open-page-variant',
     label: '知识库',
     count: props.item.knowledge_ids?.length || 0,
     title: `知识库数量: ${props.item.knowledge_ids?.length || 0}`
   },
   {
-    icon: '🤖',
+    icon: 'mdi:robot',
     label: 'MCP',
     count: props.item.mcp_ids?.length || 0,
     title: `MCP数量: ${props.item.mcp_ids?.length || 0}`
@@ -100,7 +100,7 @@ const editAgent = () => {
           class="stat-item"
           :title="stat.title"
         >
-          <span class="stat-icon">{{ stat.icon }}</span>
+          <span class="stat-icon"><Icon :icon="stat.icon" :width="14" :height="14" /></span>
           <span class="stat-label">{{ stat.label }}</span>
           <span class="stat-value">{{ stat.count }}</span>
         </div>

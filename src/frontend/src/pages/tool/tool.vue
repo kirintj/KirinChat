@@ -668,10 +668,10 @@ onMounted(() => {
       </div>
       <div class="header-actions">
         <HButton type="secondary" @click="handleRefresh" :loading="loading">
-          🔄 刷新
+          <Icon icon="mdi:refresh" :width="16" :height="16" /> 刷新
         </HButton>
         <HButton type="primary" @click="showCreateDrawer = true">
-          ➕ 创建工具
+          <Icon icon="mdi:plus" :width="16" :height="16" /> 创建工具
         </HButton>
       </div>
     </div>
@@ -777,7 +777,7 @@ onMounted(() => {
             @click="showCreateDrawer = true"
             class="empty-btn"
           >
-            ➕ 创建第一个工具
+            <Icon icon="mdi:plus" :width="16" :height="16" /> 创建第一个工具
           </HButton>
         </div>
       </div>

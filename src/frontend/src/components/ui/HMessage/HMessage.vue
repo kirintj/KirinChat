@@ -30,10 +30,10 @@ function close() {
 }
 
 const icons: Record<string, string> = {
-  success: '✓',
-  error: '✕',
-  warning: '!',
-  info: 'i',
+  success: 'mdi:check',
+  error: 'mdi:close',
+  warning: 'mdi:alert',
+  info: 'mdi:information',
 }
 </script>
 
@@ -43,7 +43,7 @@ const icons: Record<string, string> = {
     :class="[`h-message--${type}`, { 'h-message--visible': visible }]"
     @click="close"
   >
-    <span class="h-message__icon">{{ icons[type] }}</span>
+    <span class="h-message__icon"><Icon :icon="icons[type]" :width="14" :height="14" /></span>
     <span class="h-message__text">{{ message }}</span>
   </div>
 </template>

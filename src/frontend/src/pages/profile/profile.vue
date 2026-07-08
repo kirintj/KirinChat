@@ -333,7 +333,7 @@ const handleCustomUpload = async (event: Event) => {
                 @error="handleImageError"
               />
               <div class="avatar-overlay" @click="showAvatarDialog = true">
-                <span>✏️</span>
+                <Icon icon="mdi:pencil" :width="20" :height="20" />
               </div>
             </div>
           </div>

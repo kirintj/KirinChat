@@ -17,10 +17,10 @@ const skillMap = ref<Record<string, string>>({})
 
 // --- 快捷入口配置：4 个面试功能入口 ---
 const quickEntries = [
-  { icon: '✏️', title: '文字面试', description: '选择技能方向，开始 AI 面试', route: '/interview' },
-  { icon: '🎙️', title: '语音面试', description: '实时语音对话，模拟真实面试', route: '/voice-interview' },
-  { icon: '📄', title: '上传简历', description: '上传简历获取 AI 分析报告', route: '/interview/resume' },
-  { icon: '🔍', title: '解析 JD', description: '粘贴职位描述，定制面试题目', route: '/interview/jd' },
+  { icon: 'mdi:pencil', title: '文字面试', description: '选择技能方向，开始 AI 面试', route: '/interview' },
+  { icon: 'mdi:microphone', title: '语音面试', description: '实时语音对话，模拟真实面试', route: '/voice-interview' },
+  { icon: 'mdi:file-document', title: '上传简历', description: '上传简历获取 AI 分析报告', route: '/interview/resume' },
+  { icon: 'mdi:magnify', title: '解析 JD', description: '粘贴职位描述，定制面试题目', route: '/interview/jd' },
 ]
 
 // --- 从全量 session 数据中派生各区块所需数据 ---

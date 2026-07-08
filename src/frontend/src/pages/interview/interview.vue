@@ -112,7 +112,7 @@ onMounted(() => {
 
       <div class="create-section">
         <button class="create-btn" @click="startNewInterview">
-          <span>＋</span>
+          <span><Icon icon="mdi:plus" :width="16" :height="16" /></span>
           <span>开始新面试</span>
         </button>
       </div>
@@ -123,7 +123,7 @@ onMounted(() => {
         </div>
 
         <div v-else-if="sessions.length === 0" class="empty-state">
-          <div class="empty-icon">📝</div>
+          <div class="empty-icon"><Icon icon="mdi:file-document" :width="32" :height="32" /></div>
           <div class="empty-text">暂无面试记录</div>
         </div>
 
@@ -133,7 +133,7 @@ onMounted(() => {
           :class="['session-card', { active: selectedSession === session.id }]"
           @click="selectSession(session)"
         >
-          <div class="session-icon">📝</div>
+          <div class="session-icon"><Icon icon="mdi:file-document" :width="16" :height="16" /></div>
           <div class="session-info">
             <div class="session-title">{{ session.skill_id }}</div>
             <div class="session-meta">
@@ -145,7 +145,7 @@ onMounted(() => {
               </span>
             </div>
           </div>
-          <button class="delete-btn" @click="deleteSession(session.id, $event)" title="删除">×</button>
+          <button class="delete-btn" @click="deleteSession(session.id, $event)" title="删除"><Icon icon="mdi:close" :width="14" :height="14" /></button>
         </div>
       </div>
     </div>
@@ -170,12 +170,12 @@ onMounted(() => {
         class="im-item"
         @click="selectSession(session)"
       >
-        <div class="im-item__icon">📋</div>
+        <div class="im-item__icon"><Icon icon="mdi:clipboard-text" :width="20" :height="20" /></div>
         <div class="im-item__content">
           <h3 class="im-item__name">{{ session.skill_name || session.skill_id || '面试会话' }}</h3>
           <p class="im-item__time">{{ formatTime(session.create_time || '') }}</p>
         </div>
-        <button class="im-item__delete" @click.stop="deleteSession(session.id, $event)">×</button>
+        <button class="im-item__delete" @click.stop="deleteSession(session.id, $event)"><Icon icon="mdi:close" :width="18" :height="18" /></button>
       </div>
     </div>
 
