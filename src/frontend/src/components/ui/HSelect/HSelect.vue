@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, provide, computed, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, provide, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import { Icon } from '@iconify/vue'
 
 interface Props {
   modelValue: string | number | undefined
@@ -22,16 +23,48 @@ const emit = defineEmits<{
 }>()
 
 const open = ref(false)
+const selectRef = ref<HTMLElement | null>(null)
 const dropdownRef = ref<HTMLElement | null>(null)
+const filterText = ref('')
+
+const labelMap = ref<Record<string, string>>({})
+
+const selectedLabel = computed(() => {
+  if (props.modelValue === undefined || props.modelValue === '') return ''
+  const key = String(props.modelValue)
+  return labelMap.value[key] || String(props.modelValue)
+})
 
 provide('h-select', {
   modelValue: computed(() => props.modelValue),
+  registerOption: (value: string | number, label: string) => {
+    labelMap.value[String(value)] = label
+  },
+  unregisterOption: (value: string | number) => {
+    delete labelMap.value[String(value)]
+  },
   select: (value: string | number) => {
     emit('update:modelValue', value)
     emit('change', value)
     open.value = false
   },
+  filterText: computed(() => filterText.value),
 })
+
+const dropdownStyle = reactive({
+  position: 'fixed' as const,
+  top: '0px',
+  left: '0px',
+  width: '0px',
+})
+
+function updateDropdownPosition() {
+  if (!selectRef.value) return
+  const rect = selectRef.value.getBoundingClientRect()
+  dropdownStyle.top = `${rect.bottom + 4}px`
+  dropdownStyle.left = `${rect.left}px`
+  dropdownStyle.width = `${rect.width}px`
+}
 
 function clear() {
   emit('update:modelValue', undefined)
@@ -39,28 +72,52 @@ function clear() {
 }
 
 function toggle() {
-  if (!props.disabled) open.value = !open.value
+  if (!props.disabled) {
+    open.value = !open.value
+    filterText.value = ''
+    if (open.value) {
+      nextTick(() => updateDropdownPosition())
+    }
+  }
 }
 
 function onClickOutside(e: MouseEvent) {
   const target = e.target as HTMLElement
-  if (!target.closest('.h-select')) {
+  if (!target.closest('.h-select') && !target.closest('.h-select__dropdown-teleported')) {
     open.value = false
   }
 }
 
-onMounted(() => document.addEventListener('click', onClickOutside))
-onUnmounted(() => document.removeEventListener('click', onClickOutside))
+function onScroll() {
+  if (open.value) updateDropdownPosition()
+}
+
+onMounted(() => {
+  document.addEventListener('click', onClickOutside, true)
+  window.addEventListener('scroll', onScroll, true)
+  window.addEventListener('resize', onScroll)
+})
+onUnmounted(() => {
+  document.removeEventListener('click', onClickOutside, true)
+  window.removeEventListener('scroll', onScroll, true)
+  window.removeEventListener('resize', onScroll)
+})
+
+watch(open, (val) => {
+  if (val) {
+    nextTick(() => updateDropdownPosition())
+  }
+})
 </script>
 
 <template>
-  <div class="h-select" :class="{ 'h-select--open': open, 'h-select--disabled': disabled }">
+  <div class="h-select" :class="{ 'h-select--open': open, 'h-select--disabled': disabled }" ref="selectRef">
     <div class="h-select__trigger" @click="toggle">
       <span class="h-select__overlay"></span>
       <slot name="trigger">
         <div class="h-select__value">
-          <slot name="selected" :value="modelValue">
-            <span v-if="modelValue !== undefined && modelValue !== ''">{{ modelValue }}</span>
+          <slot name="selected" :value="modelValue" :label="selectedLabel">
+            <span v-if="modelValue !== undefined && modelValue !== ''">{{ selectedLabel }}</span>
             <span v-else class="h-select__placeholder">{{ placeholder }}</span>
           </slot>
         </div>
@@ -68,9 +125,21 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
       <span class="h-select__arrow"><Icon icon="mdi:chevron-down" :width="14" :height="14" /></span>
       <span v-if="clearable && modelValue" class="h-select__clear" @click.stop="clear"><Icon icon="mdi:close" :width="14" :height="14" /></span>
     </div>
-    <div v-show="open" class="h-select__dropdown" ref="dropdownRef">
-      <slot />
-    </div>
+    <Teleport to="body">
+      <div v-show="open" class="h-select__dropdown-teleported" ref="dropdownRef" :style="dropdownStyle">
+        <div v-if="filterable" class="h-select__filter">
+          <input
+            v-model="filterText"
+            class="h-select__filter-input"
+            placeholder="搜索..."
+            @click.stop
+          />
+        </div>
+        <div class="h-select__dropdown-list">
+          <slot />
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -118,12 +187,43 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside))
   color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-body-s);
 }
 .h-select__clear:hover { color: var(--harmony-font-primary); }
-.h-select__dropdown {
-  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+</style>
+
+<style>
+.h-select__dropdown-teleported {
+  position: fixed;
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8);
   box-shadow: var(--harmony-shadow-dialog);
-  z-index: var(--z-dropdown);
-  max-height: 240px; overflow-y: auto; padding: 4px;
+  z-index: var(--z-dialog);
+  background: var(--harmony-comp-background-primary);
+  max-height: 280px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.h-select__dropdown-teleported .h-select__filter {
+  padding: 8px 8px 4px;
+  flex-shrink: 0;
+}
+.h-select__dropdown-teleported .h-select__filter-input {
+  width: 100%;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level6);
+  font-size: var(--harmony-font-size-body-s);
+  color: var(--harmony-font-primary);
+  background: var(--harmony-comp-background-secondary);
+  outline: none;
+  box-sizing: border-box;
+}
+.h-select__dropdown-teleported .h-select__filter-input:focus {
+  border-color: var(--harmony-interactive-focus);
+}
+.h-select__dropdown-teleported .h-select__dropdown-list {
+  overflow-y: auto;
+  padding: 4px;
+  max-height: 240px;
 }
 </style>

@@ -365,6 +365,10 @@ onMounted(() => {
   min-height: 100%;
   padding: 32px;
   background: transparent;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ===== 页面头部 ===== */
@@ -513,7 +517,7 @@ onMounted(() => {
   font-family: inherit;
 
   &:hover {
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    box-shadow: var(--harmony-shadow-md);
     transform: translateY(-1px);
   }
 
@@ -552,7 +556,7 @@ onMounted(() => {
   font-family: inherit;
 
   &:hover {
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+    box-shadow: var(--harmony-shadow-md);
   }
 }
 
@@ -581,7 +585,7 @@ onMounted(() => {
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--harmony-shadow-md);
 
     .card-hover-tip {
       opacity: 1;
@@ -792,7 +796,7 @@ onMounted(() => {
   padding: 28px 24px 20px;
   background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level8);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--harmony-shadow-dialog);
   text-align: center;
   animation: harmony-scale-in 0.15s ease;
 }
@@ -869,6 +873,7 @@ onMounted(() => {
   .search-box {
     flex: 1;
     min-width: 200px;
+    max-width: 100%;
   }
 
   .agent-grid {

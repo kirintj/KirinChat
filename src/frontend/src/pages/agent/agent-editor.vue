@@ -2,6 +2,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { HButton, HInput, HSelect, HOption, HForm, HFormItem, HTag, HMessage } from '@/components/ui'
+import { Icon } from '@iconify/vue'
 import { createAgentAPI, updateAgentAPI, getAgentByIdAPI } from '../../apis/agent'
 import { getVisibleLLMsAPI, getAgentModelsAPI } from '../../apis/llm'
 import { getVisibleToolsAPI } from '../../apis/tool'
@@ -659,7 +660,7 @@ onMounted(async () => {
 /* ============ 页面容器 ============ */
 .agent-editor {
   min-height: 100%;
-  background: var(--harmony-comp-background-secondary);
+  background: transparent;
   display: flex;
   flex-direction: column;
 }
@@ -672,9 +673,15 @@ onMounted(async () => {
   padding: 20px 32px;
   background: var(--harmony-comp-background-primary);
   border-bottom: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level8);
+  margin: 24px auto 0;
+  box-shadow: var(--harmony-shadow-sm);
   position: sticky;
-  top: 0;
-  z-index: 10;
+  top: 24px;
+  z-index: var(--z-dropdown);
+  max-width: 1200px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .header-left {
@@ -742,7 +749,7 @@ onMounted(async () => {
   font-family: inherit;
 
   &:hover:not(:disabled) {
-    box-shadow: 0 2px 8px var(--harmony-comp-emphasize-secondary);
+    box-shadow: var(--harmony-shadow-md);
     transform: translateY(-1px);
   }
 
@@ -763,13 +770,19 @@ onMounted(async () => {
 /* ============ 主内容区 ============ */
 .page-content {
   flex: 1;
-  padding: 24px 32px 32px;
+  padding-top: 12px;
+  padding-bottom: 48px;
+  margin: 0 auto;
   overflow-x: hidden;
+  max-width: 1200px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .editor-form {
-  display: flex;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: calc(50% - 12px) calc(50% - 12px);
+  gap: 24px;
   align-items: flex-start;
 }
 
@@ -777,29 +790,24 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 0;
 }
 
 .column-left {
-  width: 45%;
   position: sticky;
-  top: 92px;
-}
-
-.column-right {
-  flex: 1;
-  min-width: 0;
+  top: 69px;
 }
 
 /* ============ 卡片 ============ */
 .card {
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8);
   overflow: hidden;
-  transition: border-color 0.15s ease;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
 
   &:hover {
     border-color: var(--harmony-comp-emphasize-secondary);
+    box-shadow: var(--harmony-shadow-sm);
   }
 
   &.card-grow {
@@ -814,9 +822,8 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 16px 20px;
+  padding: 16px 24px;
   background: var(--harmony-comp-background-primary);
-  border-bottom: 1px solid var(--harmony-comp-divider);
 
   .card-title {
     font-size: var(--harmony-font-size-body-m);
@@ -828,12 +835,12 @@ onMounted(async () => {
     font-size: var(--harmony-font-size-body-s);
     color: var(--harmony-font-tertiary);
     margin-left: auto;
+    white-space: nowrap;
   }
 
   &.collapsible {
     cursor: pointer;
     user-select: none;
-    border-bottom: none;
 
     &:hover {
       background: var(--harmony-comp-background-secondary);
@@ -857,6 +864,16 @@ onMounted(async () => {
   }
 }
 
+/* 非折叠卡片（基本信息、系统提示词）的header有分割线 */
+.card:not(.config-card) .card-header {
+  border-bottom: 1px solid var(--harmony-comp-divider);
+}
+
+/* 折叠卡片展开时显示分割线 */
+.card.config-card .card-body {
+  border-top: 1px solid var(--harmony-comp-divider);
+}
+
 .count-badge {
   min-width: 20px;
   height: 20px;
@@ -872,7 +889,7 @@ onMounted(async () => {
 }
 
 .card-body {
-  padding: 20px;
+  padding: 16px 24px 20px;
 
   & > * + * {
     margin-top: 16px;
@@ -893,7 +910,7 @@ onMounted(async () => {
   width: 72px;
   height: 72px;
   border-radius: var(--harmony-corner-radius-level6);
-  background: var(--harmony-comp-background-secondary);
+
   border: 2px dashed var(--harmony-comp-divider);
   display: flex;
   align-items: center;
@@ -985,22 +1002,15 @@ onMounted(async () => {
   :deep(.h-input__inner) {
     height: 40px !important;
     border-radius: var(--harmony-corner-radius-level6) !important;
-    border: 1px solid var(--harmony-comp-divider) !important;
-    background: var(--harmony-comp-background-secondary) !important;
+  
     padding: 0 14px !important;
     font-size: var(--harmony-font-size-subtitle-s) !important;
     transition: all 0.15s ease !important;
   }
 
-  :deep(.h-input__inner:hover) {
-    border-color: var(--harmony-comp-emphasize-secondary) !important;
-  }
 
-  :deep(.h-input__inner:focus) {
-    border-color: var(--harmony-brand) !important;
-    background: var(--harmony-comp-background-primary) !important;
-    box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary) !important;
-  }
+
+
 }
 
 .form-textarea {
@@ -1008,7 +1018,7 @@ onMounted(async () => {
   padding: 10px 14px;
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level6);
-  background: var(--harmony-comp-background-secondary);
+
   font-size: var(--harmony-font-size-subtitle-s);
   color: var(--harmony-font-primary);
   font-family: inherit;
@@ -1035,10 +1045,9 @@ onMounted(async () => {
 .prompt-textarea {
   width: 100%;
   min-height: 260px;
-  padding: 16px;
+  padding: 14px 16px;
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level6);
-  background: var(--harmony-comp-background-secondary);
   font-size: var(--harmony-font-size-subtitle-s);
   color: var(--harmony-font-primary);
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
@@ -1169,33 +1178,36 @@ onMounted(async () => {
 /* ============ 响应式 ============ */
 @include tablet-and-below {
   .editor-form {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .column-left {
-    width: 100%;
     position: static;
   }
 
-  .column-right {
-    width: 100%;
+  .page-header {
+    margin: 16px auto 0;
+    padding: 16px 20px;
+  }
+
+  .page-content {
+    padding-bottom: 32px;
   }
 }
 
 @include mobile {
   .page-header {
-    padding: 16px;
     flex-wrap: wrap;
     gap: 12px;
-  }
-
-  .page-content {
-    padding: 16px;
   }
 
   .header-right {
     width: 100%;
     justify-content: flex-end;
+  }
+
+  .card-subtitle {
+    display: none;
   }
 }
 </style>

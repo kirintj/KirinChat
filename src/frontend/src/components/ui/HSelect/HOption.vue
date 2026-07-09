@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, computed } from 'vue'
+import { inject, computed, onMounted, onUnmounted } from 'vue'
 
 interface Props {
   value: string | number
@@ -8,16 +8,32 @@ interface Props {
 const props = defineProps<Props>()
 const select = inject<any>('h-select')
 const isSelected = computed(() => select?.modelValue.value === props.value)
+
+const displayLabel = computed(() => props.label || String(props.value))
+const isFilteredOut = computed(() => {
+  if (!select?.filterText?.value) return false
+  const keyword = select.filterText.value.toLowerCase()
+  return !displayLabel.value.toLowerCase().includes(keyword)
+})
+
+onMounted(() => {
+  select?.registerOption?.(props.value, displayLabel.value)
+})
+
+onUnmounted(() => {
+  select?.unregisterOption?.(props.value)
+})
 </script>
 
 <template>
   <div
+    v-show="!isFilteredOut"
     class="h-option"
     :class="{ 'h-option--selected': isSelected }"
     @click="select?.select(props.value)"
   >
     <span class="h-option__overlay"></span>
-    <slot>{{ label || value }}</slot>
+    <slot>{{ displayLabel }}</slot>
   </div>
 </template>
 
