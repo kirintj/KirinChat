@@ -1,5 +1,5 @@
 <template>
-  <div class="mars-output-page">
+  <div class="mars-output-page page">
     <!-- 离开页面提醒弹窗 -->
     <div v-if="showLeaveModal" class="leave-modal-overlay" @click="handleOverlayClick">
       <div class="leave-modal">
@@ -665,7 +665,7 @@ onMounted(() => {
 .leave-modal {
   background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level8);
-  box-shadow: 0 20px 60px var(--harmony-shadow-dialog);
+  box-shadow: var(--harmony-shadow-dialog);
   max-width: 420px;
   width: 90%;
   max-height: 80vh;
@@ -801,7 +801,7 @@ onMounted(() => {
   background-color: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level8);
   margin-bottom: 16px;
-  box-shadow: 0 8px 24px var(--harmony-shadow-md), 0 2px 6px var(--harmony-shadow-xs);
+  box-shadow: var(--harmony-shadow-lg);
   transition: all 0.3s ease;
 }
 
@@ -825,19 +825,6 @@ onMounted(() => {
   border-top: none;
 }
 
-.thinking-content :deep(.md-editor-preview) p,
-.thinking-content :deep(.md-editor-preview) li,
-.thinking-content :deep(.md-editor-preview) ul,
-.thinking-content :deep(.md-editor-preview) ol,
-.thinking-content :deep(.md-editor-preview) h1,
-.thinking-content :deep(.md-editor-preview) h2,
-.thinking-content :deep(.md-editor-preview) h3,
-.thinking-content :deep(.md-editor-preview) h4,
-.thinking-content :deep(.md-editor-preview) h5,
-.thinking-content :deep(.md-editor-preview) h6 {
-  color: var(--harmony-font-secondary) !important;
-}
-
 .answer-segment {
   /* No specific styles needed unless for spacing/debugging */
   margin-bottom: 10px;
@@ -848,7 +835,7 @@ onMounted(() => {
   background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level8);
   padding: 16px 20px;
-  box-shadow: 0 2px 8px var(--harmony-shadow-md);
+  box-shadow: var(--harmony-shadow-sm);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -895,7 +882,7 @@ onMounted(() => {
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8);
     border: 1px solid var(--harmony-comp-divider);
-    box-shadow: 0 2px 8px var(--harmony-shadow-md);
+    box-shadow: var(--harmony-shadow-sm);
     
     .mars-generating-indicator {
       display: flex;

@@ -1,38 +1,62 @@
-$bp-mobile: 480px;
+/*
+ * 统一响应式断点定义
+ *
+ * Breakpoint Overview:
+ *   phone:       ≤ 767px   (手机 + 竖屏小平板)  — isMobile = true
+ *   tablet:   768 - 1199px (横屏平板)
+ *   desktop: 1200 - 1399px (普通桌面)
+ *   wide:     ≥ 1400px     (大屏)
+ *
+ * JS 侧 (useBreakpoint.ts) 与此文件保持一致。
+ */
+
 $bp-tablet: 768px;
 $bp-desktop: 1200px;
 $bp-wide: 1400px;
 
+/* ≤ 767px — 手机 / 竖屏小平板 */
 @mixin mobile {
   @media (max-width: #{$bp-tablet - 1px}) {
     @content;
   }
 }
 
+/* 768 - 1199px — 平板（横屏） */
 @mixin tablet {
   @media (min-width: #{$bp-tablet}) and (max-width: #{$bp-desktop - 1px}) {
     @content;
   }
 }
 
+/* ≤ 1199px — 平板及以下 */
 @mixin tablet-and-below {
   @media (max-width: #{$bp-desktop - 1px}) {
     @content;
   }
 }
 
+/* ≥ 768px — 平板及以上 */
+@mixin tablet-and-above {
+  @media (min-width: #{$bp-tablet}) {
+    @content;
+  }
+}
+
+/* ≥ 1200px — 桌面 */
 @mixin desktop {
   @media (min-width: #{$bp-desktop}) {
     @content;
   }
 }
 
+/* ≤ 1399px — 桌面及以下 */
 @mixin desktop-and-below {
   @media (max-width: #{$bp-wide - 1px}) {
     @content;
   }
 }
 
+/* ≥ 1400px — 大屏 */
 @mixin wide {
   @media (min-width: #{$bp-wide}) {
     @content;

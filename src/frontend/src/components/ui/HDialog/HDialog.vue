@@ -50,7 +50,7 @@ function close() {
 }
 .h-dialog {
   width: 100%;
-  background: var(--harmony-comp-background-secondary);
+  background: var(--harmony-comp-background-primary);
   backdrop-filter: blur(20px) saturate(1.2);
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level16);

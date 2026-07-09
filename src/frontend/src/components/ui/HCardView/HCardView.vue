@@ -46,7 +46,7 @@ const sizeMap = {
 
 <style scoped>
 .h-card {
-  background: var(--harmony-comp-background-secondary);
+  background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level10);
   overflow: hidden;
   box-shadow: var(--harmony-shadow-card);

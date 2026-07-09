@@ -33,11 +33,27 @@ from kirinchat.schemas.interview import (
     QuestionDetailResp,
     QuestionDetailItem,
 )
-from kirinchat.api.responses.builder import resp_200, resp_500, UnifiedResponseModel
+from kirinchat.api.responses.builder import resp_200, resp_403, resp_404, resp_500, UnifiedResponseModel
 from kirinchat.api.responses.streaming import WatchedStreamingResponse
 from kirinchat.api.services.user import UserPayload, get_login_user
 
 router = APIRouter(tags=["Interview"])
+
+
+# ---------------------------------------------------------------------------
+# Agent 缓存：避免每次请求重复实例化和加载技能文件
+# ---------------------------------------------------------------------------
+
+_agent_cache: dict[str, InterviewAgent] = {}
+
+
+async def _get_agent(skill_id: str) -> InterviewAgent:
+    """获取或创建 InterviewAgent 实例，按 skill_id 缓存复用。"""
+    if skill_id not in _agent_cache:
+        agent = InterviewAgent(agent_config={})
+        await agent.init_interview_agent(skill_id=skill_id)
+        _agent_cache[skill_id] = agent
+    return _agent_cache[skill_id]
 
 
 # ---------------------------------------------------------------------------
@@ -66,6 +82,7 @@ def _session_to_resp(session, skill_name: str = "", total_score: Optional[float]
         progress={},
         skill_name=skill_name,
         total_score=total_score,
+        create_time=session.create_time,
     )
 
 
@@ -148,8 +165,7 @@ async def start_interview(
         )
 
         try:
-            agent = InterviewAgent(agent_config={})
-            await agent.init_interview_agent(skill_id=req.skill_id)
+            agent = await _get_agent(skill_id=req.skill_id)
             first_question = await agent.generate_first_question(
                 session_id=session.id,
                 user_id=login_user.user_id,
@@ -181,7 +197,7 @@ async def submit_answer(
     try:
         session = await InterviewService.get_session(req.session_id)
         if session is None:
-            return resp_500(message="Session not found")
+            return resp_404(message="Session not found")
 
         # Save the answer
         await InterviewService.submit_answer(req.question_id, req.answer)
@@ -194,8 +210,7 @@ async def submit_answer(
                 original_question = q.content
                 break
 
-        agent = InterviewAgent(agent_config={})
-        await agent.init_interview_agent(skill_id=session.skill_id)
+        agent = await _get_agent(skill_id=session.skill_id)
 
         # Try to generate a follow-up question
         follow_up = await agent.generate_follow_up(
@@ -243,7 +258,7 @@ async def submit_answer_stream(
     try:
         session = await InterviewService.get_session(req.session_id)
         if session is None:
-            return resp_500(message="Session not found")
+            return resp_404(message="Session not found")
 
         # 保存用户答案
         await InterviewService.submit_answer(req.question_id, req.answer)
@@ -256,60 +271,79 @@ async def submit_answer_stream(
                 original_question = q.content
                 break
 
-        # 初始化 agent
-        agent = InterviewAgent(agent_config={})
-        await agent.init_interview_agent(skill_id=session.skill_id)
+        # 复用缓存 agent
+        agent = await _get_agent(skill_id=session.skill_id)
 
         async def stream():
             follow_up_content = ""
             next_question_content = ""
             is_completed = False
 
-            # 阶段一：流式生成追问题
-            async for event in agent.stream_follow_up(
-                session_id=req.session_id,
-                original_question=original_question,
-                user_answer=req.answer,
-            ):
-                follow_up_content = event["data"]["accumulated"]
-                yield f"data: {json.dumps(event)}\n\n"
+            try:
+                # 阶段一：流式生成追问题
+                async for event in agent.stream_follow_up(
+                    session_id=req.session_id,
+                    original_question=original_question,
+                    user_answer=req.answer,
+                ):
+                    follow_up_content = event["data"]["accumulated"]
+                    yield f"data: {json.dumps(event)}\n\n"
 
-            # 如果有追问题，发送 done 事件并结束（不生成下一题）
-            if follow_up_content.strip() and follow_up_content.strip() != "NO_FOLLOW_UP":
+                # 如果有追问题，发送 done 事件并结束（不生成下一题）
+                normalized = follow_up_content.strip().upper().replace(" ", "").replace("_", "").replace("-", "")
+                has_follow_up = follow_up_content.strip() and normalized != "NOFOLLOWUP"
+                if has_follow_up:
+                    done_data = {
+                        "type": "done",
+                        "data": {
+                            "follow_up": {"content": follow_up_content.strip()},
+                            "next_question": None,
+                            "is_completed": False,
+                        },
+                    }
+                    yield f"data: {json.dumps(done_data)}\n\n"
+                    return
+
+                # 阶段二：流式生成下一题
+                async for event in agent.stream_next_question(
+                    session_id=req.session_id,
+                    user_id=login_user.user_id,
+                    difficulty=session.difficulty,
+                ):
+                    data = event["data"]
+                    if data.get("is_completed"):
+                        is_completed = True
+                        break
+                    next_question_content = data["accumulated"]
+                    yield f"data: {json.dumps(event)}\n\n"
+
+                # 查询刚保存的下一题 ID（stream_next_question 已保存到 DB）
+                next_question_id = ""
+                if next_question_content.strip() and not is_completed:
+                    session_questions = await InterviewService.get_session_questions(req.session_id)
+                    if session_questions:
+                        last_q = session_questions[-1]
+                        if last_q.content.strip() == next_question_content.strip():
+                            next_question_id = last_q.id
+
+                # 发送完成事件
                 done_data = {
                     "type": "done",
                     "data": {
-                        "follow_up": {"content": follow_up_content.strip()},
-                        "next_question": None,
-                        "is_completed": False,
+                        "follow_up": None,
+                        "next_question": {"id": next_question_id, "content": next_question_content.strip()} if next_question_content.strip() else None,
+                        "is_completed": is_completed,
                     },
                 }
                 yield f"data: {json.dumps(done_data)}\n\n"
-                return
 
-            # 阶段二：流式生成下一题
-            async for event in agent.stream_next_question(
-                session_id=req.session_id,
-                user_id=login_user.user_id,
-                difficulty=session.difficulty,
-            ):
-                data = event["data"]
-                if data.get("is_completed"):
-                    is_completed = True
-                    break
-                next_question_content = data["accumulated"]
-                yield f"data: {json.dumps(event)}\n\n"
-
-            # 发送完成事件
-            done_data = {
-                "type": "done",
-                "data": {
-                    "follow_up": None,
-                    "next_question": {"content": next_question_content.strip()} if next_question_content.strip() else None,
-                    "is_completed": is_completed,
-                },
-            }
-            yield f"data: {json.dumps(done_data)}\n\n"
+            except Exception as stream_err:
+                logger.error(f"SSE stream error for session {req.session_id}: {stream_err}")
+                error_data = {
+                    "type": "error",
+                    "data": {"message": "生成过程中出现错误，请重试"},
+                }
+                yield f"data: {json.dumps(error_data)}\n\n"
 
         return WatchedStreamingResponse(
             content=stream(),
@@ -332,12 +366,14 @@ async def get_session_detail(
     try:
         session = await InterviewService.get_session(session_id)
         if session is None:
-            return resp_500(message="Session not found")
+            return resp_404(message="Session not found")
 
         questions = await InterviewService.get_session_questions(session_id)
         progress = await InterviewService.calculate_progress(session_id)
 
-        session_resp = _session_to_resp(session)
+        skill = SkillService.get_skill_by_id(session.skill_id)
+        skill_name = skill.get("name", "") if skill else ""
+        session_resp = _session_to_resp(session, skill_name=skill_name)
         session_resp.progress = progress
 
         data = InterviewSessionDetailResp(
@@ -359,7 +395,7 @@ async def complete_interview(
     try:
         session = await InterviewService.get_session(req.session_id)
         if session is None:
-            return resp_500(message="Session not found")
+            return resp_404(message="Session not found")
 
         await InterviewService.update_session_status(req.session_id, "COMPLETED")
 
@@ -386,7 +422,7 @@ async def get_evaluation_report(
     try:
         report = await EvaluationService.get_report_by_id(evaluation_id)
         if report is None:
-            return resp_500(message="Evaluation report not found")
+            return resp_404(message="Evaluation report not found")
 
         data = await _build_evaluation_resp(report)
         return resp_200(data=data.model_dump())
@@ -404,7 +440,7 @@ async def get_evaluation_by_session(
     try:
         report = await EvaluationService.get_report_by_session(session_id)
         if report is None:
-            return resp_500(message="Evaluation report not found for this session")
+            return resp_404(message="Evaluation report not found for this session")
 
         data = await _build_evaluation_resp(report)
         return resp_200(data=data.model_dump())
@@ -422,7 +458,7 @@ async def get_question_detail(
     try:
         detail = await EvaluationService.get_detail_by_question(question_id)
         if detail is None:
-            return resp_500(message="Question detail not found")
+            return resp_404(message="Question detail not found")
 
         # 通过 evaluation_id 获取 report，再通过 session_id 获取题目
         report = await EvaluationService.get_report_by_id(detail.evaluation_id)
@@ -479,47 +515,33 @@ async def get_interview_history(
         page = max(1, page)
         page_size = max(1, min(page_size, 100))
 
-        # keyword 筛选无法在 DB 层完成（skill_name 来自文件系统），需要额外处理
+        # keyword 搜索：先在文件系统中匹配 skill_name，得到 skill_ids 列表后在 DB 层筛选
+        matched_skill_ids = None
         if keyword:
-            # 不传 keyword 到 DB 层，一次性查出所有匹配的记录
-            sessions_with_details_full, _ = await InterviewSessionDao.select_sessions_with_details(
-                user_id=login_user.user_id,
-                status=status,
-                skill_id=skill_id,
-                keyword=None,
-                difficulty=difficulty,
-                page=1,
-                page_size=10000,  # 取足够大的值
-                sort_by=sort_by,
-                sort_order=sort_order,
-            )
-            # 在 Python 层按 keyword 筛选（skill_name 模糊匹配）
+            all_skills = SkillService.get_all_skills()
             keyword_lower = keyword.lower()
-            filtered = []
-            for session_obj, total_score in sessions_with_details_full:
-                skill = SkillService.get_skill_by_id(session_obj.skill_id)
-                skill_name = skill.get("name", "") if skill else ""
-                if keyword_lower in skill_name.lower():
-                    filtered.append((session_obj, total_score))
+            matched_skill_ids = [
+                s.get("id", "") for s in all_skills
+                if keyword_lower in s.get("name", "").lower()
+            ]
+            # 无匹配 skill 时直接返回空结果
+            if not matched_skill_ids:
+                return resp_200(data=InterviewHistoryResp(
+                    sessions=[], total=0, page=page, page_size=page_size
+                ).model_dump())
 
-            # Python 层分页
-            total = len(filtered)
-            start = (page - 1) * page_size
-            end = start + page_size
-            sessions_with_details = filtered[start:end]
-        else:
-            # DB 层处理筛选 + 排序 + 分页，一次完成
-            sessions_with_details, total = await InterviewSessionDao.select_sessions_with_details(
-                user_id=login_user.user_id,
-                status=status,
-                skill_id=skill_id,
-                keyword=None,
-                difficulty=difficulty,
-                page=page,
-                page_size=page_size,
-                sort_by=sort_by,
-                sort_order=sort_order,
-            )
+        # DB 层处理筛选 + 排序 + 分页，一次完成
+        sessions_with_details, total = await InterviewSessionDao.select_sessions_with_details(
+            user_id=login_user.user_id,
+            status=status,
+            skill_id=skill_id,
+            skill_ids=matched_skill_ids,
+            difficulty=difficulty,
+            page=page,
+            page_size=page_size,
+            sort_by=sort_by,
+            sort_order=sort_order,
+        )
 
         # 批量计算所有 session 的进度
         session_ids = [s.id for s, _ in sessions_with_details]
@@ -578,10 +600,10 @@ async def delete_interview_session(
     try:
         session = await InterviewService.get_session(session_id)
         if session is None:
-            return resp_500(message="Session not found")
+            return resp_404(message="Session not found")
 
         if session.user_id != login_user.user_id:
-            return resp_500(message="Unauthorized")
+            return resp_403(message="Unauthorized")
 
         await InterviewService.delete_session(session_id)
         return resp_200(data=None)
@@ -620,7 +642,7 @@ async def get_skill_detail(
     try:
         skill = SkillService.get_skill_by_id(skill_id)
         if skill is None:
-            return resp_500(message=f"Skill not found: {skill_id}")
+            return resp_404(message=f"Skill not found: {skill_id}")
 
         data = _skill_to_detail(skill)
         return resp_200(data=data.model_dump())
@@ -646,7 +668,7 @@ async def get_learning_path(
             skill_id=skill_id,
         )
         if path is None:
-            return resp_500(message=f"Skill not found: {skill_id}")
+            return resp_404(message=f"Skill not found: {skill_id}")
         return resp_200(data=path)
     except Exception as err:
         logger.error(f"Get learning path error: {err}")
@@ -663,7 +685,7 @@ async def download_evaluation_pdf(
     try:
         report = await EvaluationService.get_report_by_id(evaluation_id)
         if not report:
-            return resp_500(message="评估报告不存在")
+            return resp_404(message="评估报告不存在")
 
         from kirinchat.api.services.skill import SkillService
         from kirinchat.common.export.pdf_service import PdfService

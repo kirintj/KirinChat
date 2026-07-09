@@ -17,7 +17,7 @@ const skillMap = ref<Record<string, string>>({})
 
 // --- 快捷入口配置：4 个面试功能入口 ---
 const quickEntries = [
-  { icon: 'mdi:pencil', title: '文字面试', description: '选择技能方向，开始 AI 面试', route: '/interview' },
+  { icon: 'mdi:pencil', title: '文字面试', description: '选择技能方向，开始 AI 面试', route: '/interview/text' },
   { icon: 'mdi:microphone', title: '语音面试', description: '实时语音对话，模拟真实面试', route: '/voice-interview' },
   { icon: 'mdi:file-document', title: '上传简历', description: '上传简历获取 AI 分析报告', route: '/interview/resume' },
   { icon: 'mdi:magnify', title: '解析 JD', description: '粘贴职位描述，定制面试题目', route: '/interview/jd' },
@@ -33,7 +33,7 @@ const activeSessions = computed(() =>
 // 最近面试：取已完成的前 5 条
 const recentInterviews = computed(() =>
   sessions.value
-    .filter(s => s.status === 'EVALUATED' || s.status === 'COMPLETED')
+    .filter(s => s.status === 'COMPLETED')
     .slice(0, 5)
 )
 
@@ -45,7 +45,7 @@ interface SkillStat {
 
 // 技能统计：按 skill_id 聚合面试次数和平均分
 const skillStats = computed<SkillStat[]>(() => {
-  const evaluated = sessions.value.filter(s => s.status === 'EVALUATED' || s.status === 'COMPLETED')
+  const evaluated = sessions.value.filter(s => s.status === 'COMPLETED')
   const grouped: Record<string, { count: number; totalScore: number }> = {}
 
   for (const s of evaluated) {
@@ -116,7 +116,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="hub-page">
+  <div class="hub-page page">
     <!-- 页面标题 -->
     <div class="hub-header">
       <h2 class="hub-title">面试中心</h2>
@@ -145,7 +145,7 @@ onMounted(() => {
       <section class="hub-section">
         <div class="section-header">
           <h3 class="section-title">进行中的面试</h3>
-          <span class="section-link" @click="router.push('/interview')">查看全部 &rarr;</span>
+          <span class="section-link" @click="router.push('/interview/history')">查看全部 &rarr;</span>
         </div>
         <div v-if="activeSessions.length > 0" class="active-grid">
           <ActiveSessionCard
@@ -158,7 +158,7 @@ onMounted(() => {
         </div>
         <div v-else class="empty-state">
           <p class="empty-text">没有进行中的面试</p>
-          <button class="empty-btn" @click="router.push('/interview')">开始新面试</button>
+          <button class="empty-btn" @click="router.push('/interview/text')">开始新面试</button>
         </div>
       </section>
 
@@ -300,12 +300,11 @@ onMounted(() => {
   gap: 16px;
 }
 
-// 进行中面试水平滚动
+// 进行中面试网格布局（禁止横向滚动）
 .active-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 14px;
-  overflow-x: auto;
-  padding-bottom: 4px;
 }
 
 // 底部两栏布局
@@ -383,10 +382,14 @@ onMounted(() => {
 // 响应式：移动端快捷入口改为单列
 @include mobile {
   .hub-page {
-    padding: var(--harmony-page-padding-mobile);
+    padding: var(--harmony-page-padding-mobile) 0;
   }
 
   .quick-entry-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .active-grid {
     grid-template-columns: 1fr;
   }
 }

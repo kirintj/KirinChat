@@ -46,8 +46,7 @@ const emit = defineEmits<{ click: [key: string] }>()
   -webkit-backdrop-filter: blur(80px) saturate(1.8);
   mix-blend-mode: plus-lighter;
   border-radius: 28px;
-  box-shadow: 0 4px 48px rgba(0, 0, 0, 0.08),
-              0 4px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--harmony-shadow-dialog);
 }
 
 .h-toolbar__item {
@@ -69,11 +68,11 @@ const emit = defineEmits<{ click: [key: string] }>()
 }
 
 .h-toolbar__item:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--harmony-comp-background-tertiary);
 }
 
 .h-toolbar__item:active {
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--harmony-comp-background-secondary);
 }
 
 .h-toolbar__item--disabled {

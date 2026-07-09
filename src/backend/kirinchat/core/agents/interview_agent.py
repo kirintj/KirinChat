@@ -163,7 +163,9 @@ class InterviewAgent:
         content = response.content if hasattr(response, "content") else str(response)
         content = content.strip()
 
-        if content == "NO_FOLLOW_UP":
+        # 模糊匹配 NO_FOLLOW_UP：兼容空格、标点、附加文本等干扰
+        normalized = content.upper().replace(" ", "").replace("_", "").replace("-", "")
+        if "NOFOLLOWUP" in normalized or normalized == "NOFOLLOWUP":
             logger.info(f"No follow-up needed for session {session_id}")
             return None
 
@@ -220,7 +222,10 @@ class InterviewAgent:
 
         # 流式结束后，保存到数据库
         content = accumulated.strip()
-        if content and content != "NO_FOLLOW_UP":
+        # 模糊匹配 NO_FOLLOW_UP：兼容空格、标点、附加文本等干扰
+        normalized = content.upper().replace(" ", "").replace("_", "").replace("-", "")
+        is_no_follow_up = "NOFOLLOWUP" in normalized or not content
+        if content and not is_no_follow_up:
             question = InterviewQuestionTable(
                 session_id=session_id,
                 type="FOLLOW_UP",

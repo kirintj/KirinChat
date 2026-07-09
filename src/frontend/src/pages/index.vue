@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, computed, onMounted } from "vue"
+import { inject, ref, computed, onMounted, provide } from "vue"
 import { useRouter, useRoute } from "vue-router"
 import { HMessage, HDrawer, HStatusbar, HTitlebar, HBottomTab } from '@/components/ui'
 import { useAgentCardStore } from "../store/agent_card"
@@ -12,8 +12,37 @@ import {
   getTitleByRoute,
 } from "../composables/useNavigation"
 
-/* ---- inject mobile flag from HAppShell ---- */
+/*
+ * ============================================================
+ *  页面布局 —  响应式策略 (Responsive Strategy)
+ * ============================================================
+ *
+ *  DESKTOP 桌面端（≥768px）：
+ *   • 左侧固定边栏（含：品牌、菜单、用户区、折叠按钮）
+ *   • 右侧主内容区（通过 <router-view /> 渲染子页面）
+ *
+ *  MOBILE 移动端（≤767px）：
+ *   • 顶部状态栏 + 标题栏（Statusbar + Titlebar）
+ *   • 中间滚动内容区（通过 <router-view /> 渲染子页面）
+ *   • 底部导航（BottomTab + "更多"抽屉）
+ *
+ * 子页面适配策略（子页面需自行实现）：
+ *   • 使用 inject('isMobile') 获取当前设备类型
+ *   • 推荐：JS 模板分支（v-if="!isMobile" / v-else）
+ *   • 避免：CSS-only @media 适配（复杂布局不可控）
+ * ============================================================
+ */
+
 const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
+provide('isMobile', isMobile)
+
+/* ---- mobile titlebar scroll effect ---- */
+const mobileContentRef = ref<HTMLElement | null>(null)
+const isMobileScrolled = ref(false)
+
+const onMobileScroll = () => {
+  isMobileScrolled.value = (mobileContentRef.value?.scrollTop ?? 0) > 10
+}
 
 /* ---- stores & router ---- */
 const agentCardStore = useAgentCardStore()
@@ -190,22 +219,26 @@ onMounted(async () => {
     <!-- ==================== MOBILE ==================== -->
     <template v-else>
       <div class="ai-mobile">
-        <HStatusbar theme="light" />
-        <HTitlebar
-          :variant="mobileTitleVariant"
-          :title="mobileTitle"
-        />
+        <div class="mobile-top-overlay" :class="{ 'is-scrolled': isMobileScrolled }">
+          <HStatusbar theme="light" />
+          <HTitlebar
+            :variant="mobileTitleVariant"
+            :title="mobileTitle"
+          />
+        </div>
 
-        <div class="mobile-content">
+        <div ref="mobileContentRef" class="mobile-content" @scroll="onMobileScroll">
           <router-view />
         </div>
 
-        <HBottomTab
-          variant="5"
-          :items="bottomTabItems"
-          :active-key="currentTabKey"
-          @update:active-key="onTabChange"
-        />
+        <div class="mobile-bottomtab-overlay">
+          <HBottomTab
+            variant="5"
+            :items="bottomTabItems"
+            :active-key="currentTabKey"
+            @update:active-key="onTabChange"
+          />
+        </div>
       </div>
     </template>
 
@@ -227,13 +260,15 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
+@use '../styles/breakpoints.scss' as *;
+
 .ai-body {
   overflow: hidden;
   width: 100%;
   height: 100%;
 }
 
-/* ==================== DESKTOP ==================== */
+/* ==================== DESKTOP (≥1200px) ==================== */
 .ai-desktop {
   display: flex;
   height: 100vh;
@@ -251,7 +286,7 @@ onMounted(async () => {
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(80px);
     -webkit-backdrop-filter: blur(80px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--harmony-shadow-lg);
     padding: 12px 10px;
     transition: width 0.2s ease;
 
@@ -303,7 +338,7 @@ onMounted(async () => {
         }
 
         &.active {
-          background: rgba(10, 89, 247, 0.098);
+          background: var(--harmony-comp-emphasize-tertiary);
           color: var(--harmony-brand);
           font-weight: 500;
         }
@@ -369,7 +404,7 @@ onMounted(async () => {
         width: 24px;
         height: 24px;
         line-height: 24px;
-        background: rgba(255, 255, 255, 0.5);
+        background: var(--harmony-comp-background-primary);
         border-radius: 8px;
         font-size: var(--harmony-font-size-body-s);
         color: var(--harmony-font-secondary);
@@ -384,38 +419,85 @@ onMounted(async () => {
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(80px);
     -webkit-backdrop-filter: blur(80px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--harmony-shadow-lg);
   }
 }
 
-/* ==================== MOBILE ==================== */
+/* ==================== TABLET (768-1199px) — 桌面布局紧凑版 ==================== */
+@include tablet {
+  .ai-desktop {
+    padding: 12px;
+    gap: 12px;
+
+    .sidebar {
+      width: 180px;
+    }
+
+    .sidebar-user__name {
+      font-size: 12px;
+    }
+  }
+}
+
+/* ==================== MOBILE (≤767px) ==================== */
 .ai-mobile {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  background: var(--harmony-comp-background-primary);
+  background: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 50%, #f5f0ff 100%);
+
+  /* 顶部浮层：状态栏 + 标题栏脱离文档流覆盖在内容之上，滚动时整条变为毛玻璃映射后方内容 */
+  .mobile-top-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-dropdown);
+    transition: background var(--harmony-duration-normal) var(--harmony-motion-standard),
+                backdrop-filter var(--harmony-duration-normal) var(--harmony-motion-standard);
+
+    &.is-scrolled {
+      background: var(--glass-bg-light);
+      backdrop-filter: var(--glass-blur) var(--glass-saturate);
+      -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+      border-bottom: var(--glass-border-light);
+    }
+  }
 
   .mobile-content {
     flex: 1;
     overflow-y: auto;
-    padding-bottom: 100px; /* room for bottom tab */
+    /* 顶部留出 状态栏(36px+safe) + 标题栏(56px) 的空间；底部留白保证末尾内容可滚动到 tab 上方 */
+    padding: calc(92px + env(safe-area-inset-top)) 12px 140px 12px;
 
     /* 全局适配子页面移动端 */
     :deep(> *) {
-      width: 100% !important;
-      max-width: 100% !important;
-      padding-left: 16px !important;
-      padding-right: 16px !important;
       box-sizing: border-box;
     }
+  }
 
-    :deep(.el-table),
-    :deep(.h-table),
-    :deep(table) {
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-    }
+  /* 底部 tab 浮层：脱离文档流覆盖在内容之上，使 backdrop-filter 能模糊后方真实内容 */
+  .mobile-bottomtab-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-dropdown);
+    pointer-events: none;
+  }
+
+  /* 仅 tab 胶囊条本身接收点击，透明区域透传给后方内容 */
+  .mobile-bottomtab-overlay :deep(.harmony-bottomtab__bar) {
+    pointer-events: auto;
+  }
+}
+
+/* ==================== VERY SMALL SCREENS 小屏优化 ==================== */
+@media (max-width: 380px) {
+  .ai-mobile .mobile-content {
+    padding: calc(92px + env(safe-area-inset-top)) 12px 120px 12px;
   }
 }
 

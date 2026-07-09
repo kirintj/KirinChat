@@ -3,7 +3,6 @@ import { ref, computed } from 'vue'
 import type { InterviewQuestion } from '../../apis/interview'
 import {
   startInterviewAPI,
-  submitAnswerAPI,
   submitAnswerStreamAPI,
   completeInterviewAPI,
   getEvaluationReportAPI,
@@ -75,55 +74,12 @@ export const useInterviewStore = defineStore('interview', () => {
     }
   }
 
-  async function submitAnswer(answer: string) {
-    if (!currentQuestion.value || !sessionId.value) return false
-    loading.value = true
-    try {
-      // Add candidate message
-      messages.value.push({ role: 'candidate', content: answer })
-
-      const res = await submitAnswerAPI({
-        session_id: sessionId.value,
-        question_id: currentQuestion.value.id,
-        answer,
-      })
-
-      if (res.data.status_code === 200 && res.data.data) {
-        const data = res.data.data
-
-        if (data.is_completed || !data.next_question) {
-          // Interview is finished
-          status.value = 'COMPLETED'
-          currentQuestion.value = null
-          messages.value.push({
-            role: 'interviewer',
-            content: '面试已结束！正在为你生成评估报告...',
-          })
-          return true
-        }
-
-        // Got next question
-        // Only increment progress when the answered question was a MAIN question
-        const answeredType = currentQuestion.value?.type
-        if (answeredType === 'MAIN') {
-          progress.value.current += 1
-        }
-        currentQuestion.value = data.next_question
-        messages.value.push({
-          role: 'interviewer',
-          content: data.next_question.content,
-        })
-        return true
-      }
-      return false
-    } finally {
-      loading.value = false
-    }
-  }
-
   async function submitAnswerStream(answer: string): Promise<boolean> {
     if (!currentQuestion.value || !sessionId.value) return false
     loading.value = true
+
+    // 记录当前题目类型，用于后续进度判断
+    const answeredType = currentQuestion.value.type
 
     // 添加候选人消息
     messages.value.push({ role: 'candidate', content: answer })
@@ -169,6 +125,8 @@ export const useInterviewStore = defineStore('interview', () => {
                   if (evalId) evaluationId.value = evalId
                   status.value = 'COMPLETED'
                   loading.value = false
+                  // 清理已结束会话的草稿
+                  clearDraftsForSession(sessionId.value)
                   resolve(true)
                 })
                 .catch(() => {
@@ -177,19 +135,33 @@ export const useInterviewStore = defineStore('interview', () => {
                   resolve(false)
                 })
             } else if (result.next_question) {
-              // 更新 currentQuestion
+              // 【问题3】只有主题目才累加进度，追问题不改动进度
+              if (answeredType === 'MAIN') {
+                progress.value.current += 1
+              }
+              // 【问题2】使用服务端返回的 question ID，禁止硬编码空字符串
               currentQuestion.value = {
-                id: '',
+                id: result.next_question.id || '',
                 type: 'MAIN',
                 category: '',
                 content: result.next_question.content,
                 user_answer: null,
               }
-              // 更新进度（只有 MAIN 类型才计数）
-              progress.value.current += 1
+              loading.value = false
+              resolve(true)
+            } else if (result.follow_up) {
+              // 追问题场景：标记为 FOLLOW_UP 类型，避免错误累加进度
+              currentQuestion.value = {
+                id: '',
+                type: 'FOLLOW_UP',
+                category: 'follow_up',
+                content: result.follow_up.content,
+                user_answer: null,
+              }
               loading.value = false
               resolve(true)
             } else {
+              // 追问题场景：不更新 currentQuestion，等用户继续回答
               loading.value = false
               resolve(true)
             }
@@ -230,8 +202,24 @@ export const useInterviewStore = defineStore('interview', () => {
   let _pollingLock = false
 
   async function pollEvaluationReport(sid: string): Promise<string | null> {
-    // 防止并发启动多个轮询
-    if (_pollingLock) return null
+    // 并发场景：等待已有轮询完成后复用结果，而非直接中断
+    if (_pollingLock) {
+      // 等待已有轮询结束，最多等 60 秒
+      for (let i = 0; i < 60; i++) {
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        if (!_pollingLock) break
+      }
+      // 锁已释放则直接返回当前 evaluationId
+      if (evaluationId.value) return evaluationId.value
+      // 锁仍未释放或无结果，尝试自己获取一次
+      try {
+        const res = await getEvaluationBySessionAPI(sid)
+        if (res.data.status_code === 200 && res.data.data) {
+          return res.data.data.id
+        }
+      } catch { /* ignore */ }
+      return null
+    }
     _pollingLock = true
     try {
       const maxAttempts = 30
@@ -268,7 +256,24 @@ export const useInterviewStore = defineStore('interview', () => {
     }
   }
 
+  // --- 草稿清理：清除指定会话的 localStorage 草稿数据 【问题17】 ---
+  function clearDraftsForSession(sid: string) {
+    const prefix = `interview_draft_${sid}_`
+    const keysToRemove: string[] = []
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i)
+      if (key && key.startsWith(prefix)) {
+        keysToRemove.push(key)
+      }
+    }
+    keysToRemove.forEach(key => localStorage.removeItem(key))
+  }
+
   function reset() {
+    // 【问题17】重置前清理旧会话的草稿
+    if (sessionId.value) {
+      clearDraftsForSession(sessionId.value)
+    }
     sessionId.value = ''
     skillId.value = ''
     skillName.value = ''
@@ -301,10 +306,17 @@ export const useInterviewStore = defineStore('interview', () => {
     progressPercent,
     // Actions
     startInterview,
-    submitAnswer,
     submitAnswerStream,
     endInterview,
     fetchReport,
     reset,
   }
-}, { persist: true })
+}, {
+  persist: {
+    // 【问题20】排除 messages 数组，减少 LocalStorage 占用
+    pick: [
+      'sessionId', 'skillId', 'skillName', 'difficulty', 'questionCount',
+      'currentQuestion', 'progress', 'status', 'evaluationId',
+    ],
+  },
+})

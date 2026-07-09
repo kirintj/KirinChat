@@ -129,6 +129,7 @@ export type WsCallbacks = {
   onError?: (message: string) => void
   onOpen?: () => void
   onClose?: () => void
+  onStatusChange?: (status: 'connecting' | 'open' | 'closed') => void
 }
 
 export class VoiceInterviewWebSocket {
@@ -137,23 +138,45 @@ export class VoiceInterviewWebSocket {
   private maxReconnects = 3
   private sessionId: string = ''
   private callbacks: WsCallbacks = {}
+  private heartbeatTimer: number | null = null
+  private pongTimer: number | null = null
+  private lastPongAt: number = 0
+  private reconnectToken: string = ''
+  private _isOpen: boolean = false
+
+  get isOpen(): boolean {
+    return this._isOpen
+  }
 
   connect(sessionId: string, callbacks: WsCallbacks): void {
     this.sessionId = sessionId
     this.callbacks = callbacks
     this.reconnectAttempts = 0
+    this.reconnectToken = localStorage.getItem('token') || ''
     this._doConnect()
   }
 
   private _doConnect(): void {
-    const token = localStorage.getItem('token') || ''
+    const token = this.reconnectToken
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
     const url = `${protocol}//${window.location.host}/api/v1/voice-interview/ws/${this.sessionId}?token=${token}`
 
-    this.ws = new WebSocket(url)
+    try {
+      this.ws = new WebSocket(url)
+    } catch (e) {
+      this.callbacks.onError?.(`连接失败：${e}`)
+      this._tryReconnect()
+      return
+    }
+
+    this.callbacks.onStatusChange?.('connecting')
 
     this.ws.onopen = () => {
+      this._isOpen = true
       this.reconnectAttempts = 0
+      this.lastPongAt = Date.now()
+      this._startHeartbeat()
+      this.callbacks.onStatusChange?.('open')
       this.callbacks.onOpen?.()
     }
 
@@ -179,43 +202,103 @@ export class VoiceInterviewWebSocket {
           case 'error':
             this.callbacks.onError?.(msg.message)
             break
+          case 'ping':
+            // Server ping — respond with pong
+            this._send({ type: 'pong', ts: msg.ts })
+            break
+          case 'pong':
+            // Response to our ping
+            this.lastPongAt = Date.now()
+            break
         }
       } catch (e) {
-        console.error('WebSocket parse error:', e)
+        // Ignore malformed messages
       }
     }
 
     this.ws.onclose = (event) => {
+      this._isOpen = false
+      this._stopHeartbeat()
+      this.callbacks.onStatusChange?.('closed')
       if (!event.wasClean && this.reconnectAttempts < this.maxReconnects) {
-        this.reconnectAttempts++
-        setTimeout(() => this._doConnect(), 2000)
+        this._tryReconnect()
       } else {
         this.callbacks.onClose?.()
       }
     }
 
     this.ws.onerror = () => {
-      this.callbacks.onError?.('WebSocket connection error')
+      // Error details are not exposed; onclose will fire next
+    }
+  }
+
+  private _tryReconnect(): void {
+    this.reconnectAttempts++
+    const delay = Math.min(2000 * this.reconnectAttempts, 10000)
+    window.setTimeout(() => this._doConnect(), delay)
+  }
+
+  private _startHeartbeat(): void {
+    this._stopHeartbeat()
+    this.heartbeatTimer = window.setInterval(() => {
+      if (this.ws?.readyState === WebSocket.OPEN) {
+        this._send({ type: 'ping', ts: Date.now() })
+      }
+    }, 20000)
+    // Watchdog: if no pong in 60s, treat connection as dead
+    this.pongTimer = window.setInterval(() => {
+      if (this._isOpen && Date.now() - this.lastPongAt > 60000) {
+        this.callbacks.onError?.('连接超时，正在尝试重新连接…')
+        try {
+          this.ws?.close()
+        } catch {
+          // ignore
+        }
+        this._tryReconnect()
+      }
+    }, 15000)
+  }
+
+  private _stopHeartbeat(): void {
+    if (this.heartbeatTimer !== null) {
+      clearInterval(this.heartbeatTimer)
+      this.heartbeatTimer = null
+    }
+    if (this.pongTimer !== null) {
+      clearInterval(this.pongTimer)
+      this.pongTimer = null
+    }
+  }
+
+  private _send(payload: any): void {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      try {
+        this.ws.send(JSON.stringify(payload))
+      } catch {
+        // Silently drop if serialization fails
+      }
     }
   }
 
   sendAudio(base64Pcm: string): void {
-    if (this.ws?.readyState === WebSocket.OPEN) {
-      this.ws.send(JSON.stringify({ type: 'audio', data: base64Pcm, timestamp: Date.now() }))
-    }
+    this._send({ type: 'audio', data: base64Pcm, timestamp: Date.now() })
   }
 
   sendControl(action: string, data?: any): void {
-    if (this.ws?.readyState === WebSocket.OPEN) {
-      this.ws.send(JSON.stringify({ type: 'control', action, data, timestamp: Date.now() }))
-    }
+    this._send({ type: 'control', action, data, timestamp: Date.now() })
   }
 
   disconnect(): void {
+    this._stopHeartbeat()
     if (this.ws) {
-      this.ws.onclose = null
-      this.ws.close()
+      try {
+        this.ws.onclose = null
+        this.ws.close()
+      } catch {
+        // ignore
+      }
       this.ws = null
     }
+    this._isOpen = false
   }
 }

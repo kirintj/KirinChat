@@ -707,7 +707,7 @@ const saveUserConfig = async () => {
 </script>
 
 <template>
-  <div class="mcp-server-page">
+  <div class="mcp-server-page page">
     <div v-if="!isMobile" class="page-header">
       <div class="header-title">
         <h2>MCP Server管理</h2>
@@ -1322,21 +1322,14 @@ const saveUserConfig = async () => {
 <style lang="scss" scoped>
 @use '../../styles/breakpoints.scss' as *;
 
-// 弹窗样式 - 移除scoped，因为使用了Teleport
+
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   background-color: var(--harmony-comp-background-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: var(--z-dialog) !important;
-  /* removed backdrop-filter */
   pointer-events: auto;
   overflow: hidden;
 }
@@ -1365,7 +1358,7 @@ const saveUserConfig = async () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+  padding: var(--harmony-padding-level16);
   border-bottom: 1px solid var(--harmony-comp-divider);
   background: var(--harmony-comp-background-primary);
   
@@ -1417,7 +1410,7 @@ const saveUserConfig = async () => {
   background: var(--harmony-comp-background-primary);
 }
 
-// 删除对话框样式
+
 .delete-dialog {
   .delete-header {
     background: var(--harmony-warning-bg);
@@ -1445,7 +1438,7 @@ const saveUserConfig = async () => {
     .warning-text {
       font-size: var(--harmony-font-size-body-l);
       color: var(--harmony-font-primary);
-      margin: 0 0 20px 0;
+      margin: 0 0 20px;
       line-height: 1.6;
       
       .server-name-highlight {
@@ -1511,7 +1504,6 @@ const saveUserConfig = async () => {
       }
       
       &:active:not(:disabled) {
-        transform: translateY(0);
       }
       
       &:disabled {
@@ -1533,8 +1525,7 @@ const saveUserConfig = async () => {
 
 
 
-// 表单样式
-// 配置向导样式
+
 .config-wizard {
   .wizard-header {
     display: flex;
@@ -1560,7 +1551,7 @@ const saveUserConfig = async () => {
     
     .wizard-text {
       h4 {
-        margin: 0 0 6px 0;
+        margin: 0 0 6px;
         font-size: var(--harmony-font-size-title-s);
         font-weight: 600;
         color: var(--harmony-font-primary);
@@ -1582,7 +1573,7 @@ const saveUserConfig = async () => {
     border-radius: var(--harmony-corner-radius-level8);
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 8px var(--harmony-shadow-xs);
+    box-shadow: var(--harmony-shadow-sm);
     
     .section-title {
       display: flex;
@@ -1771,11 +1762,11 @@ const saveUserConfig = async () => {
         font-size: var(--harmony-font-size-caption-l);
         color: var(--harmony-font-tertiary);
         font-weight: 500;
-        /* removed backdrop-filter */
+
       }
     }
     
-    // 方形加号上传按钮样式
+
     .logo-upload-square {
       margin-left: 20px;
       width: 100px;
@@ -1793,12 +1784,6 @@ const saveUserConfig = async () => {
       &:hover {
         background: var(--harmony-brand);
         border-color: var(--harmony-brand);
-
-        .logo-upload-placeholder {
-          svg path {
-            stroke: white !important;
-          }
-        }
       }
 
       .logo-upload-placeholder {
@@ -1815,11 +1800,6 @@ const saveUserConfig = async () => {
           width: 32px;
           height: 32px;
           display: block;
-
-          path {
-            stroke: var(--harmony-brand) !important;
-            stroke-width: 2.5;
-          }
         }
 
         &.uploading {
@@ -1833,10 +1813,6 @@ const saveUserConfig = async () => {
 
       &:hover .logo-upload-placeholder {
         color: white;
-
-        svg path {
-          stroke: white !important;
-        }
       }
       
       .logo-preview-square {
@@ -1858,27 +1834,20 @@ const saveUserConfig = async () => {
         
         .logo-overlay {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          inset: 0;
           background: var(--harmony-comp-background-secondary);
           display: flex;
           align-items: center;
           justify-content: center;
           opacity: 0;
           transition: opacity 0.3s ease;
-          
-          &:hover {
-            opacity: 1;
-          }
         }
       }
     }
   }
 }
 
-// 按钮样式
+
 .btn {
   padding: 10px 20px;
   border-radius: var(--harmony-corner-radius-level4);
@@ -1939,9 +1908,7 @@ const saveUserConfig = async () => {
 }
 
 
-// 页面样式已移至底部scoped样式中，避免重复
 
-// 工具详情样式
 .tools-content {
   background: var(--harmony-comp-background-primary);
   
@@ -1956,7 +1923,7 @@ const saveUserConfig = async () => {
     
     .empty-text {
       h3 {
-        margin: 0 0 8px 0;
+        margin: 0 0 8px;
         font-size: var(--harmony-font-size-title-s);
         font-weight: 600;
         color: var(--harmony-font-tertiary);
@@ -1982,7 +1949,7 @@ const saveUserConfig = async () => {
         display: flex;
         align-items: center;
         gap: 16px;
-        box-shadow: 0 2px 8px var(--harmony-shadow-xs);
+        box-shadow: var(--harmony-shadow-sm);
         
         .stat-icon {
           width: 48px;
@@ -2040,7 +2007,7 @@ const saveUserConfig = async () => {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+          padding: var(--harmony-padding-level16);
           
           .tool-info {
             display: flex;
@@ -2063,7 +2030,7 @@ const saveUserConfig = async () => {
               flex: 1;
               
               .tool-name {
-                margin: 0 0 6px 0;
+                margin: 0 0 6px;
                 font-size: var(--harmony-font-size-body-l);
                 font-weight: 600;
                 color: var(--harmony-font-primary);
@@ -2216,7 +2183,7 @@ const saveUserConfig = async () => {
                         color: var(--harmony-font-secondary);
                         font-size: var(--harmony-font-size-subtitle-s);
                         line-height: 1.5;
-                        margin: 0 0 8px 0;
+                        margin: 0 0 8px;
                       }
                       
                       .property-default {
@@ -2248,7 +2215,6 @@ const saveUserConfig = async () => {
       }
     }
     
-    // 展开动画
     .expand-enter-active,
     .expand-leave-active {
       transition: all 0.3s ease;
@@ -2275,7 +2241,7 @@ const saveUserConfig = async () => {
     align-items: center;
     margin-bottom: 24px;
     background: var(--harmony-comp-background-primary);
-    padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+    padding: var(--harmony-padding-level16);
     border-radius: var(--harmony-corner-radius-level8);
     box-shadow: var(--harmony-shadow-xs);
     
@@ -2348,7 +2314,7 @@ const saveUserConfig = async () => {
           &:hover {
             background: var(--harmony-comp-background-primary);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px var(--harmony-shadow-xs);
+            box-shadow: var(--harmony-shadow-md);
           }
 
           td {
@@ -2435,13 +2401,12 @@ const saveUserConfig = async () => {
         &:hover {
           transform: translateY(-2px);
           box-shadow: 0 8px 20px var(--harmony-alert-bg);
-          background: linear-gradient(135deg, var(--harmony-alert) 0%, var(--harmony-alert) 100%);
+          background: var(--harmony-alert);
           border-color: var(--harmony-alert);
           color: white;
         }
         
         &:active {
-          transform: translateY(0);
         }
         
         &::before {
@@ -2530,7 +2495,6 @@ const saveUserConfig = async () => {
   }
 }
 
-// 响应式设计
 @include mobile {
   .mcp-server-page {
     padding: 16px;
@@ -2542,7 +2506,6 @@ const saveUserConfig = async () => {
     }
   }
   
-  // 配置对话框样式
   .config-dialog {
     max-width: 600px;
     
@@ -2550,7 +2513,7 @@ const saveUserConfig = async () => {
       margin-bottom: 24px;
       
       .info-card {
-        background: linear-gradient(135deg, var(--harmony-comp-emphasize-tertiary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
+        background: var(--harmony-comp-emphasize-tertiary);
         border: 1px solid var(--harmony-comp-emphasize-tertiary);
         border-radius: var(--harmony-corner-radius-level8);
         padding: 16px;
@@ -2573,7 +2536,7 @@ const saveUserConfig = async () => {
           flex: 1;
           
           h4 {
-            margin: 0 0 6px 0;
+            margin: 0 0 6px;
             font-size: var(--harmony-font-size-body-l);
             font-weight: 600;
             color: var(--harmony-font-primary);
@@ -2602,7 +2565,6 @@ const saveUserConfig = async () => {
   }
 }
 
-// 配置对话框样式改进
 .config-dialog {
   max-width: 800px;
   
@@ -2636,7 +2598,7 @@ const saveUserConfig = async () => {
     margin-bottom: 20px;
     
     .info-card {
-      background: linear-gradient(135deg, var(--harmony-comp-emphasize-tertiary) 0%, var(--harmony-comp-emphasize-tertiary) 100%);
+      background: var(--harmony-comp-emphasize-tertiary);
       border: 1px solid var(--harmony-comp-emphasize-tertiary);
       border-radius: var(--harmony-corner-radius-level8);
       padding: 16px;
@@ -2659,7 +2621,7 @@ const saveUserConfig = async () => {
         flex: 1;
         
         h4 {
-          margin: 0 0 6px 0;
+          margin: 0 0 6px;
           font-size: var(--harmony-font-size-body-l);
           font-weight: 600;
           color: var(--harmony-font-primary);
@@ -2675,7 +2637,6 @@ const saveUserConfig = async () => {
     }
   }
   
-  // 编辑器工具栏
   .editor-toolbar {
     display: flex;
     justify-content: space-between;
@@ -2730,7 +2691,6 @@ const saveUserConfig = async () => {
     }
   }
   
-  // 编辑器容器
   .editor-container {
     height: 300px;
     border-bottom-left-radius: 8px;
@@ -2743,7 +2703,6 @@ const saveUserConfig = async () => {
     }
   }
   
-  // 帮助说明
   .config-help {
     margin-top: 24px;
     background: var(--harmony-comp-background-primary);
@@ -2773,14 +2732,14 @@ const saveUserConfig = async () => {
         }
         
         h5 {
-          margin: 0 0 8px 0;
+          margin: 0 0 8px;
           font-size: var(--harmony-font-size-body-m);
           color: var(--harmony-font-primary);
           font-weight: 600;
         }
         
         p {
-          margin: 0 0 8px 0;
+          margin: 0 0 8px;
           font-size: var(--harmony-font-size-subtitle-s);
           color: var(--harmony-font-secondary);
           line-height: 1.5;
@@ -2825,7 +2784,7 @@ const saveUserConfig = async () => {
               color: var(--harmony-font-secondary);
               font-family: var(--harmony-font-family);
               font-size: var(--harmony-font-size-body-s);
-              box-shadow: 0 1px 2px var(--harmony-shadow-xs);
+              box-shadow: var(--harmony-shadow-xs);
             }
           }
         }
@@ -2861,7 +2820,6 @@ const saveUserConfig = async () => {
   }
 }
 
-/* 空状态样式 */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -2905,10 +2863,7 @@ const saveUserConfig = async () => {
     font-size: var(--harmony-font-size-body-l);
   }
 }
-</style>
 
-<!-- 页面本身的样式使用scoped -->
-<style lang="scss" scoped>
 .mcp-server-page {
   display: flex;
   flex-direction: column;
@@ -2921,14 +2876,14 @@ const saveUserConfig = async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
+  padding: var(--harmony-padding-level16);
   background: var(--harmony-comp-background-primary);
-  
+
   .header-title {
     display: flex;
     align-items: center;
     gap: 12px;
-    
+
     h2 {
       margin: 0;
       font-size: var(--harmony-font-size-title-s);
@@ -2936,7 +2891,7 @@ const saveUserConfig = async () => {
       color: var(--harmony-font-primary);
     }
   }
-  
+
   .header-actions {
     display: flex;
     gap: 12px;
@@ -2968,13 +2923,13 @@ const saveUserConfig = async () => {
     
     h3 {
       font-size: var(--harmony-font-size-title-s);
-      margin: 0 0 8px 0;
+      margin: 0 0 8px;
       font-weight: 500;
     }
     
     p {
       font-size: var(--harmony-font-size-body-m);
-      margin: 0 0 24px 0;
+      margin: 0 0 24px;
       opacity: 0.7;
     }
   }
@@ -3036,7 +2991,6 @@ const saveUserConfig = async () => {
   justify-content: center;
 }
 
-/* ==================== MOBILE: hmos mobile-list ==================== */
 .mcp-mobile {
   display: flex;
   flex-direction: column;
@@ -3168,7 +3122,7 @@ const saveUserConfig = async () => {
   cursor: pointer;
   font-size: var(--harmony-font-size-body-l, 16px);
   &:active { background: var(--harmony-interactive-pressed); }
-  &--danger:active { background: rgba(232, 64, 38, 0.1); }
+  &--danger:active { background: color-mix(in srgb, var(--harmony-warning) 10%, transparent); }
 }
 
 .mcpm-empty {

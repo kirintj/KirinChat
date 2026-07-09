@@ -698,8 +698,8 @@ watch(
     }
 
     &.lingseek-glow {
-      border-color: rgba(102, 126, 234, 0.3);
-      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.08);
+      border-color: color-mix(in srgb, var(--harmony-brand) 30%, transparent);
+      box-shadow: 0 0 0 2px var(--harmony-comp-emphasize-tertiary);
     }
 
     .input-field {
@@ -918,7 +918,7 @@ watch(
   transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
 
   &:hover:not(.disabled) {
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 2px 8px var(--harmony-comp-emphasize-secondary);
   }
 
   &.disabled {
@@ -931,7 +931,7 @@ watch(
 .spinner-sm {
   width: 14px;
   height: 14px;
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid color-mix(in srgb, var(--harmony-font-on-primary) 30%, transparent);
   border-top-color: white;
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;

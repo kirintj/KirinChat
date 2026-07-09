@@ -1,5 +1,5 @@
 <template>
-  <div class="mcp-chat-container">
+  <div class="mcp-chat-container page">
     <!-- 历史会话抽屉（覆盖层） -->
     <transition name="drawer">
       <div v-if="sidebarOpen" class="sidebar-overlay" @click.self="sidebarOpen = false">
@@ -151,14 +151,14 @@
               @keydown="handleKeyDown"
               :disabled="isStreaming"
               class="chat-input"
-              style="width:100%;min-height:80px;max-height:200px;padding:14px 56px 14px 16px;border-radius:12px;font-size:15px;line-height:1.6;resize:none;border:1px solid var(--harmony-comp-divider);background:var(--harmony-comp-background-secondary);box-shadow:0 2px 8px rgba(0,0,0,0.06);font-family:inherit;color:var(--harmony-font-primary);"
+              style="width:100%;min-height:80px;max-height:200px;padding:14px 56px 14px 16px;border-radius:12px;font-size:15px;line-height:1.6;resize:none;border:1px solid var(--harmony-comp-divider);background:var(--harmony-comp-background-secondary);box-shadow:var(--harmony-shadow-sm);font-family:inherit;color:var(--harmony-font-primary);"
             ></textarea>
             <HButton
               type="primary"
               @click="sendMessage"
               :disabled="!messageInput.trim() || isStreaming"
               class="send-btn"
-              style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;padding:0;font-size:16px;box-shadow:0 2px 6px rgba(64,158,255,0.3);"
+              style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;padding:0;font-size:16px;box-shadow:0 2px 6px var(--harmony-comp-emphasize-secondary);"
             ><Icon icon="mdi:send" :width="16" :height="16" /></HButton>
           </div>
         </div>
@@ -564,7 +564,7 @@ onMounted(() => {
   background: var(--harmony-comp-background-primary);
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 0 24px var(--harmony-shadow-md);
+  box-shadow: var(--harmony-shadow-lg);
 
   .sidebar-header {
     padding: 16px;

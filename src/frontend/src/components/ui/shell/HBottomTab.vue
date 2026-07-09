@@ -73,12 +73,11 @@ const barWidth = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(80px) blur(8px) saturate(1.8);
-  -webkit-backdrop-filter: blur(80px) blur(8px) saturate(1.8);
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 48px rgba(0, 0, 0, 0.08),
-              0 4px 8px rgba(0, 0, 0, 0.25);
-  mix-blend-mode: plus-lighter;
+  backdrop-filter: var(--glass-blur) var(--glass-saturate);
+  -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+  background: var(--glass-bg-light);
+  border: var(--glass-border-light);
+  box-shadow: var(--harmony-shadow-lg);
 }
 
 .harmony-bottomtab__tabs {
@@ -157,7 +156,8 @@ const barWidth = computed(() => {
 
 /* 暗色模式 */
 [data-theme="dark"] .harmony-bottomtab__bar {
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--glass-bg-dark);
+  border: var(--glass-border-dark);
 }
 
 [data-theme="dark"] .harmony-bottomtab__indicator {

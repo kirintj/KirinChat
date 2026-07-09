@@ -49,11 +49,11 @@ const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
 }
 
 .h-chips-tab__item:hover {
-  background: rgba(0, 0, 0, 0.047);
+  background: var(--harmony-comp-background-tertiary);
 }
 
 .h-chips-tab__item:active {
-  background: rgba(0, 0, 0, 0.098);
+  background: var(--harmony-comp-background-secondary);
 }
 
 .h-chips-tab__item--active {

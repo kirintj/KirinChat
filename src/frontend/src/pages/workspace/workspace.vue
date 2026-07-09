@@ -134,7 +134,7 @@ onMounted(async () => {
 
 <template>
   <!-- Desktop -->
-  <div v-if="!isMobile" class="workspace-root">
+  <div v-if="!isMobile" class="workspace-root page">
     <!-- 左侧面板 -->
     <aside class="sidebar-panel">
       <!-- 顶部操作区 -->
@@ -405,6 +405,7 @@ onMounted(async () => {
   transition: all var(--harmony-duration-fast) var(--harmony-motion-standard);
   position: relative;
   border: 1px solid transparent;
+  background: var(--harmony-comp-background-primary);
 
   &:hover {
     background: var(--harmony-comp-background-secondary);
@@ -549,12 +550,12 @@ onMounted(async () => {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--harmony-comp-background-primary);
+  background: transparent;
 }
 
 .wm-header {
   display: flex;
-  padding: 16px 0 12px;
+  padding: 12px  0;
 
   .wm-create-btn {
     width: 100%;
@@ -562,9 +563,9 @@ onMounted(async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px dashed var(--harmony-comp-divider);
+    border: 1px solid var(--harmony-comp-divider);
     border-radius: var(--harmony-corner-radius-level6);
-    background: var(--harmony-comp-background-secondary);
+    background: var(--harmony-comp-background-primary);
     color: var(--harmony-font-secondary);
     font-size: var(--harmony-font-size-body-l);
     font-weight: 500;
@@ -585,17 +586,19 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: var(--harmony-inline-gap-tight-mobile, 4px);
+  padding: 12px 0;
 }
 
 .wm-item {
   display: flex;
   align-items: center;
   gap: var(--harmony-inline-gap-mobile, 12px);
-  padding: 14px 0;
+  padding: 14px 12px;
+  border-radius: var(--harmony-corner-radius-level6);
   cursor: pointer;
   border-bottom: 1px solid var(--harmony-comp-divider);
   transition: background var(--harmony-duration-fast) var(--harmony-motion-standard);
-
+  background: var(--harmony-comp-background-primary);
   &:active {
     background: var(--harmony-comp-emphasize-tertiary);
   }

@@ -67,7 +67,7 @@ onMounted(async () => {
 
         .subtitle {
           font-size: 1.1rem;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--harmony-font-on-primary);
           margin: 0;
           font-weight: 400;
         }
@@ -85,12 +85,12 @@ onMounted(async () => {
       .search-input {
         :deep(.el-input__wrapper) {
           border-radius: var(--harmony-corner-radius-level6);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          background: rgba(255, 255, 255, 0.95);
+          box-shadow: var(--harmony-shadow-card);
+          background: var(--harmony-comp-background-primary);
           backdrop-filter: blur(10px);
           
           &:hover {
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--harmony-shadow-lg);
           }
           
           &.is-focus {
@@ -115,11 +115,11 @@ onMounted(async () => {
 
   .agents-section {
     flex: 1;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level10);
     padding: 32px;
     backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--harmony-shadow-dialog);
 
     .section-header {
       display: flex;

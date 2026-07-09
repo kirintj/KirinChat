@@ -54,7 +54,7 @@ const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
   height: 16px;
   border-radius: 50%;
   background: white;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--harmony-shadow-xs);
   transition: transform var(--harmony-duration-normal) var(--harmony-motion-standard);
 }
 

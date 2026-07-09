@@ -344,24 +344,64 @@ async def voice_interview_ws(websocket: WebSocket, session_id: str):
     # Send welcome + opening question if no history
     messages = await VoiceInterviewService.get_messages(session_id)
     if not messages:
-        system_prompt = VoicePromptService.build_system_prompt(
-            session.skill_id, session.current_phase
-        )
-        opening = await llm.chat([ChatMessage(role="system", content=system_prompt)])
-        await websocket.send_json({"type": "control", "action": "welcome", "message": opening})
-        wav = await tts.synthesize_to_wav(opening)
-        if wav:
-            await websocket.send_json(
-                {"type": "audio", "data": base64.b64encode(wav).decode(), "text": opening}
+        try:
+            system_prompt = VoicePromptService.build_system_prompt(
+                session.skill_id, session.current_phase
             )
+            # Add user message to explicitly trigger question generation
+            opening = await llm.chat([
+                ChatMessage(role="system", content=system_prompt),
+                ChatMessage(
+                    role="user",
+                    content=(
+                        f"面试已开始。当前阶段是 {session.current_phase}。"
+                        "请用口语化中文提出第一个问题，"
+                        "控制在 2-4 句话以内，不要使用 markdown 格式。"
+                    ),
+                ),
+            ])
+            if not opening or not opening.strip():
+                opening = "你好！欢迎参加本次语音面试。请先做一个简短的自我介绍，说说你的姓名、主要技能和工作经历。"
+            await websocket.send_json({"type": "control", "action": "welcome", "message": opening})
+            wav = await tts.synthesize_to_wav(opening)
+            if wav:
+                await websocket.send_json(
+                    {"type": "audio", "data": base64.b64encode(wav).decode(), "text": opening}
+                )
+        except Exception as e:
+            logger.exception("Welcome message generation failed for session %s", session_id)
+            fallback = "你好！欢迎参加本次语音面试。请先做一个简短的自我介绍。"
+            await websocket.send_json({"type": "control", "action": "welcome", "message": fallback})
+            try:
+                wav = await tts.synthesize_to_wav(fallback)
+                if wav:
+                    await websocket.send_json(
+                        {"type": "audio", "data": base64.b64encode(wav).decode(), "text": fallback}
+                    )
+            except Exception:
+                pass
 
     state.pause_task = asyncio.create_task(_pause_monitor(websocket, session_id, state))
+
+    # Start ping/pong heartbeat to keep connection alive behind reverse proxies
+    heartbeat_task = asyncio.create_task(_ws_heartbeat(websocket, session_id, state))
 
     try:
         while True:
             raw = await websocket.receive_text()
-            msg = json.loads(raw)
+            try:
+                msg = json.loads(raw)
+            except json.JSONDecodeError:
+                continue
             msg_type = msg.get("type")
+
+            # Handle client pings
+            if msg_type == "ping":
+                try:
+                    await websocket.send_json({"type": "pong", "ts": msg.get("ts", time.time())})
+                except Exception:
+                    break
+                continue
 
             state.reset_activity()
 
@@ -371,8 +411,11 @@ async def voice_interview_ws(websocket: WebSocket, session_id: str):
                     continue
                 audio_b64 = msg.get("data", "")
                 if audio_b64:
-                    audio_bytes = base64.b64decode(audio_b64)
-                    await asr.send_audio(session_id, audio_bytes)
+                    try:
+                        audio_bytes = base64.b64decode(audio_b64)
+                        await asr.send_audio(session_id, audio_bytes)
+                    except Exception:
+                        pass
 
             elif msg_type == "control":
                 action = msg.get("action")
@@ -382,27 +425,61 @@ async def voice_interview_ws(websocket: WebSocket, session_id: str):
                     text = msg.get("data", {}).get("text", "") or state.merge_buffer
                     if not text.strip():
                         # MiMo ASR: send buffered audio for recognition
-                        recognized = await asr.recognize(session_id)
-                        if recognized:
-                            text = recognized
-                        else:
+                        try:
+                            recognized = await asr.recognize(session_id)
+                            if recognized:
+                                text = recognized
+                            else:
+                                await websocket.send_json(
+                                    {"type": "subtitle", "text": "未检测到语音，请重试", "isFinal": True}
+                                )
+                        except Exception as e:
+                            logger.exception("ASR recognize failed for session %s", session_id)
                             await websocket.send_json(
-                                {"type": "subtitle", "text": "未检测到语音，请重试", "isFinal": True}
+                                {"type": "subtitle", "text": f"识别失败：{e}", "isFinal": True}
                             )
                     if text.strip():
                         state.merge_buffer = ""
                         asyncio.create_task(
                             _handle_submit(websocket, session_id, state, text, tts, llm)
                         )
+                elif action == "recognize":
+                    # Manual recognition trigger (e.g., after stopping recording)
+                    if state.is_processing:
+                        continue
+                    try:
+                        recognized = await asr.recognize(session_id)
+                        if recognized:
+                            await websocket.send_json(
+                                {"type": "subtitle", "text": recognized, "isFinal": True}
+                            )
+                        else:
+                            await websocket.send_json(
+                                {"type": "subtitle", "text": "", "isFinal": True}
+                            )
+                    except Exception as e:
+                        logger.exception("ASR recognize failed for session %s", session_id)
+                        await websocket.send_json(
+                            {"type": "subtitle", "text": f"识别失败：{e}", "isFinal": True}
+                        )
                 elif action == "end_interview":
-                    await VoiceInterviewService.end_session(session_id)
-                    await websocket.send_json({"type": "control", "action": "ended"})
+                    try:
+                        await VoiceInterviewService.end_session(session_id)
+                        await websocket.send_json({"type": "control", "action": "ended"})
+                    except Exception as e:
+                        logger.exception("end_session failed for session %s", session_id)
+                        await websocket.send_json(
+                            {"type": "control", "action": "ended", "message": str(e)}
+                        )
                     break
                 elif action == "start_phase":
                     phase = msg.get("phase", "")
                     if phase:
-                        await VoiceInterviewService.update_phase(session_id, phase)
-                        session.current_phase = phase
+                        try:
+                            await VoiceInterviewService.update_phase(session_id, phase)
+                            session.current_phase = phase
+                        except Exception:
+                            pass
                         await websocket.send_json(
                             {"type": "control", "action": "phase_changed", "phase": phase}
                         )
@@ -411,11 +488,19 @@ async def voice_interview_ws(websocket: WebSocket, session_id: str):
         logger.info("WebSocket disconnected for session %s", session_id)
     except Exception as e:
         logger.exception("WebSocket error for session %s: %s", session_id, e)
+        try:
+            await websocket.send_json({"type": "error", "message": "连接异常，请重新开始"})
+        except Exception:
+            pass
     finally:
+        heartbeat_task.cancel()
         state.tts_cancel.set()
         if state.pause_task:
             state.pause_task.cancel()
-        await asr.stop_session(session_id)
+        try:
+            await asr.stop_session(session_id)
+        except Exception:
+            pass
         _ws_sessions.pop(session_id, None)
 
 
@@ -557,7 +642,10 @@ async def _pause_monitor(ws: WebSocket, session_id: str, state: WsSessionState):
             await asyncio.sleep(30)
             elapsed_ms = (time.time() - state.last_activity) * 1000
             if elapsed_ms > PAUSE_TIMEOUT_MS:
-                await VoiceInterviewService.pause_session(session_id)
+                try:
+                    await VoiceInterviewService.pause_session(session_id)
+                except Exception:
+                    pass
                 try:
                     await ws.send_json({"type": "control", "action": "pause_timeout"})
                 except Exception:
@@ -569,5 +657,19 @@ async def _pause_monitor(ws: WebSocket, session_id: str, state: WsSessionState):
                     await ws.send_json({"type": "control", "action": "pause_timeout_warning"})
                 except Exception:
                     pass
+    except asyncio.CancelledError:
+        pass
+
+
+async def _ws_heartbeat(ws: WebSocket, session_id: str, state: WsSessionState):
+    """Send periodic pings to keep the connection alive behind reverse proxies."""
+    try:
+        while True:
+            await asyncio.sleep(20)
+            try:
+                await ws.send_json({"type": "ping", "ts": time.time()})
+            except Exception:
+                # Connection lost
+                break
     except asyncio.CancelledError:
         pass

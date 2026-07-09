@@ -140,7 +140,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="agent-page">
+  <div class="agent-page page">
     <!-- ===== Desktop: original layout ===== -->
     <template v-if="!isMobile">
     <!-- ===== 页面头部 ===== -->
@@ -363,7 +363,6 @@ onMounted(() => {
 /* ===== 页面容器 ===== */
 .agent-page {
   min-height: 100%;
-  padding: 32px;
   background: transparent;
   max-width: 1200px;
   margin: 0 auto;
@@ -853,9 +852,7 @@ onMounted(() => {
 
 /* ===== 响应式 ===== */
 @include tablet-and-below {
-  .agent-page {
-    padding: 20px 16px;
-  }
+  
 
   .page-header {
     flex-direction: column;
@@ -882,6 +879,10 @@ onMounted(() => {
 }
 
 @include mobile {
+  .agent-page {
+    min-height: auto;
+  }
+
   .agent-grid {
     grid-template-columns: 1fr;
   }

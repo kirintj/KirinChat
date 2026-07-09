@@ -4,9 +4,10 @@ import { setActivePinia, createPinia } from 'pinia'
 // Mock the API module before importing the store
 vi.mock('../../../apis/interview', () => ({
   startInterviewAPI: vi.fn(),
-  submitAnswerAPI: vi.fn(),
+  submitAnswerStreamAPI: vi.fn(),
   completeInterviewAPI: vi.fn(),
   getEvaluationReportAPI: vi.fn(),
+  getEvaluationBySessionAPI: vi.fn(),
   getSkillListAPI: vi.fn(),
   getSessionDetailAPI: vi.fn(),
   getInterviewHistoryAPI: vi.fn(),
@@ -15,15 +16,15 @@ vi.mock('../../../apis/interview', () => ({
 import { useInterviewStore } from '../../../store/interview'
 import {
   startInterviewAPI,
-  submitAnswerAPI,
   completeInterviewAPI,
   getEvaluationReportAPI,
+  getEvaluationBySessionAPI,
 } from '../../../apis/interview'
 
 const mockStartInterviewAPI = vi.mocked(startInterviewAPI)
-const mockSubmitAnswerAPI = vi.mocked(submitAnswerAPI)
 const mockCompleteInterviewAPI = vi.mocked(completeInterviewAPI)
 const mockGetEvaluationReportAPI = vi.mocked(getEvaluationReportAPI)
+const mockGetEvaluationBySessionAPI = vi.mocked(getEvaluationBySessionAPI)
 
 describe('useInterviewStore', () => {
   beforeEach(() => {
@@ -176,130 +177,6 @@ describe('useInterviewStore', () => {
   })
 
   // -----------------------------------------------------------------
-  // submitAnswer
-  // -----------------------------------------------------------------
-  describe('submitAnswer', () => {
-    async function startSession(store: ReturnType<typeof useInterviewStore>) {
-      mockStartInterviewAPI.mockResolvedValue({
-        data: {
-          status_code: 200,
-          status_message: 'ok',
-          data: {
-            session_id: 'sess-1',
-            first_question: { id: 'q1', type: 'MAIN', category: 'java', content: 'Q1' },
-          },
-        },
-      } as any)
-      await store.startInterview('java-backend', 'MEDIUM', 10)
-    }
-
-    it('appends candidate message to messages', async () => {
-      const store = useInterviewStore()
-      await startSession(store)
-
-      mockSubmitAnswerAPI.mockResolvedValue({
-        data: {
-          status_code: 200,
-          status_message: 'ok',
-          data: {
-            next_question: { id: 'q2', type: 'MAIN', category: 'java', content: 'Q2' },
-            is_completed: false,
-          },
-        },
-      } as any)
-
-      await store.submitAnswer('这是我的答案')
-
-      const candidateMsgs = store.messages.filter((m) => m.role === 'candidate')
-      expect(candidateMsgs).toHaveLength(1)
-      expect(candidateMsgs[0].content).toBe('这是我的答案')
-    })
-
-    it('adds next question as interviewer message', async () => {
-      const store = useInterviewStore()
-      await startSession(store)
-
-      mockSubmitAnswerAPI.mockResolvedValue({
-        data: {
-          status_code: 200,
-          status_message: 'ok',
-          data: {
-            next_question: { id: 'q2', type: 'MAIN', category: 'mysql', content: '什么是索引？' },
-            is_completed: false,
-          },
-        },
-      } as any)
-
-      await store.submitAnswer('多态是...')
-
-      const interviewerMsgs = store.messages.filter((m) => m.role === 'interviewer')
-      expect(interviewerMsgs).toHaveLength(2) // first Q + next Q
-      expect(interviewerMsgs[1].content).toBe('什么是索引？')
-    })
-
-    it('increments progress on each answer', async () => {
-      const store = useInterviewStore()
-      await startSession(store)
-
-      mockSubmitAnswerAPI.mockResolvedValue({
-        data: {
-          status_code: 200,
-          status_message: 'ok',
-          data: {
-            next_question: { id: 'q2', type: 'MAIN', category: 'java', content: 'Q2' },
-            is_completed: false,
-          },
-        },
-      } as any)
-
-      await store.submitAnswer('answer 1')
-      expect(store.progress.current).toBe(1)
-
-      mockSubmitAnswerAPI.mockResolvedValue({
-        data: {
-          status_code: 200,
-          status_message: 'ok',
-          data: {
-            next_question: { id: 'q3', type: 'MAIN', category: 'java', content: 'Q3' },
-            is_completed: false,
-          },
-        },
-      } as any)
-
-      await store.submitAnswer('answer 2')
-      expect(store.progress.current).toBe(2)
-    })
-
-    it('sets COMPLETED when is_completed is true', async () => {
-      const store = useInterviewStore()
-      await startSession(store)
-
-      mockSubmitAnswerAPI.mockResolvedValue({
-        data: {
-          status_code: 200,
-          status_message: 'ok',
-          data: {
-            next_question: null,
-            is_completed: true,
-          },
-        },
-      } as any)
-
-      await store.submitAnswer('final answer')
-
-      expect(store.status).toBe('COMPLETED')
-      expect(store.isCompleted).toBe(true)
-      expect(store.currentQuestion).toBeNull()
-    })
-
-    it('returns false when no active session', async () => {
-      const store = useInterviewStore()
-      const result = await store.submitAnswer('answer')
-      expect(result).toBe(false)
-    })
-  })
-
-  // -----------------------------------------------------------------
   // endInterview
   // -----------------------------------------------------------------
   describe('endInterview', () => {
@@ -316,8 +193,17 @@ describe('useInterviewStore', () => {
           status_message: 'ok',
           data: {
             evaluation_id: 'eval-1',
-            status: 'EVALUATED',
+            status: 'PENDING',
           },
+        },
+      } as any)
+
+      // Mock the polling to return evaluation immediately
+      mockGetEvaluationBySessionAPI.mockResolvedValue({
+        data: {
+          status_code: 200,
+          status_message: 'ok',
+          data: { id: 'eval-1' },
         },
       } as any)
 

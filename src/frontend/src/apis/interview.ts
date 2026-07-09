@@ -178,7 +178,7 @@ export function submitAnswerStreamAPI(
   callbacks: {
     onFollowUpChunk: (chunk: string, accumulated: string) => void
     onNextQuestionChunk: (chunk: string, accumulated: string) => void
-    onDone: (result: { follow_up: { content: string } | null; next_question: { content: string } | null; is_completed: boolean }) => void
+    onDone: (result: { follow_up: { content: string } | null; next_question: { id: string; content: string } | null; is_completed: boolean }) => void
     onError: (err: Error) => void
   },
 ) {

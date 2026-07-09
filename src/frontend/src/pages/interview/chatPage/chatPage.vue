@@ -109,9 +109,20 @@ const canSubmit = computed(() =>
   !!answerInput.value.trim() && !interviewStore.loading && interviewStore.isActive
 )
 
+// 【问题13】HTML 消毒：移除 script/style/event handler 等危险内容
+const sanitizeHtml = (html: string): string => {
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+    .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+    .replace(/on\w+\s*=\s*\S+/gi, '')
+    .replace(/javascript\s*:/gi, '')
+}
+
 const renderMarkdown = (text: string) => {
   if (!text) return ''
-  return marked.parse(text) as string
+  const raw = marked.parse(text) as string
+  return sanitizeHtml(raw)
 }
 
 const scrollBottom = () => {
@@ -492,10 +503,6 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: center;
   margin-top: 8px;
-
-  .end-btn {
-    color: var(--harmony-warning) !important;
-  }
 }
 
 // Completed bar
@@ -531,7 +538,7 @@ onUnmounted(() => {
   li { margin: 3px 0; }
 
   code {
-    background: rgba(128, 128, 128, 0.15);
+    background: var(--harmony-comp-background-secondary);
     padding: 2px 5px;
     border-radius: var(--harmony-corner-radius-level2);
     font-family: var(--harmony-font-family);
@@ -539,7 +546,7 @@ onUnmounted(() => {
   }
 
   pre {
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--harmony-comp-divider);
     padding: 12px;
     border-radius: var(--harmony-corner-radius-level4);
     overflow-x: auto;

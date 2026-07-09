@@ -33,6 +33,6 @@ defineEmits<{ close: [] }>()
 .h-tag--success { background: var(--harmony-confirm-bg); color: var(--harmony-confirm); }
 .h-tag--warning { background: var(--harmony-alert-bg); color: var(--harmony-alert); }
 .h-tag--danger { background: var(--harmony-warning-bg); color: var(--harmony-warning); }
-.h-tag__close { cursor: pointer; font-size: var(--harmony-font-size-caption-m); opacity: 0.7; position: relative; z-index: 1; }
+.h-tag__close { cursor: pointer; font-size: var(--harmony-font-size-caption-m); opacity: 0.7; position: relative; z-index: var(--z-dropdown); }
 .h-tag__close:hover { opacity: 1; }
 </style>

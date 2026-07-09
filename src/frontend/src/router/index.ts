@@ -213,15 +213,18 @@ const routes: RouteRecordRaw[] = [
         },
         children: [
           {
-            // hub 路由放在 default 路由之前，确保 /interview/hub 能被正确匹配
-            // 如果放在 '' 空路径后面，空路径作为兜底会优先匹配
+            path: '',
+            name: 'interviewDefault',
+            component: InterviewHub,
+          },
+          {
             path: 'hub',
             name: 'interviewHub',
             component: InterviewHub,
           },
           {
-            path: '',
-            name: 'interviewDefault',
+            path: 'text',
+            name: 'interviewText',
             component: InterviewDefault,
           },
           {

@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { HButton, HMessage } from '@/components/ui'
 import { useInterviewStore } from '../../../store/interview'
-import { getEvaluationReportAPI, getEvaluationBySessionAPI } from '../../../apis/interview'
+import { getEvaluationReportAPI, getEvaluationBySessionAPI, getSessionDetailAPI } from '../../../apis/interview'
 import type { EvaluationReport } from '../../../apis/interview'
 import * as echarts from 'echarts'
 
@@ -12,6 +12,8 @@ const interviewStore = useInterviewStore()
 const report = ref<EvaluationReport | null>(null)
 const loading = ref(false)
 const downloadLoading = ref(false)
+// 【问题14】独立 skillName ref，优先从 store 读取，store 为空时从 API 获取
+const reportSkillName = ref(interviewStore.skillName || '')
 
 const scoreColor = computed(() => {
   if (!report.value) return '#999'
@@ -60,7 +62,7 @@ const initRadarChart = () => {
         color: '#6b7280',
         fontSize: 12,
       },
-      splitLine: { lineStyle: { color: 'var(--harmony-comp-divider)' } },
+      splitLine: { lineStyle: { color: '#e5e7eb' } },
       splitArea: { show: false },
     },
     series: [{
@@ -82,6 +84,16 @@ const fetchReport = async () => {
   try {
     const evalId = interviewStore.evaluationId || (router.currentRoute.value.query.evaluationId as string)
     const sessionId = router.currentRoute.value.query.sessionId as string
+
+    // 【问题14】如果 store 中无 skillName，尝试从 session API 获取
+    if (!reportSkillName.value && sessionId) {
+      try {
+        const sessionRes = await getSessionDetailAPI(sessionId)
+        if (sessionRes.data.status_code === 200 && sessionRes.data.data) {
+          reportSkillName.value = sessionRes.data.data.session.skill_name || ''
+        }
+      } catch { /* ignore */ }
+    }
 
     if (evalId) {
       // Fetch by evaluation ID
@@ -193,7 +205,7 @@ onUnmounted(() => {
         </div>
         <div class="score-meta">
           <div class="score-label" :style="{ color: scoreColor }">{{ scoreLabel }}</div>
-          <div class="score-skill">{{ interviewStore.skillName || '综合面试' }}</div>
+          <div class="score-skill">{{ reportSkillName || '综合面试' }}</div>
         </div>
       </div>
 
@@ -572,7 +584,7 @@ onUnmounted(() => {
       }
 
       &.score-low {
-        background: rgba(244, 67, 54, 0.1);
+        background: color-mix(in srgb, var(--harmony-warning) 10%, transparent);
         color: var(--harmony-warning);
       }
     }

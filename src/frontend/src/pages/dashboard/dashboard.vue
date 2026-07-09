@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isMobile" class="dashboard-container">
+  <div v-if="!isMobile" class="dashboard-container page">
     <div class="dashboard-header">
       <div class="title-wrap">
         <h2>数据看板</h2>
@@ -765,7 +765,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: var(--z-dropdown);
   border-radius: inherit;
 }
 

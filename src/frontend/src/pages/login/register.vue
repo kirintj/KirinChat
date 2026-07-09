@@ -137,7 +137,7 @@ const goToLogin = () => {
 <style lang="scss" scoped>
 /* 与 login.vue 一致的卡片布局。
    输入框样式完全交给 HInput 组件本身，页面只负责排版与主色按钮。 */
-$brand-shadow: rgba(10, 89, 247, 0.18);
+$brand-shadow: var(--harmony-comp-emphasize-secondary);
 
 .auth-page {
   width: 100%;
@@ -270,7 +270,7 @@ $brand-shadow: rgba(10, 89, 247, 0.18);
 
     &:hover {
       box-shadow: 0 6px 16px $brand-shadow;
-      border-color: rgba(10, 89, 247, 0.4);
+      border-color: color-mix(in srgb, var(--harmony-brand) 40%, transparent);
     }
 
     img { width: 16px; height: 16px; object-fit: contain; }

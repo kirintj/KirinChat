@@ -1,6 +1,6 @@
 <template>
   <!-- Desktop: full Monaco editor -->
-  <div v-if="!isMobile" class="editor">
+  <div v-if="!isMobile" class="editor page">
     <div ref="editorContainer" class="editor-container"></div>
     <div class="button">
       <HButton type="secondary" @click="cancel">取消</HButton>
@@ -95,7 +95,6 @@ const mobileCancel = () => {
     margin: 20px;
     width: 100%;
     height: 80%;
-    font-size: var(--harmony-font-size-title-s) !important;
   }
   .button {
     display: flex;

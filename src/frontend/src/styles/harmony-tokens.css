@@ -116,6 +116,22 @@
   --harmony-icon-btn-bg: var(--harmony-comp-background-secondary);
   --harmony-overlay-bg: var(--harmony-interactive-pressed, var(--harmony-comp-background-secondary));
 
+  /* Deep dark surface tokens */
+  --harmony-surface-dark-1: rgba(250, 251, 252, 1);
+  --harmony-surface-dark-2: rgba(240, 242, 245, 1);
+  --harmony-surface-dark-3: rgba(230, 232, 235, 1);
+  --harmony-surface-dark-4: rgba(220, 222, 225, 1);
+  --harmony-surface-dark-5: rgba(200, 203, 207, 1);
+  --harmony-surface-dark-6: rgba(215, 218, 221, 1);
+  --harmony-surface-dark-7: rgba(205, 208, 211, 1);
+  --harmony-surface-dark-8: rgba(190, 193, 197, 1);
+  --harmony-surface-dark-accent: rgba(10, 89, 247, 1);
+
+  --harmony-text-dark-1: rgba(115, 115, 115, 1);
+  --harmony-text-dark-2: rgba(110, 120, 130, 1);
+  --harmony-text-dark-3: rgba(60, 70, 80, 1);
+  --harmony-text-dark-4: rgba(40, 50, 60, 1);
+  --harmony-text-dark-5: rgba(20, 30, 40, 1);
 }
 
 :root[data-harmony-token-set="system"][data-theme="dark"],
@@ -185,6 +201,22 @@
   --harmony-icon-btn-bg: var(--harmony-comp-background-secondary);
   --harmony-overlay-bg: var(--harmony-interactive-pressed, var(--harmony-comp-background-secondary));
 
+  /* Deep dark surface tokens */
+  --harmony-surface-dark-1: rgba(3, 7, 18, 1);
+  --harmony-surface-dark-2: rgba(10, 12, 20, 1);
+  --harmony-surface-dark-3: rgba(23, 23, 23, 1);
+  --harmony-surface-dark-4: rgba(31, 31, 31, 1);
+  --harmony-surface-dark-5: rgba(38, 38, 38, 1);
+  --harmony-surface-dark-6: rgba(40, 40, 40, 1);
+  --harmony-surface-dark-7: rgba(50, 50, 50, 1);
+  --harmony-surface-dark-8: rgba(64, 64, 64, 1);
+  --harmony-surface-dark-accent: rgba(23, 37, 84, 1);
+
+  --harmony-text-dark-1: rgba(115, 115, 115, 1);
+  --harmony-text-dark-2: rgba(156, 163, 175, 1);
+  --harmony-text-dark-3: rgba(209, 213, 219, 1);
+  --harmony-text-dark-4: rgba(229, 231, 235, 1);
+  --harmony-text-dark-5: rgba(243, 244, 246, 1);
 }
 
 :root[data-harmony-token-set="wearable"][data-theme="light"],

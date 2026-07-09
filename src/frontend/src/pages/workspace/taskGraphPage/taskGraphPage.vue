@@ -1225,20 +1225,11 @@ const getNodeColor = (status: string) => {
         :deep(.md-editor) {
           border: 1px solid var(--harmony-comp-divider);
           border-radius: var(--harmony-corner-radius-level8);
-          height: 100% !important;
           display: flex;
           flex-direction: column;
         }
         :deep(.md-editor-toolbar) {
           border-bottom: 1px solid var(--harmony-comp-divider);
-        }
-        :deep(.md-editor-content-editor),
-        :deep(.md-editor-content-preview) {
-          font-family: var(--harmony-font-family);
-          height: 100% !important;
-        }
-        :deep(.md-editor-content) {
-          height: 100% !important;
         }
       }
     }

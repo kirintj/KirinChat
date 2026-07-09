@@ -2,23 +2,12 @@
  * HarmonyOS 第三方编辑器样式覆盖
  * Monaco Editor / ECharts / MdEditor
  *
- * 使用 :root 包装增加选择器权重，减少对 !important 的依赖。
- * 仅对第三方内联样式保留必要的 !important。
+ * 使用 :root 包装增加选择器权重。
  */
 
 /* ========== Monaco Editor ========== */
 :root .monaco-editor {
   border-radius: var(--harmony-corner-radius-level8);
-}
-
-/* Monaco Editor uses inline styles for backgrounds — !important required */
-.monaco-editor .margin,
-.monaco-editor-background {
-  background-color: var(--harmony-comp-background-primary) !important;
-}
-
-.monaco-editor .line-numbers {
-  color: var(--harmony-font-tertiary) !important;
 }
 
 /* ========== MdEditor (md-editor-v3) ========== */

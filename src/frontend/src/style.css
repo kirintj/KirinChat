@@ -74,6 +74,13 @@ html {
   transition: background-color var(--harmony-duration-normal) var(--harmony-motion-standard);
 }
 
+/* ========== 页面根容器通用类 ========== */
+.page {
+  min-height: 100%;
+  width: 100%;
+  background: transparent;
+}
+
 /* ========== 全局可访问性 ========== */
 
 /* 文本选中色 */
@@ -86,18 +93,6 @@ html {
 *:focus,
 *:focus-visible {
   outline: none;
-}
-
-/* 动效降级 */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
 }
 
 /* ========== HLoading directive styles ========== */

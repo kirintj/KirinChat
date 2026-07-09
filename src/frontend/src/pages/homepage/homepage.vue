@@ -37,7 +37,7 @@ const handleExampleClick = (_: any, index: number) => {
 
 <template>
   <!-- ==================== DESKTOP ==================== -->
-  <div v-if="!isMobile" class="homepage">
+  <div v-if="!isMobile" class="homepage page">
     <div class="logo-section">
       <img src="../../assets/mars-agent.svg" alt="Mars Agent" class="logo" />
       <h1 class="brand-name">Mars Agent</h1>
@@ -149,11 +149,11 @@ const handleExampleClick = (_: any, index: number) => {
   max-width: 500px;
 
   .search-box {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
     border-radius: 20px;
     padding: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--harmony-shadow-sm);
 
     &:focus-within {
       border-color: var(--harmony-brand);
@@ -213,8 +213,8 @@ const handleExampleClick = (_: any, index: number) => {
   }
 
   .example-card {
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: var(--harmony-comp-background-primary);
+    border: 1px solid var(--harmony-comp-divider);
     border-radius: 16px;
     padding: 16px;
     cursor: pointer;
@@ -222,7 +222,7 @@ const handleExampleClick = (_: any, index: number) => {
 
     &:hover {
       border-color: var(--harmony-brand);
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      box-shadow: var(--harmony-shadow-sm);
     }
 
     &:active {
@@ -247,7 +247,7 @@ const handleExampleClick = (_: any, index: number) => {
   .card-tag {
     font-size: var(--harmony-font-size-body-s);
     color: var(--harmony-font-tertiary);
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--harmony-comp-background-tertiary);
     padding: 2px 8px;
     border-radius: 8px;
   }
@@ -271,7 +271,7 @@ const handleExampleClick = (_: any, index: number) => {
 /* Search bar — first scrollable content item */
 .hm-search {
   position: relative;
-  z-index: 30;
+  z-index: var(--z-dropdown);
 
   &__box {
     display: flex;

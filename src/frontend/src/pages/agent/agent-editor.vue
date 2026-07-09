@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { inject, ref, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { HButton, HInput, HSelect, HOption, HForm, HFormItem, HTag, HMessage } from '@/components/ui'
 import { Icon } from '@iconify/vue'
@@ -10,6 +10,9 @@ import { getMCPServersAPI } from '../../apis/mcp-server'
 import { getKnowledgeListAPI } from '../../apis/knowledge'
 import { getAgentSkillsAPI } from '../../apis/agent-skill'
 import { uploadFileAPI } from '../../apis/file'
+
+/* 响应式设备检测 */
+const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 
 const route = useRoute()
 const router = useRouter()
@@ -316,7 +319,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="agent-editor">
+  <!-- =================== DESKTOP 桌面端（≥768px） =================== -->
+  <div v-if="!isMobile" class="agent-editor page">
     <!-- ===== 页面头部 ===== -->
     <div class="page-header">
       <div class="header-left">
@@ -653,6 +657,212 @@ onMounted(async () => {
       </HForm>
     </div>
   </div>
+
+  <!-- =================== MOBILE 移动端（≤767px） =================== -->
+  <div v-else class="agent-editor-mobile">
+    <!-- ===== 页面头部 ===== -->
+    <div class="ae-header">
+      <h1 class="ae-title">{{ isEditing ? '编辑智能体' : '创建智能体' }}</h1>
+      <p class="ae-desc">{{ isEditing ? '更新智能体配置信息' : '配置您的专属智能体' }}</p>
+    </div>
+
+    <!-- ===== 表单内容 ===== -->
+    <div class="ae-content">
+      <HForm ref="formRef" :model="formData" :rules="rules" label-width="0" class="ae-form">
+
+        <!-- ===== 基本信息 ===== -->
+        <div class="ae-card">
+          <div class="ae-card__header">
+            <Icon icon="mdi:image" :width="16" :height="16" />
+            <span>基本信息</span>
+          </div>
+          <div class="ae-card__body">
+            <!-- 头像 -->
+            <div class="avatar-section">
+              <div class="avatar-uploader" @click="handleAvatarClick">
+                <img v-if="formData.logo_url" :src="formData.logo_url" class="avatar-preview" />
+                <div v-else class="avatar-placeholder">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="5" y="7" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="10" cy="13" r="1.5" fill="currentColor"/>
+                    <circle cx="14" cy="13" r="1.5" fill="currentColor"/>
+                    <path d="M12 3v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="12" cy="3" r="1.5" fill="currentColor"/>
+                  </svg>
+                  <span>上传头像</span>
+                </div>
+              </div>
+              <input ref="avatarFileInput" type="file" accept="image/jpeg,image/png" class="hidden-input" @change="handleFileChange" />
+              <div class="avatar-meta">
+                <span class="avatar-hint">JPG/PNG，不超过 2MB</span>
+                <button v-if="formData.logo_url" class="avatar-remove" @click="handleAvatarRemove">移除头像</button>
+              </div>
+            </div>
+
+            <!-- 名称 -->
+            <div class="ae-row">
+              <label class="ae-label"><span class="required">*</span>名称</label>
+              <HInput v-model="formData.name" placeholder="给您的智能体起个名字" class="ae-input" />
+            </div>
+
+            <!-- 描述 -->
+            <div class="ae-row">
+              <label class="ae-label"><span class="required">*</span>描述</label>
+              <textarea v-model="formData.description" rows="2" placeholder="简短描述这个智能体的作用" class="ae-textarea"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 系统提示词 ===== -->
+        <div class="ae-card">
+          <div class="ae-card__header">
+            <Icon icon="mdi:file-document" :width="16" :height="16" />
+            <span>系统提示词</span>
+          </div>
+          <div class="ae-card__body">
+            <textarea v-model="formData.system_prompt" placeholder="例如：你是一个专业的技术顾问，擅长回答编程相关的问题..." class="ae-textarea ae-prompt"></textarea>
+            <div class="prompt-footer">
+              <span class="prompt-count">{{ formData.system_prompt.length }} 字符</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== AI模型 ===== -->
+        <div class="ae-card">
+          <div class="ae-card__header collapsible" @click="toggleCollapse('aiModel')">
+            <Icon icon="mdi:circle" :width="16" :height="16" />
+            <span>AI模型</span>
+            <HTag type="warning" size="small">核心</HTag>
+            <svg class="chevron" :class="{ 'is-open': collapseItems.aiModel }" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div v-show="collapseItems.aiModel" class="ae-card__body">
+            <HFormItem label="" prop="llm_id" class="form-item">
+              <HSelect v-model="formData.llm_id" placeholder="选择大语言模型" class="ae-input" filterable clearable :loading="dataLoading.llm">
+                <HOption v-for="llm in llmOptions" :key="llm.llm_id" :label="llm.name" :value="llm.llm_id" />
+              </HSelect>
+            </HFormItem>
+          </div>
+        </div>
+
+        <!-- ===== 记忆功能 ===== -->
+        <div class="ae-card">
+          <div class="ae-card__header collapsible" @click="toggleCollapse('memory')">
+            <Icon icon="mdi:heart" :width="16" :height="16" />
+            <span>记忆功能</span>
+            <HTag :type="formData.enable_memory ? 'success' : 'default'" size="small">{{ formData.enable_memory ? '已开启' : '已关闭' }}</HTag>
+            <svg class="chevron" :class="{ 'is-open': collapseItems.memory }" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div v-show="collapseItems.memory" class="ae-card__body">
+            <div class="memory-section">
+              <button type="button" class="memory-switch" :class="{ active: formData.enable_memory }" @click="formData.enable_memory = !formData.enable_memory">
+                <span class="switch-thumb"></span>
+              </button>
+              <div class="memory-info">
+                <span class="memory-status">{{ formData.enable_memory ? '长期记忆已开启' : '长期记忆已关闭' }}</span>
+                <span class="memory-desc">{{ formData.enable_memory ? '智能体将记忆对话历史和偏好，提供更连贯的交互体验' : '智能体仅保留当前会话上下文，适合临时任务' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 知识库 ===== -->
+        <div class="ae-card">
+          <div class="ae-card__header collapsible" @click="toggleCollapse('knowledge')">
+            <Icon icon="mdi:book-open-page-variant" :width="16" :height="16" />
+            <span>知识库</span>
+            <span v-if="formData.knowledge_ids.length > 0" class="count-badge">{{ formData.knowledge_ids.length }}</span>
+            <svg class="chevron" :class="{ 'is-open': collapseItems.knowledge }" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div v-show="collapseItems.knowledge" class="ae-card__body">
+            <HFormItem label="" prop="knowledge_ids" class="form-item">
+              <HSelect v-model="formData.knowledge_ids" multiple placeholder="选择知识库" class="ae-input" :loading="dataLoading.knowledge" filterable clearable>
+                <HOption v-for="kb in knowledgeOptions" :key="kb.knowledge_id" :label="kb.name" :value="kb.knowledge_id" />
+              </HSelect>
+            </HFormItem>
+            <p class="option-hint">共 {{ knowledgeOptions.length }} 个知识库可用</p>
+          </div>
+        </div>
+
+        <!-- ===== 工具 ===== -->
+        <div class="ae-card">
+          <div class="ae-card__header collapsible" @click="toggleCollapse('tools')">
+            <Icon icon="mdi:wrench" :width="16" :height="16" />
+            <span>工具</span>
+            <span v-if="formData.tool_ids.length > 0" class="count-badge">{{ formData.tool_ids.length }}</span>
+            <svg class="chevron" :class="{ 'is-open': collapseItems.tools }" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div v-show="collapseItems.tools" class="ae-card__body">
+            <HFormItem label="" prop="tool_ids" class="form-item">
+              <HSelect v-model="formData.tool_ids" multiple placeholder="选择工具" class="ae-input" :loading="dataLoading.tool" filterable clearable>
+                <HOption v-for="tool in toolOptions" :key="tool.tool_id" :label="tool.name" :value="tool.tool_id" />
+              </HSelect>
+            </HFormItem>
+            <p class="option-hint">共 {{ toolOptions.length }} 个工具可用</p>
+          </div>
+        </div>
+
+        <!-- ===== MCP ===== -->
+        <div class="ae-card">
+          <div class="ae-card__header collapsible" @click="toggleCollapse('mcp')">
+            <Icon icon="mdi:server-outline" :width="16" :height="16" />
+            <span>MCP 服务</span>
+            <span v-if="formData.mcp_ids.length > 0" class="count-badge">{{ formData.mcp_ids.length }}</span>
+            <svg class="chevron" :class="{ 'is-open': collapseItems.mcp }" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div v-show="collapseItems.mcp" class="ae-card__body">
+            <HFormItem label="" prop="mcp_ids" class="form-item">
+              <HSelect v-model="formData.mcp_ids" multiple placeholder="选择 MCP 服务" class="ae-input" :loading="dataLoading.mcp" filterable clearable>
+                <HOption v-for="mcp in mcpOptions" :key="mcp.mcp_id" :label="mcp.name" :value="mcp.mcp_id" />
+              </HSelect>
+            </HFormItem>
+            <p class="option-hint">共 {{ mcpOptions.length }} 个 MCP 服务可用</p>
+          </div>
+        </div>
+
+        <!-- ===== 技能 ===== -->
+        <div class="ae-card">
+          <div class="ae-card__header collapsible" @click="toggleCollapse('skills')">
+            <Icon icon="mdi:lightbulb-outline" :width="16" :height="16" />
+            <span>智能体技能</span>
+            <span v-if="formData.agent_skill_ids.length > 0" class="count-badge">{{ formData.agent_skill_ids.length }}</span>
+            <svg class="chevron" :class="{ 'is-open': collapseItems.skills }" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div v-show="collapseItems.skills" class="ae-card__body">
+            <HFormItem label="" prop="agent_skill_ids" class="form-item">
+              <HSelect v-model="formData.agent_skill_ids" multiple placeholder="选择技能" class="ae-input" :loading="dataLoading.agentSkill" filterable clearable>
+                <HOption v-for="skill in agentSkillOptions" :key="skill.skill_id" :label="skill.name" :value="skill.skill_id" />
+              </HSelect>
+            </HFormItem>
+            <p class="option-hint">共 {{ agentSkillOptions.length }} 个技能可用</p>
+          </div>
+        </div>
+      </HForm>
+    </div>
+
+    <!-- ===== 底部操作区 ===== -->
+    <div class="ae-footer">
+      <button class="btn-secondary" @click="goBack" :disabled="loading">取消</button>
+      <button class="btn-primary" @click="saveAgent" :disabled="loading">
+        <svg v-if="loading" width="14" height="14" viewBox="0 0 14 14" fill="none" class="spinner-sm">
+          <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="2" stroke-opacity="0.25"/>
+          <path d="M7 2A5 5 0 0 1 12 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>{{ isEditing ? '保存' : '创建' }}</span>
+      </button>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -701,7 +911,7 @@ onMounted(async () => {
   .header-desc {
     font-size: var(--harmony-font-size-body-s);
     color: var(--harmony-font-tertiary);
-    margin: 2px 0 0 0;
+    margin: 2px 0 0;
   }
 }
 
@@ -710,17 +920,21 @@ onMounted(async () => {
   gap: 10px;
 }
 
-.btn-secondary {
+.btn-secondary,
+.btn-primary {
   padding: 9px 18px;
-  background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
-  color: var(--harmony-font-secondary);
   border-radius: var(--harmony-corner-radius-level6);
   font-size: var(--harmony-font-size-subtitle-s);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease;
   font-family: inherit;
+}
+
+.btn-secondary {
+  background: var(--harmony-comp-background-primary);
+  border: 1px solid var(--harmony-comp-divider);
+  color: var(--harmony-font-secondary);
 
   &:hover:not(:disabled) {
     border-color: var(--harmony-brand);
@@ -737,16 +951,9 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 9px 18px;
   background: var(--harmony-brand);
   border: none;
   color: white;
-  border-radius: var(--harmony-corner-radius-level6);
-  font-size: var(--harmony-font-size-subtitle-s);
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  font-family: inherit;
 
   &:hover:not(:disabled) {
     box-shadow: var(--harmony-shadow-md);
@@ -765,13 +972,10 @@ onMounted(async () => {
   animation: h-spin 1s linear infinite;
 }
 
-
-
 /* ============ 主内容区 ============ */
 .page-content {
   flex: 1;
-  padding-top: 12px;
-  padding-bottom: 48px;
+  padding: 12px 0 48px;
   margin: 0 auto;
   overflow-x: hidden;
   max-width: 1200px;
@@ -864,12 +1068,10 @@ onMounted(async () => {
   }
 }
 
-/* 非折叠卡片（基本信息、系统提示词）的header有分割线 */
 .card:not(.config-card) .card-header {
   border-bottom: 1px solid var(--harmony-comp-divider);
 }
 
-/* 折叠卡片展开时显示分割线 */
 .card.config-card .card-body {
   border-top: 1px solid var(--harmony-comp-divider);
 }
@@ -910,7 +1112,6 @@ onMounted(async () => {
   width: 72px;
   height: 72px;
   border-radius: var(--harmony-corner-radius-level6);
-
   border: 2px dashed var(--harmony-comp-divider);
   display: flex;
   align-items: center;
@@ -998,31 +1199,14 @@ onMounted(async () => {
   }
 }
 
-.form-input {
-  :deep(.h-input__inner) {
-    height: 40px !important;
-    border-radius: var(--harmony-corner-radius-level6) !important;
-  
-    padding: 0 14px !important;
-    font-size: var(--harmony-font-size-subtitle-s) !important;
-    transition: all 0.15s ease !important;
-  }
-
-
-
-
-}
-
-.form-textarea {
+.form-textarea,
+.prompt-textarea {
   width: 100%;
-  padding: 10px 14px;
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level6);
-
   font-size: var(--harmony-font-size-subtitle-s);
   color: var(--harmony-font-primary);
   font-family: inherit;
-  line-height: 1.6;
   resize: vertical;
   transition: all 0.15s ease;
 
@@ -1041,32 +1225,18 @@ onMounted(async () => {
   }
 }
 
-/* ============ 系统提示词 ============ */
+.form-textarea {
+  padding: 10px 14px;
+  line-height: 1.6;
+}
+
 .prompt-textarea {
-  width: 100%;
   min-height: 260px;
   padding: 14px 16px;
-  border: 1px solid var(--harmony-comp-divider);
-  border-radius: var(--harmony-corner-radius-level6);
-  font-size: var(--harmony-font-size-subtitle-s);
-  color: var(--harmony-font-primary);
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   line-height: 1.7;
-  resize: vertical;
-  transition: all 0.15s ease;
-
-  &:hover {
-    border-color: var(--harmony-comp-emphasize-secondary);
-  }
-
-  &:focus {
-    border-color: var(--harmony-brand);
-    background: var(--harmony-comp-background-primary);
-    box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary);
-  }
 
   &::placeholder {
-    color: var(--harmony-font-tertiary);
     font-family: inherit;
   }
 }
@@ -1085,35 +1255,12 @@ onMounted(async () => {
 /* ============ 配置卡中的表单 ============ */
 .form-item {
   margin: 0;
-  // !important removed — scoped parent selector provides sufficient specificity
-}
-
-.form-select {
-  :deep(.h-select__input) {
-    min-height: 40px !important;
-    border-radius: var(--harmony-corner-radius-level6) !important;
-    border: 1px solid var(--harmony-comp-divider) !important;
-    background: var(--harmony-comp-background-secondary) !important;
-    padding: 4px 14px !important;
-    font-size: var(--harmony-font-size-subtitle-s) !important;
-  }
-
-  :deep(.h-select__input:hover) {
-    border-color: var(--harmony-comp-emphasize-secondary) !important;
-  }
-
-  :deep(.h-select__input.is-focus) {
-    border-color: var(--harmony-brand) !important;
-    background: var(--harmony-comp-background-primary) !important;
-    box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-tertiary) !important;
-  }
 }
 
 .option-hint {
-  margin: 8px 0 0 0;
+  margin: 8px 0 0;
   font-size: var(--harmony-font-size-caption-l);
   color: var(--harmony-font-tertiary);
-  // !important removed — scoped parent selector provides sufficient specificity
 }
 
 /* ============ 记忆开关 ============ */
@@ -1175,39 +1322,204 @@ onMounted(async () => {
   line-height: 1.5;
 }
 
-/* ============ 响应式 ============ */
-@include tablet-and-below {
-  .editor-form {
-    grid-template-columns: 1fr;
+/* ============ 移动端专属样式（JS 模板分支，非 CSS 适配） ============ */
+.agent-editor-mobile {
+  min-height: 100%;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 24px;
+}
+
+/* —— 移动端页面头部 —— */
+.ae-header {
+  padding: 20px 16px 12px;
+  text-align: left;
+}
+
+.ae-title {
+  font-size: var(--harmony-font-size-title-m);
+  font-weight: 600;
+  color: var(--harmony-font-primary);
+  margin: 0 0 4px;
+}
+
+.ae-desc {
+  font-size: var(--harmony-font-size-body-s);
+  color: var(--harmony-font-tertiary);
+  margin: 0;
+}
+
+/* —— 移动端内容区 —— */
+.ae-content {
+  flex: 1;
+  padding: 8px 16px;
+}
+
+.ae-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* —— 移动端卡片 —— */
+.ae-card {
+  background: var(--harmony-comp-background-primary);
+  border-radius: var(--harmony-corner-radius-level8);
+  box-shadow: var(--harmony-shadow-sm);
+  overflow: hidden;
+}
+
+.ae-card__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  color: var(--harmony-font-primary);
+  font-weight: 500;
+  font-size: var(--harmony-font-size-subtitle-m);
+  background: transparent;
+
+  &.collapsible {
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:active {
+      background: var(--harmony-interactive-hover);
+    }
+
+    .chevron {
+      margin-left: auto;
+      color: var(--harmony-font-tertiary);
+      transition: transform 0.2s ease;
+
+      &.is-open {
+        transform: rotate(180deg);
+      }
+    }
   }
 
-  .column-left {
-    position: static;
-  }
-
-  .page-header {
-    margin: 16px auto 0;
-    padding: 16px 20px;
-  }
-
-  .page-content {
-    padding-bottom: 32px;
+  .count-badge {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    background: var(--harmony-brand);
+    color: white;
+    font-size: var(--harmony-font-size-caption-l);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
-@include mobile {
-  .page-header {
-    flex-wrap: wrap;
-    gap: 12px;
+.ae-card__body {
+  padding: 12px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-top: 1px solid var(--harmony-comp-divider);
+}
+
+/* —— 移动端表单项 —— */
+.ae-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ae-label {
+  font-size: var(--harmony-font-size-body-s);
+  color: var(--harmony-font-secondary);
+  font-weight: 500;
+
+  .required {
+    color: var(--harmony-warning);
+    margin-right: 2px;
+  }
+}
+
+.ae-input {
+  width: 100%;
+}
+
+.ae-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--harmony-comp-divider);
+  border-radius: var(--harmony-corner-radius-level6);
+  background: var(--harmony-comp-background-tertiary);
+  color: var(--harmony-font-primary);
+  font-size: var(--harmony-font-size-body-m);
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    border-color: var(--harmony-brand);
   }
 
-  .header-right {
-    width: 100%;
-    justify-content: flex-end;
+  &.ae-prompt {
+    min-height: 100px;
   }
+}
 
-  .card-subtitle {
-    display: none;
+/* —— 移动端底部操作区 —— */
+.ae-footer {
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  position: sticky;
+  bottom: 0;
+  background: transparent;
+}
+
+.ae-footer .btn-secondary,
+.ae-footer .btn-primary {
+  flex: 1;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: var(--harmony-corner-radius-level6);
+  font-size: var(--harmony-font-size-body-m);
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  transition: all 0.15s ease;
+}
+
+.ae-footer .btn-secondary {
+  background: var(--harmony-comp-background-secondary);
+  color: var(--harmony-font-primary);
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
+}
+
+.ae-footer .btn-primary {
+  background: var(--harmony-brand);
+  color: white;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* —— spinner —— */
+.spinner-sm {
+  animation: harmony-spin 1s linear infinite;
+}
+
+@keyframes harmony-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 </style>

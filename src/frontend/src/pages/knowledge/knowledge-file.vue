@@ -536,7 +536,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="knowledge-file-page">
+  <div class="knowledge-file-page page">
     <!-- 页面头部 -->
     <div class="page-header">
       <div class="header-left">
@@ -857,7 +857,7 @@ onUnmounted(() => {
     padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8);
-    box-shadow: 0 6px 24px var(--harmony-shadow-sm);
+    box-shadow: var(--harmony-shadow-lg);
     border: 1px solid var(--harmony-comp-divider);
     
     .header-left {
@@ -949,13 +949,13 @@ onUnmounted(() => {
           padding: 10px 16px;
           background: var(--harmony-comp-background-primary);
           border-radius: var(--harmony-corner-radius-level6);
-          box-shadow: 0 2px 8px var(--harmony-shadow-sm);
+          box-shadow: var(--harmony-shadow-sm);
           border: 1px solid var(--harmony-comp-divider);
           transition: all 0.2s ease;
           min-width: 90px;
             
           &:hover {
-            box-shadow: 0 4px 12px var(--harmony-shadow-sm);
+            box-shadow: var(--harmony-shadow-md);
           }
             
           .stat-icon-wrapper {
@@ -1121,7 +1121,7 @@ onUnmounted(() => {
         background: var(--harmony-comp-background-primary);
         border-radius: var(--harmony-corner-radius-level8);
         overflow: hidden;
-        box-shadow: 0 2px 8px var(--harmony-shadow-sm);
+        box-shadow: var(--harmony-shadow-sm);
         border: 1px solid var(--harmony-comp-divider);
         
         th {
@@ -1395,7 +1395,7 @@ onUnmounted(() => {
       height: 500px;
       background: var(--harmony-comp-background-primary);
       border-radius: var(--harmony-corner-radius-level8);
-      box-shadow: 0 2px 8px var(--harmony-shadow-sm);
+      box-shadow: var(--harmony-shadow-sm);
       border: 1px solid var(--harmony-comp-divider);
       padding: 40px;
       
@@ -1508,7 +1508,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: var(--z-dropdown);
   border-radius: inherit;
 }
 

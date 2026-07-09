@@ -215,7 +215,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="model-editor-page" v-h-loading="loading">
+  <div class="model-editor-page page" v-h-loading="loading">
     <!-- 页面头部 -->
     <div class="page-header">
       <div class="header-left">
@@ -368,7 +368,7 @@ onMounted(() => {
     background: var(--harmony-comp-background-primary);
     padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
     border-radius: var(--harmony-corner-radius-level8);
-    box-shadow: 0 4px 20px var(--harmony-shadow-sm);
+    box-shadow: var(--harmony-shadow-md);
     border: 1px solid var(--harmony-comp-divider);
 
           .header-left {
@@ -441,7 +441,7 @@ onMounted(() => {
       background: var(--harmony-comp-background-primary);
       border-radius: var(--harmony-corner-radius-level18);
       padding: 32px;
-      box-shadow: 0 8px 32px var(--harmony-shadow-sm);
+      box-shadow: var(--harmony-shadow-lg);
       border: 1px solid var(--harmony-comp-divider);
       
       .form-header {
@@ -522,21 +522,21 @@ onMounted(() => {
               border-radius: var(--harmony-corner-radius-level8);
               padding: 16px 20px;
               transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-              box-shadow: 0 2px 8px var(--harmony-shadow-xs);
+              box-shadow: var(--harmony-shadow-sm);
               position: relative;
               overflow: hidden;
 
               &:hover {
                 border-color: var(--harmony-comp-divider);
                 background: linear-gradient(135deg, var(--harmony-comp-background-primary) 0%, var(--harmony-comp-divider) 100%);
-                box-shadow: 0 4px 12px var(--harmony-shadow-sm);
+                box-shadow: var(--harmony-shadow-md);
                 transform: translateY(-1px);
               }
 
               &.h-input--focused {
                 border-color: var(--harmony-brand);
                 background: var(--harmony-comp-background-primary);
-                box-shadow: 0 0 0 4px var(--harmony-comp-emphasize-tertiary), 0 8px 24px var(--harmony-shadow-md);
+                box-shadow: 0 0 0 4px var(--harmony-comp-emphasize-tertiary), var(--harmony-shadow-lg);
                 transform: translateY(-2px);
               }
             }
@@ -601,7 +601,7 @@ onMounted(() => {
             
             &:hover {
               transform: translateY(-3px);
-              box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+              box-shadow: var(--harmony-shadow-dialog);
               
               &::before {
                 left: 100%;
@@ -650,7 +650,7 @@ onMounted(() => {
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level18);
     padding: 80px 40px;
-    box-shadow: 0 8px 32px var(--harmony-shadow-sm);
+    box-shadow: var(--harmony-shadow-lg);
     
     .empty-icon {
       font-size: 80px;

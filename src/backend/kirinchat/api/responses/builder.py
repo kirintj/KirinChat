@@ -22,6 +22,30 @@ def resp_200(
         data=data
     )
 
+def resp_403(
+    data: Union[list, dict, str, Any] = None,
+    message: str = 'FORBIDDEN'
+) -> UnifiedResponseModel:
+    """权限不足"""
+    return UnifiedResponseModel(
+        status_code=403,
+        status_message=message,
+        data=data
+    )
+
+
+def resp_404(
+    data: Union[list, dict, str, Any] = None,
+    message: str = 'NOT FOUND'
+) -> UnifiedResponseModel:
+    """资源不存在"""
+    return UnifiedResponseModel(
+        status_code=404,
+        status_message=message,
+        data=data
+    )
+
+
 def resp_500(
     code: int = 500,
     data: Union[list, dict, str, Any] = None,

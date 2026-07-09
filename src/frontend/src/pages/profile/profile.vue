@@ -306,7 +306,7 @@ const handleCustomUpload = async (event: Event) => {
 
 <template>
   <!-- Desktop -->
-  <div v-if="!isMobile" class="profile-page" style="position: relative;">
+  <div v-if="!isMobile" class="profile-page page" style="position: relative;">
     <div v-if="pageLoading" class="loading-overlay">
       <div class="loading-spinner"></div>
     </div>
@@ -491,18 +491,18 @@ const handleCustomUpload = async (event: Event) => {
 .loading-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 22, 40, 0.6);
+  background: var(--harmony-overlay-heavy);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: var(--z-dropdown);
   border-radius: inherit;
 }
 
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid rgba(255, 255, 255, 0.2);
+  border: 3px solid color-mix(in srgb, var(--harmony-font-on-primary) 20%, transparent);
   border-top-color: var(--harmony-brand);
   border-radius: 50%;
   animation: h-spin 0.6s linear infinite;
@@ -556,7 +556,7 @@ const handleCustomUpload = async (event: Event) => {
       background: var(--harmony-comp-background-primary);
       border-radius: var(--harmony-corner-radius-level8);
       padding: 32px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      box-shadow: var(--harmony-shadow-md);
 
       .avatar-section {
         display: flex;
@@ -588,7 +588,7 @@ const handleCustomUpload = async (event: Event) => {
               left: 0;
               right: 0;
               bottom: 0;
-              background: rgba(0, 0, 0, 0.5);
+              background: var(--harmony-overlay-heavy);
               border-radius: 50%;
               display: flex;
               align-items: center;
@@ -718,12 +718,12 @@ const handleCustomUpload = async (event: Event) => {
 
         &.active {
           border-color: var(--harmony-brand);
-          box-shadow: 0 0 0 2px rgba(116, 185, 255, 0.3);
+          box-shadow: 0 0 0 2px var(--harmony-comp-emphasize-secondary);
           transform: scale(1.02);
         }
 
         &.active:hover {
-          box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.4);
+          box-shadow: 0 0 0 3px var(--harmony-comp-emphasize-secondary);
           transform: scale(1.03);
         }
 
@@ -773,7 +773,7 @@ const handleCustomUpload = async (event: Event) => {
   max-width: 95%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--harmony-shadow-card);
 }
 
 .custom-dialog-header {
@@ -862,7 +862,7 @@ const handleCustomUpload = async (event: Event) => {
 
           &.active {
             border-color: var(--harmony-brand);
-            box-shadow: 0 0 0 2px rgba(116, 185, 255, 0.3);
+            box-shadow: 0 0 0 2px var(--harmony-comp-emphasize-secondary);
           }
 
           img {

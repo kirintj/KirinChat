@@ -74,6 +74,7 @@ class InterviewSessionDao:
         user_id: str,
         status: str = None,
         skill_id: str = None,
+        skill_ids: list[str] = None,
         keyword: str = None,
         difficulty: str = None,
         page: int = 1,
@@ -84,8 +85,7 @@ class InterviewSessionDao:
         """一次性查询 session + total_score（LEFT JOIN evaluation_report），支持筛选、排序和分页。
 
         返回 (rows, total) 其中 rows 是 (InterviewSessionTable, total_score) 元组列表。
-        注意：keyword 筛选和 skill_name 需要在 Python 层处理（因为 skill 来自文件系统），
-        此处仅做 DB 层筛选，keyword 传入时此处不做过滤，交由调用方处理。
+        skill_ids: 传入一组 skill_id 列表用于 keyword 搜索时在 DB 层筛选。
         """
         with session_getter() as session:
             # 构建基础查询：LEFT JOIN evaluation_report 获取 total_score
@@ -106,10 +106,12 @@ class InterviewSessionDao:
                 base_query = base_query.where(InterviewSessionTable.status == status)
             if skill_id:
                 base_query = base_query.where(InterviewSessionTable.skill_id == skill_id)
+            if skill_ids:
+                base_query = base_query.where(col(InterviewSessionTable.skill_id).in_(skill_ids))
             if difficulty:
                 base_query = base_query.where(InterviewSessionTable.difficulty == difficulty)
 
-            # keyword 无法在 DB 层筛选（skill_name 来自文件系统），跳过
+            # keyword 通过调用方预解析为 skill_ids 传入，此处不在 DB 层做文本匹配
 
             # 计算总数（去掉排序与分页，仅基于筛选条件）
             count_query = select(func.count()).select_from(
@@ -254,9 +256,11 @@ class InterviewQuestionDao:
         for q in questions:
             if q.session_id not in progress_map:
                 progress_map[q.session_id] = {"current": 0, "total": 0}
-            progress_map[q.session_id]["total"] += 1
-            if q.user_answer is not None:
-                progress_map[q.session_id]["current"] += 1
+            # 只统计 MAIN 类型题目的进度，FOLLOW_UP 不计入
+            if q.type == "MAIN":
+                progress_map[q.session_id]["total"] += 1
+                if q.user_answer is not None:
+                    progress_map[q.session_id]["current"] += 1
         # 确保没有 question 的 session 也有默认值
         for sid in session_ids:
             if sid not in progress_map:

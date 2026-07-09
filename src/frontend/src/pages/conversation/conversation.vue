@@ -27,7 +27,7 @@ const agentsLoading = ref(false)
 // 过滤后的会话数据
 const filteredDialogs = computed(() => {
   if (!searchKeyword.value) return dialogs.value
-  return dialogs.value.filter(dialog => 
+  return dialogs.value.filter(dialog =>
     dialog.name.toLowerCase().includes(searchKeyword.value.toLowerCase()) ||
     dialog.agent.toLowerCase().includes(searchKeyword.value.toLowerCase())
   )
@@ -36,7 +36,7 @@ const filteredDialogs = computed(() => {
 // 过滤后的智能体数据
 const filteredAgents = computed(() => {
   if (!agentSearchKeyword.value) return agents.value
-  return agents.value.filter(agent => 
+  return agents.value.filter(agent =>
     agent.name.toLowerCase().includes(agentSearchKeyword.value.toLowerCase()) ||
     agent.description.toLowerCase().includes(agentSearchKeyword.value.toLowerCase())
   )
@@ -46,7 +46,7 @@ const filteredAgents = computed(() => {
 const formatTime = (timeStr: string) => {
   try {
     if (!timeStr) return '未知时间'
-    
+
     // 处理不同的时间格式
     let date: Date
     if (typeof timeStr === 'string') {
@@ -60,16 +60,16 @@ const formatTime = (timeStr: string) => {
     } else {
       date = new Date(timeStr)
     }
-    
+
     // 检查日期是否有效
     if (isNaN(date.getTime())) {
       console.warn('无效的时间格式:', timeStr)
       return '未知时间'
     }
-    
+
     const now = new Date()
     const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60)
-    
+
     if (diffInHours < 1) return '刚刚'
     if (diffInHours < 24) return `${Math.floor(diffInHours)}小时前`
     if (diffInHours < 24 * 7) return `${Math.floor(diffInHours / 24)}天前`
@@ -126,20 +126,20 @@ const fetchDialogs = async () => {
         return processedDialog
       })
       console.log('对话列表获取成功:', dialogs.value)
-      
+
       // 如果会话列表不为空且当前路由是默认页面，立即自动打开第一个会话
       if (dialogs.value.length > 0 && router.currentRoute.value.name === 'defaultPage') {
         const firstDialog = dialogs.value[0]
         console.log('立即自动打开第一个会话:', firstDialog.dialogId, firstDialog.name)
-        
+
         // 设置选中的会话
         selectedDialog.value = firstDialog.dialogId
-        
+
         // 设置聊天store的状态
         historyChatStore.dialogId = firstDialog.dialogId
         historyChatStore.name = firstDialog.name
         historyChatStore.logo = firstDialog.logo
-        
+
         // 立即跳转到聊天页面
         router.push({
           path: '/conversation/chatPage',
@@ -181,14 +181,14 @@ const createDialog = async () => {
     HMessage.warning('请选择一个智能体')
     return
   }
-  
+
   // 支持多种ID字段查找
   const agent = agents.value.find(a => {
     const agentIdMatch = a.agent_id === selectedAgent.value || String(a.agent_id) === String(selectedAgent.value)
     const idMatch = (a as any).id === selectedAgent.value || String((a as any).id) === String(selectedAgent.value)
     return agentIdMatch || idMatch
   })
-  
+
   if (agent) {
     try {
       const dialogData: DialogCreateType = {
@@ -196,7 +196,7 @@ const createDialog = async () => {
         agent_id: (agent as any).id || agent.agent_id, // 优先使用 id 字段
         agent_type: "Agent" // 默认为普通Agent类型
       }
-      
+
       console.log('创建会话数据:', dialogData)
       console.log('发送到后端的数据:', {
         name: dialogData.name,
@@ -206,30 +206,30 @@ const createDialog = async () => {
       const response = await createDialogAPI(dialogData)
       if (response.data.status_code === 200) {
         HMessage.success('会话创建成功')
-        
+
         // 获取新创建的会话ID
         const dialogId = response.data.data.dialog_id
         console.log('获取到的 dialogId:', dialogId)
         console.log('完整的 response.data.data:', response.data.data)
-        
+
         // 重新获取对话列表
         await fetchDialogs()
         showCreateDialog.value = false
         selectedAgent.value = ''
         agentSearchKeyword.value = ''
-        
+
         // 跳转到新创建的会话页面
         if (dialogId) {
           console.log('准备跳转到会话页面，dialogId:', dialogId)
-          
+
           // 更新选中的会话状态
           selectedDialog.value = dialogId
-          
+
           // 设置聊天store的状态
           historyChatStore.dialogId = dialogId
           historyChatStore.name = dialogData.name
           historyChatStore.logo = agent.logo_url || 'https://via.placeholder.com/40x40/3b82f6/ffffff?text=AI'
-          
+
           router.push({
             path: '/conversation/chatPage',
             query: {
@@ -279,15 +279,15 @@ const selectDialog = (dialogId: string) => {
     console.error('未找到会话:', dialogId)
     return
   }
-  
+
   console.log('选择会话:', dialogId, dialog.name)
   selectedDialog.value = dialogId
-  
+
   // 设置聊天store的状态
   historyChatStore.dialogId = dialogId
   historyChatStore.name = dialog.name
   historyChatStore.logo = dialog.logo
-  
+
   // 跳转到聊天页面
   router.push({
     path: '/conversation/chatPage',
@@ -302,31 +302,31 @@ const openCreateDialog = async () => {
   showCreateDialog.value = true
   selectedAgent.value = ''
   agentSearchKeyword.value = ''
-  
+
   // 如果智能体列表为空，重新获取
   if (agents.value.length === 0) {
     await fetchAgents()
   }
-  
+
   // HMessage.info('正在打开创建会话对话框...')
 }
 
 // 选择智能体
 const selectAgent = (agentId: string) => {
   console.log('选择智能体:', agentId)
-  console.log('当前智能体列表:', agents.value.map(a => ({ 
-    agent_id: a.agent_id, 
-    id: (a as any).id, 
-    name: a.name 
+  console.log('当前智能体列表:', agents.value.map(a => ({
+    agent_id: a.agent_id,
+    id: (a as any).id,
+    name: a.name
   })))
-  
+
   // 支持多种ID字段
   const agent = agents.value.find(a => {
     const agentIdMatch = a.agent_id === agentId || String(a.agent_id) === String(agentId)
     const idMatch = (a as any).id === agentId || String((a as any).id) === String(agentId)
     return agentIdMatch || idMatch
   })
-  
+
   if (agent) {
     // 优先使用 id 字段作为选中值
     selectedAgent.value = (agent as any).id || agent.agent_id
@@ -346,7 +346,7 @@ const closeCreateDialog = () => {
 
 <template>
   <!-- Desktop -->
-  <div v-if="!isMobile" class="conversation-main">
+  <div v-if="!isMobile" class="conversation-main page">
     <!-- 左侧边栏 -->
     <div class="sidebar">
       <!-- 新建会话按钮 -->
@@ -570,15 +570,15 @@ const closeCreateDialog = () => {
 .conversation-main {
   display: flex;
   height: calc(100vh - 60px);
-  background-color: transparent;
+  background: transparent;
 
   .sidebar {
-    height: 100%;
-    width: 280px;
-    background-color: transparent;
-    border-right: 1px solid var(--harmony-comp-divider);
     display: flex;
     flex-direction: column;
+    height: 100%;
+    width: 280px;
+    background: transparent;
+    border-right: 1px solid var(--harmony-comp-divider);
     box-shadow: var(--harmony-shadow-card);
 
     .create-section {
@@ -588,23 +588,25 @@ const closeCreateDialog = () => {
       .create-btn-native {
         width: 100%;
         height: 48px;
-        border-radius: var(--harmony-corner-radius-level6);
-        font-weight: 500;
-        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: var(--harmony-brand);
         color: var(--harmony-comp-background-primary);
         border: none;
-        cursor: pointer;
+        border-radius: var(--harmony-corner-radius-level6);
         font-size: var(--harmony-font-size-body-m);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
 
         &:hover {
+          background: var(--harmony-interactive-hover);
           transform: translateY(-1px);
           box-shadow: var(--harmony-shadow-card-hover);
-          background: var(--harmony-interactive-hover);
         }
 
         &:active {
-          transform: translateY(0);
         }
 
         .btn-content {
@@ -635,22 +637,22 @@ const closeCreateDialog = () => {
           left: 12px;
           color: var(--harmony-font-tertiary);
           font-size: var(--harmony-font-size-body-m);
-          z-index: 1;
+          z-index: var(--z-dropdown);
         }
 
         .search-input {
           width: 100%;
           padding: 8px 12px 8px 36px;
+          background: var(--harmony-comp-background-secondary);
           border: 1px solid var(--harmony-comp-divider);
           border-radius: var(--harmony-corner-radius-level4);
           font-size: var(--harmony-font-size-body-m);
-          background: var(--harmony-comp-background-secondary);
           transition: all 0.2s ease;
 
           &:focus {
             border-color: var(--harmony-brand);
             background: var(--harmony-comp-background-primary);
-            box-shadow: 0 0 0 2px var(--harmony-shadow-xs);
+            box-shadow: 0 0 0 2px var(--harmony-comp-emphasize-tertiary);
           }
 
           &::placeholder {
@@ -661,10 +663,10 @@ const closeCreateDialog = () => {
     }
 
     .list-header {
-      padding: 16px 16px 8px;
       display: flex;
       align-items: center;
       gap: 4px;
+      padding: 16px 16px 8px;
 
       .title {
         font-size: var(--harmony-font-size-body-m);
@@ -683,12 +685,16 @@ const closeCreateDialog = () => {
       padding: 0 8px;
       overflow-y: auto;
 
-      .loading-state {
+      .loading-state,
+      .empty-state {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         height: 200px;
+      }
+
+      .loading-state {
         color: var(--harmony-brand);
 
         .loading-icon {
@@ -711,11 +717,6 @@ const closeCreateDialog = () => {
       }
 
       .empty-state {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 200px;
         color: var(--harmony-font-tertiary);
 
         .empty-icon {
@@ -735,25 +736,28 @@ const closeCreateDialog = () => {
       }
 
       .dialog-card {
+        position: relative;
+        min-height: 80px;
+        padding: var(--harmony-padding-level8);
+        margin-bottom: var(--harmony-padding-level4);
         background: var(--harmony-comp-background-primary);
         border: 1px solid var(--harmony-comp-divider);
         border-radius: var(--harmony-corner-radius-level8);
-        padding: var(--harmony-padding-level8);
-        margin-bottom: var(--harmony-padding-level4);
         cursor: pointer;
         transition: all 0.3s ease;
-        min-height: 80px;
-        position: relative;
 
         &:hover {
           border-color: var(--harmony-brand);
-          box-shadow: var(--harmony-shadow-card-hover);
           transform: translateY(-2px);
+          box-shadow: var(--harmony-shadow-card-hover);
+
+          .delete-btn {
+          }
         }
 
         &.active {
           border-color: var(--harmony-brand);
-          background-color: var(--harmony-comp-background-secondary);
+          background: var(--harmony-comp-background-secondary);
         }
 
         .avatar {
@@ -792,37 +796,29 @@ const closeCreateDialog = () => {
           width: 32px;
           height: 32px;
           padding: 4px;
-          background: var(--harmony-comp-background-primary);
-          border: 1px solid var(--harmony-comp-divider);
-          cursor: pointer;
-          border-radius: var(--harmony-corner-radius-level4);
-          transition: all 0.2s ease;
-          font-size: var(--harmony-font-size-body-m);
-          opacity: 0;
-          z-index: var(--z-dropdown);
           display: flex;
           align-items: center;
           justify-content: center;
+          background: var(--harmony-comp-background-primary);
+          border: 1px solid var(--harmony-comp-divider);
+          border-radius: var(--harmony-corner-radius-level4);
+          font-size: var(--harmony-font-size-body-m);
+          cursor: pointer;
           user-select: none;
           pointer-events: auto;
+          opacity: 0;
+          z-index: var(--z-dropdown);
+          transition: all 0.2s ease;
 
           &:hover {
             background: var(--harmony-comp-background-secondary);
             color: var(--harmony-brand);
             border-color: var(--harmony-brand);
-            opacity: 1;
           }
 
           &:active {
             transform: scale(0.95);
           }
-        }
-
-        &:hover .delete-btn {
-          opacity: 1 !important;
-          background: var(--harmony-comp-background-secondary) !important;
-          color: var(--harmony-brand) !important;
-          border-color: var(--harmony-brand) !important;
         }
 
         .time {
@@ -838,10 +834,8 @@ const closeCreateDialog = () => {
 
   .content {
     flex: 1;
-    background-color: transparent;
-    border-radius: 0;
+    background: transparent;
     margin: 0;
-    box-shadow: none;
     overflow: hidden;
 
     .welcome-content {
@@ -850,9 +844,9 @@ const closeCreateDialog = () => {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      height: 100%;
       text-align: center;
       color: var(--harmony-font-tertiary);
-      height: 100%;
 
       .welcome-icon {
         margin-bottom: 24px;
@@ -865,7 +859,7 @@ const closeCreateDialog = () => {
 
       h2 {
         font-size: 1.5rem;
-        margin: 0 0 12px 0;
+        margin: 0 0 12px;
         color: var(--harmony-font-primary);
       }
 
@@ -897,8 +891,8 @@ const closeCreateDialog = () => {
 
         .message {
           padding: 12px 16px;
-          border-radius: var(--harmony-corner-radius-level6);
           margin-bottom: 12px;
+          border-radius: var(--harmony-corner-radius-level6);
 
           &.system {
             background: var(--harmony-comp-background-secondary);
@@ -935,8 +929,8 @@ const closeCreateDialog = () => {
     }
 
     .empty-state {
-      text-align: center;
       padding: 40px 20px;
+      text-align: center;
       color: var(--harmony-font-tertiary);
 
       .empty-icon {
@@ -962,6 +956,7 @@ const closeCreateDialog = () => {
       overflow-y: auto;
 
       .agent-card {
+        position: relative;
         display: flex;
         align-items: center;
         gap: 12px;
@@ -970,7 +965,6 @@ const closeCreateDialog = () => {
         border-radius: var(--harmony-corner-radius-level6);
         cursor: pointer;
         transition: all 0.2s ease;
-        position: relative;
 
         &:hover {
           background: var(--harmony-comp-background-secondary);
@@ -985,9 +979,9 @@ const closeCreateDialog = () => {
         .agent-avatar {
           width: 48px;
           height: 48px;
+          flex-shrink: 0;
           border-radius: var(--harmony-corner-radius-level4);
           overflow: hidden;
-          flex-shrink: 0;
 
           img {
             width: 100%;
@@ -1000,10 +994,10 @@ const closeCreateDialog = () => {
           flex: 1;
 
           .agent-name {
+            margin-bottom: 4px;
             font-size: var(--harmony-font-size-body-m);
             font-weight: 600;
             color: var(--harmony-font-primary);
-            margin-bottom: 4px;
           }
 
           .agent-description {
@@ -1037,19 +1031,6 @@ const closeCreateDialog = () => {
   gap: 12px;
 }
 
-// 响应式设计
-@include mobile {
-  .conversation-main {
-    .sidebar {
-      width: 240px;
-    }
-
-    .content {
-      margin: 0;
-    }
-  }
-}
-
 @include mobile {
   .conversation-main {
     flex-direction: column;
@@ -1067,33 +1048,29 @@ const closeCreateDialog = () => {
   }
 }
 
-// 原生对话框样式
 .create-dialog-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--harmony-overlay-heavy);
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--harmony-overlay-heavy);
   z-index: var(--z-dialog);
   animation: harmony-fade-in 0.2s ease;
 }
 
 .create-dialog {
-  background: var(--harmony-comp-background-primary);
-  border-radius: var(--harmony-corner-radius-level12);
+  display: flex;
+  flex-direction: column;
   width: 85vw;
   max-width: 1200px;
   height: 75vh;
   max-height: 675px;
   overflow: hidden;
+  background: var(--harmony-comp-background-primary);
+  border-radius: var(--harmony-corner-radius-level12);
   box-shadow: var(--harmony-shadow-card-hover);
   animation: harmony-slide-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  display: flex;
-  flex-direction: column;
 
   .dialog-body {
     flex: 1;
@@ -1101,8 +1078,6 @@ const closeCreateDialog = () => {
     overflow-y: auto;
     background: var(--harmony-comp-background-secondary);
     border-radius: var(--harmony-corner-radius-level12) 24px 0 0;
-
-
 
     .search-section {
       margin-bottom: 28px;
@@ -1117,24 +1092,24 @@ const closeCreateDialog = () => {
           left: 18px;
           color: var(--harmony-font-tertiary);
           pointer-events: none;
-          z-index: 1;
+          z-index: var(--z-dropdown);
         }
 
         .search-input {
           width: 100%;
           padding: 16px 56px 16px 52px;
+          background: var(--harmony-comp-background-primary);
           border: 1px solid var(--harmony-comp-divider);
           border-radius: var(--harmony-corner-radius-level6);
-          font-size: var(--harmony-font-size-subtitle-s);
-          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-          background: var(--harmony-comp-background-primary);
           color: var(--harmony-font-primary);
+          font-size: var(--harmony-font-size-subtitle-s);
           font-weight: 500;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
           &:focus {
             border-color: var(--harmony-brand);
             background: var(--harmony-comp-background-primary);
-            box-shadow: 0 0 0 4px var(--harmony-shadow-xs);
+            box-shadow: 0 0 0 4px var(--harmony-comp-emphasize-tertiary);
           }
 
           &::placeholder {
@@ -1146,14 +1121,14 @@ const closeCreateDialog = () => {
         .clear-btn {
           position: absolute;
           right: 14px;
-          color: var(--harmony-font-tertiary);
-          cursor: pointer;
+          padding: 6px;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: all 0.2s ease;
-          padding: 6px;
+          color: var(--harmony-font-tertiary);
           border-radius: var(--harmony-corner-radius-level6);
+          cursor: pointer;
+          transition: all 0.2s ease;
 
           &:hover {
             color: var(--harmony-font-primary);
@@ -1182,29 +1157,32 @@ const closeCreateDialog = () => {
           .title {
             font-size: var(--harmony-font-size-subtitle-l);
             font-weight: 700;
-            color: var(--harmony-font-primary);
             letter-spacing: -0.01em;
+            color: var(--harmony-font-primary);
           }
 
           .count {
-            font-size: var(--harmony-font-size-body-m);
-            color: var(--harmony-font-secondary);
-            background: var(--harmony-comp-background-primary);
             padding: 5px 12px;
-            border-radius: var(--harmony-corner-radius-level10);
-            font-weight: 600;
             border: 1px solid var(--harmony-comp-divider);
+            border-radius: var(--harmony-corner-radius-level10);
+            background: var(--harmony-comp-background-primary);
+            font-size: var(--harmony-font-size-body-m);
+            font-weight: 600;
+            color: var(--harmony-font-secondary);
           }
         }
       }
 
-      .loading-state {
+      .loading-state,
+      .empty-state {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         padding: 80px 20px;
+      }
 
+      .loading-state {
         .loading-spinner {
           margin-bottom: 24px;
 
@@ -1216,28 +1194,22 @@ const closeCreateDialog = () => {
 
         .loading-text {
           font-size: var(--harmony-font-size-subtitle-s);
-          color: var(--harmony-font-secondary);
           font-weight: 600;
+          color: var(--harmony-font-secondary);
         }
       }
 
       .empty-state {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 80px 20px;
-
         .empty-illustration {
           margin-bottom: 24px;
           animation: float 3s ease-in-out infinite;
         }
 
         .empty-text {
-          font-size: var(--harmony-font-size-body-m);
-          color: var(--harmony-font-primary);
           margin-bottom: 10px;
+          font-size: var(--harmony-font-size-body-m);
           font-weight: 600;
+          color: var(--harmony-font-primary);
         }
 
         .empty-hint {
@@ -1251,53 +1223,42 @@ const closeCreateDialog = () => {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 20px;
         max-height: 450px;
-        overflow-y: auto;
         padding: 6px;
+        overflow-y: auto;
 
         .agent-card {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          aspect-ratio: 1;
+          overflow: hidden;
+          background: var(--harmony-comp-background-primary);
           border: 1px solid var(--harmony-comp-divider);
           border-radius: var(--harmony-corner-radius-level8);
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          background: var(--harmony-comp-background-primary);
-          overflow: hidden;
-          aspect-ratio: 1;
-          display: flex;
-          flex-direction: column;
 
           &::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             background: var(--harmony-comp-background-secondary);
             opacity: 0;
             transition: opacity 0.3s ease;
           }
 
-          &:hover {
+          &:hover,
+          &.active {
             border-color: var(--harmony-brand);
+            background: var(--harmony-comp-background-secondary);
             transform: translateY(-6px) scale(1.02);
             box-shadow: var(--harmony-shadow-card-hover);
 
             &::before {
-              opacity: 1;
             }
           }
 
           &.active {
-            border-color: var(--harmony-brand);
-            background: var(--harmony-comp-background-secondary);
-            box-shadow: var(--harmony-shadow-card-hover);
-            transform: translateY(-6px) scale(1.02);
-
-            &::before {
-              opacity: 1;
-            }
-
             .agent-avatar {
               border-color: var(--harmony-brand);
               box-shadow: var(--harmony-shadow-card-hover);
@@ -1309,27 +1270,27 @@ const closeCreateDialog = () => {
           }
 
           .card-inner {
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 24px 18px;
             height: 100%;
+            padding: 24px 18px;
             text-align: center;
-            position: relative;
-            z-index: 1;
+            z-index: var(--z-dropdown);
           }
 
           .agent-avatar {
+            position: relative;
             width: 80px;
             height: 80px;
-            border-radius: var(--harmony-corner-radius-level8);
-            overflow: hidden;
-            flex-shrink: 0;
-            border: 2px solid var(--harmony-comp-divider);
-            transition: all 0.3s ease;
-            position: relative;
             margin-bottom: 14px;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 2px solid var(--harmony-comp-divider);
+            border-radius: var(--harmony-corner-radius-level8);
             box-shadow: var(--harmony-shadow-card);
+            transition: all 0.3s ease;
 
             img {
               width: 100%;
@@ -1339,17 +1300,17 @@ const closeCreateDialog = () => {
 
             .avatar-badge {
               position: absolute;
-              bottom: -8px;
               right: -8px;
+              bottom: -8px;
               width: 32px;
               height: 32px;
-              background: var(--harmony-comp-background-primary);
-              border-radius: 50%;
               display: flex;
               align-items: center;
               justify-content: center;
-              box-shadow: var(--harmony-shadow-card);
+              background: var(--harmony-comp-background-primary);
               border: 2px solid var(--harmony-brand);
+              border-radius: 50%;
+              box-shadow: var(--harmony-shadow-card);
               animation: harmony-scale-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
           }
@@ -1362,28 +1323,28 @@ const closeCreateDialog = () => {
             width: 100%;
 
             .agent-name {
+              margin-bottom: 8px;
               font-size: var(--harmony-font-size-body-m);
               font-weight: 700;
-              color: var(--harmony-font-primary);
-              margin-bottom: 8px;
+              line-height: 1.3;
               letter-spacing: -0.01em;
+              color: var(--harmony-font-primary);
+              text-align: center;
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
-              line-height: 1.3;
-              text-align: center;
             }
 
             .agent-description {
               font-size: var(--harmony-font-size-subtitle-s);
-              color: var(--harmony-font-secondary);
+              font-weight: 500;
               line-height: 1.5;
+              color: var(--harmony-font-secondary);
+              text-align: left;
               display: -webkit-box;
               -webkit-line-clamp: 2;
               -webkit-box-orient: vertical;
               overflow: hidden;
-              font-weight: 500;
-              text-align: left;
             }
           }
         }
@@ -1404,13 +1365,13 @@ const closeCreateDialog = () => {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex: 1;
       font-size: var(--harmony-font-size-body-m);
       color: var(--harmony-font-secondary);
-      flex: 1;
 
       .info-icon {
-        color: var(--harmony-font-tertiary);
         flex-shrink: 0;
+        color: var(--harmony-font-tertiary);
       }
 
       span {
@@ -1426,19 +1387,23 @@ const closeCreateDialog = () => {
       gap: 14px;
     }
 
-    .btn-cancel {
+    .btn-cancel,
+    .btn-confirm {
       padding: 10px 18px;
-      background: var(--harmony-comp-background-secondary);
-      color: var(--harmony-font-primary);
-      border: none;
-      border-radius: var(--harmony-corner-radius-level6);
-      cursor: pointer;
-      font-size: var(--harmony-font-size-subtitle-s);
-      font-weight: 600;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       align-items: center;
+      border: none;
+      border-radius: var(--harmony-corner-radius-level6);
+      font-size: var(--harmony-font-size-subtitle-s);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-cancel {
       gap: 8px;
+      background: var(--harmony-comp-background-secondary);
+      color: var(--harmony-font-primary);
 
       &:hover {
         background: var(--harmony-comp-divider);
@@ -1447,23 +1412,13 @@ const closeCreateDialog = () => {
       }
 
       &:active {
-        transform: translateY(0);
       }
     }
 
     .btn-confirm {
-      padding: 10px 18px;
-      border: none;
-      border-radius: var(--harmony-corner-radius-level6);
+      gap: 10px;
       background: var(--harmony-brand);
       color: var(--harmony-comp-background-primary);
-      cursor: pointer;
-      font-size: var(--harmony-font-size-subtitle-s);
-      font-weight: 600;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      align-items: center;
-      gap: 10px;
       box-shadow: var(--harmony-shadow-card);
 
       svg {
@@ -1471,9 +1426,9 @@ const closeCreateDialog = () => {
       }
 
       &:hover:not(:disabled) {
+        background: var(--harmony-interactive-hover);
         transform: translateY(-2px);
         box-shadow: var(--harmony-shadow-card-hover);
-        background: var(--harmony-interactive-hover);
 
         svg {
           transform: rotate(90deg);
@@ -1481,36 +1436,22 @@ const closeCreateDialog = () => {
       }
 
       &:active:not(:disabled) {
-        transform: translateY(0);
       }
 
       &:disabled {
         background: var(--harmony-font-tertiary);
         cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
         opacity: 0.6;
       }
     }
   }
 }
 
-// 动画
-
-
-
-
-
-
-
-
 @keyframes float {
   0%, 100% {
-}
-    transform: translateY(0);
   }
+}
 
-/* ==================== MOBILE: hmos mobile-list ==================== */
 .conv-mobile {
   display: flex;
   flex-direction: column;
@@ -1575,10 +1516,10 @@ const closeCreateDialog = () => {
   &__avatar {
     width: var(--harmony-control-height-40, 40px);
     height: var(--harmony-control-height-40, 40px);
+    flex-shrink: 0;
     border-radius: var(--harmony-corner-radius-level6, 12px);
     overflow: hidden;
     background: var(--harmony-comp-background-secondary);
-    flex-shrink: 0;
 
     img {
       width: 100%;
@@ -1593,24 +1534,25 @@ const closeCreateDialog = () => {
   }
 
   &__name {
+    margin: 0 0 var(--harmony-padding-level1, 2px);
     font-size: var(--harmony-font-size-body-m);
     font-weight: 600;
     color: var(--harmony-font-primary);
-    margin: 0 0 var(--harmony-padding-level1, 2px) 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   &__time {
+    margin: 0;
     font-size: var(--harmony-font-size-body-s);
     color: var(--harmony-font-tertiary);
-    margin: 0;
   }
 
   &__delete {
     width: var(--harmony-control-height-36, 36px);
     height: var(--harmony-control-height-36, 36px);
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1620,7 +1562,6 @@ const closeCreateDialog = () => {
     color: var(--harmony-font-tertiary);
     font-size: var(--harmony-font-size-title-s, 20px);
     cursor: pointer;
-    flex-shrink: 0;
 
     &:active {
       background: var(--harmony-interactive-pressed);
@@ -1636,10 +1577,10 @@ const closeCreateDialog = () => {
 
   &__back {
     padding: var(--harmony-padding-level4, 8px) 0;
+    flex-shrink: 0;
     font-size: var(--harmony-font-size-body-m);
     color: var(--harmony-brand);
     cursor: pointer;
-    flex-shrink: 0;
   }
 
   &__content {

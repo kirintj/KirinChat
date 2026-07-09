@@ -250,7 +250,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="knowledge-page" v-if="!isMobile">
+  <div class="knowledge-page page" v-if="!isMobile">
     <div class="page-header">
       <div class="header-title">
         <h2>知识库管理</h2>
@@ -690,7 +690,7 @@ onMounted(() => {
     background: var(--harmony-comp-background-primary);
     padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
     border-radius: var(--harmony-corner-radius-level8);
-    box-shadow: 0 6px 24px var(--harmony-shadow-sm);
+    box-shadow: var(--harmony-shadow-lg);
 
     .header-title {
       display: flex;
@@ -727,7 +727,7 @@ onMounted(() => {
   .knowledge-container {
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8);
-    box-shadow: 0 6px 24px var(--harmony-shadow-sm);
+    box-shadow: var(--harmony-shadow-lg);
     overflow: hidden;
     
     .list-header {
@@ -768,7 +768,7 @@ onMounted(() => {
         
         &:hover {
           background: var(--harmony-interactive-hover);
-          box-shadow: 0 2px 8px var(--harmony-shadow-sm);
+          box-shadow: var(--harmony-shadow-sm);
         }
         
         &:last-child {
@@ -872,7 +872,7 @@ onMounted(() => {
             
             &:hover {
               transform: translateY(-2px);
-              box-shadow: 0 4px 8px var(--harmony-shadow-md);
+              box-shadow: var(--harmony-shadow-md);
             }
             
             &.view-btn:hover {
@@ -907,7 +907,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: var(--z-dropdown);
   border-radius: inherit;
 }
 
@@ -938,7 +938,7 @@ onMounted(() => {
 .dialog-container {
   background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level6);
-  box-shadow: 0 10px 30px var(--harmony-shadow-dialog);
+  box-shadow: var(--harmony-shadow-dialog);
   width: 500px;
   max-width: 90vw;
   max-height: 80vh;
@@ -1055,11 +1055,6 @@ onMounted(() => {
 .input-with-count, .textarea-with-count {
   position: relative;
   
-  input.error, textarea.error {
-    border-color: var(--harmony-warning) !important;
-    box-shadow: 0 0 0 2px var(--harmony-warning-bg);
-  }
-  
   .char-count {
     position: absolute;
     font-size: var(--harmony-font-size-caption-l);
@@ -1085,7 +1080,7 @@ onMounted(() => {
 .textarea-with-count .char-count {
   right: 8px;
   bottom: 8px;
-  box-shadow: 0 1px 3px var(--harmony-shadow-md);
+  box-shadow: var(--harmony-shadow-xs);
 }
 
 /* 空状态样式 */
@@ -1312,7 +1307,7 @@ onMounted(() => {
   }
 
   &--danger:active {
-    background: rgba(232, 64, 38, 0.1);
+    background: color-mix(in srgb, var(--harmony-warning) 10%, transparent);
   }
 }
 

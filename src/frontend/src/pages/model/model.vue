@@ -341,7 +341,7 @@ onMounted(() => {
 
 <template>
   <!-- Desktop -->
-  <div v-if="!isMobile" class="model-page">
+  <div v-if="!isMobile" class="model-page page">
     <!-- 页面头部 -->
     <div class="page-header">
       <div class="header-title">
@@ -625,7 +625,7 @@ onMounted(() => {
     -webkit-backdrop-filter: blur(60px);
     padding: var(--harmony-padding-level16) var(--harmony-padding-level16);
     border-radius: var(--harmony-corner-radius-level8);
-    box-shadow: 0 6px 24px var(--harmony-shadow-sm);
+    box-shadow: var(--harmony-shadow-lg);
     
     .header-title {
       display: flex;
@@ -695,7 +695,7 @@ onMounted(() => {
     background: var(--harmony-comp-background-primary);
     border-radius: var(--harmony-corner-radius-level8);
     overflow: hidden;
-    box-shadow: 0 4px 6px -1px var(--harmony-shadow-xs);
+    box-shadow: var(--harmony-shadow-sm);
     min-height: 300px;
 
     // 列表头部
@@ -959,7 +959,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: var(--z-dropdown);
   border-radius: inherit;
 }
 
@@ -1113,10 +1113,6 @@ onMounted(() => {
   align-items: center;
 }
 
-.api-key-input {
-  padding-right: 44px !important;
-}
-
 .toggle-password {
   position: absolute;
   right: 14px;
@@ -1222,7 +1218,7 @@ onMounted(() => {
   background: var(--harmony-comp-divider);
   color: var(--harmony-font-secondary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px var(--harmony-shadow-md);
+  box-shadow: var(--harmony-shadow-lg);
 }
 
 .confirm-btn {
@@ -1235,7 +1231,7 @@ onMounted(() => {
   background: var(--harmony-comp-divider);
   color: var(--harmony-font-secondary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px var(--harmony-shadow-md);
+  box-shadow: var(--harmony-shadow-lg);
 }
 
 .confirm-btn.disabled {
@@ -1295,7 +1291,7 @@ onMounted(() => {
   transform: translate(-50%, -50%);
   background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level8);
-  box-shadow: 0 8px 32px var(--harmony-shadow-md);
+  box-shadow: var(--harmony-shadow-lg);
   width: 90%;
   max-width: 400px;
   overflow: hidden;

@@ -176,14 +176,14 @@ watch(open, (val) => {
 }
 .h-select--disabled .h-select__trigger { opacity: 0.5; cursor: not-allowed; }
 .h-select__value {
-  position: relative; z-index: 1;
+  position: relative; z-index: var(--z-dropdown);
   flex: 1; font-size: var(--harmony-font-size-body-m);
   color: var(--harmony-font-primary);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .h-select__placeholder { color: var(--harmony-font-tertiary); }
 .h-select__arrow, .h-select__clear {
-  position: relative; z-index: 1;
+  position: relative; z-index: var(--z-dropdown);
   color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-body-s);
 }
 .h-select__clear:hover { color: var(--harmony-font-primary); }

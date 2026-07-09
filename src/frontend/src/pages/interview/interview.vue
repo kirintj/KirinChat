@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
-import { HMessage } from '@/components/ui'
+import { HMessage, HMessageBox } from '@/components/ui'
 import { getInterviewHistoryAPI, deleteInterviewSessionAPI } from '../../apis/interview'
 import type { InterviewSession } from '../../apis/interview'
 import { useInterviewStore } from '../../store/interview'
@@ -60,11 +60,21 @@ const fetchHistory = async () => {
 
 const startNewInterview = () => {
   interviewStore.reset()
-  router.push('/interview')
+  router.push('/interview/text')
 }
 
 const deleteSession = async (sessionId: string, event: Event) => {
   event.stopPropagation()
+  // 【问题18】增加确认弹窗，与历史页面删除行为统一
+  try {
+    await HMessageBox.confirm('确定要删除这条面试记录吗？此操作不可撤销。', '确认删除', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    })
+  } catch {
+    return
+  }
   try {
     const res = await deleteInterviewSessionAPI(sessionId)
     if (res.data.status_code === 200) {
@@ -98,7 +108,7 @@ onMounted(() => {
 
 <template>
   <!-- Desktop: sidebar + content layout -->
-  <div v-if="!isMobile" class="interview-container">
+  <div v-if="!isMobile" class="interview-container page">
     <div class="sidebar">
       <div class="hub-nav">
         <!-- 面试中心导航按钮，点击跳转到面试中心仪表盘页面 -->
@@ -135,7 +145,7 @@ onMounted(() => {
         >
           <div class="session-icon"><Icon icon="mdi:file-document" :width="16" :height="16" /></div>
           <div class="session-info">
-            <div class="session-title">{{ session.skill_id }}</div>
+            <div class="session-title">{{ session.skill_name || session.skill_id }}</div>
             <div class="session-meta">
               <span :class="['status-tag', statusClass(session.status)]">
                 {{ statusLabel(session.status) }}
@@ -173,7 +183,11 @@ onMounted(() => {
         <div class="im-item__icon"><Icon icon="mdi:clipboard-text" :width="20" :height="20" /></div>
         <div class="im-item__content">
           <h3 class="im-item__name">{{ session.skill_name || session.skill_id || '面试会话' }}</h3>
-          <p class="im-item__time">{{ formatTime(session.create_time || '') }}</p>
+          <div class="im-item__meta">
+            <span :class="['im-item__status', statusClass(session.status)]">{{ statusLabel(session.status) }}</span>
+            <span class="im-item__progress">{{ session.progress?.current || 0 }}/{{ session.progress?.total || 0 }}</span>
+            <span class="im-item__time">{{ formatTime(session.create_time || '') }}</span>
+          </div>
         </div>
         <button class="im-item__delete" @click.stop="deleteSession(session.id, $event)"><Icon icon="mdi:close" :width="18" :height="18" /></button>
       </div>
@@ -215,7 +229,7 @@ onMounted(() => {
     padding: 10px 14px;
     border: 1px solid var(--harmony-comp-divider);
     border-radius: var(--harmony-corner-radius-level4);
-    background: var(--harmony-comp-background-tertiary);
+    background: var(--harmony-comp-background-primary);
     color: var(--harmony-font-primary);
     cursor: pointer;
     font-size: var(--harmony-font-size-body-m);
@@ -487,6 +501,38 @@ onMounted(() => {
     font-size: var(--harmony-font-size-body-s);
     color: var(--harmony-font-tertiary);
     margin: 0;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__status {
+    font-size: var(--harmony-font-size-caption-l);
+    padding: 1px 6px;
+    border-radius: var(--harmony-corner-radius-level2);
+
+    &.status-done {
+      background: var(--harmony-confirm-bg);
+      color: var(--harmony-confirm);
+    }
+
+    &.status-active {
+      background: var(--harmony-comp-emphasize-tertiary);
+      color: var(--harmony-brand);
+    }
+
+    &.status-default {
+      background: var(--harmony-comp-background-secondary);
+      color: var(--harmony-font-tertiary);
+    }
+  }
+
+  &__progress {
+    font-size: var(--harmony-font-size-body-s);
+    color: var(--harmony-font-tertiary);
   }
 
   &__delete {

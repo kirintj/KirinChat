@@ -130,7 +130,7 @@ const goToRegister = () => {
    - .actions / .switch-link / .footer：辅助文字与链接
    - 输入框的边框/背景/hover/focus 全部由 HInput 组件自身负责，这里不二次覆盖
 */
-$brand-shadow: rgba(10, 89, 247, 0.18);
+$brand-shadow: var(--harmony-comp-emphasize-secondary);
 
 .auth-page {
   width: 100%;
@@ -263,7 +263,7 @@ $brand-shadow: rgba(10, 89, 247, 0.18);
 
     &:hover {
       box-shadow: 0 6px 16px $brand-shadow;
-      border-color: rgba(10, 89, 247, 0.4);
+      border-color: color-mix(in srgb, var(--harmony-brand) 40%, transparent);
     }
 
     img { width: 16px; height: 16px; object-fit: contain; }

@@ -47,7 +47,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="agent-card">
+  <div class="agent-card page">
     <div class="create" @click="openDialog('create')">
       <div class="content">
         <div class="top">
@@ -92,7 +92,7 @@ onMounted(async () => {
     background: linear-gradient(135deg, var(--harmony-brand), var(--harmony-brand));
     border-radius: var(--harmony-corner-radius-level10);
     border: 2px solid transparent;
-    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 8px 32px var(--harmony-comp-emphasize-secondary);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
@@ -130,7 +130,7 @@ onMounted(async () => {
         justify-content: center;
         height: 100%;
         position: relative;
-        z-index: 1;
+        z-index: var(--z-dropdown);
 
         .top {
           display: flex;
@@ -158,7 +158,7 @@ onMounted(async () => {
           font-size: var(--harmony-font-size-body-m);
           font-weight: 400;
           line-height: 1.5;
-          color: rgba(255, 255, 255, 0.9);
+          color: var(--harmony-font-on-primary);
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
           font-family: var(--harmony-font-family);
         }

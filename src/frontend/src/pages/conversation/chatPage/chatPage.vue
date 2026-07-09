@@ -621,17 +621,17 @@ watch(
   
   &.START {
     border-left: 4px solid var(--harmony-brand);
-    background: rgba(64, 158, 255, 0.06);
+    background: var(--harmony-comp-emphasize-tertiary);
   }
 
   &.END {
     border-left: 4px solid var(--harmony-confirm);
-    background: rgba(103, 194, 58, 0.06);
+    background: color-mix(in srgb, var(--harmony-confirm) 6%, transparent);
   }
 
   &.ERROR {
     border-left: 4px solid var(--harmony-warning);
-    background: rgba(245, 108, 108, 0.06);
+    background: color-mix(in srgb, var(--harmony-warning) 6%, transparent);
   }
   
   &:hover {
@@ -658,17 +658,17 @@ watch(
   background: var(--harmony-comp-background-secondary);
 
   .START & {
-    background: rgba(64, 158, 255, 0.1);
+    background: var(--harmony-comp-emphasize-tertiary);
     color: var(--harmony-brand);
   }
 
   .END & {
-    background: rgba(103, 194, 58, 0.1);
+    background: color-mix(in srgb, var(--harmony-confirm) 10%, transparent);
     color: var(--harmony-confirm);
   }
 
   .ERROR & {
-    background: rgba(245, 108, 108, 0.1);
+    background: color-mix(in srgb, var(--harmony-warning) 10%, transparent);
     color: var(--harmony-warning);
   }
 }
@@ -687,7 +687,7 @@ watch(
   margin-top: 8px;
   color: var(--harmony-font-primary);
   padding: 8px;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--harmony-comp-background-primary);
   border-radius: var(--harmony-corner-radius-level2);
   font-size: var(--harmony-font-size-body-m);
   line-height: 1.5;
@@ -776,20 +776,20 @@ watch(
     border: 1px solid var(--harmony-comp-divider);
     border-radius: var(--harmony-corner-radius-level8);
     font-size: var(--harmony-font-size-body-s);
-    z-index: 10;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    z-index: var(--z-dropdown);
+    box-shadow: var(--harmony-shadow-xs);
 
     .file-avatar {
       width: 22px;
       height: 22px;
       border-radius: var(--harmony-corner-radius-level3);
       overflow: hidden;
-      background: rgba(64, 158, 255, 0.1);
+      background: var(--harmony-comp-emphasize-tertiary);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      border: 1px solid rgba(64, 158, 255, 0.2);
+      border: 1px solid var(--harmony-comp-emphasize-secondary);
       img {
         width: 100%;
         height: 100%;
@@ -817,7 +817,7 @@ watch(
       margin-left: 4px;
 
       &:hover {
-        background-color: rgba(245, 108, 108, 0.1);
+        background-color: color-mix(in srgb, var(--harmony-warning) 10%, transparent);
       }
     }
   }
@@ -858,11 +858,6 @@ watch(
       }
     }
   }
-}
-
-// Override MdPreview background
-:deep(.md-editor-preview-wrapper) {
-    background-color: transparent !important;
 }
 
 /* ==================== MOBILE ==================== */

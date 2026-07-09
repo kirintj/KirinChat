@@ -43,11 +43,15 @@
   --harmony-control-height-64: 4rem;
   --harmony-control-height-72: 4.5rem;
 
-  --harmony-page-canvas-width-mobile: 360px;
-  --harmony-page-padding-mobile: var(--harmony-padding-level8);
+  /*
+   * 移动端页面尺寸变量
+   * 使用响应式百分比而非固定像素，适配 320px ~ 500px 的各种手机屏幕
+   */
+  --harmony-page-canvas-width-mobile: min(100vw, 500px);
+  --harmony-page-padding-mobile: 12px;
   --harmony-page-padding-mobile-top: 2.25rem;
   --harmony-page-padding-mobile-bottom: 1.75rem;
-  --harmony-page-content-width-mobile: 328px;
+  --harmony-page-content-width-mobile: calc(min(100vw, 500px) - 2 * var(--harmony-page-padding-mobile));
   --harmony-card-gap-mobile: var(--harmony-padding-level6);
   --harmony-section-gap-mobile: var(--harmony-padding-level8);
   --harmony-section-gap-tight-mobile: var(--harmony-padding-level4);

@@ -29,7 +29,6 @@ const close = () => emit('update:modelValue', false)
 .h-drawer-overlay {
   position: fixed;
   inset: 0;
-  background: var(--harmony-comp-background-secondary);
   z-index: var(--z-dialog);
 }
 
@@ -37,7 +36,6 @@ const close = () => emit('update:modelValue', false)
   position: fixed;
   top: 0;
   bottom: 0;
-  background: var(--harmony-comp-background-secondary);
   backdrop-filter: blur(20px) saturate(1.2);
   box-shadow: var(--harmony-shadow-dialog);
   display: flex;

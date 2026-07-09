@@ -13,13 +13,12 @@ import {
 
 const router = useRouter()
 
-// 状态 Tab
+// 状态 Tab（【问题10】移除 EVALUATED，与后端数据库定义一致：CREATED/IN_PROGRESS/COMPLETED）
 const activeTab = ref('')
 const tabs = [
   { label: '全部', value: '' },
   { label: '进行中', value: 'IN_PROGRESS' },
   { label: '已完成', value: 'COMPLETED' },
-  { label: '已评估', value: 'EVALUATED' },
 ]
 
 // 筛选条件
@@ -286,7 +285,7 @@ onMounted(() => {
             </span>
           </div>
           <div class="session-meta">
-            <span class="status-text">{{ s.status === 'IN_PROGRESS' ? '进行中' : s.status === 'COMPLETED' ? '已完成' : '已评估' }}</span>
+            <span class="status-text">{{ s.status === 'IN_PROGRESS' ? '进行中' : s.status === 'COMPLETED' ? '已完成' : s.status }}</span>
             <span class="time-text">{{ formatTime(s.create_time) }}</span>
           </div>
         </div>
@@ -304,7 +303,7 @@ onMounted(() => {
               继续
             </HButton>
             <HButton
-              v-if="s.status === 'COMPLETED' || s.status === 'EVALUATED'"
+              v-if="s.status === 'COMPLETED'"
               type="primary"
               size="small"
               @click="viewReport(s.id)"
@@ -596,10 +595,6 @@ onMounted(() => {
     display: flex;
     gap: 8px;
     align-items: center;
-
-    .delete-btn {
-      color: var(--harmony-warning) !important;
-    }
   }
 }
 
