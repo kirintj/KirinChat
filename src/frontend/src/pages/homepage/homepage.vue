@@ -278,7 +278,6 @@ const handleExampleClick = (_: any, index: number) => {
     align-items: flex-end;
     gap: var(--harmony-padding-level4, 8px);
     background: var(--harmony-comp-background-primary);
-    border: 1px solid var(--harmony-comp-divider);
     border-radius: var(--harmony-corner-radius-level8, 16px);
     padding: var(--harmony-padding-level6, 12px);
     transition: border-color 0.15s ease;
@@ -354,7 +353,6 @@ const handleExampleClick = (_: any, index: number) => {
   gap: var(--harmony-padding-level4, 8px);
   padding: var(--harmony-padding-level8, 16px);
   background: var(--harmony-comp-background-primary);
-  border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level8, 16px);
   cursor: pointer;
   transition: background 0.15s ease;

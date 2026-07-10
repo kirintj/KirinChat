@@ -368,6 +368,7 @@ onMounted(() => {
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
+  padding: 20px 24px;
 }
 
 /* ===== 页面头部 ===== */
