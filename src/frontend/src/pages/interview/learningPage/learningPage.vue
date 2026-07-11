@@ -134,15 +134,17 @@ onMounted(fetchPath)
 
 <style scoped>
 .learning-page {
-  padding: 24px;
+  padding: clamp(16px, 2vw, 24px);
   max-width: 900px;
   margin: 0 auto;
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .learning-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 16px;
   margin-bottom: 24px;

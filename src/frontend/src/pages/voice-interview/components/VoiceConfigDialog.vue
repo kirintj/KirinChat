@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { HDialog, HButton, HSelect, HOption } from '@/components/ui'
-import { getSkillListAPI } from '../../../apis/interview'
+import { useInterviewStore } from '../../../store/interview'
 
 const visible = defineModel<boolean>('visible', { default: false })
 
@@ -17,13 +17,14 @@ export interface VoiceConfig {
   phases: Record<string, boolean>
 }
 
+const interviewStore = useInterviewStore()
 const skillId = ref('')
 const difficulty = ref('medium')
 const resumeId = ref('')
 const duration = ref(30)
 const phases = ref({ intro: true, tech: true, project: true, hr: true })
 
-const skills = ref<any[]>([])
+const skills = computed(() => interviewStore.skills)
 
 const difficulties = [
   { label: '简单', value: 'easy' },
@@ -38,11 +39,8 @@ const phaseOptions = [
   { key: 'hr', label: 'HR面试' },
 ]
 
-onMounted(async () => {
-  try {
-    const skillRes = await getSkillListAPI()
-    if (skillRes.data?.status_code === 200) skills.value = skillRes.data.data?.skills || []
-  } catch {}
+onMounted(() => {
+  interviewStore.fetchSkills()
 })
 
 function handleConfirm() {

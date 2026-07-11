@@ -15,6 +15,7 @@
     "@microsoft/fetch-event-source": "^2.0.1",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.8",
+    "dompurify": "^3.4.11",
     "echarts": "^6.0.0",
     "lodash": "^4.17.21",
     "marked": "^16.4.0",
@@ -28,6 +29,7 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@types/dompurify": "^3.0.5",
     "@types/lodash": "^4.17.0",
     "@types/node": "^20.12.0",
     "@vitejs/plugin-vue": "^5.0.4",

@@ -259,6 +259,20 @@ export function getEvaluationBySessionAPI(sessionId: string) {
   })
 }
 
+/** 评估状态响应 */
+export interface EvaluationStatusData {
+  status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED'
+  evaluation_id: string | null
+}
+
+/** 获取评估状态（PENDING / PROCESSING / COMPLETED） */
+export function getEvaluationStatusAPI(sessionId: string) {
+  return request<UnifiedResponse<EvaluationStatusData>>({
+    url: `/api/v1/interview/evaluation/status/${sessionId}`,
+    method: 'GET'
+  })
+}
+
 /** Query parameters for interview history */
 export interface HistoryQueryParams {
   status?: string

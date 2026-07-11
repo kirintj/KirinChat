@@ -68,7 +68,7 @@ function goBack() {
 </template>
 
 <style scoped lang="scss">
-.jd-page { padding: 24px; }
+.jd-page { padding: clamp(16px, 2vw, 24px); overflow-x: hidden; }
 .page-header {
   display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
   h2 { margin: 0; font-size: var(--harmony-font-size-title-s); }
@@ -90,7 +90,7 @@ function goBack() {
   h3 { margin: 0 0 16px; }
 }
 .result-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 20px;
   .result-item {
     label { display: block; font-size: var(--harmony-font-size-body-s); color: var(--harmony-font-tertiary); margin-bottom: 4px; }
     span { font-size: var(--harmony-font-size-body-l); font-weight: 500; }

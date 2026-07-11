@@ -14,7 +14,26 @@ const bgColors: Record<MessageType, string> = {
   info: 'var(--color-primary)',
 }
 
+// 错误提示去重：相同 type+message 在 DEDUP_WINDOW 内只显示一次
+const DEDUP_WINDOW = 3000
+const recentMessages = new Map<string, number>()
+
 function showMessage(type: MessageType, message: string, duration = 3000) {
+  // 去重检查：相同消息在时间窗口内不重复弹出
+  const dedupKey = `${type}:${message}`
+  const now = Date.now()
+  const lastShown = recentMessages.get(dedupKey)
+  if (lastShown && now - lastShown < DEDUP_WINDOW) {
+    return
+  }
+  recentMessages.set(dedupKey, now)
+
+  // 清理过期条目，避免 Map 无限增长
+  if (recentMessages.size > 50) {
+    for (const [key, ts] of recentMessages) {
+      if (now - ts > DEDUP_WINDOW) recentMessages.delete(key)
+    }
+  }
   const el = document.createElement('div')
   el.className = 'h-message'
   el.innerHTML = `

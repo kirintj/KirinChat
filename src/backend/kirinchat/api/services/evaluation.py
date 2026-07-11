@@ -85,7 +85,7 @@ class EvaluationService:
                 detail = EvaluationQuestionDetailTable(
                     evaluation_id=report.id,
                     question_id=qid,
-                    score=int(float(score)),
+                    score=max(0, min(100, int(float(score)))),
                     feedback=qs.get("feedback", ""),
                     reference_answer=qs.get("reference_answer", ""),
                 )
@@ -239,10 +239,12 @@ class EvaluationService:
                 if cat not in merged_categories:
                     merged_categories[cat] = 0.0
                     category_counts[cat] = 0
-                merged_categories[cat] += float(score)
+                merged_categories[cat] += cls._to_hundred(float(score))
                 category_counts[cat] += 1
 
-            all_question_scores.extend(result.get("question_scores", []))
+            for qs in result.get("question_scores", []):
+                qs["score"] = cls._to_hundred(float(qs.get("score", 0)))
+                all_question_scores.append(qs)
             all_strengths.extend(result.get("strengths", []))
             all_improvements.extend(result.get("improvements", []))
 
@@ -265,6 +267,11 @@ class EvaluationService:
             "strengths": all_strengths,
             "improvements": all_improvements,
         }
+
+    @staticmethod
+    def _to_hundred(score: float) -> float:
+        """将 LLM 返回的 0-10 分制转换为 0-100 分制并钳制到有效范围。"""
+        return max(0.0, min(100.0, round(score * 10, 1)))
 
     @classmethod
     def _question_to_dict(cls, q):

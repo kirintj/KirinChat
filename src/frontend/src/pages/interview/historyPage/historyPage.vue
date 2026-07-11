@@ -3,15 +3,15 @@ import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { HButton, HMessage, HMessageBox } from '@/components/ui'
 import {
-  getInterviewHistoryAPI,
-  getSkillListAPI,
   deleteInterviewSessionAPI,
   type InterviewSession,
   type SkillInfo,
   type HistoryQueryParams,
 } from '../../../apis/interview'
+import { useInterviewStore } from '../../../store/interview'
 
 const router = useRouter()
+const interviewStore = useInterviewStore()
 
 // 状态 Tab（【问题10】移除 EVALUATED，与后端数据库定义一致：CREATED/IN_PROGRESS/COMPLETED）
 const activeTab = ref('')
@@ -35,7 +35,7 @@ const total = ref(0)
 
 // 数据
 const sessions = ref<InterviewSession[]>([])
-const skills = ref<SkillInfo[]>([])
+const skills = computed<SkillInfo[]>(() => interviewStore.skills)
 const loading = ref(false)
 
 // 难度选项
@@ -71,7 +71,7 @@ const pageNumbers = computed(() => {
   return pages
 })
 
-// 获取历史列表
+// 获取历史列表（带筛选参数，走实时查询不走缓存）
 const fetchHistory = async () => {
   loading.value = true
   try {
@@ -86,26 +86,14 @@ const fetchHistory = async () => {
     if (selectedDifficulty.value) params.difficulty = selectedDifficulty.value
     if (keyword.value.trim()) params.keyword = keyword.value.trim()
 
-    const res = await getInterviewHistoryAPI(params)
-    if (res.data.status_code === 200 && res.data.data) {
-      sessions.value = res.data.data.sessions || []
-      total.value = res.data.data.total || 0
-    }
+    const result = await interviewStore.queryHistory(params)
+    sessions.value = result.sessions
+    total.value = result.total
   } catch {
-    HMessage.error('加载面试历史失败')
+    HMessage.error('加载面试历史失败，请检查网络或后端服务')
   } finally {
     loading.value = false
   }
-}
-
-// 获取技能列表（用于筛选下拉）
-const fetchSkills = async () => {
-  try {
-    const res = await getSkillListAPI()
-    if (res.data.status_code === 200 && res.data.data) {
-      skills.value = res.data.data.skills || []
-    }
-  } catch { /* ignore */ }
 }
 
 // 切换状态 Tab
@@ -203,7 +191,7 @@ onBeforeUnmount(() => {
 })
 
 onMounted(() => {
-  fetchSkills()
+  interviewStore.fetchSkills()
   fetchHistory()
 })
 </script>
@@ -350,13 +338,14 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   background: var(--harmony-comp-background-primary);
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
 .page-header {
   display: flex;
   align-items: center;
-  padding: 16px 24px;
+  padding: 16px clamp(12px, 2vw, 24px);
   border-bottom: 1px solid var(--harmony-comp-divider);
   flex-shrink: 0;
 
@@ -395,8 +384,9 @@ onMounted(() => {
 
 .filter-bar {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
-  padding: 12px 24px;
+  padding: 12px clamp(12px, 2vw, 24px);
   border-bottom: 1px solid var(--harmony-comp-divider);
   flex-shrink: 0;
 
@@ -441,8 +431,9 @@ onMounted(() => {
 
 .status-tabs {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 clamp(12px, 2vw, 24px);
   border-bottom: 1px solid var(--harmony-comp-divider);
   flex-shrink: 0;
 
@@ -516,9 +507,11 @@ onMounted(() => {
 
 .session-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+  gap: 8px;
+  padding: 16px clamp(12px, 2vw, 24px);
   border-bottom: 1px solid var(--harmony-comp-divider);
   transition: background var(--harmony-duration-fast) var(--harmony-motion-standard);
 
@@ -531,9 +524,12 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
+  flex: 1;
 
   .session-title {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
 
@@ -580,8 +576,10 @@ onMounted(() => {
 
 .session-right {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 16px;
+  flex-shrink: 0;
 
   .score-display {
     font-size: var(--harmony-font-size-title-s);
@@ -600,10 +598,11 @@ onMounted(() => {
 
 .pagination {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 16px 24px;
+  padding: 16px clamp(12px, 2vw, 24px);
   border-top: 1px solid var(--harmony-comp-divider);
   flex-shrink: 0;
 

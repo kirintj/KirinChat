@@ -115,7 +115,8 @@ onMounted(async () => {
 .question-detail-page {
   height: 100%;
   overflow-y: auto;
-  padding: 32px 40px;
+  overflow-x: hidden;
+  padding: clamp(16px, 3vw, 32px) clamp(16px, 3vw, 40px);
 }
 
 .loading-state {

@@ -8,6 +8,7 @@ vi.mock('../../../apis/interview', () => ({
   completeInterviewAPI: vi.fn(),
   getEvaluationReportAPI: vi.fn(),
   getEvaluationBySessionAPI: vi.fn(),
+  getEvaluationStatusAPI: vi.fn(),
   getSkillListAPI: vi.fn(),
   getSessionDetailAPI: vi.fn(),
   getInterviewHistoryAPI: vi.fn(),
@@ -19,12 +20,14 @@ import {
   completeInterviewAPI,
   getEvaluationReportAPI,
   getEvaluationBySessionAPI,
+  getEvaluationStatusAPI,
 } from '../../../apis/interview'
 
 const mockStartInterviewAPI = vi.mocked(startInterviewAPI)
 const mockCompleteInterviewAPI = vi.mocked(completeInterviewAPI)
 const mockGetEvaluationReportAPI = vi.mocked(getEvaluationReportAPI)
 const mockGetEvaluationBySessionAPI = vi.mocked(getEvaluationBySessionAPI)
+const mockGetEvaluationStatusAPI = vi.mocked(getEvaluationStatusAPI)
 
 describe('useInterviewStore', () => {
   beforeEach(() => {
@@ -198,12 +201,12 @@ describe('useInterviewStore', () => {
         },
       } as any)
 
-      // Mock the polling to return evaluation immediately
-      mockGetEvaluationBySessionAPI.mockResolvedValue({
+      // Mock the status polling to return COMPLETED immediately
+      mockGetEvaluationStatusAPI.mockResolvedValue({
         data: {
           status_code: 200,
           status_message: 'ok',
-          data: { id: 'eval-1' },
+          data: { status: 'COMPLETED', evaluation_id: 'eval-1' },
         },
       } as any)
 

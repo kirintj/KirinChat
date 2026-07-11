@@ -24,7 +24,7 @@ const sizeMap = {
   <div
     class="h-card"
     :class="{ 'h-card--clickable': clickable }"
-    :style="{ width: sizeMap[size].width, height: sizeMap[size].height }"
+    :style="{ width: sizeMap[size].width, maxWidth: '100%', height: sizeMap[size].height }"
     @click="clickable && emit('click', $event)"
   >
     <div v-if="$slots.cover" class="h-card__cover">

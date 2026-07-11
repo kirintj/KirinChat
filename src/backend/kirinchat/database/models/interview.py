@@ -11,12 +11,12 @@ class InterviewSessionTable(SQLModelSerializable, table=True):
     __tablename__ = "interview_session"
 
     id: str = Field(default_factory=lambda: uuid4().hex, primary_key=True, description="面试会话ID")
-    user_id: str = Field(description="用户ID")
+    user_id: str = Field(index=True, description="用户ID")
     agent_id: Optional[str] = Field(default=None, description="绑定的Agent ID")
-    skill_id: str = Field(description="面试技能ID")
+    skill_id: str = Field(index=True, description="面试技能ID")
     difficulty: str = Field(default="MEDIUM", description="难度等级: EASY/MEDIUM/HARD")
     question_count: int = Field(default=10, description="题目数量")
-    status: str = Field(default="CREATED", description="会话状态: CREATED/IN_PROGRESS/COMPLETED")
+    status: str = Field(default="CREATED", index=True, description="会话状态: CREATED/IN_PROGRESS/COMPLETED")
     completed_at: Optional[datetime] = Field(default=None, description="完成时间")
 
     update_time: Optional[datetime] = Field(
@@ -42,7 +42,7 @@ class InterviewQuestionTable(SQLModelSerializable, table=True):
     __tablename__ = "interview_question"
 
     id: str = Field(default_factory=lambda: uuid4().hex, primary_key=True, description="面试题目ID")
-    session_id: str = Field(description="所属面试会话ID")
+    session_id: str = Field(index=True, description="所属面试会话ID")
     type: str = Field(default="MAIN", description="题目类型: MAIN/FOLLOW_UP")
     category: str = Field(description="题目分类")
     content: str = Field(sa_column=Column(Text, nullable=False), description="题目内容")
@@ -63,7 +63,7 @@ class EvaluationReportTable(SQLModelSerializable, table=True):
     __tablename__ = "evaluation_report"
 
     id: str = Field(default_factory=lambda: uuid4().hex, primary_key=True, description="评估报告ID")
-    session_id: str = Field(description="所属面试会话ID")
+    session_id: str = Field(index=True, description="所属面试会话ID")
     total_score: float = Field(description="总分")
     category_scores: Dict = Field(sa_column=Column(JSON), description="各分类得分")
     summary: str = Field(sa_column=Column(Text, nullable=False), description="评估总结")
@@ -85,9 +85,9 @@ class EvaluationQuestionDetailTable(SQLModelSerializable, table=True):
     __tablename__ = "evaluation_question_detail"
 
     id: str = Field(default_factory=lambda: uuid4().hex, primary_key=True, description="详情ID")
-    evaluation_id: str = Field(description="关联评估报告ID")
-    question_id: str = Field(description="关联面试题目ID")
-    score: int = Field(default=0, description="该题得分 (0-10)")
+    evaluation_id: str = Field(index=True, description="关联评估报告ID")
+    question_id: str = Field(index=True, description="关联面试题目ID")
+    score: int = Field(default=0, description="该题得分 (0-100)")
     feedback: str = Field(default="", sa_column=Column(Text), description="AI 对该题答案的评价")
     reference_answer: str = Field(default="", sa_column=Column(Text), description="参考答案")
 

@@ -143,6 +143,18 @@ class InterviewSessionDao:
     @classmethod
     async def delete_session(cls, session_id: str):
         with session_getter() as session:
+            # Delete related evaluation question details (via evaluation_report)
+            report_ids_stmt = select(EvaluationReportTable.id).where(
+                EvaluationReportTable.session_id == session_id
+            )
+            report_ids = [row for row in session.exec(report_ids_stmt).all()]
+            if report_ids:
+                d_stmt = select(EvaluationQuestionDetailTable).where(
+                    col(EvaluationQuestionDetailTable.evaluation_id).in_(report_ids)
+                )
+                for d in session.exec(d_stmt).all():
+                    session.delete(d)
+
             # Delete related questions
             q_stmt = select(InterviewQuestionTable).where(
                 InterviewQuestionTable.session_id == session_id

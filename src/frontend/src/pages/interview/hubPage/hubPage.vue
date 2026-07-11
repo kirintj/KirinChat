@@ -2,18 +2,25 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { HMessage } from '@/components/ui'
-import { getInterviewHistoryAPI, getSkillListAPI } from '../../../apis/interview'
-import type { InterviewSession } from '../../../apis/interview'
+import { useInterviewStore } from '../../../store/interview'
 import QuickEntryCard from '../../../components/hub/QuickEntryCard.vue'
 import ActiveSessionCard from '../../../components/hub/ActiveSessionCard.vue'
 import RecentInterviewItem from '../../../components/hub/RecentInterviewItem.vue'
 import SkillStatCard from '../../../components/hub/SkillStatCard.vue'
 
 const router = useRouter()
+const interviewStore = useInterviewStore()
 const loading = ref(true)
-const sessions = ref<InterviewSession[]>([])
-// skill_id → 中文名称的映射表，从 /skill/list 接口获取
-const skillMap = ref<Record<string, string>>({})
+
+// 直接使用 store 中的缓存数据
+const sessions = computed(() => interviewStore.historySessions)
+const skillMap = computed(() => {
+  const map: Record<string, string> = {}
+  for (const skill of interviewStore.skills) {
+    map[skill.id] = skill.name
+  }
+  return map
+})
 
 // --- 快捷入口配置：4 个面试功能入口 ---
 const quickEntries = [
@@ -82,29 +89,16 @@ const getSkillName = (skillId: string) => skillMap.value[skillId] || skillId
 
 // --- 数据加载 ---
 
-// 并行获取面试历史和技能列表，减少等待时间
+// 通过 store 缓存加载，避免重复请求
 const loadData = async () => {
   loading.value = true
   try {
-    const [historyRes, skillRes] = await Promise.all([
-      getInterviewHistoryAPI(),
-      getSkillListAPI(),
+    await Promise.all([
+      interviewStore.fetchHistory(),
+      interviewStore.fetchSkills(),
     ])
-
-    if (historyRes.data.status_code === 200 && historyRes.data.data) {
-      sessions.value = historyRes.data.data.sessions || []
-    }
-
-    // 构建 skill_id → name 映射表，供各区块显示中文名
-    if (skillRes.data.status_code === 200 && skillRes.data.data) {
-      const map: Record<string, string> = {}
-      for (const skill of (skillRes.data.data.skills || [])) {
-        map[skill.id] = skill.name
-      }
-      skillMap.value = map
-    }
   } catch {
-    HMessage.error('加载数据失败')
+    HMessage.error('加载数据失败，请检查网络或后端服务')
   } finally {
     loading.value = false
   }
@@ -226,8 +220,9 @@ onMounted(() => {
 @use '../../../styles/breakpoints.scss' as *;
 
 .hub-page {
-  padding: 24px 32px;
+  padding: 24px clamp(16px, 3vw, 32px);
   max-width: 1100px;
+  overflow-x: hidden;
   overflow-y: auto;
   height: 100%;
 }
@@ -296,22 +291,29 @@ onMounted(() => {
 // 快捷入口 4 列网格
 .quick-entry-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
 
 // 进行中面试网格布局（禁止横向滚动）
 .active-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
 // 底部两栏布局
 .bottom-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 24px;
+}
+
+// 防止网格子项内容溢出导致水平滚动
+.quick-entry-grid > *,
+.active-grid > *,
+.bottom-grid > * {
+  min-width: 0;
 }
 
 // 空状态样式
@@ -345,6 +347,7 @@ onMounted(() => {
 // 技能统计总览
 .stats-overview {
   display: flex;
+  flex-wrap: wrap;
   gap: 24px;
   margin-bottom: 16px;
   padding-bottom: 16px;
@@ -369,28 +372,29 @@ onMounted(() => {
 }
 
 // 响应式：平板端快捷入口改为 2 列，底部堆叠
+// minmax(0, 1fr) 允许列宽收缩到 0，避免子项固有宽度（如 HCardView 的 328px）撑破网格
 @include tablet-and-below {
   .quick-entry-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .bottom-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 // 响应式：移动端快捷入口改为单列
 @include mobile {
   .hub-page {
-    padding: var(--harmony-page-padding-mobile) 0;
+    padding: var(--harmony-page-padding-mobile, 16px) 16px;
   }
 
   .quick-entry-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .active-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 </style>

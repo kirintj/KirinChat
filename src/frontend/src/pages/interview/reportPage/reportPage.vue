@@ -322,7 +322,8 @@ onUnmounted(() => {
 .report-page {
   height: 100%;
   overflow-y: auto;
-  padding: 32px 40px;
+  overflow-x: hidden;
+  padding: clamp(16px, 3vw, 32px) clamp(16px, 3vw, 40px);
 }
 
 .loading-state {
@@ -448,7 +449,9 @@ onUnmounted(() => {
 .category-item {
   .category-header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+    gap: 4px 12px;
     margin-bottom: 4px;
 
     .category-name {
@@ -599,6 +602,7 @@ onUnmounted(() => {
 // Actions
 .report-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   margin-top: 32px;
   padding-top: 24px;

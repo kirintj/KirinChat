@@ -1,4 +1,5 @@
 import os
+import time
 import yaml
 from loguru import logger
 from kirinchat.settings import app_settings
@@ -16,11 +17,15 @@ _PRIORITY_ORDER = {
     "NORMAL": 2,
 }
 
+# 技能文件缓存 TTL（秒）
+_SKILL_CACHE_TTL = 300
+
 
 class SkillService:
     """Service for loading interview skill definitions from the filesystem."""
 
     _temp_skills: dict = {}  # 临时 Skill 存储（内存）
+    _skill_cache: dict[str, dict] = {}  # 技能文件缓存 {skill_id: {"data": dict, "ts": float}}
 
     # ------------------------------------------------------------------
     # Public API
@@ -52,10 +57,49 @@ class SkillService:
         return skills
 
     @classmethod
-    def register_temp_skill(cls, skill_data: dict):
-        """注册一个临时 Skill（如 JD 解析生成的），仅存于内存。"""
+    def register_temp_skill(cls, skill_data: dict, persist: bool = True):
+        """注册一个临时 Skill（如 JD 解析生成的）。
+
+        persist=True 时同时写入文件系统，确保服务重启后不丢失。
+        """
         skill_id = skill_data.get("id", "")
         cls._temp_skills[skill_id] = skill_data
+        # 清除缓存，确保下次读取拿到最新数据
+        cls._skill_cache.pop(skill_id, None)
+        if persist:
+            cls._persist_skill_to_disk(skill_data)
+
+    @classmethod
+    def _persist_skill_to_disk(cls, skill_data: dict):
+        """将 JD 生成的技能持久化到 skills 目录下。"""
+        skill_id = skill_data.get("id", "")
+        if not skill_id:
+            return
+
+        skills_dir = cls._get_skills_dir()
+        skill_dir = os.path.join(skills_dir, skill_id)
+        os.makedirs(skill_dir, exist_ok=True)
+
+        # 写入 SKILL.md
+        skill_md_path = os.path.join(skill_dir, "SKILL.md")
+        name = skill_data.get("name", skill_id)
+        description = skill_data.get("description", "")
+        persona = skill_data.get("persona", "")
+        with open(skill_md_path, "w", encoding="utf-8") as f:
+            f.write(f"---\nname: {name}\ndescription: {description}\n---\n{persona}")
+
+        # 写入 skill.meta.yml
+        meta_path = os.path.join(skill_dir, "skill.meta.yml")
+        meta = {
+            "display": {
+                "icon": skill_data.get("icon", ""),
+            },
+            "categories": skill_data.get("categories", []),
+        }
+        with open(meta_path, "w", encoding="utf-8") as f:
+            yaml.dump(meta, f, allow_unicode=True, default_flow_style=False)
+
+        logger.info(f"JD skill persisted to disk: {skill_dir}")
 
     @classmethod
     def get_skill_by_id(cls, skill_id: str):
@@ -64,12 +108,23 @@ class SkillService:
 
         Returns the skill dict with categories sorted by priority,
         or None if the skill doesn't exist or is invalid.
+        Uses an in-memory TTL cache to avoid repeated disk reads.
         """
         if skill_id in cls._temp_skills:
             return cls._temp_skills[skill_id]
+
+        # 检查 TTL 缓存
+        cached = cls._skill_cache.get(skill_id)
+        if cached and (time.time() - cached["ts"]) < _SKILL_CACHE_TTL:
+            return cached["data"]
+
         skills_dir = cls._get_skills_dir()
         skill_path = os.path.join(skills_dir, skill_id)
-        return cls._load_skill_from_dir(skill_id, skill_path, load_references=True)
+        skill = cls._load_skill_from_dir(skill_id, skill_path, load_references=True)
+
+        # 缓存结果（包括 None，避免重复探测不存在的路径）
+        cls._skill_cache[skill_id] = {"data": skill, "ts": time.time()}
+        return skill
 
     @classmethod
     def load_skill_references(cls, skill_id: str, category_ref: str):

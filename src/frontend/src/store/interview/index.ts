@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { InterviewQuestion } from '../../apis/interview'
+import type { InterviewQuestion, InterviewSession, SkillInfo, HistoryQueryParams } from '../../apis/interview'
 import {
   startInterviewAPI,
   submitAnswerStreamAPI,
   completeInterviewAPI,
   getEvaluationReportAPI,
   getEvaluationBySessionAPI,
+  getEvaluationStatusAPI,
+  getInterviewHistoryAPI,
+  getSkillListAPI,
 } from '../../apis/interview'
 import type { EvaluationReport } from '../../apis/interview'
 
@@ -28,6 +31,8 @@ export const useInterviewStore = defineStore('interview', () => {
   const status = ref<'IDLE' | 'IN_PROGRESS' | 'COMPLETED'>('IDLE')
   const evaluationId = ref('')
   const loading = ref(false)
+  const evaluationStatus = ref<'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED' | ''>('')
+  const evaluationElapsed = ref(0)
 
   // --- Getters ---
   const isActive = computed(() => status.value === 'IN_PROGRESS')
@@ -115,7 +120,7 @@ export const useInterviewStore = defineStore('interview', () => {
               currentQuestion.value = null
               messages.value.push({
                 role: 'interviewer',
-                content: '面试已结束！正在为你生成评估报告...',
+                content: '面试已结束！正在为你生成评估报告，请稍候...',
               })
               // 自动触发评估（异步，含轮询等待）
               loading.value = true
@@ -221,14 +226,24 @@ export const useInterviewStore = defineStore('interview', () => {
       return null
     }
     _pollingLock = true
+    evaluationStatus.value = 'PROCESSING'
+    evaluationElapsed.value = 0
+    const startTime = Date.now()
     try {
       const maxAttempts = 30
       let interval = 2000
       for (let i = 0; i < maxAttempts; i++) {
+        evaluationElapsed.value = Math.floor((Date.now() - startTime) / 1000)
         try {
-          const res = await getEvaluationBySessionAPI(sid)
+          const res = await getEvaluationStatusAPI(sid)
           if (res.data.status_code === 200 && res.data.data) {
-            return res.data.data.id
+            evaluationStatus.value = res.data.data.status
+            if (res.data.data.status === 'COMPLETED' && res.data.data.evaluation_id) {
+              return res.data.data.evaluation_id
+            }
+            if (res.data.data.status === 'FAILED') {
+              return null
+            }
           }
         } catch {
           // 评估尚未完成，继续轮询
@@ -238,6 +253,7 @@ export const useInterviewStore = defineStore('interview', () => {
         await new Promise(resolve => setTimeout(resolve, interval + jitter))
         interval = Math.min(interval * 1.5, 10000)
       }
+      evaluationStatus.value = 'FAILED'
       return null
     } finally {
       _pollingLock = false
@@ -269,6 +285,87 @@ export const useInterviewStore = defineStore('interview', () => {
     keysToRemove.forEach(key => localStorage.removeItem(key))
   }
 
+  // ===================== 技能列表缓存 =====================
+  // 技能列表很少变化，缓存 5 分钟，多个组件共享同一份数据
+  const skills = ref<SkillInfo[]>([])
+  const skillsLoadedAt = ref(0)
+  const _skillsPromise: { value: Promise<SkillInfo[]> | null } = { value: null }
+  const SKILLS_TTL = 5 * 60 * 1000  // 5 分钟
+
+  /** 获取技能列表（带缓存 + 并发去重） */
+  async function fetchSkills(force = false): Promise<SkillInfo[]> {
+    const now = Date.now()
+    if (!force && skills.value.length > 0 && now - skillsLoadedAt.value < SKILLS_TTL) {
+      return skills.value
+    }
+    // 并发去重：如果已有进行中的请求，复用同一个 Promise
+    if (_skillsPromise.value) return _skillsPromise.value
+
+    _skillsPromise.value = (async () => {
+      try {
+        const res = await getSkillListAPI()
+        if (res.data.status_code === 200 && res.data.data) {
+          skills.value = res.data.data.skills || []
+          skillsLoadedAt.value = Date.now()
+        }
+        return skills.value
+      } finally {
+        _skillsPromise.value = null
+      }
+    })()
+
+    return _skillsPromise.value
+  }
+
+  /** 根据 skill_id 获取技能名称 */
+  function getSkillName(skillId: string): string {
+    const skill = skills.value.find(s => s.id === skillId)
+    return skill?.name || skillId
+  }
+
+  // ===================== 面试历史缓存 =====================
+  // 缓存 30 秒，避免父组件和子组件重复请求；支持并发去重
+  const historySessions = ref<InterviewSession[]>([])
+  const historyLoadedAt = ref(0)
+  const _historyPromise: { value: Promise<InterviewSession[]> | null } = { value: null }
+  const HISTORY_TTL = 30 * 1000  // 30 秒
+
+  /** 获取面试历史列表（带缓存 + 并发去重） */
+  async function fetchHistory(force = false): Promise<InterviewSession[]> {
+    const now = Date.now()
+    if (!force && historySessions.value.length >= 0 && now - historyLoadedAt.value < HISTORY_TTL && historyLoadedAt.value > 0) {
+      return historySessions.value
+    }
+    if (_historyPromise.value) return _historyPromise.value
+
+    _historyPromise.value = (async () => {
+      try {
+        const res = await getInterviewHistoryAPI()
+        if (res.data.status_code === 200 && res.data.data) {
+          historySessions.value = res.data.data.sessions || []
+          historyLoadedAt.value = Date.now()
+        }
+        return historySessions.value
+      } finally {
+        _historyPromise.value = null
+      }
+    })()
+
+    return _historyPromise.value
+  }
+
+  /** 带筛选参数的历史查询（不走缓存，每次实时查询） */
+  async function queryHistory(params?: HistoryQueryParams): Promise<{ sessions: InterviewSession[]; total: number }> {
+    const res = await getInterviewHistoryAPI(params)
+    if (res.data.status_code === 200 && res.data.data) {
+      return {
+        sessions: res.data.data.sessions || [],
+        total: res.data.data.total || 0,
+      }
+    }
+    return { sessions: [], total: 0 }
+  }
+
   function reset() {
     // 【问题17】重置前清理旧会话的草稿
     if (sessionId.value) {
@@ -285,6 +382,10 @@ export const useInterviewStore = defineStore('interview', () => {
     status.value = 'IDLE'
     evaluationId.value = ''
     loading.value = false
+    evaluationStatus.value = ''
+    evaluationElapsed.value = 0
+    // 刷新历史缓存（不阻塞 reset）
+    historyLoadedAt.value = 0
   }
 
   return {
@@ -300,6 +401,11 @@ export const useInterviewStore = defineStore('interview', () => {
     status,
     evaluationId,
     loading,
+    evaluationStatus,
+    evaluationElapsed,
+    // Cached state
+    skills,
+    historySessions,
     // Getters
     isActive,
     isCompleted,
@@ -310,6 +416,11 @@ export const useInterviewStore = defineStore('interview', () => {
     endInterview,
     fetchReport,
     reset,
+    // Cached data actions
+    fetchSkills,
+    getSkillName,
+    fetchHistory,
+    queryHistory,
   }
 }, {
   persist: {
@@ -320,3 +431,4 @@ export const useInterviewStore = defineStore('interview', () => {
     ],
   },
 })
+

@@ -107,7 +107,7 @@ function getStatusText(status: string) {
 </template>
 
 <style scoped lang="scss">
-.resume-page { padding: 24px; }
+.resume-page { padding: clamp(16px, 2vw, 24px); overflow-x: hidden; }
 .page-header {
   display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
   h2 { margin: 0; font-size: var(--harmony-font-size-title-s); }
@@ -119,12 +119,12 @@ function getStatusText(status: string) {
 }
 .resume-list { display: flex; flex-direction: column; gap: 12px; }
 .resume-card {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
   padding: 16px; background: var(--harmony-comp-background-primary); border-radius: var(--harmony-corner-radius-level4);
   border: 1px solid var(--harmony-comp-divider); cursor: pointer; transition: border-color 0.2s;
   &:hover { border-color: var(--harmony-brand); }
-  .card-info { display: flex; align-items: center; gap: 12px; .filename { font-weight: 500; } }
-  .card-meta { display: flex; gap: 16px; color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-subtitle-s); .score { color: var(--harmony-brand); font-weight: 500; } }
+  .card-info { display: flex; align-items: center; gap: 12px; min-width: 0; .filename { font-weight: 500; overflow-wrap: anywhere; } }
+  .card-meta { display: flex; flex-wrap: wrap; gap: 16px; color: var(--harmony-font-tertiary); font-size: var(--harmony-font-size-subtitle-s); .score { color: var(--harmony-brand); font-weight: 500; } }
   .delete-btn {
     padding: 4px 12px; border: 1px solid var(--harmony-warning); color: var(--harmony-warning);
     background: transparent; border-radius: var(--harmony-corner-radius-level4); cursor: pointer;

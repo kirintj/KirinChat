@@ -5,6 +5,7 @@ import { HButton, HMessage } from '@/components/ui'
 import { useInterviewStore } from '../../../store/interview'
 import { getSessionDetailAPI } from '../../../apis/interview'
 import { marked } from 'marked'
+import DOMPurify from 'dompurify'
 
 const router = useRouter()
 const interviewStore = useInterviewStore()
@@ -109,14 +110,12 @@ const canSubmit = computed(() =>
   !!answerInput.value.trim() && !interviewStore.loading && interviewStore.isActive
 )
 
-// 【问题13】HTML 消毒：移除 script/style/event handler 等危险内容
+// HTML 消毒：使用 DOMPurify 移除 XSS 危险内容
 const sanitizeHtml = (html: string): string => {
-  return html
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-    .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
-    .replace(/on\w+\s*=\s*\S+/gi, '')
-    .replace(/javascript\s*:/gi, '')
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'code', 'pre', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'span', 'a', 'blockquote'],
+    ALLOWED_ATTR: ['href', 'class'],
+  })
 }
 
 const renderMarkdown = (text: string) => {
@@ -301,7 +300,7 @@ onUnmounted(() => {
           :disabled="isTyping"
           @click="endInterview"
         >
-          {{ isTyping ? '生成评估中...' : '结束面试' }}
+          {{ isTyping ? `评估中(${interviewStore.evaluationElapsed}s)...` : '结束面试' }}
         </HButton>
         <HButton
           type="primary"
@@ -329,28 +328,38 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   background: var(--harmony-comp-background-primary);
+  overflow: hidden;
+  max-width: 100%;
 }
 
 // Progress
 .progress-bar-container {
-  padding: 12px 24px;
+  padding: 12px clamp(12px, 2vw, 24px);
   border-bottom: 1px solid var(--harmony-comp-divider);
   flex-shrink: 0;
 
   .progress-info {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
+    gap: 4px 12px;
     margin-bottom: 6px;
 
     .progress-label {
       font-size: var(--harmony-font-size-subtitle-s);
       font-weight: 600;
       color: var(--harmony-font-primary);
+      white-space: nowrap;
     }
 
     .progress-skill {
       font-size: var(--harmony-font-size-body-s);
       color: var(--harmony-font-secondary);
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .timer-display {
@@ -358,6 +367,8 @@ onUnmounted(() => {
       font-size: var(--harmony-font-size-body-s);
       color: var(--harmony-font-tertiary);
       font-variant-numeric: tabular-nums; // 等宽数字，避免计时跳动导致布局偏移
+      white-space: nowrap;
+      flex-shrink: 0;
     }
   }
 
@@ -380,7 +391,8 @@ onUnmounted(() => {
 .messages-container {
   flex: 1;
   overflow-y: auto;
-  padding: 24px;
+  overflow-x: hidden;
+  padding: 24px clamp(12px, 2vw, 24px);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -397,6 +409,7 @@ onUnmounted(() => {
   align-items: flex-start;
   gap: 12px;
   max-width: 80%;
+  min-width: 0;
 
   &.ai {
     align-self: flex-start;
@@ -474,7 +487,7 @@ onUnmounted(() => {
 .input-area {
   flex-shrink: 0;
   border-top: 1px solid var(--harmony-comp-divider);
-  padding: 16px 24px;
+  padding: 16px clamp(12px, 2vw, 24px);
 }
 
 .answer-input {
@@ -500,19 +513,23 @@ onUnmounted(() => {
 
 .input-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   margin-top: 8px;
 }
 
 // Completed bar
 .completed-bar {
   flex-shrink: 0;
-  padding: 16px 24px;
+  padding: 16px clamp(12px, 2vw, 24px);
   border-top: 1px solid var(--harmony-comp-divider);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   font-size: var(--harmony-font-size-body-m);
   color: var(--harmony-font-secondary);
 }
@@ -551,6 +568,7 @@ onUnmounted(() => {
     border-radius: var(--harmony-corner-radius-level4);
     overflow-x: auto;
     margin: 8px 0;
+    max-width: 100%;
 
     code {
       background: none;

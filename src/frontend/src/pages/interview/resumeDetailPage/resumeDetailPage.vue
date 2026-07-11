@@ -113,10 +113,10 @@ function goBack() {
 </template>
 
 <style scoped lang="scss">
-.resume-detail { padding: 24px; }
+.resume-detail { padding: clamp(16px, 2vw, 24px); overflow-x: hidden; }
 .detail-header {
-  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
-  h2 { margin: 0; font-size: var(--harmony-font-size-subtitle-l); flex: 1; }
+  display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-bottom: 24px;
+  h2 { margin: 0; font-size: var(--harmony-font-size-subtitle-l); flex: 1; min-width: 0; }
   .back-btn, .pdf-btn {
     padding: 6px 16px; border-radius: var(--harmony-corner-radius-level4);
     border: 1px solid var(--harmony-comp-divider); background: var(--harmony-comp-background-primary);
@@ -139,7 +139,7 @@ function goBack() {
   p { margin: 0; line-height: 1.6; color: var(--harmony-font-secondary); }
   ul { margin: 0; padding-left: 20px; li { margin-bottom: 4px; line-height: 1.6; } }
 }
-.info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .tags {
   display: flex; flex-wrap: wrap; gap: 8px;
   .tag { padding: 4px 12px; background: var(--harmony-brand); color: var(--harmony-comp-background-primary); border-radius: var(--harmony-corner-radius-level2); font-size: var(--harmony-font-size-subtitle-s); }

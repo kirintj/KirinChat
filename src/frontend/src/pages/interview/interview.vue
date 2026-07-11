@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted, inject } from 'vue'
+import { ref, computed, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { HMessage, HMessageBox } from '@/components/ui'
-import { getInterviewHistoryAPI, deleteInterviewSessionAPI } from '../../apis/interview'
+import { deleteInterviewSessionAPI } from '../../apis/interview'
 import type { InterviewSession } from '../../apis/interview'
 import { useInterviewStore } from '../../store/interview'
 
 const isMobile = inject<import('vue').Ref<boolean>>('isMobile', ref(false))
 const router = useRouter()
 const interviewStore = useInterviewStore()
-const sessions = ref<InterviewSession[]>([])
+const sessions = computed(() => interviewStore.historySessions)
 const loading = ref(false)
 const selectedSession = ref('')
 
@@ -47,12 +47,9 @@ const statusClass = (status: string) => {
 const fetchHistory = async () => {
   loading.value = true
   try {
-    const res = await getInterviewHistoryAPI()
-    if (res.data.status_code === 200 && res.data.data) {
-      sessions.value = res.data.data.sessions || []
-    }
+    await interviewStore.fetchHistory()
   } catch {
-    HMessage.error('获取面试历史失败')
+    HMessage.error('获取面试历史失败，请检查网络或后端服务')
   } finally {
     loading.value = false
   }
@@ -79,7 +76,7 @@ const deleteSession = async (sessionId: string, event: Event) => {
     const res = await deleteInterviewSessionAPI(sessionId)
     if (res.data.status_code === 200) {
       HMessage.success('已删除')
-      await fetchHistory()
+      await interviewStore.fetchHistory(true)
       if (selectedSession.value === sessionId) {
         selectedSession.value = ''
         router.push('/interview')
@@ -202,19 +199,22 @@ onMounted(() => {
 <style lang="scss" scoped>
 .interview-container {
   width: 100%;
+  max-width: 100%;
   height: 100%;
   display: flex;
   background: transparent;
+  overflow: hidden;
 }
 
 .sidebar {
   height: 100%;
-  width: 280px;
+  width: clamp(220px, 22vw, 280px);
   background: transparent;
   border-right: 1px solid var(--harmony-comp-divider);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  min-width: 0;
 
   /* 面试中心导航按钮样式 */
   .hub-nav {
@@ -422,6 +422,7 @@ onMounted(() => {
   min-height: 0;
   background: transparent;
   overflow: hidden;
+  max-width: 100%;
 }
 
 /* ==================== MOBILE: hmos mobile-list ==================== */
@@ -430,6 +431,9 @@ onMounted(() => {
   flex-direction: column;
   gap: var(--harmony-section-gap-mobile, 16px);
   padding-top: var(--harmony-padding-level8, 16px);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .im-header {
@@ -507,6 +511,8 @@ onMounted(() => {
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-wrap: wrap;
+    min-width: 0;
   }
 
   &__status {

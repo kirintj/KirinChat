@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import Optional
+import asyncio
 
 from loguru import logger
 from fastapi import APIRouter, BackgroundTasks, Depends
@@ -44,21 +45,41 @@ router = APIRouter(tags=["Interview"])
 # Agent 缓存：避免每次请求重复实例化和加载技能文件
 # ---------------------------------------------------------------------------
 
-_agent_cache: dict[str, InterviewAgent] = {}
-
-
 async def _get_agent(skill_id: str) -> InterviewAgent:
-    """获取或创建 InterviewAgent 实例，按 skill_id 缓存复用。"""
-    if skill_id not in _agent_cache:
-        agent = InterviewAgent(agent_config={})
-        await agent.init_interview_agent(skill_id=skill_id)
-        _agent_cache[skill_id] = agent
-    return _agent_cache[skill_id]
+    """为每次请求创建独立的 InterviewAgent 实例。
+
+    不再使用全局缓存，避免多用户共享 agent 实例时
+    current_session_id 竞态条件。SkillService 内部已缓存技能文件加载结果，
+    性能开销可控。
+    """
+    agent = InterviewAgent(agent_config={})
+    await agent.init_interview_agent(skill_id=skill_id)
+    return agent
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+
+async def _require_session_access(
+    session_id: str, user_id: str
+) -> tuple[Optional["object"], Optional[UnifiedResponseModel]]:
+    """统一鉴权：校验当前用户是否为 session 的合法创建者。
+
+    返回 (session, error_response)。若 error_response 不为 None，
+    调用方应直接 return 该响应。拒绝时记录安全审计日志。
+    """
+    session = await InterviewService.get_session(session_id)
+    if session is None:
+        return None, resp_404(message="Session not found")
+    if session.user_id != user_id:
+        logger.warning(
+            f"[SECURITY] Unauthorized session access denied: "
+            f"user={user_id} session={session_id} owner={session.user_id}"
+        )
+        return None, resp_403(message="Unauthorized")
+    return session, None
 
 
 def _question_to_resp(q) -> QuestionResp:
@@ -195,9 +216,9 @@ async def submit_answer(
 ):
     """Submit an answer, optionally generate a follow-up, then the next question."""
     try:
-        session = await InterviewService.get_session(req.session_id)
-        if session is None:
-            return resp_404(message="Session not found")
+        session, err = await _require_session_access(req.session_id, login_user.user_id)
+        if err:
+            return err
 
         # Save the answer
         await InterviewService.submit_answer(req.question_id, req.answer)
@@ -256,9 +277,9 @@ async def submit_answer_stream(
 ):
     """提交答案，流式返回追问题和下一题（SSE）。"""
     try:
-        session = await InterviewService.get_session(req.session_id)
-        if session is None:
-            return resp_404(message="Session not found")
+        session, err = await _require_session_access(req.session_id, login_user.user_id)
+        if err:
+            return err
 
         # 保存用户答案
         await InterviewService.submit_answer(req.question_id, req.answer)
@@ -275,75 +296,104 @@ async def submit_answer_stream(
         agent = await _get_agent(skill_id=session.skill_id)
 
         async def stream():
-            follow_up_content = ""
-            next_question_content = ""
-            is_completed = False
+            queue: asyncio.Queue = asyncio.Queue()
+            _SENTINEL = None
 
-            try:
-                # 阶段一：流式生成追问题
-                async for event in agent.stream_follow_up(
-                    session_id=req.session_id,
-                    original_question=original_question,
-                    user_answer=req.answer,
-                ):
-                    follow_up_content = event["data"]["accumulated"]
-                    yield f"data: {json.dumps(event)}\n\n"
+            async def produce_content():
+                follow_up_content = ""
+                next_question_content = ""
+                is_completed = False
 
-                # 如果有追问题，发送 done 事件并结束（不生成下一题）
-                normalized = follow_up_content.strip().upper().replace(" ", "").replace("_", "").replace("-", "")
-                has_follow_up = follow_up_content.strip() and normalized != "NOFOLLOWUP"
-                if has_follow_up:
+                try:
+                    # 阶段一：流式生成追问题
+                    async for event in agent.stream_follow_up(
+                        session_id=req.session_id,
+                        original_question=original_question,
+                        user_answer=req.answer,
+                    ):
+                        follow_up_content = event["data"]["accumulated"]
+                        await queue.put(f"data: {json.dumps(event)}\n\n")
+
+                    # 如果有追问题，发送 done 事件并结束（不生成下一题）
+                    normalized = follow_up_content.strip().upper().replace(" ", "").replace("_", "").replace("-", "")
+                    has_follow_up = follow_up_content.strip() and normalized != "NOFOLLOWUP"
+                    if has_follow_up:
+                        done_data = {
+                            "type": "done",
+                            "data": {
+                                "follow_up": {"content": follow_up_content.strip()},
+                                "next_question": None,
+                                "is_completed": False,
+                            },
+                        }
+                        await queue.put(f"data: {json.dumps(done_data)}\n\n")
+                        return
+
+                    # 阶段二：流式生成下一题
+                    async for event in agent.stream_next_question(
+                        session_id=req.session_id,
+                        user_id=login_user.user_id,
+                        difficulty=session.difficulty,
+                    ):
+                        data = event["data"]
+                        if data.get("is_completed"):
+                            is_completed = True
+                            break
+                        next_question_content = data["accumulated"]
+                        await queue.put(f"data: {json.dumps(event)}\n\n")
+
+                    # 查询刚保存的下一题 ID（stream_next_question 已保存到 DB）
+                    next_question_id = ""
+                    if next_question_content.strip() and not is_completed:
+                        session_questions = await InterviewService.get_session_questions(req.session_id)
+                        if session_questions:
+                            last_q = session_questions[-1]
+                            if last_q.content.strip() == next_question_content.strip():
+                                next_question_id = last_q.id
+
+                    # 发送完成事件
                     done_data = {
                         "type": "done",
                         "data": {
-                            "follow_up": {"content": follow_up_content.strip()},
-                            "next_question": None,
-                            "is_completed": False,
+                            "follow_up": None,
+                            "next_question": {"id": next_question_id, "content": next_question_content.strip()} if next_question_content.strip() else None,
+                            "is_completed": is_completed,
                         },
                     }
-                    yield f"data: {json.dumps(done_data)}\n\n"
-                    return
+                    await queue.put(f"data: {json.dumps(done_data)}\n\n")
 
-                # 阶段二：流式生成下一题
-                async for event in agent.stream_next_question(
-                    session_id=req.session_id,
-                    user_id=login_user.user_id,
-                    difficulty=session.difficulty,
-                ):
-                    data = event["data"]
-                    if data.get("is_completed"):
-                        is_completed = True
+                except Exception as stream_err:
+                    logger.error(f"SSE stream error for session {req.session_id}: {stream_err}")
+                    error_data = {
+                        "type": "error",
+                        "data": {"message": "生成过程中出现错误，请重试"},
+                    }
+                    await queue.put(f"data: {json.dumps(error_data)}\n\n")
+                finally:
+                    await queue.put(_SENTINEL)
+
+            async def produce_heartbeat():
+                while True:
+                    await asyncio.sleep(15)
+                    await queue.put(": heartbeat\n\n")
+
+            producer_task = asyncio.create_task(produce_content())
+            heartbeat_task = asyncio.create_task(produce_heartbeat())
+
+            try:
+                while True:
+                    item = await queue.get()
+                    if item is _SENTINEL:
                         break
-                    next_question_content = data["accumulated"]
-                    yield f"data: {json.dumps(event)}\n\n"
-
-                # 查询刚保存的下一题 ID（stream_next_question 已保存到 DB）
-                next_question_id = ""
-                if next_question_content.strip() and not is_completed:
-                    session_questions = await InterviewService.get_session_questions(req.session_id)
-                    if session_questions:
-                        last_q = session_questions[-1]
-                        if last_q.content.strip() == next_question_content.strip():
-                            next_question_id = last_q.id
-
-                # 发送完成事件
-                done_data = {
-                    "type": "done",
-                    "data": {
-                        "follow_up": None,
-                        "next_question": {"id": next_question_id, "content": next_question_content.strip()} if next_question_content.strip() else None,
-                        "is_completed": is_completed,
-                    },
-                }
-                yield f"data: {json.dumps(done_data)}\n\n"
-
-            except Exception as stream_err:
-                logger.error(f"SSE stream error for session {req.session_id}: {stream_err}")
-                error_data = {
-                    "type": "error",
-                    "data": {"message": "生成过程中出现错误，请重试"},
-                }
-                yield f"data: {json.dumps(error_data)}\n\n"
+                    yield item
+            finally:
+                heartbeat_task.cancel()
+                if not producer_task.done():
+                    producer_task.cancel()
+                    try:
+                        await producer_task
+                    except asyncio.CancelledError:
+                        pass
 
         return WatchedStreamingResponse(
             content=stream(),
@@ -364,9 +414,9 @@ async def get_session_detail(
 ):
     """Get interview session details including questions and progress."""
     try:
-        session = await InterviewService.get_session(session_id)
-        if session is None:
-            return resp_404(message="Session not found")
+        session, err = await _require_session_access(session_id, login_user.user_id)
+        if err:
+            return err
 
         questions = await InterviewService.get_session_questions(session_id)
         progress = await InterviewService.calculate_progress(session_id)
@@ -393,9 +443,9 @@ async def complete_interview(
 ):
     """Complete an interview session and trigger async evaluation."""
     try:
-        session = await InterviewService.get_session(req.session_id)
-        if session is None:
-            return resp_404(message="Session not found")
+        session, err = await _require_session_access(req.session_id, login_user.user_id)
+        if err:
+            return err
 
         await InterviewService.update_session_status(req.session_id, "COMPLETED")
 
@@ -413,6 +463,32 @@ async def complete_interview(
         return resp_500(message=str(err))
 
 
+@router.get("/interview/evaluation/status/{session_id}", response_model=UnifiedResponseModel)
+async def get_evaluation_status(
+    session_id: str,
+    login_user: UserPayload = Depends(get_login_user),
+):
+    """获取面试评估状态（PENDING / PROCESSING / COMPLETED）。"""
+    try:
+        session, err = await _require_session_access(session_id, login_user.user_id)
+        if err:
+            return err
+
+        if session and session.status == "EVALUATED":
+            report = await EvaluationService.get_report_by_session(session_id)
+            if report:
+                return resp_200(data={"status": "COMPLETED", "evaluation_id": report.id})
+            return resp_200(data={"status": "FAILED", "evaluation_id": None})
+
+        if session and session.status == "COMPLETED":
+            return resp_200(data={"status": "PROCESSING", "evaluation_id": None})
+
+        return resp_200(data={"status": "PENDING", "evaluation_id": None})
+    except Exception as err:
+        logger.error(f"Get evaluation status error: {err}")
+        return resp_500(message=str(err))
+
+
 @router.get("/interview/evaluation/{evaluation_id}", response_model=UnifiedResponseModel)
 async def get_evaluation_report(
     evaluation_id: str,
@@ -423,6 +499,10 @@ async def get_evaluation_report(
         report = await EvaluationService.get_report_by_id(evaluation_id)
         if report is None:
             return resp_404(message="Evaluation report not found")
+
+        _, err = await _require_session_access(report.session_id, login_user.user_id)
+        if err:
+            return err
 
         data = await _build_evaluation_resp(report)
         return resp_200(data=data.model_dump())
@@ -438,6 +518,10 @@ async def get_evaluation_by_session(
 ):
     """Get an evaluation report by session ID (includes per-question details)."""
     try:
+        _, err = await _require_session_access(session_id, login_user.user_id)
+        if err:
+            return err
+
         report = await EvaluationService.get_report_by_session(session_id)
         if report is None:
             return resp_404(message="Evaluation report not found for this session")
@@ -686,6 +770,10 @@ async def download_evaluation_pdf(
         report = await EvaluationService.get_report_by_id(evaluation_id)
         if not report:
             return resp_404(message="评估报告不存在")
+
+        _, err = await _require_session_access(report.session_id, login_user.user_id)
+        if err:
+            return err
 
         from kirinchat.api.services.skill import SkillService
         from kirinchat.common.export.pdf_service import PdfService

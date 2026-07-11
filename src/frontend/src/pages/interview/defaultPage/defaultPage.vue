@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { HButton, HMessage } from '@/components/ui'
-import { getSkillListAPI } from '../../../apis/interview'
 import type { SkillInfo } from '../../../apis/interview'
 import { useInterviewStore } from '../../../store/interview'
 
 const router = useRouter()
 const interviewStore = useInterviewStore()
-const skills = ref<SkillInfo[]>([])
+const skills = computed(() => interviewStore.skills)
 const loading = ref(false)
 const selectedSkill = ref<SkillInfo | null>(null)
 const difficulty = ref('MEDIUM')
@@ -25,12 +24,9 @@ const countOptions = [5, 10, 15, 20]
 const fetchSkills = async () => {
   loading.value = true
   try {
-    const res = await getSkillListAPI()
-    if (res.data.status_code === 200 && res.data.data) {
-      skills.value = res.data.data.skills || []
-    }
+    await interviewStore.fetchSkills()
   } catch {
-    HMessage.error('获取技能列表失败')
+    HMessage.error('获取技能列表失败，请检查网络或后端服务')
   } finally {
     loading.value = false
   }
@@ -184,7 +180,8 @@ onMounted(() => {
 .default-page {
   height: 100%;
   overflow-y: auto;
-  padding: 32px 40px;
+  overflow-x: hidden;
+  padding: clamp(16px, 3vw, 32px) clamp(16px, 3vw, 40px);
 }
 
 .page-header {
@@ -226,7 +223,7 @@ onMounted(() => {
 
 .skill-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
   gap: 16px;
 }
 
@@ -317,6 +314,7 @@ onMounted(() => {
 
 .config-header {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   align-items: center;
   margin-bottom: 32px;
@@ -335,17 +333,24 @@ onMounted(() => {
     flex-shrink: 0;
   }
 
+  & > div:last-child {
+    flex: 1;
+    min-width: 0;
+  }
+
   .config-title {
     font-size: var(--harmony-font-size-title-s);
     font-weight: 600;
     color: var(--harmony-font-primary);
     margin: 0 0 4px;
+    overflow-wrap: anywhere;
   }
 
   .config-desc {
     font-size: var(--harmony-font-size-body-m);
     color: var(--harmony-font-secondary);
     margin: 0;
+    overflow-wrap: anywhere;
   }
 }
 
@@ -362,10 +367,12 @@ onMounted(() => {
 
 .difficulty-options {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 
   .diff-option {
-    flex: 1;
+    flex: 1 1 160px;
+    min-width: 0;
     padding: 16px;
     background: var(--harmony-comp-background-primary);
     border: 2px solid var(--harmony-comp-divider);
@@ -398,6 +405,7 @@ onMounted(() => {
 
 .count-options {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 
   .count-option {
@@ -426,12 +434,13 @@ onMounted(() => {
 .start-btn {
   margin-top: 12px;
   width: 200px;
+  max-width: 100%;
 }
 
 .alternative-entry {
   margin-top: 24px; text-align: center;
   .divider { color: var(--harmony-font-tertiary); margin-bottom: 16px; }
-  .entry-buttons { display: flex; gap: 16px; justify-content: center; }
+  .entry-buttons { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
   .entry-btn {
     padding: 12px 24px; border-radius: var(--harmony-corner-radius-level4);
     border: 1px dashed var(--harmony-comp-divider); background: var(--harmony-comp-background-primary);
