@@ -102,6 +102,13 @@
   --harmony-interactive-select: rgba(10, 89, 247, 0.2); /* #330a59f7 */
   --harmony-interactive-click: rgba(0, 0, 0, 0.098039); /* #19000000 */
 
+  /* Brand button state tokens (mix with 10%/20% black) */
+  --harmony-brand-hover: rgba(9, 80, 222, 1);
+  --harmony-brand-pressed: rgba(8, 71, 198, 1);
+  /* Danger (warning) button state tokens */
+  --harmony-danger-hover: rgba(209, 58, 34, 1);
+  --harmony-danger-pressed: rgba(186, 51, 30, 1);
+
   /* Compatibility aliases for existing templates/pages */
   --harmony-text-primary: var(--harmony-font-primary);
   --harmony-text-secondary: var(--harmony-font-secondary);
@@ -186,6 +193,13 @@
   --harmony-interactive-active: rgba(49, 122, 247, 1); /* #ff317af7 */
   --harmony-interactive-select: rgba(49, 122, 247, 0.2); /* #33317af7 */
   --harmony-interactive-click: rgba(255, 255, 255, 0.098039); /* #19ffffff */
+
+  /* Brand button state tokens (mix with 10%/20% black) */
+  --harmony-brand-hover: rgba(44, 110, 222, 1);
+  --harmony-brand-pressed: rgba(39, 98, 198, 1);
+  /* Danger (warning) button state tokens */
+  --harmony-danger-hover: rgba(195, 65, 50, 1);
+  --harmony-danger-pressed: rgba(174, 58, 45, 1);
 
   /* Compatibility aliases for existing templates/pages */
   --harmony-text-primary: var(--harmony-font-primary);

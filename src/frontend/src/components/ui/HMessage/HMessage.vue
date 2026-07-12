@@ -59,10 +59,9 @@ const icons: Record<string, string> = {
   gap: 8px;
   padding: 10px 20px;
   border-radius: var(--harmony-corner-radius-level10);
-  background: var(--harmony-comp-background-secondary);
+  background: var(--harmony-comp-background-primary);
   backdrop-filter: blur(20px) saturate(1.2);
-  border: 1px solid var(--harmony-comp-divider);
-  box-shadow: var(--harmony-shadow-dialog);
+  box-shadow: var(--harmony-shadow-lg), inset 0 0 0 1px var(--harmony-comp-divider);
   font-size: var(--harmony-font-size-body-m);
   color: var(--harmony-font-primary);
   opacity: 0;
@@ -90,4 +89,17 @@ const icons: Record<string, string> = {
 .h-message--error .h-message__icon { background: var(--harmony-warning); }
 .h-message--warning .h-message__icon { background: var(--harmony-alert); color: var(--harmony-font-primary); }
 .h-message--info .h-message__icon { background: var(--harmony-brand); }
+
+@media (prefers-reduced-motion: reduce) {
+  .h-message {
+    transition: none;
+    transform: translateX(-50%);
+  }
+  .h-message:not(.h-message--visible) {
+    opacity: 0;
+  }
+  .h-message--visible {
+    opacity: 1;
+  }
+}
 </style>

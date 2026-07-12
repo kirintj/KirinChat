@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { onMounted } from 'vue'
+import { usePopup } from '../shared/usePopup'
 
 interface Props {
   title?: string
@@ -23,6 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const visible = ref(false)
+const popupRef = ref<HTMLElement | null>(null)
 
 onMounted(() => {
   requestAnimationFrame(() => { visible.value = true })
@@ -43,14 +45,24 @@ function handleCancel() {
     props.onClose?.()
   }, 200)
 }
+
+usePopup(visible, popupRef, { onClose: handleCancel })
 </script>
 
 <template>
   <div class="h-messagebox-overlay" :class="{ 'h-messagebox--visible': visible }" @click.self="handleCancel">
-    <div class="h-messagebox" :class="{ 'h-messagebox--visible': visible }">
+    <div
+      ref="popupRef"
+      class="h-messagebox"
+      :class="{ 'h-messagebox--visible': visible }"
+      role="alertdialog"
+      aria-modal="true"
+      :aria-label="title"
+      tabindex="-1"
+    >
       <div class="h-messagebox__header">
         <span class="h-messagebox__title">{{ title }}</span>
-        <span class="h-messagebox__close" @click="handleCancel"><Icon icon="mdi:close" :width="18" :height="18" /></span>
+        <span class="h-messagebox__close" role="button" aria-label="关闭" @click="handleCancel"><Icon icon="mdi:close" :width="18" :height="18" /></span>
       </div>
       <div class="h-messagebox__body">
         <p>{{ message }}</p>
@@ -71,7 +83,7 @@ function handleCancel() {
 .h-messagebox-overlay {
   position: fixed;
   inset: 0;
-  background: var(--harmony-overlay-heavy);
+  background: var(--harmony-overlay-medium);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,7 +93,7 @@ function handleCancel() {
 }
 .h-messagebox--visible { opacity: 1; }
 .h-messagebox {
-  background: var(--harmony-comp-background-secondary);
+  background: var(--harmony-comp-background-primary);
   backdrop-filter: blur(20px) saturate(1.2);
   border: 1px solid var(--harmony-comp-divider);
   border-radius: var(--harmony-corner-radius-level16);
@@ -147,6 +159,9 @@ function handleCancel() {
   color: var(--harmony-font-on-primary);
 }
 .h-messagebox__btn--confirm:hover {
-  background: var(--harmony-interactive-hover);
+  background: var(--harmony-brand-hover);
+}
+.h-messagebox__btn--confirm:active {
+  background: var(--harmony-brand-pressed);
 }
 </style>
